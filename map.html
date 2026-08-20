@@ -33,6 +33,8 @@ var DISTRICTS = [
 ];
 
 var map = L.map('map', { zoomControl: true, attributionControl: true }).setView([41.01, 29.02], 11);
+var selectableMode = new URLSearchParams(location.search).get('selectable') === '1';
+var selectedMarker = null;
 L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
   subdomains: 'abcd',
@@ -113,15 +115,31 @@ function renderClusters() {
 }
 
 map.on('zoomend moveend', renderClusters);
+map.on('click', function (event) {
+  if (!selectableMode) return;
+  var ll = event.latlng;
+  if (selectedMarker) selectedMarker.setLatLng(ll);
+  else {
+    var selectedIcon = L.divIcon({ className: '', html: '<div class="pulse-marker" style="background:#276F4E"></div>', iconSize: [16, 16] });
+    selectedMarker = L.marker(ll, { icon: selectedIcon }).addTo(map).bindTooltip('Seçilen nokta', { permanent: true, direction: 'top', offset: [0, -9], className: 'live-label' });
+  }
+  parent.postMessage({ type: 'pointSelected', lat: ll.lat, lng: ll.lng }, '*');
+});
 
 // --- Canlı konum işaretçileri (SPY'ler, müşteriler, hareket eden temsilci) ---
 var canliLayer = L.layerGroup().addTo(map);
+
+function itemLatLng(it) {
+  return Number.isFinite(Number(it && it.lat)) && Number.isFinite(Number(it && it.lng))
+    ? [Number(it.lat), Number(it.lng)]
+    : districtLatLng(it && it.ilce);
+}
 
 function renderCanli(items, moving) {
   canliLayer.clearLayers();
   var pts = [];
   (items || []).forEach(function (it) {
-    var ll = districtLatLng(it.ilce);
+    var ll = itemLatLng(it);
     if (!ll) return;
     pts.push(ll);
     var icon = L.divIcon({ className: '', html: '<div class="pulse-marker" style="background:' + it.color + '"></div>', iconSize: [16, 16] });
@@ -130,8 +148,10 @@ function renderCanli(items, moving) {
     if (it.sube) m.bindPopup(popupHtml(it.label, it.sube, it.durum, it.durumColor), { closeButton: true, minWidth: 170 });
   });
   if (moving) {
-    var a = districtLatLng(moving.fromIlce), b = districtLatLng(moving.toIlce);
+    var a = itemLatLng({ lat: moving.fromLat, lng: moving.fromLng, ilce: moving.fromIlce });
+    var b = itemLatLng({ lat: moving.toLat, lng: moving.toLng, ilce: moving.toIlce });
     if (a && b) {
+      L.polyline([a, b], { color: moving.color || '#276F4E', weight: 4, opacity: .48, dashArray: '8 9', lineCap: 'round' }).addTo(canliLayer);
       var lat = a[0] + (b[0] - a[0]) * moving.progress;
       var lng = a[1] + (b[1] - a[1]) * moving.progress;
       pts.push([lat, lng]);
@@ -156,13 +176,18 @@ function popupHtml(name, sube, durum, durumColor) {
 window.addEventListener('message', function (e) {
   var d = e.data || {};
   if (d.type === 'select') highlight(d.color, d.districts);
+  if (d.type === 'selectable') {
+    selectableMode = true;
+    if (d.center && Number.isFinite(Number(d.center.lat))) map.setView([Number(d.center.lat), Number(d.center.lng)], 13);
+  }
   if (d.type === 'canli') renderCanli(d.items, d.moving);
   if (d.type === 'basvurular') {
     basvuruPoints = (d.items || []).map(function (it, i) {
-      var ll = districtLatLng(it.ilce);
+      var ll = itemLatLng(it);
       if (!ll) return null;
-      var jitter = 0.006;
-      return { lat: ll[0] + Math.sin(i * 2.1) * jitter, lng: ll[1] + Math.cos(i * 2.1) * jitter, ilce: it.ilce };
+      var hasExact = Number.isFinite(Number(it.lat)) && Number.isFinite(Number(it.lng));
+      var jitter = hasExact ? 0 : 0.006;
+      return { lat: ll[0] + Math.sin(i * 2.1) * jitter, lng: ll[1] + Math.cos(i * 2.1) * jitter, ilce: it.ilce, label: it.label };
     }).filter(Boolean);
     renderClusters();
   }

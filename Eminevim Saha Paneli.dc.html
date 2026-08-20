@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./assignment.js"></script>
 <script src="./support.js"></script>
 </head>
 <body>
@@ -13,6 +14,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
 * { box-sizing: border-box; }
 body { margin: 0; }
+button, input, [role="button"] { font: inherit; }
+button:focus-visible, input:focus-visible, [role="button"]:focus-visible { outline:3px solid rgba(39,111,78,.32); outline-offset:2px; }
+button, svg, input, [style*="background:var(--card)"], [style*="background:var(--bg)"] { transition-property:background-color,border-color,color,transform,opacity; transition-duration:.24s; transition-timing-function:ease; }
 @keyframes ringPulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(230,106,87,0)); } 50% { transform: scale(1.07); filter: drop-shadow(0 0 7px rgba(230,106,87,.5)); } }
 @keyframes panelIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes tabIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
@@ -24,6 +28,10 @@ body { margin: 0; }
 @keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
 @keyframes slideOutLeft { from { transform: translateX(0); } to { transform: translateX(-100%); } }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes themeIconIn { from { opacity:0; transform:rotate(-45deg) scale(.7); } to { opacity:1; transform:rotate(0) scale(1); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; }
+}
 </style>
 </helmet>
 
@@ -65,9 +73,9 @@ body { margin: 0; }
     <button onClick="{{ goSpy }}" style-active="transform:scale(.96); opacity:.9;" style="position:relative; z-index:1; flex:1; min-height:44px; border:none; background:transparent; padding:10px 0; font-family:'Manrope',sans-serif; font-size:12px; font-weight:700; color:{{ spyLabelColor }}; cursor:pointer; transition:color .25s;">SPY Paneli</button>
     <button onClick="{{ goAdmin }}" style-active="transform:scale(.96); opacity:.9;" style="position:relative; z-index:1; flex:1; min-height:44px; border:none; background:transparent; padding:10px 0; font-family:'Manrope',sans-serif; font-size:12px; font-weight:700; color:{{ adminLabelColor }}; cursor:pointer; transition:color .25s;">Admin Paneli</button>
   </div>
-  <button onClick="{{ toggleDarkMode }}" style-active="transform:scale(.9);" aria-label="Karanlık modu değiştir" style="width:40px; height:40px; min-width:40px; border-radius:99px; border:1px solid var(--line); background:var(--card); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s;">
+  <button onClick="{{ toggleDarkMode }}" style-active="transform:scale(.9);" aria-label="Karanlık modu değiştir" style="width:44px; height:44px; min-width:44px; border-radius:99px; border:1px solid var(--line); background:var(--card); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .28s,border-color .28s,transform .18s;">
     <sc-if value="{{ darkMode }}">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8803E" stroke-width="2"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8803E" stroke-width="2" style="animation:themeIconIn .3s ease-out;"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg>
     </sc-if>
     <sc-if value="{{ darkModeOff }}">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#273755" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path></svg>
@@ -76,6 +84,24 @@ body { margin: 0; }
   </div>
 
   <sc-if value="{{ isMusteri }}">
+  <div style="animation:panelIn .38s cubic-bezier(.2,.7,.3,1);width:375px;max-width:100%;background:#1B2740;border-radius:44px;padding:12px;box-shadow:0 34px 60px -20px rgba(23,33,54,.45);">
+    <div style="background:var(--bg);border-radius:34px;overflow:hidden;height:700px;display:flex;flex-direction:column;position:relative;">
+      <div style="height:30px;background:#1B2740;flex-shrink:0;"></div>
+      <header style="background:#276F4E;padding:17px 20px 20px;color:#fff;position:relative;overflow:hidden;"><div style="position:absolute;width:145px;height:145px;border:1px solid rgba(255,255,255,.13);border-radius:50%;right:-55px;top:-72px;"></div><img src="assets/logo-white.png" alt="Eminevim" style="height:15px;"><div style="font:800 23px 'Manrope',sans-serif;margin-top:13px;">Tasarruf Yanımda</div><div style="font-size:12px;color:#D7EBE0;margin-top:4px;">Temsilcinizle hızlı ve güvenli görüşme</div></header>
+      <div style="height:44px;display:flex;align-items:center;gap:7px;padding:0 12px;background:var(--card);border-bottom:1px solid var(--line);flex-shrink:0;"><button onClick="{{ customerBack }}" style="min-height:36px;border:none;background:transparent;color:#276F4E;font-size:12px;font-weight:800;cursor:pointer;">Geri</button><sc-if value="{{ customerChatReturnVisible }}"><button onClick="{{ returnToCustomerChat }}" style="min-height:36px;border:none;background:var(--tintGreen);color:#276F4E;border-radius:9px;padding:0 10px;font-size:11px;font-weight:800;cursor:pointer;">Sohbete Dön</button></sc-if><button onClick="{{ openMainAppPlaceholder }}" style="margin-left:auto;min-height:36px;border:none;background:transparent;color:var(--dim);font-size:10.5px;font-weight:700;cursor:pointer;">Ana Uygulamaya Geç</button></div>
+      <main style="flex:1;min-height:0;overflow-y:auto;">
+        <sc-if value="{{ customerStageForm }}" hint-placeholder-val="{{ true }}"><form onSubmit="{{ submitCustomerForm }}" style="padding:18px;display:flex;flex-direction:column;gap:12px;animation:tabIn .35s ease-out;"><div><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Sizi tanıyalım</div><div style="font-size:12px;color:var(--dim);margin-top:4px;line-height:1.5;">Uygun saha temsilcisini bulabilmemiz için bilgilerinizi girin.</div></div><label style="font-size:11.5px;font-weight:700;color:var(--ink);">Ad Soyad<input value="{{ customerName }}" onChange="{{ setCustomerName }}" required placeholder="Adınız ve soyadınız" style="width:100%;min-height:46px;margin-top:6px;padding:0 13px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);"></label><label style="font-size:11.5px;font-weight:700;color:var(--ink);">Telefon<input value="{{ customerPhone }}" onChange="{{ setCustomerPhone }}" required inputmode="tel" placeholder="05•• ••• •• ••" style="width:100%;min-height:46px;margin-top:6px;padding:0 13px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);"></label><label style="font-size:11.5px;font-weight:700;color:var(--ink);">E-posta<input value="{{ customerEmail }}" onChange="{{ setCustomerEmail }}" required type="email" placeholder="ornek@email.com" style="width:100%;min-height:46px;margin-top:6px;padding:0 13px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);"></label><label style="font-size:11.5px;font-weight:700;color:var(--ink);">Adres<textarea value="{{ customerAddress }}" onChange="{{ setCustomerAddress }}" required placeholder="Adresinizi yazın veya konumdan doldurun" style="width:100%;min-height:68px;margin-top:6px;padding:10px 13px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);resize:none;"></textarea></label><button type="button" onClick="{{ fillAddressFromGps }}" style="min-height:44px;border:1px solid #276F4E;background:var(--tintGreen);color:#276F4E;border-radius:12px;font-size:12px;font-weight:800;cursor:pointer;">Konumdan adresi doldur</button><button type="submit" style="min-height:50px;border:none;background:#276F4E;color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;">Temsilci Bul</button><button type="button" onClick="{{ skipCustomerForm }}" style="min-height:44px;border:none;background:transparent;color:var(--dim);font-size:12px;font-weight:700;cursor:pointer;">Bilgi girmeden geç <span style="font-size:10px;color:{{ goldText }};">TEST</span></button></form></sc-if>
+        <sc-if value="{{ customerStageLoading }}"><div style="min-height:470px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;animation:fadeIn .3s ease-out;"><div style="width:76px;height:76px;border-radius:50%;background:var(--tintGreen);display:flex;align-items:center;justify-content:center;position:relative;"><img src="assets/logo-green.png" alt="" style="width:42px;"><span style="position:absolute;inset:-8px;border:2px solid #276F4E;border-right-color:transparent;border-radius:50%;animation:spin 1s linear infinite;"></span></div><div style="font:800 17px 'Manrope',sans-serif;color:var(--ink);margin-top:24px;">Sizin için uygun temsilci aranıyor…</div><div style="font-size:12px;color:var(--dim);margin-top:7px;line-height:1.5;">Mesafe ve müsaitlik durumuna göre sıradaki SPY belirleniyor.</div></div></sc-if>
+        <sc-if value="{{ customerStageWaiting }}"><div style="min-height:470px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;animation:fadeIn .3s ease-out;"><div style="width:66px;height:66px;border-radius:50%;background:{{ repRenk }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;box-shadow:0 0 0 10px var(--tintGreen);">{{ repInitials }}</div><div style="font:800 17px 'Manrope',sans-serif;color:var(--ink);margin-top:24px;">Müşteri temsilciniz yükleniyor…</div><div style="font-size:12px;color:var(--dim);margin-top:7px;">{{ repAd }} talebinizi değerlendiriyor.</div><div style="font-size:11px;color:{{ goldText }};margin-top:15px;font-weight:700;">Yanıt için {{ assignmentCountdown }} sn</div></div></sc-if>
+        <sc-if value="{{ customerStageChatOpen }}"><div style="height:100%;min-height:505px;display:flex;flex-direction:column;animation:slideInRight .32s cubic-bezier(.2,.8,.25,1);"><div style="padding:12px 16px;border-bottom:1px solid var(--line);background:var(--card);display:flex;align-items:center;gap:10px;"><button onClick="{{ closeCustomerChat }}" aria-label="Sohbeti kapat" style="width:38px;height:38px;border:none;background:var(--tintGreen);border-radius:50%;color:#276F4E;font-size:23px;cursor:pointer;">‹</button><div style="width:38px;height:38px;border-radius:50%;background:{{ repRenk }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;">{{ repInitials }}</div><div><div style="font-size:13.5px;font-weight:800;color:var(--ink);">{{ repAd }}</div><div style="font-size:10.5px;color:#276F4E;font-weight:700;">Bağlandı · çevrimiçi</div></div></div><div style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:9px;"><sc-for list="{{ chatMessagesMusteri }}" as="msg" hint-placeholder-count="1"><div style="align-self:{{ msg.align }};max-width:82%;background:{{ msg.bg }};color:{{ msg.color }};border:1px solid {{ msg.borderColor }};border-radius:14px;padding:10px 12px;font-size:12.5px;line-height:1.5;">{{ msg.text }}</div></sc-for><sc-if value="{{ locationActionsVisible }}"><div style="display:flex;gap:8px;"><button onClick="{{ sendGpsLocation }}" style="flex:1;min-height:44px;border:none;background:#276F4E;color:#fff;border-radius:11px;font-size:11.5px;font-weight:800;cursor:pointer;">Konumumu Gönder</button><button onClick="{{ openPointPicker }}" style="flex:1;min-height:44px;border:1px solid #276F4E;background:var(--card);color:#276F4E;border-radius:11px;font-size:11.5px;font-weight:800;cursor:pointer;">Bir Nokta Belirt</button></div></sc-if><sc-if value="{{ routeActive }}"><div style="height:178px;border:1px solid var(--line);border-radius:14px;overflow:hidden;"><iframe ref="{{ musteriLiveMapRef }}" src="map.html" onLoad="{{ onMusteriLiveMapLoad }}" title="Temsilcinin canlı rotası" style="width:100%;height:100%;border:none;"></iframe></div><div style="background:var(--tintGreen);border:1px solid #276F4E;border-radius:12px;padding:11px 12px;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ repAd }} yolda</div><div style="font-size:11px;color:var(--dim);margin-top:3px;">{{ etaText }} · {{ ilerlemeYuzde }}</div></div></sc-if></div><div style="display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);background:var(--card);"><input value="{{ chatDraft }}" onChange="{{ setChatDraft }}" onKeyDown="{{ onChatKeyDownMusteri }}" placeholder="Mesaj yazın…" style="flex:1;min-height:44px;padding:0 13px;border-radius:11px;border:1px solid var(--line);background:var(--bg);color:var(--ink);"><button onClick="{{ sendChatMusteri }}" style="min-height:44px;padding:0 16px;border:none;background:#276F4E;color:#fff;border-radius:11px;font-size:12.5px;font-weight:800;cursor:pointer;">Gönder</button></div></div></sc-if>
+        <sc-if value="{{ customerStageSummary }}"><div style="padding:20px;display:flex;flex-direction:column;gap:14px;animation:tabIn .25s ease-out;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">{{ customerSummaryTitle }}</div><div style="background:var(--tintGreen);border:1px solid #276F4E;border-radius:15px;padding:15px;"><div style="font-size:13px;font-weight:800;color:var(--ink);">{{ repAd }} {{ customerSummaryStatus }}</div><div style="font-size:11.5px;color:var(--dim);margin-top:4px;">{{ etaText }}</div></div><button onClick="{{ returnToCustomerChat }}" style="min-height:48px;border:none;background:#276F4E;color:#fff;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">Sohbete Dön</button></div></sc-if>
+      </main>
+      <sc-if value="{{ pointPickerOpen }}"><div style="position:absolute;inset:0;z-index:45;background:var(--bg);display:flex;flex-direction:column;animation:slideInRight .3s ease-out;"><div style="padding:12px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;"><button onClick="{{ closePointPicker }}" aria-label="Konum seçimini kapat" style="width:44px;height:44px;border:none;background:transparent;color:#276F4E;font-size:25px;cursor:pointer;">‹</button><div><div style="font-size:15px;font-weight:800;color:var(--ink);">Bir nokta belirt</div><div style="font-size:10.5px;color:var(--dim);">Haritada istediğiniz noktaya dokunun</div></div></div><div style="flex:1;position:relative;"><iframe ref="{{ pointPickerMapRef }}" src="map.html?selectable=1" onLoad="{{ onPointPickerMapLoad }}" title="Konum seçme haritası" style="width:100%;height:100%;border:none;"></iframe><div style="position:absolute;left:14px;right:14px;bottom:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 12px 30px rgba(23,33,54,.18);"><div style="font-size:11.5px;color:var(--dim);">{{ selectedPointText }}</div><button onClick="{{ confirmSelectedPoint }}" disabled="{{ selectedPointMissing }}" style="width:100%;min-height:46px;margin-top:9px;border:none;background:#276F4E;color:#fff;border-radius:11px;font-size:13px;font-weight:800;cursor:pointer;opacity:{{ selectedPointOpacity }};">Bu Konumu Gönder</button></div></div></div></sc-if>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ legacyCustomerVisible }}">
   <div style="animation:panelIn .38s cubic-bezier(.2,.7,.3,1);">
     <div style="width:375px; max-width:100%; background:#1B2740; border-radius:44px; padding:12px; box-shadow:0 34px 60px -20px rgba(23,33,54,.45);">
       <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column; position:relative;">
@@ -95,6 +121,7 @@ body { margin: 0; }
             <div style="height:150px; background:var(--card); border-radius:15px; border:1px solid var(--line); overflow:hidden;">
               <iframe ref="{{ musteriLiveMapRef }}" src="map.html" onLoad="{{ onMusteriLiveMapLoad }}" title="Konum haritası" style="width:100%; height:100%; border:none; display:block;"></iframe>
             </div>
+            <button onClick="{{ requestLocation }}" aria-label="Canlı konumu güncelle" style="min-height:44px; width:100%; border:1px solid var(--line); background:var(--card); color:var(--dim); border-radius:11px; display:flex; align-items:center; justify-content:center; gap:7px; font-size:11.5px; font-weight:700; cursor:pointer;"><span style="width:7px;height:7px;border-radius:50%;background:{{ locationDotColor }};"></span>{{ locationMessage }}</button>
 
             <sc-if value="{{ reqIdle }}">
               <button onClick="{{ tasarrufYaninda }}" style-active="transform:scale(.97);" style-hover="background:#1F5D40;" style="width:100%; min-height:54px; background:#276F4E; color:#fff; border:none; border-radius:14px; font-size:14.5px; font-weight:800; cursor:pointer; font-family:'Manrope',sans-serif; transition:background .2s;">Tasarruf Yanımda</button>
@@ -126,7 +153,7 @@ body { margin: 0; }
               <div style="background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; align-items:center; gap:10px;">
                 <div style="flex:1; min-width:0;">
                   <div style="font-size:13px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">{{ repAd }} yolda</div>
-                  <div style="font-size:11.5px; color:var(--dim); margin-top:2px;">Yaklaşma: {{ ilerlemeYuzde }}</div>
+                  <div style="font-size:11.5px; color:var(--dim); margin-top:2px;">{{ etaText }} · {{ ilerlemeYuzde }}</div>
                 </div>
                 <button onClick="{{ openChat }}" style-active="transform:scale(.94);" style="min-height:40px; background:#276F4E; color:#fff; border:none; border-radius:10px; padding:0 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Sohbet</button>
               </div>
@@ -187,7 +214,7 @@ body { margin: 0; }
         <sc-if value="{{ chatOpen }}">
           <div style="position:absolute; inset:0; z-index:32; background:var(--bg); display:flex; flex-direction:column; animation:{{ chatAnim }};">
             <div style="display:flex; align-items:center; gap:6px; padding:14px 10px; border-bottom:1px solid var(--line); background:var(--card); flex-shrink:0;">
-              <button onClick="{{ closeChat }}" style-active="transform:scale(.9);" style="background:transparent; border:none; width:36px; height:36px; border-radius:99px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+              <button onClick="{{ closeChat }}" aria-label="Sohbetten geri dön" style-active="transform:scale(.9);" style="background:transparent; border:none; width:44px; height:44px; border-radius:99px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
                 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2.4"><path d="M15 5l-7 7 7 7"></path></svg>
               </button>
               <div style="font-size:15px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">{{ repAd }}</div>
@@ -244,7 +271,8 @@ body { margin: 0; }
               <div style="font-size:12.5px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Yeni Başvuru</div>
               <div style="font-size:11.5px; color:var(--dim); margin-top:1px;">{{ bildirim.ad }} · {{ bildirim.ilce }}</div>
             </div>
-            <button onClick="{{ dismissBildirim }}" style-active="transform:scale(.9);" style="background:transparent; border:none; color:#A7B3AC; font-size:16px; cursor:pointer; padding:4px;">×</button>
+            <sc-if value="{{ assignmentNotification }}"><div style="display:flex;gap:5px;"><button onClick="{{ rejectAssignment }}" style="min-height:40px;padding:0 9px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;font-size:10.5px;font-weight:800;cursor:pointer;">Reddet</button><button onClick="{{ acceptAssignment }}" style="min-height:40px;padding:0 10px;border:none;background:#276F4E;color:#fff;border-radius:9px;font-size:10.5px;font-weight:800;cursor:pointer;">Kabul</button></div></sc-if>
+            <sc-if value="{{ regularNotification }}"><button onClick="{{ dismissBildirim }}" aria-label="Bildirimi kapat" style-active="transform:scale(.9);" style="background:transparent; border:none; color:#A7B3AC; font-size:18px; cursor:pointer; width:44px;height:44px;border-radius:50%;">×</button></sc-if>
           </div>
         </sc-if>
 
@@ -320,29 +348,34 @@ body { margin: 0; }
             <div style="height:230px; background:var(--card); border-radius:15px; border:1px solid var(--line); overflow:hidden;">
               <iframe ref="{{ spyLiveMapRef }}" src="map.html" onLoad="{{ onSpyLiveMapLoad }}" title="Müşteri konumları haritası" style="width:100%; height:100%; border:none; display:block;"></iframe>
             </div>
-            <div style="font-size:11px; color:var(--dim); text-align:center;">Yeşil nokta sizin canlı konumunuz, turuncu noktalar bekleyen müşterileriniz · sade harita stili</div>
+            <button onClick="{{ requestLocation }}" aria-label="SPY canlı konumunu güncelle" style="min-height:44px;width:100%;border:1px solid var(--line);background:var(--card);color:var(--dim);border-radius:11px;display:flex;align-items:center;justify-content:center;gap:7px;font-size:11.5px;font-weight:700;cursor:pointer;"><span style="width:7px;height:7px;border-radius:50%;background:{{ locationDotColor }};"></span>{{ locationMessage }}</button>
+            <div style="font-size:11px; color:var(--dim); text-align:center;">Yeşil nokta sizin canlı konumunuz, turuncu noktalar bekleyen müşterileriniz.</div>
 
             <sc-if value="{{ reqBekliyor }}">
               <div style="background:var(--tintRed); border:1px solid {{ coralText }}; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px;">
                 <div style="font-size:12.5px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Yeni Müşteri Talebi</div>
                 <div style="font-size:12px; color:var(--dim);">Bir müşteri "Tasarruf Yanımda" ile size ulaşmak istiyor.</div>
-                <button onClick="{{ kabulEt }}" style-active="transform:scale(.97);" style="min-height:44px; background:#276F4E; color:#fff; border:none; border-radius:11px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Kabul Et</button>
+                <button onClick="{{ acceptAssignment }}" style-active="transform:scale(.97);" style="min-height:44px; background:#276F4E; color:#fff; border:none; border-radius:11px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Kabul Et</button>
               </div>
             </sc-if>
             <sc-if value="{{ reqEslestiVeSonrasi }}">
               <div style="background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; align-items:center; gap:10px;">
                 <div style="flex:1; min-width:0;">
                   <div style="font-size:12.5px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Müşteri ile eşleşme aktif</div>
-                  <div style="font-size:11.5px; color:var(--dim); margin-top:2px;">{{ ilerlemeYuzde }} · sohbeti açın</div>
+                  <div style="font-size:11.5px; color:var(--dim); margin-top:2px;">{{ spyFlowStatus }}</div>
                 </div>
                 <button onClick="{{ openChat }}" style-active="transform:scale(.94);" style="min-height:40px; background:#276F4E; color:#fff; border:none; border-radius:10px; padding:0 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Sohbet</button>
               </div>
             </sc-if>
+            <sc-if value="{{ spyCanStartRoute }}"><button onClick="{{ spyStartRoute }}" style="min-height:46px;background:#276F4E;color:#fff;border:none;border-radius:11px;font-size:13px;font-weight:800;cursor:pointer;">Yola Çık / Yönlendir</button></sc-if>
+            <sc-if value="{{ spyCanArrive }}"><div style="display:flex;gap:8px;"><button onClick="{{ spyArrived }}" style="flex:1;min-height:46px;background:#276F4E;color:#fff;border:none;border-radius:11px;font-size:12px;font-weight:800;cursor:pointer;">Müşteriye Ulaştım</button><button onClick="{{ createAppointment }}" style="flex:1;min-height:46px;background:var(--card);color:#276F4E;border:1px solid #276F4E;border-radius:11px;font-size:12px;font-weight:800;cursor:pointer;">Randevu Oluştur</button></div></sc-if>
           </div>
           </sc-if>
 
           <sc-if value="{{ spyTabIsGecmis }}">
           <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; gap:10px;">
+            <div style="font-size:11.5px;font-weight:800;color:var(--ink);letter-spacing:.3px;">RANDEVULARIM</div>
+            <sc-for list="{{ appointments }}" as="a" hint-placeholder-count="0"><div style="background:var(--tintGreen);border:1px solid #276F4E;border-radius:13px;padding:11px;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ a.customer }}</div><div style="font-size:11px;color:var(--dim);margin-top:3px;">{{ a.date }} · {{ a.time }} · {{ a.note }}</div></div></sc-for>
             <sc-if value="{{ tamamlananBos }}">
               <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; text-align:center; gap:12px;">
                 <img src="assets/logo-green.png" alt="" style="width:120px; opacity:.16;">
@@ -389,7 +422,7 @@ body { margin: 0; }
         <sc-if value="{{ detay }}">
           <div style="position:absolute; inset:0; z-index:31; background:var(--bg); overflow-y:auto; animation:{{ detayAnim }};">
             <div style="display:flex; align-items:center; gap:6px; padding:14px 10px; border-bottom:1px solid var(--line); background:var(--card);">
-              <button onClick="{{ closeDetay }}" style-active="transform:scale(.9);" style="background:transparent; border:none; width:36px; height:36px; border-radius:99px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+              <button onClick="{{ closeDetay }}" aria-label="Detaydan geri dön" style-active="transform:scale(.9);" style="background:transparent; border:none; width:44px; height:44px; border-radius:99px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
                 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2.4"><path d="M15 5l-7 7 7 7"></path></svg>
               </button>
               <div style="font-size:15px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">{{ detay.ad }}</div>
@@ -417,7 +450,30 @@ body { margin: 0; }
                   <div style="font-size:10.5px; color:var(--dim); margin-top:4px;">Dün, 16:05</div>
                 </div>
               </div>
-              <button onClick="{{ detay.onDon }}" style-active="transform:scale(.97);" style="width:100%; min-height:46px; background:#276F4E; color:#fff; border:none; border-radius:12px; margin-top:18px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Geri Ara</button>
+              <div style="display:flex; gap:8px; margin-top:18px;">
+                <button onClick="{{ detay.onDevret }}" style-active="transform:scale(.97);" style="flex:1; min-height:46px; background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:12px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Devret</button>
+                <button onClick="{{ detay.onDon }}" style-active="transform:scale(.97);" style="flex:1.4; min-height:46px; background:#276F4E; color:#fff; border:none; border-radius:12px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Geri Ara</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ devretOpen }}">
+          <div onClick="{{ closeDevret }}" style="position:absolute; inset:0; z-index:39; background:rgba(18,27,36,.54); display:flex; align-items:flex-end; animation:backdropIn .2s ease-out;">
+            <div onClick="{{ stopProp }}" role="dialog" aria-modal="true" aria-label="Başvuruyu devret" style="width:100%; background:var(--card); border-radius:24px 24px 0 0; padding:12px 18px 22px; animation:sheetUp .32s cubic-bezier(.2,.8,.25,1); box-shadow:0 -18px 40px rgba(0,0,0,.18);">
+              <div style="width:42px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 16px;"></div>
+              <div style="font-size:16px;font-weight:800;color:var(--ink);font-family:'Manrope',sans-serif;">Başvuruyu devret</div>
+              <div style="font-size:12px;color:var(--dim);margin-top:3px;">Uygun saha temsilcisini seçin.</div>
+              <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px;">
+                <sc-for list="{{ devretAdaylari }}" as="aday" hint-placeholder-count="2">
+                  <button onClick="{{ aday.onSelect }}" style="min-height:52px;width:100%;border:1px solid var(--line);background:var(--bg);border-radius:13px;padding:9px 12px;display:flex;align-items:center;text-align:left;cursor:pointer;">
+                    <span style="width:34px;height:34px;border-radius:50%;background:{{ aday.renk }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;margin-right:10px;">{{ aday.initials }}</span>
+                    <span style="flex:1;"><span style="display:block;font-size:13px;font-weight:800;color:var(--ink);">{{ aday.ad }}</span><span style="display:block;font-size:11px;color:var(--dim);margin-top:2px;">{{ aday.bolge }} · {{ aday.sayac }} aktif</span></span>
+                    <span style="font-size:18px;color:#276F4E;">›</span>
+                  </button>
+                </sc-for>
+              </div>
+              <button onClick="{{ closeDevret }}" style="min-height:44px;width:100%;border:none;background:transparent;color:var(--dim);font-size:12.5px;font-weight:700;margin-top:8px;cursor:pointer;">Vazgeç</button>
             </div>
           </div>
         </sc-if>
@@ -425,7 +481,7 @@ body { margin: 0; }
         <sc-if value="{{ chatOpen }}">
           <div style="position:absolute; inset:0; z-index:32; background:var(--bg); display:flex; flex-direction:column; animation:{{ chatAnim }};">
             <div style="display:flex; align-items:center; gap:6px; padding:14px 10px; border-bottom:1px solid var(--line); background:var(--card); flex-shrink:0;">
-              <button onClick="{{ closeChat }}" style-active="transform:scale(.9);" style="background:transparent; border:none; width:36px; height:36px; border-radius:99px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+              <button onClick="{{ closeChat }}" aria-label="Sohbetten geri dön" style-active="transform:scale(.9);" style="background:transparent; border:none; width:44px; height:44px; border-radius:99px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
                 <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2.4"><path d="M15 5l-7 7 7 7"></path></svg>
               </button>
               <div style="font-size:15px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Müşteri Sohbeti</div>
@@ -490,7 +546,7 @@ body { margin: 0; }
               </div>
               <div style="flex:1; background:var(--card); border-radius:15px; border:1px solid var(--line); padding:14px;">
                 <div style="font-size:24px; font-weight:800; color:{{ goldText }}; font-family:'Manrope',sans-serif;">{{ gununGorusmeSayisi }}</div>
-                <div style="font-size:11px; color:var(--dim); margin-top:3px; font-weight:500;">planlanan görüşme</div>
+                <div style="font-size:11px; color:var(--dim); margin-top:3px; font-weight:500;">{{ aktifTalepCount }} aktif talep · {{ appointmentCount }} randevu</div>
                 <input type="date" value="{{ ozetTarih }}" onChange="{{ setOzetTarih }}" style="width:100%; margin-top:8px; font-size:11px; border:1px solid var(--line); border-radius:8px; padding:4px 6px; background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif;">
               </div>
             </div>
@@ -517,6 +573,7 @@ body { margin: 0; }
               <button onClick="{{ setFiltreCanli }}" style-active="transform:scale(.96);" style="flex:1; min-height:34px; border-radius:99px; border:1px solid {{ filtreCanliBorder }}; background:{{ filtreCanliBg }}; color:{{ filtreCanliText }}; font-size:11.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Canlı</button>
               <button onClick="{{ setFiltreBekleyen }}" style-active="transform:scale(.96);" style="flex:1; min-height:34px; border-radius:99px; border:1px solid {{ filtreBekleyenBorder }}; background:{{ filtreBekleyenBg }}; color:{{ filtreBekleyenText }}; font-size:11.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Bekleyen</button>
               <button onClick="{{ setFiltreBiten }}" style-active="transform:scale(.96);" style="flex:1; min-height:34px; border-radius:99px; border:1px solid {{ filtreBitenBorder }}; background:{{ filtreBitenBg }}; color:{{ filtreBitenText }}; font-size:11.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Biten</button>
+              <button onClick="{{ setFiltreRandevular }}" style-active="transform:scale(.96);" style="flex:1; min-height:34px; border-radius:99px; border:1px solid {{ filtreRandevuBorder }}; background:{{ filtreRandevuBg }}; color:{{ filtreRandevuText }}; font-size:11.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Randevu</button>
             </div>
             <sc-if value="{{ gorusmeSatirlariBos }}">
               <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:50px 20px; text-align:center; gap:10px;">
@@ -597,17 +654,24 @@ const NAVY = "#273755";
 const GREEN = "#276F4E";
 const GOLD = "#E8803E";
 const CORAL = "#E66A57";
-const GOLD_TEXT = "#B85F1F";
-const CORAL_TEXT = "#C1432B";
+const GOLD_TEXT = "#93430F";
+const CORAL_TEXT = "#A93625";
 const LINE = "#E4E1D8";
 const INK = "#2B2F2C";
 const PALETTE = [GREEN, GOLD, NAVY];
 
+const DISTRICT_COORDS = {
+  "Beylikdüzü": { lat: 41.0035, lng: 28.6412 }, "Bakırköy": { lat: 40.9829, lng: 28.8770 },
+  "Fatih": { lat: 41.0186, lng: 28.9497 }, "Beşiktaş": { lat: 41.0422, lng: 29.0061 },
+  "Şişli": { lat: 41.0602, lng: 28.9877 }, "Üsküdar": { lat: 41.0227, lng: 29.0122 },
+  "Kadıköy": { lat: 40.9927, lng: 29.0274 }, "Ataşehir": { lat: 40.9923, lng: 29.1244 },
+  "Maltepe": { lat: 40.9354, lng: 29.1500 }, "Pendik": { lat: 40.8778, lng: 29.2358 }
+};
 const INITIAL_BASVURU = [
-  { id: 1, ad: "Murat Y.", ilce: "Kadıköy", mesafeKm: 1.2, kalan: 218, telefonSon: "12" },
-  { id: 2, ad: "Elif S.", ilce: "Kadıköy", mesafeKm: 2.8, kalan: 640, telefonSon: "47" },
-  { id: 3, ad: "Kerem T.", ilce: "Üsküdar", mesafeKm: 4.1, kalan: 1180, telefonSon: "83" },
-  { id: 4, ad: "Aylin D.", ilce: "Ataşehir", mesafeKm: 5.6, kalan: 55, telefonSon: "05" },
+  { id: 1, ad: "Murat Y.", ilce: "Kadıköy", ...DISTRICT_COORDS["Kadıköy"], kalan: 218, telefonSon: "12" },
+  { id: 2, ad: "Elif S.", ilce: "Kadıköy", lat: 40.9991, lng: 29.0418, kalan: 640, telefonSon: "47" },
+  { id: 3, ad: "Kerem T.", ilce: "Üsküdar", ...DISTRICT_COORDS["Üsküdar"], kalan: 1180, telefonSon: "83" },
+  { id: 4, ad: "Aylin D.", ilce: "Ataşehir", ...DISTRICT_COORDS["Ataşehir"], kalan: 55, telefonSon: "05" },
 ];
 
 const DISTRICT_NAMES = ["Beylikdüzü", "Bakırköy", "Fatih", "Beşiktaş", "Şişli", "Üsküdar", "Kadıköy", "Ataşehir", "Maltepe", "Pendik"];
@@ -644,8 +708,21 @@ function ringTextColor(kalan, dark) {
   return GREEN;
 }
 function fmtKm(km) {
-  return String(km).replace(".", ",");
+  return Number(km || 0).toFixed(1).replace(".", ",");
 }
+function haversineKm(a, b) {
+  if (!a || !b || !Number.isFinite(a.lat) || !Number.isFinite(a.lng) || !Number.isFinite(b.lat) || !Number.isFinite(b.lng)) return null;
+  const rad = (v) => v * Math.PI / 180;
+  const dLat = rad(b.lat - a.lat), dLng = rad(b.lng - a.lng);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng / 2) ** 2;
+  return 6371 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+}
+function coordForDistrict(ilce) { return DISTRICT_COORDS[ilce] || DISTRICT_COORDS["Ataşehir"]; }
+const LIVE_CONFIG = window.EMINEVIM_CONFIG || {};
+// TEST/DEVELOPMENT ONLY: production build must set this to false.
+const TEST_MODE_SKIP_FORM = true;
+const LOCATION_API = LIVE_CONFIG.locationEndpoint || "/api/live-locations";
+const LOCATION_POLL_MS = Math.max(5000, LIVE_CONFIG.locationPollMs || 10000);
 
 const ABSTRACT_POS = { s1: { x: 38, y: 38 }, s2: { x: 64, y: 26 }, s3: { x: 70, y: 64 } };
 const CUSTOMER_POS = { x: 48, y: 80 };
@@ -672,9 +749,9 @@ class Component extends DCLogic {
     bildirim: null,
     demoIndex: 0,
     spylerList: [
-      { id: "s1", ad: "Onur K.", bolge: "Kadıköy / Ataşehir", sayac: 3, renk: GREEN },
-      { id: "s2", ad: "Derya A.", bolge: "Üsküdar / Maltepe", sayac: 2, renk: GOLD },
-      { id: "s3", ad: "Berk C.", bolge: "Beşiktaş / Şişli", sayac: 1, renk: NAVY },
+      { id: "s1", ad: "Onur K.", bolge: "Kadıköy / Ataşehir", sayac: 3, renk: GREEN, ...DISTRICT_COORDS["Kadıköy"], updatedAt: Date.now() },
+      { id: "s2", ad: "Derya A.", bolge: "Üsküdar / Maltepe", sayac: 2, renk: GOLD, ...DISTRICT_COORDS["Üsküdar"], updatedAt: Date.now() },
+      { id: "s3", ad: "Berk C.", bolge: "Beşiktaş / Şişli", sayac: 1, renk: NAVY, ...DISTRICT_COORDS["Beşiktaş"], updatedAt: Date.now() },
     ],
     spyModalOpen: false,
     yeniAd: "",
@@ -687,6 +764,21 @@ class Component extends DCLogic {
     detayClosing: false,
     pullY: 0,
     refreshing: false,
+    locationMode: "hazirlaniyor",
+    locationMessage: "Konum servisi hazırlanıyor",
+    customerLocation: { ...DISTRICT_COORDS["Ataşehir"] },
+    customerStage: "form",
+    customerForm: { name: "", phone: "", email: "", address: "", testMode: false },
+    assignmentCountdown: 15,
+    rejectedSpyIds: [],
+    pointPickerOpen: false,
+    selectedPoint: null,
+    locationShared: false,
+    customerChatOpen: true,
+    mainAppPlaceholder: false,
+    appointments: [],
+    devretOpen: false,
+    devretBasvuruId: null,
 
     girisRol: "personel",
     musteriTab: "ana",
@@ -709,6 +801,17 @@ class Component extends DCLogic {
     this._loadTimer = setTimeout(() => this.setState({ yukleniyor: false }), 900);
     this._bildirimTimer = setTimeout(() => this.demoBildirim(), 6000);
     this._basvuruTimer = setTimeout(() => this.postBasvurular(), 500);
+    this.startLocationPolling();
+    this._pointMessageHandler = (event) => {
+      const data = event.data || {};
+      if (data.type === "pointSelected") this.setState({ selectedPoint: { lat: Number(data.lat), lng: Number(data.lng) } });
+    };
+    window.addEventListener("message", this._pointMessageHandler);
+    if (navigator.permissions && navigator.permissions.query) {
+      navigator.permissions.query({ name: "geolocation" }).then((p) => {
+        if (p.state === "granted") this.requestCurrentLocation(false);
+      }).catch(() => {});
+    }
   }
   componentWillUnmount() {
     clearInterval(this._t);
@@ -717,6 +820,74 @@ class Component extends DCLogic {
     if (this._bildirimHide) clearTimeout(this._bildirimHide);
     if (this._exitTimers) this._exitTimers.forEach(clearTimeout);
     if (this._repTimer) clearInterval(this._repTimer);
+    if (this._locationPoll) clearInterval(this._locationPoll);
+    if (this._geoWatch != null && navigator.geolocation) navigator.geolocation.clearWatch(this._geoWatch);
+    if (this._assignmentTimer) clearInterval(this._assignmentTimer);
+    window.removeEventListener("message", this._pointMessageHandler);
+  }
+
+  requestCurrentLocation(promptUser = true) {
+    if (!navigator.geolocation) {
+      this.setState({ locationMode: "demo", locationMessage: "GPS desteklenmiyor · demo konum" });
+      return;
+    }
+    if (this._geoWatch != null) return;
+    this.setState({ locationMessage: promptUser ? "GPS izni bekleniyor" : "GPS konumu okunuyor" });
+    this._geoWatch = navigator.geolocation.watchPosition(
+      (pos) => {
+        const point = { lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy, updatedAt: Date.now() };
+        this.setState((s) => ({
+          customerLocation: s.panel === "musteri" ? point : s.customerLocation,
+          spylerList: s.panel === "spy" ? s.spylerList.map((x, i) => i === 0 ? { ...x, ...point } : x) : s.spylerList,
+          locationMode: "gps",
+          locationMessage: "GPS canlı · ±" + Math.round(pos.coords.accuracy) + " m"
+        }));
+      },
+      () => this.setState({ locationMode: "demo", locationMessage: "GPS kapalı · demo konum kullanılıyor" }),
+      { enableHighAccuracy: true, maximumAge: 5000, timeout: 12000 }
+    );
+  }
+
+  startLocationPolling() {
+    this.refreshLiveData(false);
+    this._locationPoll = setInterval(() => this.refreshLiveData(false), LOCATION_POLL_MS);
+  }
+
+  async refreshLiveData(showFeedback = true) {
+    if (showFeedback) this.setState({ refreshing: true, pullY: 56 });
+    try {
+      const response = await fetch(LOCATION_API, { headers: { Accept: "application/json" }, cache: "no-store" });
+      if (!response.ok) throw new Error("location-api-" + response.status);
+      const payload = await response.json();
+      const reps = Array.isArray(payload.spyler) ? payload.spyler : [];
+      const applications = Array.isArray(payload.basvurular) ? payload.basvurular : [];
+      const normalizedApplications = applications.map((b) => ({ ...coordForDistrict(b.ilce), ...b, kalan: Number(b.kalan || 900) }));
+      if (!this._seenApplicationIds) this._seenApplicationIds = new Set(this.state.basvurular.map((x) => String(x.id)));
+      const fresh = normalizedApplications.find((x) => !this._seenApplicationIds.has(String(x.id)));
+      normalizedApplications.forEach((x) => this._seenApplicationIds.add(String(x.id)));
+      this.setState((s) => ({
+        spylerList: reps.length ? s.spylerList.map((old) => ({ ...coordForDistrict(ilkIlce(old.bolge)), ...old, ...(reps.find((x) => String(x.id) === String(old.id)) || {}) })) : s.spylerList,
+        basvurular: normalizedApplications.length ? normalizedApplications : s.basvurular,
+        locationMode: reps.length ? "api" : s.locationMode,
+        locationMessage: reps.length ? "Canlı servis bağlı · " + new Date().toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }) : s.locationMessage,
+        refreshing: false,
+        pullY: 0
+      }));
+      if (fresh) this.showBildirim(fresh);
+    } catch (_) {
+      this.setState((s) => ({
+        locationMode: s.locationMode === "gps" ? "gps" : "demo",
+        locationMessage: s.locationMode === "gps" ? s.locationMessage : "API bekleniyor · demo veri aktif",
+        refreshing: false,
+        pullY: 0
+      }));
+    }
+  }
+
+  showBildirim(item) {
+    this.setState({ bildirim: item });
+    if (this._bildirimHide) clearTimeout(this._bildirimHide);
+    this._bildirimHide = setTimeout(() => this.setState({ bildirim: null }), 4000);
   }
   componentDidUpdate(prevProps, prevState) {
     if ((prevState.basvurular !== this.state.basvurular || prevState.haritaMusteriOn !== this.state.haritaMusteriOn) && this._canliWin()) this.postBasvurular();
@@ -744,7 +915,7 @@ class Component extends DCLogic {
   postBasvurular() {
     const win = this._canliWin();
     if (!win) return;
-    const items = this.state.haritaMusteriOn ? this.state.basvurular.map((b) => ({ ilce: b.ilce })) : [];
+    const items = this.state.haritaMusteriOn ? this.state.basvurular.map((b) => ({ ilce: b.ilce, lat: b.lat, lng: b.lng, label: b.ad })) : [];
     win.postMessage({ type: "basvurular", items }, "*");
   }
 
@@ -769,15 +940,16 @@ class Component extends DCLogic {
     if (!win) return;
     const s = this.state;
     const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
+    const customer = s.customerLocation;
     const movingDurum = s.reqStatus === "onaylandi" ? "Müşteriyle görüşmeye gidiyor" : "Müşteriyle yüz yüze görüşüyor";
     const movingColor = s.reqStatus === "onaylandi" ? GOLD_TEXT : NAVY;
     const moving = s.haritaSpyOn && rep && (s.reqStatus === "onaylandi" || s.reqStatus === "vardi")
-      ? { fromIlce: ilkIlce(rep.bolge), toIlce: CUSTOMER_ILCE, progress: s.repProgress, color: rep.renk, label: rep.ad, sube: ilkIlce(rep.bolge) + " Şubesi", durum: movingDurum, durumColor: movingColor }
+      ? { fromIlce: ilkIlce(rep.bolge), toIlce: CUSTOMER_ILCE, fromLat: rep.lat, fromLng: rep.lng, toLat: customer.lat, toLng: customer.lng, progress: s.repProgress, color: rep.renk, label: rep.ad, sube: ilkIlce(rep.bolge) + " Şubesi", durum: movingDurum, durumColor: movingColor }
       : null;
     const items = !s.haritaSpyOn ? [] : s.spylerList.filter((x) => !moving || x.id !== rep.id).map((x) => {
       const online = rep && x.id === rep.id && s.reqStatus === "eslesti";
       return {
-        ilce: ilkIlce(x.bolge),
+        ilce: ilkIlce(x.bolge), lat: x.lat, lng: x.lng,
         color: x.renk,
         label: x.ad,
         sube: ilkIlce(x.bolge) + " Şubesi",
@@ -785,7 +957,7 @@ class Component extends DCLogic {
         durumColor: online ? "#2E6B8A" : GREEN,
       };
     });
-    if (s.haritaMusteriOn && s.reqStatus !== "idle" && s.reqStatus !== "aranan") items.push({ ilce: CUSTOMER_ILCE, color: CORAL, label: "Müşteri" });
+    if (s.haritaMusteriOn && s.reqStatus !== "idle" && s.reqStatus !== "aranan") items.push({ ilce: CUSTOMER_ILCE, lat: customer.lat, lng: customer.lng, color: CORAL, label: "Müşteri" });
     win.postMessage({ type: "canli", items, moving }, "*");
   }
   _musteriLiveRef() {
@@ -801,9 +973,9 @@ class Component extends DCLogic {
     if (!win) return;
     const s = this.state;
     const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
-    const moving = rep && (s.reqStatus === "onaylandi" || s.reqStatus === "vardi") ? { fromIlce: ilkIlce(rep.bolge), toIlce: CUSTOMER_ILCE, progress: s.repProgress, color: rep.renk, label: rep.ad } : null;
-    const items = [{ ilce: CUSTOMER_ILCE, color: GREEN, label: "Siz" }];
-    if (rep && !moving) items.push({ ilce: ilkIlce(rep.bolge), color: rep.renk, label: rep.ad });
+    const moving = rep && (s.reqStatus === "onaylandi" || s.reqStatus === "vardi") ? { fromIlce: ilkIlce(rep.bolge), toIlce: CUSTOMER_ILCE, fromLat: rep.lat, fromLng: rep.lng, toLat: s.customerLocation.lat, toLng: s.customerLocation.lng, progress: s.repProgress, color: rep.renk, label: rep.ad } : null;
+    const items = [{ ilce: CUSTOMER_ILCE, lat: s.customerLocation.lat, lng: s.customerLocation.lng, color: GREEN, label: "Siz" }];
+    if (rep && !moving) items.push({ ilce: ilkIlce(rep.bolge), lat: rep.lat, lng: rep.lng, color: rep.renk, label: rep.ad });
     win.postMessage({ type: "canli", items, moving }, "*");
   }
   postCanliSpy() {
@@ -812,15 +984,15 @@ class Component extends DCLogic {
     const s = this.state;
     const self = s.spylerList[0];
     const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
-    const moving = rep && rep.id === "s1" && (s.reqStatus === "onaylandi" || s.reqStatus === "vardi") ? { fromIlce: ilkIlce(self.bolge), toIlce: CUSTOMER_ILCE, progress: s.repProgress, color: self.renk, label: self.ad } : null;
-    const items = moving ? [] : [{ ilce: ilkIlce(self.bolge), color: self.renk, label: "Siz" }];
+    const moving = rep && rep.id === "s1" && (s.reqStatus === "onaylandi" || s.reqStatus === "vardi") ? { fromIlce: ilkIlce(self.bolge), toIlce: CUSTOMER_ILCE, fromLat: self.lat, fromLng: self.lng, toLat: s.customerLocation.lat, toLng: s.customerLocation.lng, progress: s.repProgress, color: self.renk, label: self.ad } : null;
+    const items = moving ? [] : [{ ilce: ilkIlce(self.bolge), lat: self.lat, lng: self.lng, color: self.renk, label: "Siz" }];
     const seen = {};
     s.basvurular.forEach((b) => {
       if (seen[b.ilce]) return;
       seen[b.ilce] = true;
-      items.push({ ilce: b.ilce, color: GOLD, label: b.ad });
+      items.push({ ilce: b.ilce, lat: b.lat, lng: b.lng, color: GOLD, label: b.ad });
     });
-    if (rep && rep.id === "s1" && s.reqStatus !== "idle" && s.reqStatus !== "aranan" && !moving) items.push({ ilce: CUSTOMER_ILCE, color: CORAL, label: "Müşteri" });
+    if (rep && rep.id === "s1" && s.reqStatus !== "idle" && s.reqStatus !== "aranan" && !moving) items.push({ ilce: CUSTOMER_ILCE, lat: s.customerLocation.lat, lng: s.customerLocation.lng, color: CORAL, label: "Müşteri" });
     win.postMessage({ type: "canli", items, moving }, "*");
   }
 
@@ -837,7 +1009,7 @@ class Component extends DCLogic {
     this._pullStartY = null;
     if (this.state.pullY >= 55) {
       this.setState({ refreshing: true, pullY: 56 });
-      setTimeout(() => this.setState({ refreshing: false, pullY: 0 }), 1000);
+      this.refreshLiveData(true);
     } else {
       this.setState({ pullY: 0 });
     }
@@ -858,10 +1030,11 @@ class Component extends DCLogic {
   }
   tasarrufYaninda() {
     if (this.state.reqStatus !== "idle") return;
+    this.requestCurrentLocation(true);
     this.setState({ reqStatus: "aranan" });
     setTimeout(() => {
       const rep = this.state.spylerList[0];
-      this.setState({ reqStatus: "bekliyor", assignedRepId: rep.id, repPos: { ...ABSTRACT_POS[rep.id] }, repProgress: 0 });
+      this.setState({ reqStatus: "bekliyor", assignedRepId: rep.id, repPos: { lat: rep.lat, lng: rep.lng }, repProgress: 0 });
     }, 1400);
   }
   kabulEt() {
@@ -871,23 +1044,27 @@ class Component extends DCLogic {
     }));
   }
   onayla() {
+    const rep = this.state.spylerList.find((x) => x.id === this.state.assignedRepId);
+    const km = haversineKm(rep, this.state.customerLocation) || 2.4;
+    const eta = Math.max(2, Math.ceil(km / 24 * 60));
     this.setState((s) => ({
       reqStatus: "onaylandi",
       chatMessages: [
         ...s.chatMessages,
         { from: "musteri", text: "Onaylıyorum, bekliyorum." },
-        { from: "temsilci", text: "Yola çıktım, tahmini 6 dk içinde yanınızda olacağım." },
+        { from: "temsilci", text: "Yola çıktım, tahmini " + eta + " dk içinde yanınızda olacağım." },
       ],
     }));
     this.startRepHareket();
   }
   startRepHareket() {
     if (this._repTimer) clearInterval(this._repTimer);
-    const rep = ABSTRACT_POS[this.state.assignedRepId];
+    const rep = this.state.spylerList.find((x) => x.id === this.state.assignedRepId);
+    if (!rep) return;
     this._repTimer = setInterval(() => {
       this.setState((s) => {
         const p = Math.min(1, s.repProgress + 0.12);
-        const pos = { x: lerp(rep.x, CUSTOMER_POS.x, p), y: lerp(rep.y, CUSTOMER_POS.y, p) };
+        const pos = { lat: lerp(rep.lat, s.customerLocation.lat, p), lng: lerp(rep.lng, s.customerLocation.lng, p) };
         if (p >= 1) {
           clearInterval(this._repTimer);
           return { repProgress: p, repPos: pos, reqStatus: "vardi" };
@@ -908,9 +1085,77 @@ class Component extends DCLogic {
 
   demoBildirim() {
     const d = DEMO_BASVURULAR[this.state.demoIndex % DEMO_BASVURULAR.length];
-    this.setState((s) => ({ bildirim: d, demoIndex: s.demoIndex + 1 }));
-    if (this._bildirimHide) clearTimeout(this._bildirimHide);
-    this._bildirimHide = setTimeout(() => this.setState({ bildirim: null }), 4000);
+    this.setState((s) => ({ demoIndex: s.demoIndex + 1 }));
+    this.showBildirim(d);
+  }
+  submitCustomerForm(e, testMode = false) {
+    if (e && e.preventDefault) e.preventDefault();
+    if (testMode && !TEST_MODE_SKIP_FORM) return;
+    const form = testMode ? { name: "Test Müşterisi", phone: "0555 000 00 00", email: "test@eminevim.local", address: "Ataşehir, İstanbul", testMode: true } : { ...this.state.customerForm, testMode: false };
+    this.setState({ customerForm: form, customerStage: "loading", reqStatus: "aranan", rejectedSpyIds: [], locationShared: false, chatMessages: [] });
+    setTimeout(() => this.assignNextSpy("initial"), 1100);
+  }
+  assignNextSpy(reason) {
+    const engine = window.AssignmentEngine;
+    const customer = this.state.customerLocation;
+    const rep = engine && engine.nearestAvailableSpy(this.state.spylerList, customer, this.state.rejectedSpyIds);
+    if (!rep) {
+      this.setState({ customerStage: "form", reqStatus: "idle", bildirim: { ad: "Uygun temsilci bulunamadı", ilce: "Lütfen tekrar deneyin" } });
+      return;
+    }
+    this.setState({ customerStage: "waiting", reqStatus: "bekliyor", assignedRepId: rep.id, assignmentCountdown: 15, bildirim: { ad: this.state.customerForm.name || "Yeni Müşteri", ilce: "Yeni Müşteri Talebi", assignment: true, repId: rep.id } });
+    if (this._assignmentTimer) clearInterval(this._assignmentTimer);
+    this._assignmentTimer = setInterval(() => {
+      this.setState((s) => {
+        const next = s.assignmentCountdown - 1;
+        if (next <= 0) { clearInterval(this._assignmentTimer); setTimeout(() => this.rejectAssignment("timeout"), 0); return { assignmentCountdown: 0 }; }
+        return { assignmentCountdown: next };
+      });
+    }, 1000);
+  }
+  rejectAssignment(reason = "rejected") {
+    if (this._assignmentTimer) clearInterval(this._assignmentTimer);
+    const current = this.state.assignedRepId;
+    const engine = window.AssignmentEngine;
+    const result = engine && (reason === "timeout" ? engine.sureDolunca : engine.reddet)({ spyler: this.state.spylerList, customer: this.state.customerLocation, currentSpyId: current, rejectedIds: this.state.rejectedSpyIds });
+    const rejected = result ? result.rejectedIds : [...this.state.rejectedSpyIds, String(current)];
+    this.setState({ rejectedSpyIds: rejected, assignedRepId: null, bildirim: null, customerStage: "loading" }, () => setTimeout(() => this.assignNextSpy(reason), 500));
+  }
+  acceptAssignment() {
+    if (this._assignmentTimer) clearInterval(this._assignmentTimer);
+    const rep = this.state.spylerList.find((x) => x.id === this.state.assignedRepId);
+    const scope = this.state.customerForm.address || "talebiniz";
+    this.setState({ reqStatus: "eslesti", customerStage: "chat", customerChatOpen: true, chatOpen: true, bildirim: null, chatMessages: [{ from: "temsilci", text: "Merhabalar, " + scope + " kapsamında görüşme sağlamamız için konumunuzu gönderebilir ya da yakın bir noktayı belirtebilirsiniz." }] });
+    if (rep) this.showBildirim({ ad: rep.ad, ilce: "Müşteriyle bağlantı kuruldu" });
+  }
+  fillAddressFromGps() {
+    this.requestCurrentLocation(true);
+    this.setState((s) => ({ customerForm: { ...s.customerForm, address: "GPS konumu · " + s.customerLocation.lat.toFixed(5) + ", " + s.customerLocation.lng.toFixed(5) } }));
+  }
+  shareLocation(point, label) {
+    if (!point) return;
+    this.setState((s) => ({ customerLocation: point, selectedPoint: point, pointPickerOpen: false, locationShared: true, reqStatus: "konumPaylasildi", repProgress: 0, repPos: null, chatMessages: [...s.chatMessages, { from: "musteri", text: label + " paylaşıldı." }, { from: "temsilci", text: "Konumunuzu aldım. Yönlendirme için hazırlanıyorum." }] }));
+  }
+  sendGpsLocation() {
+    this.requestCurrentLocation(true);
+    setTimeout(() => this.shareLocation(this.state.customerLocation, "Canlı konum"), 250);
+  }
+  createAppointment() {
+    const appointment = { id: Date.now(), customer: this.state.customerForm.name || "Müşteri", date: new Date(Date.now() + 86400000).toLocaleDateString("tr-TR"), time: "14:00", note: "Saha görüşmesi" };
+    this.setState((s) => ({ appointments: [...s.appointments, appointment], reqStatus: "vardi", spyTab: "gecmis" }));
+  }
+  spyStartRoute() { this.setState((s) => ({ reqStatus: "onaylandi", chatMessages: [...s.chatMessages, { from: "temsilci", text: "Yola çıktım, konumunuza geliyorum." }] }), () => this.startRepHareket()); }
+  spyArrived() { if (this._repTimer) clearInterval(this._repTimer); this.setState({ reqStatus: "vardi", repProgress: 1 }); }
+  _pointPickerRef() { if (!this._pointPickerRefObj) this._pointPickerRefObj = React.createRef(); return this._pointPickerRefObj; }
+  postPointPickerMode() { const el = this._pointPickerRefObj && this._pointPickerRefObj.current; if (el && el.contentWindow) el.contentWindow.postMessage({ type: "selectable", center: this.state.customerLocation }, "*"); }
+
+  openDevret(id) { this.setState({ devretOpen: true, devretBasvuruId: id }); }
+  closeDevret() { this.setState({ devretOpen: false, devretBasvuruId: null }); }
+  devret(repId) {
+    const rep = this.state.spylerList.find((x) => x.id === repId);
+    const item = this.state.basvurular.find((x) => x.id === this.state.devretBasvuruId);
+    if (!rep || !item) return;
+    this.setState({ devretOpen: false, devretBasvuruId: null, detayId: null, bildirim: { ad: item.ad + " → " + rep.ad, ilce: "Başvuru devredildi" } });
   }
 
   don(id) {
@@ -931,12 +1176,15 @@ class Component extends DCLogic {
   renderVals() {
     const s = this.state;
     const sorted = s.basvurular.slice().sort((a, b) => a.kalan - b.kalan);
+    const currentSpy = s.spylerList[0];
     const list = sorted.map((b, i) => {
       const c = 2 * Math.PI * 23;
       const oran = Math.max(0, Math.min(1, b.kalan / TOPLAM_SURE));
       const isExiting = !!s.exiting[b.id];
+      const measuredKm = haversineKm(currentSpy, b);
       return {
         ...b,
+        mesafeKm: measuredKm == null ? 0 : measuredKm,
         top: i * ROW_H,
         isFirst: i === 0,
         accentColor: i === 0 ? GOLD : LINE,
@@ -946,13 +1194,14 @@ class Component extends DCLogic {
         dashOffset: (c * (1 - oran)).toFixed(1),
         kalanFmt: fmtSure(b.kalan),
         sureText: readableSure(b.kalan),
-        mesafeText: fmtKm(b.mesafeKm),
+        mesafeText: fmtKm(measuredKm),
         isCritical: b.kalan > 0 && b.kalan <= 60,
         pulseAnim: b.kalan > 0 && b.kalan <= 60 ? "ringPulse 1.1s ease-in-out infinite" : "none",
         rowOpacity: isExiting ? 0 : 1,
         rowTransform: isExiting ? "scale(.92) translateX(24px)" : "scale(1) translateX(0)",
         onDon: (e) => { e.stopPropagation(); this.don(b.id); },
         onOpen: () => this.openDetay(b.id),
+        onDevret: (e) => { e.stopPropagation(); this.openDevret(b.id); },
       };
     });
 
@@ -961,9 +1210,10 @@ class Component extends DCLogic {
       ? {
           ...detaySrc,
           sureText: readableSure(detaySrc.kalan),
-          mesafeText: fmtKm(detaySrc.mesafeKm),
+          mesafeText: fmtKm(haversineKm(currentSpy, detaySrc)),
           isCritical: detaySrc.kalan > 0 && detaySrc.kalan <= 60,
           onDon: (e) => { e.stopPropagation(); this.don(detaySrc.id); },
+          onDevret: (e) => { e.stopPropagation(); this.openDevret(detaySrc.id); },
         }
       : null;
     const detayAnim = s.detayClosing
@@ -987,6 +1237,8 @@ class Component extends DCLogic {
     const adminTabIndex = { ozet: 0, gorusmeler: 1, harita: 2 }[s.adminTab];
     const musteriTabIndex = { ana: 0, odemeler: 1, temsilci: 2, profil: 3 }[s.musteriTab];
     const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
+    const kalanKm = rep ? haversineKm(s.repPos || rep, s.customerLocation) : null;
+    const etaMinutes = kalanKm == null ? 0 : Math.max(1, Math.ceil(kalanKm / 24 * 60));
 
     const headerMap = {
       liste: ["Sıradaki Görüşmeler", "Onur K. · Kadıköy / Ataşehir bölgesi"],
@@ -999,11 +1251,12 @@ class Component extends DCLogic {
     const gorusmeSatirlari = (() => {
       if (s.gorusmeFiltre === "canli") {
         const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
-        if (!rep || (s.reqStatus !== "eslesti" && s.reqStatus !== "onaylandi" && s.reqStatus !== "vardi")) return [];
-        const durum = s.reqStatus === "eslesti" ? "Online sohbet" : s.reqStatus === "onaylandi" ? "Yolda" : "Yüz yüze";
-        const durumColor = s.reqStatus === "eslesti" ? "#2E6B8A" : s.reqStatus === "onaylandi" ? GOLD_TEXT : NAVY;
+        if (!rep || ["bekliyor", "eslesti", "konumPaylasildi", "onaylandi", "vardi"].indexOf(s.reqStatus) === -1) return [];
+        const durum = s.reqStatus === "bekliyor" ? "Bildirim Gönderildi" : s.reqStatus === "eslesti" ? "Sohbette" : s.reqStatus === "konumPaylasildi" ? "Konum Alındı" : s.reqStatus === "onaylandi" ? "Yolda" : "Görüşmede";
+        const durumColor = s.reqStatus === "bekliyor" ? GOLD_TEXT : s.reqStatus === "eslesti" ? "#2E6B8A" : s.reqStatus === "onaylandi" ? GOLD_TEXT : NAVY;
         return [{ spyAd: rep.ad, musteriAd: "Müşteri", sube: ilkIlce(rep.bolge) + " Şubesi", konum: CUSTOMER_ILCE, durum, durumColor }];
       }
+      if (s.gorusmeFiltre === "randevular") return s.appointments.map((a) => ({ spyAd: s.spylerList[0].ad, musteriAd: a.customer, sube: a.date + " · " + a.time, konum: a.note, durum: "Planlandı", durumColor: GREEN }));
       if (s.gorusmeFiltre === "bekleyen") {
         return list.map((b) => {
           const nearest = s.spylerList.find((x) => x.bolge.includes(b.ilce)) || s.spylerList[0];
@@ -1031,6 +1284,47 @@ class Component extends DCLogic {
       onListPointerDown: (e) => this.onListPointerDown(e),
       onListPointerMove: (e) => this.onListPointerMove(e),
       onListPointerUp: () => this.onListPointerUp(),
+      locationMessage: s.locationMessage,
+      locationModeLive: s.locationMode === "gps" || s.locationMode === "api",
+      locationDotColor: s.locationMode === "gps" || s.locationMode === "api" ? GREEN : GOLD_TEXT,
+      requestLocation: () => this.requestCurrentLocation(true),
+      customerStageForm: s.customerStage === "form",
+      customerStageLoading: s.customerStage === "loading",
+      customerStageWaiting: s.customerStage === "waiting",
+      customerStageChat: s.customerStage === "chat",
+      customerStageChatOpen: s.customerStage === "chat" && s.customerChatOpen,
+      customerStageSummary: s.customerStage === "chat" && !s.customerChatOpen,
+      customerChatReturnVisible: s.customerStage === "chat" && !s.customerChatOpen,
+      customerSummaryTitle: s.locationShared ? "Yönlendirme aktif" : "Temsilciniz bağlandı",
+      customerSummaryStatus: s.locationShared ? "yolda" : "sohbette",
+      closeCustomerChat: () => this.setState({ customerChatOpen: false }),
+      returnToCustomerChat: () => this.setState({ customerChatOpen: true }),
+      customerBack: () => this.setState((st) => st.customerStage === "chat" ? { customerChatOpen: false } : { customerStage: "form" }),
+      openMainAppPlaceholder: () => this.setState({ mainAppPlaceholder: true, bildirim: { ad: "Eminevim ana uygulamasına", ilce: "yönlendiriliyorsunuz…" } }),
+      customerName: s.customerForm.name,
+      customerPhone: s.customerForm.phone,
+      customerEmail: s.customerForm.email,
+      customerAddress: s.customerForm.address,
+      setCustomerName: (e) => this.setState({ customerForm: { ...s.customerForm, name: e.target.value } }),
+      setCustomerPhone: (e) => this.setState({ customerForm: { ...s.customerForm, phone: e.target.value } }),
+      setCustomerEmail: (e) => this.setState({ customerForm: { ...s.customerForm, email: e.target.value } }),
+      setCustomerAddress: (e) => this.setState({ customerForm: { ...s.customerForm, address: e.target.value } }),
+      submitCustomerForm: (e) => this.submitCustomerForm(e, false),
+      skipCustomerForm: () => this.submitCustomerForm(null, true),
+      fillAddressFromGps: () => this.fillAddressFromGps(),
+      assignmentCountdown: s.assignmentCountdown,
+      locationActionsVisible: s.customerStage === "chat" && !s.locationShared,
+      routeActive: s.customerStage === "chat" && s.locationShared,
+      sendGpsLocation: () => this.sendGpsLocation(),
+      openPointPicker: () => this.setState({ pointPickerOpen: true, selectedPoint: null }, () => setTimeout(() => this.postPointPickerMode(), 200)),
+      closePointPicker: () => this.setState({ pointPickerOpen: false }),
+      pointPickerOpen: s.pointPickerOpen,
+      pointPickerMapRef: this._pointPickerRef(),
+      onPointPickerMapLoad: () => this.postPointPickerMode(),
+      selectedPointText: s.selectedPoint ? s.selectedPoint.lat.toFixed(5) + ", " + s.selectedPoint.lng.toFixed(5) : "Henüz bir nokta seçilmedi",
+      selectedPointMissing: !s.selectedPoint,
+      selectedPointOpacity: s.selectedPoint ? 1 : .45,
+      confirmSelectedPoint: () => this.shareLocation(s.selectedPoint, "Haritadan seçilen konum"),
 
       detayAnim,
       girisYapildi: s.girisYapildi,
@@ -1048,6 +1342,7 @@ class Component extends DCLogic {
       submitGiris: () => this.setState({ girisYapildi: true, panel: s.girisRol === "musteri" ? "musteri" : "spy" }),
 
       isMusteri: s.panel === "musteri",
+      legacyCustomerVisible: false,
       isSpy: s.panel === "spy",
       isAdmin: s.panel === "admin",
       goMusteri: () => this.setState({ panel: "musteri" }),
@@ -1061,7 +1356,11 @@ class Component extends DCLogic {
       headerTitle,
       headerSubtitle,
       bildirim: s.bildirim,
+      assignmentNotification: !!(s.bildirim && s.bildirim.assignment),
+      regularNotification: !!(s.bildirim && !s.bildirim.assignment),
       dismissBildirim: () => this.setState({ bildirim: null }),
+      acceptAssignment: () => this.acceptAssignment(),
+      rejectAssignment: () => this.rejectAssignment("rejected"),
       triggerBildirimDemo: () => this.demoBildirim(),
 
       yukleniyor: s.yukleniyor,
@@ -1075,7 +1374,7 @@ class Component extends DCLogic {
       spyTabIsGecmis: s.spyTab === "gecmis",
       spyTabIsProfil: s.spyTab === "profil",
       setSpyTabListe: () => this.setState({ spyTab: "liste" }),
-      setSpyTabHarita: () => this.setState({ spyTab: "harita" }),
+      setSpyTabHarita: () => { this.setState({ spyTab: "harita" }); this.requestCurrentLocation(true); },
       setSpyTabGecmis: () => this.setState({ spyTab: "gecmis" }),
       setSpyTabProfil: () => this.setState({ spyTab: "profil" }),
       spyTabIndicatorLeft: (spyTabIndex * 25).toFixed(2) + "%",
@@ -1092,7 +1391,11 @@ class Component extends DCLogic {
       listHeight: Math.max(0, list.length * ROW_H - 10),
       detay,
       closeDetay: () => this.closeDetay(),
+      devretOpen: s.devretOpen,
+      closeDevret: () => this.closeDevret(),
+      devretAdaylari: s.spylerList.filter((x) => !rep || x.id !== rep.id).map((x) => ({ ...x, initials: x.ad.split(" ").map((p) => p[0]).join("").slice(0, 2), onSelect: () => this.devret(x.id) })),
       tamamlanan: s.tamamlanan,
+      appointments: s.appointments,
       tamamlananBos: s.tamamlanan.length === 0,
       bugunTamamlanan: s.tamamlanan.length,
       goldText: s.darkMode ? GOLD : GOLD_TEXT,
@@ -1125,6 +1428,7 @@ class Component extends DCLogic {
       setFiltreCanli: () => this.setState({ gorusmeFiltre: "canli" }),
       setFiltreBekleyen: () => this.setState({ gorusmeFiltre: "bekleyen" }),
       setFiltreBiten: () => this.setState({ gorusmeFiltre: "biten" }),
+      setFiltreRandevular: () => this.setState({ gorusmeFiltre: "randevular" }),
       filtreCanliBg: s.gorusmeFiltre === "canli" ? GREEN : "var(--card)",
       filtreCanliBorder: s.gorusmeFiltre === "canli" ? GREEN : LINE,
       filtreCanliText: s.gorusmeFiltre === "canli" ? "#fff" : INK,
@@ -1134,6 +1438,9 @@ class Component extends DCLogic {
       filtreBitenBg: s.gorusmeFiltre === "biten" ? GREEN : "var(--card)",
       filtreBitenBorder: s.gorusmeFiltre === "biten" ? GREEN : LINE,
       filtreBitenText: s.gorusmeFiltre === "biten" ? "#fff" : INK,
+      filtreRandevuBg: s.gorusmeFiltre === "randevular" ? GREEN : "var(--card)",
+      filtreRandevuBorder: s.gorusmeFiltre === "randevular" ? GREEN : LINE,
+      filtreRandevuText: s.gorusmeFiltre === "randevular" ? "#fff" : INK,
       gorusmeSatirlari,
       gorusmeSatirlariBos: gorusmeSatirlari.length === 0,
 
@@ -1149,6 +1456,8 @@ class Component extends DCLogic {
       spyler,
       spylerCount: s.spylerList.length,
       toplamBasvuru: s.spylerList.reduce((a, x) => a + x.sayac, 0),
+      aktifTalepCount: s.reqStatus === "idle" ? 0 : 1,
+      appointmentCount: s.appointments.length,
       canliMapRef: this._canliRef(),
       onCanliMapLoad: () => { this.postCanliAdmin(); this.postBasvurular(); },
       spyLiveMapRef: this._spyLiveRef(),
@@ -1196,10 +1505,18 @@ class Component extends DCLogic {
       reqOnaylandi: s.reqStatus === "onaylandi",
       reqVardi: s.reqStatus === "vardi",
       reqEslestiVeSonrasi: ["eslesti", "onaylandi", "vardi"].indexOf(s.reqStatus) !== -1,
+      spyCanStartRoute: s.reqStatus === "konumPaylasildi",
+      spyCanArrive: s.reqStatus === "onaylandi" || s.reqStatus === "vardi",
+      spyStartRoute: () => this.spyStartRoute(),
+      spyArrived: () => this.spyArrived(),
+      createAppointment: () => this.createAppointment(),
+      spyFlowStatus: s.reqStatus === "eslesti" ? "Müşterinin konumu bekleniyor…" : s.reqStatus === "konumPaylasildi" ? "Konum alındı · yönlendirme bekliyor" : s.reqStatus === "onaylandi" ? "Yolda · " + Math.round(s.repProgress * 100) + "%" : "Aktif görüşme",
       reqAktif: s.reqStatus !== "idle",
       repAd: rep ? rep.ad : "",
+      repInitials: rep ? rep.ad.split(" ").map((p) => p[0]).join("").slice(0, 2) : "SPY",
       repRenk: rep ? rep.renk : GREEN,
       ilerlemeYuzde: Math.round(s.repProgress * 100) + "%",
+      etaText: s.reqStatus === "vardi" ? "Temsilciniz ulaştı" : etaMinutes ? etaMinutes + " dk · " + fmtKm(kalanKm) + " km kaldı" : "Konum hesaplanıyor",
       tasarrufYaninda: () => this.tasarrufYaninda(),
       kabulEt: () => this.kabulEt(),
       onayla: () => this.onayla(),
@@ -1221,6 +1538,7 @@ class Component extends DCLogic {
       setChatDraft: (e) => this.setState({ chatDraft: e.target.value }),
       sendChatMusteri: () => this.sendChat("musteri"),
       sendChatTemsilci: () => this.sendChat("temsilci"),
+      onChatKeyDownMusteri: (e) => { if (e.key === "Enter") { e.preventDefault(); this.sendChat("musteri"); } },
 
       mapMarkersAdmin: [
         ...s.spylerList.map((x) => ({
