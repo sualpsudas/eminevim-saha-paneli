@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="prototype">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+* { box-sizing: border-box; }
+body { margin: 0; }
+@keyframes ringPulse { 0%, 100% { transform: scale(1); filter: drop-shadow(0 0 0 rgba(230,106,87,0)); } 50% { transform: scale(1.07); filter: drop-shadow(0 0 7px rgba(230,106,87,.5)); } }
+@keyframes panelIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes tabIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes sheetUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes backdropIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bannerDown { from { transform: translateY(-120%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+@keyframes shimmer { 0% { background-position: -300px 0; } 100% { background-position: 300px 0; } }
+@keyframes slideInRight { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes slideOutLeft { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+</style>
+</helmet>
+
+<div style="{{ themeVars }} min-height:100vh; background:var(--bg); padding:48px 20px; font-family:'Inter',sans-serif; display:flex; flex-direction:column; align-items:center; gap:26px; transition:background .3s;">
+
+  <sc-if value="{{ girisGosterilsin }}" hint-placeholder-val="{{ false }}">
+  <div style="width:375px; max-width:100%; background:#1B2740; border-radius:44px; padding:12px; box-shadow:0 34px 60px -20px rgba(23,33,54,.45);">
+    <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column;">
+      <div style="height:30px; background:#1B2740; flex-shrink:0;"></div>
+      <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:36px 30px; gap:20px;">
+        <img src="assets/logo-green.png" alt="Eminevim" style="width:150px;">
+        <div style="text-align:center;">
+          <div style="font-size:18px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">SPY Saha Uygulaması</div>
+          <div style="font-size:12.5px; color:var(--dim); margin-top:4px;">Devam etmek için giriş yapın</div>
+        </div>
+        <div style="position:relative; display:flex; width:100%; background:var(--track); border-radius:12px; padding:4px;">
+          <div style="position:absolute; top:4px; bottom:4px; left:{{ girisRolPillLeft }}; width:calc(50% - 4px); background:#276F4E; border-radius:9px; transition:left .28s cubic-bezier(.4,0,.2,1);"></div>
+          <button onClick="{{ setGirisRolMusteri }}" style-active="transform:scale(.96);" style="position:relative; z-index:1; flex:1; min-height:38px; border:none; background:transparent; font-size:12.5px; font-weight:700; color:{{ girisRolMusteri }}; cursor:pointer; font-family:'Manrope',sans-serif;">Müşteri</button>
+          <button onClick="{{ setGirisRolPersonel }}" style-active="transform:scale(.96);" style="position:relative; z-index:1; flex:1; min-height:38px; border:none; background:transparent; font-size:12.5px; font-weight:700; color:{{ girisRolPersonel }}; cursor:pointer; font-family:'Manrope',sans-serif;">Personel</button>
+        </div>
+        <div style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:6px;">
+          <input value="{{ girisEmail }}" onChange="{{ setGirisEmail }}" placeholder="E-posta" style="width:100%; padding:13px 14px; border-radius:12px; border:1px solid var(--line); font-size:13.5px; font-family:'Inter',sans-serif; background:var(--card); color:var(--ink);">
+          <input value="{{ girisSifre }}" onChange="{{ setGirisSifre }}" type="password" placeholder="Şifre" style="width:100%; padding:13px 14px; border-radius:12px; border:1px solid var(--line); font-size:13.5px; font-family:'Inter',sans-serif; background:var(--card); color:var(--ink);">
+        </div>
+        <button onClick="{{ submitGiris }}" style-active="transform:scale(.97);" style-hover="background:#1F2E4A;" style="width:100%; min-height:46px; background:#276F4E; color:#fff; border:none; border-radius:12px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif; transition:background .2s, transform .12s;">Giriş Yap</button>
+        <span style="font-size:12px; color:#276F4E; font-weight:600; cursor:pointer;">Şifremi unuttum</span>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ girisYapildi }}">
+  <div style="animation:fadeIn .4s ease-out; display:flex; flex-direction:column; align-items:center; gap:26px;">
+
+  <div style="display:flex; align-items:center; gap:10px;">
+  <div style="position:relative; display:flex; width:330px; background:var(--track); border-radius:15px; padding:4px;">
+    <div style="position:absolute; top:4px; bottom:4px; left:{{ pillLeft }}; width:calc(33.333% - 3px); background:#276F4E; border-radius:11px; transition:left .32s cubic-bezier(.4,0,.2,1); box-shadow:0 6px 14px rgba(39,111,78,.28);"></div>
+    <button onClick="{{ goMusteri }}" style-active="transform:scale(.96); opacity:.9;" style="position:relative; z-index:1; flex:1; min-height:44px; border:none; background:transparent; padding:10px 0; font-family:'Manrope',sans-serif; font-size:12px; font-weight:700; color:{{ musteriLabelColor }}; cursor:pointer; transition:color .25s;">Müşteri</button>
+    <button onClick="{{ goSpy }}" style-active="transform:scale(.96); opacity:.9;" style="position:relative; z-index:1; flex:1; min-height:44px; border:none; background:transparent; padding:10px 0; font-family:'Manrope',sans-serif; font-size:12px; font-weight:700; color:{{ spyLabelColor }}; cursor:pointer; transition:color .25s;">SPY Paneli</button>
+    <button onClick="{{ goAdmin }}" style-active="transform:scale(.96); opacity:.9;" style="position:relative; z-index:1; flex:1; min-height:44px; border:none; background:transparent; padding:10px 0; font-family:'Manrope',sans-serif; font-size:12px; font-weight:700; color:{{ adminLabelColor }}; cursor:pointer; transition:color .25s;">Admin Paneli</button>
+  </div>
+  <button onClick="{{ toggleDarkMode }}" style-active="transform:scale(.9);" aria-label="Karanlık modu değiştir" style="width:40px; height:40px; min-width:40px; border-radius:99px; border:1px solid var(--line); background:var(--card); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .2s;">
+    <sc-if value="{{ darkMode }}">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8803E" stroke-width="2"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg>
+    </sc-if>
+    <sc-if value="{{ darkModeOff }}">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#273755" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path></svg>
+    </sc-if>
+  </button>
+  </div>
+
+  <sc-if value="{{ isMusteri }}">
+  <div style="animation:panelIn .38s cubic-bezier(.2,.7,.3,1);">
+    <div style="width:375px; max-width:100%; background:#1B2740; border-radius:44px; padding:12px; box-shadow:0 34px 60px -20px rgba(23,33,54,.45);">
+      <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column; position:relative;">
+        <div style="height:30px; background:#1B2740; flex-shrink:0;"></div>
+        <div style="background:#276F4E; padding:16px 20px 22px; flex-shrink:0;">
+          <div style="display:flex; align-items:center; gap:9px;">
+            <img src="assets/logo-white.png" alt="Eminevim" style="height:15px;">
+            <span style="color:#DCEEE3; font-size:10.5px; font-weight:700; letter-spacing:0.6px; border-left:1px solid rgba(255,255,255,.32); padding-left:8px; font-family:'Manrope',sans-serif;">MÜŞTERİ PANELİ</span>
+          </div>
+          <div style="color:#fff; font-size:22px; font-weight:800; margin-top:12px; font-family:'Manrope',sans-serif; letter-spacing:-.2px;">Merhaba, Ayşe K.</div>
+          <div style="color:#D7EBE0; font-size:12px; margin-top:5px; font-weight:500;">Eminevim tasarruf hesabınız aktif</div>
+        </div>
+
+        <div style="flex:1; overflow-y:auto; min-height:0;">
+          <sc-if value="{{ musteriTabIsAna }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; gap:12px;">
+            <div style="height:150px; background:var(--card); border-radius:15px; border:1px solid var(--line); overflow:hidden;">
+              <iframe ref="{{ musteriLiveMapRef }}" src="map.html" onLoad="{{ onMusteriLiveMapLoad }}" title="Konum haritası" style="width:100%; height:100%; border:none; display:block;"></iframe>
+            </div>
+
+            <sc-if value="{{ reqIdle }}">
+              <button onClick="{{ tasarrufYaninda }}" style-active="transform:scale(.97);" style-hover="background:#1F5D40;" style="width:100%; min-height:54px; background:#276F4E; color:#fff; border:none; border-radius:14px; font-size:14.5px; font-weight:800; cursor:pointer; font-family:'Manrope',sans-serif; transition:background .2s;">Tasarruf Yanımda</button>
+              <div style="font-size:11.5px; color:var(--dim); text-align:center;">En yakın temsilciyi bulup konumunuza yönlendirir.</div>
+            </sc-if>
+            <sc-if value="{{ reqAranan }}">
+              <div style="background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; display:flex; align-items:center; gap:10px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2.4" style="animation:spin .8s linear infinite;"><path d="M20 12a8 8 0 1 1-2.3-5.7"></path><path d="M20 4v4h-4"></path></svg>
+                <span style="font-size:13px; font-weight:700; color:var(--ink); font-family:'Manrope',sans-serif;">En yakın temsilci aranıyor…</span>
+              </div>
+            </sc-if>
+            <sc-if value="{{ reqBekliyor }}">
+              <div style="background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px;">
+                <div style="font-size:13px; font-weight:700; color:var(--ink); font-family:'Manrope',sans-serif;">{{ repAd }} talebinizi inceliyor…</div>
+                <div style="font-size:11.5px; color:var(--dim); margin-top:4px;">Kabul ettiğinde bildirim alacaksınız.</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ reqEslesti }}">
+              <div style="background:var(--tintGreen); border:1px solid #276F4E; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px;">
+                <div style="font-size:13px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">{{ repAd }} talebinizi kabul etti</div>
+                <div style="font-size:11.5px; color:var(--dim);">Yola çıkması için onayınızı verin.</div>
+                <div style="display:flex; gap:8px;">
+                  <button onClick="{{ openChat }}" style-active="transform:scale(.96);" style="flex:1; min-height:42px; background:var(--card); color:var(--ink); border:1px solid var(--line); border-radius:10px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Sohbet</button>
+                  <button onClick="{{ onayla }}" style-active="transform:scale(.96);" style="flex:1; min-height:42px; background:#276F4E; color:#fff; border:none; border-radius:10px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Onay Ver</button>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ reqOnaylandi }}">
+              <div style="background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; align-items:center; gap:10px;">
+                <div style="flex:1; min-width:0;">
+                  <div style="font-size:13px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">{{ repAd }} yolda</div>
+                  <div style="font-size:11.5px; color:var(--dim); margin-top:2px;">Yaklaşma: {{ ilerlemeYuzde }}</div>
+                </div>
+                <button onClick="{{ openChat }}" style-active="transform:scale(.94);" style="min-height:40px; background:#276F4E; color:#fff; border:none; border-radius:10px; padding:0 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Sohbet</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ reqVardi }}">
+              <div style="background:var(--tintGreen); border:1px solid #276F4E; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px;">
+                <div style="font-size:13px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">{{ repAd }} yanınızda!</div>
+                <button onClick="{{ yeniTalep }}" style-active="transform:scale(.96);" style="min-height:42px; background:#276F4E; color:#fff; border:none; border-radius:10px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Yeni Talep Oluştur</button>
+              </div>
+            </sc-if>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ musteriTabIsOdemeler }}">
+          <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; gap:10px;">
+            <div style="background:var(--card); border-radius:14px; border:1px solid var(--line); padding:12px; display:flex; align-items:center; gap:10px;">
+              <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:700; color:var(--ink); font-family:'Manrope',sans-serif;">Temmuz Tasarruf Ödemesi</div><div style="font-size:11.5px; color:var(--dim); margin-top:2px;">12 Temmuz 2026</div></div>
+              <div style="text-align:right;"><div style="font-size:13px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">₺4.250</div><span style="font-size:9.5px; font-weight:700; color:#276F4E; background:var(--tintGreen); border-radius:6px; padding:2px 6px;">ÖDENDİ</span></div>
+            </div>
+            <div style="background:var(--card); border-radius:14px; border:1px solid var(--line); padding:12px; display:flex; align-items:center; gap:10px;">
+              <div style="flex:1; min-width:0;"><div style="font-size:13px; font-weight:700; color:var(--ink); font-family:'Manrope',sans-serif;">Haziran Tasarruf Ödemesi</div><div style="font-size:11.5px; color:var(--dim); margin-top:2px;">12 Haziran 2026</div></div>
+              <div style="text-align:right;"><div style="font-size:13px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">₺4.250</div><span style="font-size:9.5px; font-weight:700; color:#276F4E; background:var(--tintGreen); border-radius:6px; padding:2px 6px;">ÖDENDİ</span></div>
+            </div>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ musteriTabIsTemsilci }}">
+          <div style="animation:tabIn .3s ease-out; padding:18px;">
+            <sc-if value="{{ reqIdle }}">
+              <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; text-align:center; gap:12px;">
+                <img src="assets/logo-green.png" alt="" style="width:120px; opacity:.16;">
+                <div style="font-size:13px; font-weight:700; color:var(--ink); font-family:'Manrope',sans-serif;">Henüz bir temsilciniz yok</div>
+                <div style="font-size:12px; color:var(--dim); max-width:210px; line-height:1.5;">"Tasarruf Yanımda" ile talep oluşturduğunuzda temsilciniz burada görünecek.</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ reqAktif }}">
+              <div style="background:var(--card); border-radius:16px; padding:18px; border:1px solid var(--line); display:flex; flex-direction:column; align-items:center; gap:8px;">
+                <div style="width:56px; height:56px; border-radius:99px; background:{{ repRenk }}; color:#fff; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:800; font-family:'Manrope',sans-serif;">{{ repAd }}</div>
+                <div style="font-size:16px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">{{ repAd }}</div>
+                <div style="font-size:11px; font-weight:700; color:#276F4E; letter-spacing:.5px;">EMİNEVİM TEMSİLCİSİ</div>
+                <button onClick="{{ openChat }}" style-active="transform:scale(.96);" style="width:100%; min-height:44px; margin-top:8px; background:#276F4E; color:#fff; border:none; border-radius:11px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Sohbeti Aç</button>
+              </div>
+            </sc-if>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ musteriTabIsProfil }}">
+          <div style="animation:tabIn .3s ease-out; padding:18px; display:flex; flex-direction:column; gap:14px;">
+            <div style="background:var(--card); border-radius:16px; padding:18px; border:1px solid var(--line); display:flex; flex-direction:column; align-items:center; gap:8px;">
+              <div style="width:56px; height:56px; border-radius:99px; background:#276F4E; color:#fff; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:800; font-family:'Manrope',sans-serif;">AK</div>
+              <div style="font-size:16px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Ayşe K.</div>
+              <div style="font-size:12px; color:var(--dim); margin-top:2px;">Üyelik No: 48213 · Kadıköy</div>
+            </div>
+          </div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ chatOpen }}">
+          <div style="position:absolute; inset:0; z-index:32; background:var(--bg); display:flex; flex-direction:column; animation:{{ chatAnim }};">
+            <div style="display:flex; align-items:center; gap:6px; padding:14px 10px; border-bottom:1px solid var(--line); background:var(--card); flex-shrink:0;">
+              <button onClick="{{ closeChat }}" style-active="transform:scale(.9);" style="background:transparent; border:none; width:36px; height:36px; border-radius:99px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2.4"><path d="M15 5l-7 7 7 7"></path></svg>
+              </button>
+              <div style="font-size:15px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">{{ repAd }}</div>
+            </div>
+            <div style="flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:8px;">
+              <sc-for list="{{ chatMessagesMusteri }}" as="msg" hint-placeholder-count="2">
+                <div style="align-self:{{ msg.align }}; max-width:75%; background:{{ msg.bg }}; color:{{ msg.color }}; border:1px solid {{ msg.borderColor }}; border-radius:13px; padding:9px 12px; font-size:12.5px; line-height:1.4;">{{ msg.text }}</div>
+              </sc-for>
+              <sc-if value="{{ reqEslesti }}">
+                <button onClick="{{ onayla }}" style-active="transform:scale(.97);" style="align-self:center; min-height:42px; padding:0 18px; background:#276F4E; color:#fff; border:none; border-radius:11px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif; margin-top:6px;">Onay Ver</button>
+              </sc-if>
+            </div>
+            <div style="display:flex; gap:8px; padding:12px; border-top:1px solid var(--line); background:var(--card); flex-shrink:0;">
+              <input value="{{ chatDraft }}" onChange="{{ setChatDraft }}" placeholder="Mesaj yazın…" style="flex:1; padding:10px 13px; border-radius:11px; border:1px solid var(--line); font-size:13px; background:var(--bg); color:var(--ink);">
+              <button onClick="{{ sendChatMusteri }}" style-active="transform:scale(.94);" style="min-height:40px; padding:0 16px; background:#276F4E; color:#fff; border:none; border-radius:11px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Gönder</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="position:relative; flex-shrink:0; display:flex; border-top:1px solid var(--line); background:var(--card); padding:6px 0;">
+          <div style="position:absolute; top:4px; left:{{ musteriTabIndicatorLeft }}; width:25%; height:2px; background:#276F4E; border-radius:2px; transition:left .28s cubic-bezier(.4,0,.2,1);"></div>
+          <button onClick="{{ setMusteriTabAna }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ musteriAnaColor }}" stroke-width="2"><path d="M4 11l8-7 8 7"></path><path d="M6 10v9h12v-9"></path></svg>
+            <span style="font-size:10px; font-weight:{{ musteriAnaWeight }}; color:{{ musteriAnaColor }}; font-family:'Manrope',sans-serif;">Ana Sayfa</span>
+          </button>
+          <button onClick="{{ setMusteriTabOdemeler }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ musteriOdemelerColor }}" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"></rect><path d="M3 10h18"></path></svg>
+            <span style="font-size:10px; font-weight:{{ musteriOdemelerWeight }}; color:{{ musteriOdemelerColor }}; font-family:'Manrope',sans-serif;">Ödemeler</span>
+          </button>
+          <button onClick="{{ setMusteriTabTemsilci }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ musteriTemsilciColor }}" stroke-width="2"><circle cx="12" cy="8" r="3.6"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg>
+            <span style="font-size:10px; font-weight:{{ musteriTemsilciWeight }}; color:{{ musteriTemsilciColor }}; font-family:'Manrope',sans-serif;">Temsilci</span>
+          </button>
+          <button onClick="{{ setMusteriTabProfil }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ musteriProfilColor }}" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v4l3 2"></path></svg>
+            <span style="font-size:10px; font-weight:{{ musteriProfilWeight }}; color:{{ musteriProfilColor }}; font-family:'Manrope',sans-serif;">Profil</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isSpy }}" hint-placeholder-val="{{ true }}">
+  <div style="animation:panelIn .38s cubic-bezier(.2,.7,.3,1);">
+    <div style="width:375px; max-width:100%; background:#1B2740; border-radius:44px; padding:12px; box-shadow:0 34px 60px -20px rgba(23,33,54,.45);">
+      <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column; position:relative;">
+        <div style="height:30px; background:#1B2740; flex-shrink:0;"></div>
+
+        <sc-if value="{{ bildirim }}">
+          <div style="position:absolute; top:38px; left:10px; right:10px; z-index:20; background:var(--card); border-radius:16px; padding:12px 14px; display:flex; align-items:center; gap:10px; box-shadow:0 10px 24px rgba(23,33,54,.22); border:1px solid var(--line); animation:bannerDown .4s cubic-bezier(.2,.8,.3,1);">
+            <img src="assets/logo-green.png" alt="" style="width:22px; flex-shrink:0;">
+            <div style="flex:1; min-width:0;">
+              <div style="font-size:12.5px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Yeni Başvuru</div>
+              <div style="font-size:11.5px; color:var(--dim); margin-top:1px;">{{ bildirim.ad }} · {{ bildirim.ilce }}</div>
+            </div>
+            <button onClick="{{ dismissBildirim }}" style-active="transform:scale(.9);" style="background:transparent; border:none; color:#A7B3AC; font-size:16px; cursor:pointer; padding:4px;">×</button>
+          </div>
+        </sc-if>
+
+        <div style="background:#276F4E; padding:16px 20px 22px; flex-shrink:0;">
+          <div style="display:flex; align-items:center; gap:9px;">
+            <img src="assets/logo-white.png" alt="Eminevim" style="height:15px;">
+            <span style="color:#DCEEE3; font-size:10.5px; font-weight:700; letter-spacing:0.6px; border-left:1px solid rgba(255,255,255,.32); padding-left:8px; font-family:'Manrope',sans-serif;">SPY PANELİ</span>
+            <button onClick="{{ triggerBildirimDemo }}" style-active="transform:scale(.9);" style="margin-left:auto; background:transparent; border:none; cursor:pointer; padding:4px;" aria-label="Bildirimi göster">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#DCEEE3" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 4-2 5-2 7h16c0-2-2-3-2-7Z"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+            </button>
+          </div>
+          <div style="color:#fff; font-size:22px; font-weight:800; margin-top:12px; font-family:'Manrope',sans-serif; letter-spacing:-.2px;">{{ headerTitle }}</div>
+          <div style="color:#D7EBE0; font-size:12px; margin-top:5px; font-weight:500;">{{ headerSubtitle }}</div>
+        </div>
+
+        <div onPointerDown="{{ onListPointerDown }}" onPointerMove="{{ onListPointerMove }}" onPointerUp="{{ onListPointerUp }}" onPointerLeave="{{ onListPointerUp }}" style="flex:1; overflow-y:auto; min-height:0;">
+          <div style="height:{{ pullY }}px; overflow:hidden; display:flex; align-items:center; justify-content:center; gap:6px; transition:height .2s;">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2.4" style="transform:rotate({{ pullRotation }}deg); animation:{{ refreshSpin }};"><path d="M20 12a8 8 0 1 1-2.3-5.7"></path><path d="M20 4v4h-4"></path></svg>
+            <span style="font-size:11px; font-weight:600; color:var(--dim);">{{ pullLabel }}</span>
+          </div>
+
+          <sc-if value="{{ spyTabIsListe }}" hint-placeholder-val="{{ true }}">
+            <sc-if value="{{ yukleniyor }}" hint-placeholder-val="{{ false }}">
+              <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; gap:10px;">
+                <sc-for list="{{ skeletonRows }}" as="row" hint-placeholder-count="3">
+                  <div style="height:78px; border-radius:15px; background:linear-gradient(90deg,#EFECE4 0%,#F8F6F1 50%,#EFECE4 100%); background-size:600px 100%; animation:shimmer 1.4s linear infinite;"></div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ yukleniyorBitti }}" hint-placeholder-val="{{ false }}">
+              <sc-if value="{{ listeBos }}">
+                <div style="animation:tabIn .3s ease-out; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:70px 24px; text-align:center; gap:12px;">
+                  <img src="assets/logo-green.png" alt="" style="width:120px; opacity:.16;">
+                  <div style="font-size:13px; font-weight:700; color:var(--ink); font-family:'Manrope',sans-serif;">Şu an bekleyen başvuru yok</div>
+                  <div style="font-size:12px; color:var(--dim); max-width:210px; line-height:1.5;">Yeni bir başvuru geldiğinde burada görünecek ve bildirim alacaksınız.</div>
+                </div>
+              </sc-if>
+              <sc-if value="{{ listeVarMi }}">
+              <div style="animation:tabIn .3s ease-out; position:relative; padding:14px; height:{{ listHeight }}px;">
+                <sc-for list="{{ list }}" as="item" hint-placeholder-count="4">
+                  <div onClick="{{ item.onOpen }}" style="position:absolute; left:14px; right:14px; top:{{ item.top }}px; height:96px; background:var(--card); border-radius:15px; padding:12px; display:flex; align-items:center; gap:12px; border:1px solid var(--line); border-left:4px solid {{ item.accentColor }}; box-shadow:0 1px 2px rgba(39,55,85,.04); transition:top .5s cubic-bezier(.4,0,.2,1), opacity .3s ease, transform .3s ease; opacity:{{ item.rowOpacity }}; transform:{{ item.rowTransform }}; cursor:pointer;">
+                    <div style="position:relative; width:52px; height:52px; flex-shrink:0; animation:{{ item.pulseAnim }};">
+                      <svg width="52" height="52" style="transform:rotate(-90deg);">
+                        <circle cx="26" cy="26" r="23" style="stroke:var(--line);" stroke-width="4" fill="none"></circle>
+                        <circle cx="26" cy="26" r="23" stroke="{{ item.ringColor }}" stroke-width="4" fill="none" stroke-dasharray="{{ item.circumference }}" stroke-dashoffset="{{ item.dashOffset }}" stroke-linecap="round" style="transition:stroke-dashoffset 1s linear;"></circle>
+                      </svg>
+                      <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; color:{{ item.ringTextColor }}; font-family:'Manrope',sans-serif;">{{ item.kalanFmt }}</div>
+                    </div>
+                    <div style="flex:1; min-width:0;">
+                      <div style="display:flex; align-items:center; gap:6px;">
+                        <span style="font-size:14px; font-weight:700; color:var(--ink); font-family:'Manrope',sans-serif;">{{ item.ad }}</span>
+                        <sc-if value="{{ item.isFirst }}">
+                          <span style="font-size:9px; font-weight:700; color:{{ goldText }}; border:1px solid {{ goldText }}; border-radius:6px; padding:1px 6px; letter-spacing:.3px;">SIRADA</span>
+                        </sc-if>
+                        <sc-if value="{{ item.isCritical }}">
+                          <span style="font-size:9px; font-weight:700; color:{{ coralText }}; border:1px solid {{ coralText }}; border-radius:6px; padding:1px 6px 1px 5px; letter-spacing:.3px; display:inline-flex; align-items:center; gap:4px;"><span style="width:5px; height:5px; border-radius:99px; background:{{ coralText }}; animation:ringPulse 1.1s ease-in-out infinite; flex-shrink:0;"></span>KRİTİK</span>
+                        </sc-if>
+                      </div>
+                      <div style="font-size:12px; color:var(--dim); margin-top:3px; font-weight:500;">{{ item.ilce }} · {{ item.mesafeText }} km</div>
+                      <div style="font-size:11.5px; color:{{ item.ringTextColor }}; margin-top:2px; font-weight:600;">{{ item.sureText }} içinde aranmalı</div>
+                    </div>
+                    <button onClick="{{ item.onDon }}" style-active="transform:scale(.94); opacity:.85;" style-hover="background:#1F2E4A;" style="background:#276F4E; color:#fff; border:none; border-radius:11px; padding:12px 14px; min-height:44px; font-size:12px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif; transition:background .2s, transform .12s, opacity .12s; flex-shrink:0;">Geri Ara</button>
+                  </div>
+                </sc-for>
+              </div>
+              </sc-if>
+            </sc-if>
+          </sc-if>
+
+          <sc-if value="{{ spyTabIsHarita }}">
+          <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; gap:12px;">
+            <div style="font-size:11.5px; font-weight:700; color:var(--ink); letter-spacing:.3px; font-family:'Manrope',sans-serif;">CANLI KONUM</div>
+            <div style="height:230px; background:var(--card); border-radius:15px; border:1px solid var(--line); overflow:hidden;">
+              <iframe ref="{{ spyLiveMapRef }}" src="map.html" onLoad="{{ onSpyLiveMapLoad }}" title="Müşteri konumları haritası" style="width:100%; height:100%; border:none; display:block;"></iframe>
+            </div>
+            <div style="font-size:11px; color:var(--dim); text-align:center;">Yeşil nokta sizin canlı konumunuz, turuncu noktalar bekleyen müşterileriniz · sade harita stili</div>
+
+            <sc-if value="{{ reqBekliyor }}">
+              <div style="background:var(--tintRed); border:1px solid {{ coralText }}; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:8px;">
+                <div style="font-size:12.5px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Yeni Müşteri Talebi</div>
+                <div style="font-size:12px; color:var(--dim);">Bir müşteri "Tasarruf Yanımda" ile size ulaşmak istiyor.</div>
+                <button onClick="{{ kabulEt }}" style-active="transform:scale(.97);" style="min-height:44px; background:#276F4E; color:#fff; border:none; border-radius:11px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Kabul Et</button>
+              </div>
+            </sc-if>
+            <sc-if value="{{ reqEslestiVeSonrasi }}">
+              <div style="background:var(--card); border:1px solid var(--line); border-radius:14px; padding:14px; display:flex; align-items:center; gap:10px;">
+                <div style="flex:1; min-width:0;">
+                  <div style="font-size:12.5px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Müşteri ile eşleşme aktif</div>
+                  <div style="font-size:11.5px; color:var(--dim); margin-top:2px;">{{ ilerlemeYuzde }} · sohbeti açın</div>
+                </div>
+                <button onClick="{{ openChat }}" style-active="transform:scale(.94);" style="min-height:40px; background:#276F4E; color:#fff; border:none; border-radius:10px; padding:0 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Sohbet</button>
+              </div>
+            </sc-if>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ spyTabIsGecmis }}">
+          <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; gap:10px;">
+            <sc-if value="{{ tamamlananBos }}">
+              <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 20px; text-align:center; gap:12px;">
+                <img src="assets/logo-green.png" alt="" style="width:120px; opacity:.16;">
+                <div style="font-size:13px; font-weight:700; color:var(--ink); font-family:'Manrope',sans-serif;">Henüz tamamlanmış görüşme yok</div>
+                <div style="font-size:12px; color:var(--dim); max-width:200px; line-height:1.5;">Tamamlanan görüşmeler burada görünecek.</div>
+              </div>
+            </sc-if>
+            <sc-for list="{{ tamamlanan }}" as="t" hint-placeholder-count="0">
+              <div style="background:var(--card); border-radius:15px; padding:12px; display:flex; align-items:center; gap:12px; border:1px solid var(--line); animation:fadeIn .35s ease-out;">
+                <div style="width:34px; height:34px; border-radius:99px; background:var(--tintGreen); color:#276F4E; display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0;">✓</div>
+                <div style="flex:1; min-width:0;">
+                  <div style="font-size:13px; font-weight:700; color:var(--ink); font-family:'Manrope',sans-serif;">{{ t.ad }}</div>
+                  <div style="font-size:11.5px; color:var(--dim); margin-top:2px;">{{ t.ilce }}</div>
+                </div>
+                <span style="font-size:9.5px; font-weight:700; color:#276F4E; background:var(--tintGreen); border-radius:6px; padding:3px 7px;">TAMAMLANDI</span>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ spyTabIsProfil }}">
+          <div style="animation:tabIn .3s ease-out; padding:18px; display:flex; flex-direction:column; gap:14px;">
+            <div style="background:var(--card); border-radius:16px; padding:18px; border:1px solid var(--line); display:flex; flex-direction:column; align-items:center; gap:8px; position:relative; overflow:hidden;">
+              <img src="assets/logo-green.png" alt="" style="position:absolute; bottom:-10px; right:-16px; width:110px; opacity:.06;">
+              <div style="width:56px; height:56px; border-radius:99px; background:#276F4E; color:#fff; display:flex; align-items:center; justify-content:center; font-size:19px; font-weight:800; font-family:'Manrope',sans-serif;">OK</div>
+              <div style="font-size:16px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Onur K.</div>
+              <div style="font-size:11px; font-weight:700; color:#276F4E; letter-spacing:.5px;">SPY · SAHA EKİBİ</div>
+              <div style="font-size:12px; color:var(--dim); margin-top:2px;">Kadıköy / Ataşehir bölgesi</div>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <div style="flex:1; background:var(--card); border-radius:14px; border:1px solid var(--line); padding:14px;">
+                <div style="font-size:22px; font-weight:800; color:#276F4E; font-family:'Manrope',sans-serif;">{{ bugunTamamlanan }}</div>
+                <div style="font-size:11px; color:var(--dim); margin-top:2px; font-weight:500;">Bugün tamamlanan</div>
+              </div>
+              <div style="flex:1; background:var(--card); border-radius:14px; border:1px solid var(--line); padding:14px;">
+                <div style="font-size:22px; font-weight:800; color:{{ goldText }}; font-family:'Manrope',sans-serif;">{{ list.length }}</div>
+                <div style="font-size:11px; color:var(--dim); margin-top:2px; font-weight:500;">Sırada bekleyen</div>
+              </div>
+            </div>
+          </div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ detay }}">
+          <div style="position:absolute; inset:0; z-index:31; background:var(--bg); overflow-y:auto; animation:{{ detayAnim }};">
+            <div style="display:flex; align-items:center; gap:6px; padding:14px 10px; border-bottom:1px solid var(--line); background:var(--card);">
+              <button onClick="{{ closeDetay }}" style-active="transform:scale(.9);" style="background:transparent; border:none; width:36px; height:36px; border-radius:99px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2.4"><path d="M15 5l-7 7 7 7"></path></svg>
+              </button>
+              <div style="font-size:15px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">{{ detay.ad }}</div>
+            </div>
+            <div style="padding:18px;">
+              <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                <span style="font-size:12.5px; color:var(--dim);">{{ detay.ilce }} · {{ detay.mesafeText }} km · {{ detay.sureText }} içinde aranmalı</span>
+                <sc-if value="{{ detay.isCritical }}">
+                  <span style="font-size:9px; font-weight:700; color:{{ coralText }}; border:1px solid {{ coralText }}; border-radius:6px; padding:1px 6px 1px 5px; letter-spacing:.3px; display:inline-flex; align-items:center; gap:4px;"><span style="width:5px; height:5px; border-radius:99px; background:{{ coralText }}; animation:ringPulse 1.1s ease-in-out infinite; flex-shrink:0;"></span>KRİTİK</span>
+                </sc-if>
+              </div>
+              <div style="font-size:11px; font-weight:700; color:var(--ink); letter-spacing:.4px; margin-top:18px; font-family:'Manrope',sans-serif;">MÜŞTERİ BİLGİSİ</div>
+              <div style="background:var(--tintGray); border-radius:12px; padding:12px; margin-top:8px; display:flex; flex-direction:column; gap:6px;">
+                <div style="font-size:12.5px; color:var(--ink);">Telefon: 05•• ••• •• {{ detay.telefonSon }}</div>
+                <div style="font-size:12.5px; color:var(--ink);">Talep: Ekspertiz / satış görüşmesi</div>
+              </div>
+              <div style="font-size:11px; font-weight:700; color:var(--ink); letter-spacing:.4px; margin-top:16px; font-family:'Manrope',sans-serif;">GEÇMİŞ NOTLAR</div>
+              <div style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">
+                <div style="background:var(--tintGray); border-radius:12px; padding:10px 12px;">
+                  <div style="font-size:12px; color:var(--ink); line-height:1.5;">İlk görüşme denendi, müşteriye ulaşılamadı.</div>
+                  <div style="font-size:10.5px; color:var(--dim); margin-top:4px;">Dün, 14:20</div>
+                </div>
+                <div style="background:var(--tintGray); border-radius:12px; padding:10px 12px;">
+                  <div style="font-size:12px; color:var(--ink); line-height:1.5;">Mesaj bırakıldı, geri dönüş bekleniyor.</div>
+                  <div style="font-size:10.5px; color:var(--dim); margin-top:4px;">Dün, 16:05</div>
+                </div>
+              </div>
+              <button onClick="{{ detay.onDon }}" style-active="transform:scale(.97);" style="width:100%; min-height:46px; background:#276F4E; color:#fff; border:none; border-radius:12px; margin-top:18px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Geri Ara</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ chatOpen }}">
+          <div style="position:absolute; inset:0; z-index:32; background:var(--bg); display:flex; flex-direction:column; animation:{{ chatAnim }};">
+            <div style="display:flex; align-items:center; gap:6px; padding:14px 10px; border-bottom:1px solid var(--line); background:var(--card); flex-shrink:0;">
+              <button onClick="{{ closeChat }}" style-active="transform:scale(.9);" style="background:transparent; border:none; width:36px; height:36px; border-radius:99px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2.4"><path d="M15 5l-7 7 7 7"></path></svg>
+              </button>
+              <div style="font-size:15px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Müşteri Sohbeti</div>
+            </div>
+            <div style="flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:8px;">
+              <sc-for list="{{ chatMessagesSpy }}" as="msg" hint-placeholder-count="2">
+                <div style="align-self:{{ msg.align }}; max-width:75%; background:{{ msg.bg }}; color:{{ msg.color }}; border:1px solid {{ msg.borderColor }}; border-radius:13px; padding:9px 12px; font-size:12.5px; line-height:1.4;">{{ msg.text }}</div>
+              </sc-for>
+            </div>
+            <div style="display:flex; gap:8px; padding:12px; border-top:1px solid var(--line); background:var(--card); flex-shrink:0;">
+              <input value="{{ chatDraft }}" onChange="{{ setChatDraft }}" placeholder="Mesaj yazın…" style="flex:1; padding:10px 13px; border-radius:11px; border:1px solid var(--line); font-size:13px; background:var(--bg); color:var(--ink);">
+              <button onClick="{{ sendChatTemsilci }}" style-active="transform:scale(.94);" style="min-height:40px; padding:0 16px; background:#276F4E; color:#fff; border:none; border-radius:11px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Gönder</button>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="position:relative; flex-shrink:0; display:flex; border-top:1px solid var(--line); background:var(--card); padding:6px 0;">
+          <div style="position:absolute; top:4px; left:{{ spyTabIndicatorLeft }}; width:25%; height:2px; background:#276F4E; border-radius:2px; transition:left .28s cubic-bezier(.4,0,.2,1);"></div>
+          <button onClick="{{ setSpyTabListe }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ spyListeColor }}" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+            <span style="font-size:10px; font-weight:{{ spyListeWeight }}; color:{{ spyListeColor }}; font-family:'Manrope',sans-serif;">Görüşmeler</span>
+          </button>
+          <button onClick="{{ setSpyTabHarita }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ spyHaritaColor }}" stroke-width="2"><path d="M12 21c0-6 6.5-9.5 6.5-14A6.5 6.5 0 1 0 5.5 7c0 4.5 6.5 8 6.5 14Z"></path><circle cx="12" cy="7.2" r="2.2"></circle></svg>
+            <span style="font-size:10px; font-weight:{{ spyHaritaWeight }}; color:{{ spyHaritaColor }}; font-family:'Manrope',sans-serif;">Harita</span>
+          </button>
+          <button onClick="{{ setSpyTabGecmis }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ spyGecmisColor }}" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>
+            <span style="font-size:10px; font-weight:{{ spyGecmisWeight }}; color:{{ spyGecmisColor }}; font-family:'Manrope',sans-serif;">Geçmiş</span>
+          </button>
+          <button onClick="{{ setSpyTabProfil }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ spyProfilColor }}" stroke-width="2"><circle cx="12" cy="8" r="3.6"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg>
+            <span style="font-size:10px; font-weight:{{ spyProfilWeight }}; color:{{ spyProfilColor }}; font-family:'Manrope',sans-serif;">Profil</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isAdmin }}">
+  <div style="animation:panelIn .38s cubic-bezier(.2,.7,.3,1);">
+    <div style="width:375px; max-width:100%; background:#1B2740; border-radius:44px; padding:12px; box-shadow:0 34px 60px -20px rgba(23,33,54,.45);">
+      <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column; position:relative;">
+        <div style="height:30px; background:#1B2740; flex-shrink:0;"></div>
+        <div style="background:#276F4E; padding:16px 20px 22px; flex-shrink:0;">
+          <div style="display:flex; align-items:center; gap:9px;">
+            <img src="assets/logo-white.png" alt="Eminevim" style="height:15px;">
+            <span style="color:#DCEEE3; font-size:10.5px; font-weight:700; letter-spacing:0.6px; border-left:1px solid rgba(255,255,255,.32); padding-left:8px; font-family:'Manrope',sans-serif;">ADMİN PANELİ</span>
+          </div>
+          <div style="color:#fff; font-size:22px; font-weight:800; margin-top:12px; font-family:'Manrope',sans-serif; letter-spacing:-.2px;">Saha Dağılımı</div>
+          <div style="color:#D7EBE0; font-size:12px; margin-top:5px; font-weight:500;">{{ toplamBasvuru }} aktif başvuru · {{ spylerCount }} SPY</div>
+        </div>
+
+        <div style="flex:1; overflow-y:auto; min-height:0;">
+          <sc-if value="{{ adminTabIsOzet }}" hint-placeholder-val="{{ true }}">
+          <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; gap:10px;">
+              <div style="flex:1; background:var(--card); border-radius:15px; border:1px solid var(--line); padding:14px;">
+                <div style="font-size:24px; font-weight:800; color:#276F4E; font-family:'Manrope',sans-serif;">{{ spylerCount }}</div>
+                <div style="font-size:11px; color:var(--dim); margin-top:3px; font-weight:500;">Sahadaki SPY</div>
+              </div>
+              <div style="flex:1; background:var(--card); border-radius:15px; border:1px solid var(--line); padding:14px;">
+                <div style="font-size:24px; font-weight:800; color:{{ goldText }}; font-family:'Manrope',sans-serif;">{{ gununGorusmeSayisi }}</div>
+                <div style="font-size:11px; color:var(--dim); margin-top:3px; font-weight:500;">planlanan görüşme</div>
+                <input type="date" value="{{ ozetTarih }}" onChange="{{ setOzetTarih }}" style="width:100%; margin-top:8px; font-size:11px; border:1px solid var(--line); border-radius:8px; padding:4px 6px; background:var(--bg); color:var(--ink); font-family:'Inter',sans-serif;">
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-top:6px;">
+              <div style="font-size:11.5px; font-weight:700; color:var(--ink); letter-spacing:.3px; font-family:'Manrope',sans-serif;">SPY EKİBİ</div>
+              <button onClick="{{ openSpyModal }}" style-active="transform:scale(.95);" style="min-height:32px; background:#276F4E; color:#fff; border:none; border-radius:99px; padding:6px 12px; font-size:11.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">+ SPY Ekle</button>
+            </div>
+            <sc-for list="{{ spyler }}" as="s" hint-placeholder-count="3">
+              <div style="background:var(--card); border-radius:15px; padding:12px; display:flex; align-items:center; gap:10px; border:1px solid var(--line);">
+                <span style="width:10px; height:10px; border-radius:99px; background:{{ s.renk }}; flex-shrink:0;"></span>
+                <div style="flex:1; min-width:0;">
+                  <div style="font-size:13px; font-weight:700; color:var(--ink); font-family:'Manrope',sans-serif;">{{ s.ad }}</div>
+                  <div style="font-size:11.5px; color:var(--dim); margin-top:1px;">{{ s.bolge }} · {{ s.sayac }} başvuru</div>
+                </div>
+                <button onClick="{{ s.onRemove }}" style-active="transform:scale(.9);" style="background:var(--tintRed); border:none; border-radius:99px; width:30px; height:30px; flex-shrink:0; color:{{ coralText }}; font-size:14px; cursor:pointer;">×</button>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ adminTabIsGorusmeler }}">
+          <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; gap:6px;">
+              <button onClick="{{ setFiltreCanli }}" style-active="transform:scale(.96);" style="flex:1; min-height:34px; border-radius:99px; border:1px solid {{ filtreCanliBorder }}; background:{{ filtreCanliBg }}; color:{{ filtreCanliText }}; font-size:11.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Canlı</button>
+              <button onClick="{{ setFiltreBekleyen }}" style-active="transform:scale(.96);" style="flex:1; min-height:34px; border-radius:99px; border:1px solid {{ filtreBekleyenBorder }}; background:{{ filtreBekleyenBg }}; color:{{ filtreBekleyenText }}; font-size:11.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Bekleyen</button>
+              <button onClick="{{ setFiltreBiten }}" style-active="transform:scale(.96);" style="flex:1; min-height:34px; border-radius:99px; border:1px solid {{ filtreBitenBorder }}; background:{{ filtreBitenBg }}; color:{{ filtreBitenText }}; font-size:11.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Biten</button>
+            </div>
+            <sc-if value="{{ gorusmeSatirlariBos }}">
+              <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; padding:50px 20px; text-align:center; gap:10px;">
+                <img src="assets/logo-green.png" alt="" style="width:100px; opacity:.14;">
+                <div style="font-size:12.5px; color:var(--dim);">Bu filtrede görüşme bulunmuyor.</div>
+              </div>
+            </sc-if>
+            <sc-for list="{{ gorusmeSatirlari }}" as="g" hint-placeholder-count="3">
+              <div style="background:var(--card); border-radius:14px; padding:12px; border:1px solid var(--line); display:flex; flex-direction:column; gap:4px; animation:fadeIn .3s ease-out;">
+                <div style="display:flex; align-items:center; justify-content:space-between;">
+                  <div style="font-size:13px; font-weight:700; color:var(--ink); font-family:'Manrope',sans-serif;">{{ g.spyAd }} — {{ g.musteriAd }}</div>
+                  <span style="font-size:9px; font-weight:700; color:{{ g.durumColor }}; border:1px solid {{ g.durumColor }}; border-radius:6px; padding:2px 6px; white-space:nowrap;">{{ g.durum }}</span>
+                </div>
+                <div style="font-size:11.5px; color:var(--dim);">{{ g.sube }} · {{ g.konum }}</div>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+
+          <sc-if value="{{ adminTabIsHarita }}">
+          <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; gap:10px; height:100%;">
+            <div style="display:flex; gap:8px;">
+              <button onClick="{{ toggleHaritaSpy }}" style-active="transform:scale(.96);" style="flex:1; min-height:38px; border-radius:99px; border:1px solid #276F4E; background:{{ haritaSpyBg }}; color:{{ haritaSpyText }}; font-size:12.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif; transition:background .2s,color .2s;">SPY</button>
+              <button onClick="{{ toggleHaritaMusteri }}" style-active="transform:scale(.96);" style="flex:1; min-height:38px; border-radius:99px; border:1px solid #E8803E; background:{{ haritaMusteriBg }}; color:{{ haritaMusteriText }}; font-size:12.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif; transition:background .2s,color .2s;">Müşteri</button>
+            </div>
+            <div style="flex:1; min-height:280px; background:var(--card); border-radius:15px; border:1px solid var(--line); overflow:hidden;">
+              <iframe ref="{{ canliMapRef }}" src="map.html" onLoad="{{ onCanliMapLoad }}" title="Saha haritası" style="width:100%; height:100%; border:none; display:block;"></iframe>
+            </div>
+            <div style="font-size:11px; color:var(--dim); text-align:center;">Nabız atan noktalar SPY ve müşteri konumlarını gösterir · haritayı yakınlaştırıp kaydırabilirsiniz</div>
+          </div>
+          </sc-if>
+        </div>
+
+        <sc-if value="{{ spyModalOpen }}">
+          <div onClick="{{ closeSpyModal }}" style="position:absolute; inset:0; background:rgba(23,33,54,.45); z-index:30; animation:backdropIn .25s ease-out; display:flex; align-items:center; justify-content:center; padding:24px;">
+            <div onClick="{{ stopProp }}" style="background:var(--card); border-radius:18px; padding:20px; width:100%; box-shadow:0 20px 40px rgba(23,33,54,.3); animation:fadeIn .25s ease-out;">
+              <div style="font-size:15px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Yeni SPY Ekle</div>
+              <div style="display:flex; flex-direction:column; gap:10px; margin-top:14px;">
+                <input value="{{ yeniAd }}" onChange="{{ setYeniAd }}" placeholder="Ad Soyad" style="width:100%; padding:11px 13px; border-radius:11px; border:1px solid var(--line); font-size:13px; font-family:'Inter',sans-serif; color:var(--ink);">
+                <input value="{{ yeniBolge }}" onChange="{{ setYeniBolge }}" placeholder="Bölge (örn. Şişli / Beşiktaş)" style="width:100%; padding:11px 13px; border-radius:11px; border:1px solid var(--line); font-size:13px; font-family:'Inter',sans-serif; color:var(--ink);">
+              </div>
+              <div style="display:flex; gap:10px; margin-top:16px;">
+                <button onClick="{{ closeSpyModal }}" style-active="transform:scale(.97);" style="flex:1; min-height:44px; background:var(--tintGray); color:var(--ink); border:none; border-radius:11px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Vazgeç</button>
+                <button onClick="{{ submitSpyModal }}" style-active="transform:scale(.97);" style="flex:1; min-height:44px; background:#276F4E; color:#fff; border:none; border-radius:11px; font-size:13px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Ekle</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="position:relative; flex-shrink:0; display:flex; border-top:1px solid var(--line); background:var(--card); padding:6px 0;">
+          <div style="position:absolute; top:4px; left:{{ adminTabIndicatorLeft }}; width:33.333%; height:2px; background:#276F4E; border-radius:2px; transition:left .28s cubic-bezier(.4,0,.2,1);"></div>
+          <button onClick="{{ setAdminTabOzet }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ adminOzetColor }}" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>
+            <span style="font-size:10px; font-weight:{{ adminOzetWeight }}; color:{{ adminOzetColor }}; font-family:'Manrope',sans-serif;">Özet</span>
+          </button>
+          <button onClick="{{ setAdminTabGorusmeler }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ adminGorusmelerColor }}" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
+            <span style="font-size:10px; font-weight:{{ adminGorusmelerWeight }}; color:{{ adminGorusmelerColor }}; font-family:'Manrope',sans-serif;">Görüşmeler</span>
+          </button>
+          <button onClick="{{ setAdminTabHarita }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ adminHaritaColor }}" stroke-width="2"><path d="M12 21c0-6 6.5-9.5 6.5-14A6.5 6.5 0 1 0 5.5 7c0 4.5 6.5 8 6.5 14Z"></path><circle cx="12" cy="7.2" r="2.2"></circle></svg>
+            <span style="font-size:10px; font-weight:{{ adminHaritaWeight }}; color:{{ adminHaritaColor }}; font-family:'Manrope',sans-serif;">Harita</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  </div>
+  </sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900,&quot;height&quot;:900}}">
+const NAVY = "#273755";
+const GREEN = "#276F4E";
+const GOLD = "#E8803E";
+const CORAL = "#E66A57";
+const GOLD_TEXT = "#B85F1F";
+const CORAL_TEXT = "#C1432B";
+const LINE = "#E4E1D8";
+const INK = "#2B2F2C";
+const PALETTE = [GREEN, GOLD, NAVY];
+
+const INITIAL_BASVURU = [
+  { id: 1, ad: "Murat Y.", ilce: "Kadıköy", mesafeKm: 1.2, kalan: 218, telefonSon: "12" },
+  { id: 2, ad: "Elif S.", ilce: "Kadıköy", mesafeKm: 2.8, kalan: 640, telefonSon: "47" },
+  { id: 3, ad: "Kerem T.", ilce: "Üsküdar", mesafeKm: 4.1, kalan: 1180, telefonSon: "83" },
+  { id: 4, ad: "Aylin D.", ilce: "Ataşehir", mesafeKm: 5.6, kalan: 55, telefonSon: "05" },
+];
+
+const DISTRICT_NAMES = ["Beylikdüzü", "Bakırköy", "Fatih", "Beşiktaş", "Şişli", "Üsküdar", "Kadıköy", "Ataşehir", "Maltepe", "Pendik"];
+
+const DEMO_BASVURULAR = [
+  { ad: "Zeynep K.", ilce: "Şişli" },
+  { ad: "Tolga B.", ilce: "Maltepe" },
+  { ad: "Sena Y.", ilce: "Beşiktaş" },
+];
+
+const TOPLAM_SURE = 900;
+const ROW_H = 108;
+
+function fmtSure(sn) {
+  const m = Math.floor(sn / 60);
+  const s = sn % 60;
+  return m + ":" + String(s).padStart(2, "0");
+}
+function readableSure(sn) {
+  const m = Math.floor(sn / 60);
+  const s = sn % 60;
+  if (m <= 0) return s + " sn";
+  if (s === 0) return m + " dk";
+  return m + " dk " + s + " sn";
+}
+function ringColor(kalan) {
+  if (kalan <= 60) return CORAL;
+  if (kalan <= 300) return GOLD;
+  return GREEN;
+}
+function ringTextColor(kalan, dark) {
+  if (kalan <= 60) return dark ? CORAL : CORAL_TEXT;
+  if (kalan <= 300) return dark ? GOLD : GOLD_TEXT;
+  return GREEN;
+}
+function fmtKm(km) {
+  return String(km).replace(".", ",");
+}
+
+const ABSTRACT_POS = { s1: { x: 38, y: 38 }, s2: { x: 64, y: 26 }, s3: { x: 70, y: 64 } };
+const CUSTOMER_POS = { x: 48, y: 80 };
+const CUSTOMER_ILCE = "Ataşehir";
+function lerp(a, b, t) { return a + (b - a) * t; }
+function ilkIlce(bolge) { return bolge.split("/")[0].trim(); }
+
+let SPY_ID_SEQ = 100;
+
+class Component extends DCLogic {
+  state = {
+    girisYapildi: false,
+    girisEmail: "",
+    girisSifre: "",
+    yukleniyor: true,
+    panel: "spy",
+    spyTab: "liste",
+    adminTab: "ozet",
+    basvurular: INITIAL_BASVURU,
+    tamamlanan: [],
+    exiting: {},
+    secili: "s1",
+    detayId: null,
+    bildirim: null,
+    demoIndex: 0,
+    spylerList: [
+      { id: "s1", ad: "Onur K.", bolge: "Kadıköy / Ataşehir", sayac: 3, renk: GREEN },
+      { id: "s2", ad: "Derya A.", bolge: "Üsküdar / Maltepe", sayac: 2, renk: GOLD },
+      { id: "s3", ad: "Berk C.", bolge: "Beşiktaş / Şişli", sayac: 1, renk: NAVY },
+    ],
+    spyModalOpen: false,
+    yeniAd: "",
+    yeniBolge: "",
+    ozetTarih: new Date().toISOString().slice(0, 10),
+    gorusmeFiltre: "canli",
+    haritaSpyOn: true,
+    haritaMusteriOn: true,
+    darkMode: false,
+    detayClosing: false,
+    pullY: 0,
+    refreshing: false,
+
+    girisRol: "personel",
+    musteriTab: "ana",
+    reqStatus: "idle",
+    assignedRepId: null,
+    repPos: null,
+    repProgress: 0,
+    chatMessages: [],
+    chatDraft: "",
+    chatOpen: false,
+    chatClosing: false,
+  };
+
+  componentDidMount() {
+    this._t = setInterval(() => {
+      this.setState((s) => ({
+        basvurular: s.basvurular.map((b) => (s.exiting[b.id] ? b : { ...b, kalan: Math.max(0, b.kalan - 1) })),
+      }));
+    }, 1000);
+    this._loadTimer = setTimeout(() => this.setState({ yukleniyor: false }), 900);
+    this._bildirimTimer = setTimeout(() => this.demoBildirim(), 6000);
+    this._basvuruTimer = setTimeout(() => this.postBasvurular(), 500);
+  }
+  componentWillUnmount() {
+    clearInterval(this._t);
+    clearTimeout(this._loadTimer);
+    clearTimeout(this._bildirimTimer);
+    if (this._bildirimHide) clearTimeout(this._bildirimHide);
+    if (this._exitTimers) this._exitTimers.forEach(clearTimeout);
+    if (this._repTimer) clearInterval(this._repTimer);
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if ((prevState.basvurular !== this.state.basvurular || prevState.haritaMusteriOn !== this.state.haritaMusteriOn) && this._canliWin()) this.postBasvurular();
+    if ((prevState.reqStatus !== this.state.reqStatus || prevState.repProgress !== this.state.repProgress || prevState.spylerList !== this.state.spylerList || prevState.haritaSpyOn !== this.state.haritaSpyOn || prevState.haritaMusteriOn !== this.state.haritaMusteriOn) && this._canliWin()) this.postCanliAdmin();
+    if ((prevState.reqStatus !== this.state.reqStatus || prevState.repProgress !== this.state.repProgress || prevState.basvurular !== this.state.basvurular) && this._spyLiveWin()) this.postCanliSpy();
+    if ((prevState.reqStatus !== this.state.reqStatus || prevState.repProgress !== this.state.repProgress) && this._musteriLiveWin()) this.postCanliMusteri();
+  }
+
+  _mapRef() {
+    if (!this._mapRefObj) this._mapRefObj = React.createRef();
+    return this._mapRefObj;
+  }
+  _mapWin() {
+    const el = this._mapRefObj && this._mapRefObj.current;
+    return el && el.contentWindow;
+  }
+  postHighlight() {
+    const win = this._mapWin();
+    if (!win) return;
+    const spy = this.state.spylerList.find((x) => x.id === this.state.secili);
+    if (!spy) return;
+    const names = DISTRICT_NAMES.filter((n) => spy.bolge.includes(n));
+    win.postMessage({ type: "select", color: spy.renk, districts: names }, "*");
+  }
+  postBasvurular() {
+    const win = this._canliWin();
+    if (!win) return;
+    const items = this.state.haritaMusteriOn ? this.state.basvurular.map((b) => ({ ilce: b.ilce })) : [];
+    win.postMessage({ type: "basvurular", items }, "*");
+  }
+
+  _canliRef() {
+    if (!this._canliRefObj) this._canliRefObj = React.createRef();
+    return this._canliRefObj;
+  }
+  _canliWin() {
+    const el = this._canliRefObj && this._canliRefObj.current;
+    return el && el.contentWindow;
+  }
+  _spyLiveRef() {
+    if (!this._spyLiveRefObj) this._spyLiveRefObj = React.createRef();
+    return this._spyLiveRefObj;
+  }
+  _spyLiveWin() {
+    const el = this._spyLiveRefObj && this._spyLiveRefObj.current;
+    return el && el.contentWindow;
+  }
+  postCanliAdmin() {
+    const win = this._canliWin();
+    if (!win) return;
+    const s = this.state;
+    const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
+    const movingDurum = s.reqStatus === "onaylandi" ? "Müşteriyle görüşmeye gidiyor" : "Müşteriyle yüz yüze görüşüyor";
+    const movingColor = s.reqStatus === "onaylandi" ? GOLD_TEXT : NAVY;
+    const moving = s.haritaSpyOn && rep && (s.reqStatus === "onaylandi" || s.reqStatus === "vardi")
+      ? { fromIlce: ilkIlce(rep.bolge), toIlce: CUSTOMER_ILCE, progress: s.repProgress, color: rep.renk, label: rep.ad, sube: ilkIlce(rep.bolge) + " Şubesi", durum: movingDurum, durumColor: movingColor }
+      : null;
+    const items = !s.haritaSpyOn ? [] : s.spylerList.filter((x) => !moving || x.id !== rep.id).map((x) => {
+      const online = rep && x.id === rep.id && s.reqStatus === "eslesti";
+      return {
+        ilce: ilkIlce(x.bolge),
+        color: x.renk,
+        label: x.ad,
+        sube: ilkIlce(x.bolge) + " Şubesi",
+        durum: online ? "Müşteriyle görüşüyor (online sohbet)" : "Şu an boşta",
+        durumColor: online ? "#2E6B8A" : GREEN,
+      };
+    });
+    if (s.haritaMusteriOn && s.reqStatus !== "idle" && s.reqStatus !== "aranan") items.push({ ilce: CUSTOMER_ILCE, color: CORAL, label: "Müşteri" });
+    win.postMessage({ type: "canli", items, moving }, "*");
+  }
+  _musteriLiveRef() {
+    if (!this._musteriLiveRefObj) this._musteriLiveRefObj = React.createRef();
+    return this._musteriLiveRefObj;
+  }
+  _musteriLiveWin() {
+    const el = this._musteriLiveRefObj && this._musteriLiveRefObj.current;
+    return el && el.contentWindow;
+  }
+  postCanliMusteri() {
+    const win = this._musteriLiveWin();
+    if (!win) return;
+    const s = this.state;
+    const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
+    const moving = rep && (s.reqStatus === "onaylandi" || s.reqStatus === "vardi") ? { fromIlce: ilkIlce(rep.bolge), toIlce: CUSTOMER_ILCE, progress: s.repProgress, color: rep.renk, label: rep.ad } : null;
+    const items = [{ ilce: CUSTOMER_ILCE, color: GREEN, label: "Siz" }];
+    if (rep && !moving) items.push({ ilce: ilkIlce(rep.bolge), color: rep.renk, label: rep.ad });
+    win.postMessage({ type: "canli", items, moving }, "*");
+  }
+  postCanliSpy() {
+    const win = this._spyLiveWin();
+    if (!win) return;
+    const s = this.state;
+    const self = s.spylerList[0];
+    const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
+    const moving = rep && rep.id === "s1" && (s.reqStatus === "onaylandi" || s.reqStatus === "vardi") ? { fromIlce: ilkIlce(self.bolge), toIlce: CUSTOMER_ILCE, progress: s.repProgress, color: self.renk, label: self.ad } : null;
+    const items = moving ? [] : [{ ilce: ilkIlce(self.bolge), color: self.renk, label: "Siz" }];
+    const seen = {};
+    s.basvurular.forEach((b) => {
+      if (seen[b.ilce]) return;
+      seen[b.ilce] = true;
+      items.push({ ilce: b.ilce, color: GOLD, label: b.ad });
+    });
+    if (rep && rep.id === "s1" && s.reqStatus !== "idle" && s.reqStatus !== "aranan" && !moving) items.push({ ilce: CUSTOMER_ILCE, color: CORAL, label: "Müşteri" });
+    win.postMessage({ type: "canli", items, moving }, "*");
+  }
+
+  onListPointerDown(e) {
+    if (e.currentTarget.scrollTop <= 0) this._pullStartY = e.clientY;
+  }
+  onListPointerMove(e) {
+    if (this._pullStartY == null || this.state.refreshing) return;
+    const dy = e.clientY - this._pullStartY;
+    if (dy > 0 && e.currentTarget.scrollTop <= 0) this.setState({ pullY: Math.min(dy * 0.5, 70) });
+    else this.setState({ pullY: 0 });
+  }
+  onListPointerUp() {
+    this._pullStartY = null;
+    if (this.state.pullY >= 55) {
+      this.setState({ refreshing: true, pullY: 56 });
+      setTimeout(() => this.setState({ refreshing: false, pullY: 0 }), 1000);
+    } else {
+      this.setState({ pullY: 0 });
+    }
+  }
+  openDetay(id) {
+    this.setState({ detayId: id, detayClosing: false });
+  }
+  closeDetay() {
+    this.setState({ detayClosing: true });
+    setTimeout(() => this.setState({ detayId: null, detayClosing: false }), 300);
+  }
+  openChat() {
+    this.setState({ chatOpen: true, chatClosing: false });
+  }
+  closeChat() {
+    this.setState({ chatClosing: true });
+    setTimeout(() => this.setState({ chatOpen: false, chatClosing: false }), 300);
+  }
+  tasarrufYaninda() {
+    if (this.state.reqStatus !== "idle") return;
+    this.setState({ reqStatus: "aranan" });
+    setTimeout(() => {
+      const rep = this.state.spylerList[0];
+      this.setState({ reqStatus: "bekliyor", assignedRepId: rep.id, repPos: { ...ABSTRACT_POS[rep.id] }, repProgress: 0 });
+    }, 1400);
+  }
+  kabulEt() {
+    this.setState((s) => ({
+      reqStatus: "eslesti",
+      chatMessages: [...s.chatMessages, { from: "temsilci", text: "Merhaba, talebinizi aldım. Yola çıkmadan önce onayınızı bekliyorum." }],
+    }));
+  }
+  onayla() {
+    this.setState((s) => ({
+      reqStatus: "onaylandi",
+      chatMessages: [
+        ...s.chatMessages,
+        { from: "musteri", text: "Onaylıyorum, bekliyorum." },
+        { from: "temsilci", text: "Yola çıktım, tahmini 6 dk içinde yanınızda olacağım." },
+      ],
+    }));
+    this.startRepHareket();
+  }
+  startRepHareket() {
+    if (this._repTimer) clearInterval(this._repTimer);
+    const rep = ABSTRACT_POS[this.state.assignedRepId];
+    this._repTimer = setInterval(() => {
+      this.setState((s) => {
+        const p = Math.min(1, s.repProgress + 0.12);
+        const pos = { x: lerp(rep.x, CUSTOMER_POS.x, p), y: lerp(rep.y, CUSTOMER_POS.y, p) };
+        if (p >= 1) {
+          clearInterval(this._repTimer);
+          return { repProgress: p, repPos: pos, reqStatus: "vardi" };
+        }
+        return { repProgress: p, repPos: pos };
+      });
+    }, 700);
+  }
+  yeniTalep() {
+    if (this._repTimer) clearInterval(this._repTimer);
+    this.setState({ reqStatus: "idle", assignedRepId: null, repPos: null, repProgress: 0, chatMessages: [] });
+  }
+  sendChat(from) {
+    const text = this.state.chatDraft.trim();
+    if (!text) return;
+    this.setState((s) => ({ chatMessages: [...s.chatMessages, { from, text }], chatDraft: "" }));
+  }
+
+  demoBildirim() {
+    const d = DEMO_BASVURULAR[this.state.demoIndex % DEMO_BASVURULAR.length];
+    this.setState((s) => ({ bildirim: d, demoIndex: s.demoIndex + 1 }));
+    if (this._bildirimHide) clearTimeout(this._bildirimHide);
+    this._bildirimHide = setTimeout(() => this.setState({ bildirim: null }), 4000);
+  }
+
+  don(id) {
+    this.setState((s) => ({ exiting: { ...s.exiting, [id]: true }, detayId: s.detayId === id ? null : s.detayId }));
+    if (!this._exitTimers) this._exitTimers = [];
+    const timer = setTimeout(() => {
+      this.setState((s) => {
+        const item = s.basvurular.find((b) => b.id === id);
+        const rest = s.basvurular.filter((b) => b.id !== id);
+        const exiting = { ...s.exiting };
+        delete exiting[id];
+        return { basvurular: rest, exiting, tamamlanan: item ? [item, ...s.tamamlanan] : s.tamamlanan };
+      });
+    }, 320);
+    this._exitTimers.push(timer);
+  }
+
+  renderVals() {
+    const s = this.state;
+    const sorted = s.basvurular.slice().sort((a, b) => a.kalan - b.kalan);
+    const list = sorted.map((b, i) => {
+      const c = 2 * Math.PI * 23;
+      const oran = Math.max(0, Math.min(1, b.kalan / TOPLAM_SURE));
+      const isExiting = !!s.exiting[b.id];
+      return {
+        ...b,
+        top: i * ROW_H,
+        isFirst: i === 0,
+        accentColor: i === 0 ? GOLD : LINE,
+        ringColor: ringColor(b.kalan),
+        ringTextColor: ringTextColor(b.kalan, s.darkMode),
+        circumference: c.toFixed(1),
+        dashOffset: (c * (1 - oran)).toFixed(1),
+        kalanFmt: fmtSure(b.kalan),
+        sureText: readableSure(b.kalan),
+        mesafeText: fmtKm(b.mesafeKm),
+        isCritical: b.kalan > 0 && b.kalan <= 60,
+        pulseAnim: b.kalan > 0 && b.kalan <= 60 ? "ringPulse 1.1s ease-in-out infinite" : "none",
+        rowOpacity: isExiting ? 0 : 1,
+        rowTransform: isExiting ? "scale(.92) translateX(24px)" : "scale(1) translateX(0)",
+        onDon: (e) => { e.stopPropagation(); this.don(b.id); },
+        onOpen: () => this.openDetay(b.id),
+      };
+    });
+
+    const detaySrc = s.basvurular.find((b) => b.id === s.detayId);
+    const detay = detaySrc
+      ? {
+          ...detaySrc,
+          sureText: readableSure(detaySrc.kalan),
+          mesafeText: fmtKm(detaySrc.mesafeKm),
+          isCritical: detaySrc.kalan > 0 && detaySrc.kalan <= 60,
+          onDon: (e) => { e.stopPropagation(); this.don(detaySrc.id); },
+        }
+      : null;
+    const detayAnim = s.detayClosing
+      ? "slideOutLeft .3s ease-in forwards"
+      : "slideInRight .32s cubic-bezier(.2,.8,.25,1)";
+
+    const spy = s.spylerList.find((x) => x.id === s.secili) || s.spylerList[0];
+    const spyler = s.spylerList.map((x) => {
+      const active = s.secili === x.id;
+      return {
+        ...x,
+        onSelect: () => this.setState({ secili: x.id, adminTab: "harita" }),
+        onRemove: () => this.setState((st) => ({ spylerList: st.spylerList.filter((y) => y.id !== x.id) })),
+        chipBg: active ? GREEN : "#fff",
+        chipBorder: active ? GREEN : LINE,
+        chipText: active ? "#fff" : INK,
+      };
+    });
+
+    const spyTabIndex = { liste: 0, harita: 1, gecmis: 2, profil: 3 }[s.spyTab];
+    const adminTabIndex = { ozet: 0, gorusmeler: 1, harita: 2 }[s.adminTab];
+    const musteriTabIndex = { ana: 0, odemeler: 1, temsilci: 2, profil: 3 }[s.musteriTab];
+    const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
+
+    const headerMap = {
+      liste: ["Sıradaki Görüşmeler", "Onur K. · Kadıköy / Ataşehir bölgesi"],
+      harita: ["Canlı Konum", "Saha ekibinizin ve müşterilerin konumu"],
+      gecmis: ["Geçmiş Görüşmeler", s.tamamlanan.length + " tamamlanan görüşme"],
+      profil: ["Profilim", "SPY · Saha Ekibi"],
+    };
+    const [headerTitle, headerSubtitle] = headerMap[s.spyTab];
+
+    const gorusmeSatirlari = (() => {
+      if (s.gorusmeFiltre === "canli") {
+        const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
+        if (!rep || (s.reqStatus !== "eslesti" && s.reqStatus !== "onaylandi" && s.reqStatus !== "vardi")) return [];
+        const durum = s.reqStatus === "eslesti" ? "Online sohbet" : s.reqStatus === "onaylandi" ? "Yolda" : "Yüz yüze";
+        const durumColor = s.reqStatus === "eslesti" ? "#2E6B8A" : s.reqStatus === "onaylandi" ? GOLD_TEXT : NAVY;
+        return [{ spyAd: rep.ad, musteriAd: "Müşteri", sube: ilkIlce(rep.bolge) + " Şubesi", konum: CUSTOMER_ILCE, durum, durumColor }];
+      }
+      if (s.gorusmeFiltre === "bekleyen") {
+        return list.map((b) => {
+          const nearest = s.spylerList.find((x) => x.bolge.includes(b.ilce)) || s.spylerList[0];
+          return { spyAd: nearest.ad, musteriAd: b.ad, sube: ilkIlce(nearest.bolge) + " Şubesi", konum: b.ilce, durum: "Bekliyor", durumColor: GOLD_TEXT };
+        });
+      }
+      return s.tamamlanan.map((t) => ({ spyAd: s.spylerList[0].ad, musteriAd: t.ad, sube: ilkIlce(s.spylerList[0].bolge) + " Şubesi", konum: t.ilce, durum: "Tamamlandı", durumColor: GREEN }));
+    })();
+
+    const themeVars = s.darkMode
+      ? "--bg:#14171C;--card:#1E2229;--line:#2B303A;--ink:#EDEFF2;--dim:#9AA3AD;--track:#242832;--tintGreen:#1C332A;--tintRed:#3A2222;--tintGray:#262A32;"
+      : "--bg:#F4F5F3;--card:#FFFFFF;--line:#E4E1D8;--ink:#2B2F2C;--dim:#6B7367;--track:#E7E9E5;--tintGreen:#EAF3EE;--tintRed:#F8ECE9;--tintGray:#F1EEE6;";
+
+    return {
+      themeVars,
+      darkMode: s.darkMode,
+      darkModeOff: !s.darkMode,
+      toggleDarkMode: () => this.setState((st) => ({ darkMode: !st.darkMode })),
+
+      pullY: s.refreshing ? 56 : s.pullY,
+      refreshing: s.refreshing,
+      pullRotation: Math.min(s.pullY * 3, 220),
+      pullLabel: s.refreshing ? "Yenileniyor…" : s.pullY >= 55 ? "Bırakın, yenilensin" : "Yenilemek için çekin",
+      refreshSpin: s.refreshing ? "spin .8s linear infinite" : "none",
+      onListPointerDown: (e) => this.onListPointerDown(e),
+      onListPointerMove: (e) => this.onListPointerMove(e),
+      onListPointerUp: () => this.onListPointerUp(),
+
+      detayAnim,
+      girisYapildi: s.girisYapildi,
+      girisGosterilsin: !s.girisYapildi,
+      girisEmail: s.girisEmail,
+      girisSifre: s.girisSifre,
+      setGirisEmail: (e) => this.setState({ girisEmail: e.target.value }),
+      setGirisSifre: (e) => this.setState({ girisSifre: e.target.value }),
+      girisRol: s.girisRol,
+      girisRolMusteri: s.girisRol === "musteri" ? "#fff" : INK,
+      girisRolPersonel: s.girisRol === "personel" ? "#fff" : INK,
+      girisRolPillLeft: s.girisRol === "musteri" ? "4px" : "calc(50% + 0px)",
+      setGirisRolMusteri: () => this.setState({ girisRol: "musteri" }),
+      setGirisRolPersonel: () => this.setState({ girisRol: "personel" }),
+      submitGiris: () => this.setState({ girisYapildi: true, panel: s.girisRol === "musteri" ? "musteri" : "spy" }),
+
+      isMusteri: s.panel === "musteri",
+      isSpy: s.panel === "spy",
+      isAdmin: s.panel === "admin",
+      goMusteri: () => this.setState({ panel: "musteri" }),
+      goSpy: () => this.setState({ panel: "spy" }),
+      goAdmin: () => this.setState({ panel: "admin" }),
+      pillLeft: s.panel === "musteri" ? "4px" : s.panel === "spy" ? "calc(33.333% + 3px)" : "calc(66.666% + 2px)",
+      musteriLabelColor: s.panel === "musteri" ? "#fff" : INK,
+      spyLabelColor: s.panel === "spy" ? "#fff" : INK,
+      adminLabelColor: s.panel === "admin" ? "#fff" : INK,
+
+      headerTitle,
+      headerSubtitle,
+      bildirim: s.bildirim,
+      dismissBildirim: () => this.setState({ bildirim: null }),
+      triggerBildirimDemo: () => this.demoBildirim(),
+
+      yukleniyor: s.yukleniyor,
+      yukleniyorBitti: !s.yukleniyor,
+      skeletonRows: [0, 1, 2],
+      listeBos: list.length === 0,
+      listeVarMi: list.length > 0,
+
+      spyTabIsListe: s.spyTab === "liste",
+      spyTabIsHarita: s.spyTab === "harita",
+      spyTabIsGecmis: s.spyTab === "gecmis",
+      spyTabIsProfil: s.spyTab === "profil",
+      setSpyTabListe: () => this.setState({ spyTab: "liste" }),
+      setSpyTabHarita: () => this.setState({ spyTab: "harita" }),
+      setSpyTabGecmis: () => this.setState({ spyTab: "gecmis" }),
+      setSpyTabProfil: () => this.setState({ spyTab: "profil" }),
+      spyTabIndicatorLeft: (spyTabIndex * 25).toFixed(2) + "%",
+      spyListeColor: s.spyTab === "liste" ? GREEN : "#A7B3AC",
+      spyHaritaColor: s.spyTab === "harita" ? GREEN : "#A7B3AC",
+      spyGecmisColor: s.spyTab === "gecmis" ? GREEN : "#A7B3AC",
+      spyProfilColor: s.spyTab === "profil" ? GREEN : "#A7B3AC",
+      spyListeWeight: s.spyTab === "liste" ? 700 : 500,
+      spyHaritaWeight: s.spyTab === "harita" ? 700 : 500,
+      spyGecmisWeight: s.spyTab === "gecmis" ? 700 : 500,
+      spyProfilWeight: s.spyTab === "profil" ? 700 : 500,
+
+      list,
+      listHeight: Math.max(0, list.length * ROW_H - 10),
+      detay,
+      closeDetay: () => this.closeDetay(),
+      tamamlanan: s.tamamlanan,
+      tamamlananBos: s.tamamlanan.length === 0,
+      bugunTamamlanan: s.tamamlanan.length,
+      goldText: s.darkMode ? GOLD : GOLD_TEXT,
+      coralText: s.darkMode ? CORAL : CORAL_TEXT,
+
+      adminTabIsOzet: s.adminTab === "ozet",
+      adminTabIsGorusmeler: s.adminTab === "gorusmeler",
+      adminTabIsHarita: s.adminTab === "harita",
+      setAdminTabOzet: () => this.setState({ adminTab: "ozet" }),
+      setAdminTabGorusmeler: () => this.setState({ adminTab: "gorusmeler" }),
+      setAdminTabHarita: () => this.setState({ adminTab: "harita" }),
+      adminTabIndicatorLeft: (adminTabIndex * 33.333).toFixed(2) + "%",
+      adminOzetColor: s.adminTab === "ozet" ? GREEN : "#A7B3AC",
+      adminGorusmelerColor: s.adminTab === "gorusmeler" ? GREEN : "#A7B3AC",
+      adminHaritaColor: s.adminTab === "harita" ? GREEN : "#A7B3AC",
+      adminOzetWeight: s.adminTab === "ozet" ? 700 : 500,
+      adminGorusmelerWeight: s.adminTab === "gorusmeler" ? 700 : 500,
+      adminHaritaWeight: s.adminTab === "harita" ? 700 : 500,
+
+      ozetTarih: s.ozetTarih,
+      setOzetTarih: (e) => this.setState({ ozetTarih: e.target.value }),
+      gununGorusmeSayisi: (() => {
+        const gunFarki = Math.round((new Date(s.ozetTarih) - new Date(new Date().toISOString().slice(0, 10))) / 86400000);
+        if (gunFarki === 0) return list.length + s.tamamlanan.length;
+        const seed = Math.abs(gunFarki * 17 + s.ozetTarih.length * 3);
+        return 3 + (seed % 9);
+      })(),
+
+      gorusmeFiltre: s.gorusmeFiltre,
+      setFiltreCanli: () => this.setState({ gorusmeFiltre: "canli" }),
+      setFiltreBekleyen: () => this.setState({ gorusmeFiltre: "bekleyen" }),
+      setFiltreBiten: () => this.setState({ gorusmeFiltre: "biten" }),
+      filtreCanliBg: s.gorusmeFiltre === "canli" ? GREEN : "var(--card)",
+      filtreCanliBorder: s.gorusmeFiltre === "canli" ? GREEN : LINE,
+      filtreCanliText: s.gorusmeFiltre === "canli" ? "#fff" : INK,
+      filtreBekleyenBg: s.gorusmeFiltre === "bekleyen" ? GREEN : "var(--card)",
+      filtreBekleyenBorder: s.gorusmeFiltre === "bekleyen" ? GREEN : LINE,
+      filtreBekleyenText: s.gorusmeFiltre === "bekleyen" ? "#fff" : INK,
+      filtreBitenBg: s.gorusmeFiltre === "biten" ? GREEN : "var(--card)",
+      filtreBitenBorder: s.gorusmeFiltre === "biten" ? GREEN : LINE,
+      filtreBitenText: s.gorusmeFiltre === "biten" ? "#fff" : INK,
+      gorusmeSatirlari,
+      gorusmeSatirlariBos: gorusmeSatirlari.length === 0,
+
+      haritaSpyOn: s.haritaSpyOn,
+      haritaMusteriOn: s.haritaMusteriOn,
+      toggleHaritaSpy: () => this.setState((st) => ({ haritaSpyOn: !st.haritaSpyOn })),
+      toggleHaritaMusteri: () => this.setState((st) => ({ haritaMusteriOn: !st.haritaMusteriOn })),
+      haritaSpyBg: s.haritaSpyOn ? GREEN : "var(--card)",
+      haritaSpyText: s.haritaSpyOn ? "#fff" : INK,
+      haritaMusteriBg: s.haritaMusteriOn ? GOLD : "var(--card)",
+      haritaMusteriText: s.haritaMusteriOn ? "#fff" : INK,
+
+      spyler,
+      spylerCount: s.spylerList.length,
+      toplamBasvuru: s.spylerList.reduce((a, x) => a + x.sayac, 0),
+      canliMapRef: this._canliRef(),
+      onCanliMapLoad: () => { this.postCanliAdmin(); this.postBasvurular(); },
+      spyLiveMapRef: this._spyLiveRef(),
+      onSpyLiveMapLoad: () => this.postCanliSpy(),
+      musteriLiveMapRef: this._musteriLiveRef(),
+      onMusteriLiveMapLoad: () => this.postCanliMusteri(),
+
+      spyModalOpen: s.spyModalOpen,
+      openSpyModal: () => this.setState({ spyModalOpen: true, yeniAd: "", yeniBolge: "" }),
+      closeSpyModal: () => this.setState({ spyModalOpen: false }),
+      stopProp: (e) => e.stopPropagation(),
+      yeniAd: s.yeniAd,
+      yeniBolge: s.yeniBolge,
+      setYeniAd: (e) => this.setState({ yeniAd: e.target.value }),
+      setYeniBolge: (e) => this.setState({ yeniBolge: e.target.value }),
+      submitSpyModal: () => {
+        if (!s.yeniAd.trim()) return;
+        const renkSecim = PALETTE[SPY_ID_SEQ % PALETTE.length];
+        const yeni = { id: "s" + ++SPY_ID_SEQ, ad: s.yeniAd.trim(), bolge: s.yeniBolge.trim() || "Bölge atanmadı", sayac: 0, renk: renkSecim };
+        this.setState((st) => ({ spylerList: [...st.spylerList, yeni], spyModalOpen: false }));
+      },
+
+      musteriTabIsAna: s.musteriTab === "ana",
+      musteriTabIsOdemeler: s.musteriTab === "odemeler",
+      musteriTabIsTemsilci: s.musteriTab === "temsilci",
+      musteriTabIsProfil: s.musteriTab === "profil",
+      setMusteriTabAna: () => this.setState({ musteriTab: "ana" }),
+      setMusteriTabOdemeler: () => this.setState({ musteriTab: "odemeler" }),
+      setMusteriTabTemsilci: () => this.setState({ musteriTab: "temsilci" }),
+      setMusteriTabProfil: () => this.setState({ musteriTab: "profil" }),
+      musteriTabIndicatorLeft: (musteriTabIndex * 25).toFixed(2) + "%",
+      musteriAnaColor: s.musteriTab === "ana" ? GREEN : "#A7B3AC",
+      musteriOdemelerColor: s.musteriTab === "odemeler" ? GREEN : "#A7B3AC",
+      musteriTemsilciColor: s.musteriTab === "temsilci" ? GREEN : "#A7B3AC",
+      musteriProfilColor: s.musteriTab === "profil" ? GREEN : "#A7B3AC",
+      musteriAnaWeight: s.musteriTab === "ana" ? 700 : 500,
+      musteriOdemelerWeight: s.musteriTab === "odemeler" ? 700 : 500,
+      musteriTemsilciWeight: s.musteriTab === "temsilci" ? 700 : 500,
+      musteriProfilWeight: s.musteriTab === "profil" ? 700 : 500,
+
+      reqIdle: s.reqStatus === "idle",
+      reqAranan: s.reqStatus === "aranan",
+      reqBekliyor: s.reqStatus === "bekliyor",
+      reqEslesti: s.reqStatus === "eslesti",
+      reqOnaylandi: s.reqStatus === "onaylandi",
+      reqVardi: s.reqStatus === "vardi",
+      reqEslestiVeSonrasi: ["eslesti", "onaylandi", "vardi"].indexOf(s.reqStatus) !== -1,
+      reqAktif: s.reqStatus !== "idle",
+      repAd: rep ? rep.ad : "",
+      repRenk: rep ? rep.renk : GREEN,
+      ilerlemeYuzde: Math.round(s.repProgress * 100) + "%",
+      tasarrufYaninda: () => this.tasarrufYaninda(),
+      kabulEt: () => this.kabulEt(),
+      onayla: () => this.onayla(),
+      yeniTalep: () => this.yeniTalep(),
+
+      chatOpen: s.chatOpen,
+      chatAnim: s.chatClosing ? "slideOutLeft .3s ease-in forwards" : "slideInRight .32s cubic-bezier(.2,.8,.25,1)",
+      openChat: () => this.openChat(),
+      closeChat: () => this.closeChat(),
+      chatMessagesSpy: s.chatMessages.map((m) => {
+        const mine = m.from === "temsilci";
+        return { ...m, align: mine ? "flex-end" : "flex-start", bg: mine ? "#276F4E" : "var(--card)", color: mine ? "#fff" : "var(--ink)", borderColor: mine ? "#276F4E" : "var(--line)" };
+      }),
+      chatMessagesMusteri: s.chatMessages.map((m) => {
+        const mine = m.from === "musteri";
+        return { ...m, align: mine ? "flex-end" : "flex-start", bg: mine ? "#276F4E" : "var(--card)", color: mine ? "#fff" : "var(--ink)", borderColor: mine ? "#276F4E" : "var(--line)" };
+      }),
+      chatDraft: s.chatDraft,
+      setChatDraft: (e) => this.setState({ chatDraft: e.target.value }),
+      sendChatMusteri: () => this.sendChat("musteri"),
+      sendChatTemsilci: () => this.sendChat("temsilci"),
+
+      mapMarkersAdmin: [
+        ...s.spylerList.map((x) => ({
+          x: x.id === s.assignedRepId && s.repPos ? s.repPos.x : ABSTRACT_POS[x.id].x,
+          y: x.id === s.assignedRepId && s.repPos ? s.repPos.y : ABSTRACT_POS[x.id].y,
+          size: 14,
+          color: x.renk,
+          label: x.ad,
+          pulse: "ringPulse 1.6s ease-in-out infinite",
+        })),
+        ...(s.reqStatus !== "idle" ? [{ x: CUSTOMER_POS.x, y: CUSTOMER_POS.y, size: 14, color: CORAL, label: "Müşteri", pulse: "ringPulse 1.6s ease-in-out infinite" }] : []),
+      ],
+      mapMarkersSpy: [
+        {
+          x: s.assignedRepId === "s1" && s.repPos ? s.repPos.x : ABSTRACT_POS.s1.x,
+          y: s.assignedRepId === "s1" && s.repPos ? s.repPos.y : ABSTRACT_POS.s1.y,
+          size: 15,
+          color: GREEN,
+          label: "Siz",
+          pulse: "ringPulse 1.6s ease-in-out infinite",
+        },
+        ...list.slice(0, 4).map((b, i) => ({ x: 20 + i * 18, y: 55 + (i % 2) * 22, size: 11, color: GOLD, label: b.ad, pulse: "none" })),
+        ...(s.reqStatus !== "idle" && s.assignedRepId === "s1" ? [{ x: CUSTOMER_POS.x, y: CUSTOMER_POS.y, size: 14, color: CORAL, label: "Yeni Talep", pulse: "ringPulse 1.6s ease-in-out infinite" }] : []),
+      ],
+      mapMarkersMusteri: [
+        { x: CUSTOMER_POS.x, y: CUSTOMER_POS.y, size: 15, color: GREEN, label: "Siz", pulse: "none" },
+        ...(rep ? [{ x: s.repPos ? s.repPos.x : ABSTRACT_POS[rep.id].x, y: s.repPos ? s.repPos.y : ABSTRACT_POS[rep.id].y, size: 14, color: rep.renk, label: rep.ad, pulse: "ringPulse 1.6s ease-in-out infinite" }] : []),
+      ],
+    };
+  }
+}
+
+</script>
+</body>
+</html>

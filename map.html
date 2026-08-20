@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<style>
+html, body { margin: 0; height: 100%; font-family: 'Inter', sans-serif; }
+#map { width: 100%; height: 100%; background: #E9EEF1; }
+.pulse-marker { width: 16px; height: 16px; border-radius: 50%; position: relative; border: 2px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,.3); }
+.pulse-marker::after { content: ""; position: absolute; inset: -9px; border-radius: 50%; background: inherit; opacity: .5; animation: pulseRing 1.7s ease-out infinite; }
+@keyframes pulseRing { 0% { transform: scale(.35); opacity: .55; } 100% { transform: scale(2.4); opacity: 0; } }
+.dim-marker { width: 9px; height: 9px; border-radius: 50%; background: #B9C3CC; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.08); }
+.leaflet-tooltip { font-size: 11px; font-weight: 600; }
+.live-label { background: #fff; border: none; box-shadow: 0 1px 3px rgba(0,0,0,.18); padding: 2px 6px; }
+.live-label::before { display: none; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+var DISTRICTS = [
+  { ad: "Beylikdüzü", lat: 41.0035, lng: 28.6412 },
+  { ad: "Bakırköy", lat: 40.9829, lng: 28.8770 },
+  { ad: "Fatih", lat: 41.0186, lng: 28.9497 },
+  { ad: "Beşiktaş", lat: 41.0422, lng: 29.0061 },
+  { ad: "Şişli", lat: 41.0602, lng: 28.9877 },
+  { ad: "Üsküdar", lat: 41.0227, lng: 29.0122 },
+  { ad: "Kadıköy", lat: 40.9927, lng: 29.0274 },
+  { ad: "Ataşehir", lat: 40.9923, lng: 29.1244 },
+  { ad: "Maltepe", lat: 40.9354, lng: 29.1500 },
+  { ad: "Pendik", lat: 40.8778, lng: 29.2358 }
+];
+
+var map = L.map('map', { zoomControl: true, attributionControl: true }).setView([41.01, 29.02], 11);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+  subdomains: 'abcd',
+  maxZoom: 18
+}).addTo(map);
+
+var markers = {};
+DISTRICTS.forEach(function (d) {
+  var icon = L.divIcon({ className: '', html: '<div class="dim-marker"></div>', iconSize: [13, 13] });
+  var m = L.marker([d.lat, d.lng], { icon: icon }).addTo(map);
+  m.bindTooltip(d.ad, { direction: 'top', offset: [0, -6] });
+  markers[d.ad] = m;
+});
+
+function highlight(color, names) {
+  names = names || [];
+  Object.keys(markers).forEach(function (ad) {
+    var active = names.indexOf(ad) !== -1;
+    var html = active
+      ? '<div class="pulse-marker" style="background:' + color + '"></div>'
+      : '<div class="dim-marker"></div>';
+    markers[ad].setIcon(L.divIcon({ className: '', html: html, iconSize: active ? [16, 16] : [13, 13] }));
+  });
+  var pts = names.map(function (n) { return markers[n] && markers[n].getLatLng(); }).filter(Boolean);
+  if (pts.length) map.flyToBounds(L.latLngBounds(pts), { padding: [70, 70], duration: 0.6, maxZoom: 13 });
+}
+
+// --- Başvuru kümeleme (basit piksel-mesafeli clustering, plugin gerektirmez) ---
+var basvuruLayer = L.layerGroup().addTo(map);
+var basvuruPoints = [];
+
+function districtLatLng(ad) {
+  var d = DISTRICTS.find(function (x) { return x.ad === ad; });
+  return d ? [d.lat, d.lng] : null;
+}
+
+function renderClusters() {
+  basvuruLayer.clearLayers();
+  if (!basvuruPoints.length) return;
+  var pts = basvuruPoints.map(function (p, i) {
+    var pt = map.latLngToContainerPoint(L.latLng(p.lat, p.lng));
+    return { i: i, pt: pt, data: p, used: false };
+  });
+  var clusters = [];
+  pts.forEach(function (p) {
+    if (p.used) return;
+    var group = [p];
+    p.used = true;
+    pts.forEach(function (q) {
+      if (q.used) return;
+      var dx = p.pt.x - q.pt.x, dy = p.pt.y - q.pt.y;
+      if (Math.sqrt(dx * dx + dy * dy) < 44) { group.push(q); q.used = true; }
+    });
+    clusters.push(group);
+  });
+  clusters.forEach(function (group) {
+    var avgLat = group.reduce(function (a, g) { return a + g.data.lat; }, 0) / group.length;
+    var avgLng = group.reduce(function (a, g) { return a + g.data.lng; }, 0) / group.length;
+    if (group.length > 1) {
+      var size = 28 + Math.min(group.length, 6) * 4;
+      var icon = L.divIcon({
+        className: '',
+        html: '<div style="width:' + size + 'px;height:' + size + 'px;border-radius:50%;background:#276F4E;color:#fff;display:flex;align-items:center;justify-content:center;font:700 13px Inter,sans-serif;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);">' + group.length + '</div>',
+        iconSize: [size, size]
+      });
+      L.marker([avgLat, avgLng], { icon: icon }).addTo(basvuruLayer).on('click', function () {
+        map.setZoom(Math.min(map.getZoom() + 2, 15));
+      });
+    } else {
+      var icon2 = L.divIcon({
+        className: '',
+        html: '<div style="width:12px;height:12px;border-radius:50%;background:#E8803E;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.3);"></div>',
+        iconSize: [12, 12]
+      });
+      L.marker([avgLat, avgLng], { icon: icon2 }).addTo(basvuruLayer);
+    }
+  });
+}
+
+map.on('zoomend moveend', renderClusters);
+
+// --- Canlı konum işaretçileri (SPY'ler, müşteriler, hareket eden temsilci) ---
+var canliLayer = L.layerGroup().addTo(map);
+
+function renderCanli(items, moving) {
+  canliLayer.clearLayers();
+  var pts = [];
+  (items || []).forEach(function (it) {
+    var ll = districtLatLng(it.ilce);
+    if (!ll) return;
+    pts.push(ll);
+    var icon = L.divIcon({ className: '', html: '<div class="pulse-marker" style="background:' + it.color + '"></div>', iconSize: [16, 16] });
+    var m = L.marker(ll, { icon: icon }).addTo(canliLayer);
+    if (it.label) m.bindTooltip(it.label, { permanent: true, direction: 'top', offset: [0, -9], className: 'live-label' });
+    if (it.sube) m.bindPopup(popupHtml(it.label, it.sube, it.durum, it.durumColor), { closeButton: true, minWidth: 170 });
+  });
+  if (moving) {
+    var a = districtLatLng(moving.fromIlce), b = districtLatLng(moving.toIlce);
+    if (a && b) {
+      var lat = a[0] + (b[0] - a[0]) * moving.progress;
+      var lng = a[1] + (b[1] - a[1]) * moving.progress;
+      pts.push([lat, lng]);
+      var icon2 = L.divIcon({ className: '', html: '<div class="pulse-marker" style="background:' + moving.color + '"></div>', iconSize: [16, 16] });
+      var m2 = L.marker([lat, lng], { icon: icon2 }).addTo(canliLayer);
+      if (moving.label) m2.bindTooltip(moving.label, { permanent: true, direction: 'top', offset: [0, -9], className: 'live-label' });
+      if (moving.sube) m2.bindPopup(popupHtml(moving.label, moving.sube, moving.durum, moving.durumColor), { closeButton: true, minWidth: 170 });
+    }
+  }
+  if (pts.length) map.flyToBounds(L.latLngBounds(pts), { padding: [55, 55], maxZoom: 13, duration: 0.6 });
+}
+
+function popupHtml(name, sube, durum, durumColor) {
+  return '<div style="font-family:Inter,sans-serif;">' +
+    '<div style="font:700 13px Inter,sans-serif; color:#2B2F2C;">' + name + '</div>' +
+    '<div style="font-size:11px; color:#6B7367; margin-top:2px;">' + sube + '</div>' +
+    '<div style="display:inline-flex; align-items:center; gap:5px; margin-top:8px; font:700 10.5px Inter,sans-serif; color:' + durumColor + '; border:1px solid ' + durumColor + '; border-radius:6px; padding:3px 8px;">' +
+    '<span style="width:6px;height:6px;border-radius:99px;background:' + durumColor + ';flex-shrink:0;"></span>' + durum +
+    '</div></div>';
+}
+
+window.addEventListener('message', function (e) {
+  var d = e.data || {};
+  if (d.type === 'select') highlight(d.color, d.districts);
+  if (d.type === 'canli') renderCanli(d.items, d.moving);
+  if (d.type === 'basvurular') {
+    basvuruPoints = (d.items || []).map(function (it, i) {
+      var ll = districtLatLng(it.ilce);
+      if (!ll) return null;
+      var jitter = 0.006;
+      return { lat: ll[0] + Math.sin(i * 2.1) * jitter, lng: ll[1] + Math.cos(i * 2.1) * jitter, ilce: it.ilce };
+    }).filter(Boolean);
+    renderClusters();
+  }
+});
+</script>
+</body>
+</html>
