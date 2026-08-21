@@ -45,6 +45,41 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; }
 }
+/* Mobil/standalone modda tam ekran: sahte telefon çerçevesini kaldır */
+@media (max-width: 640px), (display-mode: standalone), (display-mode: fullscreen) {
+  body > div { padding: 0 !important; gap: 0 !important; min-height: 100dvh !important; }
+  /* Dış siyah bezel */
+  div[style*="border-radius: 44px"] {
+    background: transparent !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+  /* İç ekran alanı — cihaz yüksekliğini kapla */
+  div[style*="border-radius: 34px"] {
+    border-radius: 0 !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+  }
+  /* Fake notch şeridi (30px navy strip) gizle */
+  div[style*="height: 30px"][style*="rgb(27, 39, 64)"] { display: none !important; }
+  /* Panel switcher barı: 330px sabit → tam genişlik */
+  div[style*="width: 330px"] {
+    width: 100% !important;
+    border-radius: 0 !important;
+  }
+  /* Yeşil header'lara statusbar boşluğu ekle */
+  header[style*="rgb(39, 111, 78)"],
+  div[style*="background: rgb(39, 111, 78)"] {
+    padding-top: max(20px, env(safe-area-inset-top)) !important;
+  }
+  /* Alt navigasyona home-indicator boşluğu */
+  div[style*="border-top: 1px solid var(--line)"] {
+    padding-bottom: max(6px, env(safe-area-inset-bottom)) !important;
+  }
+}
 </style>
 </helmet>
 
