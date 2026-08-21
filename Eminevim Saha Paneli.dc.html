@@ -2,7 +2,18 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eminevim · Tasarruf Yanımda</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#276F4E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Eminevim">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./assets/icon-180.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="./assets/icon-512.png">
+<script>if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));</script>
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="./assignment.js"></script>
@@ -99,7 +110,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
       </main>
       <sc-if value="{{ customerNavProfil }}"><div style="flex:1;padding:20px;display:flex;flex-direction:column;gap:12px;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Profilim</div><div style="background:var(--card);border:1px solid var(--line);border-radius:15px;padding:15px;"><div style="font-size:15px;font-weight:800;color:var(--ink);">{{ profileName }}</div><div style="font-size:12px;color:var(--dim);margin-top:4px;">{{ profileEmail }}</div></div></div></sc-if>
       <sc-if value="{{ customerNavGorusmeler }}"><div style="flex:1;padding:20px;overflow-y:auto;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Görüşmeler</div><div style="display:flex;gap:7px;margin-top:13px;"><button onClick="{{ sortMeetingsDate }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--card);border-radius:9px;color:var(--ink);font-size:10.5px;font-weight:800;cursor:pointer;">Tarih {{ meetingDateOrder }}</button><button onClick="{{ sortMeetingsName }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--card);border-radius:9px;color:var(--ink);font-size:10.5px;font-weight:800;cursor:pointer;">İsim {{ meetingNameOrder }}</button></div><div style="display:flex;flex-direction:column;gap:7px;margin-top:12px;"><sc-for list="{{ customerMeetings }}" as="m" hint-placeholder-count="3"><div style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 11px;display:flex;align-items:center;gap:9px;"><div style="width:7px;height:7px;border-radius:50%;background:#276F4E;"></div><div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ m.name }}</div><div style="font-size:10.5px;color:var(--dim);margin-top:2px;">{{ m.branch }}</div></div><div style="font-size:10.5px;color:var(--dim);">{{ m.date }}</div></div></sc-for></div></div></sc-if>
-      <sc-if value="{{ customerNavAyarlar }}"><div style="flex:1;padding:20px;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Ayarlar</div><div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-top:13px;font-size:12px;color:var(--dim);">Bildirim ve konum izinlerinizi buradan yönetebileceksiniz.</div></div></sc-if>
+      <sc-if value="{{ customerNavAyarlar }}"><div style="flex:1;padding:20px;display:flex;flex-direction:column;gap:12px;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Ayarlar</div><div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:12px;color:var(--dim);">Bildirim ve konum izinlerinizi buradan yönetebileceksiniz.</div><button onClick="{{ toggleDemoAutoAccept }}" style="min-height:52px;padding:12px 14px;border:1px solid var(--line);background:var(--card);border-radius:14px;display:flex;align-items:center;gap:12px;cursor:pointer;text-align:left;"><span style="width:36px;height:22px;border-radius:99px;background:{{ demoAutoAcceptBg }};position:relative;flex-shrink:0;transition:background .2s;"><span style="position:absolute;top:2px;left:{{ demoAutoAcceptDotLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s;"></span></span><span style="flex:1;"><span style="display:block;font-size:13px;font-weight:800;color:var(--ink);">Demo modu · otomatik kabul</span><span style="display:block;font-size:11px;color:var(--dim);margin-top:2px;line-height:1.4;">Açıkken SPY paneline geçmene gerek kalmadan temsilci ~3 sn içinde talebi kabul eder.</span></span></button></div></sc-if>
       <div style="position:absolute;bottom:0;left:0;right:0;z-index:40;display:flex;border-top:1px solid var(--line);background:var(--card);padding:6px 0;"><div style="position:absolute;top:4px;left:{{ customerNavIndicatorLeft }};width:25%;height:2px;background:#276F4E;border-radius:2px;transition:left .28s cubic-bezier(.4,0,.2,1);"></div><button onClick="{{ setCustomerNavProfil }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navProfilColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navProfilColor }}" stroke-width="2"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg><span style="font-size:10px;font-weight:{{ navProfilWeight }};">Profil</span></button><button onClick="{{ setCustomerNavTasarruf }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navTasarrufColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navTasarrufColor }}" stroke-width="2"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"></path></svg><span style="font-size:10px;font-weight:{{ navTasarrufWeight }};">Tasarruf</span></button><button onClick="{{ setCustomerNavGorusmeler }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navGorusmelerColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navGorusmelerColor }}" stroke-width="2"><path d="M5 5h14v11H9l-4 3V5Z"></path><path d="M9 9h6M9 12h4"></path></svg><span style="font-size:10px;font-weight:{{ navGorusmelerWeight }};">Görüşmeler</span></button><button onClick="{{ setCustomerNavAyarlar }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navAyarlarColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navAyarlarColor }}" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.1 2.1-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56v.1h-3v-.1a1.7 1.7 0 0 0-1.04-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-2.1-2.1.06-.06A1.7 1.7 0 0 0 7.04 15 1.7 1.7 0 0 0 5.5 14H5.4v-3h.1A1.7 1.7 0 0 0 7.04 10 1.7 1.7 0 0 0 6.7 8.12l-.06-.06 2.1-2.1.06.06a1.7 1.7 0 0 0 1.88.34 1.7 1.7 0 0 0 1.04-1.56V4.7h3v.1a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.1 2.1-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.54 1h.1v3h-.1A1.7 1.7 0 0 0 19.4 15Z"></path></svg><span style="font-size:10px;font-weight:{{ navAyarlarWeight }};">Ayarlar</span></button></div>
       <sc-if value="{{ pointPickerOpen }}"><div style="position:absolute;inset:0;z-index:45;background:var(--bg);display:flex;flex-direction:column;animation:slideInRight .3s ease-out;"><div style="padding:12px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;"><button onClick="{{ closePointPicker }}" aria-label="Konum seçimini kapat" style="width:44px;height:44px;border:none;background:transparent;color:#276F4E;font-size:25px;cursor:pointer;">‹</button><div><div style="font-size:15px;font-weight:800;color:var(--ink);">Bir nokta belirt</div><div style="font-size:10.5px;color:var(--dim);">Haritada istediğiniz noktaya dokunun</div></div></div><div style="flex:1;position:relative;"><iframe ref="{{ pointPickerMapRef }}" src="map.html?selectable=1" onLoad="{{ onPointPickerMapLoad }}" title="Konum seçme haritası" style="width:100%;height:100%;border:none;"></iframe><div style="position:absolute;left:14px;right:14px;bottom:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 12px 30px rgba(23,33,54,.18);"><div style="font-size:11.5px;color:var(--dim);">{{ selectedPointText }}</div><button onClick="{{ confirmSelectedPoint }}" disabled="{{ selectedPointMissing }}" style="width:100%;min-height:46px;margin-top:9px;border:none;background:#276F4E;color:#fff;border-radius:11px;font-size:13px;font-weight:800;cursor:pointer;opacity:{{ selectedPointOpacity }};">Bu Konumu Gönder</button></div></div></div></sc-if>
     </div>
@@ -645,6 +656,7 @@ class Component extends DCLogic {
     chatDraft: "",
     chatOpen: false,
     chatClosing: false,
+    demoAutoAccept: true,
   };
 
   componentDidMount() {
@@ -678,6 +690,7 @@ class Component extends DCLogic {
     if (this._locationPoll) clearInterval(this._locationPoll);
     if (this._geoWatch != null && navigator.geolocation) navigator.geolocation.clearWatch(this._geoWatch);
     if (this._assignmentTimer) clearInterval(this._assignmentTimer);
+    if (this._autoAcceptTimer) clearTimeout(this._autoAcceptTimer);
     window.removeEventListener("message", this._pointMessageHandler);
   }
 
@@ -966,9 +979,16 @@ class Component extends DCLogic {
         return { assignmentCountdown: next };
       });
     }, 1000);
+    if (this._autoAcceptTimer) clearTimeout(this._autoAcceptTimer);
+    if (this.state.demoAutoAccept) {
+      this._autoAcceptTimer = setTimeout(() => {
+        if (this.state.reqStatus === "bekliyor") this.acceptAssignment();
+      }, 3500);
+    }
   }
   rejectAssignment(reason = "rejected") {
     if (this._assignmentTimer) clearInterval(this._assignmentTimer);
+    if (this._autoAcceptTimer) clearTimeout(this._autoAcceptTimer);
     const current = this.state.assignedRepId;
     const engine = window.AssignmentEngine;
     const result = engine && (reason === "timeout" ? engine.sureDolunca : engine.reddet)({ spyler: this.state.spylerList, customer: this.state.customerLocation, currentSpyId: current, rejectedIds: this.state.rejectedSpyIds });
@@ -977,6 +997,7 @@ class Component extends DCLogic {
   }
   acceptAssignment() {
     if (this._assignmentTimer) clearInterval(this._assignmentTimer);
+    if (this._autoAcceptTimer) clearTimeout(this._autoAcceptTimer);
     const rep = this.state.spylerList.find((x) => x.id === this.state.assignedRepId);
     const scope = this.state.customerForm.address || "talebiniz";
     this.setState({ reqStatus: "eslesti", customerStage: "chat", customerChatOpen: true, chatOpen: true, bildirim: null, chatMessages: [{ from: "temsilci", text: "Merhabalar, " + scope + " kapsamında görüşme sağlamamız için konumunuzu gönderebilir ya da yakın bir noktayı belirtebilirsiniz." }] });
@@ -1140,6 +1161,10 @@ class Component extends DCLogic {
       darkMode: s.darkMode,
       darkModeOff: !s.darkMode,
       toggleDarkMode: () => this.setState((st) => ({ darkMode: !st.darkMode })),
+      demoAutoAccept: s.demoAutoAccept,
+      demoAutoAcceptBg: s.demoAutoAccept ? GREEN : "#C7CBD1",
+      demoAutoAcceptDotLeft: s.demoAutoAccept ? "16px" : "2px",
+      toggleDemoAutoAccept: () => this.setState((st) => ({ demoAutoAccept: !st.demoAutoAccept })),
 
       pullY: s.refreshing ? 56 : s.pullY,
       refreshing: s.refreshing,
