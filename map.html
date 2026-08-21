@@ -128,6 +128,7 @@ map.on('click', function (event) {
 
 // --- Canlı konum işaretçileri (SPY'ler, müşteriler, hareket eden temsilci) ---
 var canliLayer = L.layerGroup().addTo(map);
+var canliCache = { markers: {}, polyline: null, moveMarker: null, lastKey: null, didFit: false };
 
 function itemLatLng(it) {
   return Number.isFinite(Number(it && it.lat)) && Number.isFinite(Number(it && it.lng))
@@ -135,33 +136,73 @@ function itemLatLng(it) {
     : districtLatLng(it && it.ilce);
 }
 
+function makePulseIcon(color) {
+  return L.divIcon({ className: '', html: '<div class="pulse-marker" style="background:' + color + '"></div>', iconSize: [16, 16] });
+}
+
 function renderCanli(items, moving) {
-  canliLayer.clearLayers();
   var pts = [];
-  (items || []).forEach(function (it) {
-    var ll = itemLatLng(it);
-    if (!ll) return;
-    pts.push(ll);
-    var icon = L.divIcon({ className: '', html: '<div class="pulse-marker" style="background:' + it.color + '"></div>', iconSize: [16, 16] });
-    var m = L.marker(ll, { icon: icon }).addTo(canliLayer);
-    if (it.label) m.bindTooltip(it.label, { permanent: true, direction: 'top', offset: [0, -9], className: 'live-label' });
-    if (it.sube) m.bindPopup(popupHtml(it.label, it.sube, it.durum, it.durumColor), { closeButton: true, minWidth: 170 });
-  });
+  var itemsKey = (items || []).map(function (it) { return (it.label || '') + '|' + it.color; }).join(',') + '|' + (moving ? 'm' : '');
+  var setChanged = itemsKey !== canliCache.lastKey;
+  canliCache.lastKey = itemsKey;
+
+  if (setChanged) {
+    // Rebuild marker set (items changed identity)
+    Object.keys(canliCache.markers).forEach(function (k) { canliLayer.removeLayer(canliCache.markers[k]); });
+    canliCache.markers = {};
+    (items || []).forEach(function (it, i) {
+      var ll = itemLatLng(it);
+      if (!ll) return;
+      var k = 'i' + i;
+      var m = L.marker(ll, { icon: makePulseIcon(it.color) }).addTo(canliLayer);
+      if (it.label) m.bindTooltip(it.label, { permanent: true, direction: 'top', offset: [0, -9], className: 'live-label' });
+      if (it.sube) m.bindPopup(popupHtml(it.label, it.sube, it.durum, it.durumColor), { closeButton: true, minWidth: 170 });
+      canliCache.markers[k] = m;
+      pts.push(ll);
+    });
+  } else {
+    // Same set — just update positions in place
+    (items || []).forEach(function (it, i) {
+      var ll = itemLatLng(it);
+      if (!ll) return;
+      var k = 'i' + i;
+      if (canliCache.markers[k]) canliCache.markers[k].setLatLng(ll);
+      pts.push(ll);
+    });
+  }
+
   if (moving) {
     var a = itemLatLng({ lat: moving.fromLat, lng: moving.fromLng, ilce: moving.fromIlce });
     var b = itemLatLng({ lat: moving.toLat, lng: moving.toLng, ilce: moving.toIlce });
     if (a && b) {
-      L.polyline([a, b], { color: moving.color || '#276F4E', weight: 4, opacity: .48, dashArray: '8 9', lineCap: 'round' }).addTo(canliLayer);
+      if (!canliCache.polyline || setChanged) {
+        if (canliCache.polyline) canliLayer.removeLayer(canliCache.polyline);
+        canliCache.polyline = L.polyline([a, b], { color: moving.color || '#276F4E', weight: 4, opacity: .48, dashArray: '8 9', lineCap: 'round' }).addTo(canliLayer);
+      } else {
+        canliCache.polyline.setLatLngs([a, b]);
+      }
       var lat = a[0] + (b[0] - a[0]) * moving.progress;
       var lng = a[1] + (b[1] - a[1]) * moving.progress;
       pts.push([lat, lng]);
-      var icon2 = L.divIcon({ className: '', html: '<div class="pulse-marker" style="background:' + moving.color + '"></div>', iconSize: [16, 16] });
-      var m2 = L.marker([lat, lng], { icon: icon2 }).addTo(canliLayer);
-      if (moving.label) m2.bindTooltip(moving.label, { permanent: true, direction: 'top', offset: [0, -9], className: 'live-label' });
-      if (moving.sube) m2.bindPopup(popupHtml(moving.label, moving.sube, moving.durum, moving.durumColor), { closeButton: true, minWidth: 170 });
+      if (!canliCache.moveMarker || setChanged) {
+        if (canliCache.moveMarker) canliLayer.removeLayer(canliCache.moveMarker);
+        canliCache.moveMarker = L.marker([lat, lng], { icon: makePulseIcon(moving.color) }).addTo(canliLayer);
+        if (moving.label) canliCache.moveMarker.bindTooltip(moving.label, { permanent: true, direction: 'top', offset: [0, -9], className: 'live-label' });
+      } else {
+        canliCache.moveMarker.setLatLng([lat, lng]);
+      }
     }
+  } else if (canliCache.moveMarker) {
+    canliLayer.removeLayer(canliCache.moveMarker);
+    canliCache.moveMarker = null;
+    if (canliCache.polyline) { canliLayer.removeLayer(canliCache.polyline); canliCache.polyline = null; }
   }
-  if (pts.length) map.flyToBounds(L.latLngBounds(pts), { padding: [55, 55], maxZoom: 13, duration: 0.6 });
+
+  // Fit bounds only once (first render) or when marker set changes — NOT on every progress tick
+  if (pts.length && (setChanged || !canliCache.didFit)) {
+    canliCache.didFit = true;
+    map.fitBounds(L.latLngBounds(pts), { padding: [55, 55], maxZoom: 14, animate: false });
+  }
 }
 
 function popupHtml(name, sube, durum, durumColor) {
