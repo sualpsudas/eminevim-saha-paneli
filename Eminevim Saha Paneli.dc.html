@@ -13,7 +13,19 @@
 <link rel="apple-touch-icon" href="./assets/icon-180.png">
 <link rel="icon" type="image/png" sizes="192x192" href="./assets/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="./assets/icon-512.png">
-<script>if ('serviceWorker' in navigator) window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));</script>
+<script>if ('serviceWorker' in navigator) window.addEventListener('load', () => {
+  navigator.serviceWorker.register('./sw.js', { updateViaCache: 'none' }).then((reg) => {
+    reg.update();
+    if (reg.waiting) reg.waiting.postMessage('skipWaiting');
+    reg.addEventListener('updatefound', () => {
+      const nw = reg.installing;
+      if (!nw) return;
+      nw.addEventListener('statechange', () => { if (nw.state === 'installed' && navigator.serviceWorker.controller) nw.postMessage('skipWaiting'); });
+    });
+  }).catch(() => {});
+  let reloaded = false;
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (reloaded) return; reloaded = true; location.reload(); });
+});</script>
 <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
 <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
 <script src="./assignment.js"></script>
