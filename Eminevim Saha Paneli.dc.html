@@ -132,29 +132,15 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
   }
   /* Fake notch strip gizle */
   div[style*="height: 30px"][style*="rgb(27, 39, 64)"] { display: none !important; }
-  /* Yeşil header'lara statusbar boşluğu + mobilde compact */
-  header[style*="rgb(39, 111, 78)"],
-  div[style*="background: rgb(39, 111, 78)"] {
-    padding-top: max(10px, env(safe-area-inset-top)) !important;
-    padding-bottom: 10px !important;
+  /* Müşteri header'ı: gradient + statusbar boşluğu (yeni tasarım korunur) */
+  header[style*="linear-gradient"] {
+    padding-top: max(12px, env(safe-area-inset-top)) !important;
     flex-shrink: 0 !important;
   }
-  /* Header içindeki büyük "Tasarruf Yanımda" başlığı küçült */
-  header[style*="rgb(39, 111, 78)"] > div[style*="font: 800 23px"],
-  header[style*="rgb(39, 111, 78)"] > div[style*="font: 800 22px"],
-  div[style*="background: rgb(39, 111, 78)"] > div[style*="font-size: 22px"] {
-    font-size: 16px !important;
-    margin-top: 6px !important;
-  }
-  /* Alt satır (subtitle) daha küçük */
-  header[style*="rgb(39, 111, 78)"] > div[style*="color: rgb(215, 235, 224)"],
-  div[style*="background: rgb(39, 111, 78)"] > div[style*="color: rgb(215, 235, 224)"] {
-    display: none !important;
-  }
-  /* Dekoratif daireyi gizle */
-  header[style*="rgb(39, 111, 78)"] > div[style*="border-radius: 50%"],
-  div[style*="background: rgb(39, 111, 78)"] > div[style*="border-radius: 50%"] {
-    display: none !important;
+  /* SPY/Admin panel header'ları düz yeşil — sadece statusbar boşluğu */
+  div[style*="background: rgb(39, 111, 78)"] {
+    padding-top: max(12px, env(safe-area-inset-top)) !important;
+    flex-shrink: 0 !important;
   }
   /* Alt navigasyon: absolute'tan çıkar, akış içinde flex-shrink:0 ile daima altta */
   div[style*="border-top: 1px solid var(--line)"] {
@@ -166,20 +152,27 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
     left: auto !important;
     right: auto !important;
   }
-  /* Alt bant sekmeleri için hafif hover/tap renkleri (koyu değil, anlık) */
+  /* Alt bant sekmeleri için çok hafif anlık hover/tap */
   div[style*="border-top: 1px solid var(--line)"] > button {
     border-radius: 10px !important;
     margin: 0 2px !important;
-    transition: background-color .15s ease !important;
+    transition: background-color .12s ease !important;
+    -webkit-tap-highlight-color: transparent !important;
   }
   div[style*="border-top: 1px solid var(--line)"] > button:hover,
   div[style*="border-top: 1px solid var(--line)"] > button:active {
-    background: rgba(15, 23, 32, 0.04) !important;
+    background: rgba(15, 23, 32, 0.035) !important;
   }
-  /* Seçili sekme (SVG stroke yeşilse) hover'ında çok açık yeşil */
+  /* Seçili sekmenin hover'ı: çok açık yeşil (koyu yeşil yok) */
   div[style*="border-top: 1px solid var(--line)"] > button:has(svg[stroke="#276F4E"]):hover,
   div[style*="border-top: 1px solid var(--line)"] > button:has(svg[stroke="#276F4E"]):active {
-    background: rgba(39, 111, 78, 0.10) !important;
+    background: rgba(39, 111, 78, 0.05) !important;
+  }
+  /* Bırakınca hemen sıfırlansın, focus/persistent iz yok */
+  div[style*="border-top: 1px solid var(--line)"] > button:focus,
+  div[style*="border-top: 1px solid var(--line)"] > button:focus-visible {
+    background: transparent !important;
+    outline: none !important;
   }
   /* Üst panel switcher (Müşteri/SPY/Admin) şimdilik gizli */
   #dc-root > .sc-host > div div[style*="fadeIn"] > div:first-child { display: none !important; }
@@ -243,7 +236,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
   <div style="animation:panelIn .38s cubic-bezier(.2,.7,.3,1);width:375px;max-width:100%;background:#1B2740;border-radius:44px;padding:12px;box-shadow:0 34px 60px -20px rgba(23,33,54,.45);">
     <div style="background:var(--bg);border-radius:34px;overflow:hidden;height:700px;display:flex;flex-direction:column;position:relative;">
       <div style="height:30px;background:#1B2740;flex-shrink:0;"></div>
-      <header style="background:#276F4E;padding:17px 20px 20px;color:#fff;position:relative;overflow:hidden;"><div style="position:absolute;width:145px;height:145px;border:1px solid rgba(255,255,255,.13);border-radius:50%;right:-55px;top:-72px;"></div><img src="assets/logo-white.png" alt="Eminevim" style="height:15px;margin-left:6px;"><div style="font:800 23px 'Manrope',sans-serif;margin-top:13px;">Tasarruf Yanımda</div><div style="font-size:12px;color:#D7EBE0;margin-top:4px;">Temsilcinizle hızlı ve güvenli görüşme</div></header>
+      <header style="background:linear-gradient(135deg,#1F5D40 0%,#276F4E 55%,#348C61 100%);padding:14px 20px 22px;color:#fff;position:relative;overflow:hidden;border-radius:0 0 26px 26px;box-shadow:0 12px 28px -14px rgba(15,55,35,.55);"><div style="position:absolute;width:220px;height:220px;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.14),rgba(255,255,255,0) 65%);border-radius:50%;right:-90px;top:-110px;pointer-events:none;"></div><div style="position:absolute;width:120px;height:120px;background:rgba(255,255,255,.05);border-radius:50%;left:-40px;bottom:-70px;pointer-events:none;"></div><div style="display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1;"><img src="assets/logo-white.png" alt="Eminevim" style="height:13px;opacity:.94;"><div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.18);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;letter-spacing:.3px;border:1px solid rgba(255,255,255,.22);">{{ userInitials }}</div></div><div style="font:800 italic 24px 'Manrope',sans-serif;margin-top:14px;letter-spacing:-0.4px;text-shadow:0 2px 8px rgba(0,0,0,.22);position:relative;z-index:1;">Tasarruf Yanımda</div><div style="font-size:12.5px;color:#DCEEE3;margin-top:3px;font-weight:500;position:relative;z-index:1;">{{ headerTagline }}</div></header>
       <div style="display:none;"><button onClick="{{ setCustomerNavProfil }}">Profil</button></div>
       <main style="flex:1;min-height:0;overflow-y:auto;display:{{ tasarrufDisplay }};padding-bottom:62px;">
         <sc-if value="{{ customerStageForm }}"><div style="height:100%;display:flex;flex-direction:column;justify-content:center;padding:24px 22px;gap:16px;animation:tabIn .3s ease-out;"><div style="text-align:center;"><div style="font:800 22px 'Manrope',sans-serif;color:var(--ink);">Temsilci isteyin</div><div style="font-size:12.5px;color:var(--dim);margin-top:8px;line-height:1.5;">Konumunuz güncellenir, size en yakın uygun SPY yönlendirilir. Temsilci kabul ettiğinde sohbet otomatik açılır.</div></div><button onClick="{{ startCustomerRequest }}" style="min-height:54px;border:none;background:#276F4E;color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;">Temsilci Bul</button></div></sc-if>
@@ -1404,6 +1397,8 @@ class Component extends DCLogic {
       navTasarrufColor: s.customerNav === "tasarruf" ? GREEN : "#A7B3AC",
       navGorusmelerColor: s.customerNav === "gorusmeler" ? GREEN : "#A7B3AC",
       navAyarlarColor: s.customerNav === "ayarlar" ? GREEN : "#A7B3AC",
+      userInitials: (s.customerForm.name || s.kayitAd || "Tasarruf Yanımda").trim().split(/\s+/).map((p) => p[0] || "").join("").slice(0, 2).toUpperCase() || "TY",
+      headerTagline: s.reqStatus === "onaylandi" ? "Temsilciniz yolda" : s.reqStatus === "eslesti" ? "Temsilciniz bağlandı" : s.reqStatus === "konumPaylasildi" ? "Konum alındı, yönlendiriliyor" : s.reqStatus === "bekliyor" ? "Temsilci onayı bekleniyor" : s.reqStatus === "vardi" ? "Temsilciniz ulaştı" : "Konumunuza en yakın temsilciyi çağırın",
       profileName: s.customerForm.name || "Tasarruf Yanımda Kullanıcısı",
       profileEmail: s.customerForm.email || s.girisEmail || "E-posta bilgisi eklenmedi",
       customerMeetingStatus: s.reqStatus === "idle" ? "Henüz görüşme bulunmuyor." : s.reqStatus === "onaylandi" ? "Temsilciniz yolda." : s.reqStatus === "vardi" ? "Görüşmeniz aktif." : "Talebiniz işleniyor.",
