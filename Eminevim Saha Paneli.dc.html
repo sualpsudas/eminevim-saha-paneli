@@ -229,10 +229,10 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
       <header style="background:#276F4E;padding:17px 20px 20px;color:#fff;position:relative;overflow:hidden;"><div style="position:absolute;width:145px;height:145px;border:1px solid rgba(255,255,255,.13);border-radius:50%;right:-55px;top:-72px;"></div><img src="assets/logo-white.png" alt="Eminevim" style="height:15px;margin-left:6px;"><div style="font:800 23px 'Manrope',sans-serif;margin-top:13px;">Tasarruf Yanımda</div><div style="font-size:12px;color:#D7EBE0;margin-top:4px;">Temsilcinizle hızlı ve güvenli görüşme</div></header>
       <div style="display:none;"><button onClick="{{ setCustomerNavProfil }}">Profil</button></div>
       <main style="flex:1;min-height:0;overflow-y:auto;display:{{ tasarrufDisplay }};padding-bottom:62px;">
-        <sc-if value="{{ customerStageForm }}"><div style="height:100%;display:flex;flex-direction:column;animation:tabIn .3s ease-out;"><div style="padding:10px 20px 6px;flex-shrink:0;"><div style="font:800 16px 'Manrope',sans-serif;color:var(--ink);">Temsilci isteyin</div><div style="font-size:11px;color:var(--dim);margin-top:2px;line-height:1.4;">Konumunuz güncellenir, size en yakın uygun SPY yönlendirilir.</div></div><div style="flex:1 1 0;min-height:180px;position:relative;background:var(--card);"><iframe ref="{{ customerFormMapRef }}" src="map.html" onLoad="{{ onCustomerFormMapLoad }}" title="Mevcut konumunuz" style="width:100%;height:100%;border:none;display:block;pointer-events:none;"></iframe><button onClick="{{ openMapExpanded }}" aria-label="Haritayı büyüt" style="position:absolute;inset:0;width:100%;height:100%;border:none;background:transparent;cursor:pointer;"></button><button onClick="{{ openMapExpanded }}" aria-hidden="true" style="position:absolute;right:10px;top:10px;width:38px;height:38px;border:none;background:var(--card);border-radius:10px;box-shadow:0 2px 8px rgba(23,33,54,.18);display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2.4"><path d="M4 10V4h6M20 10V4h-6M4 14v6h6M20 14v6h-6"/></svg></button></div><div style="padding:10px 20px 12px;flex-shrink:0;display:flex;flex-direction:column;gap:6px;background:var(--card);border-top:1px solid var(--line);"><button onClick="{{ startCustomerRequest }}" style="min-height:50px;border:none;background:#276F4E;color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;">Temsilci Bul</button><div style="font-size:11px;color:var(--dim);text-align:center;">Temsilci kabul ettiğinde sohbet otomatik açılır.</div></div></div></sc-if>
+        <sc-if value="{{ customerStageForm }}"><div style="height:100%;display:flex;flex-direction:column;justify-content:center;padding:24px 22px;gap:16px;animation:tabIn .3s ease-out;"><div style="text-align:center;"><div style="font:800 22px 'Manrope',sans-serif;color:var(--ink);">Temsilci isteyin</div><div style="font-size:12.5px;color:var(--dim);margin-top:8px;line-height:1.5;">Konumunuz güncellenir, size en yakın uygun SPY yönlendirilir. Temsilci kabul ettiğinde sohbet otomatik açılır.</div></div><button onClick="{{ startCustomerRequest }}" style="min-height:54px;border:none;background:#276F4E;color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;">Temsilci Bul</button></div></sc-if>
         <sc-if value="{{ customerStageLoading }}"><div style="min-height:470px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;animation:fadeIn .3s ease-out;"><div style="width:76px;height:76px;border-radius:50%;background:var(--tintGreen);display:flex;align-items:center;justify-content:center;position:relative;"><img src="assets/logo-green.png" alt="" style="width:42px;"><span style="position:absolute;inset:-8px;border:2px solid #276F4E;border-right-color:transparent;border-radius:50%;animation:spin 1s linear infinite;"></span></div><div style="font:800 17px 'Manrope',sans-serif;color:var(--ink);margin-top:24px;">Sizin için uygun temsilci aranıyor…</div><div style="font-size:12px;color:var(--dim);margin-top:7px;line-height:1.5;">Mesafe ve müsaitlik durumuna göre sıradaki SPY belirleniyor.</div></div></sc-if>
         <sc-if value="{{ customerStageWaiting }}"><div style="min-height:470px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;animation:fadeIn .3s ease-out;"><div style="width:66px;height:66px;border-radius:50%;background:{{ repRenk }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;box-shadow:0 0 0 10px var(--tintGreen);">{{ repInitials }}</div><div style="font:800 17px 'Manrope',sans-serif;color:var(--ink);margin-top:24px;">Müşteri temsilciniz yükleniyor…</div><div style="font-size:12px;color:var(--dim);margin-top:7px;">{{ repAd }} talebinizi değerlendiriyor.</div><div style="font-size:11px;color:{{ goldText }};margin-top:15px;font-weight:700;">Yanıt için {{ assignmentCountdown }} sn</div></div></sc-if>
-        <sc-if value="{{ customerStageChatOpen }}"><div style="height:100%;min-height:505px;display:flex;flex-direction:column;animation:slideInRight .32s cubic-bezier(.2,.8,.25,1);"><div style="padding:12px 16px;border-bottom:1px solid var(--line);background:var(--card);display:flex;align-items:center;gap:10px;"><button onClick="{{ closeCustomerChat }}" aria-label="Sohbeti kapat" style="width:38px;height:38px;border:none;background:var(--tintGreen);border-radius:50%;color:#276F4E;font-size:23px;cursor:pointer;">‹</button><div style="width:38px;height:38px;border-radius:50%;background:{{ repRenk }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;">{{ repInitials }}</div><div><div style="font-size:13.5px;font-weight:800;color:var(--ink);">{{ repAd }}</div><div style="font-size:10.5px;color:#276F4E;font-weight:700;">Bağlandı · çevrimiçi</div></div></div><div style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:9px;"><sc-for list="{{ chatMessagesMusteri }}" as="msg" hint-placeholder-count="1"><div style="align-self:{{ msg.align }};max-width:82%;background:{{ msg.bg }};color:{{ msg.color }};border:1px solid {{ msg.borderColor }};border-radius:14px;padding:10px 12px;font-size:12.5px;line-height:1.5;">{{ msg.text }}</div></sc-for><sc-if value="{{ locationActionsVisible }}"><div style="display:flex;gap:8px;"><button onClick="{{ sendGpsLocation }}" style="flex:1;min-height:44px;border:none;background:#276F4E;color:#fff;border-radius:11px;font-size:11.5px;font-weight:800;cursor:pointer;">Konumumu Gönder</button><button onClick="{{ openPointPicker }}" style="flex:1;min-height:44px;border:1px solid #276F4E;background:var(--card);color:#276F4E;border-radius:11px;font-size:11.5px;font-weight:800;cursor:pointer;">Bir Nokta Belirt</button></div></sc-if><sc-if value="{{ routeActive }}"><div style="height:178px;border:1px solid var(--line);border-radius:14px;overflow:hidden;"><iframe ref="{{ musteriLiveMapRef }}" src="map.html" onLoad="{{ onMusteriLiveMapLoad }}" title="Temsilcinin canlı rotası" style="width:100%;height:100%;border:none;"></iframe></div><div style="background:var(--tintGreen);border:1px solid #276F4E;border-radius:12px;padding:11px 12px;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ repAd }} yolda</div><div style="font-size:11px;color:var(--dim);margin-top:3px;">{{ etaText }} · {{ ilerlemeYuzde }}</div></div></sc-if></div><div style="display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);background:var(--card);"><input value="{{ chatDraft }}" onChange="{{ setChatDraft }}" onKeyDown="{{ onChatKeyDownMusteri }}" placeholder="Mesaj yazın…" style="flex:1;min-height:44px;padding:0 13px;border-radius:11px;border:1px solid var(--line);background:var(--bg);color:var(--ink);"><button onClick="{{ sendChatMusteri }}" style="min-height:44px;padding:0 16px;border:none;background:#276F4E;color:#fff;border-radius:11px;font-size:12.5px;font-weight:800;cursor:pointer;">Gönder</button></div></div></sc-if>
+        <sc-if value="{{ customerStageChatOpen }}"><div style="height:100%;min-height:505px;display:flex;flex-direction:column;animation:slideInRight .32s cubic-bezier(.2,.8,.25,1);"><div style="padding:12px 16px;border-bottom:1px solid var(--line);background:var(--card);display:flex;align-items:center;gap:10px;"><button onClick="{{ closeCustomerChat }}" aria-label="Sohbeti kapat" style="width:38px;height:38px;border:none;background:var(--tintGreen);border-radius:50%;color:#276F4E;font-size:23px;cursor:pointer;">‹</button><div style="width:38px;height:38px;border-radius:50%;background:{{ repRenk }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;">{{ repInitials }}</div><div><div style="font-size:13.5px;font-weight:800;color:var(--ink);">{{ repAd }}</div><div style="font-size:10.5px;color:#276F4E;font-weight:700;">Bağlandı · çevrimiçi</div></div></div><div style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:9px;"><sc-for list="{{ chatMessagesMusteri }}" as="msg" hint-placeholder-count="1"><div style="align-self:{{ msg.align }};max-width:82%;background:{{ msg.bg }};color:{{ msg.color }};border:1px solid {{ msg.borderColor }};border-radius:14px;padding:10px 12px;font-size:12.5px;line-height:1.5;">{{ msg.text }}</div></sc-for><sc-if value="{{ locationActionsVisible }}"><div style="display:flex;gap:8px;"><button onClick="{{ sendGpsLocation }}" style="flex:1;min-height:44px;border:none;background:#276F4E;color:#fff;border-radius:11px;font-size:11.5px;font-weight:800;cursor:pointer;">Konumumu Gönder</button><button onClick="{{ openPointPicker }}" style="flex:1;min-height:44px;border:1px solid #276F4E;background:var(--card);color:#276F4E;border-radius:11px;font-size:11.5px;font-weight:800;cursor:pointer;">Bir Nokta Belirt</button></div></sc-if><sc-if value="{{ routeActive }}"><div style="position:relative;height:320px;border:1px solid var(--line);border-radius:14px;overflow:hidden;"><iframe ref="{{ musteriLiveMapRef }}" src="map.html" onLoad="{{ onMusteriLiveMapLoad }}" title="Temsilcinin canlı rotası" style="width:100%;height:100%;border:none;pointer-events:none;"></iframe><button onClick="{{ openMapExpanded }}" aria-label="Haritayı büyüt" style="position:absolute;inset:0;width:100%;height:100%;border:none;background:transparent;cursor:pointer;"></button><span aria-hidden="true" style="position:absolute;right:10px;top:10px;width:38px;height:38px;background:var(--card);border-radius:10px;box-shadow:0 2px 8px rgba(23,33,54,.18);display:flex;align-items:center;justify-content:center;pointer-events:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2.4"><path d="M4 10V4h6M20 10V4h-6M4 14v6h6M20 14v6h-6"/></svg></span></div><div style="background:var(--tintGreen);border:1px solid #276F4E;border-radius:12px;padding:11px 12px;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ repAd }} yolda</div><div style="font-size:11px;color:var(--dim);margin-top:3px;">{{ etaText }} · {{ ilerlemeYuzde }}</div></div></sc-if></div><div style="display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);background:var(--card);"><input value="{{ chatDraft }}" onChange="{{ setChatDraft }}" onKeyDown="{{ onChatKeyDownMusteri }}" placeholder="Mesaj yazın…" style="flex:1;min-height:44px;padding:0 13px;border-radius:11px;border:1px solid var(--line);background:var(--bg);color:var(--ink);"><button onClick="{{ sendChatMusteri }}" style="min-height:44px;padding:0 16px;border:none;background:#276F4E;color:#fff;border-radius:11px;font-size:12.5px;font-weight:800;cursor:pointer;">Gönder</button></div></div></sc-if>
         <sc-if value="{{ customerStageSummary }}"><div style="padding:20px;display:flex;flex-direction:column;gap:14px;animation:tabIn .25s ease-out;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">{{ customerSummaryTitle }}</div><div style="background:var(--tintGreen);border:1px solid #276F4E;border-radius:15px;padding:15px;"><div style="font-size:13px;font-weight:800;color:var(--ink);">{{ repAd }} {{ customerSummaryStatus }}</div><div style="font-size:11.5px;color:var(--dim);margin-top:4px;">{{ etaText }}</div></div><button onClick="{{ returnToCustomerChat }}" style="min-height:48px;border:none;background:#276F4E;color:#fff;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">Sohbete Dön</button></div></sc-if>
       </main>
       <sc-if value="{{ customerNavProfil }}"><div style="flex:1;padding:20px;display:flex;flex-direction:column;gap:12px;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Profilim</div><div style="background:var(--card);border:1px solid var(--line);border-radius:15px;padding:15px;"><div style="font-size:15px;font-weight:800;color:var(--ink);">{{ profileName }}</div><div style="font-size:12px;color:var(--dim);margin-top:4px;">{{ profileEmail }}</div></div></div></sc-if>
@@ -355,7 +355,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
                 <button onClick="{{ openChat }}" style-active="transform:scale(.94);" style="min-height:40px; background:#276F4E; color:#fff; border:none; border-radius:10px; padding:0 14px; font-size:12.5px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Sohbet</button>
               </div>
             </sc-if>
-            <sc-if value="{{ spyCanStartRoute }}"><button onClick="{{ spyStartRoute }}" style="min-height:46px;background:#276F4E;color:#fff;border:none;border-radius:11px;font-size:13px;font-weight:800;cursor:pointer;">Yola Çık / Yönlendir</button></sc-if>
+            <sc-if value="{{ spyCanStartRoute }}"><div style="display:flex;gap:8px;"><button onClick="{{ spyStartRoute }}" style="flex:1.4;min-height:46px;background:#276F4E;color:#fff;border:none;border-radius:11px;font-size:13px;font-weight:800;cursor:pointer;">Geliyorum</button><button onClick="{{ openDevretActive }}" style="flex:1;min-height:46px;background:var(--card);color:#276F4E;border:1px solid #276F4E;border-radius:11px;font-size:13px;font-weight:800;cursor:pointer;">Devret</button></div></sc-if>
             <sc-if value="{{ spyCanArrive }}"><div style="display:flex;gap:8px;"><button onClick="{{ spyArrived }}" style="flex:1;min-height:46px;background:#276F4E;color:#fff;border:none;border-radius:11px;font-size:12px;font-weight:800;cursor:pointer;">Müşteriye Ulaştım</button><button onClick="{{ createAppointment }}" style="flex:1;min-height:46px;background:var(--card);color:#276F4E;border:1px solid #276F4E;border-radius:11px;font-size:12px;font-weight:800;cursor:pointer;">Randevu Oluştur</button></div></sc-if>
           </div>
           </sc-if>
@@ -765,7 +765,7 @@ class Component extends DCLogic {
     customerLocation: { ...DISTRICT_COORDS["Ataşehir"] },
     customerStage: "form",
     customerForm: { name: "", phone: "", email: "", address: "", testMode: false },
-    assignmentCountdown: 15,
+    assignmentCountdown: 120,
     rejectedSpyIds: [],
     pointPickerOpen: false,
     selectedPoint: null,
@@ -784,7 +784,7 @@ class Component extends DCLogic {
     chatDraft: "",
     chatOpen: false,
     chatClosing: false,
-    demoAutoAccept: true,
+    demoAutoAccept: false,
     mapExpandedOpen: false,
   };
 
@@ -895,8 +895,8 @@ class Component extends DCLogic {
     if ((changed("reqStatus") || changed("repProgress") || changed("spylerList") || changed("haritaSpyOn") || changed("haritaMusteriOn")) && this._canliWin()) this.postCanliAdmin();
     if ((changed("reqStatus") || changed("repProgress") || changed("basvurular")) && this._spyLiveWin()) this.postCanliSpy();
     if ((changed("reqStatus") || changed("repProgress")) && this._musteriLiveWin()) this.postCanliMusteri();
-    if (changed("customerLocation") || changed("customerStage")) this.postCustomerFormMap();
-    this._prevSnap = { basvurular: s.basvurular, haritaMusteriOn: s.haritaMusteriOn, reqStatus: s.reqStatus, repProgress: s.repProgress, spylerList: s.spylerList, haritaSpyOn: s.haritaSpyOn, customerLocation: s.customerLocation, customerStage: s.customerStage };
+    if (s.mapExpandedOpen && (changed("reqStatus") || changed("repProgress") || changed("customerLocation") || changed("mapExpandedOpen"))) this.postExpandedMap();
+    this._prevSnap = { basvurular: s.basvurular, haritaMusteriOn: s.haritaMusteriOn, reqStatus: s.reqStatus, repProgress: s.repProgress, spylerList: s.spylerList, haritaSpyOn: s.haritaSpyOn, customerLocation: s.customerLocation, customerStage: s.customerStage, mapExpandedOpen: s.mapExpandedOpen };
   }
 
   _mapRef() {
@@ -1002,10 +1002,11 @@ class Component extends DCLogic {
     const win = el && el.contentWindow;
     if (!win) return;
     const s = this.state;
-    const items = [{ ilce: CUSTOMER_ILCE, lat: s.customerLocation.lat, lng: s.customerLocation.lng, color: GREEN, label: "Konumunuz" }];
     const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
-    if (rep) items.push({ ilce: ilkIlce(rep.bolge), lat: rep.lat, lng: rep.lng, color: GREEN, label: rep.ad });
-    win.postMessage({ type: "canli", items, moving: null }, "*");
+    const moving = rep && (s.reqStatus === "onaylandi" || s.reqStatus === "vardi") ? { fromIlce: ilkIlce(rep.bolge), toIlce: CUSTOMER_ILCE, fromLat: rep.lat, fromLng: rep.lng, toLat: s.customerLocation.lat, toLng: s.customerLocation.lng, progress: s.repProgress, color: GREEN, label: rep.ad } : null;
+    const items = [{ ilce: CUSTOMER_ILCE, lat: s.customerLocation.lat, lng: s.customerLocation.lng, color: GOLD, label: "Konumunuz" }];
+    if (rep && !moving) items.push({ ilce: ilkIlce(rep.bolge), lat: rep.lat, lng: rep.lng, color: GREEN, label: rep.ad });
+    win.postMessage({ type: "canli", items, moving }, "*");
   }
   postCanliSpy() {
     const win = this._spyLiveWin();
@@ -1126,7 +1127,7 @@ class Component extends DCLogic {
       this.setState({ customerStage: "form", reqStatus: "idle", bildirim: { ad: "Uygun temsilci bulunamadı", ilce: "Lütfen tekrar deneyin" } });
       return;
     }
-    this.setState({ customerStage: "waiting", reqStatus: "bekliyor", assignedRepId: rep.id, assignmentCountdown: 15, bildirim: { ad: this.state.customerForm.name || "Yeni Müşteri", ilce: "Yeni Müşteri Talebi", assignment: true, repId: rep.id } });
+    this.setState({ customerStage: "waiting", reqStatus: "bekliyor", assignedRepId: rep.id, assignmentCountdown: 120, bildirim: { ad: this.state.customerForm.name || "Yeni Müşteri", ilce: "Yeni Müşteri Talebi", assignment: true, repId: rep.id } });
     if (this._assignmentTimer) clearInterval(this._assignmentTimer);
     this._assignmentTimer = setInterval(() => {
       this.setState((s) => {
@@ -1156,7 +1157,7 @@ class Component extends DCLogic {
     if (this._autoAcceptTimer) clearTimeout(this._autoAcceptTimer);
     const rep = this.state.spylerList.find((x) => x.id === this.state.assignedRepId);
     const scope = this.state.customerForm.address || "talebiniz";
-    this.setState({ reqStatus: "eslesti", customerStage: "chat", customerChatOpen: true, chatOpen: true, bildirim: null, chatMessages: [{ from: "temsilci", text: "Merhabalar, " + scope + " kapsamında görüşme sağlamamız için konumunuzu gönderebilir ya da yakın bir noktayı belirtebilirsiniz." }] });
+    this.setState({ reqStatus: "eslesti", customerStage: "chat", customerChatOpen: true, chatOpen: true, bildirim: null, chatMessages: [{ from: "temsilci", text: "Merhabalar, görüşme için konumunuzu gönderebilir veya başka bir konum iletebilirsiniz." }] });
     if (rep) this.showBildirim({ ad: rep.ad, ilce: "Müşteriyle bağlantı kuruldu" });
   }
   fillAddressFromGps() {
@@ -1175,17 +1176,44 @@ class Component extends DCLogic {
     const appointment = { id: Date.now(), customer: this.state.customerForm.name || "Müşteri", date: new Date(Date.now() + 86400000).toLocaleDateString("tr-TR"), time: "14:00", note: "Saha görüşmesi" };
     this.setState((s) => ({ appointments: [...s.appointments, appointment], reqStatus: "vardi", spyTab: "gecmis" }));
   }
-  spyStartRoute() { this.setState((s) => ({ reqStatus: "onaylandi", chatMessages: [...s.chatMessages, { from: "temsilci", text: "Yola çıktım, konumunuza geliyorum." }] }), () => this.startRepHareket()); }
+  spyStartRoute() {
+    const rep = this.state.spylerList.find((x) => x.id === this.state.assignedRepId);
+    this.setState((s) => ({ reqStatus: "onaylandi", chatMessages: [...s.chatMessages, { from: "temsilci", text: "Konumunuza doğru geliyorum, yakında yanınızdayım." }] }), () => this.startRepHareket());
+    if (rep) this.showBildirim({ ad: rep.ad + " geliyor", ilce: "Konumunuza doğru yola çıktı" });
+  }
   spyArrived() { if (this._repTimer) clearInterval(this._repTimer); this.setState({ reqStatus: "vardi", repProgress: 1 }); }
   _pointPickerRef() { if (!this._pointPickerRefObj) this._pointPickerRefObj = React.createRef(); return this._pointPickerRefObj; }
   postPointPickerMode() { const el = this._pointPickerRefObj && this._pointPickerRefObj.current; if (el && el.contentWindow) el.contentWindow.postMessage({ type: "selectable", center: this.state.customerLocation }, "*"); }
 
   openDevret(id) { this.setState({ devretOpen: true, devretBasvuruId: id }); }
+  openDevretActive() { this.setState({ devretOpen: true, devretBasvuruId: "active" }); }
   closeDevret() { this.setState({ devretOpen: false, devretBasvuruId: null }); }
   devret(repId) {
     const rep = this.state.spylerList.find((x) => x.id === repId);
+    if (!rep) return;
+    if (this.state.devretBasvuruId === "active") {
+      const prev = this.state.spylerList.find((x) => x.id === this.state.assignedRepId);
+      const custName = this.state.customerForm.name || "Müşteri";
+      if (this._repTimer) clearInterval(this._repTimer);
+      this.setState((s) => ({
+        assignedRepId: rep.id,
+        reqStatus: "eslesti",
+        repProgress: 0,
+        repPos: null,
+        spylerList: s.spylerList.map((x) => {
+          if (x.id === rep.id) return { ...x, sayac: Number(x.sayac || 0) + 1 };
+          if (prev && x.id === prev.id) return { ...x, sayac: Math.max(0, Number(x.sayac || 0) - 1) };
+          return x;
+        }),
+        chatMessages: [...s.chatMessages, { from: "temsilci", text: "Talebiniz " + rep.ad + " temsilcimize devredildi. Kısa süre içinde iletişime geçecek." }],
+        devretOpen: false,
+        devretBasvuruId: null,
+        bildirim: { ad: custName + " → " + rep.ad, ilce: "Talep devredildi" },
+      }));
+      return;
+    }
     const item = this.state.basvurular.find((x) => x.id === this.state.devretBasvuruId);
-    if (!rep || !item) return;
+    if (!item) return;
     const prevSpyId = item.assignedSpyId || (this.state.spylerList[0] && this.state.spylerList[0].id);
     this.setState((s) => ({
       basvurular: s.basvurular.map((b) => b.id === item.id ? { ...b, assignedSpyId: rep.id } : b),
@@ -1484,7 +1512,8 @@ class Component extends DCLogic {
       closeDetay: () => this.closeDetay(),
       devretOpen: s.devretOpen,
       closeDevret: () => this.closeDevret(),
-      devretAdaylari: s.spylerList.filter((x) => !rep || x.id !== rep.id).map((x) => ({ ...x, initials: x.ad.split(" ").map((p) => p[0]).join("").slice(0, 2), onSelect: () => this.devret(x.id) })),
+      openDevretActive: () => this.openDevretActive(),
+      devretAdaylari: s.spylerList.filter((x) => (s.devretBasvuruId === "active" ? x.id !== s.assignedRepId : (!rep || x.id !== rep.id))).map((x) => ({ ...x, initials: x.ad.split(" ").map((p) => p[0]).join("").slice(0, 2), onSelect: () => this.devret(x.id) })),
       tamamlanan: s.tamamlanan,
       appointments: s.appointments,
       tamamlananBos: s.tamamlanan.length === 0,
