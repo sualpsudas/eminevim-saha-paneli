@@ -57,10 +57,60 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; transition-duration:.01ms !important; }
 }
-/* Mobil/standalone modda tam ekran: sahte telefon çerçevesini kaldır */
+/* Mobil/standalone modda tam ekran: sahte telefon çerçevesini kaldır, scroll yok */
 @media (max-width: 640px), (display-mode: standalone), (display-mode: fullscreen) {
-  body > div { padding: 0 !important; gap: 0 !important; min-height: 100dvh !important; }
-  /* Dış siyah bezel */
+  html, body { height: 100dvh; overflow: hidden; overscroll-behavior: none; }
+  #dc-root, #dc-root > .sc-host { height: 100dvh !important; display: block; }
+  #dc-root > .sc-host > div {
+    padding: 0 !important;
+    gap: 0 !important;
+    min-height: 100dvh !important;
+    height: 100dvh !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+  }
+  /* girisYapildi wrapper: switcher + panel dikeyde stackle, taşma yok */
+  #dc-root > .sc-host > div div[style*="fadeIn"] {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0 !important;
+    overflow: hidden !important;
+    align-items: stretch !important;
+    width: 100% !important;
+  }
+  /* Panel switcher: üstte tam genişlik, safe area */
+  #dc-root > .sc-host > div div[style*="fadeIn"] > div:first-child {
+    padding: max(6px, env(safe-area-inset-top)) 8px 6px !important;
+    background: var(--card) !important;
+    border-bottom: 1px solid var(--line) !important;
+    flex-shrink: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    justify-content: center !important;
+  }
+  /* girisGosterilsin (login) wrapper da tam yüksekliği kaplasın */
+  #dc-root > .sc-host > div > sc-if > div[style*="border-radius: 44px"] {
+    flex: 1 1 auto !important;
+  }
+  div[style*="width: 330px"] {
+    width: 100% !important;
+    max-width: 360px !important;
+    border-radius: 12px !important;
+  }
+  /* panelIn wrapper (isMusteri/isSpy/isAdmin) kalan alanı doldur */
+  div[style*="panelIn"] {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  /* Dış siyah bezel: şeffaf, tam genişlik, flex column */
   div[style*="border-radius: 44px"] {
     background: transparent !important;
     border-radius: 0 !important;
@@ -68,29 +118,59 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
     box-shadow: none !important;
     width: 100% !important;
     max-width: 100% !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
-  /* İç ekran alanı — cihaz yüksekliğini kapla */
+  /* İç ekran: kalan boşluğu doldur, radius yok */
   div[style*="border-radius: 34px"] {
     border-radius: 0 !important;
-    height: 100vh !important;
-    height: 100dvh !important;
+    height: auto !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
   }
-  /* Fake notch şeridi (30px navy strip) gizle */
+  /* Fake notch strip gizle */
   div[style*="height: 30px"][style*="rgb(27, 39, 64)"] { display: none !important; }
-  /* Panel switcher barı: 330px sabit → tam genişlik */
-  div[style*="width: 330px"] {
-    width: 100% !important;
-    border-radius: 0 !important;
-  }
-  /* Yeşil header'lara statusbar boşluğu ekle */
+  /* Yeşil header'lara statusbar boşluğu + mobilde compact */
   header[style*="rgb(39, 111, 78)"],
   div[style*="background: rgb(39, 111, 78)"] {
-    padding-top: max(20px, env(safe-area-inset-top)) !important;
+    padding-top: max(10px, env(safe-area-inset-top)) !important;
+    padding-bottom: 10px !important;
+    flex-shrink: 0 !important;
   }
-  /* Alt navigasyona home-indicator boşluğu */
+  /* Header içindeki büyük "Tasarruf Yanımda" başlığı küçült */
+  header[style*="rgb(39, 111, 78)"] > div[style*="font: 800 23px"],
+  header[style*="rgb(39, 111, 78)"] > div[style*="font: 800 22px"],
+  div[style*="background: rgb(39, 111, 78)"] > div[style*="font-size: 22px"] {
+    font-size: 16px !important;
+    margin-top: 6px !important;
+  }
+  /* Alt satır (subtitle) daha küçük */
+  header[style*="rgb(39, 111, 78)"] > div[style*="color: rgb(215, 235, 224)"],
+  div[style*="background: rgb(39, 111, 78)"] > div[style*="color: rgb(215, 235, 224)"] {
+    display: none !important;
+  }
+  /* Dekoratif daireyi gizle */
+  header[style*="rgb(39, 111, 78)"] > div[style*="border-radius: 50%"],
+  div[style*="background: rgb(39, 111, 78)"] > div[style*="border-radius: 50%"] {
+    display: none !important;
+  }
+  /* Alt navigasyon: absolute'tan çıkar, akış içinde flex-shrink:0 ile daima altta */
   div[style*="border-top: 1px solid var(--line)"] {
+    position: relative !important;
     padding-bottom: max(6px, env(safe-area-inset-bottom)) !important;
+    flex-shrink: 0 !important;
+    width: 100% !important;
+    bottom: auto !important;
+    left: auto !important;
+    right: auto !important;
   }
+  /* Nav artık akışta olduğundan main'in bottom padding'i gereksiz */
+  main[style*="padding-bottom: 62px"],
+  main[style*="padding-bottom:62px"] { padding-bottom: 0 !important; }
+  /* customerNav* sekmeleri (Profil/Görüşmeler/Ayarlar) de dolu yükseklik alsın */
+  div[style*="flex: 1 1 0%"][style*="padding: 20px"] { min-height: 0 !important; overflow-y: auto !important; }
 }
 </style>
 </helmet>
@@ -149,7 +229,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
       <header style="background:#276F4E;padding:17px 20px 20px;color:#fff;position:relative;overflow:hidden;"><div style="position:absolute;width:145px;height:145px;border:1px solid rgba(255,255,255,.13);border-radius:50%;right:-55px;top:-72px;"></div><img src="assets/logo-white.png" alt="Eminevim" style="height:15px;margin-left:6px;"><div style="font:800 23px 'Manrope',sans-serif;margin-top:13px;">Tasarruf Yanımda</div><div style="font-size:12px;color:#D7EBE0;margin-top:4px;">Temsilcinizle hızlı ve güvenli görüşme</div></header>
       <div style="display:none;"><button onClick="{{ setCustomerNavProfil }}">Profil</button></div>
       <main style="flex:1;min-height:0;overflow-y:auto;display:{{ tasarrufDisplay }};padding-bottom:62px;">
-        <sc-if value="{{ customerStageForm }}"><div style="padding:22px;display:flex;flex-direction:column;gap:14px;animation:tabIn .3s ease-out;"><div><div style="font:800 19px 'Manrope',sans-serif;color:var(--ink);">Temsilci isteyin</div><div style="font-size:12px;color:var(--dim);margin-top:5px;line-height:1.5;">Konumunuz güncellenir, size en yakın uygun SPY yönlendirilir.</div></div><button onClick="{{ startCustomerRequest }}" style="min-height:52px;border:none;background:#276F4E;color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;">Temsilci Bul</button><div style="font-size:11px;color:var(--dim);text-align:center;">Temsilci kabul ettiğinde sohbet otomatik açılır.</div></div></sc-if>
+        <sc-if value="{{ customerStageForm }}"><div style="height:100%;display:flex;flex-direction:column;animation:tabIn .3s ease-out;"><div style="padding:10px 20px 6px;flex-shrink:0;"><div style="font:800 16px 'Manrope',sans-serif;color:var(--ink);">Temsilci isteyin</div><div style="font-size:11px;color:var(--dim);margin-top:2px;line-height:1.4;">Konumunuz güncellenir, size en yakın uygun SPY yönlendirilir.</div></div><div style="flex:1 1 0;min-height:180px;position:relative;background:var(--card);"><iframe ref="{{ customerFormMapRef }}" src="map.html" onLoad="{{ onCustomerFormMapLoad }}" title="Mevcut konumunuz" style="width:100%;height:100%;border:none;display:block;pointer-events:none;"></iframe><button onClick="{{ openMapExpanded }}" aria-label="Haritayı büyüt" style="position:absolute;inset:0;width:100%;height:100%;border:none;background:transparent;cursor:pointer;"></button><button onClick="{{ openMapExpanded }}" aria-hidden="true" style="position:absolute;right:10px;top:10px;width:38px;height:38px;border:none;background:var(--card);border-radius:10px;box-shadow:0 2px 8px rgba(23,33,54,.18);display:flex;align-items:center;justify-content:center;cursor:pointer;pointer-events:none;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2.4"><path d="M4 10V4h6M20 10V4h-6M4 14v6h6M20 14v6h-6"/></svg></button></div><div style="padding:10px 20px 12px;flex-shrink:0;display:flex;flex-direction:column;gap:6px;background:var(--card);border-top:1px solid var(--line);"><button onClick="{{ startCustomerRequest }}" style="min-height:50px;border:none;background:#276F4E;color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;">Temsilci Bul</button><div style="font-size:11px;color:var(--dim);text-align:center;">Temsilci kabul ettiğinde sohbet otomatik açılır.</div></div></div></sc-if>
         <sc-if value="{{ customerStageLoading }}"><div style="min-height:470px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;animation:fadeIn .3s ease-out;"><div style="width:76px;height:76px;border-radius:50%;background:var(--tintGreen);display:flex;align-items:center;justify-content:center;position:relative;"><img src="assets/logo-green.png" alt="" style="width:42px;"><span style="position:absolute;inset:-8px;border:2px solid #276F4E;border-right-color:transparent;border-radius:50%;animation:spin 1s linear infinite;"></span></div><div style="font:800 17px 'Manrope',sans-serif;color:var(--ink);margin-top:24px;">Sizin için uygun temsilci aranıyor…</div><div style="font-size:12px;color:var(--dim);margin-top:7px;line-height:1.5;">Mesafe ve müsaitlik durumuna göre sıradaki SPY belirleniyor.</div></div></sc-if>
         <sc-if value="{{ customerStageWaiting }}"><div style="min-height:470px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px;animation:fadeIn .3s ease-out;"><div style="width:66px;height:66px;border-radius:50%;background:{{ repRenk }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;box-shadow:0 0 0 10px var(--tintGreen);">{{ repInitials }}</div><div style="font:800 17px 'Manrope',sans-serif;color:var(--ink);margin-top:24px;">Müşteri temsilciniz yükleniyor…</div><div style="font-size:12px;color:var(--dim);margin-top:7px;">{{ repAd }} talebinizi değerlendiriyor.</div><div style="font-size:11px;color:{{ goldText }};margin-top:15px;font-weight:700;">Yanıt için {{ assignmentCountdown }} sn</div></div></sc-if>
         <sc-if value="{{ customerStageChatOpen }}"><div style="height:100%;min-height:505px;display:flex;flex-direction:column;animation:slideInRight .32s cubic-bezier(.2,.8,.25,1);"><div style="padding:12px 16px;border-bottom:1px solid var(--line);background:var(--card);display:flex;align-items:center;gap:10px;"><button onClick="{{ closeCustomerChat }}" aria-label="Sohbeti kapat" style="width:38px;height:38px;border:none;background:var(--tintGreen);border-radius:50%;color:#276F4E;font-size:23px;cursor:pointer;">‹</button><div style="width:38px;height:38px;border-radius:50%;background:{{ repRenk }};color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;">{{ repInitials }}</div><div><div style="font-size:13.5px;font-weight:800;color:var(--ink);">{{ repAd }}</div><div style="font-size:10.5px;color:#276F4E;font-weight:700;">Bağlandı · çevrimiçi</div></div></div><div style="flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:9px;"><sc-for list="{{ chatMessagesMusteri }}" as="msg" hint-placeholder-count="1"><div style="align-self:{{ msg.align }};max-width:82%;background:{{ msg.bg }};color:{{ msg.color }};border:1px solid {{ msg.borderColor }};border-radius:14px;padding:10px 12px;font-size:12.5px;line-height:1.5;">{{ msg.text }}</div></sc-for><sc-if value="{{ locationActionsVisible }}"><div style="display:flex;gap:8px;"><button onClick="{{ sendGpsLocation }}" style="flex:1;min-height:44px;border:none;background:#276F4E;color:#fff;border-radius:11px;font-size:11.5px;font-weight:800;cursor:pointer;">Konumumu Gönder</button><button onClick="{{ openPointPicker }}" style="flex:1;min-height:44px;border:1px solid #276F4E;background:var(--card);color:#276F4E;border-radius:11px;font-size:11.5px;font-weight:800;cursor:pointer;">Bir Nokta Belirt</button></div></sc-if><sc-if value="{{ routeActive }}"><div style="height:178px;border:1px solid var(--line);border-radius:14px;overflow:hidden;"><iframe ref="{{ musteriLiveMapRef }}" src="map.html" onLoad="{{ onMusteriLiveMapLoad }}" title="Temsilcinin canlı rotası" style="width:100%;height:100%;border:none;"></iframe></div><div style="background:var(--tintGreen);border:1px solid #276F4E;border-radius:12px;padding:11px 12px;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ repAd }} yolda</div><div style="font-size:11px;color:var(--dim);margin-top:3px;">{{ etaText }} · {{ ilerlemeYuzde }}</div></div></sc-if></div><div style="display:flex;gap:8px;padding:12px;border-top:1px solid var(--line);background:var(--card);"><input value="{{ chatDraft }}" onChange="{{ setChatDraft }}" onKeyDown="{{ onChatKeyDownMusteri }}" placeholder="Mesaj yazın…" style="flex:1;min-height:44px;padding:0 13px;border-radius:11px;border:1px solid var(--line);background:var(--bg);color:var(--ink);"><button onClick="{{ sendChatMusteri }}" style="min-height:44px;padding:0 16px;border:none;background:#276F4E;color:#fff;border-radius:11px;font-size:12.5px;font-weight:800;cursor:pointer;">Gönder</button></div></div></sc-if>
@@ -159,6 +239,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
       <sc-if value="{{ customerNavGorusmeler }}"><div style="flex:1;padding:20px;overflow-y:auto;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Görüşmeler</div><div style="display:flex;gap:7px;margin-top:13px;"><button onClick="{{ sortMeetingsDate }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--card);border-radius:9px;color:var(--ink);font-size:10.5px;font-weight:800;cursor:pointer;">Tarih {{ meetingDateOrder }}</button><button onClick="{{ sortMeetingsName }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--card);border-radius:9px;color:var(--ink);font-size:10.5px;font-weight:800;cursor:pointer;">İsim {{ meetingNameOrder }}</button></div><div style="display:flex;flex-direction:column;gap:7px;margin-top:12px;"><sc-for list="{{ customerMeetings }}" as="m" hint-placeholder-count="3"><div style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 11px;display:flex;align-items:center;gap:9px;"><div style="width:7px;height:7px;border-radius:50%;background:#276F4E;"></div><div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ m.name }}</div><div style="font-size:10.5px;color:var(--dim);margin-top:2px;">{{ m.branch }}</div></div><div style="font-size:10.5px;color:var(--dim);">{{ m.date }}</div></div></sc-for></div></div></sc-if>
       <sc-if value="{{ customerNavAyarlar }}"><div style="flex:1;padding:20px;display:flex;flex-direction:column;gap:12px;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Ayarlar</div><div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:12px;color:var(--dim);">Bildirim ve konum izinlerinizi buradan yönetebileceksiniz.</div><button onClick="{{ toggleDemoAutoAccept }}" style="min-height:52px;padding:12px 14px;border:1px solid var(--line);background:var(--card);border-radius:14px;display:flex;align-items:center;gap:12px;cursor:pointer;text-align:left;"><span style="width:36px;height:22px;border-radius:99px;background:{{ demoAutoAcceptBg }};position:relative;flex-shrink:0;transition:background .2s;"><span style="position:absolute;top:2px;left:{{ demoAutoAcceptDotLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s;"></span></span><span style="flex:1;"><span style="display:block;font-size:13px;font-weight:800;color:var(--ink);">Demo modu · otomatik kabul</span><span style="display:block;font-size:11px;color:var(--dim);margin-top:2px;line-height:1.4;">Açıkken SPY paneline geçmene gerek kalmadan temsilci ~3 sn içinde talebi kabul eder.</span></span></button></div></sc-if>
       <div style="position:absolute;bottom:0;left:0;right:0;z-index:40;display:flex;border-top:1px solid var(--line);background:var(--card);padding:6px 0;"><div style="position:absolute;top:4px;left:{{ customerNavIndicatorLeft }};width:25%;height:2px;background:#276F4E;border-radius:2px;transition:left .28s cubic-bezier(.4,0,.2,1);"></div><button onClick="{{ setCustomerNavProfil }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navProfilColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navProfilColor }}" stroke-width="2"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg><span style="font-size:10px;font-weight:{{ navProfilWeight }};">Profil</span></button><button onClick="{{ setCustomerNavTasarruf }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navTasarrufColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navTasarrufColor }}" stroke-width="2"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"></path></svg><span style="font-size:10px;font-weight:{{ navTasarrufWeight }};">Tasarruf</span></button><button onClick="{{ setCustomerNavGorusmeler }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navGorusmelerColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navGorusmelerColor }}" stroke-width="2"><path d="M5 5h14v11H9l-4 3V5Z"></path><path d="M9 9h6M9 12h4"></path></svg><span style="font-size:10px;font-weight:{{ navGorusmelerWeight }};">Görüşmeler</span></button><button onClick="{{ setCustomerNavAyarlar }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navAyarlarColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navAyarlarColor }}" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.1 2.1-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56v.1h-3v-.1a1.7 1.7 0 0 0-1.04-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-2.1-2.1.06-.06A1.7 1.7 0 0 0 7.04 15 1.7 1.7 0 0 0 5.5 14H5.4v-3h.1A1.7 1.7 0 0 0 7.04 10 1.7 1.7 0 0 0 6.7 8.12l-.06-.06 2.1-2.1.06.06a1.7 1.7 0 0 0 1.88.34 1.7 1.7 0 0 0 1.04-1.56V4.7h3v.1a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.1 2.1-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.54 1h.1v3h-.1A1.7 1.7 0 0 0 19.4 15Z"></path></svg><span style="font-size:10px;font-weight:{{ navAyarlarWeight }};">Ayarlar</span></button></div>
+      <sc-if value="{{ mapExpandedOpen }}"><div style="position:absolute;inset:0;z-index:46;background:var(--bg);display:flex;flex-direction:column;animation:slideInRight .3s ease-out;"><div style="padding:max(10px, env(safe-area-inset-top)) 12px 10px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;"><button onClick="{{ closeMapExpanded }}" aria-label="Haritayı kapat" style="width:44px;height:44px;border:none;background:transparent;color:#276F4E;font-size:25px;cursor:pointer;">‹</button><div><div style="font-size:15px;font-weight:800;color:var(--ink);">Konumunuz</div><div style="font-size:10.5px;color:var(--dim);">Yakınlaştırıp kaydırabilirsiniz</div></div></div><div style="flex:1;position:relative;"><iframe ref="{{ expandedMapRef }}" src="map.html" onLoad="{{ onExpandedMapLoad }}" title="Konum haritası" style="width:100%;height:100%;border:none;"></iframe></div></div></sc-if>
       <sc-if value="{{ pointPickerOpen }}"><div style="position:absolute;inset:0;z-index:45;background:var(--bg);display:flex;flex-direction:column;animation:slideInRight .3s ease-out;"><div style="padding:12px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;"><button onClick="{{ closePointPicker }}" aria-label="Konum seçimini kapat" style="width:44px;height:44px;border:none;background:transparent;color:#276F4E;font-size:25px;cursor:pointer;">‹</button><div><div style="font-size:15px;font-weight:800;color:var(--ink);">Bir nokta belirt</div><div style="font-size:10.5px;color:var(--dim);">Haritada istediğiniz noktaya dokunun</div></div></div><div style="flex:1;position:relative;"><iframe ref="{{ pointPickerMapRef }}" src="map.html?selectable=1" onLoad="{{ onPointPickerMapLoad }}" title="Konum seçme haritası" style="width:100%;height:100%;border:none;"></iframe><div style="position:absolute;left:14px;right:14px;bottom:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 12px 30px rgba(23,33,54,.18);"><div style="font-size:11.5px;color:var(--dim);">{{ selectedPointText }}</div><button onClick="{{ confirmSelectedPoint }}" disabled="{{ selectedPointMissing }}" style="width:100%;min-height:46px;margin-top:9px;border:none;background:#276F4E;color:#fff;border-radius:11px;font-size:13px;font-weight:800;cursor:pointer;opacity:{{ selectedPointOpacity }};">Bu Konumu Gönder</button></div></div></div></sc-if>
     </div>
   </div>
@@ -704,6 +785,7 @@ class Component extends DCLogic {
     chatOpen: false,
     chatClosing: false,
     demoAutoAccept: true,
+    mapExpandedOpen: false,
   };
 
   componentDidMount() {
@@ -813,7 +895,8 @@ class Component extends DCLogic {
     if ((changed("reqStatus") || changed("repProgress") || changed("spylerList") || changed("haritaSpyOn") || changed("haritaMusteriOn")) && this._canliWin()) this.postCanliAdmin();
     if ((changed("reqStatus") || changed("repProgress") || changed("basvurular")) && this._spyLiveWin()) this.postCanliSpy();
     if ((changed("reqStatus") || changed("repProgress")) && this._musteriLiveWin()) this.postCanliMusteri();
-    this._prevSnap = { basvurular: s.basvurular, haritaMusteriOn: s.haritaMusteriOn, reqStatus: s.reqStatus, repProgress: s.repProgress, spylerList: s.spylerList, haritaSpyOn: s.haritaSpyOn };
+    if (changed("customerLocation") || changed("customerStage")) this.postCustomerFormMap();
+    this._prevSnap = { basvurular: s.basvurular, haritaMusteriOn: s.haritaMusteriOn, reqStatus: s.reqStatus, repProgress: s.repProgress, spylerList: s.spylerList, haritaSpyOn: s.haritaSpyOn, customerLocation: s.customerLocation, customerStage: s.customerStage };
   }
 
   _mapRef() {
@@ -897,6 +980,32 @@ class Component extends DCLogic {
     const items = [{ ilce: CUSTOMER_ILCE, lat: s.customerLocation.lat, lng: s.customerLocation.lng, color: GREEN, label: "Siz" }];
     if (rep && !moving) items.push({ ilce: ilkIlce(rep.bolge), lat: rep.lat, lng: rep.lng, color: rep.renk, label: rep.ad });
     win.postMessage({ type: "canli", items, moving }, "*");
+  }
+  _customerFormMapRef() {
+    if (!this._customerFormMapRefObj) this._customerFormMapRefObj = React.createRef();
+    return this._customerFormMapRefObj;
+  }
+  postCustomerFormMap() {
+    const el = this._customerFormMapRefObj && this._customerFormMapRefObj.current;
+    const win = el && el.contentWindow;
+    if (!win) return;
+    const s = this.state;
+    const items = [{ ilce: CUSTOMER_ILCE, lat: s.customerLocation.lat, lng: s.customerLocation.lng, color: GREEN, label: "Konumunuz" }];
+    win.postMessage({ type: "canli", items, moving: null }, "*");
+  }
+  _expandedMapRef() {
+    if (!this._expandedMapRefObj) this._expandedMapRefObj = React.createRef();
+    return this._expandedMapRefObj;
+  }
+  postExpandedMap() {
+    const el = this._expandedMapRefObj && this._expandedMapRefObj.current;
+    const win = el && el.contentWindow;
+    if (!win) return;
+    const s = this.state;
+    const items = [{ ilce: CUSTOMER_ILCE, lat: s.customerLocation.lat, lng: s.customerLocation.lng, color: GREEN, label: "Konumunuz" }];
+    const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
+    if (rep) items.push({ ilce: ilkIlce(rep.bolge), lat: rep.lat, lng: rep.lng, color: GREEN, label: rep.ad });
+    win.postMessage({ type: "canli", items, moving: null }, "*");
   }
   postCanliSpy() {
     const win = this._spyLiveWin();
@@ -1446,6 +1555,13 @@ class Component extends DCLogic {
       onSpyLiveMapLoad: () => this.postCanliSpy(),
       musteriLiveMapRef: this._musteriLiveRef(),
       onMusteriLiveMapLoad: () => this.postCanliMusteri(),
+      customerFormMapRef: this._customerFormMapRef(),
+      onCustomerFormMapLoad: () => this.postCustomerFormMap(),
+      mapExpandedOpen: s.mapExpandedOpen,
+      openMapExpanded: () => this.setState({ mapExpandedOpen: true }),
+      closeMapExpanded: () => this.setState({ mapExpandedOpen: false }),
+      expandedMapRef: this._expandedMapRef(),
+      onExpandedMapLoad: () => this.postExpandedMap(),
 
       spyModalOpen: s.spyModalOpen,
       openSpyModal: () => this.setState({ spyModalOpen: true, yeniAd: "", yeniBolge: "" }),
