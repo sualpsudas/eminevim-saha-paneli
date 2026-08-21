@@ -1,7 +1,7 @@
 {
-  "name": "Eminevim · Tasarruf Yanımda",
-  "short_name": "Eminevim",
-  "description": "Eminevim saha paneli — müşteri, SPY ve admin akışları.",
+  "name": "Tasarruf Yanımda",
+  "short_name": "Tasarruf Yanımda",
+  "description": "Eminevim Tasarruf Yanımda — konumunuza en yakın temsilciyi çağırın.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",

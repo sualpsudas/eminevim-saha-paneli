@@ -2,12 +2,12 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Eminevim · Tasarruf Yanımda</title>
+<title>Tasarruf Yanımda</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#276F4E">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Eminevim">
+<meta name="apple-mobile-web-app-title" content="Tasarruf Yanımda">
 <meta name="mobile-web-app-capable" content="yes">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./assets/icon-180.png">
@@ -166,6 +166,23 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
     left: auto !important;
     right: auto !important;
   }
+  /* Alt bant sekmeleri için hafif hover/tap renkleri (koyu değil, anlık) */
+  div[style*="border-top: 1px solid var(--line)"] > button {
+    border-radius: 10px !important;
+    margin: 0 2px !important;
+    transition: background-color .15s ease !important;
+  }
+  div[style*="border-top: 1px solid var(--line)"] > button:hover,
+  div[style*="border-top: 1px solid var(--line)"] > button:active {
+    background: rgba(15, 23, 32, 0.04) !important;
+  }
+  /* Seçili sekme (SVG stroke yeşilse) hover'ında çok açık yeşil */
+  div[style*="border-top: 1px solid var(--line)"] > button:has(svg[stroke="#276F4E"]):hover,
+  div[style*="border-top: 1px solid var(--line)"] > button:has(svg[stroke="#276F4E"]):active {
+    background: rgba(39, 111, 78, 0.10) !important;
+  }
+  /* Üst panel switcher (Müşteri/SPY/Admin) şimdilik gizli */
+  #dc-root > .sc-host > div div[style*="fadeIn"] > div:first-child { display: none !important; }
   /* Nav artık akışta olduğundan main'in bottom padding'i gereksiz */
   main[style*="padding-bottom: 62px"],
   main[style*="padding-bottom:62px"] { padding-bottom: 0 !important; }
@@ -784,7 +801,7 @@ class Component extends DCLogic {
     chatDraft: "",
     chatOpen: false,
     chatClosing: false,
-    demoAutoAccept: false,
+    demoAutoAccept: true,
     mapExpandedOpen: false,
   };
 
@@ -820,6 +837,7 @@ class Component extends DCLogic {
     if (this._geoWatch != null && navigator.geolocation) navigator.geolocation.clearWatch(this._geoWatch);
     if (this._assignmentTimer) clearInterval(this._assignmentTimer);
     if (this._autoAcceptTimer) clearTimeout(this._autoAcceptTimer);
+    if (this._autoStartRouteTimer) clearTimeout(this._autoStartRouteTimer);
     window.removeEventListener("message", this._pointMessageHandler);
   }
 
@@ -1167,6 +1185,12 @@ class Component extends DCLogic {
   shareLocation(point, label) {
     if (!point) return;
     this.setState((s) => ({ customerLocation: point, selectedPoint: point, pointPickerOpen: false, locationShared: true, reqStatus: "konumPaylasildi", repProgress: 0, repPos: null, chatMessages: [...s.chatMessages, { from: "musteri", text: label + " paylaşıldı." }, { from: "temsilci", text: "Konumunuzu aldım. Yönlendirme için hazırlanıyorum." }] }));
+    if (this._autoStartRouteTimer) clearTimeout(this._autoStartRouteTimer);
+    if (this.state.demoAutoAccept) {
+      this._autoStartRouteTimer = setTimeout(() => {
+        if (this.state.reqStatus === "konumPaylasildi") this.spyStartRoute();
+      }, 2000);
+    }
   }
   sendGpsLocation() {
     this.requestCurrentLocation(true);
