@@ -311,15 +311,31 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
             <button onClick="{{ setEvOda21 }}" style="flex:1;min-height:38px;border:none;border-radius:9px;background:{{ evOda21Bg }};color:{{ evOda21Fg }};font-size:12.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">2+1</button>
             <button onClick="{{ setEvOda31 }}" style="flex:1;min-height:38px;border:none;border-radius:9px;background:{{ evOda31Bg }};color:{{ evOda31Fg }};font-size:12.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">3+1</button>
           </div>
-          <sc-for list="{{ evBolgeler }}" as="b" hint-placeholder-count="4"><div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;">
+          <sc-for list="{{ evBolgeler }}" as="b" hint-placeholder-count="4"><button onClick="{{ b.onDetay }}" style-active="transform:scale(.985);" style="display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px;cursor:pointer;font-family:'Manrope',sans-serif;">
             <div style="display:flex;align-items:center;gap:8px;"><div style="font-size:13px;font-weight:800;color:var(--ink);flex:1;">{{ b.ad }}</div><span style="font-size:9.5px;font-weight:800;color:{{ b.badgeColor }};background:{{ b.badgeBg }};border-radius:99px;padding:3px 8px;">{{ b.badge }}</span></div>
             <div style="font-size:11px;color:var(--dim);margin-top:3px;">{{ b.ilceler }}</div>
-            <div style="display:flex;gap:14px;margin-top:9px;"><div><div style="font-size:9.5px;color:var(--dim);font-weight:600;">TİPİK BÜYÜKLÜK</div><div style="font-size:12.5px;font-weight:800;color:var(--ink);margin-top:1px;">{{ b.m2Text }}</div></div><div><div style="font-size:9.5px;color:var(--dim);font-weight:600;">SEÇENEK</div><div style="font-size:12.5px;font-weight:800;color:var(--ink);margin-top:1px;">{{ b.adetText }}</div></div></div>
-          </div></sc-for>
+            <div style="display:flex;gap:14px;margin-top:9px;"><div><div style="font-size:9.5px;color:var(--dim);font-weight:600;">TİPİK BÜYÜKLÜK</div><div style="font-size:12.5px;font-weight:800;color:var(--ink);margin-top:1px;">{{ b.m2Text }}</div></div><div><div style="font-size:9.5px;color:var(--dim);font-weight:600;">BÜTÇE UYUMU</div><div style="font-size:12.5px;font-weight:800;color:var(--ink);margin-top:1px;">{{ b.yuzdeText }}</div></div></div>
+            <div style="display:flex;align-items:center;gap:4px;margin-top:9px;font-size:10.5px;font-weight:800;color:#276F4E;">Semtleri ve medyan fiyatları gör <span style="font-size:13px;">›</span></div>
+          </button></sc-for>
           <button onClick="{{ evBasvur }}" style="min-height:54px;border:none;background:linear-gradient(135deg,#276F4E,#348C61);color:#fff;border-radius:14px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;box-shadow:0 8px 20px -6px rgba(39,111,78,.5);">Bir temsilciye başvur</button>
           <button onClick="{{ evReset }}" style="min-height:44px;border:none;background:transparent;color:var(--dim);font-size:12px;font-weight:700;cursor:pointer;">Baştan hesapla</button>
           <div style="font-size:10px;color:var(--dim);line-height:1.5;text-align:center;">Rakamlar temsilîdir; kesin ödeme planı ve ev eşleştirmesi temsilci görüşmesinde netleşir. Kaynak: İstanbul Anadolu yakası güncel satılık ilan verisi.</div>
         </div></sc-if>
+      </div></sc-if>
+      <sc-if value="{{ evDetayAcik }}"><div style="position:absolute;inset:0;z-index:47;background:var(--bg);display:flex;flex-direction:column;animation:slideInRight .28s ease-out;">
+        <div style="padding:max(12px, env(safe-area-inset-top)) 14px 12px;background:linear-gradient(135deg,#1F5D40,#348C61);color:#fff;display:flex;align-items:flex-start;gap:8px;">
+          <button onClick="{{ evDetayKapat }}" aria-label="Geri" style="width:40px;height:40px;border:none;background:rgba(255,255,255,.15);border-radius:50%;color:#fff;font-size:22px;cursor:pointer;flex-shrink:0;">‹</button>
+          <div style="flex:1;min-width:0;padding-top:2px;"><div style="font:800 17px 'Manrope',sans-serif;">{{ evDetayAd }}</div><div style="font-size:11px;opacity:.9;margin-top:2px;">{{ evDetayIlceler }}</div><div style="font-size:11px;opacity:.95;margin-top:6px;font-weight:700;">{{ evDetayOzet }}</div></div>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:11px;color:var(--dim);font-weight:700;">Semtler · uygundan pahalıya (seçili oda tipi medyan fiyatı)</div>
+          <sc-for list="{{ evDetaySemtler }}" as="st" hint-placeholder-count="5"><div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;">
+            <div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ st.ad }}</div><div style="font-size:10.5px;color:var(--dim);margin-top:2px;">{{ st.adetText }}</div></div>
+            <div style="text-align:right;"><div style="font-size:13px;font-weight:800;color:var(--ink);">{{ st.fiyatText }}</div><div style="font-size:9.5px;font-weight:800;color:{{ st.uygunColor }};margin-top:1px;">{{ st.uygunText }}</div></div>
+          </div></sc-for>
+          <div style="font-size:10px;color:var(--dim);line-height:1.5;margin-top:4px;">Medyan fiyatlar ilan verisinden hesaplanır, pazarlık payı içermez. "Bütçe içi" = medyan fiyat hesaplanan finansman tutarınızın altında.</div>
+          <button onClick="{{ evDetayKapat }}" style="min-height:48px;margin-top:4px;border:none;background:#276F4E;color:#fff;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">Bölgelere dön</button>
+        </div>
       </div></sc-if>
       <div style="position:absolute;bottom:0;left:0;right:0;z-index:40;display:flex;border-top:1px solid var(--line);background:var(--card);padding:6px 0;"><div style="position:absolute;top:4px;left:{{ customerNavIndicatorLeft }};width:20%;height:2px;background:#276F4E;border-radius:2px;transition:left .28s cubic-bezier(.4,0,.2,1);"></div><button onClick="{{ setCustomerNavProfil }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navProfilColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navProfilColor }}" stroke-width="2"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg><span style="font-size:9px;font-weight:{{ navProfilWeight }};">Profil</span></button><button onClick="{{ setCustomerNavTasarruf }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navTasarrufColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navTasarrufColor }}" stroke-width="2"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"></path></svg><span style="font-size:9px;font-weight:{{ navTasarrufWeight }};white-space:nowrap;">Tasarruf</span></button><button onClick="{{ setCustomerNavEv }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navEvColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navEvColor }}" stroke-width="2"><path d="M3 11l9-8 9 8"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-6h4v6"></path></svg><span style="font-size:9px;font-weight:{{ navEvWeight }};white-space:nowrap;">Ev Almak</span></button><button onClick="{{ setCustomerNavGorusmeler }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navGorusmelerColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navGorusmelerColor }}" stroke-width="2"><path d="M5 5h14v11H9l-4 3V5Z"></path><path d="M9 9h6M9 12h4"></path></svg><span style="font-size:9px;font-weight:{{ navGorusmelerWeight }};white-space:nowrap;">Görüşmeler</span></button><button onClick="{{ setCustomerNavAyarlar }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navAyarlarColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navAyarlarColor }}" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.1 2.1-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56v.1h-3v-.1a1.7 1.7 0 0 0-1.04-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-2.1-2.1.06-.06A1.7 1.7 0 0 0 7.04 15 1.7 1.7 0 0 0 5.5 14H5.4v-3h.1A1.7 1.7 0 0 0 7.04 10 1.7 1.7 0 0 0 6.7 8.12l-.06-.06 2.1-2.1.06.06a1.7 1.7 0 0 0 1.88.34 1.7 1.7 0 0 0 1.04-1.56V4.7h3v.1a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.1 2.1-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.54 1h.1v3h-.1A1.7 1.7 0 0 0 19.4 15Z"></path></svg><span style="font-size:9px;font-weight:{{ navAyarlarWeight }};">Ayarlar</span></button></div>
       <sc-if value="{{ mapExpandedOpen }}"><div style="position:absolute;inset:0;z-index:46;background:var(--bg);display:flex;flex-direction:column;animation:slideInRight .3s ease-out;"><div style="padding:max(10px, env(safe-area-inset-top)) 12px 10px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;"><button onClick="{{ closeMapExpanded }}" aria-label="Haritayı kapat" style="width:44px;height:44px;border:none;background:transparent;color:#276F4E;font-size:25px;cursor:pointer;">‹</button><div><div style="font-size:15px;font-weight:800;color:var(--ink);">Konumunuz</div><div style="font-size:10.5px;color:var(--dim);">Yakınlaştırıp kaydırabilirsiniz</div></div></div><div style="flex:1;position:relative;"><iframe ref="{{ expandedMapRef }}" src="map.html" onLoad="{{ onExpandedMapLoad }}" title="Konum haritası" style="width:100%;height:100%;border:none;"></iframe></div></div></sc-if>
@@ -793,19 +809,43 @@ const EV_BOLGELER = [
   { rank: 1, ad: "En uygun bölge", ilceler: "Sultanbeyli · Sancaktepe · Tuzla", oda: {
     "1+1": { n: 438, m2: 65, dec: [1625000,3200000,3850000,4250000,4600000,4990000,5550000,6150000,6500000,7200000,8317378] },
     "2+1": { n: 3394, m2: 90, dec: [1500000,4000000,4550000,4850000,5200000,5500000,5750000,6000000,6480000,7050000,8500000] },
-    "3+1": { n: 1778, m2: 125, dec: [1690000,4350000,5225000,5800000,6200000,6500000,6750000,7100000,7490000,7800000,8500000] } } },
+    "3+1": { n: 1778, m2: 125, dec: [1690000,4350000,5225000,5800000,6200000,6500000,6750000,7100000,7490000,7800000,8500000] } }, semtler: [
+    { ad: "Samandıra", "1+1": [115,5900000], "2+1": [647,5790000], "3+1": [354,6362500] },
+    { ad: "Mimarsinan", "1+1": [39,5950000], "2+1": [660,5300000], "3+1": [378,6694500] },
+    { ad: "Yenidoğan", "1+1": [15,3750000], "2+1": [402,5200000], "3+1": [245,6200000] },
+    { ad: "Sarıgazi", "1+1": [76,4825000], "2+1": [361,5800000], "3+1": [185,6790000] },
+    { ad: "Necipfazıl", "1+1": [4,3525000], "2+1": [359,5039000], "3+1": [195,6250000] },
+    { ad: "Aydınlı", "1+1": [78,4150000], "2+1": [270,5550000], "3+1": [131,7100000] } ] },
   { rank: 2, ad: "Uygun bölge", ilceler: "Pendik · Çekmeköy · Şile", oda: {
     "1+1": { n: 598, m2: 65, dec: [1565000,3500000,3890000,4250000,4700000,5125000,5500000,5750000,6200000,6850000,8500000] },
     "2+1": { n: 2694, m2: 90, dec: [2050000,4099000,4990000,5450000,5750000,6140000,6450000,6725000,7100000,7700000,8500000] },
-    "3+1": { n: 1074, m2: 120, dec: [1999999,4149000,5150000,6000000,6550000,6950000,7250000,7500000,7845000,8200000,8500000] } } },
+    "3+1": { n: 1074, m2: 120, dec: [1999999,4149000,5150000,6000000,6550000,6950000,7250000,7500000,7845000,8200000,8500000] } }, semtler: [
+    { ad: "Taşdelen", "1+1": [119,4350000], "2+1": [457,6320000], "3+1": [100,7295000] },
+    { ad: "Yenişehir", "1+1": [180,5500000], "2+1": [269,6680000], "3+1": [100,7470000] },
+    { ad: "Esenyalı", "1+1": [25,3449000], "2+1": [263,5000000], "3+1": [160,5750000] },
+    { ad: "Çamçeşme", "1+1": [34,5775000], "2+1": [269,5400000], "3+1": [144,5400000] },
+    { ad: "Dolayoba", "1+1": [33,4999999], "2+1": [273,6300000], "3+1": [134,7215000] },
+    { ad: "Alemdağ", "1+1": [30,5737500], "2+1": [201,6300000], "3+1": [63,7250000] } ] },
   { rank: 3, ad: "Orta segment", ilceler: "Ümraniye · Ataşehir · Maltepe · Üsküdar · Kartal", oda: {
     "1+1": { n: 1537, m2: 60, dec: [1500000,3900000,4500000,5000000,5500000,5900000,6400000,6750000,7250000,7750000,8500000] },
     "2+1": { n: 4217, m2: 85, dec: [2100000,4250000,4950000,5500000,6000000,6450000,6800000,7200000,7550000,7950000,8500000] },
-    "3+1": { n: 1600, m2: 120, dec: [2500000,5000000,5750000,6250000,6600000,6900000,7250000,7500000,7800000,8150000,8500000] } } },
+    "3+1": { n: 1600, m2: 120, dec: [2500000,5000000,5750000,6250000,6600000,6900000,7250000,7500000,7800000,8150000,8500000] } }, semtler: [
+    { ad: "Zümrütevler", "1+1": [115,4550000], "2+1": [459,5250000], "3+1": [149,6750000] },
+    { ad: "Çakmak", "1+1": [100,5020000], "2+1": [347,6250000], "3+1": [98,7250000] },
+    { ad: "Yakacık", "1+1": [82,6350000], "2+1": [295,6750000], "3+1": [163,7100000] },
+    { ad: "Aydınevler", "1+1": [83,4950000], "2+1": [286,6150000], "3+1": [125,6400000] },
+    { ad: "Merkez", "1+1": [54,4975000], "2+1": [260,6325000], "3+1": [60,7225000] },
+    { ad: "Küçükyalı", "1+1": [152,6950000], "2+1": [127,7000000], "3+1": [51,7200000] } ] },
   { rank: 4, ad: "Az uygun bölge", ilceler: "Kadıköy · Adalar", oda: {
     "1+1": { n: 168, m2: 65, dec: [2500000,5200000,5800000,6500000,6950000,7200000,7500000,7750000,8000000,8200000,8500000] },
     "2+1": { n: 182, m2: 85, dec: [680000,5500000,6000000,6500000,6750000,7000000,7350000,7500000,7950000,8250000,8500000] },
-    "3+1": { n: 36, m2: 115, dec: [2856000,6350000,6750000,7200000,7350000,7729999,7850000,8000000,8200000,8300000,8500000] } } },
+    "3+1": { n: 36, m2: 115, dec: [2856000,6350000,6750000,7200000,7350000,7729999,7850000,8000000,8200000,8300000,8500000] } }, semtler: [
+    { ad: "Fikirtepe", "1+1": [73,7500000], "2+1": [4,7900000], "3+1": [5,7200000] },
+    { ad: "Rasimpaşa", "1+1": [12,5250000], "2+1": [49,6600000], "3+1": [11,7950000] },
+    { ad: "Hasanpaşa", "1+1": [10,5937500], "2+1": [27,6280000], "3+1": [4,6825000] },
+    { ad: "Caferağa", "1+1": [14,6000000], "2+1": [20,7575000], "3+1": [1,7850000] },
+    { ad: "Acıbadem", "1+1": [4,5950000], "2+1": [26,7375000], "3+1": [2,7550000] },
+    { ad: "Osmanağa", "1+1": [11,5999999], "2+1": [15,6900000], "3+1": [3,7950000] } ] },
 ];
 function evIlanSayisi(o, F) {
   const d = o.dec;
@@ -853,6 +893,7 @@ class Component extends DCLogic {
     evTaksit: "",
     evVade: 120,
     evOda: "2+1",
+    evDetay: null,
     customerMeetingSort: "dateAsc",
     customerMeetings: [
       { name: "Ahmet Yılmaz", branch: "Kadıköy Şubesi", date: "12.09.2026" },
@@ -1248,7 +1289,7 @@ class Component extends DCLogic {
   }
   startEvFinansmanRequest(not) {
     const form = { ...this.state.customerForm, testMode: false, note: not };
-    this.setState({ customerNav: "tasarruf", customerForm: form, customerStage: "loading", reqStatus: "aranan", rejectedSpyIds: [], locationShared: false, chatMessages: [], evStep: 1 });
+    this.setState({ customerNav: "tasarruf", customerForm: form, customerStage: "loading", reqStatus: "aranan", rejectedSpyIds: [], locationShared: false, chatMessages: [], evStep: 1, evDetay: null });
     this.requestCurrentLocation(true);
     setTimeout(() => this.assignNextSpy("initial"), 1100);
   }
@@ -1494,22 +1535,45 @@ class Component extends DCLogic {
     const evOrgKalanTaksit = Math.round((evOrgUcret - evOrgPesin) / 4);
     const evTeslimAy = Math.max(6, Math.ceil(evVade * 0.45));
     const evOda = EV_ODA_TIPLERI.indexOf(s.evOda) >= 0 ? s.evOda : "2+1";
+    const EV_AYLAR = ["Ocak","Şubat","Mart","Nisan","Mayıs","Haziran","Temmuz","Ağustos","Eylül","Ekim","Kasım","Aralık"];
+    const evTeslimDate = new Date();
+    evTeslimDate.setDate(1);
+    evTeslimDate.setMonth(evTeslimDate.getMonth() + evTeslimAy);
+    const evTeslimTarihText = EV_AYLAR[evTeslimDate.getMonth()] + " " + evTeslimDate.getFullYear();
+    const evPct = (o) => Math.round(100 * evIlanSayisi(o, evFinansman) / o.n);
     const evBolgeler = EV_BOLGELER.map((b) => {
       const o = b.oda[evOda];
-      const adet = evIlanSayisi(o, evFinansman);
-      const oran = adet / o.n;
+      const p = evPct(o);
       return {
         rank: b.rank,
         ad: b.ad,
         ilceler: b.ilceler,
-        m2Text: evOda + " daireler ~" + o.m2 + " m²",
-        adetText: adet > 0 ? adet.toLocaleString("tr-TR") + " uygun ilan" : "Bu tipte uygun ilan yok",
-        badge: adet <= 0 ? "Bu bölgede zor" : oran >= 0.5 ? "Bol seçenek" : oran >= 0.15 ? "Yeterli bütçe" : "Kısıtlı seçenek",
-        badgeColor: adet <= 0 ? "#B23B3B" : oran >= 0.5 ? "#276F4E" : oran >= 0.15 ? "#276F4E" : "#C25E2A",
-        badgeBg: adet <= 0 ? "#F8ECE9" : oran >= 0.15 ? "#EAF3EE" : "#FBF3E2",
+        m2Text: "~" + o.m2 + " m² (" + evOda + ")",
+        yuzdeText: p > 0 ? "%" + p + " ilan uygun" : "uygun ilan yok",
+        badge: p <= 0 ? "Bu bölgede zor" : p >= 50 ? "Bol seçenek" : p >= 15 ? "Yeterli bütçe" : "Kısıtlı seçenek",
+        badgeColor: p <= 0 ? "#B23B3B" : p >= 15 ? "#276F4E" : "#C25E2A",
+        badgeBg: p <= 0 ? "#F8ECE9" : p >= 15 ? "#EAF3EE" : "#FBF3E2",
+        onDetay: () => this.setState({ evDetay: b.rank }),
       };
     });
-    const evOzetNot = "Ev finansmanı talebi · " + evOda + " · ~" + fmtTLk(evFinansman) + " ₺ · " + evVade + " ay · aylık ~" + fmtTL(evTaksit) + " ₺";
+    const evDetayB = s.evDetay != null ? EV_BOLGELER.find((x) => x.rank === s.evDetay) : null;
+    const evDetayVeri = evDetayB ? {
+      ad: evDetayB.ad,
+      ilceler: evDetayB.ilceler,
+      ozetText: "%" + evPct(evDetayB.oda[evOda]) + " uygun · " + evOda + " daireler ~" + evDetayB.oda[evOda].m2 + " m²",
+      semtler: evDetayB.semtler
+        .map((st) => { const v = st[evOda]; return { ad: st.ad, n: v[0], med: v[1] }; })
+        .filter((st) => st.n > 0)
+        .sort((a, b) => a.med - b.med)
+        .map((st) => ({
+          ad: st.ad,
+          fiyatText: fmtTLk(st.med) + " ₺",
+          adetText: st.n + " ilan · " + (st.n >= 8 ? "geniş" : "sınırlı") + " arz",
+          uygunColor: st.med <= evFinansman ? "#276F4E" : "#C25E2A",
+          uygunText: st.med <= evFinansman ? "Bütçe içi" : "Bütçe üstü",
+        })),
+    } : null;
+    const evOzetNot = "Ev finansmanı talebi · " + evOda + " · ~" + fmtTLk(evFinansman) + " ₺ · " + evVade + " ay · aylık ~" + fmtTL(evTaksit) + " ₺ · hedef " + evTeslimTarihText;
 
     return {
       themeVars,
@@ -1588,15 +1652,21 @@ class Component extends DCLogic {
       setEvVade120: () => this.setState({ evVade: 120 }),
       evNext: () => this.setState((st) => ({ evStep: Math.min(4, st.evStep + 1) })),
       evBack: () => this.setState((st) => ({ evStep: Math.max(1, st.evStep - 1) })),
-      evReset: () => this.setState({ evStep: 1, evGelir: "", evTaksit: "", evVade: 120, evOda: "2+1" }),
+      evReset: () => this.setState({ evStep: 1, evGelir: "", evTaksit: "", evVade: 120, evOda: "2+1", evDetay: null }),
       evBasvur: () => this.startEvFinansmanRequest(evOzetNot),
       evFinansmanText: fmtTLk(evFinansman) + " ₺",
       evTaksitText: fmtTL(evTaksit) + " ₺/ay",
       evVadeText: evVade + " ay",
       evOrgUcretText: fmtTLk(evOrgUcret) + " ₺",
       evOrgDetayText: "Yarısı peşin (≈ " + fmtTL(evOrgPesin) + " ₺) + kalanı 4 eşit taksit (≈ " + fmtTL(evOrgKalanTaksit) + " ₺)",
-      evTeslimText: "Tahmini teslim: sözleşme bedelinin %45'i biriktiğinde, ~" + evTeslimAy + ". ay (en erken 6. ay)",
+      evTeslimText: "Hedef teslim tarihi: ~" + evTeslimTarihText + " (sözleşme bedelinin %45'i biriktiğinde, en erken 6. ay)",
       evBolgeler: evBolgeler,
+      evDetayAcik: s.evDetay != null,
+      evDetayKapat: () => this.setState({ evDetay: null }),
+      evDetayAd: evDetayVeri ? evDetayVeri.ad : "",
+      evDetayIlceler: evDetayVeri ? evDetayVeri.ilceler : "",
+      evDetayOzet: evDetayVeri ? evDetayVeri.ozetText : "",
+      evDetaySemtler: evDetayVeri ? evDetayVeri.semtler : [],
       userInitials: (s.customerForm.name || s.kayitAd || "Tasarruf Yanımda").trim().split(/\s+/).map((p) => p[0] || "").join("").slice(0, 2).toUpperCase() || "TY",
       headerTagline: s.customerNav === "ev" && s.reqStatus === "idle" ? "Size uygun evi birlikte bulalım" : s.reqStatus === "onaylandi" ? "Temsilciniz yolda" : s.reqStatus === "eslesti" ? "Temsilciniz bağlandı" : s.reqStatus === "konumPaylasildi" ? "Konum alındı, yönlendiriliyor" : s.reqStatus === "bekliyor" ? "Temsilci onayı bekleniyor" : s.reqStatus === "vardi" ? "Temsilciniz ulaştı" : "Konumunuza en yakın temsilciyi çağırın",
       profileName: s.customerForm.name || "Tasarruf Yanımda Kullanıcısı",
