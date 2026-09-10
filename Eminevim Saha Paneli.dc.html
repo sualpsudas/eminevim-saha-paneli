@@ -257,40 +257,25 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
       <sc-if value="{{ customerNavGorusmeler }}"><div style="flex:1;padding:20px;overflow-y:auto;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Görüşmeler</div><div style="display:flex;gap:7px;margin-top:13px;"><button onClick="{{ sortMeetingsDate }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--card);border-radius:9px;color:var(--ink);font-size:10.5px;font-weight:800;cursor:pointer;">Tarih {{ meetingDateOrder }}</button><button onClick="{{ sortMeetingsName }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--card);border-radius:9px;color:var(--ink);font-size:10.5px;font-weight:800;cursor:pointer;">İsim {{ meetingNameOrder }}</button></div><div style="display:flex;flex-direction:column;gap:7px;margin-top:12px;"><sc-for list="{{ customerMeetings }}" as="m" hint-placeholder-count="3"><div style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 11px;display:flex;align-items:center;gap:9px;"><div style="width:7px;height:7px;border-radius:50%;background:#276F4E;"></div><div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ m.name }}</div><div style="font-size:10.5px;color:var(--dim);margin-top:2px;">{{ m.branch }}</div></div><div style="font-size:10.5px;color:var(--dim);">{{ m.date }}</div></div></sc-for></div></div></sc-if>
       <sc-if value="{{ customerNavAyarlar }}"><div style="flex:1;padding:20px;display:flex;flex-direction:column;gap:12px;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Ayarlar</div><div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:12px;color:var(--dim);">Bildirim ve konum izinlerinizi buradan yönetebileceksiniz.</div><button onClick="{{ toggleDemoAutoAccept }}" style="min-height:52px;padding:12px 14px;border:1px solid var(--line);background:var(--card);border-radius:14px;display:flex;align-items:center;gap:12px;cursor:pointer;text-align:left;"><span style="width:36px;height:22px;border-radius:99px;background:{{ demoAutoAcceptBg }};position:relative;flex-shrink:0;transition:background .2s;"><span style="position:absolute;top:2px;left:{{ demoAutoAcceptDotLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s;"></span></span><span style="flex:1;"><span style="display:block;font-size:13px;font-weight:800;color:var(--ink);">Demo modu · otomatik kabul</span><span style="display:block;font-size:11px;color:var(--dim);margin-top:2px;line-height:1.4;">Açıkken SPY paneline geçmene gerek kalmadan temsilci ~3 sn içinde talebi kabul eder.</span></span></button></div></sc-if>
       <sc-if value="{{ customerNavEv }}"><div style="flex:1;overflow-y:auto;padding:18px;padding-bottom:74px;display:flex;flex-direction:column;gap:14px;animation:tabIn .3s ease-out;">
-        <div><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Ev almak istiyorum</div><div style="font-size:12.5px;color:var(--dim);margin-top:4px;line-height:1.5;">İki soruyla bütçenize uygun evi ve bölgeleri gösterelim.</div></div>
+        <div><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Ev almak istiyorum</div><div style="font-size:12.5px;color:var(--dim);margin-top:4px;line-height:1.5;">Aylık bütçenizi girin; bütçenize uygun evi ve bölgeleri gösterelim.</div></div>
 
         <sc-if value="{{ evStep1 }}"><div style="display:flex;flex-direction:column;gap:12px;">
-          <div style="font-size:11px;font-weight:800;color:#276F4E;letter-spacing:.4px;">{{ evAdimText }}</div>
           <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;">
-            <div style="font-size:13px;font-weight:800;color:var(--ink);">Ay sonunda elinize geçen para</div>
-            <div style="font-size:11px;color:var(--dim);margin:4px 0 11px;line-height:1.4;">Eşinizle birlikte de hesaplayabilirsiniz.</div>
+            <div style="font-size:13px;font-weight:800;color:var(--ink);">Aylık Bütçeniz</div>
+            <div style="font-size:11px;color:var(--dim);margin:4px 0 11px;line-height:1.4;">Ev için her ay ayırabileceğiniz tutar (eşinizle birlikte hesaplayabilirsiniz).</div>
             <div style="display:flex;align-items:center;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:0 12px;"><input value="{{ evGelirFmt }}" onChange="{{ setEvGelir }}" inputmode="numeric" placeholder="0" style="flex:1;min-height:48px;border:none;background:transparent;color:var(--ink);font-size:17px;font-weight:800;outline:none;font-family:'Manrope',sans-serif;"><span style="font-size:13px;font-weight:800;color:var(--dim);white-space:nowrap;">₺ / ay</span></div>
             <div style="display:flex;gap:6px;margin-top:10px;">
-              <button onClick="{{ setEvGelirA }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">25.000</button>
-              <button onClick="{{ setEvGelirB }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">40.000</button>
-              <button onClick="{{ setEvGelirC }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">60.000</button>
-              <button onClick="{{ setEvGelirD }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">85.000</button>
+              <button onClick="{{ setEvGelirA }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">15.000</button>
+              <button onClick="{{ setEvGelirB }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">25.000</button>
+              <button onClick="{{ setEvGelirC }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">40.000</button>
+              <button onClick="{{ setEvGelirD }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">60.000</button>
             </div>
           </div>
-          <button onClick="{{ evNext }}" disabled="{{ evGelirInvalid }}" style="min-height:52px;border:none;background:linear-gradient(135deg,#276F4E,#348C61);color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;opacity:{{ evGelirOpacity }};">Devam</button>
+          <button onClick="{{ evNext }}" disabled="{{ evGelirInvalid }}" style="min-height:52px;border:none;background:linear-gradient(135deg,#276F4E,#348C61);color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;opacity:{{ evGelirOpacity }};">Evimi göster</button>
           <button onClick="{{ evBasvurYardim }}" style="min-height:40px;border:none;background:transparent;color:#276F4E;font-size:12px;font-weight:800;cursor:pointer;text-decoration:underline;">Emin değilim, bir temsilci hesaplasın</button>
         </div></sc-if>
 
-        <sc-if value="{{ evStep2 }}"><div style="display:flex;flex-direction:column;gap:12px;">
-          <div style="font-size:11px;font-weight:800;color:#276F4E;letter-spacing:.4px;">{{ evAdimText }}</div>
-          <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;">
-            <div style="font-size:13px;font-weight:800;color:var(--ink);">Kaç yılda ödemek istersiniz?</div>
-            <div style="font-size:11px;color:var(--dim);margin:4px 0 12px;line-height:1.4;">Uzun süre seçerseniz bütçeniz büyür, ama daha uzun ödersiniz.</div>
-            <div style="display:flex;flex-direction:column;gap:8px;">
-              <button onClick="{{ setEvVade60 }}" style="min-height:48px;border:1px solid {{ evVade60 }};border-radius:12px;background:var(--bg);color:var(--ink);cursor:pointer;font-family:'Manrope',sans-serif;text-align:left;padding:0 14px;"><span style="font-size:14px;font-weight:800;">5 yıl</span><span style="font-size:10.5px;color:var(--dim);"> · en küçük bütçe, en hızlı biter</span></button>
-              <button onClick="{{ setEvVade90 }}" style="min-height:48px;border:1px solid {{ evVade90 }};border-radius:12px;background:var(--bg);color:var(--ink);cursor:pointer;font-family:'Manrope',sans-serif;text-align:left;padding:0 14px;"><span style="font-size:14px;font-weight:800;">7,5 yıl</span><span style="font-size:10.5px;color:var(--dim);"> · dengeli</span></button>
-              <button onClick="{{ setEvVade120 }}" style="min-height:48px;border:1px solid {{ evVade120 }};border-radius:12px;background:var(--bg);color:var(--ink);cursor:pointer;font-family:'Manrope',sans-serif;text-align:left;padding:0 14px;"><span style="font-size:14px;font-weight:800;">10 yıl</span><span style="font-size:10.5px;color:var(--dim);"> · en büyük bütçe, en uzun ödeme</span></button>
-            </div>
-          </div>
-          <div style="display:flex;gap:9px;"><button onClick="{{ evBack }}" style="min-height:50px;padding:0 18px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">Geri</button><button onClick="{{ evNext }}" style="flex:1;min-height:50px;border:none;background:linear-gradient(135deg,#276F4E,#348C61);color:#fff;border-radius:12px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">Evimi göster</button></div>
-        </div></sc-if>
-
-        <sc-if value="{{ evStep3 }}"><div style="display:flex;flex-direction:column;gap:13px;">
+        <sc-if value="{{ evStep2 }}"><div style="display:flex;flex-direction:column;gap:13px;">
           <div style="background:linear-gradient(135deg,#1F5D40,#348C61);border-radius:16px;padding:16px;color:#fff;">
             <div style="font-size:11px;font-weight:700;opacity:.85;letter-spacing:.3px;">TAHMİNİ EV BÜTÇENİZ</div>
             <div style="font:800 26px 'Manrope',sans-serif;margin-top:3px;">{{ evBudgetText }}</div>
@@ -301,8 +286,12 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
           <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:13px 14px;">
             <div style="font-size:12px;font-weight:800;color:var(--ink);">{{ evTaksitSliderLabel }}</div>
             <input type="range" min="{{ evTaksitSliderMin }}" max="{{ evTaksitSliderMax }}" step="1000" value="{{ evTaksitSliderVal }}" onChange="{{ setEvTaksitSlider }}" style="width:100%;margin-top:9px;accent-color:#276F4E;">
-            <div style="font-size:10.5px;color:var(--dim);margin-top:2px;">Kaydırarak aylık ödemenizi değiştirin — bütçeniz anında güncellenir.</div>
-            <sc-if value="{{ evTaksitAgir }}"><div style="margin-top:9px;background:#FBF3E2;border:1px solid #E4C878;border-radius:10px;padding:8px 10px;font-size:10.5px;color:#8A6D1F;line-height:1.4;">Bu, gelirinizin büyük bölümü — ödemekte zorlanabilirsiniz.</div></sc-if>
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-top:1px;"><span>daha az</span><span>daha çok</span></div>
+            <sc-if value="{{ evTaksitAgir }}"><div style="margin-top:9px;background:#FBF3E2;border:1px solid #E4C878;border-radius:10px;padding:8px 10px;font-size:10.5px;color:#8A6D1F;line-height:1.4;">{{ evTaksitAgirText }}</div></sc-if>
+            <div style="height:1px;background:var(--line);margin:13px 0;"></div>
+            <div style="font-size:12px;font-weight:800;color:var(--ink);">{{ evVadeSliderLabel }}</div>
+            <input type="range" min="{{ evVadeSliderMin }}" max="{{ evVadeSliderMax }}" step="6" value="{{ evVadeSliderVal }}" onChange="{{ setEvVadeSlider }}" style="width:100%;margin-top:9px;accent-color:#276F4E;">
+            <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--dim);margin-top:1px;"><span>daha kısa · düşük bütçe</span><span>daha uzun · yüksek bütçe</span></div>
           </div>
 
           <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 14px;">
@@ -1531,17 +1520,19 @@ class Component extends DCLogic {
       : "--bg:#F4F5F3;--card:#FFFFFF;--line:#E4E1D8;--ink:#2B2F2C;--dim:#6B7367;--track:#E7E9E5;--tintGreen:#EAF3EE;--tintRed:#F8ECE9;--tintGray:#F1EEE6;";
 
     /* ---- Ev almak istiyorum ---- */
+    /* evGelir = kullanıcının belirttiği aylık bütçe (ev için ayırabileceği aylık ödeme) */
     const evGelir = parseInt(String(s.evGelir).replace(/\D/g, ""), 10) || 0;
-    const evVade = s.evVade;                 // 60 | 90 | 120 (ay)
-    const evVadeYil = evVade / 12;            // 5 | 7.5 | 10
-    const evYilText = (evVadeYil + "").replace(".", ",") + " yıl";
-    const evTaksitMin = Math.max(1000, Math.round(evGelir * 0.25 / 1000) * 1000);
-    const evTaksitMax = Math.max(evTaksitMin + 1000, Math.round(evGelir * 0.5 / 1000) * 1000);
-    const evTaksitOneri = Math.round(evGelir * 0.4 / 1000) * 1000;
+    const EV_VADE_MIN = 36, EV_VADE_MAX = 180;
+    const evVade = Math.min(EV_VADE_MAX, Math.max(EV_VADE_MIN, s.evVade || 120));
+    const evVadeYil = evVade / 12;
+    const evYilText = (Number.isInteger(evVadeYil) ? evVadeYil : String(evVadeYil).replace(".", ",")) + " yıl";
+    const evTaksitMin = Math.max(1000, Math.round(evGelir * 0.6 / 1000) * 1000);
+    const evTaksitMax = Math.max(evTaksitMin + 1000, Math.round(evGelir * 1.5 / 1000) * 1000);
+    const evTaksitOneri = Math.max(1000, Math.round(evGelir / 1000) * 1000);
     const evTaksitInput = parseInt(String(s.evTaksit).replace(/\D/g, ""), 10) || 0;
     let evTaksit = evTaksitInput || evTaksitOneri;
     if (evGelir > 0) evTaksit = Math.min(Math.max(evTaksit, evTaksitMin), evTaksitMax);
-    const evTaksitAgir = evGelir > 0 && evTaksit > evGelir * 0.42;
+    const evTaksitAgir = evGelir > 0 && evTaksit > evGelir * 1.15;
     const evFinansman = evTaksit * evVade;
     const evOrgUcret = Math.round(evFinansman * 0.08);
     const evOrgPesin = Math.round(evOrgUcret / 2);
@@ -1639,24 +1630,21 @@ class Component extends DCLogic {
       navGorusmelerColor: s.customerNav === "gorusmeler" ? GREEN : "#A7B3AC",
       navAyarlarColor: s.customerNav === "ayarlar" ? GREEN : "#A7B3AC",
       evStep1: s.evStep === 1,
-      evStep2: s.evStep === 2,
-      evStep3: s.evStep === 3,
+      evStep2: s.evStep >= 2,
       evGelirFmt: evGelir > 0 ? evGelir.toLocaleString("tr-TR") : "",
       evGelirValid: evGelir > 0,
       evGelirInvalid: !(evGelir > 0),
       evGelirOpacity: evGelir > 0 ? "1" : ".5",
-      evAdimText: "Adım " + Math.min(s.evStep, 2) + " / 2",
       setEvGelir: (e) => this.setState({ evGelir: e.target.value.replace(/\D/g, ""), evTaksit: "" }),
-      setEvGelirA: () => this.setState({ evGelir: "25000", evTaksit: "" }),
-      setEvGelirB: () => this.setState({ evGelir: "40000", evTaksit: "" }),
-      setEvGelirC: () => this.setState({ evGelir: "60000", evTaksit: "" }),
-      setEvGelirD: () => this.setState({ evGelir: "85000", evTaksit: "" }),
-      evVade60: s.evVade === 60 ? "#276F4E" : "var(--line)",
-      evVade90: s.evVade === 90 ? "#276F4E" : "var(--line)",
-      evVade120: s.evVade === 120 ? "#276F4E" : "var(--line)",
-      setEvVade60: () => this.setState({ evVade: 60 }),
-      setEvVade90: () => this.setState({ evVade: 90 }),
-      setEvVade120: () => this.setState({ evVade: 120 }),
+      setEvGelirA: () => this.setState({ evGelir: "15000", evTaksit: "" }),
+      setEvGelirB: () => this.setState({ evGelir: "25000", evTaksit: "" }),
+      setEvGelirC: () => this.setState({ evGelir: "40000", evTaksit: "" }),
+      setEvGelirD: () => this.setState({ evGelir: "60000", evTaksit: "" }),
+      evVadeSliderMin: EV_VADE_MIN,
+      evVadeSliderMax: EV_VADE_MAX,
+      evVadeSliderVal: evVade,
+      evVadeSliderLabel: "Ödeme süresi: " + evVade + " ay (" + evYilText + ")",
+      setEvVadeSlider: (e) => this.setState({ evVade: parseInt(e.target.value, 10) }),
       evOdaText: evOda,
       evOda11Bg: evOda === "1+1" ? "#276F4E" : "var(--card)",
       evOda11Fg: evOda === "1+1" ? "#fff" : "var(--dim)",
@@ -1667,8 +1655,8 @@ class Component extends DCLogic {
       setEvOda11: () => this.setState({ evOda: "1+1" }),
       setEvOda21: () => this.setState({ evOda: "2+1" }),
       setEvOda31: () => this.setState({ evOda: "3+1" }),
-      evNext: () => this.setState((st) => ({ evStep: Math.min(3, st.evStep + 1) })),
-      evBack: () => this.setState((st) => ({ evStep: Math.max(1, st.evStep - 1) })),
+      evNext: () => this.setState({ evStep: 2 }),
+      evBack: () => this.setState({ evStep: 1 }),
       evReset: () => this.setState({ evStep: 1, evGelir: "", evTaksit: "", evVade: 120, evOda: "2+1", evDetay: null, evOrgAcik: false }),
       evBasvur: () => this.startEvFinansmanRequest(evOzetNot),
       evBasvurYardim: () => this.startEvFinansmanRequest("Ev almak istiyorum — bütçemi bir temsilci hesaplasın istiyorum."),
@@ -1681,6 +1669,7 @@ class Component extends DCLogic {
       evTaksitSliderLabel: "Aylık ödeme: " + fmtTL(evTaksit) + " ₺",
       setEvTaksitSlider: (e) => this.setState({ evTaksit: String(e.target.value) }),
       evTaksitAgir: evTaksitAgir,
+      evTaksitAgirText: "Belirttiğiniz aylık bütçenin üzerinde bir ödeme seçtiniz.",
       evOrgAcik: !!s.evOrgAcik,
       toggleEvOrg: () => this.setState((st) => ({ evOrgAcik: !st.evOrgAcik })),
       evOrgOk: s.evOrgAcik ? "▾" : "▸",
