@@ -257,9 +257,10 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
       <sc-if value="{{ customerNavGorusmeler }}"><div style="flex:1;padding:20px;overflow-y:auto;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Görüşmeler</div><div style="display:flex;gap:7px;margin-top:13px;"><button onClick="{{ sortMeetingsDate }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--card);border-radius:9px;color:var(--ink);font-size:10.5px;font-weight:800;cursor:pointer;">Tarih {{ meetingDateOrder }}</button><button onClick="{{ sortMeetingsName }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--card);border-radius:9px;color:var(--ink);font-size:10.5px;font-weight:800;cursor:pointer;">İsim {{ meetingNameOrder }}</button></div><div style="display:flex;flex-direction:column;gap:7px;margin-top:12px;"><sc-for list="{{ customerMeetings }}" as="m" hint-placeholder-count="3"><div style="background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 11px;display:flex;align-items:center;gap:9px;"><div style="width:7px;height:7px;border-radius:50%;background:#276F4E;"></div><div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ m.name }}</div><div style="font-size:10.5px;color:var(--dim);margin-top:2px;">{{ m.branch }}</div></div><div style="font-size:10.5px;color:var(--dim);">{{ m.date }}</div></div></sc-for></div></div></sc-if>
       <sc-if value="{{ customerNavAyarlar }}"><div style="flex:1;padding:20px;display:flex;flex-direction:column;gap:12px;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Ayarlar</div><div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;font-size:12px;color:var(--dim);">Bildirim ve konum izinlerinizi buradan yönetebileceksiniz.</div><button onClick="{{ toggleDemoAutoAccept }}" style="min-height:52px;padding:12px 14px;border:1px solid var(--line);background:var(--card);border-radius:14px;display:flex;align-items:center;gap:12px;cursor:pointer;text-align:left;"><span style="width:36px;height:22px;border-radius:99px;background:{{ demoAutoAcceptBg }};position:relative;flex-shrink:0;transition:background .2s;"><span style="position:absolute;top:2px;left:{{ demoAutoAcceptDotLeft }};width:18px;height:18px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s;"></span></span><span style="flex:1;"><span style="display:block;font-size:13px;font-weight:800;color:var(--ink);">Demo modu · otomatik kabul</span><span style="display:block;font-size:11px;color:var(--dim);margin-top:2px;line-height:1.4;">Açıkken SPY paneline geçmene gerek kalmadan temsilci ~3 sn içinde talebi kabul eder.</span></span></button></div></sc-if>
       <sc-if value="{{ customerNavEv }}"><div style="flex:1;overflow-y:auto;padding:18px;padding-bottom:74px;display:flex;flex-direction:column;gap:14px;animation:tabIn .3s ease-out;">
-        <div><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Ev almak istiyorum</div><div style="font-size:12.5px;color:var(--dim);margin-top:4px;line-height:1.5;">Aylık bütçenizi girin; bütçenize uygun evi ve bölgeleri gösterelim.</div></div>
+        <div><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Ev almak istiyorum</div><div style="font-size:12.5px;color:var(--dim);margin-top:4px;line-height:1.5;">Aylık bütçeniz ve ödeme sürenizle uygun evi ve bölgeleri gösterelim.</div></div>
 
         <sc-if value="{{ evStep1 }}"><div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="font-size:11px;font-weight:800;color:#276F4E;letter-spacing:.4px;">{{ evAdimText }}</div>
           <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;">
             <div style="font-size:13px;font-weight:800;color:var(--ink);">Aylık Bütçeniz</div>
             <div style="font-size:11px;color:var(--dim);margin:4px 0 11px;line-height:1.4;">Ev için her ay ayırabileceğiniz tutar (eşinizle birlikte hesaplayabilirsiniz).</div>
@@ -271,11 +272,25 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
               <button onClick="{{ setEvGelirD }}" style="flex:1;min-height:36px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:9px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">60.000</button>
             </div>
           </div>
-          <button onClick="{{ evNext }}" disabled="{{ evGelirInvalid }}" style="min-height:52px;border:none;background:linear-gradient(135deg,#276F4E,#348C61);color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;opacity:{{ evGelirOpacity }};">Evimi göster</button>
+          <button onClick="{{ evNext }}" disabled="{{ evGelirInvalid }}" style="min-height:52px;border:none;background:linear-gradient(135deg,#276F4E,#348C61);color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;opacity:{{ evGelirOpacity }};">Devam</button>
           <button onClick="{{ evBasvurYardim }}" style="min-height:40px;border:none;background:transparent;color:#276F4E;font-size:12px;font-weight:800;cursor:pointer;text-decoration:underline;">Emin değilim, bir temsilci hesaplasın</button>
         </div></sc-if>
 
-        <sc-if value="{{ evStep2 }}"><div style="display:flex;flex-direction:column;gap:13px;">
+        <sc-if value="{{ evStep2 }}"><div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="font-size:11px;font-weight:800;color:#276F4E;letter-spacing:.4px;">{{ evAdimText }}</div>
+          <div style="background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;">
+            <div style="font-size:13px;font-weight:800;color:var(--ink);">Ne kadar sürede ödemek istersiniz?</div>
+            <div style="font-size:11px;color:var(--dim);margin:4px 0 12px;line-height:1.4;">Sonraki ekranda ay ay ince ayar yapabilirsiniz.</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <button onClick="{{ setEvVade60 }}" style="min-height:48px;border:1px solid {{ evVade60 }};border-radius:12px;background:var(--bg);color:var(--ink);cursor:pointer;font-family:'Manrope',sans-serif;text-align:left;padding:0 14px;"><span style="font-size:14px;font-weight:800;">5 yıl</span><span style="font-size:10.5px;color:var(--dim);"> · en küçük bütçe, en hızlı biter</span></button>
+              <button onClick="{{ setEvVade90 }}" style="min-height:48px;border:1px solid {{ evVade90 }};border-radius:12px;background:var(--bg);color:var(--ink);cursor:pointer;font-family:'Manrope',sans-serif;text-align:left;padding:0 14px;"><span style="font-size:14px;font-weight:800;">7,5 yıl</span><span style="font-size:10.5px;color:var(--dim);"> · dengeli</span></button>
+              <button onClick="{{ setEvVade120 }}" style="min-height:48px;border:1px solid {{ evVade120 }};border-radius:12px;background:var(--bg);color:var(--ink);cursor:pointer;font-family:'Manrope',sans-serif;text-align:left;padding:0 14px;"><span style="font-size:14px;font-weight:800;">10 yıl</span><span style="font-size:10.5px;color:var(--dim);"> · en büyük bütçe, en uzun ödeme</span></button>
+            </div>
+          </div>
+          <div style="display:flex;gap:9px;"><button onClick="{{ evBack }}" style="min-height:50px;padding:0 18px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">Geri</button><button onClick="{{ evNext }}" style="flex:1;min-height:50px;border:none;background:linear-gradient(135deg,#276F4E,#348C61);color:#fff;border-radius:12px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">Evimi göster</button></div>
+        </div></sc-if>
+
+        <sc-if value="{{ evStep3 }}"><div style="display:flex;flex-direction:column;gap:13px;">
           <div style="background:linear-gradient(135deg,#1F5D40,#348C61);border-radius:16px;padding:16px;color:#fff;">
             <div style="font-size:11px;font-weight:700;opacity:.85;letter-spacing:.3px;">TAHMİNİ EV BÜTÇENİZ</div>
             <div style="font:800 26px 'Manrope',sans-serif;margin-top:3px;">{{ evBudgetText }}</div>
@@ -324,14 +339,18 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
           <div style="flex:1;min-width:0;padding-top:2px;"><div style="font:800 17px 'Manrope',sans-serif;">{{ evDetayAd }}</div><div style="font-size:11px;opacity:.9;margin-top:2px;">{{ evDetayIlceler }}</div><div style="font-size:11px;opacity:.95;margin-top:6px;font-weight:700;">{{ evDetayOzet }}</div></div>
         </div>
         <div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;">
-          <div style="font-size:11px;color:var(--dim);font-weight:700;">Semtler · uygundan pahalıya ({{ evOdaText }} fiyatları)</div>
-          <sc-for list="{{ evDetaySemtler }}" as="st" hint-placeholder-count="5"><div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;">
+          <div style="font-size:11px;color:var(--dim);font-weight:700;">Semt seçin · uygundan pahalıya ({{ evOdaText }} fiyatları)</div>
+          <sc-for list="{{ evDetaySemtler }}" as="st" hint-placeholder-count="5"><button onClick="{{ st.onSec }}" style-active="transform:scale(.99);" style="width:100%;text-align:left;background:{{ st.rowBg }};border:1px solid {{ st.borderColor }};border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;cursor:pointer;font-family:'Manrope',sans-serif;">
             <div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ st.ad }}</div><div style="font-size:10.5px;color:var(--dim);margin-top:2px;">{{ st.altText }}</div></div>
             <div style="text-align:right;"><div style="font-size:13px;font-weight:800;color:var(--ink);">{{ st.fiyatText }}</div><div style="font-size:9.5px;font-weight:800;color:{{ st.uygunColor }};margin-top:1px;">{{ st.uygunText }}</div></div>
-          </div></sc-for>
+          </button></sc-for>
           <div style="font-size:10px;color:var(--dim);line-height:1.5;margin-top:4px;">Fiyatlar ilan ortalamasıdır, pazarlık payı içermez. Bina yaşı semt geneli tahminidir. "Bütçe içi" = ortalama fiyat, hesaplanan bütçenizin altında.</div>
-          <button onClick="{{ evDetayKapat }}" style="min-height:48px;margin-top:4px;border:none;background:#276F4E;color:#fff;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">Bölgelere dön</button>
+          <button onClick="{{ evDetayKapat }}" style="min-height:44px;margin-top:2px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">Bölgelere dön</button>
         </div>
+        <sc-if value="{{ evSemtSeciliVar }}"><div style="border-top:1px solid var(--line);background:var(--card);padding:12px 14px max(12px, env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:8px;animation:tabIn .2s ease-out;">
+          <div style="font-size:11.5px;font-weight:700;color:var(--ink);">{{ evSemtCtaText }}</div>
+          <button onClick="{{ evSemtCagir }}" style="min-height:52px;border:none;background:linear-gradient(135deg,#276F4E,#348C61);color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;box-shadow:0 8px 20px -6px rgba(39,111,78,.5);">Temsilci çağır</button>
+        </div></sc-if>
       </div></sc-if>
       <div style="position:absolute;bottom:0;left:0;right:0;z-index:40;display:flex;border-top:1px solid var(--line);background:var(--card);padding:6px 0;"><div style="position:absolute;top:4px;left:{{ customerNavIndicatorLeft }};width:20%;height:2px;background:#276F4E;border-radius:2px;transition:left .28s cubic-bezier(.4,0,.2,1);"></div><button onClick="{{ setCustomerNavProfil }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navProfilColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navProfilColor }}" stroke-width="2"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg><span style="font-size:9px;font-weight:{{ navProfilWeight }};">Profil</span></button><button onClick="{{ setCustomerNavTasarruf }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navTasarrufColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navTasarrufColor }}" stroke-width="2"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5"></path></svg><span style="font-size:9px;font-weight:{{ navTasarrufWeight }};white-space:nowrap;">Tasarruf</span></button><button onClick="{{ setCustomerNavEv }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navEvColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navEvColor }}" stroke-width="2"><path d="M3 11l9-8 9 8"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-6h4v6"></path></svg><span style="font-size:9px;font-weight:{{ navEvWeight }};white-space:nowrap;">Ev Almak</span></button><button onClick="{{ setCustomerNavGorusmeler }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navGorusmelerColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navGorusmelerColor }}" stroke-width="2"><path d="M5 5h14v11H9l-4 3V5Z"></path><path d="M9 9h6M9 12h4"></path></svg><span style="font-size:9px;font-weight:{{ navGorusmelerWeight }};white-space:nowrap;">Görüşmeler</span></button><button onClick="{{ setCustomerNavAyarlar }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navAyarlarColor }};cursor:pointer;font-family:'Manrope',sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ navAyarlarColor }}" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.1 2.1-.06-.06a1.7 1.7 0 0 0-1.88-.34 1.7 1.7 0 0 0-1.04 1.56v.1h-3v-.1a1.7 1.7 0 0 0-1.04-1.56 1.7 1.7 0 0 0-1.88.34l-.06.06-2.1-2.1.06-.06A1.7 1.7 0 0 0 7.04 15 1.7 1.7 0 0 0 5.5 14H5.4v-3h.1A1.7 1.7 0 0 0 7.04 10 1.7 1.7 0 0 0 6.7 8.12l-.06-.06 2.1-2.1.06.06a1.7 1.7 0 0 0 1.88.34 1.7 1.7 0 0 0 1.04-1.56V4.7h3v.1a1.7 1.7 0 0 0 1.04 1.56 1.7 1.7 0 0 0 1.88-.34l.06-.06 2.1 2.1-.06.06A1.7 1.7 0 0 0 19.4 10a1.7 1.7 0 0 0 1.54 1h.1v3h-.1A1.7 1.7 0 0 0 19.4 15Z"></path></svg><span style="font-size:9px;font-weight:{{ navAyarlarWeight }};">Ayarlar</span></button></div>
       <sc-if value="{{ mapExpandedOpen }}"><div style="position:absolute;inset:0;z-index:46;background:var(--bg);display:flex;flex-direction:column;animation:slideInRight .3s ease-out;"><div style="padding:max(10px, env(safe-area-inset-top)) 12px 10px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;"><button onClick="{{ closeMapExpanded }}" aria-label="Haritayı kapat" style="width:44px;height:44px;border:none;background:transparent;color:#276F4E;font-size:25px;cursor:pointer;">‹</button><div><div style="font-size:15px;font-weight:800;color:var(--ink);">Konumunuz</div><div style="font-size:10.5px;color:var(--dim);">Yakınlaştırıp kaydırabilirsiniz</div></div></div><div style="flex:1;position:relative;"><iframe ref="{{ expandedMapRef }}" src="map.html" onLoad="{{ onExpandedMapLoad }}" title="Konum haritası" style="width:100%;height:100%;border:none;"></iframe></div></div></sc-if>
@@ -890,6 +909,7 @@ class Component extends DCLogic {
     evVade: 120,
     evOda: "2+1",
     evDetay: null,
+    evSemtSecili: null,
     evOrgAcik: false,
     customerMeetingSort: "dateAsc",
     customerMeetings: [
@@ -1286,7 +1306,7 @@ class Component extends DCLogic {
   }
   startEvFinansmanRequest(not) {
     const form = { ...this.state.customerForm, testMode: false, note: not };
-    this.setState({ customerNav: "tasarruf", customerForm: form, customerStage: "loading", reqStatus: "aranan", rejectedSpyIds: [], locationShared: false, chatMessages: [], evStep: 1, evDetay: null });
+    this.setState({ customerNav: "tasarruf", customerForm: form, customerStage: "loading", reqStatus: "aranan", rejectedSpyIds: [], locationShared: false, chatMessages: [], evStep: 1, evDetay: null, evSemtSecili: null });
     this.requestCurrentLocation(true);
     setTimeout(() => this.assignNextSpy("initial"), 1100);
   }
@@ -1560,7 +1580,7 @@ class Component extends DCLogic {
         badge: evFitLabel(lvl),
         badgeColor: lvl <= 0 ? "#B23B3B" : lvl >= 3 ? "#276F4E" : "#9A7420",
         badgeBg: lvl <= 0 ? "#F8ECE9" : lvl >= 3 ? "#EAF3EE" : "#FBF3E2",
-        onDetay: () => this.setState({ evDetay: b.rank }),
+        onDetay: () => this.setState({ evDetay: b.rank, evSemtSecili: null }),
       };
     });
     const evDetayB = s.evDetay != null ? EV_BOLGELER.find((x) => x.rank === s.evDetay) : null;
@@ -1574,15 +1594,22 @@ class Component extends DCLogic {
         .sort((a, b) => a.med - b.med)
         .map((st) => {
           const raw = evDetayB.semtler.find((x) => x.ad === st.ad) || {};
+          const secili = s.evSemtSecili === st.ad;
           return {
             ad: st.ad,
             altText: (raw.ilce || "") + " · ort. bina yaşı " + raw.yas + " · " + st.n + " ilan",
             fiyatText: fmtTLk(st.med) + " ₺",
             uygunColor: st.med <= evFinansman ? "#276F4E" : "#C25E2A",
             uygunText: st.med <= evFinansman ? "Bütçe içi" : "Bütçe üstü",
+            borderColor: secili ? "#276F4E" : "var(--line)",
+            rowBg: secili ? "var(--tintGreen)" : "var(--card)",
+            onSec: () => this.setState({ evSemtSecili: st.ad }),
           };
         }),
     } : null;
+    const evSemtNot = (evDetayB && s.evSemtSecili)
+      ? "Ev almak istiyorum · " + evDetayB.ad + " / " + s.evSemtSecili + " · " + evOda + " · bütçe ~" + fmtTLk(evFinansman) + " ₺ · " + evYilText + " · hedef " + evTeslimTarihText
+      : "";
     const evOzetNot = "Ev almak istiyorum · " + evOda + " · bütçe ~" + fmtTLk(evFinansman) + " ₺ · aylık ~" + fmtTL(evTaksit) + " ₺ · " + evYilText + " · hedef " + evTeslimTarihText;
 
     return {
@@ -1630,11 +1657,19 @@ class Component extends DCLogic {
       navGorusmelerColor: s.customerNav === "gorusmeler" ? GREEN : "#A7B3AC",
       navAyarlarColor: s.customerNav === "ayarlar" ? GREEN : "#A7B3AC",
       evStep1: s.evStep === 1,
-      evStep2: s.evStep >= 2,
+      evStep2: s.evStep === 2,
+      evStep3: s.evStep >= 3,
+      evAdimText: "Adım " + Math.min(s.evStep, 2) + " / 2",
       evGelirFmt: evGelir > 0 ? evGelir.toLocaleString("tr-TR") : "",
       evGelirValid: evGelir > 0,
       evGelirInvalid: !(evGelir > 0),
       evGelirOpacity: evGelir > 0 ? "1" : ".5",
+      evVade60: s.evVade === 60 ? "#276F4E" : "var(--line)",
+      evVade90: s.evVade === 90 ? "#276F4E" : "var(--line)",
+      evVade120: s.evVade === 120 ? "#276F4E" : "var(--line)",
+      setEvVade60: () => this.setState({ evVade: 60 }),
+      setEvVade90: () => this.setState({ evVade: 90 }),
+      setEvVade120: () => this.setState({ evVade: 120 }),
       setEvGelir: (e) => this.setState({ evGelir: e.target.value.replace(/\D/g, ""), evTaksit: "" }),
       setEvGelirA: () => this.setState({ evGelir: "15000", evTaksit: "" }),
       setEvGelirB: () => this.setState({ evGelir: "25000", evTaksit: "" }),
@@ -1655,9 +1690,9 @@ class Component extends DCLogic {
       setEvOda11: () => this.setState({ evOda: "1+1" }),
       setEvOda21: () => this.setState({ evOda: "2+1" }),
       setEvOda31: () => this.setState({ evOda: "3+1" }),
-      evNext: () => this.setState({ evStep: 2 }),
-      evBack: () => this.setState({ evStep: 1 }),
-      evReset: () => this.setState({ evStep: 1, evGelir: "", evTaksit: "", evVade: 120, evOda: "2+1", evDetay: null, evOrgAcik: false }),
+      evNext: () => this.setState((st) => ({ evStep: Math.min(3, st.evStep + 1) })),
+      evBack: () => this.setState((st) => ({ evStep: Math.max(1, st.evStep - 1) })),
+      evReset: () => this.setState({ evStep: 1, evGelir: "", evTaksit: "", evVade: 120, evOda: "2+1", evDetay: null, evSemtSecili: null, evOrgAcik: false }),
       evBasvur: () => this.startEvFinansmanRequest(evOzetNot),
       evBasvurYardim: () => this.startEvFinansmanRequest("Ev almak istiyorum — bütçemi bir temsilci hesaplasın istiyorum."),
       evBudgetText: fmtTLk(evFinansman) + " ₺",
@@ -1677,11 +1712,14 @@ class Component extends DCLogic {
       evHizmetDetayText: "Yarısını (~" + fmtTL(evOrgPesin) + " ₺) başvuruda, kalanını ilk 4 ay taksitle (~" + fmtTL(evOrgKalanTaksit) + " ₺/ay) ödersiniz. Kredideki dosya masrafı gibi düşünün.",
       evBolgeler: evBolgeler,
       evDetayAcik: s.evDetay != null,
-      evDetayKapat: () => this.setState({ evDetay: null }),
+      evDetayKapat: () => this.setState({ evDetay: null, evSemtSecili: null }),
       evDetayAd: evDetayVeri ? evDetayVeri.ad : "",
       evDetayIlceler: evDetayVeri ? evDetayVeri.ilceler : "",
       evDetayOzet: evDetayVeri ? evDetayVeri.ozetText : "",
       evDetaySemtler: evDetayVeri ? evDetayVeri.semtler : [],
+      evSemtSeciliVar: !!s.evSemtSecili,
+      evSemtCtaText: s.evSemtSecili ? s.evSemtSecili + " · temsilci tek adımda yanınızda" : "",
+      evSemtCagir: () => this.startEvFinansmanRequest(evSemtNot),
       userInitials: (s.customerForm.name || s.kayitAd || "Tasarruf Yanımda").trim().split(/\s+/).map((p) => p[0] || "").join("").slice(0, 2).toUpperCase() || "TY",
       headerTagline: s.customerNav === "ev" && s.reqStatus === "idle" ? "Size uygun evi birlikte bulalım" : s.reqStatus === "onaylandi" ? "Temsilciniz yolda" : s.reqStatus === "eslesti" ? "Temsilciniz bağlandı" : s.reqStatus === "konumPaylasildi" ? "Konum alındı, yönlendiriliyor" : s.reqStatus === "bekliyor" ? "Temsilci onayı bekleniyor" : s.reqStatus === "vardi" ? "Temsilciniz ulaştı" : "Konumunuza en yakın temsilciyi çağırın",
       profileName: s.customerForm.name || "Tasarruf Yanımda Kullanıcısı",
