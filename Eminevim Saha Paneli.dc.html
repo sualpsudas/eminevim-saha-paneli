@@ -311,7 +311,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 
           <div style="background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2px 14px;">
             <button onClick="{{ toggleEvOrg }}" style="width:100%;min-height:44px;display:flex;align-items:center;gap:8px;border:none;background:transparent;cursor:pointer;font-family:'Manrope',sans-serif;text-align:left;"><span style="flex:1;font-size:12px;font-weight:800;color:var(--ink);">{{ evHizmetOzetText }}</span><span style="font-size:12px;color:var(--dim);">{{ evOrgOk }}</span></button>
-            <sc-if value="{{ evOrgAcik }}"><div style="padding:0 0 13px;font-size:11px;color:var(--dim);line-height:1.55;">{{ evHizmetDetayText }}</div></sc-if>
+            <sc-if value="{{ evOrgAcik }}"><div style="padding:0 0 13px;font-size:11px;color:var(--dim);line-height:1.55;">{{ evHizmetDetayText }}<br><span style="color:var(--ink);font-weight:700;">{{ evToplamOdemeText }}</span></div></sc-if>
           </div>
 
           <div style="font-size:12.5px;font-weight:800;color:var(--ink);">Kaç odalı ev arıyorsunuz?</div>
@@ -1727,6 +1727,7 @@ class Component extends DCLogic {
       evOrgOk: s.evOrgAcik ? "▾" : "▸",
       evHizmetOzetText: "Hizmet bedeli: " + fmtTLk(evOrgUcret) + " ₺",
       evHizmetDetayText: "Yarısını (~" + fmtTL(evOrgPesin) + " ₺) başvuruda, kalanını ilk 4 ay taksitle (~" + fmtTL(evOrgKalanTaksit) + " ₺/ay) ödersiniz. Kredideki dosya masrafı gibi düşünün.",
+      evToplamOdemeText: evYilText + " boyunca toplam ~" + fmtTLk(evFinansman + evOrgUcret) + " ₺ ödersiniz (ev bedeli + hizmet bedeli).",
       evBolgeler: evBolgeler,
       evDetayAcik: s.evDetay != null,
       evDetayKapat: () => this.setState({ evDetay: null, evSemtSecili: null }),
