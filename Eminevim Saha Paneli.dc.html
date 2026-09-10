@@ -328,12 +328,12 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
           <div style="flex:1;min-width:0;padding-top:2px;"><div style="font:800 17px 'Manrope',sans-serif;">{{ evDetayAd }}</div><div style="font-size:11px;opacity:.9;margin-top:2px;">{{ evDetayIlceler }}</div><div style="font-size:11px;opacity:.95;margin-top:6px;font-weight:700;">{{ evDetayOzet }}</div></div>
         </div>
         <div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:8px;">
-          <div style="font-size:11px;color:var(--dim);font-weight:700;">Semtler · uygundan pahalıya (seçili oda tipi medyan fiyatı)</div>
+          <div style="font-size:11px;color:var(--dim);font-weight:700;">Semtler · uygundan pahalıya ({{ evOdaText }} medyan fiyatı)</div>
           <sc-for list="{{ evDetaySemtler }}" as="st" hint-placeholder-count="5"><div style="background:var(--card);border:1px solid var(--line);border-radius:12px;padding:11px 12px;display:flex;align-items:center;gap:10px;">
-            <div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ st.ad }}</div><div style="font-size:10.5px;color:var(--dim);margin-top:2px;">{{ st.adetText }}</div></div>
+            <div style="flex:1;min-width:0;"><div style="font-size:12.5px;font-weight:800;color:var(--ink);">{{ st.ad }}</div><div style="font-size:10.5px;color:var(--dim);margin-top:2px;">{{ st.altText }}</div></div>
             <div style="text-align:right;"><div style="font-size:13px;font-weight:800;color:var(--ink);">{{ st.fiyatText }}</div><div style="font-size:9.5px;font-weight:800;color:{{ st.uygunColor }};margin-top:1px;">{{ st.uygunText }}</div></div>
           </div></sc-for>
-          <div style="font-size:10px;color:var(--dim);line-height:1.5;margin-top:4px;">Medyan fiyatlar ilan verisinden hesaplanır, pazarlık payı içermez. "Bütçe içi" = medyan fiyat hesaplanan finansman tutarınızın altında.</div>
+          <div style="font-size:10px;color:var(--dim);line-height:1.5;margin-top:4px;">Medyan fiyatlar ilan verisinden hesaplanır, pazarlık payı içermez. Bina yaşı semt genelindeki yapı stokunun tahmini ortalamasıdır. "Bütçe içi" = medyan fiyat hesaplanan finansman tutarınızın altında.</div>
           <button onClick="{{ evDetayKapat }}" style="min-height:48px;margin-top:4px;border:none;background:#276F4E;color:#fff;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;">Bölgelere dön</button>
         </div>
       </div></sc-if>
@@ -810,42 +810,42 @@ const EV_BOLGELER = [
     "1+1": { n: 438, m2: 65, dec: [1625000,3200000,3850000,4250000,4600000,4990000,5550000,6150000,6500000,7200000,8317378] },
     "2+1": { n: 3394, m2: 90, dec: [1500000,4000000,4550000,4850000,5200000,5500000,5750000,6000000,6480000,7050000,8500000] },
     "3+1": { n: 1778, m2: 125, dec: [1690000,4350000,5225000,5800000,6200000,6500000,6750000,7100000,7490000,7800000,8500000] } }, semtler: [
-    { ad: "Samandıra", "1+1": [115,5900000], "2+1": [647,5790000], "3+1": [354,6362500] },
-    { ad: "Mimarsinan", "1+1": [39,5950000], "2+1": [660,5300000], "3+1": [378,6694500] },
-    { ad: "Yenidoğan", "1+1": [15,3750000], "2+1": [402,5200000], "3+1": [245,6200000] },
-    { ad: "Sarıgazi", "1+1": [76,4825000], "2+1": [361,5800000], "3+1": [185,6790000] },
-    { ad: "Necipfazıl", "1+1": [4,3525000], "2+1": [359,5039000], "3+1": [195,6250000] },
-    { ad: "Aydınlı", "1+1": [78,4150000], "2+1": [270,5550000], "3+1": [131,7100000] } ] },
+    { ad: "Samandıra", ilce: "Sancaktepe", yas: 10, "1+1": [115,5900000], "2+1": [647,5790000], "3+1": [354,6362500] },
+    { ad: "Mimarsinan", ilce: "Sultanbeyli", yas: 9, "1+1": [39,5950000], "2+1": [660,5300000], "3+1": [378,6694500] },
+    { ad: "Yenidoğan", ilce: "Sancaktepe", yas: 11, "1+1": [15,3750000], "2+1": [402,5200000], "3+1": [245,6200000] },
+    { ad: "Sarıgazi", ilce: "Sancaktepe", yas: 13, "1+1": [76,4825000], "2+1": [361,5800000], "3+1": [185,6790000] },
+    { ad: "Necipfazıl", ilce: "Sultanbeyli", yas: 12, "1+1": [4,3525000], "2+1": [359,5039000], "3+1": [195,6250000] },
+    { ad: "Aydınlı", ilce: "Tuzla", yas: 10, "1+1": [78,4150000], "2+1": [270,5550000], "3+1": [131,7100000] } ] },
   { rank: 2, ad: "Uygun bölge", ilceler: "Pendik · Çekmeköy · Şile", oda: {
     "1+1": { n: 598, m2: 65, dec: [1565000,3500000,3890000,4250000,4700000,5125000,5500000,5750000,6200000,6850000,8500000] },
     "2+1": { n: 2694, m2: 90, dec: [2050000,4099000,4990000,5450000,5750000,6140000,6450000,6725000,7100000,7700000,8500000] },
     "3+1": { n: 1074, m2: 120, dec: [1999999,4149000,5150000,6000000,6550000,6950000,7250000,7500000,7845000,8200000,8500000] } }, semtler: [
-    { ad: "Taşdelen", "1+1": [119,4350000], "2+1": [457,6320000], "3+1": [100,7295000] },
-    { ad: "Yenişehir", "1+1": [180,5500000], "2+1": [269,6680000], "3+1": [100,7470000] },
-    { ad: "Esenyalı", "1+1": [25,3449000], "2+1": [263,5000000], "3+1": [160,5750000] },
-    { ad: "Çamçeşme", "1+1": [34,5775000], "2+1": [269,5400000], "3+1": [144,5400000] },
-    { ad: "Dolayoba", "1+1": [33,4999999], "2+1": [273,6300000], "3+1": [134,7215000] },
-    { ad: "Alemdağ", "1+1": [30,5737500], "2+1": [201,6300000], "3+1": [63,7250000] } ] },
+    { ad: "Taşdelen", ilce: "Çekmeköy", yas: 10, "1+1": [119,4350000], "2+1": [457,6320000], "3+1": [100,7295000] },
+    { ad: "Yenişehir", ilce: "Pendik", yas: 13, "1+1": [180,5500000], "2+1": [269,6680000], "3+1": [100,7470000] },
+    { ad: "Esenyalı", ilce: "Pendik", yas: 17, "1+1": [25,3449000], "2+1": [263,5000000], "3+1": [160,5750000] },
+    { ad: "Çamçeşme", ilce: "Pendik", yas: 13, "1+1": [34,5775000], "2+1": [269,5400000], "3+1": [144,5400000] },
+    { ad: "Dolayoba", ilce: "Pendik", yas: 12, "1+1": [33,4999999], "2+1": [273,6300000], "3+1": [134,7215000] },
+    { ad: "Alemdağ", ilce: "Çekmeköy", yas: 12, "1+1": [30,5737500], "2+1": [201,6300000], "3+1": [63,7250000] } ] },
   { rank: 3, ad: "Orta segment", ilceler: "Ümraniye · Ataşehir · Maltepe · Üsküdar · Kartal", oda: {
     "1+1": { n: 1537, m2: 60, dec: [1500000,3900000,4500000,5000000,5500000,5900000,6400000,6750000,7250000,7750000,8500000] },
     "2+1": { n: 4217, m2: 85, dec: [2100000,4250000,4950000,5500000,6000000,6450000,6800000,7200000,7550000,7950000,8500000] },
     "3+1": { n: 1600, m2: 120, dec: [2500000,5000000,5750000,6250000,6600000,6900000,7250000,7500000,7800000,8150000,8500000] } }, semtler: [
-    { ad: "Zümrütevler", "1+1": [115,4550000], "2+1": [459,5250000], "3+1": [149,6750000] },
-    { ad: "Çakmak", "1+1": [100,5020000], "2+1": [347,6250000], "3+1": [98,7250000] },
-    { ad: "Yakacık", "1+1": [82,6350000], "2+1": [295,6750000], "3+1": [163,7100000] },
-    { ad: "Aydınevler", "1+1": [83,4950000], "2+1": [286,6150000], "3+1": [125,6400000] },
-    { ad: "Merkez", "1+1": [54,4975000], "2+1": [260,6325000], "3+1": [60,7225000] },
-    { ad: "Küçükyalı", "1+1": [152,6950000], "2+1": [127,7000000], "3+1": [51,7200000] } ] },
+    { ad: "Zümrütevler", ilce: "Maltepe", yas: 11, "1+1": [115,4550000], "2+1": [459,5250000], "3+1": [149,6750000] },
+    { ad: "Çakmak", ilce: "Ümraniye", yas: 13, "1+1": [100,5020000], "2+1": [347,6250000], "3+1": [98,7250000] },
+    { ad: "Yakacık", ilce: "Kartal", yas: 10, "1+1": [82,6350000], "2+1": [295,6750000], "3+1": [163,7100000] },
+    { ad: "Aydınevler", ilce: "Maltepe", yas: 11, "1+1": [83,4950000], "2+1": [286,6150000], "3+1": [125,6400000] },
+    { ad: "Merkez", ilce: "Ümraniye", yas: 13, "1+1": [54,4975000], "2+1": [260,6325000], "3+1": [60,7225000] },
+    { ad: "Küçükyalı", ilce: "Maltepe", yas: 12, "1+1": [152,6950000], "2+1": [127,7000000], "3+1": [51,7200000] } ] },
   { rank: 4, ad: "Az uygun bölge", ilceler: "Kadıköy · Adalar", oda: {
     "1+1": { n: 168, m2: 65, dec: [2500000,5200000,5800000,6500000,6950000,7200000,7500000,7750000,8000000,8200000,8500000] },
     "2+1": { n: 182, m2: 85, dec: [680000,5500000,6000000,6500000,6750000,7000000,7350000,7500000,7950000,8250000,8500000] },
     "3+1": { n: 36, m2: 115, dec: [2856000,6350000,6750000,7200000,7350000,7729999,7850000,8000000,8200000,8300000,8500000] } }, semtler: [
-    { ad: "Fikirtepe", "1+1": [73,7500000], "2+1": [4,7900000], "3+1": [5,7200000] },
-    { ad: "Rasimpaşa", "1+1": [12,5250000], "2+1": [49,6600000], "3+1": [11,7950000] },
-    { ad: "Hasanpaşa", "1+1": [10,5937500], "2+1": [27,6280000], "3+1": [4,6825000] },
-    { ad: "Caferağa", "1+1": [14,6000000], "2+1": [20,7575000], "3+1": [1,7850000] },
-    { ad: "Acıbadem", "1+1": [4,5950000], "2+1": [26,7375000], "3+1": [2,7550000] },
-    { ad: "Osmanağa", "1+1": [11,5999999], "2+1": [15,6900000], "3+1": [3,7950000] } ] },
+    { ad: "Fikirtepe", ilce: "Kadıköy", yas: 7, "1+1": [73,7500000], "2+1": [4,7900000], "3+1": [5,7200000] },
+    { ad: "Rasimpaşa", ilce: "Kadıköy", yas: 16, "1+1": [12,5250000], "2+1": [49,6600000], "3+1": [11,7950000] },
+    { ad: "Hasanpaşa", ilce: "Kadıköy", yas: 19, "1+1": [10,5937500], "2+1": [27,6280000], "3+1": [4,6825000] },
+    { ad: "Caferağa", ilce: "Kadıköy", yas: 14, "1+1": [14,6000000], "2+1": [20,7575000], "3+1": [1,7850000] },
+    { ad: "Acıbadem", ilce: "Kadıköy", yas: 15, "1+1": [4,5950000], "2+1": [26,7375000], "3+1": [2,7550000] },
+    { ad: "Osmanağa", ilce: "Kadıköy", yas: 16, "1+1": [11,5999999], "2+1": [15,6900000], "3+1": [3,7950000] } ] },
 ];
 function evIlanSayisi(o, F) {
   const d = o.dec;
@@ -1549,7 +1549,7 @@ class Component extends DCLogic {
         ad: b.ad,
         ilceler: b.ilceler,
         m2Text: "~" + o.m2 + " m² (" + evOda + ")",
-        yuzdeText: p > 0 ? "%" + p + " ilan uygun" : "uygun ilan yok",
+        yuzdeText: p > 0 ? "%" + p : "—",
         badge: p <= 0 ? "Bu bölgede zor" : p >= 50 ? "Bol seçenek" : p >= 15 ? "Yeterli bütçe" : "Kısıtlı seçenek",
         badgeColor: p <= 0 ? "#B23B3B" : p >= 15 ? "#276F4E" : "#C25E2A",
         badgeBg: p <= 0 ? "#F8ECE9" : p >= 15 ? "#EAF3EE" : "#FBF3E2",
@@ -1565,13 +1565,16 @@ class Component extends DCLogic {
         .map((st) => { const v = st[evOda]; return { ad: st.ad, n: v[0], med: v[1] }; })
         .filter((st) => st.n > 0)
         .sort((a, b) => a.med - b.med)
-        .map((st) => ({
-          ad: st.ad,
-          fiyatText: fmtTLk(st.med) + " ₺",
-          adetText: st.n + " ilan · " + (st.n >= 8 ? "geniş" : "sınırlı") + " arz",
-          uygunColor: st.med <= evFinansman ? "#276F4E" : "#C25E2A",
-          uygunText: st.med <= evFinansman ? "Bütçe içi" : "Bütçe üstü",
-        })),
+        .map((st) => {
+          const raw = evDetayB.semtler.find((x) => x.ad === st.ad) || {};
+          return {
+            ad: st.ad,
+            altText: (raw.ilce || "") + " · " + raw.yas + " yaş ort. · " + st.n + " ilan",
+            fiyatText: fmtTLk(st.med) + " ₺",
+            uygunColor: st.med <= evFinansman ? "#276F4E" : "#C25E2A",
+            uygunText: st.med <= evFinansman ? "Bütçe içi" : "Bütçe üstü",
+          };
+        }),
     } : null;
     const evOzetNot = "Ev finansmanı talebi · " + evOda + " · ~" + fmtTLk(evFinansman) + " ₺ · " + evVade + " ay · aylık ~" + fmtTL(evTaksit) + " ₺ · hedef " + evTeslimTarihText;
 
