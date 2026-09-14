@@ -270,16 +270,15 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
           </div>
         </sc-if>
 
-        <div style="background:#276F4E; padding:16px 20px 22px; flex-shrink:0;">
-          <div style="display:flex; align-items:center; gap:9px;">
-            <img src="assets/logo-white.png" alt="Eminevim" style="height:15px;">
-            <span style="color:#DCEEE3; font-size:10.5px; font-weight:700; letter-spacing:0.6px; border-left:1px solid rgba(255,255,255,.32); padding-left:8px; font-family:'Manrope',sans-serif;">SPY PANELİ</span>
-            <button onClick="{{ triggerBildirimDemo }}" style-active="transform:scale(.9);" style="margin-left:auto; background:transparent; border:none; cursor:pointer; padding:4px;" aria-label="Bildirimi göster">
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#DCEEE3" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 4-2 5-2 7h16c0-2-2-3-2-7Z"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
-            </button>
+        <div style="background:#276F4E; padding:8px 16px 9px; flex-shrink:0; display:flex; align-items:center; gap:10px;">
+          <img src="assets/logo-white.png" alt="Eminevim" style="height:11px; flex-shrink:0;">
+          <div style="flex:1; min-width:0; text-align:center;">
+            <div style="color:#fff; font-size:15px; font-weight:800; font-family:'Manrope',sans-serif; letter-spacing:-.2px; line-height:1.15;">{{ headerTitle }}</div>
+            <div style="color:#D7EBE0; font-size:10.5px; margin-top:1px; font-weight:500; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ headerSubtitle }}</div>
           </div>
-          <div style="color:#fff; font-size:22px; font-weight:800; margin-top:12px; font-family:'Manrope',sans-serif; letter-spacing:-.2px;">{{ headerTitle }}</div>
-          <div style="color:#D7EBE0; font-size:12px; margin-top:5px; font-weight:500;">{{ headerSubtitle }}</div>
+          <button onClick="{{ triggerBildirimDemo }}" style-active="transform:scale(.9);" style="background:transparent; border:none; cursor:pointer; padding:4px; flex-shrink:0;" aria-label="Bildirimi göster">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#DCEEE3" stroke-width="2"><path d="M18 8a6 6 0 1 0-12 0c0 4-2 5-2 7h16c0-2-2-3-2-7Z"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+          </button>
         </div>
 
         <div onPointerDown="{{ onListPointerDown }}" onPointerMove="{{ onListPointerMove }}" onPointerUp="{{ onListPointerUp }}" onPointerLeave="{{ onListPointerUp }}" style="flex:1; overflow-y:auto; min-height:0;">
@@ -510,7 +509,6 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
         </sc-if>
 
         <div style="position:relative; flex-shrink:0; display:flex; border-top:1px solid var(--line); background:var(--card); padding:6px 0;">
-          <div style="position:absolute; top:4px; left:{{ spyTabIndicatorLeft }}; width:25%; height:2px; background:#276F4E; border-radius:2px; transition:left .28s cubic-bezier(.4,0,.2,1);"></div>
           <button onClick="{{ setSpyTabListe }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ spyListeColor }}" stroke-width="2"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg>
             <span style="font-size:10px; font-weight:{{ spyListeWeight }}; color:{{ spyListeColor }}; font-family:'Manrope',sans-serif;">Görüşmeler</span>
@@ -538,13 +536,13 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
     <div style="width:375px; max-width:100%; background:#1B2740; border-radius:44px; padding:12px; box-shadow:0 34px 60px -20px rgba(23,33,54,.45);">
       <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column; position:relative;">
         <div style="height:30px; background:#1B2740; flex-shrink:0;"></div>
-        <div style="background:#276F4E; padding:16px 20px 22px; flex-shrink:0;">
-          <div style="display:flex; align-items:center; gap:9px;">
-            <img src="assets/logo-white.png" alt="Eminevim" style="height:15px;">
-            <span style="color:#DCEEE3; font-size:10.5px; font-weight:700; letter-spacing:0.6px; border-left:1px solid rgba(255,255,255,.32); padding-left:8px; font-family:'Manrope',sans-serif;">ADMİN PANELİ</span>
+        <div style="background:#276F4E; padding:8px 16px 9px; flex-shrink:0; display:flex; align-items:center; gap:10px;">
+          <img src="assets/logo-white.png" alt="Eminevim" style="height:11px; flex-shrink:0;">
+          <div style="flex:1; min-width:0; text-align:center;">
+            <div style="color:#fff; font-size:15px; font-weight:800; font-family:'Manrope',sans-serif; letter-spacing:-.2px; line-height:1.15;">Saha Dağılımı</div>
+            <div style="color:#D7EBE0; font-size:10.5px; margin-top:1px; font-weight:500;">{{ toplamBasvuru }} aktif başvuru · {{ spylerCount }} SPY</div>
           </div>
-          <div style="color:#fff; font-size:22px; font-weight:800; margin-top:12px; font-family:'Manrope',sans-serif; letter-spacing:-.2px;">Saha Dağılımı</div>
-          <div style="color:#D7EBE0; font-size:12px; margin-top:5px; font-weight:500;">{{ toplamBasvuru }} aktif başvuru · {{ spylerCount }} SPY</div>
+          <span style="color:#DCEEE3; font-size:9px; font-weight:700; letter-spacing:.5px; font-family:'Manrope',sans-serif; flex-shrink:0;">ADMİN</span>
         </div>
 
         <div style="flex:1; overflow-y:auto; min-height:0;">
@@ -633,7 +631,6 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
         </sc-if>
 
         <div style="position:relative; flex-shrink:0; display:flex; border-top:1px solid var(--line); background:var(--card); padding:6px 0;">
-          <div style="position:absolute; top:4px; left:{{ adminTabIndicatorLeft }}; width:33.333%; height:2px; background:#276F4E; border-radius:2px; transition:left .28s cubic-bezier(.4,0,.2,1);"></div>
           <button onClick="{{ setAdminTabOzet }}" style-active="transform:scale(.93);" style="flex:1; min-height:44px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; background:transparent; border:none; cursor:pointer; padding:6px 0; transition:transform .12s;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="{{ adminOzetColor }}" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect></svg>
             <span style="font-size:10px; font-weight:{{ adminOzetWeight }}; color:{{ adminOzetColor }}; font-family:'Manrope',sans-serif;">Özet</span>
@@ -1434,8 +1431,6 @@ class Component extends DCLogic {
       };
     });
 
-    const spyTabIndex = { liste: 0, harita: 1, gecmis: 2, profil: 3 }[s.spyTab];
-    const adminTabIndex = { ozet: 0, gorusmeler: 1, harita: 2 }[s.adminTab];
     const rep = s.assignedRepId ? s.spylerList.find((x) => x.id === s.assignedRepId) : null;
     const kalanKm = rep ? haversineKm(s.repPos || rep, s.customerLocation) : null;
     const etaMinutes = kalanKm == null ? 0 : Math.max(1, Math.ceil(kalanKm / 24 * 60));
@@ -1700,7 +1695,6 @@ class Component extends DCLogic {
       setSpyTabHarita: () => { this.setState({ spyTab: "harita" }); this.requestCurrentLocation(true); },
       setSpyTabGecmis: () => this.setState({ spyTab: "gecmis" }),
       setSpyTabProfil: () => this.setState({ spyTab: "profil" }),
-      spyTabIndicatorLeft: (spyTabIndex * 25).toFixed(2) + "%",
       spyListeColor: s.spyTab === "liste" ? GREEN : "#A7B3AC",
       spyHaritaColor: s.spyTab === "harita" ? GREEN : "#A7B3AC",
       spyGecmisColor: s.spyTab === "gecmis" ? GREEN : "#A7B3AC",
@@ -1731,7 +1725,6 @@ class Component extends DCLogic {
       setAdminTabOzet: () => this.setState({ adminTab: "ozet" }),
       setAdminTabGorusmeler: () => this.setState({ adminTab: "gorusmeler" }),
       setAdminTabHarita: () => this.setState({ adminTab: "harita" }),
-      adminTabIndicatorLeft: (adminTabIndex * 33.333).toFixed(2) + "%",
       adminOzetColor: s.adminTab === "ozet" ? GREEN : "#A7B3AC",
       adminGorusmelerColor: s.adminTab === "gorusmeler" ? GREEN : "#A7B3AC",
       adminHaritaColor: s.adminTab === "harita" ? GREEN : "#A7B3AC",
