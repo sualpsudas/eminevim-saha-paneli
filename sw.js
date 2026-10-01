@@ -1,9 +1,10 @@
-const CACHE = 'eminevim-v4';
+const CACHE = 'eminevim-v5';
 const ASSETS = [
   './',
   './index.html',
   './Eminevim Saha Paneli.dc.html',
   './assignment.js',
+  './org-data.js',
   './support.js',
   './map.html',
   './manifest.json',
