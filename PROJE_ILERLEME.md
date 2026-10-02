@@ -170,3 +170,10 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Saha toplamlarının takım toplamlarıyla, takım toplamlarının personel toplamlarıyla eşleştiği otomatik testlerle doğrulandı.
 - PWA önbelleği `eminevim-v6` sürümüne yükseltildi ve yeni organizasyon verisi için önbellek kırıcı eklendi.
 - 390×844 mobil testte Müdür, Saha, Takım karşılaştırmaları ve SPY profil hiyerarşisi doğrulandı.
+
+### 2026-10-02 - Takım karşılaştırma hizaları düzeltildi
+
+- Uzun takım/personel listelerinde dikey flex alanının üst filtreleri ve seçim kapsüllerini küçültmesi engellendi.
+- Karşılaştırma başlığı, dönem etiketi, sıralama filtreleri ve tablo başlığı tam yükseklikte ve hizalı kalıyor.
+- Liste kendi içerik alanında dikey kaydırılırken üst başlık ve alt navigasyon düzeni korunuyor.
+- 390×844 görünümde “Tüm Takımlar” karşılaştırması; uzun liste, sütunlar, H/G barları ve saha bilgileriyle görsel olarak doğrulandı.
