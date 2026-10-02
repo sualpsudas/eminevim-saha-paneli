@@ -150,3 +150,12 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Karşılaştırma görünümünde SPY’nin 250 personel içindeki genel sırası, kişisel ve şirket H/G değerleri, şirket ortalaması farkı ile tüm personelin H/G sıralı kompakt listesi gösteriliyor.
 - Listede şube, ciro, randevu ve açılan kart değerleri yer alıyor; oturumdaki SPY “SİZ” etiketiyle vurgulanıyor.
 - 390×844 mobil görünümde SPY karşılaştırması ve ASK aylık performans ekranı doğrulandı.
+
+### 2026-10-02 - SPY aylık H/G özeti sadeleştirildi
+
+- SPY Performans özetinin ilk kartı, gün gün biriken ciro ve hedeflerden hesaplanan aylık H/G barı olarak netleştirildi.
+- Ciro alanı yalnızca tek kartta gösteriliyor; başlığı “1 Ekim Perşembe” biçiminde tarih ve gün adını içeriyor. Ayrı aylık ciro kartı kaldırıldı.
+- Ciro kartının altına personelin H/G bazlı Bölge, Saha ve Genel sıralamasını gösteren üç kompakt kart eklendi.
+- Aylık randevu ve açılan kart sayıları yan yana büyük kartlar olarak korundu.
+- `tests/org-data.test.js` içine aylık personel cirosunun günlük kayıtların toplamı olduğunu ve H/G'nin bu birikimden hesaplandığını doğrulayan kontroller eklendi.
+- 390×844 mobil görünümde yeni kart sıralaması, tarih biçimi ve hesaplanan sıralamalar doğrulandı.

@@ -26,4 +26,12 @@ for (const period of ["gun", "hafta", "ay", "yil"]) {
   assert(Math.abs(company.hg - (company.hedef ? company.ciro / company.hedef * 100 : 0)) < 1e-9, `${period} H/G toplamlardan hesaplanmalı`);
 }
 
+const monthlySpy = OrgData.getPeriod("personel", "s1", "ay");
+const monthKey = OrgData.DEMO_TODAY.slice(0, 7);
+const accumulatedCiro = OrgData.gunlukMetrikler.s1
+  .filter((row) => row.tarih.startsWith(monthKey) && row.tarih <= OrgData.DEMO_TODAY)
+  .reduce((sum, row) => sum + row.ciro, 0);
+assert.equal(monthlySpy.ciro, accumulatedCiro, "aylık SPY cirosu gün gün birikmeli");
+assert(Math.abs(monthlySpy.hg - monthlySpy.ciro / monthlySpy.hedef * 100) < 1e-9, "aylık SPY H/G biriken cirodan hesaplanmalı");
+
 console.log("org-data: 4 saha · 22 bölge · 220 şube · 45 TL · 250 personel — OK");

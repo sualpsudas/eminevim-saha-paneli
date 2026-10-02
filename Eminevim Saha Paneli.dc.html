@@ -434,11 +434,10 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
             <div class="metric-segment"><button data-active="{{ spyPerformanceOverview }}" onClick="{{ showSpyPerformanceOverview }}" style="background:{{ spyPerformanceOverviewBg }};color:{{ spyPerformanceOverviewColor }};">Performans</button><button data-active="{{ spyPerformanceComparison }}" onClick="{{ showSpyPerformanceComparison }}" style="background:{{ spyPerformanceComparisonBg }};color:{{ spyPerformanceComparisonColor }};">Karşılaştırma</button></div>
             <sc-if value="{{ spyPerformanceOverview }}"><div style="display:flex;flex-direction:column;gap:9px;">
               <div style="display:flex;align-items:center;"><div style="font:800 16px 'Manrope',sans-serif;color:var(--ink);">{{ reportMonthLabel }} Performansım</div><div style="margin-left:auto;padding:4px 8px;border-radius:99px;background:var(--tintGreen);color:#276F4E;font-size:8.5px;font-weight:800;">KİŞİSEL</div></div>
-              <div class="metric-card premium-hero" style="padding:16px 14px;"><div style="display:flex;align-items:flex-end;position:relative;z-index:1;"><div><div style="font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.5px;">HEDEF / GERÇEKLEŞME</div><div style="font:800 14px 'Manrope',sans-serif;color:var(--ink);margin-top:3px;">H/G</div></div><div style="margin-left:auto;font:800 32px 'Manrope',sans-serif;color:{{ spyPerfHgColor }};letter-spacing:-1px;">{{ spyPerfHg }}</div></div><div style="height:12px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:10px;"><div style="width:{{ spyPerfHgWidth }};height:100%;background:{{ spyPerfHgColor }};border-radius:99px;"></div></div><div style="display:flex;margin-top:8px;font-size:10px;color:var(--dim);"><span>{{ reportMonthRange }}</span><span style="margin-left:auto;font-weight:800;color:var(--ink);">{{ spyPerfCiro }} / {{ spyPerfHedef }}</span></div></div>
-              <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">₺</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportTodayLabel }} CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ spyDailyCiro }}</div></div><span style="margin-left:auto;font-size:9px;color:var(--dim);padding:4px 7px;background:var(--tintGray);border-radius:99px;">{{ reportTodayShort }}</span></div>
-              <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">↗</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportMonthLabel }} CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ spyPerfCiro }}</div></div><span style="margin-left:auto;font-size:9px;font-weight:800;color:{{ spyPerfTrendColor }};padding:4px 7px;background:var(--tintGreen);border-radius:99px;">{{ spyPerfTrend }}</span></div>
+              <div class="metric-card premium-hero" style="padding:16px 14px;"><div style="display:flex;align-items:flex-end;position:relative;z-index:1;"><div><div style="font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.5px;">AYLIK HEDEF / GERÇEKLEŞME</div><div style="font:800 14px 'Manrope',sans-serif;color:var(--ink);margin-top:3px;">AYLIK H/G</div></div><div style="margin-left:auto;font:800 32px 'Manrope',sans-serif;color:{{ spyPerfHgColor }};letter-spacing:-1px;">{{ spyPerfHg }}</div></div><div style="height:12px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:10px;"><div style="width:{{ spyPerfHgWidth }};height:100%;background:{{ spyPerfHgColor }};border-radius:99px;"></div></div><div style="display:flex;margin-top:8px;font-size:10px;color:var(--dim);"><span>{{ reportMonthRange }}</span><span style="margin-left:auto;font-weight:800;color:var(--ink);">{{ spyPerfCiro }} / {{ spyPerfHedef }}</span></div></div>
+              <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">₺</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportDayName }} · CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ spyDailyCiro }}</div></div></div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;"><div class="metric-card" style="padding:11px 8px;text-align:center;"><div style="font-size:8px;color:var(--dim);font-weight:800;">BÖLGEDE</div><div style="font:800 18px 'Manrope',sans-serif;color:#276F4E;margin-top:4px;">{{ spyRegionRank }}</div></div><div class="metric-card" style="padding:11px 8px;text-align:center;"><div style="font-size:8px;color:var(--dim);font-weight:800;">SAHADA</div><div style="font:800 18px 'Manrope',sans-serif;color:#276F4E;margin-top:4px;">{{ spySahaRank }}</div></div><div class="metric-card" style="padding:11px 8px;text-align:center;"><div style="font-size:8px;color:var(--dim);font-weight:800;">GENELDE</div><div style="font:800 18px 'Manrope',sans-serif;color:#276F4E;margin-top:4px;">{{ spyGeneralRank }}</div></div></div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div class="premium-kpi-icon">◷</div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ spyPerfRandevu }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">RANDEVU SAYISI</div></div><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div class="premium-kpi-icon">▣</div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ spyPerfKart }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">AÇILAN KART</div></div></div>
-              <div style="background:var(--tintGreen);border:1px solid #276F4E;border-radius:12px;padding:10px;font-size:10.5px;color:var(--ink);font-weight:700;">Takımımda sıram: {{ spyPerfRank }} · Takım ortalamasına göre {{ spyPerfVsTeam }}</div>
             </div></sc-if>
             <sc-if value="{{ spyPerformanceComparison }}"><div style="display:flex;flex-direction:column;gap:9px;">
               <div style="display:flex;align-items:center;"><div><div style="font:800 16px 'Manrope',sans-serif;color:var(--ink);">Tüm Personel Karşılaştırması</div><div style="font-size:9px;color:var(--dim);margin-top:2px;">{{ reportMonthRange }} · H/G sıralaması</div></div><div style="margin-left:auto;padding:4px 8px;border-radius:99px;background:var(--tintGreen);color:#276F4E;font-size:8px;font-weight:800;">{{ spyComparisonCount }}</div></div>
@@ -1771,6 +1770,7 @@ class Component extends DCLogic {
     const formatReportDate = (date, withYear) => new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "short", ...(withYear ? { year: "numeric" } : {}) }).format(date).replace(/\./g, "");
     const reportTodayLabel = formatReportDate(reportNow, true);
     const reportTodayShort = formatReportDate(reportNow, false);
+    const reportDayName = new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "long", weekday: "long" }).format(reportNow);
     const reportMonthLabel = new Intl.DateTimeFormat("tr-TR", { month: "long", year: "numeric" }).format(reportNow);
     const reportMonthRange = reportMonthStart.getDate() === reportNow.getDate() ? formatReportDate(reportNow, true) : reportMonthStart.getDate() + "–" + formatReportDate(reportNow, true);
     const reportMonthShort = new Intl.DateTimeFormat("tr-TR", { month: "short", year: "numeric" }).format(reportNow).replace(/\./g, "").toLocaleUpperCase("tr-TR");
@@ -1813,10 +1813,9 @@ class Component extends DCLogic {
       { time: "Sal", spy: "Ekip", place: "Saha", action: "Aylık hedef güncellendi", result: "Tamamlandı" },
     ].filter((_, i) => s.managerLiveRange === "7" || i < 3);
     const spyUser = managerUser.rol === "spy" ? managerUser : OrgData.demoUser("spy");
+    const spyPerson = OrgData.findNode("personel", spyUser.id) || OrgData.personeller[0];
     const spyPerf = OrgData.getPeriod("personel", spyUser.id, reportPeriod);
     const spyDailyPerf = OrgData.getPeriod("personel", spyUser.id, "gun");
-    const spyTeam = OrgData.personeller.filter((x) => x.tlId === spyUser.tlId).map((x) => ({ id: x.id, hg: OrgData.getPeriod("personel", x.id, reportPeriod).hg })).sort((a, b) => b.hg - a.hg);
-    const spyTeamMetric = OrgData.getPeriod("tl", spyUser.tlId, reportPeriod);
     const spyCompanyMetric = OrgData.getPeriod("ask", "ask-1", reportPeriod);
     const spyComparisonRows = OrgData.personeller.map((person) => {
       const metric = OrgData.getPeriod("personel", person.id, reportPeriod);
@@ -1824,11 +1823,15 @@ class Component extends DCLogic {
       return { id: person.id, ad: person.ad, initials: person.ad.split(" ").map((x) => x[0]).join("").slice(0, 2), branch: branch ? branch.ad : "Saha", metric, hg: fmtPct(metric.hg), hgColor: hgColor(metric.hg), hgWidth: Math.min(100, metric.hg) + "%", ciro: fmtCompact(metric.ciro, true), randevu: metric.randevu, kart: metric.kart };
     }).sort((a, b) => b.metric.hg - a.metric.hg).map((row, index) => ({ ...row, rank: index + 1, isSelf: row.id === spyUser.id, rowBg: row.id === spyUser.id ? "var(--tintGreen)" : "transparent", rowBorder: row.id === spyUser.id ? "#276F4E" : "var(--line)" }));
     const spyCompanyRank = spyComparisonRows.findIndex((x) => x.id === spyUser.id) + 1;
+    const spyRankWithin = (people) => people.map((person) => ({ id: person.id, hg: OrgData.getPeriod("personel", person.id, reportPeriod).hg })).sort((a, b) => b.hg - a.hg).findIndex((x) => x.id === spyUser.id) + 1;
+    const spyRegionRank = spyRankWithin(OrgData.personeller.filter((x) => x.bolgeId === spyPerson.bolgeId));
+    const spySahaRank = spyRankWithin(OrgData.personeller.filter((x) => x.sahaId === spyPerson.sahaId));
 
     return {
       themeVars,
       reportTodayLabel,
       reportTodayShort,
+      reportDayName,
       reportMonthLabel,
       reportMonthRange,
       reportMonthShort,
@@ -1905,8 +1908,9 @@ class Component extends DCLogic {
       spyPerfKart: spyPerf.kart,
       spyPerfKpis: [{ label: "CİRO", value: fmtCompact(spyPerf.ciro, true) }, { label: "RANDEVU", value: spyPerf.randevu }, { label: "AÇILAN KART", value: spyPerf.kart }, { label: "KAYIT", value: spyPerf.kayit }],
       spyPerfRK: fmtPct(spyPerf.randevuKart), spyPerfKK: fmtPct(spyPerf.kartKayit), spyPerfRR: fmtPct(spyPerf.randevuKayit),
-      spyPerfRank: (spyTeam.findIndex((x) => x.id === spyUser.id) + 1) + "/" + spyTeam.length,
-      spyPerfVsTeam: (spyPerf.hg >= spyTeamMetric.hg ? "+" : "") + Math.round(spyPerf.hg - spyTeamMetric.hg) + " puan",
+      spyRegionRank: spyRegionRank + ". sıra",
+      spySahaRank: spySahaRank + ". sıra",
+      spyGeneralRank: spyCompanyRank + ". sıra",
       spyPerformanceOverview: s.spyPerformanceView === "ozet",
       spyPerformanceComparison: s.spyPerformanceView === "karsilastirma",
       showSpyPerformanceOverview: () => this.setState({ spyPerformanceView: "ozet" }),
