@@ -128,3 +128,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Haftalık Randevu Sayısı ve Açılan Kart değerleri yan yana büyük kartlara taşındı.
 - SPY Performans görünümü Profil içinden çıkarılarak bağımsız alt navigasyon sekmesi yapıldı.
 - 390×844 mobil görünümde SPY/TL/SGL/ASK rolleri doğrulandı; dönem düğmelerinin kaldırıldığı ve tarayıcı konsolunda hata olmadığı kontrol edildi.
+
+### 2026-10-02 - Premium dashboard ve kompakt hiyerarşi seçimi
+
+- Yönetici ve personel performans ekranları; katmanlı kartlar, daha güçlü tipografi, ikon blokları, durum renkleri ve özet rozetleriyle premium dashboard görsel diline geçirildi.
+- TL, SGL ve ASK Müdürü performans ekranlarına kompakt “Görüntülenen Kapsam” seçicisi eklendi. Üst roller yalnızca kendi yetki ağacındaki alt saha, takım ve personeli seçerek inceleyebiliyor.
+- Seçilen kapsamın adı, rolü, H/G yüzdesi ve haftalık cirosu seçim listesinde birlikte gösteriliyor; seçim sonrasında breadcrumb ve üst seviyeye dönüş korunuyor.
+- 390×844 mobil görünümde ASK → saha → takım ve TL → personel seçimleri ile ayrı SPY Performans sekmesi görsel olarak doğrulandı.
+- Ana uygulama betiğinin sözdizimi ve `tests/org-data.test.js` organizasyon/veri bütünlüğü testleri başarıyla tamamlandı.
