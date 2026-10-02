@@ -136,3 +136,9 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Seçilen kapsamın adı, rolü, H/G yüzdesi ve haftalık cirosu seçim listesinde birlikte gösteriliyor; seçim sonrasında breadcrumb ve üst seviyeye dönüş korunuyor.
 - 390×844 mobil görünümde ASK → saha → takım ve TL → personel seçimleri ile ayrı SPY Performans sekmesi görsel olarak doğrulandı.
 - Ana uygulama betiğinin sözdizimi ve `tests/org-data.test.js` organizasyon/veri bütünlüğü testleri başarıyla tamamlandı.
+
+### 2026-10-02 - Rapor dönemleri tarih olarak gösterildi
+
+- Performans ekranlarındaki “Bugün”, “Bu hafta”, “Günlük” ve “Haftalık” dönem metinleri dinamik tarih etiketleriyle değiştirildi.
+- Günlük ciro gün/ay/yıl, haftalık metrikler ise Pazartesi–Pazar tarih aralığını gösteriyor; tarihler cihaz saatine göre otomatik yenileniyor.
+- Personel, TL, SGL ve ASK Müdürü performans görünümleri aynı tarih biçimini kullanıyor.
