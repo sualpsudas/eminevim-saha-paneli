@@ -142,3 +142,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Performans ekranlarındaki “Bugün”, “Bu hafta”, “Günlük” ve “Haftalık” dönem metinleri dinamik tarih etiketleriyle değiştirildi.
 - Günlük ciro gün/ay/yıl, haftalık metrikler ise Pazartesi–Pazar tarih aralığını gösteriyor; tarihler cihaz saatine göre otomatik yenileniyor.
 - Personel, TL, SGL ve ASK Müdürü performans görünümleri aynı tarih biçimini kullanıyor.
+
+### 2026-10-02 - Aylık performans ve SPY karşılaştırması
+
+- Personel, TL, SGL ve ASK Müdürü performans hesapları haftalık dönemden aylık döneme geçirildi; başlıklar ve tarih rozetleri içinde bulunulan ayı gösteriyor.
+- Yalnızca SPY Performans ekranına “Performans / Karşılaştırma” alt sekmeleri eklendi.
+- Karşılaştırma görünümünde SPY’nin 250 personel içindeki genel sırası, kişisel ve şirket H/G değerleri, şirket ortalaması farkı ile tüm personelin H/G sıralı kompakt listesi gösteriliyor.
+- Listede şube, ciro, randevu ve açılan kart değerleri yer alıyor; oturumdaki SPY “SİZ” etiketiyle vurgulanıyor.
+- 390×844 mobil görünümde SPY karşılaştırması ve ASK aylık performans ekranı doğrulandı.

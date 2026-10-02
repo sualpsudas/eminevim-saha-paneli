@@ -431,12 +431,21 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 
           <sc-if value="{{ spyTabIsPerformans }}">
           <div style="animation:tabIn .3s ease-out;padding:14px;display:flex;flex-direction:column;gap:9px;">
-            <div style="display:flex;align-items:center;"><div style="font:800 16px 'Manrope',sans-serif;color:var(--ink);">{{ reportWeekLabel }} Performansım</div><div style="margin-left:auto;padding:4px 8px;border-radius:99px;background:var(--tintGreen);color:#276F4E;font-size:8.5px;font-weight:800;">KİŞİSEL</div></div>
-            <div class="metric-card premium-hero" style="padding:16px 14px;"><div style="display:flex;align-items:flex-end;position:relative;z-index:1;"><div><div style="font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.5px;">HEDEF / GERÇEKLEŞME</div><div style="font:800 14px 'Manrope',sans-serif;color:var(--ink);margin-top:3px;">H/G</div></div><div style="margin-left:auto;font:800 32px 'Manrope',sans-serif;color:{{ spyPerfHgColor }};letter-spacing:-1px;">{{ spyPerfHg }}</div></div><div style="height:12px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:10px;"><div style="width:{{ spyPerfHgWidth }};height:100%;background:{{ spyPerfHgColor }};border-radius:99px;"></div></div><div style="display:flex;margin-top:8px;font-size:10px;color:var(--dim);"><span>{{ reportWeekLabel }}</span><span style="margin-left:auto;font-weight:800;color:var(--ink);">{{ spyPerfCiro }} / {{ spyPerfHedef }}</span></div></div>
-            <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">₺</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportTodayLabel }} CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ spyDailyCiro }}</div></div><span style="margin-left:auto;font-size:9px;color:var(--dim);padding:4px 7px;background:var(--tintGray);border-radius:99px;">{{ reportTodayShort }}</span></div>
-            <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">↗</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportWeekLabel }} CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ spyPerfCiro }}</div></div><span style="margin-left:auto;font-size:9px;font-weight:800;color:{{ spyPerfTrendColor }};padding:4px 7px;background:var(--tintGreen);border-radius:99px;">{{ spyPerfTrend }}</span></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div class="premium-kpi-icon">◷</div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ spyPerfRandevu }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">RANDEVU SAYISI</div></div><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div class="premium-kpi-icon">▣</div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ spyPerfKart }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">AÇILAN KART</div></div></div>
-            <div style="background:var(--tintGreen);border:1px solid #276F4E;border-radius:12px;padding:10px;font-size:10.5px;color:var(--ink);font-weight:700;">Takımımda sıram: {{ spyPerfRank }} · Takım ortalamasına göre {{ spyPerfVsTeam }}</div>
+            <div class="metric-segment"><button data-active="{{ spyPerformanceOverview }}" onClick="{{ showSpyPerformanceOverview }}" style="background:{{ spyPerformanceOverviewBg }};color:{{ spyPerformanceOverviewColor }};">Performans</button><button data-active="{{ spyPerformanceComparison }}" onClick="{{ showSpyPerformanceComparison }}" style="background:{{ spyPerformanceComparisonBg }};color:{{ spyPerformanceComparisonColor }};">Karşılaştırma</button></div>
+            <sc-if value="{{ spyPerformanceOverview }}"><div style="display:flex;flex-direction:column;gap:9px;">
+              <div style="display:flex;align-items:center;"><div style="font:800 16px 'Manrope',sans-serif;color:var(--ink);">{{ reportMonthLabel }} Performansım</div><div style="margin-left:auto;padding:4px 8px;border-radius:99px;background:var(--tintGreen);color:#276F4E;font-size:8.5px;font-weight:800;">KİŞİSEL</div></div>
+              <div class="metric-card premium-hero" style="padding:16px 14px;"><div style="display:flex;align-items:flex-end;position:relative;z-index:1;"><div><div style="font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.5px;">HEDEF / GERÇEKLEŞME</div><div style="font:800 14px 'Manrope',sans-serif;color:var(--ink);margin-top:3px;">H/G</div></div><div style="margin-left:auto;font:800 32px 'Manrope',sans-serif;color:{{ spyPerfHgColor }};letter-spacing:-1px;">{{ spyPerfHg }}</div></div><div style="height:12px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:10px;"><div style="width:{{ spyPerfHgWidth }};height:100%;background:{{ spyPerfHgColor }};border-radius:99px;"></div></div><div style="display:flex;margin-top:8px;font-size:10px;color:var(--dim);"><span>{{ reportMonthRange }}</span><span style="margin-left:auto;font-weight:800;color:var(--ink);">{{ spyPerfCiro }} / {{ spyPerfHedef }}</span></div></div>
+              <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">₺</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportTodayLabel }} CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ spyDailyCiro }}</div></div><span style="margin-left:auto;font-size:9px;color:var(--dim);padding:4px 7px;background:var(--tintGray);border-radius:99px;">{{ reportTodayShort }}</span></div>
+              <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">↗</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportMonthLabel }} CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ spyPerfCiro }}</div></div><span style="margin-left:auto;font-size:9px;font-weight:800;color:{{ spyPerfTrendColor }};padding:4px 7px;background:var(--tintGreen);border-radius:99px;">{{ spyPerfTrend }}</span></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div class="premium-kpi-icon">◷</div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ spyPerfRandevu }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">RANDEVU SAYISI</div></div><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div class="premium-kpi-icon">▣</div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ spyPerfKart }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">AÇILAN KART</div></div></div>
+              <div style="background:var(--tintGreen);border:1px solid #276F4E;border-radius:12px;padding:10px;font-size:10.5px;color:var(--ink);font-weight:700;">Takımımda sıram: {{ spyPerfRank }} · Takım ortalamasına göre {{ spyPerfVsTeam }}</div>
+            </div></sc-if>
+            <sc-if value="{{ spyPerformanceComparison }}"><div style="display:flex;flex-direction:column;gap:9px;">
+              <div style="display:flex;align-items:center;"><div><div style="font:800 16px 'Manrope',sans-serif;color:var(--ink);">Tüm Personel Karşılaştırması</div><div style="font-size:9px;color:var(--dim);margin-top:2px;">{{ reportMonthRange }} · H/G sıralaması</div></div><div style="margin-left:auto;padding:4px 8px;border-radius:99px;background:var(--tintGreen);color:#276F4E;font-size:8px;font-weight:800;">{{ spyComparisonCount }}</div></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;"><div class="metric-card" style="padding:11px 9px;"><div style="font-size:8px;color:var(--dim);font-weight:800;">GENEL SIRAM</div><div style="font:800 20px 'Manrope',sans-serif;margin-top:4px;">{{ spyCompanyRank }}</div></div><div class="metric-card" style="padding:11px 9px;"><div style="font-size:8px;color:var(--dim);font-weight:800;">BENİM H/G</div><div style="font:800 20px 'Manrope',sans-serif;color:{{ spyPerfHgColor }};margin-top:4px;">{{ spyPerfHg }}</div></div><div class="metric-card" style="padding:11px 9px;"><div style="font-size:8px;color:var(--dim);font-weight:800;">GENEL H/G</div><div style="font:800 20px 'Manrope',sans-serif;color:#276F4E;margin-top:4px;">{{ spyCompanyHg }}</div></div></div>
+              <div class="metric-card" style="padding:10px 12px;display:flex;align-items:center;"><span style="font-size:9px;color:var(--dim);">Şirket ortalamasına göre</span><span style="margin-left:auto;font-size:11px;font-weight:800;color:{{ spyCompanyDeltaColor }};">{{ spyCompanyDelta }}</span></div>
+              <div class="metric-card" style="overflow:hidden;"><sc-for list="{{ spyComparisonRows }}" as="person" hint-placeholder-count="8"><div style="min-height:60px;padding:8px 9px;display:flex;align-items:center;gap:8px;background:{{ person.rowBg }};border-bottom:1px solid {{ person.rowBorder }};"><div style="width:24px;text-align:center;font:800 11px 'Manrope',sans-serif;color:var(--dim);">{{ person.rank }}</div><div style="width:30px;height:30px;border-radius:10px;background:var(--tintGreen);color:#276F4E;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;">{{ person.initials }}</div><div style="flex:1;min-width:0;"><div style="display:flex;align-items:center;"><span style="font-size:10.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ person.ad }}</span><sc-if value="{{ person.isSelf }}"><span style="margin-left:5px;padding:2px 5px;border-radius:99px;background:#276F4E;color:#fff;font-size:7px;font-weight:800;">SİZ</span></sc-if><span style="margin-left:auto;font-size:10px;font-weight:800;color:{{ person.hgColor }};">{{ person.hg }}</span></div><div style="height:3px;background:var(--track);border-radius:4px;overflow:hidden;margin-top:4px;"><div style="width:{{ person.hgWidth }};height:100%;background:{{ person.hgColor }};"></div></div><div style="font-size:8px;color:var(--dim);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ person.branch }} · {{ person.ciro }} · R {{ person.randevu }} / K {{ person.kart }}</div></div></div></sc-for></div>
+            </div></sc-if>
           </div>
           </sc-if>
 
@@ -600,15 +609,15 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
         <sc-if value="{{ managerTabPerformans }}">
           <div class="premium-scope"><div style="display:flex;align-items:center;gap:9px;"><div style="width:34px;height:34px;border-radius:11px;background:rgba(255,255,255,.13);display:flex;align-items:center;justify-content:center;font-size:15px;">⌁</div><div style="flex:1;min-width:0;"><div style="font-size:8.5px;font-weight:800;color:#BFDCCD;letter-spacing:.5px;">GÖRÜNTÜLENEN KAPSAM</div><div style="font:800 12.5px 'Manrope',sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;">{{ managerTitle }}</div></div><sc-if value="{{ managerCanSelectScope }}"><button class="premium-scope-button" onClick="{{ toggleManagerScopePicker }}">Alt birim seç⌄</button></sc-if></div></div>
           <sc-if value="{{ managerScopePickerOpen }}"><div class="scope-picker"><div style="padding:8px 10px 5px;font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.4px;">ALT HİYERARŞİ · SEÇEREK İNCELE</div><sc-for list="{{ managerScopeOptions }}" as="opt" hint-placeholder-count="4"><button class="scope-option" onClick="{{ opt.onSelect }}"><span style="width:30px;height:30px;border-radius:10px;background:var(--tintGreen);color:#276F4E;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;">{{ opt.initials }}</span><span style="flex:1;min-width:0;"><span style="display:block;font-size:11px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ opt.ad }}</span><span style="display:block;font-size:8.5px;color:var(--dim);margin-top:2px;">{{ opt.scopeLabel }} · {{ opt.ciro }}</span></span><span style="font-size:10px;font-weight:800;color:{{ opt.hgColor }};">{{ opt.hg }}</span><span style="color:var(--dim);font-size:16px;">›</span></button></sc-for></div></sc-if>
-          <div style="display:flex;align-items:center;padding:1px 2px 0;"><div style="font:800 16px 'Manrope',sans-serif;color:var(--ink);">{{ reportWeekLabel }} Performansı</div><div style="margin-left:auto;padding:4px 8px;border-radius:99px;background:var(--tintGreen);color:#276F4E;font-size:8.5px;font-weight:800;">{{ reportWeekLabel }}</div></div>
+          <div style="display:flex;align-items:center;padding:1px 2px 0;"><div style="font:800 16px 'Manrope',sans-serif;color:var(--ink);">{{ reportMonthLabel }} Performansı</div><div style="margin-left:auto;padding:4px 8px;border-radius:99px;background:var(--tintGreen);color:#276F4E;font-size:8.5px;font-weight:800;">{{ reportMonthShort }}</div></div>
           <div class="metric-card premium-hero" style="padding:16px 14px;">
             <div style="display:flex;align-items:flex-end;position:relative;z-index:1;"><div><div style="font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.5px;">HEDEF / GERÇEKLEŞME</div><div style="font:800 14px 'Manrope',sans-serif;color:var(--ink);margin-top:3px;">H/G</div></div><div style="margin-left:auto;font:800 32px 'Manrope',sans-serif;color:{{ managerHgColor }};letter-spacing:-1px;">{{ managerHg }}</div></div>
             <div style="height:12px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:10px;"><div style="width:{{ managerHgWidth }};height:100%;background:{{ managerHgColor }};border-radius:99px;"></div></div>
-            <div style="display:flex;align-items:center;margin-top:8px;font-size:10px;color:var(--dim);"><span>{{ reportWeekLabel }}</span><span style="margin-left:auto;font-weight:800;color:var(--ink);">{{ managerCiro }} / {{ managerHedef }}</span></div>
+            <div style="display:flex;align-items:center;margin-top:8px;font-size:10px;color:var(--dim);"><span>{{ reportMonthRange }}</span><span style="margin-left:auto;font-weight:800;color:var(--ink);">{{ managerCiro }} / {{ managerHedef }}</span></div>
           </div>
           <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">₺</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportTodayLabel }} CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ managerDailyCiro }}</div></div><span style="margin-left:auto;font-size:9px;color:var(--dim);padding:4px 7px;background:var(--tintGray);border-radius:99px;">{{ reportTodayShort }}</span></div>
-          <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">↗</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportWeekLabel }} CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ managerCiro }}</div></div><span style="margin-left:auto;font-size:9px;font-weight:800;color:{{ managerTrendColor }};padding:4px 7px;background:var(--tintGreen);border-radius:99px;">{{ managerTrend }}</span></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div style="display:flex;align-items:center;"><div class="premium-kpi-icon">◷</div><div style="margin-left:auto;font-size:8px;color:#276F4E;font-weight:800;background:var(--tintGreen);padding:3px 6px;border-radius:99px;">{{ reportWeekLabel }}</div></div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ managerRandevu }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">RANDEVU SAYISI</div></div><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div style="display:flex;align-items:center;"><div class="premium-kpi-icon">▣</div><div style="margin-left:auto;font-size:8px;color:#276F4E;font-weight:800;background:var(--tintGreen);padding:3px 6px;border-radius:99px;">{{ reportWeekLabel }}</div></div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ managerKart }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">AÇILAN KART</div></div></div>
+          <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">↗</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportMonthLabel }} CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ managerCiro }}</div></div><span style="margin-left:auto;font-size:9px;font-weight:800;color:{{ managerTrendColor }};padding:4px 7px;background:var(--tintGreen);border-radius:99px;">{{ managerTrend }}</span></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div style="display:flex;align-items:center;"><div class="premium-kpi-icon">◷</div><div style="margin-left:auto;font-size:8px;color:#276F4E;font-weight:800;background:var(--tintGreen);padding:3px 6px;border-radius:99px;">{{ reportMonthShort }}</div></div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ managerRandevu }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">RANDEVU SAYISI</div></div><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div style="display:flex;align-items:center;"><div class="premium-kpi-icon">▣</div><div style="margin-left:auto;font-size:8px;color:#276F4E;font-weight:800;background:var(--tintGreen);padding:3px 6px;border-radius:99px;">{{ reportMonthShort }}</div></div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ managerKart }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">AÇILAN KART</div></div></div>
         </sc-if>
 
         <sc-if value="{{ managerTabEkip }}">
@@ -936,9 +945,10 @@ class Component extends DCLogic {
     yukleniyor: true,
     panel: "spy",
     spyTab: "liste",
+    spyPerformanceView: "ozet",
     adminTab: "ozet",
     managerTab: "performans",
-    managerPeriod: "hafta",
+    managerPeriod: "ay",
     managerUser: OrgData.demoUser("tl"),
     managerPath: [],
     managerSort: "hg",
@@ -1055,7 +1065,7 @@ class Component extends DCLogic {
   loginRole(role) {
     const user = OrgData.demoUser(role);
     if (role === "spy") {
-      this.setState({ personelLoginOpen: false, girisYapildi: true, panel: "spy", spyTab: "performans", managerUser: user });
+      this.setState({ personelLoginOpen: false, girisYapildi: true, panel: "spy", spyTab: "performans", spyPerformanceView: "ozet", managerUser: user });
       return;
     }
     this.setState({ personelLoginOpen: false, girisYapildi: true, panel: role, managerUser: user, managerPath: [{ scope: user.scope, id: user.scopeId, ad: user.ad }], managerTab: "performans", managerSettingsOpen: false, managerScopePickerOpen: false });
@@ -1717,7 +1727,7 @@ class Component extends DCLogic {
       liste: ["Sıradaki Görüşmeler", "Onur K. · Kadıköy / Ataşehir bölgesi"],
       harita: ["Canlı Konum", "Saha ekibinizin ve müşterilerin konumu"],
       gecmis: ["Geçmiş Görüşmeler", s.tamamlanan.length + " tamamlanan görüşme"],
-      performans: ["Performansım", "Haftalık hedef ve gerçekleşme"],
+      performans: ["Performansım", "Aylık hedef ve gerçekleşme"],
       profil: ["Profilim", "SPY · Saha Ekibi"],
     };
     const [headerTitle, headerSubtitle] = headerMap[s.spyTab];
@@ -1755,16 +1765,15 @@ class Component extends DCLogic {
       : "--bg:#F4F5F3;--card:#FFFFFF;--line:#E4E1D8;--ink:#2B2F2C;--dim:#6B7367;--track:#E7E9E5;--tintGreen:#EAF3EE;--tintRed:#F8ECE9;--tintGray:#F1EEE6;--tintGold:#FBF3E2;";
 
     const managerUser = s.managerUser || OrgData.demoUser("tl");
-    const reportPeriod = "hafta";
-    const reportNow = new Date();
-    const reportWeekStart = new Date(reportNow);
-    reportWeekStart.setDate(reportNow.getDate() - (reportNow.getDay() === 0 ? 6 : reportNow.getDay() - 1));
-    const reportWeekEnd = new Date(reportWeekStart);
-    reportWeekEnd.setDate(reportWeekStart.getDate() + 6);
+    const reportPeriod = "ay";
+    const reportNow = new Date(OrgData.DEMO_TODAY + "T12:00:00+03:00");
+    const reportMonthStart = new Date(reportNow.getFullYear(), reportNow.getMonth(), 1);
     const formatReportDate = (date, withYear) => new Intl.DateTimeFormat("tr-TR", { day: "numeric", month: "short", ...(withYear ? { year: "numeric" } : {}) }).format(date).replace(/\./g, "");
     const reportTodayLabel = formatReportDate(reportNow, true);
     const reportTodayShort = formatReportDate(reportNow, false);
-    const reportWeekLabel = formatReportDate(reportWeekStart, false) + " – " + formatReportDate(reportWeekEnd, false);
+    const reportMonthLabel = new Intl.DateTimeFormat("tr-TR", { month: "long", year: "numeric" }).format(reportNow);
+    const reportMonthRange = reportMonthStart.getDate() === reportNow.getDate() ? formatReportDate(reportNow, true) : reportMonthStart.getDate() + "–" + formatReportDate(reportNow, true);
+    const reportMonthShort = new Intl.DateTimeFormat("tr-TR", { month: "short", year: "numeric" }).format(reportNow).replace(/\./g, "").toLocaleUpperCase("tr-TR");
     const managerPath = s.managerPath.length ? s.managerPath : [{ scope: managerUser.scope, id: managerUser.scopeId, ad: managerUser.ad }];
     const managerContext = managerPath[managerPath.length - 1];
     const managerMetric = OrgData.getPeriod(managerContext.scope, managerContext.id, reportPeriod);
@@ -1801,18 +1810,28 @@ class Component extends DCLogic {
       { time: "13:48", spy: "Onur K.", place: "Kadıköy", action: "Müşteriye ulaştı", result: "Görüşmede" },
       { time: "12:15", spy: "Berk C.", place: "Beşiktaş", action: "Talebi kabul etti", result: "Yolda" },
       { time: "Dün", spy: managerUser.ad, place: "Merkez", action: "Randevu oluşturuldu", result: "Planlandı" },
-      { time: "Sal", spy: "Ekip", place: "Saha", action: "Haftalık hedef güncellendi", result: "Tamamlandı" },
+      { time: "Sal", spy: "Ekip", place: "Saha", action: "Aylık hedef güncellendi", result: "Tamamlandı" },
     ].filter((_, i) => s.managerLiveRange === "7" || i < 3);
-    const spyPerf = OrgData.getPeriod("personel", "s1", reportPeriod);
-    const spyDailyPerf = OrgData.getPeriod("personel", "s1", "gun");
-    const spyTeam = OrgData.personeller.filter((x) => x.tlId === OrgData.personeller[0].tlId).map((x) => ({ id: x.id, hg: OrgData.getPeriod("personel", x.id, reportPeriod).hg })).sort((a, b) => b.hg - a.hg);
-    const spyTeamMetric = OrgData.getPeriod("tl", OrgData.personeller[0].tlId, reportPeriod);
+    const spyUser = managerUser.rol === "spy" ? managerUser : OrgData.demoUser("spy");
+    const spyPerf = OrgData.getPeriod("personel", spyUser.id, reportPeriod);
+    const spyDailyPerf = OrgData.getPeriod("personel", spyUser.id, "gun");
+    const spyTeam = OrgData.personeller.filter((x) => x.tlId === spyUser.tlId).map((x) => ({ id: x.id, hg: OrgData.getPeriod("personel", x.id, reportPeriod).hg })).sort((a, b) => b.hg - a.hg);
+    const spyTeamMetric = OrgData.getPeriod("tl", spyUser.tlId, reportPeriod);
+    const spyCompanyMetric = OrgData.getPeriod("ask", "ask-1", reportPeriod);
+    const spyComparisonRows = OrgData.personeller.map((person) => {
+      const metric = OrgData.getPeriod("personel", person.id, reportPeriod);
+      const branch = OrgData.findNode("sube", person.subeId);
+      return { id: person.id, ad: person.ad, initials: person.ad.split(" ").map((x) => x[0]).join("").slice(0, 2), branch: branch ? branch.ad : "Saha", metric, hg: fmtPct(metric.hg), hgColor: hgColor(metric.hg), hgWidth: Math.min(100, metric.hg) + "%", ciro: fmtCompact(metric.ciro, true), randevu: metric.randevu, kart: metric.kart };
+    }).sort((a, b) => b.metric.hg - a.metric.hg).map((row, index) => ({ ...row, rank: index + 1, isSelf: row.id === spyUser.id, rowBg: row.id === spyUser.id ? "var(--tintGreen)" : "transparent", rowBorder: row.id === spyUser.id ? "#276F4E" : "var(--line)" }));
+    const spyCompanyRank = spyComparisonRows.findIndex((x) => x.id === spyUser.id) + 1;
 
     return {
       themeVars,
       reportTodayLabel,
       reportTodayShort,
-      reportWeekLabel,
+      reportMonthLabel,
+      reportMonthRange,
+      reportMonthShort,
       darkMode: s.darkMode,
       darkModeOff: !s.darkMode,
       toggleDarkMode: () => this.setState((st) => ({ darkMode: !st.darkMode })),
@@ -1886,8 +1905,22 @@ class Component extends DCLogic {
       spyPerfKart: spyPerf.kart,
       spyPerfKpis: [{ label: "CİRO", value: fmtCompact(spyPerf.ciro, true) }, { label: "RANDEVU", value: spyPerf.randevu }, { label: "AÇILAN KART", value: spyPerf.kart }, { label: "KAYIT", value: spyPerf.kayit }],
       spyPerfRK: fmtPct(spyPerf.randevuKart), spyPerfKK: fmtPct(spyPerf.kartKayit), spyPerfRR: fmtPct(spyPerf.randevuKayit),
-      spyPerfRank: (spyTeam.findIndex((x) => x.id === "s1") + 1) + "/" + spyTeam.length,
+      spyPerfRank: (spyTeam.findIndex((x) => x.id === spyUser.id) + 1) + "/" + spyTeam.length,
       spyPerfVsTeam: (spyPerf.hg >= spyTeamMetric.hg ? "+" : "") + Math.round(spyPerf.hg - spyTeamMetric.hg) + " puan",
+      spyPerformanceOverview: s.spyPerformanceView === "ozet",
+      spyPerformanceComparison: s.spyPerformanceView === "karsilastirma",
+      showSpyPerformanceOverview: () => this.setState({ spyPerformanceView: "ozet" }),
+      showSpyPerformanceComparison: () => this.setState({ spyPerformanceView: "karsilastirma" }),
+      spyPerformanceOverviewBg: s.spyPerformanceView === "ozet" ? GREEN : "transparent",
+      spyPerformanceOverviewColor: s.spyPerformanceView === "ozet" ? "#fff" : "var(--dim)",
+      spyPerformanceComparisonBg: s.spyPerformanceView === "karsilastirma" ? GREEN : "transparent",
+      spyPerformanceComparisonColor: s.spyPerformanceView === "karsilastirma" ? "#fff" : "var(--dim)",
+      spyComparisonRows,
+      spyComparisonCount: spyComparisonRows.length + " SPY",
+      spyCompanyRank: spyCompanyRank + "/" + spyComparisonRows.length,
+      spyCompanyHg: fmtPct(spyCompanyMetric.hg),
+      spyCompanyDelta: (spyPerf.hg >= spyCompanyMetric.hg ? "+" : "") + Math.round(spyPerf.hg - spyCompanyMetric.hg) + " puan",
+      spyCompanyDeltaColor: spyPerf.hg >= spyCompanyMetric.hg ? GREEN : "#B23B3B",
       demoAutoAccept: s.demoAutoAccept,
       demoAutoAcceptBg: s.demoAutoAccept ? GREEN : "#C7CBD1",
       demoAutoAcceptDotLeft: s.demoAutoAccept ? "16px" : "2px",
