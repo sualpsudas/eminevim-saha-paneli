@@ -159,3 +159,14 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Aylık randevu ve açılan kart sayıları yan yana büyük kartlar olarak korundu.
 - `tests/org-data.test.js` içine aylık personel cirosunun günlük kayıtların toplamı olduğunu ve H/G'nin bu birikimden hesaplandığını doğrulayan kontroller eklendi.
 - 390×844 mobil görünümde yeni kart sıralaması, tarih biçimi ve hesaplanan sıralamalar doğrulandı.
+
+### 2026-10-02 - Saha ve takım hiyerarşisi yeniden düzenlendi
+
+- Dört saha `Orta`, `Batı`, `Doğu` ve `İstanbul` olarak yeniden adlandırıldı.
+- Takımlar her saha içinde bağımsız olarak `1. Takım`dan başlayacak şekilde numaralandırıldı; takım lideri adı ayrı veri olarak korundu.
+- Müdür ekranında şirket toplamı ve Sahalar/Takımlar/Personeller seçilebilir karşılaştırmaları; Saha ekranında saha toplamı, kendi takımları ve tüm sahalar karşılaştırması; Takım ekranında takım toplamı, kendi personelleri ve tüm takımlar karşılaştırması eklendi.
+- Takım karşılaştırmalarında bağlı saha adı ayrı sütun bilgisi olarak gösteriliyor. Yetki dışındaki kardeş birimler karşılaştırmada okunabiliyor ancak detayına girilemiyor.
+- Personel profilinde bağlı takım ve saha bilgisi dinamik olarak gösteriliyor; personel karşılaştırma satırlarına da saha ve takım eklendi.
+- Saha toplamlarının takım toplamlarıyla, takım toplamlarının personel toplamlarıyla eşleştiği otomatik testlerle doğrulandı.
+- PWA önbelleği `eminevim-v6` sürümüne yükseltildi ve yeni organizasyon verisi için önbellek kırıcı eklendi.
+- 390×844 mobil testte Müdür, Saha, Takım karşılaştırmaları ve SPY profil hiyerarşisi doğrulandı.

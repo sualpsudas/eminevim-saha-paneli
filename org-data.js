@@ -39,10 +39,10 @@
   function monthKey(d) { return iso(d).slice(0, 7); }
 
   const sahaPlan = [
-    { ad: "Marmara Saha", sgl: "Selin Güneş", bolge: ["İstanbul Anadolu", "İstanbul Avrupa", "Bursa", "Kocaeli"] },
-    { ad: "İç Anadolu Saha", sgl: "Murat Erdem", bolge: ["Ankara", "Konya", "Kayseri", "Eskişehir", "Sivas", "Çorum"] },
-    { ad: "Ege-Akdeniz Saha", sgl: "Ece Aksoy", bolge: ["İzmir", "Manisa", "Denizli"] },
-    { ad: "Karadeniz-Güneydoğu Saha", sgl: "Cemal Arslan", bolge: ["Antalya", "Adana", "Gaziantep", "Samsun", "Trabzon", "Ordu", "Diyarbakır", "Şanlıurfa", "Malatya"] },
+    { ad: "Orta", sgl: "Murat Erdem", bolge: ["Ankara", "Konya", "Kayseri", "Eskişehir", "Sivas", "Çorum"] },
+    { ad: "Batı", sgl: "Ece Aksoy", bolge: ["İzmir", "Manisa", "Denizli"] },
+    { ad: "Doğu", sgl: "Cemal Arslan", bolge: ["Antalya", "Adana", "Gaziantep", "Samsun", "Trabzon", "Ordu", "Diyarbakır", "Şanlıurfa", "Malatya"] },
+    { ad: "İstanbul", sgl: "Selin Güneş", bolge: ["İstanbul Anadolu", "İstanbul Avrupa", "Bursa", "Kocaeli"] },
   ];
   const ilceler = {
     "İstanbul Anadolu": ["Kadıköy", "Ataşehir", "Üsküdar", "Maltepe", "Kartal", "Pendik", "Ümraniye", "Beykoz", "Tuzla", "Sancaktepe", "Çekmeköy", "Adalar", "Sultanbeyli", "Şile", "Kozyatağı", "Bostancı", "Acıbadem", "Göztepe"],
@@ -92,11 +92,11 @@
     }
   });
 
-  const tlSahaSayilari = [10, 12, 8, 15];
+  const tlSahaSayilari = [12, 8, 15, 10];
   sahalar.forEach((saha, si) => {
     const ilgili = subeler.filter((x) => x.sahaId === saha.id);
     for (let i = 0; i < tlSahaSayilari[si]; i += 1) {
-      takimLiderleri.push({ id: "tl-" + (takimLiderleri.length + 1), ad: adlar[(i * 3 + si) % adlar.length] + " " + soyadlar[(i * 5 + si) % soyadlar.length], sahaId: saha.id, bolgeId: null, subeId: null, tlId: null, sglId: saha.sglId });
+      takimLiderleri.push({ id: "tl-" + (takimLiderleri.length + 1), ad: (i + 1) + ". Takım", liderAd: adlar[(i * 3 + si) % adlar.length] + " " + soyadlar[(i * 5 + si) % soyadlar.length], takimNo: i + 1, sahaId: saha.id, bolgeId: null, subeId: null, tlId: null, sglId: saha.sglId });
     }
     ilgili.forEach((sube, i) => { sube.tlId = takimLiderleri.filter((x) => x.sahaId === saha.id)[i % tlSahaSayilari[si]].id; });
   });
@@ -225,10 +225,10 @@
     return (pools[scope] || []).find((x) => x.id === id) || null;
   }
   function demoUser(role) {
-    if (role === "ask") return { rol: "ask", id: "ask-1", ad: "Deniz Karaca", scope: "ask", scopeId: "ask-1" };
-    if (role === "sgl") { const saha = sahalar[1]; return { rol: "sgl", id: saha.sglId, ad: sahaPlan[1].sgl, sahaId: saha.id, scope: "saha", scopeId: saha.id }; }
-    if (role === "tl") { const tl = takimLiderleri.find((x) => subeler.filter((s) => s.tlId === x.id).length > 1); return { rol: "tl", id: tl.id, ad: tl.ad, sahaId: tl.sahaId, subeIds: subeler.filter((x) => x.tlId === tl.id).map((x) => x.id), scope: "tl", scopeId: tl.id }; }
-    const p = personeller[0]; return { rol: "spy", id: p.id, ad: p.ad, sahaId: p.sahaId, tlId: p.tlId, scope: "personel", scopeId: p.id };
+    if (role === "ask") return { rol: "ask", id: "ask-1", ad: "Deniz Karaca", birimAd: "Şirket Geneli", scope: "ask", scopeId: "ask-1" };
+    if (role === "sgl") { const saha = sahalar[1]; return { rol: "sgl", id: saha.sglId, ad: sahaPlan[1].sgl, birimAd: saha.ad, sahaId: saha.id, scope: "saha", scopeId: saha.id }; }
+    if (role === "tl") { const tl = takimLiderleri.find((x) => subeler.filter((s) => s.tlId === x.id).length > 1); return { rol: "tl", id: tl.id, ad: tl.liderAd, birimAd: tl.ad, sahaId: tl.sahaId, subeIds: subeler.filter((x) => x.tlId === tl.id).map((x) => x.id), scope: "tl", scopeId: tl.id }; }
+    const p = personeller[0]; const tl = takimLiderleri.find((x) => x.id === p.tlId); const saha = sahalar.find((x) => x.id === p.sahaId); return { rol: "spy", id: p.id, ad: p.ad, birimAd: p.ad, takimAd: tl ? tl.ad : "Takım", sahaAd: saha ? saha.ad : "Saha", sahaId: p.sahaId, bolgeId: p.bolgeId, subeId: p.subeId, tlId: p.tlId, scope: "personel", scopeId: p.id };
   }
   function configureRemote() {
     const endpoint = typeof window !== "undefined" && window.EMINEVIM_CONFIG && window.EMINEVIM_CONFIG.orgEndpoint;
