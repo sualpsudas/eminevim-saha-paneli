@@ -251,3 +251,10 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - `scripts/prepare-web.mjs` `vendor/` klasörünü native pakete kopyalıyor; PWA önbelleği `eminevim-v8` oldu ve vendor dosyalarını içeriyor.
 - Doğrulama: native düzende React yerel dosyadan yükleniyor, unpkg isteği yok; `npm test` geçti.
 - Not: Google Fonts (Manrope/Inter) ve haritadaki Leaflet hâlâ internetten geliyor; internet yoksa sistem fontu kullanılır, harita zaten tile için internet gerektirir.
+
+### 2026-10-05 - Müşteri paneli native dokunma sorunları
+
+- Başvuru sihirbazında "Devam" butonuna basılamıyordu: müşteri alt menüsünü bulan mobil CSS seçicisi (`[style*="position:absolute"]`) React'in yazdığı `position: absolute` biçimini yakalamadığı için menü yüzer kalıyor ve Devam/Geri çubuğunun üstüne biniyordu. Menüye doğrudan `app-bottom-nav` sınıfı verildi; artık akışta, içeriğin altında duruyor. Admin menüsü de aynı sınıfı aldı (home indicator boşluğu).
+- Mobilde alt menünün katmanı 50'den orijinal 40'a çekildi; nokta seçme ekranındaki "Bu Konumu Gönder" artık menünün altında kalmıyor.
+- SPY "Devret" ve "Görüşme sonucu" alt sayfaları menünün üstüne alındı ("Vazgeç" basılabilir). Tüm alt sayfalara ve nokta seçme onay kartına iPhone alt çubuğu için güvenli alan boşluğu eklendi.
+- Doğrulama: 390×844 native düzende müşteri Profil/Başvuru/İletişim/Ayarlar, sihirbazın 3 adımı ve kayıt, sohbet, randevu ve nokta seçme ekranlarında görünen tüm butonların dokunuşu aldığı otomatik olarak kontrol edildi; SPY Devret sayfası doğrulandı. PWA önbelleği `eminevim-v9`.
