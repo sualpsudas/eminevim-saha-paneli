@@ -195,3 +195,9 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Codemagic macOS ortamında SPM senkronizasyonu, otomatik App Store imzalama, IPA üretimi, build numarası artırma ve TestFlight yüklemesi için `codemagic.yaml` hazırlandı.
 - Apple Developer, App Store Connect ve Codemagic gizli değişkenlerinin kurulumu `IOS_TESTFLIGHT.md` dosyasında belgelendi; hiçbir sertifika veya özel anahtar repoya eklenmedi.
 - Capacitor senkronizasyonu, YAML/XML doğrulaması, organizasyon testleri ve çalışma zamanı bağımlılık güvenlik taraması başarıyla tamamlandı. Windows ortamında Xcode derlemesi yapılamadığı için ilk imzalı IPA doğrulaması Codemagic üzerinde yapılacak.
+
+### 2026-10-05 - Giriş ekranına hızlı dönüş
+
+- Müşteri, SPY, yönetici ve admin ekranlarının sağ üst durum çubuğuna küçük `↩ Giriş` düğmesi eklendi.
+- Düğme mevcut oturumu güvenli biçimde kapatıp ana giriş ekranına dönüyor; panel başlıkları ve diğer sağ üst kontrollerle çakışmıyor.
+- 390×844 mobil görünümde SPY ve ASK Müdürü ekranlarında yerleşim, dönüş davranışı ve tarayıcı konsolu doğrulandı.
