@@ -239,6 +239,61 @@
     periodCache.set(cacheKey, simdi);
     return simdi;
   }
+  // Saha Canlı: her personel için 10 dakikalık dilimlerde seed'li anlık durum ve olay akışı.
+  // Gerçek backend'e geçildiğinde bu iki fonksiyon canlı servisle değiştirilir.
+  const CANLI_DURUMLAR = ["musait", "yolda", "gorusmede", "molada"];
+  const CANLI_AGIRLIK = [0.42, 0.18, 0.28, 0.12];
+  function mesaiIcinde(now) {
+    const d = new Date(now); const saat = d.getHours();
+    return isWeekday(d) && saat >= 9 && saat < 19;
+  }
+  function canliDurum(personId, now) {
+    const t = now || Date.now();
+    if (!mesaiIcinde(t)) return "mesaiDisi";
+    const r = seeded("canli:" + personId + ":" + Math.floor(t / 600000))();
+    let acc = 0;
+    for (let i = 0; i < CANLI_DURUMLAR.length; i += 1) { acc += CANLI_AGIRLIK[i]; if (r < acc) return CANLI_DURUMLAR[i]; }
+    return "musait";
+  }
+  function canliOzet(ids, now) {
+    const t = now || Date.now();
+    const out = { musait: 0, yolda: 0, gorusmede: 0, molada: 0, mesaiDisi: 0, bekleyen: 0, tamamlanan: 0, kart: 0 };
+    const gun = iso(new Date(t));
+    const d = new Date(t);
+    const ilerleme = Math.max(0, Math.min(1, (d.getHours() + d.getMinutes() / 60 - 9) / 10));
+    ids.forEach((id) => {
+      out[canliDurum(id, t)] += 1;
+      const row = (gunlukMetrikler[id] || []).find((x) => x.tarih === gun);
+      if (row) { out.tamamlanan += Math.round(row.randevu * ilerleme); out.kart += Math.round(row.kart * ilerleme); }
+      if (mesaiIcinde(t) && seeded("bekleyen:" + id + ":" + Math.floor(t / 600000))() < 0.08) out.bekleyen += 1;
+    });
+    return out;
+  }
+  const AKIS_OLAYLARI = [
+    ["Görüşme tamamlandı", "Sözleşme imzalandı"], ["Görüşme tamamlandı", "Takip gerekli"], ["Müşteriye ulaştı", "Görüşmede"],
+    ["Talebi kabul etti", "Yolda"], ["Randevu oluşturuldu", "Planlandı"], ["Kart açıldı", "Başvuru alındı"], ["Görüşme tamamlandı", "İlgilenmedi"],
+  ];
+  function canliAkis(ids, now, gunSayisi, adet) {
+    const t = now || Date.now();
+    if (!ids.length) return [];
+    const rng = seeded("akis:" + ids.length + ":" + ids[0] + ":" + Math.floor(t / 600000) + ":" + gunSayisi);
+    const pencere = gunSayisi * DAY;
+    const olaylar = [];
+    for (let i = 0; i < adet; i += 1) {
+      const id = ids[Math.floor(rng() * ids.length)];
+      const kisi = personeller.find((x) => x.id === id);
+      const sube = kisi && subeler.find((x) => x.id === kisi.subeId);
+      const [aksiyon, sonuc] = AKIS_OLAYLARI[Math.floor(rng() * AKIS_OLAYLARI.length)];
+      let zaman = null;
+      for (let deneme = 0; deneme < 12 && zaman == null; deneme += 1) {
+        const aday = t - Math.floor(rng() * pencere);
+        if (mesaiIcinde(aday)) zaman = aday;
+      }
+      if (zaman == null) continue;
+      olaylar.push({ zaman, personelId: id, spy: kisi ? kisi.ad : "Personel", yer: sube ? sube.ad.replace(" Şubesi", "") : "Saha", aksiyon, sonuc });
+    }
+    return olaylar.sort((a, b) => b.zaman - a.zaman);
+  }
   function kapsamFiltrele(kullanici, veri) {
     const user = kullanici || {};
     if (user.rol === "ask") return veri.slice();
@@ -269,5 +324,5 @@
     return endpoint ? { endpoint, mode: "remote-ready", fallback: "demo" } : { endpoint: null, mode: "demo" };
   }
 
-  return Object.freeze({ METRIK_TANIMLARI, DEMO_TODAY: iso(DEMO_TODAY), sahalar, bolgeler, subeler, takimLiderleri, personeller, aylikHedefler, gunlukMetrikler, getPeriod, children, findNode, demoUser, kapsamFiltrele, configureRemote, nodePersonelIds });
+  return Object.freeze({ METRIK_TANIMLARI, DEMO_TODAY: iso(DEMO_TODAY), sahalar, bolgeler, subeler, takimLiderleri, personeller, aylikHedefler, gunlukMetrikler, getPeriod, children, findNode, demoUser, canliDurum, canliOzet, canliAkis, kapsamFiltrele, configureRemote, nodePersonelIds });
 });

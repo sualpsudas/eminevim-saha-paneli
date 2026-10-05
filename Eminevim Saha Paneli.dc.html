@@ -645,6 +645,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
         </sc-if>
 
         <sc-if value="{{ managerTabCanli }}">
+          <div style="display:flex;align-items:center;gap:6px;padding:1px 2px;"><span style="width:8px;height:8px;border-radius:50%;background:#2FA36B;box-shadow:0 0 0 3px rgba(47,163,107,.18);"></span><div style="font:800 13px 'Manrope',sans-serif;color:var(--ink);">Saha Canlı</div><div style="margin-left:auto;font-size:9px;color:var(--dim);">{{ liveScopeLabel }}</div></div>
           <div class="metric-kpis"><sc-for list="{{ liveKpis }}" as="k" hint-placeholder-count="8"><div class="metric-card" style="padding:9px 10px;"><div style="font:800 18px 'Manrope';color:var(--ink);">{{ k.value }}</div><div style="font-size:9px;color:var(--dim);font-weight:700;margin-top:2px;">{{ k.label }}</div></div></sc-for></div>
           <div style="display:flex;gap:6px;"><button onClick="{{ setLive24 }}" style="flex:1;min-height:36px;border:1px solid {{ live24Border }};background:{{ live24Bg }};color:{{ live24Color }};border-radius:10px;font-size:10.5px;font-weight:800;">Son 24 saat</button><button onClick="{{ setLive7 }}" style="flex:1;min-height:36px;border:1px solid {{ live7Border }};background:{{ live7Bg }};color:{{ live7Color }};border-radius:10px;font-size:10.5px;font-weight:800;">Son 7 gün</button></div>
           <div class="metric-card" style="overflow:hidden;"><sc-for list="{{ liveFeed }}" as="item" hint-placeholder-count="6"><div style="min-height:48px;padding:8px 10px;border-bottom:1px solid var(--line);"><div style="font-size:10.5px;color:var(--ink);font-weight:700;">{{ item.time }} · {{ item.spy }} · {{ item.place }}</div><div style="font-size:9.5px;color:var(--dim);margin-top:3px;">{{ item.action }} · {{ item.result }}</div></div></sc-for></div>
@@ -1884,15 +1885,26 @@ class Component extends DCLogic {
     let rankingText = "Şirket görünümü · tüm sahalar";
     if (managerUser.rol === "sgl") { const ranked = OrgData.sahalar.map((x) => ({ id: x.id, hg: OrgData.getPeriod("saha", x.id, reportPeriod).hg })).sort((a, b) => b.hg - a.hg); rankingText = "Sahanız " + (ranked.findIndex((x) => x.id === managerUser.sahaId) + 1) + ". / " + ranked.length; }
     if (managerUser.rol === "tl") { const peers = OrgData.takimLiderleri.filter((x) => x.sahaId === managerUser.sahaId).map((x) => ({ id: x.id, hg: OrgData.getPeriod("tl", x.id, reportPeriod).hg })).sort((a, b) => b.hg - a.hg); rankingText = "Takımınız sahada " + (peers.findIndex((x) => x.id === managerUser.id) + 1) + ". / " + peers.length; }
-    const allowedPersonnel = OrgData.kapsamFiltrele(managerUser, OrgData.personeller);
-    const allowedLive = s.spylerList.filter((x) => allowedPersonnel.some((p) => p.id === x.id));
-    const liveFeed = [
-      { time: "14:32", spy: "Derya A.", place: "Üsküdar", action: "Görüşme tamamlandı", result: "Sözleşme imzalandı" },
-      { time: "13:48", spy: "Onur K.", place: "Kadıköy", action: "Müşteriye ulaştı", result: "Görüşmede" },
-      { time: "12:15", spy: "Berk C.", place: "Beşiktaş", action: "Talebi kabul etti", result: "Yolda" },
-      { time: "Dün", spy: managerUser.ad, place: "Merkez", action: "Randevu oluşturuldu", result: "Planlandı" },
-      { time: "Sal", spy: "Ekip", place: "Saha", action: "Aylık hedef güncellendi", result: "Tamamlandı" },
-    ].filter((_, i) => s.managerLiveRange === "7" || i < 3);
+    const liveNow = Date.now();
+    const liveIds = OrgData.nodePersonelIds(managerContext.scope, managerContext.id);
+    const liveSummary = OrgData.canliOzet(liveIds, liveNow);
+    // Canlı demo akışındaki SPY'ler (s1–s3) uygulamadaki gerçek durumlarıyla gösterilir.
+    const demoLiveStatus = (id) => {
+      if (id === s.assignedRepId && s.reqStatus === "onaylandi") return "yolda";
+      if (id === s.assignedRepId && s.reqStatus === "vardi") return "gorusmede";
+      if (id === "s1") return s.spyDurum === "molada" ? "molada" : s.spyDurum === "gorusmede" ? "gorusmede" : "musait";
+      return "musait";
+    };
+    s.spylerList.forEach((spy) => {
+      if (liveIds.indexOf(spy.id) < 0) return;
+      liveSummary[OrgData.canliDurum(spy.id, liveNow)] -= 1;
+      liveSummary[demoLiveStatus(spy.id)] += 1;
+    });
+    if (liveIds.indexOf("s1") >= 0) { liveSummary.bekleyen += s.basvurular.length; liveSummary.tamamlanan += s.tamamlanan.length; }
+    const liveDayNames = ["Paz", "Pzt", "Sal", "Çar", "Per", "Cum", "Cmt"];
+    const liveTime = (ts) => { const d = new Date(ts); const hm = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0"); return new Date(liveNow).toDateString() === d.toDateString() ? hm : liveDayNames[d.getDay()] + " " + hm; };
+    const liveFeed = OrgData.canliAkis(liveIds, liveNow, s.managerLiveRange === "7" ? 7 : 1, s.managerLiveRange === "7" ? 14 : 8)
+      .map((x) => ({ time: liveTime(x.zaman), spy: x.spy, place: x.yer, action: x.aksiyon, result: x.sonuc }));
     const spyUser = managerUser.rol === "spy" ? managerUser : OrgData.demoUser("spy");
     const spyPerson = OrgData.findNode("personel", spyUser.id) || OrgData.personeller[0];
     const spyTeamNode = OrgData.findNode("tl", spyPerson.tlId);
@@ -2002,15 +2014,16 @@ class Component extends DCLogic {
       managerTeamRows,
       managerTeamEmpty: managerTeamRows.length === 0,
       liveKpis: [
-        { label: "Müsait SPY", value: allowedLive.filter((_, i) => i === 0 && s.spyDurum === "musait" || i > 0).length },
-        { label: "Molada", value: allowedLive.filter((_, i) => i === 0 && s.spyDurum === "molada").length },
-        { label: "Görüşmede", value: allowedLive.filter((x) => x.id === s.assignedRepId && s.reqStatus === "vardi").length },
-        { label: "Bekleyen talep", value: s.basvurular.length },
-        { label: "Yolda", value: s.reqStatus === "onaylandi" ? 1 : 0 },
-        { label: "Aktif görüşme", value: s.reqStatus === "vardi" ? 1 : 0 },
-        { label: "Bugün tamamlanan", value: s.tamamlanan.length },
-        { label: "Alınan randevu", value: s.appointments.length },
+        { label: "Müsait", value: liveSummary.musait },
+        { label: "Yolda", value: liveSummary.yolda },
+        { label: "Görüşmede", value: liveSummary.gorusmede },
+        { label: "Molada", value: liveSummary.molada },
+        { label: "Bekleyen talep", value: liveSummary.bekleyen },
+        { label: "Bugün tamamlanan görüşme", value: liveSummary.tamamlanan },
+        { label: "Bugün açılan kart", value: liveSummary.kart },
+        { label: "Mesai dışı", value: liveSummary.mesaiDisi },
       ],
+      liveScopeLabel: managerContext.ad + " · " + liveIds.length + " personel",
       setLive24: () => this.setState({ managerLiveRange: "24" }), setLive7: () => this.setState({ managerLiveRange: "7" }),
       live24Bg: s.managerLiveRange === "24" ? GREEN : "var(--card)", live24Border: s.managerLiveRange === "24" ? GREEN : "var(--line)", live24Color: s.managerLiveRange === "24" ? "#fff" : "var(--ink)",
       live7Bg: s.managerLiveRange === "7" ? GREEN : "var(--card)", live7Border: s.managerLiveRange === "7" ? GREEN : "var(--line)", live7Color: s.managerLiveRange === "7" ? "#fff" : "var(--ink)",
