@@ -213,3 +213,9 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Uygulama portre kullanımını koruyacak şekilde yalnızca iPhone hedef ailesine sınırlandı; iPad çoklu görev yönlendirme doğrulama hatası kaldırıldı.
 - 1024×1024 App Store ikonundaki alfa kanalı kaldırıldı ve ikon 24 bit RGB PNG olarak yeniden kaydedildi.
 - Apple API anahtarları proje dışındaki güvenli klasörde tutuldu; sertifika ve provisioning dosyaları Git dışında bırakıldı.
+
+### 2026-10-05 - İlk iPhone TestFlight kurulumu tamamlandı
+
+- Codemagic üzerinden imzalı iOS IPA üretildi ve App Store Connect'e başarıyla yüklendi.
+- App Store Connect API, otomatik kod imzalama ve TestFlight yapı numarası akışı doğrulandı.
+- Build 1, iç test grubuna eklendi; davet kabul edilerek uygulama gerçek iPhone cihazında TestFlight üzerinden kuruldu ve açıldı.
