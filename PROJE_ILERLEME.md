@@ -177,3 +177,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Karşılaştırma başlığı, dönem etiketi, sıralama filtreleri ve tablo başlığı tam yükseklikte ve hizalı kalıyor.
 - Liste kendi içerik alanında dikey kaydırılırken üst başlık ve alt navigasyon düzeni korunuyor.
 - 390×844 görünümde “Tüm Takımlar” karşılaştırması; uzun liste, sütunlar, H/G barları ve saha bilgileriyle görsel olarak doğrulandı.
+
+### 2026-10-05 - Karşılaştırma Performans görünümüne taşındı
+
+- Yönetici karşılaştırması ayrı alt navigasyon sekmesinden kaldırılarak Performans içindeki `Özet / Karşılaştırma` seçimine taşındı.
+- Ayrı H/G, Ciro, Randevu ve Kart filtreleri kaldırıldı; tüm değerler tek bir kompakt tabloda ayrı sütunlar halinde birleştirildi.
+- Müdür, saha lideri ve takım lideri kapsam seçimleri korunurken satır yükseklikleri ve yazı boyutları mobil ekrana uygun biçimde küçültüldü.
+- SPY’nin tüm personel karşılaştırması da `H/G · Ciro · Randevu · Kart` sütunlarını aynı tabloda gösterecek şekilde sadeleştirildi.
+- 390×844 mobil görünümde takım lideri, müdür ve SPY tabloları doğrulandı; sütun taşması veya tarayıcı konsolu hatası görülmedi.
