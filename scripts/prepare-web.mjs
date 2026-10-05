@@ -26,4 +26,5 @@ for (const file of runtimeFiles) {
 }
 
 await cp(resolve(root, "assets"), resolve(output, "assets"), { recursive: true });
+await cp(resolve(root, "vendor"), resolve(output, "vendor"), { recursive: true });
 console.log(`Native web paketi hazır: ${output}`);

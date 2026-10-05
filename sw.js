@@ -1,4 +1,4 @@
-const CACHE = 'eminevim-v7';
+const CACHE = 'eminevim-v8';
 const ASSETS = [
   './',
   './index.html',
@@ -6,6 +6,8 @@ const ASSETS = [
   './assignment.js',
   './org-data.js?v=7',
   './support.js',
+  './vendor/react.production.min.js',
+  './vendor/react-dom.production.min.js',
   './map.html',
   './manifest.json',
   './assets/logo-green.png',

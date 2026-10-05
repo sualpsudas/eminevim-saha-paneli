@@ -244,3 +244,10 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - SPY Harita sekmesi tam yükseklik; GPS durumu haritanın üstünde ince şerit.
 - PWA önbelleği `eminevim-v7`, `org-data.js?v=7`, `map.html?v=4`.
 - Doğrulama: `npm test` geçti; 390×844 native düzende SPY/TL/SGL/ASK özet, karşılaştırma, Saha Canlı, harita, çekip yenileme, açık/koyu tema ve müşteri giriş → KVKK → Başvuru akışı; masaüstü çerçeveli görünüm kontrol edildi, konsolda hata yok.
+
+### 2026-10-05 - React uygulama içine alındı
+
+- React ve ReactDOM 18.3.1 UMD dosyaları `vendor/` klasörüne alındı; native uygulama artık açılmak için unpkg'ye bağlı değil. Dosyaların SHA-384 özeti `support.js` içindeki SRI değerleriyle birebir aynı.
+- `scripts/prepare-web.mjs` `vendor/` klasörünü native pakete kopyalıyor; PWA önbelleği `eminevim-v8` oldu ve vendor dosyalarını içeriyor.
+- Doğrulama: native düzende React yerel dosyadan yükleniyor, unpkg isteği yok; `npm test` geçti.
+- Not: Google Fonts (Manrope/Inter) ve haritadaki Leaflet hâlâ internetten geliyor; internet yoksa sistem fontu kullanılır, harita zaten tile için internet gerektirir.
