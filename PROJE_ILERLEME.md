@@ -227,3 +227,20 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - SPY ve yönetici karşılaştırma tablolarının sütun başlıkları, uzun listeler kaydırılırken üst başlığın hemen altında görünür kalacak şekilde yapışkanlaştırıldı.
 - Kısa içerikli performans ve müşteri ekranları gereksiz kaydırma oluşturmadan 390×844 ekrana oturtuldu; düşük ekran yükseklikleri için aralıklar kompaktlaştırıldı.
 - 390×844 testinde SPY karşılaştırmasında 10.763 px uzunluğundaki içerik kaydırılırken üst başlık, tablo başlığı ve alt navigasyonun konumlarını koruduğu doğrulandı; Capacitor iOS paketi yeniden senkronize edildi.
+
+### 2026-10-05 - Native iOS ve raporlama iyileştirmeleri (18 madde)
+
+- Native kabuk: telefon çerçevesi native/mobilde tamamen kalkıyor; üst şerit çentik/Dynamic Island alanını panel başlığının rengiyle dolduruyor. `contentInset: never`, `@capacitor/status-bar` (ekrana göre açık/koyu yazı) ve `@capacitor/haptics` eklendi. Tüm yeşil `div`'lere üst boşluk veren hatalı güvenli alan CSS kuralı kaldırıldı.
+- Service Worker native'de (`window.EMINEVIM_NATIVE`) kaydedilmiyor; tarayıcıda `?native=1` ile native düzen test edilebiliyor.
+- Karşılaştırma tabloları ilk 20 satırı gösteriyor; SPY kendi satırını listenin dışındaysa altta görüyor; "Tümünü göster" ile tam liste açılıyor.
+- Harita tile sağlayıcısı `map.html` içinde tek bir `MAP_TILE_PROVIDER` nesnesine taşındı (şimdilik OSM; `EMINEVIM_CONFIG.mapTiles` ile değiştirilebilir).
+- Demo rapor tarihi cihaz saatinden alınıyor (`EMINEVIM_CONFIG.demoToday` ile sabitlenebilir).
+- Aylık H/G artık ayın tam hedefine göre; kartta gerçekleşen, ay hedefi ve "bu hızla ay sonu tahmini" gösteriliyor. Aylık değişim geçen ayın aynı günlerine göre hesaplanıyor ve kartta açıklanıyor.
+- Binlik kısaltma "B" yerine "bin".
+- Özet ekranları sadeleştirildi: H/G kartı + Bugün Ciro/Randevu/Kart/Kayıt şeridi (SPY'de takım ortalaması, yöneticide kişi başı ve şirket ortalamasıyla renk) + dönüşüm hunisi.
+- Saha Canlı: seçili kapsamdaki tüm personel için seed'li canlı durum ve mesai saatli olay akışı; demo SPY'ler gerçek akıştaki durumlarını koruyor.
+- Yönetici panelinden Genel sekmesi kaldırıldı; alt menü SVG ikonlara geçti; tüm alt menü butonlarına `aria-label` eklendi.
+- Dokunsal geri bildirim (sekme, bildirim, yenileme), iOS'ta çalışan touch tabanlı çekip yenileme (SPY ve yönetici), sistem koyu temasına uyum ve koyu temada okunur alt menü renkleri.
+- SPY Harita sekmesi tam yükseklik; GPS durumu haritanın üstünde ince şerit.
+- PWA önbelleği `eminevim-v7`, `org-data.js?v=7`, `map.html?v=4`.
+- Doğrulama: `npm test` geçti; 390×844 native düzende SPY/TL/SGL/ASK özet, karşılaştırma, Saha Canlı, harita, çekip yenileme, açık/koyu tema ve müşteri giriş → KVKK → Başvuru akışı; masaüstü çerçeveli görünüm kontrol edildi, konsolda hata yok.
