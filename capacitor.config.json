@@ -3,9 +3,15 @@
   "appName": "Tasarruf Yanımda",
   "webDir": "www",
   "ios": {
-    "contentInset": "automatic",
+    "contentInset": "never",
     "preferredContentMode": "mobile",
     "allowsLinkPreview": false,
     "backgroundColor": "#F4F5F3"
+  },
+  "plugins": {
+    "StatusBar": {
+      "overlaysWebView": true,
+      "style": "DARK"
+    }
   }
 }
