@@ -893,7 +893,8 @@ function fmtKm(km) {
   return Number(km || 0).toFixed(1).replace(".", ",");
 }
 function fmtCompact(value, currency) {
-  const text = new Intl.NumberFormat("tr-TR", { notation: "compact", maximumFractionDigits: 1 }).format(Number(value || 0));
+  // Intl "B" (bin) kısaltması finansta milyar sanılabildiği için açıkça "bin" yazılır.
+  const text = new Intl.NumberFormat("tr-TR", { notation: "compact", maximumFractionDigits: 1 }).format(Number(value || 0)).replace(/\s?B$/, " bin");
   return text + (currency ? " ₺" : "");
 }
 function fmtPct(value) { return "%" + Math.round(Number(value || 0)).toLocaleString("tr-TR"); }
