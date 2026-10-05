@@ -201,3 +201,9 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Müşteri, SPY, yönetici ve admin ekranlarının sağ üst durum çubuğuna küçük `↩ Giriş` düğmesi eklendi.
 - Düğme mevcut oturumu güvenli biçimde kapatıp ana giriş ekranına dönüyor; panel başlıkları ve diğer sağ üst kontrollerle çakışmıyor.
 - 390×844 mobil görünümde SPY ve ASK Müdürü ekranlarında yerleşim, dönüş davranışı ve tarayıcı konsolu doğrulandı.
+
+### 2026-10-05 - Panel geçişi sadeleştirildi
+
+- Müşteri ana girişi ve Personel/SPY erişimi korunarak geri getirildi.
+- Personel girişindeki Takım Lideri, Saha Grup Lideri ve Alternatif Satış Kanalı Müdürü rol seçenekleri korundu.
+- Oturum içindeki yalnızca geliştirme amaçlı `Müşteri / SPY Paneli / Admin Paneli` üst geçiş şeridi kaldırıldı.

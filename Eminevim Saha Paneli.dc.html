@@ -205,8 +205,6 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
     outline: none !important;
     -webkit-tap-highlight-color: transparent !important;
   }
-  /* Üst panel switcher (Müşteri/SPY/Admin) şimdilik gizli */
-  #dc-root > .sc-host > div div[style*="fadeIn"] > div:first-child { display: none !important; }
   /* Nav artık akışta olduğundan main'in bottom padding'i gereksiz */
   main[style*="padding-bottom: 62px"],
   main[style*="padding-bottom:62px"] { padding-bottom: 0 !important; }
@@ -252,23 +250,6 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 
   <sc-if value="{{ girisYapildi }}">
   <div style="animation:fadeIn .4s ease-out; display:flex; flex-direction:column; align-items:center; gap:26px;">
-
-  <div style="display:flex; align-items:center; gap:10px;">
-  <div style="position:relative; display:flex; width:330px; background:var(--track); border-radius:15px; padding:4px;">
-    <div style="position:absolute; top:4px; bottom:4px; left:{{ pillLeft }}; width:calc(33.333% - 3px); background:#276F4E; border-radius:11px; transition:left .32s cubic-bezier(.4,0,.2,1); box-shadow:0 6px 14px rgba(39,111,78,.28);"></div>
-    <button onClick="{{ goMusteri }}" style-active="transform:scale(.96); opacity:.9;" style="position:relative; z-index:1; flex:1; min-height:44px; border:none; background:transparent; padding:10px 0; font-family:'Manrope',sans-serif; font-size:12px; font-weight:700; color:{{ musteriLabelColor }}; cursor:pointer; transition:color .25s;">Müşteri</button>
-    <button onClick="{{ goSpy }}" style-active="transform:scale(.96); opacity:.9;" style="position:relative; z-index:1; flex:1; min-height:44px; border:none; background:transparent; padding:10px 0; font-family:'Manrope',sans-serif; font-size:12px; font-weight:700; color:{{ spyLabelColor }}; cursor:pointer; transition:color .25s;">SPY Paneli</button>
-    <button onClick="{{ goAdmin }}" style-active="transform:scale(.96); opacity:.9;" style="position:relative; z-index:1; flex:1; min-height:44px; border:none; background:transparent; padding:10px 0; font-family:'Manrope',sans-serif; font-size:12px; font-weight:700; color:{{ adminLabelColor }}; cursor:pointer; transition:color .25s;">Admin Paneli</button>
-  </div>
-  <button onClick="{{ toggleDarkMode }}" style-active="transform:scale(.9);" aria-label="Karanlık modu değiştir" style="width:44px; height:44px; min-width:44px; border-radius:99px; border:1px solid var(--line); background:var(--card); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .28s,border-color .28s,transform .18s;">
-    <sc-if value="{{ darkMode }}">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8803E" stroke-width="2" style="animation:themeIconIn .3s ease-out;"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg>
-    </sc-if>
-    <sc-if value="{{ darkModeOff }}">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#273755" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path></svg>
-    </sc-if>
-  </button>
-  </div>
 
   <sc-if value="{{ isMusteri }}">
   <div style="animation:panelIn .38s cubic-bezier(.2,.7,.3,1);width:375px;max-width:100%;background:#1B2740;border-radius:44px;padding:12px;box-shadow:0 34px 60px -20px rgba(23,33,54,.45);">
