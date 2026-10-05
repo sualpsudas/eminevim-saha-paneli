@@ -219,3 +219,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Codemagic üzerinden imzalı iOS IPA üretildi ve App Store Connect'e başarıyla yüklendi.
 - App Store Connect API, otomatik kod imzalama ve TestFlight yapı numarası akışı doğrulandı.
 - Build 1, iç test grubuna eklendi; davet kabul edilerek uygulama gerçek iPhone cihazında TestFlight üzerinden kuruldu ve açıldı.
+
+### 2026-10-05 - Native ekran kaydırma ve sabit navigasyon
+
+- Müşteri, SPY ve yönetici panellerinde üst durum/başlık alanları ile alt navigasyon ekranın sabit bölümleri haline getirildi; yalnızca orta içerik dikey kaydırılıyor.
+- Mobil görünümde alt menüyü tüm sayfaya sabitleyen kırılgan genel CSS kaldırıldı; panel bazlı flex yerleşim ve iOS momentum kaydırması eklendi.
+- SPY ve yönetici karşılaştırma tablolarının sütun başlıkları, uzun listeler kaydırılırken üst başlığın hemen altında görünür kalacak şekilde yapışkanlaştırıldı.
+- Kısa içerikli performans ve müşteri ekranları gereksiz kaydırma oluşturmadan 390×844 ekrana oturtuldu; düşük ekran yükseklikleri için aralıklar kompaktlaştırıldı.
+- 390×844 testinde SPY karşılaştırmasında 10.763 px uzunluğundaki içerik kaydırılırken üst başlık, tablo başlığı ve alt navigasyonun konumlarını koruduğu doğrulandı; Capacitor iOS paketi yeniden senkronize edildi.
