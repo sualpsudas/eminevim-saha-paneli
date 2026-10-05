@@ -163,6 +163,13 @@
     return { start, end };
   }
   function previousRange(periodKey, range) {
+    if (periodKey === "ay") {
+      // Aylık kıyas: geçen ayın aynı günleri (ör. 1–5 Ekim ↔ 1–5 Eylül).
+      const start = new Date(range.start); start.setMonth(range.start.getMonth() - 1, 1);
+      const sonGun = new Date(start); sonGun.setMonth(start.getMonth() + 1, 0);
+      const end = new Date(start); end.setDate(Math.min(range.end.getDate(), sonGun.getDate()));
+      return { start, end };
+    }
     const days = Math.round((range.end - range.start) / DAY) + 1;
     return { start: addDays(range.start, -days), end: addDays(range.start, -1) };
   }
@@ -212,7 +219,8 @@
     if (periodCache.has(cacheKey)) return periodCache.get(cacheKey);
     const ids = nodePersonelIds(scope, id);
     const range = getRange(periodKey || "gun", anchor);
-    const onceki = aggregate(ids, previousRange(periodKey || "gun", range));
+    const oncekiAralik = previousRange(periodKey || "gun", range);
+    const onceki = aggregate(ids, oncekiAralik);
     const simdi = aggregate(ids, range);
     if ((periodKey || "gun") === "ay") {
       // Aylık H/G ayın TAM hedefine göre: ciro / ay hedefi. Bugüne kadarki hedefe göre oran ay sonu tahminidir.
@@ -225,6 +233,7 @@
     }
     simdi.degisim = onceki.ciro ? (simdi.ciro - onceki.ciro) / onceki.ciro * 100 : 0;
     simdi.onceki = onceki;
+    simdi.oncekiAralik = { start: iso(oncekiAralik.start), end: iso(oncekiAralik.end) };
     simdi.trend = trendFor(ids, periodKey || "gun", range);
     simdi.personelSayisi = ids.length;
     periodCache.set(cacheKey, simdi);

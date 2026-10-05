@@ -85,6 +85,12 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 .scope-option{width:100%;min-height:48px;border:0;border-bottom:1px solid var(--line);background:transparent;padding:7px 10px;display:flex;align-items:center;gap:9px;text-align:left;cursor:pointer;color:var(--ink)}
 .scope-option:last-child{border-bottom:0}
 .metric-kpis{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.kpi-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.kpi-cell{padding:10px 6px 9px;text-align:center;min-width:0}
+.kpi-label{font-size:7.5px;color:var(--dim);font-weight:800;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi-value{font:800 16px 'Manrope',sans-serif;color:var(--ink);margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi-caption{font-size:8.5px;color:var(--dim);margin:-3px 2px 0}
+.kpi-sub{font-size:8px;font-weight:700;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .metric-nav,.app-bottom-nav,.app-screen > div[style*="position:absolute"][style*="bottom:0"][style*="z-index:40"]{display:flex;flex:0 0 auto;border-top:1px solid var(--line);background:var(--card);padding:4px 0 max(6px,env(safe-area-inset-bottom));z-index:40;box-shadow:0 -2px 12px rgba(15,55,35,.06)}
 .metric-nav button{flex:1;min-height:48px;border:0;background:transparent;color:#A7B3AC;font-size:9.5px;font-weight:700;cursor:pointer}
 .metric-nav button[data-active="true"]{color:#276F4E}
@@ -444,10 +450,10 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
             <div class="metric-segment"><button data-active="{{ spyPerformanceOverview }}" onClick="{{ showSpyPerformanceOverview }}" style="background:{{ spyPerformanceOverviewBg }};color:{{ spyPerformanceOverviewColor }};">Performans</button><button data-active="{{ spyPerformanceComparison }}" onClick="{{ showSpyPerformanceComparison }}" style="background:{{ spyPerformanceComparisonBg }};color:{{ spyPerformanceComparisonColor }};">Karşılaştırma</button></div>
             <sc-if value="{{ spyPerformanceOverview }}"><div style="display:flex;flex-direction:column;gap:9px;">
               <div style="display:flex;align-items:center;"><div style="font:800 16px 'Manrope',sans-serif;color:var(--ink);">{{ reportMonthLabel }} Performansım</div><div style="margin-left:auto;padding:4px 8px;border-radius:99px;background:var(--tintGreen);color:#276F4E;font-size:8.5px;font-weight:800;">KİŞİSEL</div></div>
-              <div class="metric-card premium-hero" style="padding:16px 14px;"><div style="display:flex;align-items:flex-end;position:relative;z-index:1;"><div><div style="font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.5px;">{{ reportMonthRange }} · AY HEDEFİNE GÖRE</div><div style="font:800 14px 'Manrope',sans-serif;color:var(--ink);margin-top:3px;">AYLIK H/G</div></div><div style="margin-left:auto;font:800 32px 'Manrope',sans-serif;color:{{ spyPerfHgColor }};letter-spacing:-1px;">{{ spyPerfHg }}</div></div><div style="height:12px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:10px;"><div style="width:{{ spyPerfHgWidth }};height:100%;background:{{ spyPerfHgColor }};border-radius:99px;"></div></div><div style="display:flex;align-items:baseline;margin-top:8px;font-size:10px;color:var(--dim);"><span>Gerçekleşen <b style="color:var(--ink);">{{ spyPerfCiro }}</b></span><span style="margin-left:auto;">Ay hedefi <b style="color:var(--ink);">{{ spyPerfHedef }}</b></span></div><div style="display:flex;align-items:center;gap:6px;margin-top:8px;padding:7px 9px;border-radius:10px;background:var(--bg);font-size:10px;color:var(--dim);"><span>Bu hızla ay sonu tahmini</span><span style="margin-left:auto;font-weight:800;color:{{ spyPerfTahminColor }};">{{ spyPerfTahmin }}</span></div></div>
-              <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">₺</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportDayName }} · CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ spyDailyCiro }}</div></div></div>
+              <div class="metric-card premium-hero" style="padding:16px 14px;"><div style="display:flex;align-items:flex-end;position:relative;z-index:1;"><div><div style="font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.5px;">{{ reportMonthRange }} · AY HEDEFİNE GÖRE</div><div style="font:800 14px 'Manrope',sans-serif;color:var(--ink);margin-top:3px;">AYLIK H/G</div></div><div style="margin-left:auto;font:800 32px 'Manrope',sans-serif;color:{{ spyPerfHgColor }};letter-spacing:-1px;">{{ spyPerfHg }}</div></div><div style="height:12px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:10px;"><div style="width:{{ spyPerfHgWidth }};height:100%;background:{{ spyPerfHgColor }};border-radius:99px;"></div></div><div style="display:flex;align-items:baseline;margin-top:8px;font-size:10px;color:var(--dim);"><span>Gerçekleşen <b style="color:var(--ink);">{{ spyPerfCiro }}</b> <b style="color:{{ spyPerfTrendColor }};">{{ spyPerfTrend }}</b></span><span style="margin-left:auto;">Ay hedefi <b style="color:var(--ink);">{{ spyPerfHedef }}</b></span></div><div style="display:flex;align-items:center;gap:6px;margin-top:8px;padding:7px 9px;border-radius:10px;background:var(--bg);font-size:10px;color:var(--dim);"><span>Bu hızla ay sonu tahmini</span><span style="margin-left:auto;font-weight:800;color:{{ spyPerfTahminColor }};">{{ spyPerfTahmin }}</span></div><div style="font-size:8.5px;color:var(--dim);margin-top:6px;">{{ reportTrendBasis }}</div></div>
+              <div class="kpi-strip"><sc-for list="{{ spyKpis }}" as="k" hint-placeholder-count="4"><div class="metric-card kpi-cell"><div class="kpi-label">{{ k.label }}</div><div class="kpi-value">{{ k.value }}</div><div class="kpi-sub" style="color:{{ k.subColor }};">{{ k.sub }}</div></div></sc-for></div><div class="kpi-caption">Alttaki değer takım ortalamasıdır · yeşil: ortalamanın üstünde</div>
               <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;"><div class="metric-card" style="padding:11px 8px;text-align:center;"><div style="font-size:8px;color:var(--dim);font-weight:800;">BÖLGEDE</div><div style="font:800 18px 'Manrope',sans-serif;color:#276F4E;margin-top:4px;">{{ spyRegionRank }}</div></div><div class="metric-card" style="padding:11px 8px;text-align:center;"><div style="font-size:8px;color:var(--dim);font-weight:800;">SAHADA</div><div style="font:800 18px 'Manrope',sans-serif;color:#276F4E;margin-top:4px;">{{ spySahaRank }}</div></div><div class="metric-card" style="padding:11px 8px;text-align:center;"><div style="font-size:8px;color:var(--dim);font-weight:800;">GENELDE</div><div style="font:800 18px 'Manrope',sans-serif;color:#276F4E;margin-top:4px;">{{ spyGeneralRank }}</div></div></div>
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div class="premium-kpi-icon">◷</div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ spyPerfRandevu }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">RANDEVU SAYISI</div></div><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div class="premium-kpi-icon">▣</div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ spyPerfKart }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">AÇILAN KART</div></div></div>
+              <div class="metric-card" style="padding:12px 14px;"><div style="display:flex;align-items:center;"><div style="font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.5px;">DÖNÜŞÜM HUNİSİ</div><div style="margin-left:auto;font-size:8.5px;color:var(--dim);">{{ reportMonthRange }}</div></div><sc-for list="{{ spyFunnel }}" as="f" hint-placeholder-count="3"><div style="margin-top:9px;"><div style="display:flex;align-items:baseline;font-size:10px;"><span style="color:var(--ink);font-weight:700;">{{ f.label }}</span><span style="margin-left:6px;color:var(--dim);font-size:9px;">{{ f.detail }}</span><span style="margin-left:auto;font-weight:800;color:var(--ink);">{{ f.pct }}</span></div><div style="height:6px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:4px;"><div style="width:{{ f.width }};height:100%;background:#276F4E;border-radius:99px;opacity:{{ f.opacity }};"></div></div></div></sc-for></div>
             </div></sc-if>
             <sc-if value="{{ spyPerformanceComparison }}"><div style="display:flex;flex-direction:column;gap:9px;">
               <div style="display:flex;align-items:center;"><div><div style="font:800 16px 'Manrope',sans-serif;color:var(--ink);">Tüm Personel Karşılaştırması</div><div style="font-size:9px;color:var(--dim);margin-top:2px;">{{ reportMonthRange }} · H/G sıralaması</div></div><div style="margin-left:auto;padding:4px 8px;border-radius:99px;background:var(--tintGreen);color:#276F4E;font-size:8px;font-weight:800;">{{ spyComparisonCount }}</div></div>
@@ -624,11 +630,10 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
           <div class="metric-card premium-hero" style="padding:16px 14px;">
             <div style="display:flex;align-items:flex-end;position:relative;z-index:1;"><div><div style="font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.5px;">{{ reportMonthRange }} · AY HEDEFİNE GÖRE</div><div style="font:800 14px 'Manrope',sans-serif;color:var(--ink);margin-top:3px;">AYLIK H/G</div></div><div style="margin-left:auto;font:800 32px 'Manrope',sans-serif;color:{{ managerHgColor }};letter-spacing:-1px;">{{ managerHg }}</div></div>
             <div style="height:12px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:10px;"><div style="width:{{ managerHgWidth }};height:100%;background:{{ managerHgColor }};border-radius:99px;"></div></div>
-            <div style="display:flex;align-items:baseline;margin-top:8px;font-size:10px;color:var(--dim);"><span>Gerçekleşen <b style="color:var(--ink);">{{ managerCiro }}</b></span><span style="margin-left:auto;">Ay hedefi <b style="color:var(--ink);">{{ managerHedef }}</b></span></div><div style="display:flex;align-items:center;gap:6px;margin-top:8px;padding:7px 9px;border-radius:10px;background:var(--bg);font-size:10px;color:var(--dim);"><span>Bu hızla ay sonu tahmini</span><span style="margin-left:auto;font-weight:800;color:{{ managerTahminColor }};">{{ managerTahmin }}</span></div>
+            <div style="display:flex;align-items:baseline;margin-top:8px;font-size:10px;color:var(--dim);"><span>Gerçekleşen <b style="color:var(--ink);">{{ managerCiro }}</b> <b style="color:{{ managerTrendColor }};">{{ managerTrend }}</b></span><span style="margin-left:auto;">Ay hedefi <b style="color:var(--ink);">{{ managerHedef }}</b></span></div><div style="display:flex;align-items:center;gap:6px;margin-top:8px;padding:7px 9px;border-radius:10px;background:var(--bg);font-size:10px;color:var(--dim);"><span>Bu hızla ay sonu tahmini</span><span style="margin-left:auto;font-weight:800;color:{{ managerTahminColor }};">{{ managerTahmin }}</span></div><div style="font-size:8.5px;color:var(--dim);margin-top:6px;">{{ reportTrendBasis }}</div>
           </div>
-          <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">₺</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportTodayLabel }} CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ managerDailyCiro }}</div></div><span style="margin-left:auto;font-size:9px;color:var(--dim);padding:4px 7px;background:var(--tintGray);border-radius:99px;">{{ reportTodayShort }}</span></div>
-          <div class="metric-card premium-revenue" style="padding:13px 16px 13px 19px;display:flex;align-items:center;min-height:68px;"><div class="premium-kpi-icon">↗</div><div style="margin-left:10px;"><div style="font-size:9px;color:var(--dim);font-weight:800;">{{ reportMonthLabel }} CİRO</div><div style="font:800 20px 'Manrope',sans-serif;color:var(--ink);margin-top:2px;">{{ managerCiro }}</div></div><span style="margin-left:auto;font-size:9px;font-weight:800;color:{{ managerTrendColor }};padding:4px 7px;background:var(--tintGreen);border-radius:99px;">{{ managerTrend }}</span></div>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div style="display:flex;align-items:center;"><div class="premium-kpi-icon">◷</div><div style="margin-left:auto;font-size:8px;color:#276F4E;font-weight:800;background:var(--tintGreen);padding:3px 6px;border-radius:99px;">{{ reportMonthShort }}</div></div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ managerRandevu }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">RANDEVU SAYISI</div></div><div class="metric-card premium-kpi" style="min-height:116px;padding:14px;display:flex;flex-direction:column;justify-content:space-between;"><div style="display:flex;align-items:center;"><div class="premium-kpi-icon">▣</div><div style="margin-left:auto;font-size:8px;color:#276F4E;font-weight:800;background:var(--tintGreen);padding:3px 6px;border-radius:99px;">{{ reportMonthShort }}</div></div><div style="font:800 34px 'Manrope',sans-serif;color:var(--ink);line-height:1;">{{ managerKart }}</div><div style="font-size:9px;color:var(--dim);font-weight:800;">AÇILAN KART</div></div></div>
+          <div class="kpi-strip"><sc-for list="{{ managerKpis }}" as="k" hint-placeholder-count="4"><div class="metric-card kpi-cell"><div class="kpi-label">{{ k.label }}</div><div class="kpi-value">{{ k.value }}</div><div class="kpi-sub" style="color:{{ k.subColor }};">{{ k.sub }}</div></div></sc-for></div><div class="kpi-caption">{{ managerKpiCaption }}</div>
+          <div class="metric-card" style="padding:12px 14px;"><div style="display:flex;align-items:center;"><div style="font-size:9px;color:var(--dim);font-weight:800;letter-spacing:.5px;">DÖNÜŞÜM HUNİSİ</div><div style="margin-left:auto;font-size:8.5px;color:var(--dim);">{{ reportMonthRange }}</div></div><sc-for list="{{ managerFunnel }}" as="f" hint-placeholder-count="3"><div style="margin-top:9px;"><div style="display:flex;align-items:baseline;font-size:10px;"><span style="color:var(--ink);font-weight:700;">{{ f.label }}</span><span style="margin-left:6px;color:var(--dim);font-size:9px;">{{ f.detail }}</span><span style="margin-left:auto;font-weight:800;color:var(--ink);">{{ f.pct }}</span></div><div style="height:6px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:4px;"><div style="width:{{ f.width }};height:100%;background:#276F4E;border-radius:99px;opacity:{{ f.opacity }};"></div></div></div></sc-for></div>
           </div></sc-if>
 
         <sc-if value="{{ managerPerformanceComparison }}"><div style="display:flex;flex-direction:column;gap:8px;">
@@ -1816,6 +1821,29 @@ class Component extends DCLogic {
     const managerContext = managerPath[managerPath.length - 1];
     const managerMetric = OrgData.getPeriod(managerContext.scope, managerContext.id, reportPeriod);
     const managerDailyMetric = OrgData.getPeriod(managerContext.scope, managerContext.id, "gun");
+    const fmtAvg = (v) => Number(v || 0).toLocaleString("tr-TR", { maximumFractionDigits: 1 });
+    const companyMetric = OrgData.getPeriod("ask", "ask-1", reportPeriod);
+    const companyDaily = OrgData.getPeriod("ask", "ask-1", "gun");
+    const managerHeadcount = Math.max(1, managerMetric.personelSayisi);
+    const companyHeadcount = Math.max(1, companyMetric.personelSayisi);
+    const managerIsCompany = managerHeadcount === companyHeadcount;
+    const managerKpis = [
+      { label: "BUGÜN CİRO ₺", value: fmtCompact(managerDailyMetric.ciro), own: managerDailyMetric.ciro / managerHeadcount, ref: companyDaily.ciro / companyHeadcount, fmt: (v) => fmtCompact(v) },
+      { label: "RANDEVU", value: managerMetric.randevu.toLocaleString("tr-TR"), own: managerMetric.randevu / managerHeadcount, ref: companyMetric.randevu / companyHeadcount },
+      { label: "AÇILAN KART", value: managerMetric.kart.toLocaleString("tr-TR"), own: managerMetric.kart / managerHeadcount, ref: companyMetric.kart / companyHeadcount },
+      { label: "KAYIT", value: managerMetric.kayit.toLocaleString("tr-TR"), own: managerMetric.kayit / managerHeadcount, ref: companyMetric.kayit / companyHeadcount },
+    ].map((k) => ({ ...k, sub: "Kişi b. " + (k.fmt || fmtAvg)(k.own), subColor: managerIsCompany ? "var(--dim)" : (k.own >= k.ref ? "#276F4E" : "#B23B3B") }));
+    const managerFunnel = (() => {
+      const m = managerMetric;
+      return [
+        { label: "Randevu → Kart", detail: m.randevu.toLocaleString("tr-TR") + " → " + m.kart.toLocaleString("tr-TR"), value: m.randevuKart, opacity: 1 },
+        { label: "Kart → Kayıt", detail: m.kart.toLocaleString("tr-TR") + " → " + m.kayit.toLocaleString("tr-TR"), value: m.kartKayit, opacity: .78 },
+        { label: "Randevu → Kayıt", detail: m.randevu.toLocaleString("tr-TR") + " → " + m.kayit.toLocaleString("tr-TR"), value: m.randevuKayit, opacity: .56 },
+      ].map((f) => ({ ...f, pct: fmtPct(f.value), width: Math.min(100, f.value) + "%" }));
+    })();
+    const prevRange = managerMetric.oncekiAralik || { start: "", end: "" };
+    const prevStart = new Date(prevRange.start + "T12:00:00"), prevEnd = new Date(prevRange.end + "T12:00:00");
+    const reportTrendBasis = prevRange.start ? "▲▼ Geçen ayın aynı günlerine göre (" + (prevStart.getDate() === prevEnd.getDate() ? "" : prevStart.getDate() + "–") + formatReportDate(prevEnd, false) + ")" : "";
     const managerMaxTrend = Math.max(1, ...managerMetric.trend.map((x) => x.ciro));
     const managerChildren = OrgData.children(managerContext.scope, managerContext.id);
     const scopeLabels = { saha: "Saha", bolge: "Bölge", sube: "Şube", tl: "Takım", personel: "Personel" };
@@ -1848,7 +1876,6 @@ class Component extends DCLogic {
     const managerTeamVisible = s.managerComparisonAll ? managerTeamRows : managerTeamRows.slice(0, COMPARISON_LIMIT);
     const managerComparisonTitle = comparisonMode === "saha" ? "Saha Karşılaştırması" : comparisonMode === "takim" ? "Takım Karşılaştırması" : "Personel Karşılaştırması";
     const rootMetric = OrgData.getPeriod(managerUser.scope, managerUser.scopeId, reportPeriod);
-    const companyMetric = OrgData.getPeriod("ask", "ask-1", reportPeriod);
     let generalNodes = [];
     if (managerUser.rol === "ask") generalNodes = [{ ad: "Şirket geneli", scope: "ask", id: "ask-1" }, ...OrgData.sahalar.map((x) => ({ ad: x.ad, scope: "saha", id: x.id }))];
     else if (managerUser.rol === "sgl") generalNodes = [{ ad: "Kendi saham", scope: "saha", id: managerUser.sahaId }, { ad: "Şirket geneli", scope: "ask", id: "ask-1" }];
@@ -1872,6 +1899,21 @@ class Component extends DCLogic {
     const spySahaNode = OrgData.findNode("saha", spyPerson.sahaId);
     const spyPerf = OrgData.getPeriod("personel", spyUser.id, reportPeriod);
     const spyDailyPerf = OrgData.getPeriod("personel", spyUser.id, "gun");
+    const compareColor = (v, ref) => (v >= ref ? GREEN : "#B23B3B");
+    const buildFunnel = (m) => [
+      { label: "Randevu → Kart", detail: m.randevu + " → " + m.kart, value: m.randevuKart, opacity: 1 },
+      { label: "Kart → Kayıt", detail: m.kart + " → " + m.kayit, value: m.kartKayit, opacity: .78 },
+      { label: "Randevu → Kayıt", detail: m.randevu + " → " + m.kayit, value: m.randevuKayit, opacity: .56 },
+    ].map((f) => ({ ...f, pct: fmtPct(f.value), width: Math.min(100, f.value) + "%" }));
+    const spyTeamIds = OrgData.personeller.filter((x) => x.tlId === spyPerson.tlId).map((x) => x.id);
+    const spyTeamAvg = (key, period) => spyTeamIds.reduce((sum, id) => sum + OrgData.getPeriod("personel", id, period)[key], 0) / Math.max(1, spyTeamIds.length);
+    const spyKpis = [
+      { label: "BUGÜN CİRO ₺", value: fmtCompact(spyDailyPerf.ciro), ref: spyTeamAvg("ciro", "gun"), own: spyDailyPerf.ciro, sub: "Ort. " + fmtCompact(spyTeamAvg("ciro", "gun")) },
+      { label: "RANDEVU", value: spyPerf.randevu, ref: spyTeamAvg("randevu", reportPeriod), own: spyPerf.randevu },
+      { label: "AÇILAN KART", value: spyPerf.kart, ref: spyTeamAvg("kart", reportPeriod), own: spyPerf.kart },
+      { label: "KAYIT", value: spyPerf.kayit, ref: spyTeamAvg("kayit", reportPeriod), own: spyPerf.kayit },
+    ].map((k) => ({ ...k, sub: k.sub || "Ort. " + fmtAvg(k.ref), subColor: compareColor(k.own, k.ref) }));
+    const spyFunnel = buildFunnel(spyPerf);
     const spyCompanyMetric = OrgData.getPeriod("ask", "ask-1", reportPeriod);
     const spyComparisonRows = OrgData.personeller.map((person) => {
       const metric = OrgData.getPeriod("personel", person.id, reportPeriod);
@@ -1896,6 +1938,9 @@ class Component extends DCLogic {
       reportMonthLabel,
       reportMonthRange,
       reportMonthShort,
+      reportTrendBasis,
+      spyKpis,
+      spyFunnel,
       darkMode: s.darkMode,
       darkModeOff: !s.darkMode,
       toggleDarkMode: () => this.setState((st) => ({ darkMode: !st.darkMode })),
@@ -1944,12 +1989,9 @@ class Component extends DCLogic {
       managerTrendColor: managerMetric.degisim >= 0 ? GREEN : "#B23B3B",
       managerRandevu: managerMetric.randevu, managerKart: managerMetric.kart, managerKayit: managerMetric.kayit,
       managerRK: fmtPct(managerMetric.randevuKart), managerKK: fmtPct(managerMetric.kartKayit), managerRR: fmtPct(managerMetric.randevuKayit),
-      managerKpis: [
-        { label: "CİRO", value: fmtCompact(managerMetric.ciro, true), trend: (managerMetric.degisim >= 0 ? "▲" : "▼") + Math.abs(Math.round(managerMetric.degisim)) + "%", trendColor: managerMetric.degisim >= 0 ? GREEN : "#B23B3B", width: Math.min(100, managerMetric.hg) + "%" },
-        { label: "RANDEVU", value: managerMetric.randevu, trend: "hedef", trendColor: "var(--dim)", width: Math.min(100, managerMetric.randevu / Math.max(1, managerMetric.personelSayisi * 5) * 100) + "%" },
-        { label: "AÇILAN KART", value: managerMetric.kart, trend: fmtPct(managerMetric.randevuKart), trendColor: GREEN, width: Math.min(100, managerMetric.randevuKart) + "%" },
-        { label: "KAYIT", value: managerMetric.kayit, trend: fmtPct(managerMetric.kartKayit), trendColor: GREEN, width: Math.min(100, managerMetric.kartKayit) + "%" },
-      ],
+      managerKpis,
+      managerKpiCaption: managerIsCompany ? "Alttaki değer kişi başı ortalamadır" : "Alttaki değer kişi başıdır · yeşil: şirket ortalamasının üstünde",
+      managerFunnel,
       managerTrendBars: managerMetric.trend.map((x) => ({ title: x.label + " · " + fmtCompact(x.ciro, true) + " · " + fmtPct(x.hg), height: Math.max(7, x.ciro / managerMaxTrend * 100) + "%", color: hgColor(x.hg) })),
       managerComparisonOptions,
       managerTeamVisible,
