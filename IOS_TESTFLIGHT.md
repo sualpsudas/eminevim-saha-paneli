@@ -40,7 +40,7 @@ Codemagic'e yalnızca `codemagic_certificate_key` dosyasının içeriğini Secre
 
 ### `ios_config`
 
-- `APP_APPLE_ID`: App Store Connect'teki sayısal Apple ID
+- `APP_APPLE_ID`: `6819198783`
 
 ## 4. Codemagic bağlantısı ve ilk derleme
 
