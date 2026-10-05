@@ -12,7 +12,14 @@
     kart: { etiket: "Açılan Kart", birim: "adet" },
     kayit: { etiket: "Kayıt", birim: "adet" },
   });
-  const DEMO_TODAY = new Date("2026-10-01T12:00:00+03:00");
+  // Demo verinin "bugün"ü cihaz saatinden alınır (öğlen 12:00, gün kayması olmasın diye).
+  // Sabit tarihle test için window.EMINEVIM_CONFIG.demoToday = "YYYY-AA-GG" verilebilir.
+  const DEMO_TODAY = (function () {
+    const cfg = typeof window !== "undefined" && window.EMINEVIM_CONFIG && window.EMINEVIM_CONFIG.demoToday;
+    if (cfg) return new Date(cfg + "T12:00:00");
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), 12);
+  })();
   const DAY = 86400000;
 
   function hash(text) {
