@@ -1,0 +1,59 @@
+workflows:
+  ios-testflight:
+    name: Tasarruf Yanımda - TestFlight
+    instance_type: mac_mini_m2
+    max_build_duration: 120
+    environment:
+      groups:
+        - appstore_credentials
+        - ios_config
+      vars:
+        BUNDLE_ID: "com.sualpsudas.tasarrufyanimda"
+        XCODE_PROJECT: "ios/App/App.xcodeproj"
+        XCODE_SCHEME: "App"
+      node: 22
+      xcode: latest
+    cache:
+      cache_paths:
+        - $CM_BUILD_DIR/node_modules
+        - $HOME/Library/Caches/org.swift.swiftpm
+    scripts:
+      - name: JavaScript bağımlılıklarını kur
+        script: npm ci
+      - name: Web paketini hazırla
+        script: npm run web:sync
+      - name: Native ayarları senkronize et
+        script: npx cap sync ios
+      - name: Kod imzalama anahtar zincirini hazırla
+        script: keychain initialize
+      - name: App Store imzalama dosyalarını getir
+        script: |
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+      - name: Sertifikaları anahtar zincirine ekle
+        script: keychain add-certificates
+      - name: Xcode imzalama profillerini uygula
+        script: xcode-project use-profiles
+      - name: TestFlight yapı numarasını belirle
+        script: |
+          LATEST_BUILD_NUMBER=$(app-store-connect get-latest-testflight-build-number "$APP_APPLE_ID" 2>/dev/null || echo 0)
+          cd "$CM_BUILD_DIR/ios/App"
+          agvtool new-version -all $((LATEST_BUILD_NUMBER + 1))
+      - name: İmzalı IPA oluştur
+        script: |
+          xcode-project build-ipa \
+            --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.app
+      - $HOME/Library/Developer/Xcode/DerivedData/**/Build/**/*.dSYM
+    publishing:
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        submit_to_app_store: false

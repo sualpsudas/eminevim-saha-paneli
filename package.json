@@ -1,0 +1,23 @@
+{
+  "name": "tasarruf-yanimda",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Tasarruf Yanımda iOS TestFlight wrapper",
+  "scripts": {
+    "web:sync": "node scripts/prepare-web.mjs",
+    "native:sync": "npm run web:sync && cap sync",
+    "ios:add": "npm run web:sync && cap add ios --packagemanager SPM",
+    "ios:open": "cap open ios",
+    "test": "node tests/org-data.test.js"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.5.2",
+    "@capacitor/ios": "8.5.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.2"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

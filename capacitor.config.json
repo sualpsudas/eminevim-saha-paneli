@@ -1,0 +1,11 @@
+{
+  "appId": "com.sualpsudas.tasarrufyanimda",
+  "appName": "Tasarruf Yanımda",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "automatic",
+    "preferredContentMode": "mobile",
+    "allowsLinkPreview": false,
+    "backgroundColor": "#F4F5F3"
+  }
+}

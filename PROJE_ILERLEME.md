@@ -185,3 +185,13 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Müdür, saha lideri ve takım lideri kapsam seçimleri korunurken satır yükseklikleri ve yazı boyutları mobil ekrana uygun biçimde küçültüldü.
 - SPY’nin tüm personel karşılaştırması da `H/G · Ciro · Randevu · Kart` sütunlarını aynı tabloda gösterecek şekilde sadeleştirildi.
 - 390×844 mobil görünümde takım lideri, müdür ve SPY tabloları doğrulandı; sütun taşması veya tarayıcı konsolu hatası görülmedi.
+
+### 2026-10-05 - Native iOS ve TestFlight hazırlığı
+
+- Capacitor 8.5.2 ile native iOS projesi oluşturuldu; uygulama adı `Tasarruf Yanımda`, geçici bundle kimliği `com.sualpsudas.tasarrufyanimda` olarak ayarlandı.
+- Web uygulamasını native `www/` paketine deterministik biçimde kopyalayan `scripts/prepare-web.mjs` ve npm komutları eklendi.
+- iOS uygulama ikonu mevcut Tasarruf Yanımda ikonuyla, açılış ekranı Eminevim yeşili ve beyaz logosuyla markalandı.
+- Uygulama portre kullanımına sınırlandı; Türkçe konum izni açıklaması ve ihracat uyumluluk bilgisi eklendi.
+- Codemagic macOS ortamında SPM senkronizasyonu, otomatik App Store imzalama, IPA üretimi, build numarası artırma ve TestFlight yüklemesi için `codemagic.yaml` hazırlandı.
+- Apple Developer, App Store Connect ve Codemagic gizli değişkenlerinin kurulumu `IOS_TESTFLIGHT.md` dosyasında belgelendi; hiçbir sertifika veya özel anahtar repoya eklenmedi.
+- Capacitor senkronizasyonu, YAML/XML doğrulaması, organizasyon testleri ve çalışma zamanı bağımlılık güvenlik taraması başarıyla tamamlandı. Windows ortamında Xcode derlemesi yapılamadığı için ilk imzalı IPA doğrulaması Codemagic üzerinde yapılacak.
