@@ -83,11 +83,19 @@ var compactMode = params.get('compact') === '1'; // küçük, etkileşimsiz öni
 if (compactMode) document.body.classList.add('compact');
 var selectedMarker = null;
 
-// OSM standart tile — anahtar gerektirmez
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+// Harita sağlayıcısı tek yerde: App Store yayınından önce OSM yerine anahtarlı bir sağlayıcı
+// (MapKit JS, Mapbox, Stadia vb.) için yalnızca bu nesne değiştirilir. OSM genel tile sunucusu
+// yoğun mobil uygulama trafiğine izin vermez; şimdilik test sürümleri için kullanılıyor.
+var MAP_TILE_PROVIDER = (window.parent && window.parent.EMINEVIM_CONFIG && window.parent.EMINEVIM_CONFIG.mapTiles) || {
+  url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
   subdomains: 'abc',
   maxZoom: 19
+};
+L.tileLayer(MAP_TILE_PROVIDER.url, {
+  attribution: MAP_TILE_PROVIDER.attribution,
+  subdomains: MAP_TILE_PROVIDER.subdomains || 'abc',
+  maxZoom: MAP_TILE_PROVIDER.maxZoom || 19
 }).addTo(map);
 
 // "Hepsini göster" butonu
