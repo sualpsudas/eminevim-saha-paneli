@@ -198,6 +198,15 @@
     else for (let i = 0; i < 12; i += 1) { const start = new Date(range.start); start.setMonth(i, 1); const end = new Date(start); end.setMonth(i + 1, 0); parts.push({ label: (i + 1) + ". ay", start, end }); }
     return parts.map((p) => ({ label: p.label, ...aggregate(ids, p) }));
   }
+  function hedefAraligi(ids, start, end) {
+    let toplam = 0;
+    ids.forEach((id) => {
+      for (let d = new Date(start); d <= end; d = addDays(d, 1)) {
+        if (isWeekday(d)) toplam += ((aylikHedefler[id] || {})[monthKey(d)] || 0) / monthlyWorkdays(monthKey(d));
+      }
+    });
+    return Math.round(toplam);
+  }
   function getPeriod(scope, id, periodKey, anchor) {
     const cacheKey = [scope, id, periodKey || "gun", anchor ? iso(anchor) : iso(DEMO_TODAY)].join(":");
     if (periodCache.has(cacheKey)) return periodCache.get(cacheKey);
@@ -205,6 +214,15 @@
     const range = getRange(periodKey || "gun", anchor);
     const onceki = aggregate(ids, previousRange(periodKey || "gun", range));
     const simdi = aggregate(ids, range);
+    if ((periodKey || "gun") === "ay") {
+      // Aylık H/G ayın TAM hedefine göre: ciro / ay hedefi. Bugüne kadarki hedefe göre oran ay sonu tahminidir.
+      const ayBitis = new Date(range.start); ayBitis.setMonth(range.start.getMonth() + 1, 0);
+      simdi.hedefBugune = simdi.hedef;
+      simdi.tahminHg = simdi.hg;
+      simdi.hedef = hedefAraligi(ids, range.start, ayBitis);
+      simdi.hg = simdi.hedef ? simdi.ciro / simdi.hedef * 100 : 0;
+      simdi.tahminCiro = simdi.hedef * simdi.tahminHg / 100;
+    }
     simdi.degisim = onceki.ciro ? (simdi.ciro - onceki.ciro) / onceki.ciro * 100 : 0;
     simdi.onceki = onceki;
     simdi.trend = trendFor(ids, periodKey || "gun", range);
