@@ -205,6 +205,8 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
     outline: none !important;
     -webkit-tap-highlight-color: transparent !important;
   }
+  /* Üst panel switcher (Müşteri/SPY/Admin) şimdilik gizli */
+  #dc-root > .sc-host > div div[style*="fadeIn"] > div:first-child { display: none !important; }
   /* Nav artık akışta olduğundan main'in bottom padding'i gereksiz */
   main[style*="padding-bottom: 62px"],
   main[style*="padding-bottom:62px"] { padding-bottom: 0 !important; }
@@ -220,13 +222,53 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 <div style="{{ themeVars }} min-height:100vh; background:var(--bg); padding:48px 20px; font-family:'Inter',sans-serif; display:flex; flex-direction:column; align-items:center; gap:26px; transition:background .3s;">
 
   <sc-if value="{{ girisGosterilsin }}" hint-placeholder-val="{{ false }}">
-  <sc-if value="{{ personelLoginOpen }}"><div style="position:fixed;inset:0;z-index:61;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;"><div style="width:375px;max-width:100%;height:700px;background:#1B2740;border-radius:44px;padding:12px;box-shadow:0 34px 60px -20px rgba(23,33,54,.45);"><div style="height:100%;border-radius:34px;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 24px;text-align:center;"><img src="assets/logo-green.png" alt="Eminevim" style="width:132px;"><div style="font:800 22px 'Manrope',sans-serif;color:var(--ink);margin-top:24px;">Yönetim Paneli</div><div style="font-size:12px;color:var(--dim);margin-top:6px;line-height:1.45;">Yetki rolünüzü seçerek devam edin.</div><div style="width:100%;display:flex;flex-direction:column;gap:9px;margin-top:24px;"><button onClick="{{ submitTlGiris }}" style="width:100%;min-height:54px;border:none;background:#276F4E;color:#fff;border-radius:14px;font-size:13px;font-weight:800;cursor:pointer;box-shadow:0 8px 18px -10px rgba(39,111,78,.7);">Takım Lideri</button><button onClick="{{ submitSglGiris }}" style="width:100%;min-height:54px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;font-size:13px;font-weight:800;cursor:pointer;">Saha Lideri</button><button onClick="{{ submitAskGiris }}" style="width:100%;min-height:54px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:14px;font-size:13px;font-weight:800;cursor:pointer;">Müdür</button></div><div style="font-size:9.5px;color:var(--dim);margin-top:18px;">Tasarruf Yanımda · Yönetim erişimi</div></div></div></div></sc-if>
+  <div style="width:375px; max-width:100%; background:#1B2740; border-radius:44px; padding:12px; box-shadow:0 34px 60px -20px rgba(23,33,54,.45);">
+    <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column;position:relative;">
+      <div style="height:30px; background:#1B2740; flex-shrink:0;"></div>
+      <button onClick="{{ openPersonelGiris }}" style="position:absolute;right:16px;top:42px;z-index:2;min-height:36px;border:none;background:transparent;color:#276F4E;font-size:11px;font-weight:800;cursor:pointer;">Personel Girişi</button>
+      <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:36px 30px; gap:20px;">
+        <img src="assets/logo-green.png" alt="Eminevim" style="width:150px;">
+        <div style="text-align:center;position:relative;width:100%;">
+          <div style="font-size:18px; font-weight:800; color:var(--ink); font-family:'Manrope',sans-serif;">Tasarruf Yanımda</div>
+          <div style="font-size:12.5px; color:var(--dim); margin-top:4px;">{{ girisAltYazi }}</div>
+        </div>
+        <sc-if value="{{ girisModYok }}"><div style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px;">
+          <button onClick="{{ secKayitli }}" style-active="transform:scale(.98);" style="width:100%; min-height:64px; border:1px solid var(--line); background:var(--card); border-radius:16px; display:flex; align-items:center; gap:12px; padding:0 16px; cursor:pointer; text-align:left; font-family:'Manrope',sans-serif;"><span style="width:40px;height:40px;border-radius:12px;background:#276F4E;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg></span><span style="flex:1;"><span style="display:block;font-size:14px;font-weight:800;color:var(--ink);">Kayıtlı Müşteri</span><span style="display:block;font-size:11px;color:var(--dim);margin-top:2px;">Hesabınızla giriş yapın</span></span><span style="color:var(--dim);font-size:18px;">›</span></button>
+          <button onClick="{{ secYeni }}" style-active="transform:scale(.98);" style="width:100%; min-height:64px; border:1px solid var(--line); background:var(--card); border-radius:16px; display:flex; align-items:center; gap:12px; padding:0 16px; cursor:pointer; text-align:left; font-family:'Manrope',sans-serif;"><span style="width:40px;height:40px;border-radius:12px;background:var(--tintGreen);color:#276F4E;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2"><circle cx="10" cy="8" r="3.5"></circle><path d="M3 20c0-3.6 3.1-6 7-6"></path><path d="M18 14v6M15 17h6"></path></svg></span><span style="flex:1;"><span style="display:block;font-size:14px;font-weight:800;color:var(--ink);">Yeni Müşteri</span><span style="display:block;font-size:11px;color:var(--dim);margin-top:2px;">İlk kez başvuruyorum</span></span><span style="color:var(--dim);font-size:18px;">›</span></button>
+        </div></sc-if>
+        <sc-if value="{{ girisModKayitli }}"><div style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
+          <input value="{{ girisEmail }}" onChange="{{ setGirisEmail }}" placeholder="E-posta" style="width:100%; padding:13px 14px; border-radius:12px; border:1px solid var(--line); font-size:13.5px; font-family:'Inter',sans-serif; background:var(--card); color:var(--ink);">
+          <input value="{{ girisSifre }}" onChange="{{ setGirisSifre }}" type="password" placeholder="Şifre" style="width:100%; padding:13px 14px; border-radius:12px; border:1px solid var(--line); font-size:13.5px; font-family:'Inter',sans-serif; background:var(--card); color:var(--ink);">
+          <button onClick="{{ submitGiris }}" style-active="transform:scale(.97);" style="width:100%; min-height:46px; background:#276F4E; color:#fff; border:none; border-radius:12px; font-size:14px; font-weight:700; cursor:pointer; font-family:'Manrope',sans-serif;">Giriş Yap</button>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><button onClick="{{ girisGeri }}" style="min-height:36px;border:none;background:transparent;color:var(--dim);font-size:12px;font-weight:700;cursor:pointer;">‹ Geri</button><span style="font-size:12px; color:#276F4E; font-weight:600; cursor:pointer;">Şifremi unuttum</span></div>
+        </div></sc-if>
+      </div>
+    </div>
+  </div>
+  <sc-if value="{{ personelLoginOpen }}"><div style="position:fixed;inset:0;z-index:61;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;"><div style="width:375px;max-width:100%;height:700px;background:#1B2740;border-radius:44px;padding:12px;box-shadow:0 34px 60px -20px rgba(23,33,54,.45);"><div style="height:100%;border-radius:34px;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:26px;text-align:center;"><img src="assets/logo-green.png" alt="Eminevim" style="width:122px;"><div style="font:800 21px 'Manrope',sans-serif;color:var(--ink);margin-top:22px;">Personel Girişi</div><div style="font-size:12px;color:var(--dim);margin-top:5px;">Demo rolünüzü seçerek devam edin.</div><button onClick="{{ submitPersonelGiris }}" style="width:100%;min-height:48px;margin-top:22px;border:none;background:#276F4E;color:#fff;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">Giriş Yap · Personel / SPY</button><button onClick="{{ submitTlGiris }}" style="width:100%;min-height:44px;margin-top:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:11px;font-size:12px;font-weight:800;cursor:pointer;">Takım Lideri</button><button onClick="{{ submitSglGiris }}" style="width:100%;min-height:44px;margin-top:7px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:11px;font-size:12px;font-weight:800;cursor:pointer;">Saha Grup Lideri</button><button onClick="{{ submitAskGiris }}" style="width:100%;min-height:44px;margin-top:7px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:11px;font-size:12px;font-weight:800;cursor:pointer;">Alternatif Satış Kanalı Müdürü</button><button onClick="{{ closePersonelGiris }}" style="width:100%;min-height:40px;margin-top:5px;border:none;background:transparent;color:var(--dim);font-size:12px;font-weight:700;cursor:pointer;">Müşteri Girişine Dön</button></div></div></div></sc-if>
   <sc-if value="{{ kvkkAsama }}"><div style="position:fixed;inset:0;z-index:62;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;"><div style="width:375px;max-width:100%;height:100%;max-height:700px;background:#1B2740;border-radius:44px;padding:12px;box-shadow:0 34px 60px -20px rgba(23,33,54,.45);"><div style="height:100%;border-radius:34px;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;"><div style="height:30px;background:#1B2740;flex-shrink:0;"></div><div style="flex:1;min-height:0;overflow-y:auto;padding:22px 22px 12px;display:flex;flex-direction:column;gap:14px;animation:tabIn .3s ease-out;"><div style="width:56px;height:56px;border-radius:16px;background:var(--tintGreen);display:flex;align-items:center;justify-content:center;"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#276F4E" stroke-width="2"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5l8-3z"></path><path d="M9 12l2 2 4-4"></path></svg></div><div style="font:800 19px 'Manrope',sans-serif;color:var(--ink);letter-spacing:-.2px;">Kişisel Verilerin Korunması</div><div style="font-size:12.5px;color:var(--dim);line-height:1.6;">Merhaba <b style="color:var(--ink);">{{ kvkkAd }}</b>. 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında; ad-soyad, iletişim, adres ve konum bilgileriniz yalnızca size en yakın temsilcinin yönlendirilmesi, görüşmenin planlanması ve talebinizin takibi amacıyla Eminevim tarafından işlenir; üçüncü kişilerle paylaşılmaz. Kanun'un 11. maddesindeki haklarınız saklıdır. Ayrıntılı bilgi için <span style="color:#276F4E;font-weight:700;">Aydınlatma Metni</span>'ni inceleyebilirsiniz.</div><label style="display:flex;align-items:flex-start;gap:11px;cursor:pointer;background:var(--card);border:1px solid {{ kvkk1Border }};border-radius:13px;padding:13px 14px;"><input type="checkbox" checked="{{ kvkk1 }}" onChange="{{ toggleKvkk1 }}" style="width:20px;height:20px;accent-color:#276F4E;flex-shrink:0;margin-top:1px;"><span style="font-size:12.5px;color:var(--ink);line-height:1.5;">Aydınlatma Metni'ni okudum; kişisel verilerimin ve konum bilgimin yukarıda belirtilen amaçlarla işlenmesine açık rıza veriyorum.</span></label></div><div style="padding:10px 22px 22px;display:flex;flex-direction:column;gap:6px;flex-shrink:0;box-shadow:0 -1px 0 var(--line);background:var(--bg);"><button onClick="{{ kvkkOnayla }}" disabled="{{ kvkkEksik }}" style="min-height:50px;border:none;background:linear-gradient(135deg,#276F4E,#348C61);color:#fff;border-radius:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Manrope',sans-serif;opacity:{{ kvkkOpacity }};">Onaylıyorum</button><button onClick="{{ kvkkVazgec }}" style="min-height:38px;border:none;background:transparent;color:var(--dim);font-size:12px;font-weight:700;cursor:pointer;">Vazgeç</button></div></div></div></div></sc-if>
   <sc-if value="{{ kayitOpen }}"><div style="position:fixed;inset:0;z-index:60;background:rgba(22,31,43,.5);display:flex;align-items:center;justify-content:center;padding:20px;"><form onSubmit="{{ submitKayit }}" style="width:375px;max-width:100%;background:var(--card);border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:11px;box-shadow:0 24px 60px rgba(0,0,0,.25);"><div style="display:flex;align-items:center;"><div style="font:800 18px 'Manrope',sans-serif;color:var(--ink);">Kayıt Ol</div><button type="button" onClick="{{ closeKayit }}" style="margin-left:auto;width:40px;height:40px;border:none;background:transparent;color:var(--dim);font-size:22px;cursor:pointer;">×</button></div><div style="font-size:12px;color:var(--dim);line-height:1.45;">Yeni müşteri hesabınız için temel bilgilerinizi girin. Bir sonraki adımda veri işleme onayınız alınacaktır.</div><input value="{{ kayitAd }}" onChange="{{ setKayitAd }}" required placeholder="Ad Soyad" style="min-height:46px;padding:0 13px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--ink);"><input value="{{ kayitTelefon }}" onChange="{{ setKayitTelefon }}" required inputmode="tel" placeholder="Telefon" style="min-height:46px;padding:0 13px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--ink);"><input value="{{ kayitEmail }}" onChange="{{ setKayitEmail }}" required type="email" placeholder="E-posta" style="min-height:46px;padding:0 13px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--ink);"><input value="{{ kayitSifre }}" onChange="{{ setKayitSifre }}" required type="password" placeholder="Şifre belirleyin" style="min-height:46px;padding:0 13px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--ink);"><textarea value="{{ kayitAdres }}" onChange="{{ setKayitAdres }}" required placeholder="Adres" style="min-height:64px;padding:10px 13px;border:1px solid var(--line);border-radius:11px;background:var(--bg);color:var(--ink);resize:none;"></textarea><button type="submit" style="min-height:48px;border:none;background:#276F4E;color:#fff;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;">Kaydet ve Devam</button></form></div></sc-if>
   </sc-if>
 
   <sc-if value="{{ girisYapildi }}">
   <div style="animation:fadeIn .4s ease-out; display:flex; flex-direction:column; align-items:center; gap:26px;">
+
+  <div style="display:flex; align-items:center; gap:10px;">
+  <div style="position:relative; display:flex; width:330px; background:var(--track); border-radius:15px; padding:4px;">
+    <div style="position:absolute; top:4px; bottom:4px; left:{{ pillLeft }}; width:calc(33.333% - 3px); background:#276F4E; border-radius:11px; transition:left .32s cubic-bezier(.4,0,.2,1); box-shadow:0 6px 14px rgba(39,111,78,.28);"></div>
+    <button onClick="{{ goMusteri }}" style-active="transform:scale(.96); opacity:.9;" style="position:relative; z-index:1; flex:1; min-height:44px; border:none; background:transparent; padding:10px 0; font-family:'Manrope',sans-serif; font-size:12px; font-weight:700; color:{{ musteriLabelColor }}; cursor:pointer; transition:color .25s;">Müşteri</button>
+    <button onClick="{{ goSpy }}" style-active="transform:scale(.96); opacity:.9;" style="position:relative; z-index:1; flex:1; min-height:44px; border:none; background:transparent; padding:10px 0; font-family:'Manrope',sans-serif; font-size:12px; font-weight:700; color:{{ spyLabelColor }}; cursor:pointer; transition:color .25s;">SPY Paneli</button>
+    <button onClick="{{ goAdmin }}" style-active="transform:scale(.96); opacity:.9;" style="position:relative; z-index:1; flex:1; min-height:44px; border:none; background:transparent; padding:10px 0; font-family:'Manrope',sans-serif; font-size:12px; font-weight:700; color:{{ adminLabelColor }}; cursor:pointer; transition:color .25s;">Admin Paneli</button>
+  </div>
+  <button onClick="{{ toggleDarkMode }}" style-active="transform:scale(.9);" aria-label="Karanlık modu değiştir" style="width:44px; height:44px; min-width:44px; border-radius:99px; border:1px solid var(--line); background:var(--card); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:background .28s,border-color .28s,transform .18s;">
+    <sc-if value="{{ darkMode }}">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E8803E" stroke-width="2" style="animation:themeIconIn .3s ease-out;"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"></path></svg>
+    </sc-if>
+    <sc-if value="{{ darkModeOff }}">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#273755" stroke-width="2"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"></path></svg>
+    </sc-if>
+  </button>
+  </div>
 
   <sc-if value="{{ isMusteri }}">
   <div style="animation:panelIn .38s cubic-bezier(.2,.7,.3,1);width:375px;max-width:100%;background:#1B2740;border-radius:44px;padding:12px;box-shadow:0 34px 60px -20px rgba(23,33,54,.45);">
@@ -876,7 +918,7 @@ class Component extends DCLogic {
     girisEmail: "ayse.kaya@ornek.com",
     girisSifre: "test123",
     kayitOpen: false,
-    personelLoginOpen: true,
+    personelLoginOpen: false,
     kayitAd: "Mert Demir",
     kayitTelefon: "0533 412 78 90",
     kayitEmail: "mert.demir@ornek.com",
@@ -1009,7 +1051,7 @@ class Component extends DCLogic {
       }).catch(() => {});
     }
     const directRole = new URLSearchParams(window.location.search).get("rol");
-    if (["tl", "sgl", "ask"].indexOf(directRole) >= 0) this.loginRole(directRole);
+    if (["tl", "sgl", "ask", "spy"].indexOf(directRole) >= 0) this.loginRole(directRole);
   }
   componentWillUnmount() {
     clearInterval(this._t);
@@ -1029,6 +1071,10 @@ class Component extends DCLogic {
 
   loginRole(role) {
     const user = OrgData.demoUser(role);
+    if (role === "spy") {
+      this.setState({ personelLoginOpen: false, girisYapildi: true, panel: "spy", spyTab: "performans", spyPerformanceView: "ozet", managerUser: user });
+      return;
+    }
     const rootNode = OrgData.findNode(user.scope, user.scopeId);
     const comparisonMode = role === "ask" ? "saha" : role === "sgl" ? "takim" : "personel";
     this.setState({ personelLoginOpen: false, girisYapildi: true, panel: role, managerUser: user, managerPath: [{ scope: user.scope, id: user.scopeId, ad: (rootNode && rootNode.ad) || user.birimAd || user.ad }], managerComparisonMode: comparisonMode, managerPerformanceView: "ozet", managerTab: "performans", managerSettingsOpen: false, managerScopePickerOpen: false });
@@ -1433,7 +1479,7 @@ class Component extends DCLogic {
     if (this._repTimer) clearInterval(this._repTimer);
     if (this._assignmentTimer) clearInterval(this._assignmentTimer);
     this.setState({
-      girisYapildi: false, personelLoginOpen: true, kvkkOnay: false, kvkkTarih: null, kvkk1: false, kvkk2: false, kvkk3: false, girisMod: "",
+      girisYapildi: false, kvkkOnay: false, kvkkTarih: null, kvkk1: false, kvkk2: false, kvkk3: false, girisMod: "",
       customerStage: "form", reqStatus: "idle", assignedRepId: null, chatMessages: [], customerNav: "basvuru",
       basvuruTuru: "", basvuruTutar: "", talepSebebi: "", locationShared: false,
     });
@@ -2150,6 +2196,8 @@ class Component extends DCLogic {
       setGirisSifre: (e) => this.setState({ girisSifre: e.target.value }),
       personelLoginOpen: s.personelLoginOpen,
       openPersonelGiris: () => this.setState({ personelLoginOpen: true }),
+      closePersonelGiris: () => this.setState({ personelLoginOpen: false }),
+      submitPersonelGiris: () => this.loginRole("spy"),
       submitTlGiris: () => this.loginRole("tl"),
       submitSglGiris: () => this.loginRole("sgl"),
       submitAskGiris: () => this.loginRole("ask"),
