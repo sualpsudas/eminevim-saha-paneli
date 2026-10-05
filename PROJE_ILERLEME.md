@@ -207,3 +207,9 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Müşteri ana girişi ve Personel/SPY erişimi korunarak geri getirildi.
 - Personel girişindeki Takım Lideri, Saha Grup Lideri ve Alternatif Satış Kanalı Müdürü rol seçenekleri korundu.
 - Oturum içindeki yalnızca geliştirme amaçlı `Müşteri / SPY Paneli / Admin Paneli` üst geçiş şeridi kaldırıldı.
+
+### 2026-10-05 - İlk TestFlight doğrulama hataları giderildi
+
+- Uygulama portre kullanımını koruyacak şekilde yalnızca iPhone hedef ailesine sınırlandı; iPad çoklu görev yönlendirme doğrulama hatası kaldırıldı.
+- 1024×1024 App Store ikonundaki alfa kanalı kaldırıldı ve ikon 24 bit RGB PNG olarak yeniden kaydedildi.
+- Apple API anahtarları proje dışındaki güvenli klasörde tutuldu; sertifika ve provisioning dosyaları Git dışında bırakıldı.
