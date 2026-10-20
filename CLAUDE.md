@@ -11,6 +11,8 @@ Uygulama ve web formu bu fikrin ilk aşamalarıdır; ikisi **aynı ekranları ve
 - `web-basvuru/` — eminevim.com ana sayfa kopyasında yeni Hızlı Başvuru formu (`form_bolumu.html` düzenlenir,
   `python olustur.py` → `index.html`). Sayfadaki tüm linkler etkisizdir; bu kural korunmalı.
 - `taslak/` — sunuma eklenebilir ekran taslakları (aşağıya bakın).
+- `backup/2026-10-21-eski-uygulama/` — sade akıştan önceki uygulama (açılır hâlde; git etiketi `eski-uygulama-2026-10-21`).
+  Geri dönmek gerekirse: `git checkout eski-uygulama-2026-10-21 -- "Eminevim Saha Paneli.dc.html"`.
 - `PROJE_ILERLEME.md` — her çalışmadan sonra tarihli kısa not eklenir.
 
 Yayın: GitHub Pages `master` dalından → https://sualpsudas.github.io/eminevim-saha-paneli/ (depo public; kullanıcı izinli).
@@ -22,6 +24,8 @@ Yayın: GitHub Pages `master` dalından → https://sualpsudas.github.io/eminevi
   "Takip" müşteriyi değil temsilciyi anlatır ("Temsilcinizin nerede olduğunu görürsünüz").
 - Cumartesi engellenmez; hafta içi günler önce gelir, cumartesi "yoğun" etiketiyle durur.
 - Temsilci bilgileri ve takip linki **e-postayla** gider (SMS değil).
+- Yeni müşteri üye olmadan sade akışla ilerler (uygulamada giriş ekranı → "Yeni Müşteri", `ya*` durumları).
+  Finansman/bütçe hesabı yalnız **üyelere**, "Finansmanlarım" sekmesinde; web formu bunun için uygulama linki verir.
 
 ## Taslak isteği gelirse (web ya da uygulama)
 Kullanıcı "taslak göster" dediğinde çalışan kod değil, **sunuma eklenebilir ekran taslağı** hazırla:

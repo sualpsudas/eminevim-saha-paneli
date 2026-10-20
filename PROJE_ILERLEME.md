@@ -266,3 +266,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Takip linki SMS yerine e-postayla gider; gönderim sonrası e-posta önizlemesi (temsilci kartı, sicil no, randevu, canlı takip butonu, güven notları).
 - `olustur.py` canlı sayfayı indirip formu yerleştirir, GTM/Facebook/reCAPTCHA kodlarını çıkarır; form veri göndermez.
 - Doğrulama: 390×844 ve 1440×900'de Chrome ile uçtan uca dolduruldu, sayfa hatası yok.
+
+### 2026-10-21 - Sade yeni müşteri akışı, Finansmanlarım, web formu aynı akışa geçti
+
+- Önceki uygulama yedeklendi: `backup/2026-10-21-eski-uygulama/` (açılır hâlde) + git etiketi `eski-uygulama-2026-10-21`.
+- Giriş ekranındaki "Yeni Müşteri" artık üyelik istemeden 3 adımlı akışı açar: Temsilcimiz size gelsin (ad, telefon) → Ne zaman, nerede? (gün/saat/yer/ilçe) → Talebiniz alındı (özet, en yakın temsilci kartı, isteğe bağlı e-posta). "Görüşme günü" örnek ekranı ve "Telefonla görüşmeyi tercih ederim" seçeneği var; talep temsilci paneli listesine düşer.
+- Bütçe/finansman sihirbazı yalnız üyelere: sekmenin adı "Finansmanlarım". Akışın sonundaki "Üye olun" kayıt formunu bilgilerle doldurur → KVKK → Finansmanlarım.
+- Web formu aynı 3 adıma çevrildi; sonda uygulama linki (sayfadaki tek çalışan link).
+- Doğrulama: 390×844'te Chrome ile yeni akış, telefonla seçeneği, üyelik → Finansmanlarım ve yedek sürüm uçtan uca denendi; web formu mobil ve masaüstünde denendi; sayfa hatası yok.

@@ -58,6 +58,8 @@ def main():
 
     # Bağlantılar tıklanır ama hiçbir yere gitmez (eminevim.com'a yönlendirmesin)
     def etkisiz(m):
+        if "data-ty-dis" in m.group(0):  # kendi uygulama linkimiz çalışır
+            return m.group(0)
         etiket = re.sub(r'\s(?:href|target|data-fancybox|data-type|onclick)="[^"]*"', "", m.group(0))
         return etiket.replace("<a", '<a href="javascript:void(0)"', 1)
 
@@ -67,7 +69,7 @@ def main():
 /* Önizleme: sonradan eklenen bağlantılar da dahil hiçbir link sayfadan çıkarmaz */
 document.addEventListener('click', function (e) {
   var a = e.target.closest && e.target.closest('a');
-  if (a && !a.hasAttribute('data-bs-toggle')) e.preventDefault();
+  if (a && !a.hasAttribute('data-bs-toggle') && !a.hasAttribute('data-ty-dis')) e.preventDefault();
 }, true);
 document.addEventListener('submit', function (e) {
   if (!e.target.hasAttribute('data-ty-adim')) e.preventDefault();

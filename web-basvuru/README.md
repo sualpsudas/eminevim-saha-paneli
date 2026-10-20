@@ -4,12 +4,11 @@ Tasarruf Yanımda'nın web kolu. eminevim.com ana sayfasının kopyasında yaln�
 değiştirilmiştir; amaç cumartesi yoğunluğunu hafta içine yaymak ve müşteriye "temsilcimiz size gelsin"
 seçeneğini sunmaktır.
 
-## Formdaki akış
-- Ad, soyad, telefon (mevcut formla aynı)
-- **Nasıl görüşelim?** Temsilcimiz size gelsin / Beni arayın / Şubeye geleceğim
-- *Temsilci gelsin*: konu, yer (iş yeri / ev), il-ilçe (veya konum), gün, saat aralığı, e-posta
-- Cumartesi seçilirse hafta içi öğle arasına yönlendiren uyarı
-- Gönderim sonrası özet + **e-posta önizlemesi** (temsilci kartı, sicil no, randevu, canlı takip linki, güven notları)
+## Formdaki akış (uygulamayla aynı 3 adım)
+1. **Temsilcimiz size gelsin**: ad soyad, telefon (altta "Telefonla görüşmeyi tercih ederim")
+2. **Ne zaman, nerede?**: gün (hafta içi önce, cumartesi "yoğun"), saat (öğle arası / akşam), yer (iş yeri / ev), ilçe
+3. **Talebiniz alındı**: özet, temsilci kartı, isteğe bağlı e-posta + e-posta önizlemesi,
+   "Finansman tercihlerinizi uygulamamızdan değerlendirebilirsiniz → Uygulamayı açın" (sayfadaki tek çalışan link, `data-ty-dis`)
 
 ## Dosyalar
 | Dosya | Ne işe yarar |
