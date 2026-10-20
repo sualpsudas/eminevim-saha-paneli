@@ -56,8 +56,28 @@ def main():
     mobil = form + '\n<div style="display:none !important" id="tabletBilgilendirmeFormTesekkur"></div>\n'
     html = degistir(html, "<!-- Form Başladı-->", "<!-- Form Bitti-->", mobil)
 
+    # Bağlantılar tıklanır ama hiçbir yere gitmez (eminevim.com'a yönlendirmesin)
+    def etkisiz(m):
+        etiket = re.sub(r'\s(?:href|target|data-fancybox|data-type|onclick)="[^"]*"', "", m.group(0))
+        return etiket.replace("<a", '<a href="javascript:void(0)"', 1)
+
+    html = re.sub(r"<a\b[^>]*>", etkisiz, html)
+    bekci = """
+<script>
+/* Önizleme: sonradan eklenen bağlantılar da dahil hiçbir link sayfadan çıkarmaz */
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a');
+  if (a && !a.hasAttribute('data-bs-toggle')) e.preventDefault();
+}, true);
+document.addEventListener('submit', function (e) {
+  if (!e.target.hasAttribute('data-ty-adim')) e.preventDefault();
+}, true);
+window.open = function () { return null; };
+</script>
+"""
+
     son = html.rindex("</body>")
-    html = html[:son] + takip + js + html[son:]
+    html = html[:son] + takip + js + bekci + html[son:]
     CIKTI.write_text(html, encoding="utf-8")
     print("Yazıldı:", CIKTI)
 
