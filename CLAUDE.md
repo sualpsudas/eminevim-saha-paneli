@@ -16,6 +16,7 @@ Uygulama ve web formu bu fikrin ilk aşamalarıdır; ikisi **aynı ekranları ve
 - `PROJE_ILERLEME.md` — her çalışmadan sonra tarihli kısa not eklenir.
 
 Yayın: GitHub Pages `master` dalından → https://sualpsudas.github.io/eminevim-saha-paneli/ (depo public; kullanıcı izinli).
+Paylaşım için tek sayfa: `linkler.html` (taslaklar, web formu, uygulama, eski sürüm) — yeni sayfa eklenince güncelle.
 
 ## Müşteri ekranı ilkeleri
 - Olabildiğince basit; gereksiz yazı yok, her ekranda tek soru grubu ve tek ana buton.
@@ -35,4 +36,4 @@ Kullanıcı "taslak göster" dediğinde çalışan kod değil, **sunuma eklenebi
 2. Aynı renkler ve bileşenler (yeşil `#00724c`, turuncu buton `#ea803f`, çipler, ilerleme çizgileri); dış kütüphane yok.
 3. Örnek kişi/veri kullan (ör. Ayşe Yılmaz, Sicil 48213); Eminevim logosu taslakta yok, "Tasarruf Yanımda" yazısı var.
 4. Chrome ile ekran görüntüsü alıp kontrol et (390 px'te yatay taşma olmasın), `master`'a commit + push, Pages linkini ver.
-5. `taslak/README.md` listesine ekle.
+5. `taslak/README.md` ve `linkler.html` listelerine ekle.

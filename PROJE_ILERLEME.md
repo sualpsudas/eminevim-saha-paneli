@@ -274,3 +274,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Bütçe/finansman sihirbazı yalnız üyelere: sekmenin adı "Finansmanlarım". Akışın sonundaki "Üye olun" kayıt formunu bilgilerle doldurur → KVKK → Finansmanlarım.
 - Web formu aynı 3 adıma çevrildi; sonda uygulama linki (sayfadaki tek çalışan link).
 - Doğrulama: 390×844'te Chrome ile yeni akış, telefonla seçeneği, üyelik → Finansmanlarım ve yedek sürüm uçtan uca denendi; web formu mobil ve masaüstünde denendi; sayfa hatası yok.
+
+### 2026-10-21 (gece) - Web taslağı, Finansmanlarım taslağı, bağlantılar sayfası
+
+- `taslak/web-akisi.html`: web formunun aynı 3 adımı (telefon ekranları + bilgisayar görünümü) ve gelen e-posta.
+- `taslak/uygulama-akisi.html`: "Üye olun" bağlantısı ve 6. ekran "Finansmanlarım (yalnız üyeler)" eklendi.
+- `linkler.html`: tüm taslak, önizleme ve yedek bağlantıları tek sayfada (açık/koyu tema).
+- Web formu: adım değişince odak başlığa geçer; masaüstü paneli kendi aç/kapa koduyla yana gizlenir (sitenin kodu geniş panelde çalışmıyordu); e-postada "Temsilcimin yerini gör" dili.
+- Uygulama dosyasına dokunulmadı.

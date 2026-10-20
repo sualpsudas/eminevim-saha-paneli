@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Tasarruf Yanımda · Web Akışı Taslağı</title>
+<style>
+  :root{
+    --yesil:#00724c; --yesil-acik:#e8f2ed; --turuncu:#ea803f; --lacivert:#1e3856;
+    --yazi:#1f2a26; --soluk:#6b7672; --cizgi:#e3e8e6; --zemin:#f3f5f4; --kart:#fff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--zemin);color:var(--yazi);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+  header.sayfa{max-width:1500px;margin:0 auto;padding:28px 16px 8px}
+  header.sayfa h1{margin:0 0 6px;font-size:22px}
+  header.sayfa p{margin:0;color:var(--soluk);font-size:14px;line-height:1.5;max-width:640px}
+  .akis{max-width:1500px;margin:0 auto;padding:16px 16px 40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:28px 22px}
+  figure{margin:0;display:flex;flex-direction:column;align-items:center}
+  figcaption{margin-top:12px;text-align:center;font-size:13px;color:var(--soluk);line-height:1.45;max-width:270px}
+  figcaption b{display:block;color:var(--yazi);font-size:14px;margin-bottom:2px}
+
+  /* Telefon çerçevesi */
+  .tel{width:270px;height:560px;background:var(--kart);border-radius:34px;border:8px solid #15201c;position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .tel::before{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:76px;height:20px;background:#15201c;border-radius:12px;z-index:5}
+  .durum{height:34px;flex:0 0 auto}
+  .ekran{flex:1;display:flex;flex-direction:column;padding:6px 18px 18px;font-size:13px}
+  .ust{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .marka{font-weight:700;font-size:12px;color:var(--yesil);letter-spacing:.2px}
+  .noktalar{display:flex;gap:5px}
+  .noktalar i{width:18px;height:4px;border-radius:2px;background:var(--cizgi)}
+  .noktalar i.on{background:var(--yesil)}
+  h2{font-size:21px;line-height:1.2;margin:4px 0 6px}
+  .alt{color:var(--soluk);margin:0 0 18px;line-height:1.4}
+  .giris{border:1.5px solid var(--cizgi);border-radius:12px;padding:11px 12px;color:#9aa4a0;margin-bottom:9px;background:#fff}
+  .giris.dolu{color:var(--yazi)}
+  .etiket{font-size:11.5px;font-weight:700;color:var(--soluk);margin:12px 0 7px;text-transform:uppercase;letter-spacing:.4px}
+  .cipler{display:flex;flex-wrap:wrap;gap:6px}
+  .cip{border:1.5px solid var(--cizgi);border-radius:20px;padding:6px 11px;font-size:12px;font-weight:600;text-align:center;line-height:1.15;background:#fff}
+  .cip small{display:block;font-size:9.5px;font-weight:500;color:var(--soluk)}
+  .cip.sec{background:var(--yesil);border-color:var(--yesil);color:#fff}
+  .cip.sec small{color:#d6ebe2}
+  .cip.yogun small{color:var(--turuncu)}
+  .bosluk{flex:1}
+  .buton{background:var(--turuncu);color:#fff;text-align:center;font-weight:700;border-radius:14px;padding:13px;font-size:14px}
+  .buton.yesil{background:var(--yesil)}
+  .buton.cizgili{background:#fff;color:var(--yesil);border:1.5px solid var(--yesil)}
+  .bag{text-align:center;color:var(--soluk);font-size:12px;margin-top:10px;text-decoration:underline}
+  .guven{display:flex;gap:6px;justify-content:center;color:var(--soluk);font-size:11px;margin-top:10px}
+  .ikonlar{display:flex;justify-content:space-between;margin:2px 0 18px}
+  .ikonlar div{flex:1;text-align:center;font-size:11px;color:var(--soluk);line-height:1.3}
+  .ikonlar span{display:flex;width:40px;height:40px;margin:0 auto 6px;border-radius:50%;background:var(--yesil-acik);align-items:center;justify-content:center}
+  .tik{width:52px;height:52px;border-radius:50%;background:var(--yesil);display:flex;align-items:center;justify-content:center;margin:8px 0 12px}
+  .ozet{background:var(--yesil-acik);border-radius:12px;padding:10px 12px;font-weight:600;line-height:1.5;margin-bottom:16px}
+  .adim{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;line-height:1.35}
+  .adim .s{flex:0 0 22px;height:22px;border-radius:50%;background:var(--yesil);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .adim small{display:block;color:var(--soluk)}
+  .kart{border:1.5px solid var(--cizgi);border-radius:16px;padding:14px;background:#fff}
+  .kisi{display:flex;gap:12px;align-items:center}
+  .av{width:54px;height:54px;border-radius:50%;background:var(--lacivert);color:#fff;font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .kisi b{display:block;font-size:15px}
+  .kisi small{display:block;color:var(--soluk);font-size:11.5px}
+  .onay{display:inline-block;margin-top:5px;background:var(--yesil-acik);color:var(--yesil);font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 8px}
+  .not{background:#f7f8f8;border-radius:12px;padding:10px 12px;color:var(--soluk);font-size:12px;line-height:1.45;margin-top:12px}
+  .harita{height:190px;margin:-6px -18px 0;background:#dfe9e4;position:relative}
+  .harita svg{width:100%;height:100%;display:block}
+  .sure{position:absolute;right:12px;bottom:-18px;background:#fff;border-radius:14px;padding:7px 12px;font-weight:800;font-size:17px;box-shadow:0 3px 10px rgba(0,0,0,.15);text-align:center}
+  .sure small{display:block;font-size:9.5px;font-weight:500;color:var(--soluk)}
+  .durumlar{display:flex;justify-content:space-between;margin:14px 0;position:relative}
+  .durumlar::before{content:"";position:absolute;left:10px;right:10px;top:7px;height:2px;background:var(--cizgi)}
+  .durumlar div{position:relative;text-align:center;font-size:10px;color:var(--soluk);flex:1}
+  .durumlar i{display:block;width:16px;height:16px;border-radius:50%;background:var(--cizgi);margin:0 auto 5px;border:3px solid #fff}
+  .durumlar .ok i{background:var(--yesil)}
+  .durumlar .simdi i{background:var(--turuncu)}
+  .durumlar .simdi{color:var(--yazi);font-weight:700}
+  .iki{display:flex;gap:8px;margin-top:12px}
+  .iki div{flex:1;text-align:center;border-radius:12px;padding:10px;font-weight:700;font-size:12.5px}
+  .bekle{display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;flex:1}
+  .halka{width:96px;height:96px;border-radius:50%;border:3px solid var(--yesil-acik);border-top-color:var(--yesil);margin-bottom:18px}
+  section.notlar{max-width:1500px;margin:0 auto;padding:0 16px 48px}
+  section.notlar h3{font-size:16px;margin:0 0 8px}
+  section.notlar ul{margin:0;padding-left:18px;color:var(--soluk);font-size:14px;line-height:1.6}
+</style>
+<style>
+  /* Web akışına özel */
+  .site{position:absolute;inset:0;background:#e9eeec;display:flex;flex-direction:column}
+  .site .bar{height:30px;background:#fff;border-bottom:1px solid var(--cizgi);display:flex;align-items:center;padding:0 12px;gap:6px;font-size:10px;color:var(--soluk);margin-top:34px}
+  .site .bar b{color:var(--yesil);font-size:12px;letter-spacing:.5px}
+  .site .hero{margin:10px;height:150px;border-radius:14px;background:linear-gradient(135deg,#1f5d40,#2f8a5e);opacity:.85}
+  .site .satir{margin:0 10px 8px;height:44px;border-radius:12px;background:#fff;opacity:.8}
+  .site .hizli{position:absolute;left:14px;right:14px;bottom:16px;border:2px solid var(--yesil);background:#fff;color:var(--yesil);text-align:center;font-weight:800;border-radius:16px;padding:12px;font-size:15px;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+  .site .hizli small{display:block;font-weight:600;font-size:10px;color:var(--soluk)}
+  .modal{position:absolute;left:0;right:0;top:34px;bottom:0;background:rgba(20,30,26,.45);display:flex;flex-direction:column}
+  .modal .kutu{background:#fff;margin:8px 8px auto;border-radius:16px;padding:12px 14px 14px;display:flex;flex-direction:column;font-size:12px;max-height:calc(100% - 16px)}
+  .modal .kbas{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:13px;color:var(--yazi);border-bottom:1px solid var(--cizgi);padding-bottom:8px;margin-bottom:10px}
+  .modal .kbas span{color:var(--soluk);font-weight:400;font-size:16px}
+  .modal h2{font-size:17px;margin:2px 0 4px}
+  .modal .alt{margin-bottom:10px;font-size:11.5px}
+  .modal .giris{padding:9px 11px;margin-bottom:7px;font-size:11.5px}
+  .modal .buton{padding:11px;font-size:13px;margin-top:6px}
+  .modal .cip{padding:5px 9px;font-size:11px}
+  .modal .etiket{margin:9px 0 6px}
+  .modal .ikonlar span{width:32px;height:32px}
+  .modal .ikonlar div{font-size:10px}
+  .modal .ozet{padding:8px 10px;margin-bottom:9px;font-size:11.5px}
+  .rep{border:1.5px solid var(--cizgi);border-radius:12px;padding:9px 10px;margin-bottom:9px}
+  .rep .ust-yazi{font-size:9.5px;font-weight:800;color:var(--yesil);letter-spacing:.4px;margin-bottom:6px}
+  .rep .av{width:38px;height:38px;font-size:13px}
+  .uyg{border-top:1px solid var(--cizgi);padding-top:9px;margin-top:8px;display:flex;gap:8px;align-items:center;font-size:10.5px;color:var(--soluk);line-height:1.35}
+  .uyg b{flex:0 0 auto;border:1.5px solid var(--yesil);color:var(--yesil);border-radius:20px;padding:5px 9px;font-size:10.5px;white-space:nowrap}
+  .tamam{color:var(--yesil);font-weight:700;font-size:11px;margin:2px 0 6px}
+  .eposta-bas{padding:4px 0 10px;border-bottom:1px solid var(--cizgi);margin-bottom:10px}
+  .eposta-bas .konu{font-weight:800;font-size:15px;line-height:1.25;margin-bottom:8px}
+  .eposta-bas .kim{display:flex;gap:8px;align-items:center;font-size:11px;color:var(--soluk)}
+  .eposta-bas .kim i{width:28px;height:28px;border-radius:50%;background:var(--yesil);color:#fff;font-style:normal;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .eposta-bas .kim b{color:var(--yazi)}
+  /* Masaüstü çerçeve */
+  figure.genis{grid-column:1/-1}
+  .pc{width:100%;max-width:860px;border-radius:14px;border:8px solid #15201c;border-top-width:26px;background:#e9eeec;position:relative;aspect-ratio:16/9;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .pc > .ust{position:absolute;top:0;left:0;right:0;height:46px;background:#fff;display:flex;align-items:center;padding:0 18px;gap:14px;margin:0}
+  .pc > .ust b{color:var(--yesil);font-size:18px;letter-spacing:.6px}
+  .pc > .ust i{height:22px;width:90px;border-radius:12px;background:#eef2f0}
+  .pc .hero{position:absolute;left:0;right:0;top:46px;bottom:70px;background:linear-gradient(135deg,#1f5d40,#2f8a5e);opacity:.85}
+  .pc .kpi{position:absolute;bottom:12px;height:46px;border-radius:12px;background:#fff;opacity:.85}
+  .pc .panel{position:absolute;right:0;top:10%;width:31%;bottom:6%;background:#fff;border-radius:16px 0 0 16px;border:2px solid var(--yesil);border-right:0;box-shadow:-6px 6px 24px rgba(0,0,0,.25);padding:14px 16px;font-size:11px;display:flex;flex-direction:column}
+  .pc .panel h2{font-size:16px;margin:2px 0 3px}
+  .pc .panel .alt{font-size:10.5px;margin-bottom:8px}
+  .pc .panel .giris{padding:7px 10px;font-size:10.5px;margin-bottom:6px;border-radius:10px}
+  .pc .panel .buton{padding:9px;font-size:12px;border-radius:12px}
+  .pc .panel .ikonlar{margin-bottom:10px}
+  .pc .panel .ikonlar span{width:28px;height:28px}
+  .pc .panel .ikonlar div{font-size:9px}
+  @media (max-width:600px){ .pc .panel{width:46%;padding:8px 9px} .pc .panel .ikonlar,.pc .panel .alt{display:none} .pc .panel h2{font-size:12px} }
+</style>
+</head>
+<body>
+<header class="sayfa">
+  <h1>Tasarruf Yanımda: web formu akışı taslağı</h1>
+  <p>Web sitesindeki Hızlı Başvuru formu, uygulamayla aynı 3 adımı ve aynı sözleri kullanır. Müşteri bir şey indirmez. Temsilci bilgileri e-postayla gelir, finansman seçenekleri için uygulamaya geçebilir.</p>
+</header>
+
+<main class="akis">
+
+  <figure>
+    <div class="tel"><div class="durum"></div>
+      <div class="site"><div class="bar"><b>EMİNEVİM</b><span style="flex:1"></span>☰</div><div class="hero"></div><div class="satir"></div><div class="satir"></div><div class="satir" style="height:70px"></div>
+        <div class="hizli">Hızlı Başvuru<small>Temsilcimiz size gelsin</small></div></div>
+    </div>
+    <figcaption><b>0 · Sitede giriş</b>Telefonda alttaki "Hızlı Başvuru" düğmesi formu açar. Sitenin geri kalanı değişmez.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="tel"><div class="durum"></div><div class="site"><div class="bar"><b>EMİNEVİM</b></div><div class="hero"></div></div>
+      <div class="modal"><div class="kutu">
+        <div class="kbas">Hızlı Başvuru <span>×</span></div>
+        <div class="ust" style="margin-bottom:8px"><span class="marka">Tasarruf Yanımda</span><span class="noktalar"><i class="on"></i><i></i><i></i></span></div>
+        <h2>Temsilcimiz size gelsin</h2>
+        <p class="alt">Size uygun yer ve saatte. Ücretsiz.</p>
+        <div class="ikonlar">
+          <div><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>Sizi ararız</div>
+          <div><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M10 22l2-7 3 3v4M9 12l3-3 3 3 2 1M12 9v6"/></svg></span>Yanınıza geliriz</div>
+          <div><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span>Yolda olduğunu görürsünüz</div>
+        </div>
+        <div class="giris dolu">Ali Demir</div>
+        <div class="giris">+90 · 5XX XXX XX XX</div>
+        <div class="buton">Devam</div>
+        <div class="bag">Telefonla görüşmeyi tercih ederim</div>
+      </div></div>
+    </div>
+    <figcaption><b>1 · Tanışma</b>Uygulamadaki ilk ekranın aynısı: üç simge, ad ve telefon. Üyelik yok.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="tel"><div class="durum"></div><div class="site"><div class="bar"><b>EMİNEVİM</b></div><div class="hero"></div></div>
+      <div class="modal"><div class="kutu">
+        <div class="kbas">Hızlı Başvuru <span>×</span></div>
+        <div class="ust" style="margin-bottom:8px"><span class="marka">‹ Tasarruf Yanımda</span><span class="noktalar"><i class="on"></i><i class="on"></i><i></i></span></div>
+        <h2>Ne zaman, nerede?</h2>
+        <div class="etiket">Gün</div>
+        <div class="cipler"><div class="cip sec">Per 22</div><div class="cip">Cum 23</div><div class="cip">Pzt 26</div><div class="cip">Sal 27</div><div class="cip yogun">Cmt 24<small>yoğun</small></div></div>
+        <div class="etiket">Saat</div>
+        <div class="cipler"><div class="cip sec">Öğle arası<small>12:00–14:00</small></div><div class="cip">Akşam<small>18:00–21:00</small></div></div>
+        <div class="etiket">Yer</div>
+        <div class="cipler" style="margin-bottom:7px"><div class="cip sec">İş yerim</div><div class="cip">Evim</div></div>
+        <div class="giris dolu">Kadıköy</div>
+        <div style="font-size:10px;color:var(--soluk)">☑ Aydınlatma Yazısı'nı okudum, kabul ediyorum.</div>
+        <div class="buton">Temsilci gelsin</div>
+      </div></div>
+    </div>
+    <figcaption><b>2 · Ne zaman, nerede?</b>Dokunarak seçim. Hafta içi önce gelir, cumartesi yalnızca "yoğun" etiketi taşır. Onay kutusu tek satır.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="tel"><div class="durum"></div><div class="site"><div class="bar"><b>EMİNEVİM</b></div><div class="hero"></div></div>
+      <div class="modal"><div class="kutu">
+        <div class="kbas">Hızlı Başvuru <span>×</span></div>
+        <div class="tik" style="width:38px;height:38px;margin:0 0 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></div>
+        <h2>Talebiniz alındı</h2>
+        <div class="ozet">Perşembe 22 Ekim · Öğle arası<br>İş yeri · Kadıköy</div>
+        <div class="rep"><div class="ust-yazi">TEMSİLCİNİZ BELLİ OLDU</div><div class="kisi"><div class="av">AY</div><div><b style="font-size:13px">Ayşe Yılmaz</b><small>Kadıköy Şubesi</small><span class="onay">✓ Onaylı · Sicil 48213</span></div></div></div>
+        <div class="tamam">✓ Bilgiler ali@ornek.com adresine gönderilecek.</div>
+        <div class="guven" style="margin-top:2px">Görüşmede ödeme alınmaz.</div>
+        <div class="uyg"><span>Finansman tercihlerinizi uygulamamızdan değerlendirebilirsiniz.</span><b>Uygulamayı açın</b></div>
+      </div></div>
+    </div>
+    <figcaption><b>3 · Talebiniz alındı</b>Özet, temsilci kartı ve isteğe bağlı e-posta. En altta finansman seçenekleri için uygulamaya geçiş.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="tel"><div class="durum"></div><div class="ekran">
+      <div class="eposta-bas"><div class="konu">Randevunuz onaylandı: temsilciniz Ayşe Yılmaz</div><div class="kim"><i>T</i><span><b>Tasarruf Yanımda</b><br>Kime: ali@ornek.com</span></div></div>
+      <p style="margin:0 0 8px;font-size:12px">Merhaba <b>Ali</b>, görüşmeden önce kim geleceğini bilmeniz için temsilcinizin bilgileri:</p>
+      <div class="kart" style="padding:10px"><div class="kisi"><div class="av" style="width:42px;height:42px;font-size:14px">AY</div><div><b style="font-size:13.5px">Ayşe Yılmaz</b><small>Kadıköy Şubesi</small><span class="onay">✓ Onaylı · Sicil 48213</span></div></div></div>
+      <div class="ozet" style="margin:10px 0;font-weight:500;font-size:12px">Perşembe 22 Ekim · 12:30<br>İş yeriniz · Kadıköy</div>
+      <div class="buton" style="font-size:13px;padding:11px">Temsilcimin yerini gör</div>
+      <div class="not" style="font-size:11px">Link görüşme günü, temsilciniz yola çıkınca açılır. Görüşmede ödeme alınmaz.</div>
+    </div></div>
+    <figcaption><b>4 · E-posta</b>Temsilci kartı ve randevu bilgisi gelen kutusunda. Görüşme günü linkten temsilcinin nerede olduğu görülür.</figcaption>
+  </figure>
+
+  <figure class="genis">
+    <div class="pc">
+      <div class="ust"><b>EMİNEVİM</b><i></i><i></i><i></i></div>
+      <div class="hero"></div>
+      <div class="kpi" style="left:3%;width:22%"></div><div class="kpi" style="left:27%;width:22%"></div><div class="kpi" style="left:51%;width:22%"></div>
+      <div class="panel">
+        <div class="ust" style="position:static;height:auto;padding:0;margin-bottom:8px;background:none"><span class="marka">Tasarruf Yanımda</span><span class="noktalar"><i class="on"></i><i></i><i></i></span></div>
+        <h2>Temsilcimiz size gelsin</h2>
+        <p class="alt">Size uygun yer ve saatte. Ücretsiz.</p>
+        <div class="ikonlar"><div><span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>Sizi ararız</div><div><span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M10 22l2-7 3 3v4M9 12l3-3 3 3 2 1M12 9v6"/></svg></span>Yanınıza geliriz</div><div><span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span>Yolda görürsünüz</div></div>
+        <div class="giris dolu">Ali Demir</div>
+        <div class="giris">+90 · Telefon</div>
+        <div class="bosluk"></div>
+        <div class="buton">Devam</div>
+      </div>
+    </div>
+    <figcaption style="max-width:620px"><b>Bilgisayarda</b>Form, sitenin sağındaki mevcut Hızlı Başvuru panelinin yerini alır. Aynı 3 adım panelin içinde ilerler, ok düğmesiyle yana gizlenebilir.</figcaption>
+  </figure>
+
+</main>
+
+<section class="notlar">
+  <h3>Bu taslağın kuralları</h3>
+  <ul>
+    <li>Web ve uygulama aynı ekranları, aynı sözleri ve aynı sırayı kullanır.</li>
+    <li>Sitede yalnızca Hızlı Başvuru formu değişir. Menüler, kampanyalar ve diğer bölümler olduğu gibi kalır.</li>
+    <li>Müşteri hiçbir şey indirmez ve üye olmaz. E-posta isteğe bağlıdır.</li>
+    <li>Finansman ve bütçe hesabı webde yoktur. İsteyen, son ekrandaki linkle uygulamaya geçer ve orada üye olur.</li>
+  </ul>
+</section>
+</body>
+</html>
