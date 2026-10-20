@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Tasarruf Yanımda · Akış Taslağı</title>
+<style>
+  :root{
+    --yesil:#00724c; --yesil-acik:#e8f2ed; --turuncu:#ea803f; --lacivert:#1e3856;
+    --yazi:#1f2a26; --soluk:#6b7672; --cizgi:#e3e8e6; --zemin:#f3f5f4; --kart:#fff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--zemin);color:var(--yazi);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+  header.sayfa{max-width:1500px;margin:0 auto;padding:28px 16px 8px}
+  header.sayfa h1{margin:0 0 6px;font-size:22px}
+  header.sayfa p{margin:0;color:var(--soluk);font-size:14px;line-height:1.5;max-width:640px}
+  .akis{max-width:1500px;margin:0 auto;padding:16px 16px 40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:28px 22px}
+  figure{margin:0;display:flex;flex-direction:column;align-items:center}
+  figcaption{margin-top:12px;text-align:center;font-size:13px;color:var(--soluk);line-height:1.45;max-width:270px}
+  figcaption b{display:block;color:var(--yazi);font-size:14px;margin-bottom:2px}
+
+  /* Telefon çerçevesi */
+  .tel{width:270px;height:560px;background:var(--kart);border-radius:34px;border:8px solid #15201c;position:relative;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .tel::before{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:76px;height:20px;background:#15201c;border-radius:12px;z-index:5}
+  .durum{height:34px;flex:0 0 auto}
+  .ekran{flex:1;display:flex;flex-direction:column;padding:6px 18px 18px;font-size:13px}
+  .ust{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .marka{font-weight:700;font-size:12px;color:var(--yesil);letter-spacing:.2px}
+  .noktalar{display:flex;gap:5px}
+  .noktalar i{width:18px;height:4px;border-radius:2px;background:var(--cizgi)}
+  .noktalar i.on{background:var(--yesil)}
+  h2{font-size:21px;line-height:1.2;margin:4px 0 6px}
+  .alt{color:var(--soluk);margin:0 0 18px;line-height:1.4}
+  .giris{border:1.5px solid var(--cizgi);border-radius:12px;padding:11px 12px;color:#9aa4a0;margin-bottom:9px;background:#fff}
+  .giris.dolu{color:var(--yazi)}
+  .etiket{font-size:11.5px;font-weight:700;color:var(--soluk);margin:12px 0 7px;text-transform:uppercase;letter-spacing:.4px}
+  .cipler{display:flex;flex-wrap:wrap;gap:6px}
+  .cip{border:1.5px solid var(--cizgi);border-radius:20px;padding:6px 11px;font-size:12px;font-weight:600;text-align:center;line-height:1.15;background:#fff}
+  .cip small{display:block;font-size:9.5px;font-weight:500;color:var(--soluk)}
+  .cip.sec{background:var(--yesil);border-color:var(--yesil);color:#fff}
+  .cip.sec small{color:#d6ebe2}
+  .cip.yogun small{color:var(--turuncu)}
+  .bosluk{flex:1}
+  .buton{background:var(--turuncu);color:#fff;text-align:center;font-weight:700;border-radius:14px;padding:13px;font-size:14px}
+  .buton.yesil{background:var(--yesil)}
+  .buton.cizgili{background:#fff;color:var(--yesil);border:1.5px solid var(--yesil)}
+  .bag{text-align:center;color:var(--soluk);font-size:12px;margin-top:10px;text-decoration:underline}
+  .guven{display:flex;gap:6px;justify-content:center;color:var(--soluk);font-size:11px;margin-top:10px}
+  .ikonlar{display:flex;justify-content:space-between;margin:2px 0 18px}
+  .ikonlar div{flex:1;text-align:center;font-size:11px;color:var(--soluk);line-height:1.3}
+  .ikonlar span{display:flex;width:40px;height:40px;margin:0 auto 6px;border-radius:50%;background:var(--yesil-acik);align-items:center;justify-content:center}
+  .tik{width:52px;height:52px;border-radius:50%;background:var(--yesil);display:flex;align-items:center;justify-content:center;margin:8px 0 12px}
+  .ozet{background:var(--yesil-acik);border-radius:12px;padding:10px 12px;font-weight:600;line-height:1.5;margin-bottom:16px}
+  .adim{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px;line-height:1.35}
+  .adim .s{flex:0 0 22px;height:22px;border-radius:50%;background:var(--yesil);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .adim small{display:block;color:var(--soluk)}
+  .kart{border:1.5px solid var(--cizgi);border-radius:16px;padding:14px;background:#fff}
+  .kisi{display:flex;gap:12px;align-items:center}
+  .av{width:54px;height:54px;border-radius:50%;background:var(--lacivert);color:#fff;font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .kisi b{display:block;font-size:15px}
+  .kisi small{display:block;color:var(--soluk);font-size:11.5px}
+  .onay{display:inline-block;margin-top:5px;background:var(--yesil-acik);color:var(--yesil);font-size:10.5px;font-weight:700;border-radius:20px;padding:2px 8px}
+  .not{background:#f7f8f8;border-radius:12px;padding:10px 12px;color:var(--soluk);font-size:12px;line-height:1.45;margin-top:12px}
+  .harita{height:190px;margin:-6px -18px 0;background:#dfe9e4;position:relative}
+  .harita svg{width:100%;height:100%;display:block}
+  .sure{position:absolute;right:12px;bottom:-18px;background:#fff;border-radius:14px;padding:7px 12px;font-weight:800;font-size:17px;box-shadow:0 3px 10px rgba(0,0,0,.15);text-align:center}
+  .sure small{display:block;font-size:9.5px;font-weight:500;color:var(--soluk)}
+  .durumlar{display:flex;justify-content:space-between;margin:14px 0;position:relative}
+  .durumlar::before{content:"";position:absolute;left:10px;right:10px;top:7px;height:2px;background:var(--cizgi)}
+  .durumlar div{position:relative;text-align:center;font-size:10px;color:var(--soluk);flex:1}
+  .durumlar i{display:block;width:16px;height:16px;border-radius:50%;background:var(--cizgi);margin:0 auto 5px;border:3px solid #fff}
+  .durumlar .ok i{background:var(--yesil)}
+  .durumlar .simdi i{background:var(--turuncu)}
+  .durumlar .simdi{color:var(--yazi);font-weight:700}
+  .iki{display:flex;gap:8px;margin-top:12px}
+  .iki div{flex:1;text-align:center;border-radius:12px;padding:10px;font-weight:700;font-size:12.5px}
+  .bekle{display:flex;flex-direction:column;align-items:center;text-align:center;justify-content:center;flex:1}
+  .halka{width:96px;height:96px;border-radius:50%;border:3px solid var(--yesil-acik);border-top-color:var(--yesil);margin-bottom:18px}
+  section.notlar{max-width:1500px;margin:0 auto;padding:0 16px 48px}
+  section.notlar h3{font-size:16px;margin:0 0 8px}
+  section.notlar ul{margin:0;padding-left:18px;color:var(--soluk);font-size:14px;line-height:1.6}
+</style>
+</head>
+<body>
+<header class="sayfa">
+  <h1>Tasarruf Yanımda: müşteri akışı taslağı</h1>
+  <p>Uygulama ve web formu aynı ekranları kullanır. Müşteri 3 adımda talebini bırakır. Sonrasında temsilcisini tanır ve görüşme günü nerede olduğunu görür.</p>
+</header>
+
+<main class="akis">
+
+  <!-- 1 -->
+  <figure>
+    <div class="tel"><div class="durum"></div><div class="ekran">
+      <div class="ust"><span class="marka">Tasarruf Yanımda</span><span class="noktalar"><i class="on"></i><i></i><i></i></span></div>
+      <h2>Temsilcimiz size gelsin</h2>
+      <p class="alt">Size uygun yer ve saatte. Ücretsiz.</p>
+      <div class="ikonlar">
+        <div><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>Sizi ararız</div>
+        <div><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M10 22l2-7 3 3v4M9 12l3-3 3 3 2 1M12 9v6"/></svg></span>Yanınıza geliriz</div>
+        <div><span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span>Yolda olduğunu görürsünüz</div>
+      </div>
+      <div class="giris dolu">Ali Demir</div>
+      <div class="giris">Telefon numaranız</div>
+      <div class="bosluk"></div>
+      <div class="buton">Devam</div>
+      <div class="bag">Telefonla görüşmeyi tercih ederim</div>
+    </div></div>
+    <figcaption><b>1 · Tanışma</b>Ne olacağı üç simgeyle anlatılır. Yalnızca ad ve telefon sorulur. Üyelik ya da şifre yok.</figcaption>
+  </figure>
+
+  <!-- 2 -->
+  <figure>
+    <div class="tel"><div class="durum"></div><div class="ekran">
+      <div class="ust"><span class="marka">Tasarruf Yanımda</span><span class="noktalar"><i class="on"></i><i class="on"></i><i></i></span></div>
+      <h2>Ne zaman, nerede?</h2>
+      <div class="etiket">Gün</div>
+      <div class="cipler">
+        <div class="cip">Çar<small>21 Eki</small></div>
+        <div class="cip sec">Per<small>22 Eki</small></div>
+        <div class="cip">Cum<small>23 Eki</small></div>
+        <div class="cip">Pzt<small>26 Eki</small></div>
+        <div class="cip yogun">Cmt<small>yoğun</small></div>
+      </div>
+      <div class="etiket">Saat</div>
+      <div class="cipler">
+        <div class="cip sec">Öğle arası<small>12:00–14:00</small></div>
+        <div class="cip">Akşam<small>18:00–21:00</small></div>
+      </div>
+      <div class="etiket">Yer</div>
+      <div class="cipler" style="margin-bottom:9px">
+        <div class="cip sec">İş yerim</div>
+        <div class="cip">Evim</div>
+      </div>
+      <div class="giris dolu">Kadıköy, İstanbul</div>
+      <div class="bosluk"></div>
+      <div class="buton">Temsilci gelsin</div>
+    </div></div>
+    <figcaption><b>2 · Ne zaman, nerede?</b>Her şey dokunarak seçilir. Önce hafta içi günler gelir, cumartesinin yanında yalnızca "yoğun" yazar. Konum izni istenmez, ilçe yeterli.</figcaption>
+  </figure>
+
+  <!-- 3 -->
+  <figure>
+    <div class="tel"><div class="durum"></div><div class="ekran">
+      <div class="ust"><span class="marka">Tasarruf Yanımda</span><span class="noktalar"><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+      <div class="tik"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></div>
+      <h2>Talebiniz alındı</h2>
+      <div class="ozet">Perşembe 22 Ekim · Öğle arası<br>İş yeri · Kadıköy</div>
+      <div class="adim"><span class="s">1</span><span>Temsilciniz sizi arar<small>15 dakika içinde</small></span></div>
+      <div class="adim"><span class="s">2</span><span>Saatte yanınıza gelir</span></div>
+      <div class="adim"><span class="s">3</span><span>Yolda olduğunu görürsünüz</span></div>
+      <div class="bosluk"></div>
+      <div class="giris">E-posta (isteğe bağlı)</div>
+      <div style="font-size:11px;color:var(--soluk);margin:-3px 0 10px">Temsilcinizin bilgileri buraya gelsin.</div>
+      <div class="guven">Görüşmede ödeme alınmaz.</div>
+    </div></div>
+    <figcaption><b>3 · Tamam</b>Müşteri seçimini ve sonrasında olacakları görür. E-posta yalnızca burada, isteğe bağlı olarak sorulur.</figcaption>
+  </figure>
+
+  <!-- 4 -->
+  <figure>
+    <div class="tel"><div class="durum"></div><div class="ekran">
+      <div class="ust"><span class="marka">Tasarruf Yanımda</span></div>
+      <h2>Temsilciniz belli oldu</h2>
+      <p class="alt">Sizi birazdan arayacak.</p>
+      <div class="kart">
+        <div class="kisi">
+          <div class="av">AY</div>
+          <div><b>Ayşe Yılmaz</b><small>Kadıköy Şubesi</small><span class="onay">✓ Onaylı temsilci · Sicil 48213</span></div>
+        </div>
+      </div>
+      <div class="ozet" style="margin-top:12px;font-weight:500">Perşembe 22 Ekim · 12:30<br>İş yeriniz · Kadıköy</div>
+      <div class="bosluk"></div>
+      <div class="not">Ayşe Hanım kimlik kartı taşır. Kartındaki sicil numarası buradakiyle aynıdır.</div>
+      <div class="iki"><div style="background:var(--yesil);color:#fff">Ara</div><div style="background:var(--yesil-acik);color:var(--yesil)">Saati değiştir</div></div>
+    </div></div>
+    <figcaption><b>4 · Temsilcinizle tanışın</b>Kapıya gelecek kişi önceden tanınır: adı, fotoğrafı, şubesi ve sicil numarası. Aynı bilgiler e-postayla da gider.</figcaption>
+  </figure>
+
+  <!-- 5 -->
+  <figure>
+    <div class="tel"><div class="durum"></div><div class="ekran" style="padding-top:0">
+      <div class="harita">
+        <svg viewBox="0 0 270 190" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="270" height="190" fill="#dfe9e4"/>
+          <path d="M0 50H270M0 130H270M60 0V190M150 0V190M225 0V190" stroke="#fff" stroke-width="10"/>
+          <path d="M60 160V130H150V50H225" stroke="#00724c" stroke-width="4" fill="none" stroke-dasharray="7 5" stroke-linecap="round"/>
+          <circle cx="60" cy="160" r="11" fill="#1e3856"/><text x="60" y="164" font-size="10" fill="#fff" text-anchor="middle" font-weight="700" font-family="Arial">AY</text>
+          <circle cx="225" cy="50" r="8" fill="#ea803f" stroke="#fff" stroke-width="3"/>
+        </svg>
+        <div class="sure">12 dk<small>varış</small></div>
+      </div>
+      <h2 style="margin-top:26px">Ayşe Hanım yolda</h2>
+      <div class="durumlar">
+        <div class="ok"><i></i>Aradı</div>
+        <div class="simdi"><i></i>Yolda</div>
+        <div><i></i>Ulaştı</div>
+      </div>
+      <div class="kart" style="padding:10px 12px">
+        <div class="kisi"><div class="av" style="width:40px;height:40px;font-size:14px">AY</div><div><b style="font-size:13.5px">Ayşe Yılmaz</b><small>Sicil 48213</small></div></div>
+      </div>
+      <div class="bosluk"></div>
+      <div class="iki"><div style="background:var(--yesil);color:#fff">Ara</div><div style="background:var(--yesil-acik);color:var(--yesil)">Mesaj</div></div>
+    </div></div>
+    <figcaption><b>5 · Görüşme günü</b>Müşteri temsilcinin yolda olduğunu ve ne zaman varacağını görür. Takip edilen temsilcidir, müşterinin konumu istenmez.</figcaption>
+  </figure>
+
+</main>
+
+<section class="notlar">
+  <h3>Bu taslağın kuralları</h3>
+  <ul>
+    <li>Her ekranda tek soru grubu ve tek ana buton var.</li>
+    <li>Toplam 5 alan: ad, telefon, gün, saat ve yer. E-posta isteğe bağlı.</li>
+    <li>Üyelik, şifre, konum izni ve sohbet ilk temasta yok.</li>
+    <li>Güven cümleleri kısa: "Ücretsiz", "Sizi önce arar", "Ödeme alınmaz", "Sicil numarası aynıdır".</li>
+    <li>Web formu da aynı ekranları kullanır. 4. ve 5. ekranlar webde e-postadaki linkten açılır.</li>
+  </ul>
+</section>
+</body>
+</html>
