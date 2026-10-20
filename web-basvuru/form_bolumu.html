@@ -1,0 +1,369 @@
+<!-- TY_CSS -->
+<style>
+  /* Tasarruf Yanımda form önizlemesi — sitenin renk değişkenlerini kullanır */
+  .tk-desktopForm.ty-genis{width:340px;padding:30px 28px 26px 34px;top:9vh;max-height:86vh;overflow-y:auto}
+  .ty-form{font-family:inherit;color:var(--tkd_yaziRengi)}
+  .ty-form .ty-alt{font-size:9pt;margin:-6px 0 12px;line-height:1.35}
+  .ty-form .ty-etiket{font-size:9pt;font-weight:700;color:var(--tkd_yaziRengi);margin:12px 0 6px;display:block}
+  .ty-form .ty-tel{display:flex;gap:6px}
+  .ty-form .ty-tel span{background:var(--tkd_grihover);border-radius:var(--tkd_yuvarlak);font-size:9pt;font-weight:700;padding:6px 12px;white-space:nowrap}
+  .ty-form input.ty-giris{border-radius:var(--tkd_yuvarlak);border:0;background:var(--tkd_grihover);font-size:9pt;font-weight:700;padding:7px 15px;width:100%;color:var(--tkd_yaziRengi)}
+  .ty-form input.ty-giris:focus{outline:2px solid var(--tkd_yesil)}
+  .ty-secenekler{display:flex;flex-direction:column;gap:7px}
+  .ty-secenek{display:flex;align-items:center;gap:10px;border:1.5px solid var(--tkd_griBorder);border-radius:var(--tkd_yuvarlakIc);padding:9px 12px;cursor:pointer;background:#fff;text-align:left;width:100%;font:inherit;color:inherit;transition:.2s}
+  .ty-secenek i{font-size:17px;color:var(--tkd_yesil);flex:0 0 auto}
+  .ty-secenek b{display:block;font-size:10pt;color:#333}
+  .ty-secenek small{display:block;font-size:8pt;line-height:1.3}
+  .ty-secenek .ty-yeni{margin-left:auto;background:var(--tdk_turuncu);color:#fff;font-size:7pt;font-weight:700;border-radius:20px;padding:2px 7px;flex:0 0 auto}
+  .ty-secenek[aria-pressed="true"]{border-color:var(--tkd_yesil);background:var(--tkd_homeAcikYesilBack, #e9f0ed);box-shadow:0 0 0 1px var(--tkd_yesil)}
+  .ty-cipler{display:flex;flex-wrap:wrap;gap:6px}
+  .ty-cip{border:1.5px solid var(--tkd_griBorder);background:#fff;border-radius:20px;padding:5px 11px;font-size:8.5pt;font-weight:700;color:var(--tkd_yaziRengi);cursor:pointer;line-height:1.2;text-align:center}
+  .ty-cip small{display:block;font-weight:400;font-size:7.5pt}
+  .ty-cip[aria-pressed="true"]{background:var(--tkd_yesil);border-color:var(--tkd_yesil);color:#fff}
+  .ty-cip.ty-yogun small{color:var(--tdk_turuncu)}
+  .ty-cip.ty-yogun[aria-pressed="true"] small{color:#ffe1cf}
+  .ty-bolum{display:none}
+  .ty-bolum.acik{display:block;animation:tyAc .25s ease}
+  @keyframes tyAc{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+  .ty-ipucu{display:none;background:#fff4ec;border:1px solid #f6c9ab;border-radius:12px;padding:9px 11px;font-size:8.5pt;margin-top:9px;line-height:1.4;color:#7a4320}
+  .ty-ipucu.acik{display:block}
+  .ty-ipucu button{display:block;margin-top:6px;border:0;background:var(--tdk_turuncu);color:#fff;border-radius:20px;font-size:8pt;font-weight:700;padding:4px 12px;cursor:pointer}
+  .ty-konum{border:0;background:none;color:var(--tkd_yesil);font-size:8.5pt;font-weight:700;padding:6px 2px;cursor:pointer}
+  .ty-hata{display:none;color:#b3261e;font-size:8.5pt;margin:8px 0 0;font-weight:700}
+  .ty-hata.acik{display:block}
+  .ty-onaylar{margin-top:14px}
+  .ty-onaylar label{display:flex;gap:8px;font-size:7.5pt;line-height:1.35;margin-bottom:8px;align-items:flex-start}
+  .ty-onaylar input{margin-top:2px;accent-color:var(--tkd_yesil);flex:0 0 auto}
+  .ty-gonder{width:100%;border:0;border-radius:var(--tkd_yuvarlak);background:var(--tdk_turuncu);color:#fff;font-weight:700;font-size:10.5pt;letter-spacing:.6px;padding:10px 15px;margin-top:6px;cursor:pointer}
+  .ty-gonder:hover{background:var(--tdk_turuncuHover)}
+  /* Teşekkür / özet */
+  .ty-sonuc{display:none;text-align:left}
+  .ty-sonuc.acik{display:block;animation:tyAc .3s ease}
+  .ty-sonuc .ty-tik{width:44px;height:44px;border-radius:50%;background:var(--tkd_yesil);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:10px}
+  .ty-sonuc h3{font-size:14pt;font-weight:800;color:#333;margin:0 0 4px}
+  .ty-sonuc p{font-size:9pt;line-height:1.45;margin:0 0 10px}
+  .ty-ozet{background:var(--tkd_homeAcikYesilBack, #e9f0ed);border-radius:14px;padding:10px 12px;font-size:9pt;margin-bottom:12px}
+  .ty-ozet div{display:flex;justify-content:space-between;gap:10px;padding:3px 0}
+  .ty-ozet span{color:#888}
+  .ty-ozet b{color:#333;text-align:right}
+  .ty-adimlar{list-style:none;padding:0;margin:0 0 12px;counter-reset:a}
+  .ty-adimlar li{counter-increment:a;position:relative;padding:0 0 9px 30px;font-size:8.8pt;line-height:1.4}
+  .ty-adimlar li::before{content:counter(a);position:absolute;left:0;top:0;width:21px;height:21px;border-radius:50%;background:var(--tkd_yesil);color:#fff;font-size:8pt;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .ty-ikincil{width:100%;border:1.5px solid var(--tkd_yesil);background:#fff;color:var(--tkd_yesil);border-radius:var(--tkd_yuvarlak);font-weight:700;font-size:9.5pt;padding:8px;cursor:pointer;margin-bottom:7px}
+  .ty-bag{width:100%;border:0;background:none;color:#888;font-size:8.5pt;text-decoration:underline;cursor:pointer;padding:4px}
+  /* Takip linki önizlemesi */
+  .ty-takip-arka{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:3000;display:none;align-items:center;justify-content:center;padding:16px}
+  .ty-takip-arka.acik{display:flex}
+  .ty-kart{background:#fff;margin:12px;border-radius:18px;padding:14px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+  .ty-temsilci{display:flex;gap:12px;align-items:center}
+  .ty-avatar{width:54px;height:54px;border-radius:50%;background:var(--tkd_lacivert);color:#fff;font-weight:800;font-size:16pt;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .ty-temsilci b{font-size:12pt;display:block}
+  .ty-temsilci small{color:#777;display:block;font-size:8.5pt}
+  .ty-onayli{display:inline-flex;align-items:center;gap:4px;background:#e6f2ec;color:var(--tkd_yesil);font-size:8pt;font-weight:700;border-radius:20px;padding:2px 8px;margin-top:4px}
+  .ty-guven{font-size:8.5pt;color:#666;line-height:1.45}
+  .ty-guven div{display:flex;gap:8px;padding:3px 0}
+  .ty-guven i{color:var(--tkd_yesil)}
+  .ty-onizleme-not{text-align:center;font-size:8pt;color:#999;padding:0 12px 14px}
+  .ty-eposta{width:100%;max-width:440px;max-height:92vh;overflow-y:auto;background:#fff;border-radius:18px;box-shadow:0 20px 60px rgba(0,0,0,.4);color:#333;font-size:10pt}
+  .ty-eposta-bas{padding:16px 18px 12px;border-bottom:1px solid #eee;position:relative}
+  .ty-eposta-bas .konu{font-size:13pt;font-weight:800;padding-right:34px;line-height:1.25;margin-bottom:10px}
+  .ty-eposta-bas .ust-satir{display:flex;gap:10px;align-items:center;font-size:9pt}
+  .ty-eposta-bas .ust-satir small{color:#888}
+  .ty-eposta-bas .saat{margin-left:auto}
+  .ty-eposta-bas .logo-yuvarlak{width:34px;height:34px;border-radius:50%;background:var(--tkd_yesil);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .ty-eposta-bas .kapat{position:absolute;right:12px;top:12px;border:0;background:#f0f0f0;color:#555;width:30px;height:30px;border-radius:50%;font-size:16px;cursor:pointer}
+  .ty-eposta-govde{padding:16px 18px 8px;background:#f7f9f8}
+  .ty-eposta-govde .marka{padding-bottom:12px}
+  .ty-eposta-govde p{font-size:9.5pt;line-height:1.5;margin:0 0 10px}
+  .ty-eposta-govde p.kucuk{font-size:8.5pt;color:#777}
+  .ty-eposta-govde .ty-kart{margin:0 0 12px}
+  .ty-eposta-buton{display:block;text-align:center;background:var(--tdk_turuncu);color:#fff !important;text-decoration:none;font-weight:700;border-radius:22px;padding:11px;margin:4px 0 10px}
+  .ty-eposta .ty-guven{background:#fff;border-radius:14px;padding:10px 12px;margin-bottom:10px}
+  .ty-eposta .ty-onizleme-not{padding:10px 12px 14px}
+  body.modal-open .tk-mobilFormYeniCover{display:none !important}
+  body, body *:not(.bi){font-family:GOTHIC,"Century Gothic","Segoe UI",Arial,sans-serif}
+  /* Demo etiketi */
+  .ty-demo{position:fixed;left:50%;transform:translateX(-50%);top:8px;pointer-events:none;white-space:nowrap;z-index:2500;background:var(--tkd_lacivert);color:#fff;font-size:8.5pt;border-radius:20px;padding:6px 14px;box-shadow:0 4px 14px rgba(0,0,0,.25);max-width:calc(100vw - 24px)}
+  .ty-demo b{color:#d0e3af}
+  @media (prefers-reduced-motion:reduce){.ty-bolum.acik,.ty-sonuc.acik{animation:none}}
+</style>
+<!-- /TY_CSS -->
+
+<!-- TY_FORM -->
+<div class="ty-form" data-ty-form>
+  <form novalidate data-ty-adim="form">
+    <div class="pb-1"><img src="/Images/newWeb_2025/logo/eminevim_logo_yesil.svg" style="height:15px;width:auto" alt="Eminevim"></div>
+    <div class="baslik pb-3" style="font-size:14pt;font-weight:bolder;line-height:1.1">Formu Gönderin Sizi Bilgilendirelim</div>
+
+    <input class="ty-giris mb-2" name="ad" placeholder="Ad" autocomplete="given-name" aria-label="Ad">
+    <input class="ty-giris mb-2" name="soyad" placeholder="Soyad" autocomplete="family-name" aria-label="Soyad">
+    <div class="ty-tel"><span>+90</span><input class="ty-giris" name="telefon" placeholder="5XX XXX XX XX" inputmode="tel" autocomplete="tel-national" aria-label="Telefon"></div>
+
+    <span class="ty-etiket">Nasıl görüşelim?</span>
+    <div class="ty-secenekler" role="group" aria-label="Görüşme şekli">
+      <button type="button" class="ty-secenek" data-yol="gelsin" aria-pressed="false">
+        <i class="bi bi-person-walking"></i>
+        <span><b>Temsilcimiz size gelsin</b><small>İş yerinize ya da evinize, size uygun saatte</small></span>
+        <span class="ty-yeni">YENİ</span>
+      </button>
+      <button type="button" class="ty-secenek" data-yol="ara" aria-pressed="false">
+        <i class="bi bi-telephone"></i>
+        <span><b>Beni arayın</b><small>Size uygun saatte 444 36 46'dan arayalım</small></span>
+      </button>
+      <button type="button" class="ty-secenek" data-yol="sube" aria-pressed="false">
+        <i class="bi bi-building"></i>
+        <span><b>Şubeye geleceğim</b><small>Gün ve saat seçin, sizi bekleyelim</small></span>
+      </button>
+    </div>
+
+    <!-- Temsilci gelsin -->
+    <div class="ty-bolum" data-bolum="gelsin">
+      <span class="ty-etiket">Ne için görüşmek istersiniz?</span>
+      <div class="ty-cipler" data-grup="konu">
+        <button type="button" class="ty-cip" data-deger="Konut">Konut</button>
+        <button type="button" class="ty-cip" data-deger="Taşıt">Taşıt</button>
+        <button type="button" class="ty-cip" data-deger="İş yeri">İş yeri</button>
+        <button type="button" class="ty-cip" data-deger="Bilgi almak">Sadece bilgi</button>
+      </div>
+      <span class="ty-etiket">Nerede görüşelim?</span>
+      <div class="ty-cipler" data-grup="yer">
+        <button type="button" class="ty-cip" data-deger="İş yerimde"><i class="bi bi-briefcase"></i> İş yerimde</button>
+        <button type="button" class="ty-cip" data-deger="Evimde"><i class="bi bi-house"></i> Evimde</button>
+      </div>
+      <input class="ty-giris mt-2" name="ilce" placeholder="İl / ilçe (ör. Kadıköy, İstanbul)" aria-label="İl ve ilçe">
+      <button type="button" class="ty-konum" data-konum><i class="bi bi-crosshair"></i> Konumumu kullan</button>
+      <span class="ty-etiket">Hangi gün?</span>
+      <div class="ty-cipler" data-grup="gun" data-gunler="gelsin"></div>
+      <div class="ty-ipucu" data-ipucu>
+        <b>Cumartesi en yoğun günümüz.</b> Hafta içi öğle arasında iş yerinize gelirsek beklemeden, sakin bir görüşme yaparız.
+        <button type="button" data-haftaici>Hafta içi öğle arası seç</button>
+      </div>
+      <span class="ty-etiket">Hangi saat aralığı?</span>
+      <div class="ty-cipler" data-grup="saat">
+        <button type="button" class="ty-cip" data-deger="12:00–14:00">Öğle arası<small>12:00–14:00</small></button>
+        <button type="button" class="ty-cip" data-deger="18:00–21:00">Akşam<small>18:00–21:00</small></button>
+        <button type="button" class="ty-cip" data-deger="10:00–17:00">Gün içinde<small>10:00–17:00</small></button>
+      </div>
+      <span class="ty-etiket">E-posta adresiniz</span>
+      <input class="ty-giris" name="eposta" type="email" placeholder="ornek@mail.com" autocomplete="email" aria-label="E-posta adresiniz">
+      <p class="ty-alt" style="margin:6px 0 0">Temsilcinizin bilgileri ve takip linki bu adrese gönderilir.</p>
+    </div>
+
+    <!-- Beni arayın -->
+    <div class="ty-bolum" data-bolum="ara">
+      <span class="ty-etiket">Ne zaman arayalım?</span>
+      <div class="ty-cipler" data-grup="arama">
+        <button type="button" class="ty-cip" data-deger="En kısa sürede">Hemen</button>
+        <button type="button" class="ty-cip" data-deger="Öğle arası (12:00–14:00)">Öğle arası<small>12:00–14:00</small></button>
+        <button type="button" class="ty-cip" data-deger="Akşam (18:00–21:00)">Akşam<small>18:00–21:00</small></button>
+      </div>
+    </div>
+
+    <!-- Şubeye geleceğim -->
+    <div class="ty-bolum" data-bolum="sube">
+      <input class="ty-giris mt-2" name="sube" placeholder="Şube ya da ilçe (ör. Ümraniye)" aria-label="Şube">
+      <span class="ty-etiket">Hangi gün?</span>
+      <div class="ty-cipler" data-grup="subegun" data-gunler="sube"></div>
+      <span class="ty-etiket">Hangi saat?</span>
+      <div class="ty-cipler" data-grup="subesaat">
+        <button type="button" class="ty-cip" data-deger="10:00–12:00">10–12</button>
+        <button type="button" class="ty-cip" data-deger="12:00–14:00">12–14</button>
+        <button type="button" class="ty-cip" data-deger="14:00–17:00">14–17</button>
+        <button type="button" class="ty-cip" data-deger="17:00–19:00">17–19</button>
+      </div>
+    </div>
+
+    <div class="ty-onaylar">
+      <label><input type="checkbox" name="kampanya"> Kampanyalardan haberdar olmak için Emin Üstün Holding Şirketleri'nden ticari elektronik ileti almak istiyorum.</label>
+      <label><input type="checkbox" name="kanun" checked> <span><a href="/kvkk" target="_blank">Kişisel Verilerin Korunması Hakkında Aydınlatma Yazısı</a>nı okudum, kabul ediyorum.</span></label>
+    </div>
+    <p class="ty-hata" data-hata role="alert"></p>
+    <button type="submit" class="ty-gonder">Gönder</button>
+  </form>
+
+  <div class="ty-sonuc" data-ty-adim="sonuc" aria-live="polite"></div>
+</div>
+<!-- /TY_FORM -->
+
+<!-- TY_TAKIP -->
+<div class="ty-takip-arka" data-takip role="dialog" aria-modal="true" aria-label="E-posta önizlemesi">
+  <div class="ty-eposta">
+    <div class="ty-eposta-bas">
+      <button class="kapat" type="button" data-takip-kapat aria-label="Kapat">×</button>
+      <div class="konu">Randevunuz onaylandı: temsilciniz Ayşe Yılmaz</div>
+      <div class="ust-satir">
+        <div class="logo-yuvarlak">E</div>
+        <div><b>Eminevim · Tasarruf Yanımda</b><br><small>Kime: <span data-e="kime"></span></small></div>
+        <small class="saat">Şimdi</small>
+      </div>
+    </div>
+    <div class="ty-eposta-govde">
+      <div class="marka"><img src="/Images/newWeb_2025/logo/eminevim_logo_yesil.svg" alt="Eminevim" style="height:18px;width:auto"></div>
+      <p>Merhaba <b data-e="ad"></b>,</p>
+      <p>Talebiniz için temsilcimiz görevlendirildi. Görüşmeden önce kim olduğunu bilmeniz için bilgilerini aşağıda paylaşıyoruz.</p>
+      <div class="ty-kart">
+        <div class="ty-temsilci">
+          <div class="ty-avatar">AY</div>
+          <div>
+            <b>Ayşe Yılmaz</b>
+            <small>Müşteri Temsilcisi · Kadıköy Şubesi</small>
+            <span class="ty-onayli"><i class="bi bi-patch-check-fill"></i> Eminevim onaylı · Sicil 48213</span>
+          </div>
+        </div>
+      </div>
+      <div class="ty-ozet">
+        <div><span>Gün</span><b data-e="gun"></b></div>
+        <div><span>Saat</span><b data-e="saat"></b></div>
+        <div><span>Yer</span><b data-e="yer"></b></div>
+        <div><span>Konu</span><b data-e="konu"></b></div>
+      </div>
+      <a class="ty-eposta-buton" href="javascript:void(0)" role="button" aria-disabled="true"><i class="bi bi-geo-alt-fill"></i> Temsilcimi canlı takip et</a>
+      <p class="kucuk">Takip linki görüşme günü, temsilciniz yola çıktığında etkinleşir. Linkten temsilcinizin konumunu ve tahmini varış süresini görebilirsiniz.</p>
+      <div class="ty-guven">
+        <div><i class="bi bi-shield-check"></i> Temsilciniz Eminevim kimlik kartı taşır. Kartındaki sicil numarası bu e-postadakiyle aynıdır.</div>
+        <div><i class="bi bi-cash-coin"></i> Görüşmede sizden hiçbir ödeme alınmaz.</div>
+        <div><i class="bi bi-telephone-inbound"></i> Şüphe duyarsanız 444 36 46'yı arayın.</div>
+      </div>
+      <p class="kucuk">Randevunuzu değiştirmek için bu e-postayı yanıtlayabilir ya da temsilcinizi arayabilirsiniz.</p>
+    </div>
+    <div class="ty-onizleme-not">Önizleme: temsilci bilgileri örnektir, e-posta gönderilmez.</div>
+  </div>
+</div>
+<div class="ty-demo"><b>Tasarruf Yanımda</b> · form önizlemesi. Bilgiler hiçbir yere gönderilmez.</div>
+<!-- /TY_TAKIP -->
+
+<!-- TY_JS -->
+<script>
+(function(){
+  var GUN = ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+  var KISA = ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
+  var AY = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+  function gunleriUret(){
+    var out=[], d=new Date(); d.setHours(0,0,0,0);
+    while(out.length<6){ d.setDate(d.getDate()+1); if(d.getDay()!==0) out.push(new Date(d)); }
+    return out;
+  }
+  function tekSec(grup, btn){
+    grup.querySelectorAll('[aria-pressed]').forEach(function(b){ b.setAttribute('aria-pressed', b===btn?'true':'false'); });
+  }
+  function secili(kok, ad){
+    var b = kok.querySelector('[data-grup="'+ad+'"] [aria-pressed="true"]');
+    return b ? b.getAttribute('data-deger') : '';
+  }
+  var takip = document.querySelector('[data-takip]');
+  function takipAc(v, ad){
+    var set=function(k,t){ var el=takip.querySelector('[data-e="'+k+'"]'); if(el) el.innerHTML=t; };
+    set('kime', v.eposta); set('ad', ad); set('gun', v.gun); set('saat', v.saat); set('yer', v.yer+' · '+v.ilce); set('konu', v.konu);
+    takip.classList.add('acik'); takip.querySelector('[data-takip-kapat]').focus();
+  }
+  takip.addEventListener('click', function(e){ if(e.target===takip || e.target.closest('[data-takip-kapat]')) takip.classList.remove('acik'); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') takip.classList.remove('acik'); });
+
+  document.querySelectorAll('[data-ty-form]').forEach(function(kok){
+    var form = kok.querySelector('form'), sonuc = kok.querySelector('[data-ty-adim="sonuc"]');
+    var hata = kok.querySelector('[data-hata]'), ipucu = kok.querySelector('[data-ipucu]');
+    var yol = '';
+
+    kok.querySelectorAll('[data-gunler]').forEach(function(g){
+      gunleriUret().forEach(function(d){
+        var b=document.createElement('button'); b.type='button'; b.className='ty-cip'+(d.getDay()===6?' ty-yogun':'');
+        b.setAttribute('aria-pressed','false');
+        b.setAttribute('data-deger', d.getDate()+' '+AY[d.getMonth()]+' '+GUN[d.getDay()]);
+        b.setAttribute('data-cumartesi', d.getDay()===6?'1':'0');
+        b.innerHTML = KISA[d.getDay()]+' '+d.getDate()+'<small>'+(d.getDay()===6?'yoğun':AY[d.getMonth()].slice(0,3))+'</small>';
+        g.appendChild(b);
+      });
+    });
+    kok.querySelectorAll('[data-grup] .ty-cip').forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+
+    kok.querySelectorAll('.ty-secenek').forEach(function(b){
+      b.addEventListener('click', function(){
+        yol = b.getAttribute('data-yol');
+        tekSec(b.parentNode, b);
+        kok.querySelectorAll('[data-bolum]').forEach(function(s){ s.classList.toggle('acik', s.getAttribute('data-bolum')===yol); });
+        hata.classList.remove('acik');
+      });
+    });
+    kok.querySelectorAll('[data-grup]').forEach(function(g){
+      g.addEventListener('click', function(e){
+        var b = e.target.closest('.ty-cip'); if(!b) return;
+        tekSec(g, b);
+        if(g.getAttribute('data-grup')==='gun') ipucu.classList.toggle('acik', b.getAttribute('data-cumartesi')==='1');
+      });
+    });
+    kok.querySelector('[data-haftaici]').addEventListener('click', function(){
+      var g = kok.querySelector('[data-grup="gun"]');
+      var ilk = g.querySelector('[data-cumartesi="0"]'); if(ilk) tekSec(g, ilk);
+      var s = kok.querySelector('[data-grup="saat"]'); tekSec(s, s.querySelector('[data-deger="12:00–14:00"]'));
+      var y = kok.querySelector('[data-grup="yer"]'); tekSec(y, y.querySelector('[data-deger="İş yerimde"]'));
+      ipucu.classList.remove('acik');
+    });
+    var konumBtn = kok.querySelector('[data-konum]');
+    konumBtn.addEventListener('click', function(){
+      var ilce = form.elements.ilce;
+      if(!navigator.geolocation){ konumBtn.textContent='Konum alınamadı, ilçeyi yazın'; return; }
+      konumBtn.textContent='Konum alınıyor…';
+      navigator.geolocation.getCurrentPosition(function(p){
+        konumBtn.innerHTML='<i class="bi bi-check-circle-fill"></i> Konum alındı';
+        if(!ilce.value) ilce.value='Konumum ('+p.coords.latitude.toFixed(3)+', '+p.coords.longitude.toFixed(3)+')';
+      }, function(){ konumBtn.textContent='Konum izni verilmedi, ilçeyi yazın'; }, {timeout:8000});
+    });
+    form.elements.telefon.addEventListener('input', function(e){
+      var r = e.target.value.replace(/\D/g,'').replace(/^0/,'').slice(0,10), p=[r.slice(0,3),r.slice(3,6),r.slice(6,8),r.slice(8,10)];
+      e.target.value = p.filter(Boolean).join(' ');
+    });
+
+    function uyar(m){ hata.textContent=m; hata.classList.add('acik'); }
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var f=form.elements, ad=f.ad.value.trim(), soyad=f.soyad.value.trim(), tel=f.telefon.value.replace(/\D/g,'');
+      if(!ad||!soyad) return uyar('Lütfen adınızı ve soyadınızı yazın.');
+      if(tel.length!==10) return uyar('Lütfen telefon numaranızı 10 hane olarak yazın.');
+      if(!yol) return uyar('Lütfen nasıl görüşmek istediğinizi seçin.');
+      if(!f.kanun.checked) return uyar('Devam etmek için aydınlatma yazısını onaylayın.');
+      var v;
+      if(yol==='gelsin'){
+        v={konu:secili(kok,'konu'), yer:secili(kok,'yer'), ilce:f.ilce.value.trim(), gun:secili(kok,'gun'), saat:secili(kok,'saat'), eposta:f.eposta.value.trim()};
+        if(!v.konu) return uyar('Ne için görüşmek istediğinizi seçin.');
+        if(!v.yer) return uyar('Nerede görüşelim? İş yeri ya da ev seçin.');
+        if(!v.ilce) return uyar('İl / ilçe yazın ya da konumunuzu kullanın.');
+        if(!v.gun||!v.saat) return uyar('Gün ve saat aralığı seçin.');
+        if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.eposta)) return uyar('Takip linki için geçerli bir e-posta adresi yazın.');
+      } else if(yol==='ara'){
+        v={arama:secili(kok,'arama')}; if(!v.arama) return uyar('Ne zaman arayalım?');
+      } else {
+        v={sube:f.sube.value.trim(), gun:secili(kok,'subegun'), saat:secili(kok,'subesaat')};
+        if(!v.sube) return uyar('Hangi şubeye geleceğinizi yazın.');
+        if(!v.gun||!v.saat) return uyar('Gün ve saat seçin.');
+      }
+      hata.classList.remove('acik');
+      goster(ad, v);
+    });
+
+    function satir(a,b){ return '<div><span>'+a+'</span><b>'+b+'</b></div>'; }
+    function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+    function goster(ad, v){
+      var h='<div class="ty-tik"><i class="bi bi-check-lg"></i></div>';
+      ad=esc(ad); Object.keys(v).forEach(function(k){ v[k]=esc(v[k]); });
+      if(yol==='gelsin'){
+        h+='<h3>Teşekkürler '+ad+'</h3><p>Talebiniz alındı. Size en yakın temsilcimizi görevlendiriyoruz.</p>'+
+          '<div class="ty-ozet">'+satir('Konu',v.konu)+satir('Yer',v.yer)+satir('Bölge',v.ilce)+satir('Gün',v.gun)+satir('Saat',v.saat)+'</div>'+
+          '<ol class="ty-adimlar"><li><b>15 dakika içinde</b> temsilciniz sizi arar, saati birlikte netleştirirsiniz.</li>'+
+          '<li>Temsilcinizin adı, fotoğrafı, sicil numarası ve takip linki <b>'+v.eposta+'</b> adresine gelir.</li>'+
+          '<li>Görüşme günü e-postadaki linkten temsilcinizin <b>nerede olduğunu ve ne zaman varacağını</b> izlersiniz.</li></ol>'+
+          '<button type="button" class="ty-ikincil" data-onizle><i class="bi bi-envelope"></i> Gelecek e-postayı önizle</button>';
+      } else if(yol==='ara'){
+        h+='<h3>Teşekkürler!</h3><p>Başvurunuz alınmıştır. <b>'+v.arama+'</b> sizi <strong>444 36 46</strong> numaralı telefonumuzdan arayacağız.</p>';
+      } else {
+        h+='<h3>Randevunuz alındı</h3><p>Sizi şubemizde bekliyoruz. Randevu bilgileriniz SMS ile gönderilecek.</p>'+
+          '<div class="ty-ozet">'+satir('Şube',v.sube)+satir('Gün',v.gun)+satir('Saat',v.saat)+'</div>';
+      }
+      h+='<button type="button" class="ty-bag" data-geri>Yeni başvuru (önizlemeye dön)</button>';
+      sonuc.innerHTML=h; form.style.display='none'; sonuc.classList.add('acik');
+      var o=sonuc.querySelector('[data-onizle]'); if(o) o.addEventListener('click', function(){ takipAc(v, ad); });
+      sonuc.querySelector('[data-geri]').addEventListener('click', function(){ sonuc.classList.remove('acik'); sonuc.innerHTML=''; form.style.display=''; });
+    }
+  });
+})();
+</script>
+<!-- /TY_JS -->

@@ -258,3 +258,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Mobilde alt menünün katmanı 50'den orijinal 40'a çekildi; nokta seçme ekranındaki "Bu Konumu Gönder" artık menünün altında kalmıyor.
 - SPY "Devret" ve "Görüşme sonucu" alt sayfaları menünün üstüne alındı ("Vazgeç" basılabilir). Tüm alt sayfalara ve nokta seçme onay kartına iPhone alt çubuğu için güvenli alan boşluğu eklendi.
 - Doğrulama: 390×844 native düzende müşteri Profil/Başvuru/İletişim/Ayarlar, sihirbazın 3 adımı ve kayıt, sohbet, randevu ve nokta seçme ekranlarında görünen tüm butonların dokunuşu aldığı otomatik olarak kontrol edildi; SPY Devret sayfası doğrulandı. PWA önbelleği `eminevim-v9`.
+
+### 2026-10-20 - Web kolu: Tasarruf Yanımda başvuru formu önizlemesi
+
+- `web-basvuru/` eklendi: eminevim.com ana sayfasının kopyasında Hızlı Başvuru formu yenilendi ("Nasıl görüşelim?": temsilci gelsin / beni arayın / şubeye geleceğim).
+- Temsilci gelsin akışı: konu, iş yeri/ev, il-ilçe/konum, gün, saat aralığı, e-posta; cumartesi seçilince hafta içi öğle arasına yönlendirme.
+- Takip linki SMS yerine e-postayla gider; gönderim sonrası e-posta önizlemesi (temsilci kartı, sicil no, randevu, canlı takip butonu, güven notları).
+- `olustur.py` canlı sayfayı indirip formu yerleştirir, GTM/Facebook/reCAPTCHA kodlarını çıkarır; form veri göndermez.
+- Doğrulama: 390×844 ve 1440×900'de Chrome ile uçtan uca dolduruldu, sayfa hatası yok.
