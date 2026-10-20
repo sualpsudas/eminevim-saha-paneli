@@ -45,7 +45,7 @@ def main():
     # Masaüstü form: aç/kapa düğmesi kalır, form yenilenir
     masaustu = (
         '<div class="tk-desktopForm ty-genis d-none d-xl-block">\n'
-        '    <div class="tk-formGizleAc" onclick="homeFormGizleAcToogle(this);"><i class="bi bi-arrow-right-short"></i></div>\n'
+        '    <div class="tk-formGizleAc" onclick="tyPanelAcKapa(this);" role="button" tabindex="0" aria-label="Formu gizle / göster"><i class="bi bi-arrow-right-short"></i></div>\n'
         '    <div class="tk-iletişimYazisi" id="kapaliBaslik">HIZLI BAŞVURU</div>\n'
         + form
         + '\n    <div style="display:none !important" id="desktopBilgilendirmeFormTesekkur"></div>\n</div>\n'
@@ -75,6 +75,17 @@ document.addEventListener('submit', function (e) {
   if (!e.target.hasAttribute('data-ty-adim')) e.preventDefault();
 }, true);
 window.open = function () { return null; };
+/* Masaüstü formu yana gizle / göster (geniş panele göre) */
+function tyPanelAcKapa(btn) {
+  var panel = btn.closest('.tk-desktopForm'), kapali = panel.getAttribute('data-kapali') === '1';
+  panel.style.right = kapali ? '0' : -(panel.offsetWidth - 38) + 'px';
+  panel.setAttribute('data-kapali', kapali ? '0' : '1');
+  btn.innerHTML = kapali ? '<i class="bi bi-arrow-right-short"></i>' : '<i class="bi bi-arrow-left-short"></i>';
+  var bas = document.getElementById('kapaliBaslik'); if (bas) bas.style.opacity = kapali ? 0 : 1;
+}
+document.addEventListener('keydown', function (e) {
+  if ((e.key === 'Enter' || e.key === ' ') && e.target.classList && e.target.classList.contains('tk-formGizleAc')) { e.preventDefault(); tyPanelAcKapa(e.target); }
+});
 </script>
 """
 

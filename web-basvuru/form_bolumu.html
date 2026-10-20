@@ -92,6 +92,7 @@
   .ty-bar i{width:16px;height:4px;border-radius:2px;background:var(--tkd_griBorder)}
   .ty-bar i.on{background:var(--tkd_yesil)}
   .ty-baslik{font-size:15pt;font-weight:800;color:#333;line-height:1.15}
+  .ty-baslik:focus,.ty-sonuc h3:focus{outline:none}
   .ty-form .ty-alt{margin:4px 0 12px;font-size:9.5pt}
   .ty-ikonlar{display:flex;justify-content:space-between;margin:0 0 14px}
   .ty-ikonlar div{flex:1;text-align:center;font-size:7.8pt;line-height:1.25}
@@ -281,6 +282,10 @@
       bar.querySelectorAll('i').forEach(function(b,i){ b.classList.toggle('on', i<n); });
       bar.setAttribute('aria-label','Adım '+n+' / 3');
       kok.querySelectorAll('[data-hata]').forEach(function(h){ h.classList.remove('acik'); });
+      // Ekran okuyucu ve klavye için odak yeni adımın başlığına; panel başa kayar
+      var bas = adimlar[n].querySelector('.ty-baslik, h3');
+      if (bas) { bas.setAttribute('tabindex','-1'); bas.focus({ preventScroll: true }); }
+      var kap = kok.closest('.tk-desktopForm, .modal-body'); if (kap) kap.scrollTop = 0;
     }
     function uyar(form, m){ var h=form.querySelector('[data-hata]'); h.textContent=m; h.classList.add('acik'); }
     function secili(ad){ var b=kok.querySelector('[data-grup="'+ad+'"] [aria-pressed="true"]'); return b ? b.getAttribute('data-deger') : ''; }
