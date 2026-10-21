@@ -733,7 +733,7 @@
           (ozet ? '<div class="ty-ozet-kart"><div class="ty-ozet">'+ozet+'</div></div>' : '');
       }
       // Uygulama: formdaki telefonla kayıtlı müşteri olarak açılır (adım 3)
-      var uygLink = UYGULAMA + '?kaynak=web&ad=' + encodeURIComponent(v.ad+' '+v.soyad) + '&tel=' + v.tel + (secim ? '&gun=' + encodeURIComponent(v.gun) + '&saat=' + encodeURIComponent(v.saat) + '&yer=' + encodeURIComponent(v.adres) : '');
+      var uygLink = UYGULAMA + '?kaynak=web&ad=' + encodeURIComponent(v.ad+' '+v.soyad) + '&tel=' + v.tel + (bolgeDisi && !secim ? '&bolgeDisi=1' : '') + (secim ? '&gun=' + encodeURIComponent(v.gun) + '&saat=' + encodeURIComponent(v.saat) + '&yer=' + encodeURIComponent(v.adres) : '');
       h += '<div class="ty-uyg-kart"><img src="/Images/newWeb_2025/logo/eminevim_logo_yesil.svg" alt="Eminevim"><p>Kampanyalarımıza, Finansman Aracımıza ve size atanan temsilci hakkında detaylara ulaşmak için Eminevim uygulamasını kullanabilirsiniz.</p>'+
         '<p class="ty-magaza-not">Telefonunuza indirip bu telefon numarasıyla giriş yapın.</p>'+
         '<div class="ty-magaza" aria-label="Uygulamayı indirin"><span><i class="bi bi-apple" aria-hidden="true"></i><span><small>Download on the</small><b>App Store</b></span></span><span><i class="bi bi-google-play" aria-hidden="true"></i><span><small>GET IT ON</small><b>Google Play</b></span></span></div>'+

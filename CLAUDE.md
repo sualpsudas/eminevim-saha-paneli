@@ -63,6 +63,13 @@ düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adı
   "Temsilcinizi takip edin") · Sohbet (başlıkta da "Bilgiler"; temsilci ilk mesajda saati önerir, müşteri **"Saati onayla"**
   düğmesiyle onaylar → durum `netlesti`) · Finansman ("+ Yeni", "Değiştir") · Ayarlar. Durumlar: alindi → atandi → netlesti → gorusme.
   Gereksiz/tekrarlı yazılar ayıklandı (Gün/Saat/Yer tablosu, adım alt yazıları, "Örnek görünüm" notu).
+- **Randevum ek özellikler (2026-10-21 gece):** "Gün / saati değiştir" (yeni öneri sohbete düşer, temsilci onaylayınca netleşir;
+  durum `degisti`) ve "İptal et" (onay penceresi); gecikme uyarısı (Ayşe: 10 dk, yeni varış 18:10); takip ekranında
+  "Örnek: görüşme bitti" → durum `tamamlandi` → **puan penceresi** (1–5 yıldız) + Randevum'da **Görüşme özeti** (konu, tutar,
+  peşinat, vade, aylık ödeme örnek, cayma hakkı 14 gün; "Bilgiler doğru" / "Bir sorun var" → temsilciden bağımsız müşteri
+  ilişkileri arar) + "Yeni randevu iste". Temsilci "Bilgiler" penceresinde puan / deneyim / görüşme sayısı (`TEMSILCI_DETAY`).
+  Finansman kaydı temsilci varsa sohbete otomatik not olarak düşer; ilk adım yazısı temsilci yoksa söz vermez.
+  Bölge dışı telefon talebi (`bolgeDisi`, web'den `&bolgeDisi=1`) → "Başka adres için temsilci iste".
 - **Hoş geldiniz:** 3 sayfalık alt pencere, her sayfada basit resim (satır içi SVG) + tek kısa cümle (yeni kayıt ve web'den gelen).
 - **Kayıtlı Müşteri (Ayşe Kaya):** KVKK sorulmaz (önceden onaylamış); **görüşme günü** senaryosu — bugün 18:00, temsilci
   Onur Kaya yolda (~12 dk), konut finansmanı var, sohbette randevu dünden netleşmiş.

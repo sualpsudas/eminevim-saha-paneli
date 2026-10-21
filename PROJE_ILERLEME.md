@@ -384,3 +384,10 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Kayıtlı Müşteri: KVKK sorulmuyor, görüşme günü senaryosu (temsilci yolda, "Temsilcinizi takip edin").
 - Hoş geldiniz: 3 sayfa, basit resimler. Web Başarılı (bilgisayar): mağaza simgeleri. Önizlemede bilgisayarda Safari çubukları yok.
 - Doğrulama: kayıtlı müşteri, yeni kayıt → harita → onay → sohbette saat onayı, web bilgisayar başarılı ekranı; sayfa hatası yok.
+
+### 2026-10-21 (gece 2) - Değiştir/iptal, gecikme, görüşme özeti, puan, temsilci profili
+
+- A/B/C: finansman kaydı sohbete düşer; Finansman ilk adım yazısı temsilcisi olmayana söz vermez; bölge dışı müşteride "Başka adres için temsilci iste".
+- Randevum: Gün/saati değiştir (temsilci onayıyla), İptal et, gecikme uyarısı, görüşme özeti (doğru / sorun var), puan, yeni randevu.
+- Temsilci bilgileri: puan, deneyim, görüşme sayısı.
+- Doğrulama: kayıtlı müşteri (gecikme → bitti → puan → özet → sorun), yeni kayıt (talep → değiştir → netleşti → finansman sohbete → iptal), web'den bölge dışı; sayfa hatası yok.
