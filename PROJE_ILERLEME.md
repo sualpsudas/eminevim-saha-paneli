@@ -282,3 +282,12 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - `linkler.html`: tüm taslak, önizleme ve yedek bağlantıları tek sayfada (açık/koyu tema).
 - Web formu: adım değişince odak başlığa geçer; masaüstü paneli kendi aç/kapa koduyla yana gizlenir (sitenin kodu geniş panelde çalışmıyordu); e-postada "Temsilcimin yerini gör" dili.
 - Uygulama dosyasına dokunulmadı.
+
+### 2026-10-21 - Web formu gerçek sitedeki forma döndü
+
+- Adımlı akış, "Tasarruf Yanımda" yazısı, simgeler ve önizleme etiketi kaldırıldı; sayfa sitenin kendi başlığıyla en üstten açılır.
+- Form sitedeki alanlar ve sınıflarla (gri kutucuklar, bayrak + telefon, onay kutuları, turuncu Gönder); mobilde sitenin mobil sınıfları.
+- Ek: kesik çizgili "Temsilcimiz size gelsin · İsteğe bağlı" kutusu → gün/saat/yer seçimi, ilçe, isteğe bağlı e-posta. Teşekkür ekranı sitenin mesajı + özet + temsilci kartı + uygulama linki.
+- Onay kutularında yazıya tıklayınca da işaretlenir (sitenin iç içe etiket yapısı düzeltildi). Yazı tipi yüklenemezse tırnaklı yazıya düşmez.
+- `taslak/web-akisi.html` yeni forma göre yeniden çizildi.
+- Doğrulama: mobil ve masaüstünde seçenekli/seçeneksiz gönderim, e-posta önizlemesi, yeni başvuru; sayfa hatası yok.

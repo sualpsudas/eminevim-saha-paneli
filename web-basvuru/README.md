@@ -4,11 +4,11 @@ Tasarruf Yanımda'nın web kolu. eminevim.com ana sayfasının kopyasında yaln�
 değiştirilmiştir; amaç cumartesi yoğunluğunu hafta içine yaymak ve müşteriye "temsilcimiz size gelsin"
 seçeneğini sunmaktır.
 
-## Formdaki akış (uygulamayla aynı 3 adım)
-1. **Temsilcimiz size gelsin**: ad soyad, telefon (altta "Telefonla görüşmeyi tercih ederim")
-2. **Ne zaman, nerede?**: gün (hafta içi önce, cumartesi "yoğun"), saat (öğle arası / akşam), yer (iş yeri / ev), ilçe
-3. **Talebiniz alındı**: özet, temsilci kartı, isteğe bağlı e-posta + e-posta önizlemesi,
-   "Finansman tercihlerinizi uygulamamızdan değerlendirebilirsiniz → Uygulamayı açın" (sayfadaki tek çalışan link, `data-ty-dis`)
+## Form
+Sitedeki Hızlı Başvuru formunun aynısı (başlık, Ad, Soyad, bayrak + Telefon, onay kutuları, "Gönder") ve bir ek:
+**Temsilcimiz size gelsin · İsteğe bağlı** kutusu. İşaretlenince gün (hafta içi önce, cumartesi "yoğun"), saat aralığı,
+görüşme yeri, ilçe ve isteğe bağlı e-posta açılır. Teşekkür ekranında özet, temsilci kartı, e-posta önizlemesi ve
+"Uygulamayı açın" linki (sayfadaki tek çalışan link, `data-ty-dis`). Formda proje adı ya da önizleme yazısı yoktur.
 
 ## Dosyalar
 | Dosya | Ne işe yarar |
@@ -19,5 +19,5 @@ seçeneğini sunmaktır.
 
 Yeniden üretmek: `python olustur.py` (yalnızca standart kütüphane).
 
-Önizleme hiçbir yere veri göndermez; temsilci bilgileri örnektir. Görseller ve site stilleri
+Form hiçbir yere veri göndermez; temsilci bilgileri örnektir. Görseller ve site stilleri
 `<base href="https://www.eminevim.com/">` ile canlı siteden yüklenir.

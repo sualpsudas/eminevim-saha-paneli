@@ -27,6 +27,11 @@ Paylaşım için tek sayfa: `linkler.html` (taslaklar, web formu, uygulama, eski
 - Temsilci bilgileri ve takip linki **e-postayla** gider (SMS değil).
 - Yeni müşteri üye olmadan sade akışla ilerler (uygulamada giriş ekranı → "Yeni Müşteri", `ya*` durumları).
   Finansman/bütçe hesabı yalnız **üyelere**, "Finansmanlarım" sekmesinde; web formu bunun için uygulama linki verir.
+- **Web formu gerçek sitedeki gibi görünmeli** (kullanıcı isteği, 2026-10-21): sitenin başlığı, gri kutucukları
+  (`tk-inputGri` / mobilde `tk-inputMobilGri`), onay kutuları ve turuncu "Gönder". Formda "Tasarruf Yanımda" adı, açıklama
+  simgeleri, adım çubuğu ya da "bilgiler gönderilmez" gibi önizleme yazısı YOK; sayfa sitenin kendi başlığıyla en üstten açılır.
+  Temsilci çağırma resmî görünen **isteğe bağlı** kutu: "Temsilcimiz size gelsin · İsteğe bağlı — Dilerseniz temsilcimizi
+  konumunuza çağırabilirsiniz"; işaretlenince gün/saat/yer seçimi, ilçe, e-posta (isteğe bağlı) açılır.
 
 ## Taslak isteği gelirse (web ya da uygulama)
 Kullanıcı "taslak göster" dediğinde çalışan kod değil, **sunuma eklenebilir ekran taslağı** hazırla:

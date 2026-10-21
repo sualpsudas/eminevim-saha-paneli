@@ -131,12 +131,29 @@
   .pc .panel .ikonlar span{width:28px;height:28px}
   .pc .panel .ikonlar div{font-size:9px}
   @media (max-width:600px){ .pc .panel{width:46%;padding:8px 9px} .pc .panel .ikonlar,.pc .panel .alt{display:none} .pc .panel h2{font-size:12px} }
+  /* Gerçek form görünümü */
+  .gri{background:#eee;border-radius:20px;padding:8px 12px;font-size:11px;font-weight:700;color:#999;margin-bottom:6px}
+  .gri.dolu{color:#555}
+  .gri.ok{background-image:linear-gradient(45deg,transparent 50%,#777 50%),linear-gradient(135deg,#777 50%,transparent 50%);background-position:calc(100% - 15px) 50%,calc(100% - 11px) 50%;background-size:4px 4px;background-repeat:no-repeat}
+  .kutucuk{flex:0 0 17px;height:17px;border-radius:6px;background:#ccc;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:800}
+  .kutucuk.dolu{background:#53833c}
+  .secenek{border:1.5px dashed #d3e4dd;background:#f7faf8;border-radius:12px;padding:9px 10px;display:flex;flex-wrap:wrap;gap:8px;font-size:10px;color:#666;line-height:1.35;margin:4px 0 8px}
+  .secenek span:not(.kutucuk){flex:1}
+  .secenek b{color:#333;font-size:11.5px}
+  .secenek em{font-style:normal;font-size:8.5px;font-weight:700;color:var(--yesil);border:1px solid var(--yesil);border-radius:20px;padding:0 5px;white-space:nowrap}
+  .secenek.acik{border-style:solid;border-color:var(--yesil);background:#e9f0ed}
+  .secenek .alanlar{flex-basis:100%;margin-top:4px}
+  .secenek .alanlar .gri{background-color:#eee;margin-bottom:5px}
+  .onayk{display:flex;gap:8px;font-size:9.5px;color:#666;line-height:1.3;margin-bottom:6px;align-items:flex-start}
+  .pc .panel .gri{padding:6px 10px;font-size:10px;margin-bottom:5px}
+  .pc .panel .secenek{font-size:9px}
+  .pc .panel .secenek b{font-size:10.5px}
 </style>
 </head>
 <body>
 <header class="sayfa">
-  <h1>Tasarruf Yanımda: web formu akışı taslağı</h1>
-  <p>Web sitesindeki Hızlı Başvuru formu, uygulamayla aynı 3 adımı ve aynı sözleri kullanır. Müşteri bir şey indirmez. Temsilci bilgileri e-postayla gelir, finansman seçenekleri için uygulamaya geçebilir.</p>
+  <h1>Web formu akışı taslağı</h1>
+  <p>Sitedeki Hızlı Başvuru formu olduğu gibi kalır. Tek fark, isteğe bağlı bir "Temsilcimiz size gelsin" seçeneği. Seçilirse gün, saat ve yer sorulur; temsilci bilgileri e-postayla gelir.</p>
 </header>
 
 <main class="akis">
@@ -144,78 +161,66 @@
   <figure>
     <div class="tel"><div class="durum"></div>
       <div class="site"><div class="bar"><b>EMİNEVİM</b><span style="flex:1"></span>☰</div><div class="hero"></div><div class="satir"></div><div class="satir"></div><div class="satir" style="height:70px"></div>
-        <div class="hizli">Hızlı Başvuru<small>Temsilcimiz size gelsin</small></div></div>
+        <div class="hizli">Hızlı Başvuru</div></div>
     </div>
-    <figcaption><b>0 · Sitede giriş</b>Telefonda alttaki "Hızlı Başvuru" düğmesi formu açar. Sitenin geri kalanı değişmez.</figcaption>
+    <figcaption><b>0 · Site</b>Site her zamanki gibi en üstten açılır. Alttaki "Hızlı Başvuru" formu açar.</figcaption>
   </figure>
 
   <figure>
     <div class="tel"><div class="durum"></div><div class="site"><div class="bar"><b>EMİNEVİM</b></div><div class="hero"></div></div>
       <div class="modal"><div class="kutu">
         <div class="kbas">Hızlı Başvuru <span>×</span></div>
-        <div class="ust" style="margin-bottom:8px"><span class="marka">Tasarruf Yanımda</span><span class="noktalar"><i class="on"></i><i></i><i></i></span></div>
-        <h2>Temsilcimiz size gelsin</h2>
-        <p class="alt">Size uygun yer ve saatte. Ücretsiz.</p>
-        <div class="ikonlar">
-          <div><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>Sizi ararız</div>
-          <div><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M10 22l2-7 3 3v4M9 12l3-3 3 3 2 1M12 9v6"/></svg></span>Yanınıza geliriz</div>
-          <div><span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span>Yolda olduğunu görürsünüz</div>
+        <div class="gri">Ad</div><div class="gri">Soyad</div>
+        <div style="display:flex;gap:6px"><div class="gri" style="flex:0 0 58px;text-align:center">🇹🇷</div><div class="gri" style="flex:1">Telefon</div></div>
+        <div class="secenek"><span class="kutucuk"></span><span><b>Temsilcimiz size gelsin</b> <em>İsteğe bağlı</em><br>Dilerseniz temsilcimizi konumunuza çağırabilirsiniz.</span></div>
+        <div class="onayk"><span class="kutucuk"></span>Kampanyalardan haberdar olmak için ticari elektronik ileti almak istiyorum.</div>
+        <div class="onayk"><span class="kutucuk dolu">✓</span>Aydınlatma Yazısı'nı okudum, kabul ediyorum.</div>
+        <div class="buton">Gönder</div>
+      </div></div>
+    </div>
+    <figcaption><b>1 · Form</b>Sitedeki kutucuklar ve onay kutuları aynen durur. Temsilci seçeneği kesik çizgili kutuda, "İsteğe bağlı" etiketiyle.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="tel"><div class="durum"></div><div class="site"><div class="bar"><b>EMİNEVİM</b></div><div class="hero"></div></div>
+      <div class="modal"><div class="kutu">
+        <div class="kbas">Hızlı Başvuru <span>×</span></div>
+        <div class="gri dolu">Ali</div><div class="gri dolu">Demir</div>
+        <div class="secenek acik"><span class="kutucuk dolu">✓</span><span><b>Temsilcimiz size gelsin</b> <em>İsteğe bağlı</em><br>Dilerseniz temsilcimizi konumunuza çağırabilirsiniz.</span>
+          <div class="alanlar"><div class="gri ok dolu">22 Ekim Perşembe</div><div class="gri ok dolu">Öğle arası (12:00–14:00)</div><div class="gri ok dolu">İş yerim</div><div class="gri dolu">Kadıköy</div><div class="gri">E-posta (isteğe bağlı)</div></div>
         </div>
-        <div class="giris dolu">Ali Demir</div>
-        <div class="giris">+90 · 5XX XXX XX XX</div>
-        <div class="buton">Devam</div>
-        <div class="bag">Telefonla görüşmeyi tercih ederim</div>
+        <div class="buton">Gönder</div>
       </div></div>
     </div>
-    <figcaption><b>1 · Tanışma</b>Uygulamadaki ilk ekranın aynısı: üç simge, ad ve telefon. Üyelik yok.</figcaption>
+    <figcaption><b>2 · Seçenek açık</b>Kutu işaretlenince gün, saat, yer, ilçe ve e-posta açılır. Hepsi sitedeki gibi gri kutucuk; cumartesi listede "(yoğun)" yazar.</figcaption>
   </figure>
 
   <figure>
     <div class="tel"><div class="durum"></div><div class="site"><div class="bar"><b>EMİNEVİM</b></div><div class="hero"></div></div>
-      <div class="modal"><div class="kutu">
-        <div class="kbas">Hızlı Başvuru <span>×</span></div>
-        <div class="ust" style="margin-bottom:8px"><span class="marka">‹ Tasarruf Yanımda</span><span class="noktalar"><i class="on"></i><i class="on"></i><i></i></span></div>
-        <h2>Ne zaman, nerede?</h2>
-        <div class="etiket">Gün</div>
-        <div class="cipler"><div class="cip sec">Per 22</div><div class="cip">Cum 23</div><div class="cip">Pzt 26</div><div class="cip">Sal 27</div><div class="cip yogun">Cmt 24<small>yoğun</small></div></div>
-        <div class="etiket">Saat</div>
-        <div class="cipler"><div class="cip sec">Öğle arası<small>12:00–14:00</small></div><div class="cip">Akşam<small>18:00–21:00</small></div></div>
-        <div class="etiket">Yer</div>
-        <div class="cipler" style="margin-bottom:7px"><div class="cip sec">İş yerim</div><div class="cip">Evim</div></div>
-        <div class="giris dolu">Kadıköy</div>
-        <div style="font-size:10px;color:var(--soluk)">☑ Aydınlatma Yazısı'nı okudum, kabul ediyorum.</div>
-        <div class="buton">Temsilci gelsin</div>
+      <div class="modal"><div class="kutu" style="text-align:center">
+        <div class="kbas" style="text-align:left">Hızlı Başvuru <span>×</span></div>
+        <svg width="38" height="34" viewBox="0 0 24 22" aria-hidden="true"><path d="M2 2h20v14H9l-5 5v-5H2z" fill="#a1cb3a"/><path d="M6 7h12M6 11h8" stroke="#fff" stroke-width="1.8"/></svg>
+        <div style="font-weight:800;color:var(--yesil);font-size:18px;margin:6px 0 4px">Teşekkürler!</div>
+        <div style="font-weight:700;color:#666;margin-bottom:8px">Temsilci talebiniz alınmıştır.</div>
+        <div class="ozet" style="text-align:left">Perşembe 22 Ekim · Öğle arası<br>İş yeri · Kadıköy</div>
+        <div class="rep" style="text-align:left"><div class="ust-yazi">TEMSİLCİNİZ BELLİ OLDU</div><div class="kisi"><div class="av">AY</div><div><b style="font-size:13px">Ayşe Yılmaz</b><small>Kadıköy Şubesi</small><span class="onay">✓ Sicil 48213</span></div></div></div>
+        <div style="font-size:11px;color:#666;margin-bottom:6px">Temsilciniz gelmeden önce 444 36 46'dan sizi arayacak.</div>
+        <div class="uyg" style="text-align:left"><span>Finansman tercihlerinizi uygulamamızdan değerlendirebilirsiniz.</span><b>Uygulamayı açın</b></div>
       </div></div>
     </div>
-    <figcaption><b>2 · Ne zaman, nerede?</b>Dokunarak seçim. Hafta içi önce gelir, cumartesi yalnızca "yoğun" etiketi taşır. Onay kutusu tek satır.</figcaption>
-  </figure>
-
-  <figure>
-    <div class="tel"><div class="durum"></div><div class="site"><div class="bar"><b>EMİNEVİM</b></div><div class="hero"></div></div>
-      <div class="modal"><div class="kutu">
-        <div class="kbas">Hızlı Başvuru <span>×</span></div>
-        <div class="tik" style="width:38px;height:38px;margin:0 0 8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></div>
-        <h2>Talebiniz alındı</h2>
-        <div class="ozet">Perşembe 22 Ekim · Öğle arası<br>İş yeri · Kadıköy</div>
-        <div class="rep"><div class="ust-yazi">TEMSİLCİNİZ BELLİ OLDU</div><div class="kisi"><div class="av">AY</div><div><b style="font-size:13px">Ayşe Yılmaz</b><small>Kadıköy Şubesi</small><span class="onay">✓ Onaylı · Sicil 48213</span></div></div></div>
-        <div class="tamam">✓ Bilgiler ali@ornek.com adresine gönderilecek.</div>
-        <div class="guven" style="margin-top:2px">Görüşmede ödeme alınmaz.</div>
-        <div class="uyg"><span>Finansman tercihlerinizi uygulamamızdan değerlendirebilirsiniz.</span><b>Uygulamayı açın</b></div>
-      </div></div>
-    </div>
-    <figcaption><b>3 · Talebiniz alındı</b>Özet, temsilci kartı ve isteğe bağlı e-posta. En altta finansman seçenekleri için uygulamaya geçiş.</figcaption>
+    <figcaption><b>3 · Teşekkürler</b>Sitenin teşekkür ekranı, altına seçimlerin özeti ve temsilci kartı eklenir. Seçenek işaretlenmediyse sitedeki mesajın aynısı çıkar.</figcaption>
   </figure>
 
   <figure>
     <div class="tel"><div class="durum"></div><div class="ekran">
-      <div class="eposta-bas"><div class="konu">Randevunuz onaylandı: temsilciniz Ayşe Yılmaz</div><div class="kim"><i>T</i><span><b>Tasarruf Yanımda</b><br>Kime: ali@ornek.com</span></div></div>
+      <div class="eposta-bas"><div class="konu">Randevunuz onaylandı: temsilciniz Ayşe Yılmaz</div><div class="kim"><i>E</i><span><b>Eminevim</b><br>Kime: ali@ornek.com</span></div></div>
       <p style="margin:0 0 8px;font-size:12px">Merhaba <b>Ali</b>, görüşmeden önce kim geleceğini bilmeniz için temsilcinizin bilgileri:</p>
       <div class="kart" style="padding:10px"><div class="kisi"><div class="av" style="width:42px;height:42px;font-size:14px">AY</div><div><b style="font-size:13.5px">Ayşe Yılmaz</b><small>Kadıköy Şubesi</small><span class="onay">✓ Onaylı · Sicil 48213</span></div></div></div>
       <div class="ozet" style="margin:10px 0;font-weight:500;font-size:12px">Perşembe 22 Ekim · 12:30<br>İş yeriniz · Kadıköy</div>
       <div class="buton" style="font-size:13px;padding:11px">Temsilcimin yerini gör</div>
       <div class="not" style="font-size:11px">Link görüşme günü, temsilciniz yola çıkınca açılır. Görüşmede ödeme alınmaz.</div>
     </div></div>
-    <figcaption><b>4 · E-posta</b>Temsilci kartı ve randevu bilgisi gelen kutusunda. Görüşme günü linkten temsilcinin nerede olduğu görülür.</figcaption>
+    <figcaption><b>4 · E-posta</b>E-posta yazıldıysa temsilci kartı ve randevu bilgisi gelen kutusuna düşer.</figcaption>
   </figure>
 
   <figure class="genis">
@@ -224,17 +229,15 @@
       <div class="hero"></div>
       <div class="kpi" style="left:3%;width:22%"></div><div class="kpi" style="left:27%;width:22%"></div><div class="kpi" style="left:51%;width:22%"></div>
       <div class="panel">
-        <div class="ust" style="position:static;height:auto;padding:0;margin-bottom:8px;background:none"><span class="marka">Tasarruf Yanımda</span><span class="noktalar"><i class="on"></i><i></i><i></i></span></div>
-        <h2>Temsilcimiz size gelsin</h2>
-        <p class="alt">Size uygun yer ve saatte. Ücretsiz.</p>
-        <div class="ikonlar"><div><span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg></span>Sizi ararız</div><div><span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><circle cx="12" cy="5" r="2"/><path d="M10 22l2-7 3 3v4M9 12l3-3 3 3 2 1M12 9v6"/></svg></span>Yanınıza geliriz</div><div><span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#00724c" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span>Yolda görürsünüz</div></div>
-        <div class="giris dolu">Ali Demir</div>
-        <div class="giris">+90 · Telefon</div>
+        <div style="font-weight:800;color:var(--yesil);font-size:11px;letter-spacing:.5px">EMİNEVİM</div>
+        <div style="font-weight:800;font-size:14px;color:#555;margin:2px 0 8px;line-height:1.15">Formu Gönderin Sizi Bilgilendirelim</div>
+        <div class="gri">Ad</div><div class="gri">Soyad</div><div class="gri">🇹🇷 · Telefon</div>
+        <div class="secenek"><span class="kutucuk"></span><span><b>Temsilcimiz size gelsin</b> <em>İsteğe bağlı</em><br>Dilerseniz temsilcimizi konumunuza çağırabilirsiniz.</span></div>
         <div class="bosluk"></div>
-        <div class="buton">Devam</div>
+        <div class="buton">Gönder</div>
       </div>
     </div>
-    <figcaption style="max-width:620px"><b>Bilgisayarda</b>Form, sitenin sağındaki mevcut Hızlı Başvuru panelinin yerini alır. Aynı 3 adım panelin içinde ilerler, ok düğmesiyle yana gizlenebilir.</figcaption>
+    <figcaption style="max-width:620px"><b>Bilgisayarda</b>Sağdaki Hızlı Başvuru paneli sitedeki yerinde ve boyutunda kalır; seçenek aynı panelin içinde açılır.</figcaption>
   </figure>
 
 </main>
@@ -242,10 +245,10 @@
 <section class="notlar">
   <h3>Bu taslağın kuralları</h3>
   <ul>
-    <li>Web ve uygulama aynı ekranları, aynı sözleri ve aynı sırayı kullanır.</li>
-    <li>Sitede yalnızca Hızlı Başvuru formu değişir. Menüler, kampanyalar ve diğer bölümler olduğu gibi kalır.</li>
-    <li>Müşteri hiçbir şey indirmez ve üye olmaz. E-posta isteğe bağlıdır.</li>
-    <li>Finansman ve bütçe hesabı webde yoktur. İsteyen, son ekrandaki linkle uygulamaya geçer ve orada üye olur.</li>
+    <li>Form sitedeki gibi görünür: aynı başlık, kutucuklar, onay kutuları ve turuncu "Gönder" düğmesi.</li>
+    <li>Ek yazı yok: proje adı, açıklama simgeleri ya da önizleme uyarısı formda görünmez.</li>
+    <li>Temsilci çağırma resmî olarak isteğe bağlıdır: kesik çizgili kutu ve "İsteğe bağlı" etiketi.</li>
+    <li>Finansman ve bütçe hesabı webde yoktur; teşekkür ekranındaki linkle uygulamaya geçilir.</li>
   </ul>
 </section>
 </body>
