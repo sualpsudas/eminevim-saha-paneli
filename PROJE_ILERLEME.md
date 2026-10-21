@@ -342,3 +342,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 
 - CLAUDE.md başına "Ürün kuralları" bölümü: uygulama kapsamlı / web hızlı aksiyon, marka birliği, web formunda radio + konum izni + küçük harita (yeşil hizmet bölgeleri: Ümraniye, Ataşehir, Üsküdar) + elle konum, Başarılı ekranı, web→uygulama geçişi (telefonla kayıtlı, finansmansız), 3 sayfalık Hoş geldiniz, Kayıtlı Müşteri demo senaryosu, uygulamada Temsilci iste.
 - Kod henüz değişmedi; açık sorular kullanıcıyla adım adım netleşecek.
+
+### 2026-10-21 - Adım 1: web formunda temsilci seçimi + küçük harita
+
+- Onay kutularından sonra iki seçenek (radio). "Temsilci çağırmak istiyorum" → form içinde küçük harita, konum izni, yeşil hizmet bölgeleri (Ümraniye, Ataşehir, Üsküdar), dokunarak/sürükleyerek seçim, adres/mekân arama, "Konumumu kullan".
+- Bölge dışı: "Bu bölgede henüz temsilci hizmetimiz yok… sizi telefonla arayalım" → telefonla başvuru.
+- Haritadan sonra gün/saat satırı → takvim penceresi. Eski "Temsilcimiz size gelsin" düğmesi ve büyük harita penceresi kaldırıldı.
+- Finansman penceresi yedekte; sitedeki kutularla bağlantısı kesildi.
+- Doğrulama: izinli (Ümraniye), izinsiz (örnek Ataşehir), bölge dışı arama (Moda/Kadıköy), bilgisayar paneli; sayfa hatası yok.

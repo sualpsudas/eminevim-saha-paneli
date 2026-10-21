@@ -33,9 +33,23 @@ her adım bitince burada "Durum" güncellenir.
    **sohbet ederek randevusunu netleştirmiş** ve **temsilciyi beklediğini** bildiğimiz müşteri.
 7. **Uygulamadan telefonla kayıt olan yeni müşteri** için de web'deki gibi **"Temsilci iste"** seçeneği olur.
 
-**Durum (2026-10-21):** Kurallar yazıldı, kod henüz bu kurallara göre değiştirilmedi. Şu anki web formu eski akışta
-(düğme → takvim penceresi → harita penceresi; site kutularında finansman penceresi). Açık sorular kullanıcıyla adım adım
-netleştirilecek (gün/saat seçimi kalıyor mu, bölge dışı konum, web'deki finansman penceresi kalıyor mu, vb.).
+8. **Kullanıcı cevapları (2026-10-21):**
+   - Gün ve saat seçimi **kalır**, **haritadan sonra** gelir.
+   - **Bölge dışı konum:** "Bu bölgede henüz hizmet yok, sizi telefonla arayalım" denir ve normal (telefonla) başvuruya dönülür.
+   - **Web'deki finansman penceresi yedekte:** kod durur, sitedeki Konut/Araç/İşyeri kutularıyla **bağlantısı kesildi**
+     (ileride dönülebilir).
+   - "Temsilci çağırmak istiyorum" seçimi **onay kutularından sonra** durur.
+   - Temsilci bilgisi **SMS olarak da gider** ve uygulamada da görünür. Temsilciler için **sentetik (yapay) fotoğraflar**
+     üretilip SMS önizlemesinde ve uygulamada kullanılır (gerçek kişi fotoğrafı kullanılmaz).
+
+**Durum:** Adım 1 bitti (2026-10-21): onay kutularından sonra "Telefonla bilgi almak istiyorum / Temsilci çağırmak istiyorum";
+temsilci seçilince form içinde küçük harita (Leaflet + OSM; uzaktayken soluk gri + yeşil bölgeler ve adları, yakında renkli
+ve mekânlı), konum izni (yoksa demo için Ataşehir örnek konumu), dokun/sürükle ile seçim, WhatsApp gibi adres/mekân arama
+(Nominatim, İstanbul sınırlı), bölge kontrolü (dışındaysa telefonla başvuruya döner), haritanın altında gün/saat satırı →
+takvim penceresi. Bölge sınırları `form_bolumu.html` içinde `BOLGELER` (OSM'den sadeleştirilmiş). CARTO sade harita anahtar
+istiyor — kullanılmaz. Önizleme iframe'inde `allow="geolocation"` gerekli (linkler.html'de var).
+Sıradakiler: 2 Başarılı ekranı · 3 web'den gelen müşteri uygulamada · 4 Hoş geldiniz · 5 Kayıtlı Müşteri senaryosu ·
+6 uygulamada telefonla kayıt + Temsilci iste · 7 personel ekranları marka kontrolü.
 
 ## Klasörler
 - `index.html`, `assignment.js`, `org-data.js`, `map.html`, `sw.js` — uygulama (web/PWA). Aynı kod Capacitor ile iPhone'a
