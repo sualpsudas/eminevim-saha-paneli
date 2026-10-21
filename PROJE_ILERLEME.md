@@ -355,3 +355,9 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 
 - Web: "Başarılı!" ekranı (kurumsal-samimi metin, özet, temsilci bilgisi uygulamadan, uygulama kartı + "Uygulamayı aç"; link ad/tel/gün/saat/yer taşır). Telefonla ve bölge dışı durumları için kısa metin.
 - Kural: ödeme/ücret güvencesi cümleleri hiçbir yerde yok — web, uygulama ve taslaklardan kaldırıldı.
+
+### 2026-10-21 - Temsilci seçimi pencereye taşındı
+
+- Formda yalnız "Temsilci çağırmak istiyorum" kaydırmalı düğmesi. Açılınca pencere: harita (üstte arama, sağ altta "Hizmet bölgesini göster" / "Konumuma dön") → gün ve saat → Onayla. Formda tek satır özet.
+- Bölge dışı: "Telefonla görüşmeyle devam et" → formda not, başvuru telefonla.
+- Doğrulama: telefon (izinli Ümraniye, bölge düğmesi iki yönlü, takvim, özet, gönderim; onaysız kapatma; Kadıköy bölge dışı) ve bilgisayar; sayfa hatası yok.

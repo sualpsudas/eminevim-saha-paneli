@@ -115,6 +115,39 @@
   .ty-zaman b{display:block}
   .ty-zaman em{font-style:normal;font-size:.85em;opacity:.8;white-space:nowrap}
   .ty-mini-harita.ty-eksik{box-shadow:0 0 0 2px var(--tdk_turuncu)}
+  /* Temsilci çağırma: kaydırmalı düğme (formda) */
+  .ty-anahtar-kutu{display:flex;align-items:center;gap:10px;margin:0;cursor:pointer;background:var(--tkd_grihover);border:1.5px solid transparent;border-radius:var(--tkd_yuvarlak);padding:5px 8px 5px 6px;color:var(--tkd_yaziRengi);font-size:9pt;font-weight:700;transition:background .2s,border-color .2s}
+  .ty-mobil .ty-anahtar-kutu{padding:9px 10px 9px 8px;font-size:10.5pt}
+  .ty-anahtar-kutu:has(.ty-anahtar:checked){background:var(--tdk_homeAcikYesilBack);border-color:var(--tkd_yesil);color:var(--tkd_yesil)}
+  .ty-anahtar-ikon{flex:0 0 28px;height:28px;border-radius:50%;background:#fff;color:var(--tkd_yesil);display:flex;align-items:center;justify-content:center;font-size:13px}
+  .ty-mobil .ty-anahtar-ikon{flex-basis:34px;height:34px;font-size:15px}
+  .ty-anahtar-yazi{flex:1;line-height:1.2}
+  .ty-anahtar{-webkit-appearance:none;appearance:none;flex:0 0 44px;width:44px;height:26px;border-radius:13px;background:var(--tkd_checkboxGriHover);position:relative;cursor:pointer;margin:0;transition:background .2s}
+  .ty-anahtar::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+  .ty-anahtar:checked{background:var(--tkd_yesil)}
+  .ty-anahtar:checked::after{transform:translateX(18px)}
+  .ty-anahtar:focus-visible{outline:2px solid var(--tkd_yesil);outline-offset:2px}
+  .ty-talep-ozet{display:flex;align-items:center;gap:7px;width:100%;margin-top:6px;border:0;background:none;padding:2px 6px;color:var(--tkd_yesil);font-size:8.5pt;font-weight:700;text-align:left;cursor:pointer}
+  .ty-mobil .ty-talep-ozet{font-size:10pt}
+  .ty-talep-ozet span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ty-talep-ozet em{font-style:normal;text-decoration:underline;font-weight:400}
+  .ty-bolge-disi{margin:6px 0 0;padding:0 6px;font-size:8.5pt;line-height:1.35;color:var(--tdk_turuncuHover)}
+  .ty-mobil .ty-bolge-disi{font-size:10pt}
+  /* Temsilci penceresi: büyük harita, üstte arama, sağ altta bölge düğmesi */
+  .ty-pen-temsilci .ty-adim-harita{padding:0;position:relative;overflow:hidden}
+  .ty-pen-temsilci .ty-harita{position:absolute;inset:0;background:#e8ece9}
+  .ty-harita-ust{position:absolute;left:10px;right:56px;top:10px;z-index:600}
+  .ty-harita-ust .ty-konum-ara input{width:100%;border:0;border-radius:var(--tkd_yuvarlak);background:#fff;color:var(--tkd_yaziRengi);font-size:16px;font-weight:700;padding:11px 42px 11px 38px;box-shadow:0 2px 10px rgba(0,0,0,.18)}
+  .ty-harita-ust .ty-konum-ara input:focus{outline:2px solid var(--tkd_yesil)}
+  .ty-harita-ust .ty-konumum{background:var(--tkd_grihover)}
+  .ty-harita-ust .ty-oneriler{margin-top:6px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+  .ty-bolge-dugme{position:absolute;right:10px;bottom:22px;z-index:600;display:flex;align-items:center;gap:6px;border:0;border-radius:var(--tkd_yuvarlak);background:#fff;color:var(--tkd_yesil);font-size:13px;font-weight:700;padding:9px 14px;box-shadow:0 2px 10px rgba(0,0,0,.22);cursor:pointer}
+  .ty-bolge-dugme:hover{background:var(--tdk_homeAcikYesilBack)}
+  .ty-pen-temsilci .ty-pen-alt .ty-konum-durum{margin-bottom:10px;font-size:13px;padding:0}
+  .ty-pen-temsilci .ty-uzak .leaflet-tile-pane{filter:grayscale(1) brightness(1.12) contrast(.75);opacity:.75}
+  .ty-pen-temsilci .ty-harita:not(.ty-uzak) .ty-bolge-ad{display:none}
+  .ty-pen-temsilci .leaflet-top.leaflet-right{top:58px}
+  .tk-turuncuButon:disabled{background:#ccc !important;cursor:default}
   /* Finansman planı (uygulamadaki hesapla aynı) */
   .ty-fin-tur{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
   .ty-fin-tur button{display:flex;flex-direction:column;align-items:center;gap:5px;border:1.5px solid transparent;background:var(--tkd_grihover);border-radius:var(--tkd_yuvarlakIc);padding:9px 4px 8px;color:var(--tkd_yaziRengi);font-weight:700;font-size:13px;cursor:pointer}
@@ -257,17 +290,13 @@
       <div class="ty-plan"><img data-plan-ikon alt=""><button type="button" data-plan-ac></button><button type="button" class="ty-gel-kaldir" data-plan-kaldir aria-label="Finansman planını kaldır">×</button></div>
     </div>
     <div class="col-12 pb-2 px-0">
-      <div class="ty-tercih" role="radiogroup" aria-label="Nasıl görüşmek istersiniz?">
-        <label class="ty-radyo"><input type="radio" name="gorusme" value="telefon" checked><span>Telefonla bilgi almak istiyorum</span></label>
-        <label class="ty-radyo"><input type="radio" name="gorusme" value="temsilci"><span><i class="bi bi-geo-alt-fill" aria-hidden="true"></i> Temsilci çağırmak istiyorum</span></label>
-      </div>
-      <div class="ty-konum" data-konum hidden>
-        <div class="ty-mini-harita" data-mini-harita role="application" aria-label="Görüşme yeri haritası. Yeşil alanlar hizmet bölgeleridir."></div>
-        <div class="ty-konum-durum" data-konum-durum aria-live="polite"></div>
-        <div class="ty-konum-ara"><i class="bi bi-search" aria-hidden="true"></i><input type="search" data-ara class="tk-inputGri" placeholder="Adres veya mekân ara" aria-label="Adres veya mekân ara" autocomplete="off"><button type="button" class="ty-konumum" data-konumum aria-label="Konumumu kullan" title="Konumumu kullan"><i class="bi bi-crosshair"></i></button></div>
-        <ul class="ty-oneriler" data-oneriler hidden></ul>
-        <button type="button" class="ty-zaman" data-zaman hidden><i class="bi bi-calendar3" aria-hidden="true"></i><span>Gün ve saat <b></b></span><em>Değiştir ›</em></button>
-      </div>
+      <label class="ty-anahtar-kutu">
+        <span class="ty-anahtar-ikon" aria-hidden="true"><i class="bi bi-geo-alt-fill"></i></span>
+        <span class="ty-anahtar-yazi">Temsilci çağırmak istiyorum</span>
+        <input type="checkbox" role="switch" name="temsilci" class="ty-anahtar">
+      </label>
+      <button type="button" class="ty-talep-ozet" data-talep-ozet hidden><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span data-talep-yazi></span><em>Değiştir</em></button>
+      <p class="ty-bolge-disi" data-bolge-disi hidden><i class="bi bi-info-circle-fill" aria-hidden="true"></i> Seçtiğiniz konumda henüz temsilci hizmetimiz yok; sizi telefonla arayacağız.</p>
     </div>
     <div class="col-12 ty-gonder-satir"><input type="submit" value="Gönder" class="tk-turuncuButon"></div>
   </div>
@@ -375,39 +404,49 @@
   var ORNEK_KONUM = { lat:40.99230, lng:29.12440, adres:'Atatürk Mah., Ataşehir' };   // izin verilmezse demo konumu
 
   var PENCERE_HTML =
-    '<div class="ty-pencere" data-pen="takvim" role="dialog" aria-modal="true" aria-label="Görüşme günü ve saati"><div class="ty-pen">'+
-      '<div class="ty-pen-bas"><b>Gün ve saat seçin<small>Temsilcimiz belirlediğiniz saatte gelir</small></b><button type="button" data-kapat aria-label="Kapat">×</button></div>'+
-      '<div class="ty-pen-govde">'+
+    '<div class="ty-pencere ty-pen-temsilci" data-pen="temsilci" role="dialog" aria-modal="true" aria-label="Temsilci çağır"><div class="ty-pen">'+
+      '<div class="ty-pen-bas"><button type="button" data-geri aria-label="Geri: görüşme yeri" hidden>‹</button><b><span data-baslik>Görüşme yerini seçin</span><small data-alt>1 / 2 · Temsilcimiz size gelsin</small></b><button type="button" data-kapat aria-label="Kapat">×</button></div>'+
+      '<div class="ty-pen-govde ty-adim-harita" data-adim="1">'+
+        '<div class="ty-harita" data-harita role="application" aria-label="Görüşme yeri haritası. Yeşil alanlar hizmet bölgeleridir."></div>'+
+        '<div class="ty-harita-ust">'+
+          '<div class="ty-konum-ara"><i class="bi bi-search" aria-hidden="true"></i><input type="search" data-ara placeholder="Adres veya mekân ara" aria-label="Adres veya mekân ara" autocomplete="off"><button type="button" class="ty-konumum" data-konumum aria-label="Konumumu kullan" title="Konumumu kullan"><i class="bi bi-crosshair"></i></button></div>'+
+          '<ul class="ty-oneriler" data-oneriler hidden></ul>'+
+        '</div>'+
+        '<button type="button" class="ty-bolge-dugme" data-bolge-dugme><i class="bi bi-bounding-box-circles" aria-hidden="true"></i><span>Hizmet bölgesini göster</span></button>'+
+      '</div>'+
+      '<div class="ty-pen-govde" data-adim="2" hidden>'+
         '<div class="ty-ay"><button type="button" data-ay="-1" aria-label="Önceki ay">‹</button><b data-ay-ad></b><button type="button" data-ay="1" aria-label="Sonraki ay">›</button></div>'+
         '<div class="ty-takvim" data-takvim></div>'+
         '<p class="ty-not"><i></i>Cumartesi yoğun; hafta içi günlerde daha hızlı gelinir. Pazar kapalı.</p>'+
         '<div class="ty-alt-baslik">Saat</div><div class="ty-saatler" data-saatler role="group" aria-label="Saat"></div>'+
       '</div>'+
-      '<div class="ty-pen-alt"><button type="button" class="tk-turuncuButon" data-takvim-onay>Onayla</button></div>'+
+      '<div class="ty-pen-alt"><div class="ty-konum-durum" data-konum-durum aria-live="polite"></div><button type="button" class="tk-turuncuButon" data-ileri>Devam: gün ve saat</button></div>'+
     '</div></div>';
 
   document.querySelectorAll('[data-ty-form]').forEach(function(form){
     var sonuc = form.nextElementSibling, f = form.elements;
     var kutu = document.createElement('div'); kutu.innerHTML = PENCERE_HTML; kap(form).appendChild(kutu);
-    var penT = kutu.querySelector('[data-pen="takvim"]');
-    var konumBlok = form.querySelector('[data-konum]'), durumEl = form.querySelector('[data-konum-durum]');
-    var araEl = form.querySelector('[data-ara]'), onerEl = form.querySelector('[data-oneriler]'), zamanBtn = form.querySelector('[data-zaman]');
+    var pen = kutu.querySelector('[data-pen="temsilci"]');
+    function P(sel){ return pen.querySelector(sel); }
+    var durumEl = P('[data-konum-durum]'), araEl = P('[data-ara]'), onerEl = P('[data-oneriler]'), ileriBtn = P('[data-ileri]'), bolgeBtn = P('[data-bolge-dugme]');
+    var anahtar = f.temsilci, ozetBtn = form.querySelector('[data-talep-ozet]'), disNot = form.querySelector('[data-bolge-disi]');
     var plan = null;      // finansman planı (yedek: sitedeki kutularla bağlantısı kesik)
     var planSatir = form.querySelector('[data-plan-satir]');
-    var konum = null;     // {lat, lng, adres, bolge}
-    var zaman = null;     // {gun:Date, saat}
-    var taslak = {};      // takvim penceresinde seçilen
+    var talep = null;     // onaylanmış temsilci talebi {lat, lng, adres, bolge, gun:Date, saat}
+    var bolgeDisi = false;   // bölge dışı seçildi → telefonla görüşme
+    var konum = null;     // pencerede seçilen yer {lat, lng, adres, bolge}
+    var taslak = {};      // pencerede seçilen gün/saat
+    var adim = 1;
 
-    function temsilciMi(){ return f.gorusme.value === 'temsilci'; }
-    function tercihGoster(){
-      form.querySelectorAll('.ty-radyo').forEach(function(l){ l.classList.toggle('secili', l.querySelector('input').checked); });
-      konumBlok.hidden = !temsilciMi();
-      if(temsilciMi()) haritaKur();
+    /* --- Formdaki satır: kaydırmalı düğme + kısa özet --- */
+    function formGoster(){
+      anahtar.checked = !!talep;
+      ozetBtn.hidden = !talep; disNot.hidden = !bolgeDisi || !!talep;
+      if(talep) ozetBtn.querySelector('[data-talep-yazi]').textContent = kisaGun(talep.gun)+', '+talep.saat+' · '+talep.adres;
     }
     function ornekDoldur(){
       form.reset(); f.ad.value=ORNEK.ad; f.soyad.value=ORNEK.soyad; f.telefon.value=ORNEK.telefon; f.kanun.checked=true;
-      zaman = { gun:ilkHaftaici(), saat:ORNEK.saat }; zamanGoster();
-      tercihGoster(); planAyarla(null);
+      talep=null; bolgeDisi=false; konum=null; formGoster(); planAyarla(null);
     }
     function planAyarla(pl){
       plan = pl; planSatir.hidden = !pl; if(!pl) return;
@@ -420,20 +459,66 @@
       if(form.hidden){ ornekDoldur(); sonuc.hidden=true; sonuc.innerHTML=''; form.hidden=false; }
       planAyarla(e.detail);
     });
-    form.querySelectorAll('[name="gorusme"]').forEach(function(r){ r.addEventListener('change', tercihGoster); });
+    anahtar.addEventListener('change', function(){
+      if(anahtar.checked){ bolgeDisi=false; disNot.hidden=true; pencereAc(); }
+      else { talep=null; formGoster(); }
+    });
+    ozetBtn.addEventListener('click', pencereAc);
 
-    /* --- Küçük harita: konum izni, yeşil hizmet bölgeleri, dokununca / sürükleyince yer seçimi --- */
-    var harita=null, isaret=null, adresNo=0;
+    /* --- Pencere: 1 harita → 2 gün ve saat --- */
+    function adimGoster(n){
+      adim = n;
+      pen.querySelectorAll('[data-adim]').forEach(function(x){ x.hidden = +x.dataset.adim !== n; });
+      P('[data-geri]').hidden = n === 1;
+      P('[data-baslik]').textContent = n === 1 ? 'Görüşme yerini seçin' : 'Gün ve saat seçin';
+      P('[data-alt]').textContent = n === 1 ? '1 / 2 · Temsilcimiz size gelsin' : '2 / 2 · '+(konum ? konum.adres : '');
+      durumEl.hidden = n !== 1;
+      if(n === 1){ durumYaz(); if(harita) setTimeout(function(){ harita.invalidateSize(); }, 30); }
+      else { ileriBtn.textContent='Onayla'; ileriBtn.disabled=false; ayGos=new Date(taslak.gun.getFullYear(), taslak.gun.getMonth(), 1); takvimCiz(); saatCiz(); }
+    }
+    function pencereAc(){
+      konum = talep ? { lat:talep.lat, lng:talep.lng, adres:talep.adres, bolge:talep.bolge } : konum;
+      taslak = talep ? { gun:talep.gun, saat:talep.saat } : { gun:ilkHaftaici(), saat:ORNEK.saat };
+      ustte(kutu, true); pen.classList.add('acik'); adimGoster(1); haritaKur();
+      P('[data-kapat]').focus({preventScroll:true});
+    }
+    function pencereKapat(){
+      ustte(kutu, false); pen.classList.remove('acik'); onerEl.hidden=true;
+      formGoster(); anahtar.focus({preventScroll:true});
+    }
+    kutu.addEventListener('click', function(e){
+      if(e.target.closest('[data-kapat]') || e.target === pen) pencereKapat();
+      else if(e.target.closest('[data-geri]')) adimGoster(1);
+    });
+    kutu.addEventListener('keydown', function(e){ if(e.key==='Escape'){ e.stopPropagation(); pencereKapat(); } });
+    ileriBtn.addEventListener('click', function(){
+      if(adim === 1){
+        if(!konum) return;
+        if(!konum.bolge){ talep=null; bolgeDisi=true; pencereKapat(); return; }   // bölge dışı → telefonla görüşme
+        adimGoster(2);
+      } else {
+        talep = { lat:konum.lat, lng:konum.lng, adres:konum.adres, bolge:konum.bolge, gun:taslak.gun, saat:taslak.saat };
+        bolgeDisi=false; pencereKapat();
+      }
+    });
+
+    /* --- Harita: konum izni, yeşil hizmet bölgeleri, dokununca / sürükleyince yer seçimi --- */
+    var harita=null, isaret=null, tumBolge=null, adresNo=0, bolgeModu=false;
     function durumYaz(){
-      if(!konum){ durumEl.className='ty-konum-durum'; durumEl.innerHTML='<i class="bi bi-hand-index"></i><span>Haritaya dokunun ya da aşağıdan arayın.</span>'; zamanBtn.hidden=true; return; }
+      if(adim !== 1) return;
+      if(!konum){
+        durumEl.className='ty-konum-durum'; durumEl.innerHTML='<i class="bi bi-hand-index"></i><span>Haritaya dokunun ya da yukarıdan arayın.</span>';
+        ileriBtn.textContent='Devam: gün ve saat'; ileriBtn.disabled=true; return;
+      }
+      ileriBtn.disabled=false;
       if(konum.bolge){
         durumEl.className='ty-konum-durum icinde';
-        durumEl.innerHTML='<i class="bi bi-check-circle-fill"></i><span><b>'+esc(konum.adres)+'</b><br>Hizmet bölgemizde ('+esc(konum.bolge)+').</span>';
-        zamanBtn.hidden=false;
+        durumEl.innerHTML='<i class="bi bi-check-circle-fill"></i><span><b>'+esc(konum.adres)+'</b><br>Hizmet bölgemizde ('+esc(konum.bolge)+').'+(konum.not ? '<br><small>'+konum.not+'</small>' : '')+'</span>';
+        ileriBtn.textContent='Devam: gün ve saat';
       } else {
         durumEl.className='ty-konum-durum disinda';
-        durumEl.innerHTML='<i class="bi bi-info-circle-fill"></i><span><b>'+esc(konum.adres)+'</b><br>Bu bölgede henüz temsilci hizmetimiz yok. Formu gönderin, sizi telefonla arayalım.</span>';
-        zamanBtn.hidden=true;
+        durumEl.innerHTML='<i class="bi bi-info-circle-fill"></i><span><b>'+esc(konum.adres)+'</b><br>Bu bölgede henüz temsilci hizmetimiz yok; sizi telefonla arayalım.</span>';
+        ileriBtn.textContent='Telefonla görüşmeyle devam et';
       }
     }
     function adresBul(lat, lng){
@@ -447,14 +532,19 @@
           durumYaz();
         }).catch(function(){});
     }
-    function yerSec(lat, lng, adres, yakinlas){
-      konum = { lat:lat, lng:lng, adres:adres || 'Seçilen konum', bolge:icinde(lat, lng) };
+    function bolgeDugme(mod){
+      bolgeModu = mod;
+      bolgeBtn.querySelector('span').textContent = mod ? 'Konumuma dön' : 'Hizmet bölgesini göster';
+      bolgeBtn.querySelector('i').className = mod ? 'bi bi-geo-alt-fill' : 'bi bi-bounding-box-circles';
+    }
+    function yerSec(lat, lng, adres, yakinlas, not){
+      konum = { lat:lat, lng:lng, adres:adres || 'Seçilen konum', bolge:icinde(lat, lng), not:not || '' };
       if(harita){
         if(!isaret){
-          isaret = L.marker([lat,lng], { draggable:true, keyboard:false, icon:L.divIcon({ className:'ty-isaret', html:'<i class="bi bi-geo-alt-fill"></i>', iconSize:[34,34], iconAnchor:[17,32] }) }).addTo(harita);
+          isaret = L.marker([lat,lng], { draggable:true, keyboard:false, icon:L.divIcon({ className:'ty-isaret', html:'<i class="bi bi-geo-alt-fill"></i>', iconSize:[38,38], iconAnchor:[19,36] }) }).addTo(harita);
           isaret.on('dragend', function(){ var p=isaret.getLatLng(); yerSec(p.lat, p.lng); });
         } else isaret.setLatLng([lat,lng]);
-        if(yakinlas) harita.setView([lat,lng], Math.max(harita.getZoom(), 15));
+        if(yakinlas){ harita.setView([lat,lng], Math.max(harita.getZoom(), 16)); bolgeDugme(false); }
       }
       durumYaz();
       if(!adres) adresBul(lat, lng);
@@ -467,35 +557,44 @@
     }
     function ornekKonum(neden){
       // Demo: izin yoksa örnek bir hizmet bölgesi konumu; müşteri haritadan ya da aramayla değiştirebilir
-      yerSec(ORNEK_KONUM.lat, ORNEK_KONUM.lng, ORNEK_KONUM.adres, true);
-      durumEl.querySelector('span').insertAdjacentHTML('beforeend', '<br><small>'+neden+' Örnek konum gösteriliyor; haritadan ya da aramayla değiştirebilirsiniz.</small>');
+      yerSec(ORNEK_KONUM.lat, ORNEK_KONUM.lng, ORNEK_KONUM.adres, true, neden+' Örnek konum gösteriliyor; haritadan ya da aramayla değiştirebilirsiniz.');
     }
     function katmanGuncelle(){
       // Uzaktan: soluk gri harita + yeşil bölgeler (kompakt); yakından: mekânların da göründüğü renkli harita
       harita.getContainer().classList.toggle('ty-uzak', harita.getZoom() < 14);
     }
     function haritaKur(){
-      if(harita){ setTimeout(function(){ harita.invalidateSize(); }, 30); return; }
+      if(harita){
+        setTimeout(function(){ harita.invalidateSize(); if(konum) yerSec(konum.lat, konum.lng, konum.adres, true, konum.not); else konumIste(); }, 40);
+        return;
+      }
       leafletYukle().then(function(L){
         if(harita) return;
-        harita = L.map(form.querySelector('[data-mini-harita]'), { zoomControl:true, scrollWheelZoom:false, attributionControl:true });
+        harita = L.map(P('[data-harita]'), { zoomControl:false, attributionControl:true });
+        L.control.zoom({ position:'topright' }).addTo(harita);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, attribution:'© OpenStreetMap' }).addTo(harita);
-        var tum = L.featureGroup();
+        tumBolge = L.featureGroup();
         Object.keys(BOLGELER).forEach(function(ad){
           L.polygon(BOLGELER[ad], { color:'#00724c', weight:1.5, fillColor:'#00724c', fillOpacity:.22, interactive:false })
-            .bindTooltip(ad, { permanent:true, direction:'center', className:'ty-bolge-ad' }).addTo(tum);
+            .bindTooltip(ad, { permanent:true, direction:'center', className:'ty-bolge-ad' }).addTo(tumBolge);
         });
-        tum.addTo(harita);
-        harita.fitBounds(tum.getBounds(), { padding:[6,6] });
+        tumBolge.addTo(harita);
+        harita.fitBounds(tumBolge.getBounds(), { padding:[10,10] });
         harita.on('zoomend', katmanGuncelle); katmanGuncelle();
-        harita.on('click', function(e){ yerSec(e.latlng.lat, e.latlng.lng); });
-        setTimeout(function(){ harita.invalidateSize(); }, 30);
-        if(konum) yerSec(konum.lat, konum.lng, konum.adres, true); else konumIste();
+        harita.on('click', function(e){ onerEl.hidden=true; yerSec(e.latlng.lat, e.latlng.lng); });
+        setTimeout(function(){ harita.invalidateSize(); }, 40);
+        if(konum) yerSec(konum.lat, konum.lng, konum.adres, true, konum.not); else konumIste();
       }, function(){
-        form.querySelector('[data-mini-harita]').innerHTML='<div class="ty-harita-hata">Harita yüklenemedi. Aşağıdan adres arayabilirsiniz.</div>';
+        P('[data-harita]').innerHTML='<div class="ty-harita-hata">Harita yüklenemedi. Yukarıdan adres arayabilirsiniz.</div>';
       });
     }
-    form.querySelector('[data-konumum]').addEventListener('click', konumIste);
+    P('[data-konumum]').addEventListener('click', konumIste);
+    bolgeBtn.addEventListener('click', function(){
+      if(!harita) return;
+      if(!bolgeModu){ harita.flyToBounds(tumBolge.getBounds(), { padding:[16,16], duration:.6 }); bolgeDugme(true); }
+      else if(konum){ harita.flyTo([konum.lat, konum.lng], 16, { duration:.6 }); bolgeDugme(false); }
+      else { konumIste(); bolgeDugme(false); }
+    });
 
     /* --- Elle konum: WhatsApp'taki gibi adres / mekân arama --- */
     var araZaman=null, araNo=0;
@@ -520,24 +619,19 @@
       var b=e.target.closest('button[data-i]'); if(!b) return;
       var x=onerEl._sonuc[+b.dataset.i], parca=x.display_name.split(', ');
       yerSec(+x.lat, +x.lon, [x.name||parca[0], parca[1]].filter(Boolean).join(', '), true);
-      onerEl.hidden=true; araEl.value='';
+      onerEl.hidden=true; araEl.value=''; araEl.blur();
     });
 
-    /* --- Gün ve saat (haritadan sonra): satıra dokununca takvim penceresi --- */
-    function zamanGoster(){ zamanBtn.querySelector('b').textContent = kisaGun(zaman.gun)+', '+zaman.saat; }
-    function ac(){ ustte(kutu, true); penT.classList.add('acik'); var o=penT.querySelector('[aria-pressed="true"]')||penT.querySelector('[data-kapat]'); if(o) o.focus({preventScroll:true}); }
-    function kapat(){ ustte(kutu, false); penT.classList.remove('acik'); zamanBtn.focus({preventScroll:true}); }
-    kutu.addEventListener('click', function(e){ if(e.target.closest('[data-kapat]') || e.target.classList.contains('ty-pencere')) kapat(); });
-    kutu.addEventListener('keydown', function(e){ if(e.key==='Escape'){ e.stopPropagation(); kapat(); } });
+    /* --- 2. adım: gün ve saat --- */
     var bas=new Date(); bas.setHours(12,0,0,0); bas.setDate(bas.getDate()+1);
     var son=new Date(bas); son.setDate(son.getDate()+20);
     var ayGos;
     function ilkHaftaici(){ var d=new Date(bas); while(d.getDay()===0||d.getDay()===6) d.setDate(d.getDate()+1); return d; }
     function takvimCiz(){
       var y=ayGos.getFullYear(), m=ayGos.getMonth(), h='';
-      penT.querySelector('[data-ay-ad]').textContent = AY[m]+' '+y;
-      penT.querySelector('[data-ay="-1"]').disabled = (y*12+m) <= (bas.getFullYear()*12+bas.getMonth());
-      penT.querySelector('[data-ay="1"]').disabled = (y*12+m) >= (son.getFullYear()*12+son.getMonth());
+      P('[data-ay-ad]').textContent = AY[m]+' '+y;
+      P('[data-ay="-1"]').disabled = (y*12+m) <= (bas.getFullYear()*12+bas.getMonth());
+      P('[data-ay="1"]').disabled = (y*12+m) >= (son.getFullYear()*12+son.getMonth());
       ['Pt','Sa','Ça','Pe','Cu','Ct','Pz'].forEach(function(g){ h+='<div class="gb" aria-hidden="true">'+g+'</div>'; });
       // Yalnız seçilebilir gün içeren haftalar çizilir (geçmiş haftalar yer kaplamasın)
       var bos=(new Date(y,m,1).getDay()+6)%7, gs=new Date(y,m+1,0).getDate(), hucre=[];
@@ -553,22 +647,16 @@
           h+='<button type="button" data-g="'+d.getDate()+'"'+(uygun?'':' disabled')+(d.getDay()===6&&uygun?' class="yogun"':'')+' aria-pressed="'+(sec?'true':'false')+'" aria-label="'+uzunGun(d)+(d.getDay()===6?', yoğun':'')+'">'+d.getDate()+'</button>';
         });
       }
-      penT.querySelector('[data-takvim]').innerHTML=h;
+      P('[data-takvim]').innerHTML=h;
     }
     function saatCiz(){
-      penT.querySelector('[data-saatler]').innerHTML = SAATLER.map(function(s){ return '<button type="button" data-s="'+s+'" aria-pressed="'+(taslak.saat===s)+'">'+s+'</button>'; }).join('');
+      P('[data-saatler]').innerHTML = SAATLER.map(function(s){ return '<button type="button" data-s="'+s+'" aria-pressed="'+(taslak.saat===s)+'">'+s+'</button>'; }).join('');
     }
-    penT.addEventListener('click', function(e){
+    P('[data-adim="2"]').addEventListener('click', function(e){
       var b=e.target.closest('button'); if(!b) return;
       if(b.dataset.ay){ ayGos=new Date(ayGos.getFullYear(), ayGos.getMonth()+(+b.dataset.ay), 1); takvimCiz(); }
-      else if(b.dataset.g){ taslak.gun=new Date(ayGos.getFullYear(), ayGos.getMonth(), +b.dataset.g, 12); takvimCiz(); penT.querySelector('[data-g="'+b.dataset.g+'"]').focus(); }
-      else if(b.dataset.s){ taslak.saat=b.dataset.s; saatCiz(); penT.querySelector('[data-s="'+b.dataset.s+'"]').focus(); }
-      else if(b.hasAttribute('data-takvim-onay')){ zaman={ gun:taslak.gun, saat:taslak.saat }; zamanGoster(); kapat(); }
-    });
-    zamanBtn.addEventListener('click', function(){
-      taslak = { gun:zaman.gun, saat:zaman.saat };
-      ayGos = new Date(taslak.gun.getFullYear(), taslak.gun.getMonth(), 1);
-      takvimCiz(); saatCiz(); ac();
+      else if(b.dataset.g){ taslak.gun=new Date(ayGos.getFullYear(), ayGos.getMonth(), +b.dataset.g, 12); takvimCiz(); P('[data-g="'+b.dataset.g+'"]').focus(); }
+      else if(b.dataset.s){ taslak.saat=b.dataset.s; saatCiz(); P('[data-s="'+b.dataset.s+'"]').focus(); }
     });
 
     f.telefon.addEventListener('input', function(e){
@@ -602,7 +690,6 @@
       if(!v.soyad) eksik.push([f.soyad,'Soyadınızı yazın.']);
       if(v.tel.length!==10) eksik.push([f.telefon,'Telefonu 10 hane yazın.']);
       if(!f.kanun.checked) eksik.push([f.kanun.closest('label'),'Devam etmek için onaylayın.']);
-      if(temsilciMi() && !konum) eksik.push([form.querySelector('[data-mini-harita]'),'Haritadan ya da aramayla konumunuzu seçin.']);
       if(eksik.length){
         eksik.forEach(function(x){ isaretle(x[0], x[1]); });
         var ilk=eksik[0][0], odak=ilk.matches('input') ? ilk : ilk.querySelector('input');
@@ -612,9 +699,9 @@
       }
 
       var h, ozet='';
-      var secim = temsilciMi() && konum && konum.bolge, bolgeDisi = temsilciMi() && konum && !konum.bolge;
+      var secim = !!talep;
       var adSoyad = esc(v.ad+' '+v.soyad);
-      if(secim){ v.gun=uzunGun(zaman.gun); v.saat=zaman.saat; v.adres=konum.adres; ozet += satir('Gün',v.gun)+satir('Saat',v.saat)+satir('Yer',v.adres); }
+      if(secim){ v.gun=uzunGun(talep.gun); v.saat=talep.saat; v.adres=talep.adres; ozet += satir('Gün',v.gun)+satir('Saat',v.saat)+satir('Yer',v.adres); }
       if(plan) ozet += satir('Plan', plan.uzun);
       h = '<div class="ty-basari-ikon"><i class="bi bi-check-circle-fill"></i></div><div class="baslik pb-2">Başarılı!</div>';
       if(secim){

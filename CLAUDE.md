@@ -16,9 +16,10 @@ her adım bitince burada "Durum" güncellenir.
    renkler, logolar, görseller, yazı tipi, düğme/kutu biçimi siteyle aynı. Kaynak her zaman eminevim.com (değerler
    "Kararlar"daki "Görünüm kaynağı" maddesinde).
 3. **Web formu akışı.**
-   - Form doldurulurken bir **seçim düğmesi (radio)**: "Temsilci çağırmak istiyorum" işaretlenebilir.
-   - İşaretlendiği anda **konum izni istenir** ve formun içinde **küçük bir harita** açılır; altında WhatsApp'taki gibi
-     **elle konum girme/seçme** seçeneği olur (izin verilmezse ya da yanlışsa).
+   - Formda yalnız **"Temsilci çağırmak istiyorum" için sağa-sola kaydırmalı düğme** (telefonla seçeneği yok; 2026-10-21 değişikliği).
+   - Düğme açılınca **ayrı pencere** açılır: 1/2 harita (konum izni istenir, üstte WhatsApp'taki gibi adres/mekân arama,
+     sağ altta **"Hizmet bölgesini göster"** → bölgeler görünürken düğme **"Konumuma dön"** olur ve seçili konuma odaklar),
+     2/2 gün ve saat → "Onayla". Pencere onaysız kapanırsa düğme kapanır. Formda tek satır özet + "Değiştir".
    - Harita sade ama **mekânlar görünür** olmalı. Uzaktan bakınca yalnız harita + **hizmet bölgeleri yeşil** alan
      (kompakt görünüm). Hizmet bölgeleri şimdilik: **İstanbul Ümraniye, Ataşehir, Üsküdar**.
    - Seçilen konum hizmet bölgesinin içindeyse ilerlenir.
@@ -42,12 +43,11 @@ her adım bitince burada "Durum" güncellenir.
    - Temsilci bilgisi **SMS olarak da gider** ve uygulamada da görünür. Temsilciler için **sentetik (yapay) fotoğraflar**
      üretilip SMS önizlemesinde ve uygulamada kullanılır (gerçek kişi fotoğrafı kullanılmaz).
 
-**Durum:** Adım 1 bitti (2026-10-21): onay kutularından sonra "Telefonla bilgi almak istiyorum / Temsilci çağırmak istiyorum";
-temsilci seçilince form içinde küçük harita (Leaflet + OSM; uzaktayken soluk gri + yeşil bölgeler ve adları, yakında renkli
-ve mekânlı), konum izni (yoksa demo için Ataşehir örnek konumu), dokun/sürükle ile seçim, WhatsApp gibi adres/mekân arama
-(Nominatim, İstanbul sınırlı), bölge kontrolü (dışındaysa telefonla başvuruya döner), haritanın altında gün/saat satırı →
-takvim penceresi. Bölge sınırları `form_bolumu.html` içinde `BOLGELER` (OSM'den sadeleştirilmiş). CARTO sade harita anahtar
-istiyor — kullanılmaz. Önizleme iframe'inde `allow="geolocation"` gerekli (linkler.html'de var).
+**Durum:** Adım 1 bitti (2026-10-21, sonra pencereye taşındı): kaydırmalı düğme → pencere (Leaflet + OSM; uzaktayken soluk
+gri + yeşil bölgeler ve adları, yakında renkli ve mekânlı; konum izni yoksa demo için Ataşehir örnek konumu; dokun/sürükle;
+Nominatim araması İstanbul sınırlı) → gün/saat. Bölge dışı: pencerede "Telefonla görüşmeyle devam et" → formda turuncu not,
+başvuru telefonla. Bölge sınırları `form_bolumu.html` içinde `BOLGELER`. CARTO sade harita anahtar istiyor — kullanılmaz.
+Önizleme iframe'inde `allow="geolocation"` gerekli (linkler.html'de var).
 Adım 2 bitti: "Başarılı!" ekranı (ad soyad, gün/saat/yer özeti, "Size atanan temsilcinin adını,
 fotoğrafını ve sicil numarasını Eminevim uygulamasından kontrol edebilirsiniz.", yeşil kartta uygulama yazısı + turuncu
 "Uygulamayı aç"; link `?kaynak=web&ad=&tel=&gun=&saat=&yer=` taşır — adım 3'te uygulama bunu okuyacak). Mesaj önizleme
