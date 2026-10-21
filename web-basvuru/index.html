@@ -130,7 +130,7 @@
     </script>
 
 
-<script>NS_CSM_td=286068075;NS_CSM_pd=275116666;NS_CSM_u="/clm10";NS_CSM_col="AAAAAAUXwtKb+35OqyG49jAIqobhp1cspmZ45asf2NLa8Lmcu4yZfCMAdXcvj/5iifi0MZBVQEmP2hERDtZdSJt47FNa";</script><script type="text/javascript">function sendTimingInfoInit(){setTimeout(sendTimingInfo,0)}function sendTimingInfo(){var wp=window.performance;if(wp){var c1,c2,t;c1=wp.timing;if(c1){var cm={};cm.ns=c1.navigationStart;if((t=c1.unloadEventStart)>0)cm.us=t;if((t=c1.unloadEventEnd)>0)cm.ue=t;if((t=c1.redirectStart)>0)cm.rs=t;if((t=c1.redirectEnd)>0)cm.re=t;cm.fs=c1.fetchStart;cm.dls=c1.domainLookupStart;cm.dle=c1.domainLookupEnd;cm.cs=c1.connectStart;cm.ce=c1.connectEnd;if((t=c1.secureConnectionStart)>0)cm.scs=t;cm.rqs=c1.requestStart;cm.rss=c1.responseStart;cm.rse=c1.responseEnd;cm.dl=c1.domLoading;cm.di=c1.domInteractive;cm.dcls=c1.domContentLoadedEventStart;cm.dcle=c1.domContentLoadedEventEnd;cm.dc=c1.domComplete;if((t=c1.loadEventStart)>0)cm.ls=t;if((t=c1.loadEventEnd)>0)cm.le=t;cm.tid=NS_CSM_td;cm.pid=NS_CSM_pd;cm.ac=NS_CSM_col;var xhttp=new XMLHttpRequest();if(xhttp){var JSON=JSON||{};JSON.stringify=JSON.stringify||function(ob){var t=typeof(ob);if(t!="object"||ob===null){if(t=="string")ob='"'+ob+'"';return String(ob);}else{var n,v,json=[],arr=(ob&&ob.constructor==Array);for(n in ob){v=ob[n];t=typeof(v);if(t=="string")v='"'+v+'"';else if(t=="object"&&v!==null)v=JSON.stringify(v);json.push((arr?"":'"'+n+'":')+String(v));}return(arr?"[":"{")+String(json)+(arr?"]":"}");}};xhttp.open("POST",NS_CSM_u,true);xhttp.send(JSON.stringify(cm));}}}}if(window.addEventListener)window.addEventListener("load",sendTimingInfoInit,false);else if(window.attachEvent)window.attachEvent("onload",sendTimingInfoInit);else window.onload=sendTimingInfoInit;</script>
+<script>NS_CSM_td=301661060;NS_CSM_pd=275116664;NS_CSM_u="/clm10";NS_CSM_col="AAAAAAW56USkQmPKcyzKodKFT8y3IM48+mRbbmCsf3L0we9+K7Y7j5dt6cyAQq3qHCSk+uGvUeS5cVkThawFBhf6QvVs";</script><script type="text/javascript">function sendTimingInfoInit(){setTimeout(sendTimingInfo,0)}function sendTimingInfo(){var wp=window.performance;if(wp){var c1,c2,t;c1=wp.timing;if(c1){var cm={};cm.ns=c1.navigationStart;if((t=c1.unloadEventStart)>0)cm.us=t;if((t=c1.unloadEventEnd)>0)cm.ue=t;if((t=c1.redirectStart)>0)cm.rs=t;if((t=c1.redirectEnd)>0)cm.re=t;cm.fs=c1.fetchStart;cm.dls=c1.domainLookupStart;cm.dle=c1.domainLookupEnd;cm.cs=c1.connectStart;cm.ce=c1.connectEnd;if((t=c1.secureConnectionStart)>0)cm.scs=t;cm.rqs=c1.requestStart;cm.rss=c1.responseStart;cm.rse=c1.responseEnd;cm.dl=c1.domLoading;cm.di=c1.domInteractive;cm.dcls=c1.domContentLoadedEventStart;cm.dcle=c1.domContentLoadedEventEnd;cm.dc=c1.domComplete;if((t=c1.loadEventStart)>0)cm.ls=t;if((t=c1.loadEventEnd)>0)cm.le=t;cm.tid=NS_CSM_td;cm.pid=NS_CSM_pd;cm.ac=NS_CSM_col;var xhttp=new XMLHttpRequest();if(xhttp){var JSON=JSON||{};JSON.stringify=JSON.stringify||function(ob){var t=typeof(ob);if(t!="object"||ob===null){if(t=="string")ob='"'+ob+'"';return String(ob);}else{var n,v,json=[],arr=(ob&&ob.constructor==Array);for(n in ob){v=ob[n];t=typeof(v);if(t=="string")v='"'+v+'"';else if(t=="object"&&v!==null)v=JSON.stringify(v);json.push((arr?"":'"'+n+'":')+String(v));}return(arr?"[":"{")+String(json)+(arr?"]":"}");}};xhttp.open("POST",NS_CSM_u,true);xhttp.send(JSON.stringify(cm));}}}}if(window.addEventListener)window.addEventListener("load",sendTimingInfoInit,false);else if(window.attachEvent)window.attachEvent("onload",sendTimingInfoInit);else window.onload=sendTimingInfoInit;</script>
 <style>
   /* Form sitenin kendi sınıflarını kullanır; burada yalnız eklenen parçalar var */
   .tk-desktopForm.ty-panel{max-height:72vh;overflow-y:auto}
@@ -324,8 +324,18 @@
   .ty-uyg-kart img{height:16px;width:auto;margin-bottom:8px}
   .ty-uyg-kart p{font-size:9pt;line-height:1.4;color:var(--tkd_yaziRengi);margin:0 0 10px}
   .ty-mobil .ty-uyg-kart p{font-size:10.5pt}
+  .ty-uyg-kart .ty-magaza-not{display:none;font-weight:700}
+  .tk-desktopForm .ty-uyg-kart .ty-magaza-not{display:block}
   .ty-uyg-kart .tk-turuncuButon{display:block;padding:8px 15px;color:#fff !important;text-decoration:none}
   .ty-mobil .ty-uyg-kart .tk-turuncuButon{padding:13px 15px}
+  /* Bilgisayarda uygulama açılamaz: düğme yerine mağaza simgeleri */
+  .ty-magaza{display:none;gap:8px;justify-content:center}
+  .tk-desktopForm .ty-magaza{display:flex}
+  .tk-desktopForm .ty-uyg-kart .tk-turuncuButon{display:none}
+  .ty-magaza > span{display:flex;align-items:center;gap:7px;background:#111;color:#fff;border-radius:9px;padding:5px 11px 5px 9px;text-align:left;line-height:1.05}
+  .ty-magaza i{font-size:19px}
+  .ty-magaza small{display:block;font-size:7pt;opacity:.85}
+  .ty-magaza b{font-size:9.5pt;font-weight:700}
   /* Teşekkür */
   .ty-sonuc{text-align:center}
   .ty-sonuc .ty-ozet{background:var(--tkd_homeAcikYesilBack,#e9f0ed);border-radius:12px;padding:9px 11px;font-size:9pt;margin:0 0 10px;text-align:left}
@@ -917,13 +927,13 @@
                         EKİM
                         AYI TESLİMATIMIZ
                     </div>
-                    <div class="tvalue counterValue" akhi="13816"></div>
+                    <div class="tvalue counterValue" akhi="14088"></div>
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
                 <a href="javascript:void(0)" class="tk-counterKutu2">
                     <div class="tk-counterAciklama">TOPLAM TESLİMATIMIZ</div>
-                    <div class="counterValue tvalue" akhi="623089"></div>
+                    <div class="counterValue tvalue" akhi="623085"></div>
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-2 col-xxl-3">
@@ -934,7 +944,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-2 col-xxl-3">
                 <a href="javascript:void(0)" class="tk-counterKutu4">
-                    <div class="tvalue counterValue" akhi="4539"></div>
+                    <div class="tvalue counterValue" akhi="4553"></div>
                     <div class="tk-counterAciklama">ÇALIŞAN</div>
                 </a>
             </div>
@@ -2627,6 +2637,8 @@ _utmx</strong></strong></p>
       // Uygulama: formdaki telefonla kayıtlı müşteri olarak açılır (adım 3)
       var uygLink = UYGULAMA + '?kaynak=web&ad=' + encodeURIComponent(v.ad+' '+v.soyad) + '&tel=' + v.tel + (secim ? '&gun=' + encodeURIComponent(v.gun) + '&saat=' + encodeURIComponent(v.saat) + '&yer=' + encodeURIComponent(v.adres) : '');
       h += '<div class="ty-uyg-kart"><img src="/Images/newWeb_2025/logo/eminevim_logo_yesil.svg" alt="Eminevim"><p>Kampanyalarımıza, Finansman Aracımıza ve size atanan temsilci hakkında detaylara ulaşmak için Eminevim uygulamasını kullanabilirsiniz.</p>'+
+        '<p class="ty-magaza-not">Telefonunuza indirip bu telefon numarasıyla giriş yapın.</p>'+
+        '<div class="ty-magaza" aria-label="Uygulamayı indirin"><span><i class="bi bi-apple" aria-hidden="true"></i><span><small>Download on the</small><b>App Store</b></span></span><span><i class="bi bi-google-play" aria-hidden="true"></i><span><small>GET IT ON</small><b>Google Play</b></span></span></div>'+
         '<a class="tk-turuncuButon" data-ty-dis href="'+uygLink+'" target="_blank" rel="noopener">Uygulamayı aç</a></div>'+
         '<button type="button" class="ty-bag" data-yeni>Yeni başvuru</button>';
       sonuc.innerHTML = h; form.hidden = true; sonuc.hidden = false;

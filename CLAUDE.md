@@ -58,10 +58,14 @@ düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adı
 - **Web'den gelen:** `?kaynak=web&ad=&tel=&gun=&saat=&yer=` → giriş ekranı atlanır, telefonla kayıtlı, finansman yok,
   talep Başvurum'da, temsilci atanmış (bölgeye göre: Üsküdar→Derya Aksoy, Ümraniye→Berk Cengiz, diğer→Onur Kaya) ve
   Sohbet'te ilk mesajı var. Telefonla başvuruda "Sizi arayacağız" + "Temsilci iste".
-- **Müşteri sekmeleri:** Başvurum (durum, adımlar, gün/saat/yer, atanan temsilci kartı, Mesaj gönder, Görüşme günü) ·
-  Sohbet · Finansman (eski Finansmanlarım) · Ayarlar (ad, telefon, çıkış). Eski Profil/İletişim (Temsilci Bul) gizli.
-- **Hoş geldiniz:** 3 sayfalık alt pencere (yeni kayıt ve web'den gelen; Kayıtlı Müşteri'de çıkmaz).
-- **Kayıtlı Müşteri (Ayşe Kaya):** konut finansmanı var, Sohbet'te randevu netleşmiş, durum "Temsilcinizi bekliyorsunuz".
+- **Müşteri sekmeleri (2026-10-21 gece güncel):** **Randevum** (eski Başvurum; yeşil durum kartında gün/saat/yer, kısa adım
+  listesi, temsilci tek satır + **"Bilgiler"** tuşu → alt pencerede fotoğraf/şube/sicil, Mesaj gönder; görüşme günü
+  "Temsilcinizi takip edin") · Sohbet (başlıkta da "Bilgiler"; temsilci ilk mesajda saati önerir, müşteri **"Saati onayla"**
+  düğmesiyle onaylar → durum `netlesti`) · Finansman ("+ Yeni", "Değiştir") · Ayarlar. Durumlar: alindi → atandi → netlesti → gorusme.
+  Gereksiz/tekrarlı yazılar ayıklandı (Gün/Saat/Yer tablosu, adım alt yazıları, "Örnek görünüm" notu).
+- **Hoş geldiniz:** 3 sayfalık alt pencere, her sayfada basit resim (satır içi SVG) + tek kısa cümle (yeni kayıt ve web'den gelen).
+- **Kayıtlı Müşteri (Ayşe Kaya):** KVKK sorulmaz (önceden onaylamış); **görüşme günü** senaryosu — bugün 18:00, temsilci
+  Onur Kaya yolda (~12 dk), konut finansmanı var, sohbette randevu dünden netleşmiş.
 - Uygulama içi "Temsilci iste" (2026-10-21 gece): web penceresiyle aynı akış — 1/2 harita (`konum-sec.html`, iframe;
   seçimi `postMessage {tip:"ty-konum"}` ile yollar; `BOLGELER` form_bolumu.html'den kopya, bölge değişirse ikisini de
   güncelle) → 2/2 gün + saat (10:00–20:00, web'deki gibi) → "Talebiniz alındı" → Başvurumu gör. Bölge dışı → telefonla talep.
@@ -146,8 +150,10 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
   Site modalının içindeyse pencereler modalın içine eklenir (Bootstrap odak kilidi) ve açıkken modal z-index 10000'e çıkar
   (sitenin solda gizli mobil menüsü z 9999, gölge düşürüyordu).
   Eksik kutu sitenin turuncu hata renginde (`--tdk_turuncuHata`) ve uyarı altında; telefonda "Gönder" pencere altında sabit.
-- Önizlemede (`linkler.html`) web formu telefon görünümü Safari çubuklarıyla: iPhone 15 görünür alan 393×659 (üst 59, alt 134 px).
-  Test de bu boyutta yapılmalı.
+- Önizlemede (`linkler.html`) bilgisayarda Safari çubukları gösterilmez (2026-10-21 kullanıcı kararı); telefon testleri yine
+  393×659 (gerçek iPhone'un görünür alanı) boyutunda da yapılmalı.
+- Web "Başarılı" ekranı: bilgisayarda (`.tk-desktopForm`) "Uygulamayı aç" yerine App Store / Google Play simgeleri + kısa cümle;
+  telefonda düğme kalır.
 
 ## Taslak isteği gelirse (web ya da uygulama)
 Kullanıcı "taslak göster" dediğinde çalışan kod değil, **sunuma eklenebilir ekran taslağı** hazırla:

@@ -192,8 +192,18 @@
   .ty-uyg-kart img{height:16px;width:auto;margin-bottom:8px}
   .ty-uyg-kart p{font-size:9pt;line-height:1.4;color:var(--tkd_yaziRengi);margin:0 0 10px}
   .ty-mobil .ty-uyg-kart p{font-size:10.5pt}
+  .ty-uyg-kart .ty-magaza-not{display:none;font-weight:700}
+  .tk-desktopForm .ty-uyg-kart .ty-magaza-not{display:block}
   .ty-uyg-kart .tk-turuncuButon{display:block;padding:8px 15px;color:#fff !important;text-decoration:none}
   .ty-mobil .ty-uyg-kart .tk-turuncuButon{padding:13px 15px}
+  /* Bilgisayarda uygulama açılamaz: düğme yerine mağaza simgeleri */
+  .ty-magaza{display:none;gap:8px;justify-content:center}
+  .tk-desktopForm .ty-magaza{display:flex}
+  .tk-desktopForm .ty-uyg-kart .tk-turuncuButon{display:none}
+  .ty-magaza > span{display:flex;align-items:center;gap:7px;background:#111;color:#fff;border-radius:9px;padding:5px 11px 5px 9px;text-align:left;line-height:1.05}
+  .ty-magaza i{font-size:19px}
+  .ty-magaza small{display:block;font-size:7pt;opacity:.85}
+  .ty-magaza b{font-size:9.5pt;font-weight:700}
   /* Teşekkür */
   .ty-sonuc{text-align:center}
   .ty-sonuc .ty-ozet{background:var(--tkd_homeAcikYesilBack,#e9f0ed);border-radius:12px;padding:9px 11px;font-size:9pt;margin:0 0 10px;text-align:left}
@@ -718,6 +728,8 @@
       // Uygulama: formdaki telefonla kayıtlı müşteri olarak açılır (adım 3)
       var uygLink = UYGULAMA + '?kaynak=web&ad=' + encodeURIComponent(v.ad+' '+v.soyad) + '&tel=' + v.tel + (secim ? '&gun=' + encodeURIComponent(v.gun) + '&saat=' + encodeURIComponent(v.saat) + '&yer=' + encodeURIComponent(v.adres) : '');
       h += '<div class="ty-uyg-kart"><img src="/Images/newWeb_2025/logo/eminevim_logo_yesil.svg" alt="Eminevim"><p>Kampanyalarımıza, Finansman Aracımıza ve size atanan temsilci hakkında detaylara ulaşmak için Eminevim uygulamasını kullanabilirsiniz.</p>'+
+        '<p class="ty-magaza-not">Telefonunuza indirip bu telefon numarasıyla giriş yapın.</p>'+
+        '<div class="ty-magaza" aria-label="Uygulamayı indirin"><span><i class="bi bi-apple" aria-hidden="true"></i><span><small>Download on the</small><b>App Store</b></span></span><span><i class="bi bi-google-play" aria-hidden="true"></i><span><small>GET IT ON</small><b>Google Play</b></span></span></div>'+
         '<a class="tk-turuncuButon" data-ty-dis href="'+uygLink+'" target="_blank" rel="noopener">Uygulamayı aç</a></div>'+
         '<button type="button" class="ty-bag" data-yeni>Yeni başvuru</button>';
       sonuc.innerHTML = h; form.hidden = true; sonuc.hidden = false;

@@ -376,3 +376,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Uygulama "Temsilci iste": web penceresiyle aynı — 1/2 harita (`konum-sec.html`: arama, yeşil hizmet bölgeleri, Konumuma dön) → 2/2 gün ve saat (10:00–20:00) → "Talebiniz alındı" → Başvurumu gör. Bölge dışı → telefonla talep.
 - Finansman sekmesinde temsilci bulma/iletişim düğmesi yok; kaydedince Finansman'da kalır. Eski "Temsilci Bul" eşleştirme ekranı kaldırıldı.
 - Doğrulama: yeni kayıt → Başvurum boş → harita (Üsküdar) → gün/saat → başarılı → temsilci atandı; Finansman'da temsilci düğmesi yok; sayfa hatası yok.
+
+### 2026-10-21 (gece) - Randevum, saat onayı, temsilci bilgileri, resimli Hoş geldiniz
+
+- Başvurum → **Randevum**; tekrarlayan yazılar kaldırıldı; temsilci "Bilgiler" tuşuyla (Randevum + Sohbet) alt pencerede.
+- Sohbet: temsilci saati önerir, "Saati onayla" düğmesi. Finansman: "+ Yeni", "Değiştir".
+- Kayıtlı Müşteri: KVKK sorulmuyor, görüşme günü senaryosu (temsilci yolda, "Temsilcinizi takip edin").
+- Hoş geldiniz: 3 sayfa, basit resimler. Web Başarılı (bilgisayar): mağaza simgeleri. Önizlemede bilgisayarda Safari çubukları yok.
+- Doğrulama: kayıtlı müşteri, yeni kayıt → harita → onay → sohbette saat onayı, web bilgisayar başarılı ekranı; sayfa hatası yok.

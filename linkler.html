@@ -108,7 +108,7 @@
       </div>
     </header>
     <div class="sahne" id="sahne">
-      <div class="cihaz iphone" id="cihaz"><div class="ekran"><div class="safari ust" aria-hidden="true"><span>9:41</span><span>▮▮▮ ◔ ▭</span></div><iframe id="cerceve" title="Önizleme" allow="geolocation"></iframe><div class="safari alt" aria-hidden="true"><div class="adres">🔒 eminevim.com</div><div class="araclar"><span>‹</span><span style="opacity:.35">›</span><span>⇪</span><span>▢</span><span>⧉</span></div><i class="ev"></i></div></div><i class="tus" style="top:18%;height:5%"></i><i class="tus" style="top:26%;height:8%"></i><i class="tus" style="top:36%;height:8%"></i></div>
+      <div class="cihaz iphone" id="cihaz"><div class="ekran"><iframe id="cerceve" title="Önizleme" allow="geolocation"></iframe></div><i class="tus" style="top:18%;height:5%"></i><i class="tus" style="top:26%;height:8%"></i><i class="tus" style="top:36%;height:8%"></i></div>
     </div>
     <nav class="alt" aria-label="Diğer bağlantılar">
       <a class="ana" id="yeniSekme" href="#" target="_blank" rel="noopener">Tam ekran aç ↗</a>
@@ -154,7 +154,7 @@
     var w = sahne.clientWidth - 32 - kx, h = sahne.clientHeight - 12 - ky;
     var olcek = Math.min(w / b[0], h / b[1], 1);
     // Web formu telefonda Safari çubuklarıyla: iPhone 15'te görünür alan 393×659 (üst 59, alt 134 px)
-    var tarayici = g === "telefon" && secim.ne === "web", ust = tarayici ? 59 : 0, yuk = tarayici ? 659 : b[1];
+    var tarayici = false, ust = 0, yuk = b[1];   // bilgisayarda tarayıcı çubukları gösterilmez (kullanıcı kararı 2026-10-21)
     cihaz.classList.toggle("tarayici", tarayici); cihaz.style.setProperty("--o", olcek);
     cerceve.style.width = b[0] + "px"; cerceve.style.height = yuk + "px";
     cerceve.style.top = Math.round(ust * olcek) + "px";
