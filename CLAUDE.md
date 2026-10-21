@@ -96,6 +96,8 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 - `web-basvuru/` — eminevim.com ana sayfa kopyasında yeni Hızlı Başvuru formu (`form_bolumu.html` düzenlenir,
   `python olustur.py` → `index.html`). Sayfadaki tüm linkler etkisizdir; bu kural korunmalı.
 - `taslak/` — sunuma eklenebilir ekran taslakları (aşağıya bakın).
+- `rapor/benzer-uygulamalar.html` — Türkiye + dünya benzer uygulamalar, yenilik fikirleri, uyarılar (2026-10-21 taslak; kullanıcıyla
+  konuşulup ortak rapora dönüşecek). linkler.html'de "Araştırma raporu".
 - `backup/2026-10-21-eski-uygulama/` — sade akıştan önceki uygulama (açılır hâlde; git etiketi `eski-uygulama-2026-10-21`).
   Geri dönmek gerekirse: `git checkout eski-uygulama-2026-10-21 -- "Eminevim Saha Paneli.dc.html"`.
 - `PROJE_ILERLEME.md` — her çalışmadan sonra tarihli kısa not eklenir.
