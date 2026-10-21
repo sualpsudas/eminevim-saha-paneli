@@ -31,6 +31,17 @@
   .cihaz.iphone::before{content:"";position:absolute;top:11px;left:50%;transform:translateX(-50%);width:31%;height:3.6%;max-height:34px;background:#000;border-radius:20px;z-index:3}
   .cihaz.iphone::after{content:"";position:absolute;right:-14px;top:22%;width:3px;height:11%;background:#3a3a3c;border-radius:2px}
   .cihaz.iphone .tus{position:absolute;left:-14px;width:3px;background:#3a3a3c;border-radius:2px}
+  /* Web formu telefonda: Safari'nin üst (durum) ve alt (adres + araç) çubuğu görünür alanı daraltır */
+  .safari{display:none;position:absolute;left:0;right:0;background:#f6f6f6;color:#111;z-index:2;font-family:-apple-system,"Segoe UI",Arial,sans-serif;font-size:calc(15px*var(--o,1))}
+  .cihaz.iphone.tarayici .safari{display:block}
+  .safari.ust{top:0;height:6.93%;align-items:flex-end;justify-content:space-between;padding:0 8% 1.2% 10%;font-weight:600}
+  .cihaz.iphone.tarayici .safari.ust{display:flex}
+  .safari.ust span:last-child{letter-spacing:2px;font-size:.8em}
+  .safari.alt{bottom:0;height:15.73%;border-top:1px solid #ddd;padding:2.2% 4% 0}
+  .safari .adres{position:relative;background:#fff;border-radius:calc(12px*var(--o,1));box-shadow:0 1px 3px rgba(0,0,0,.15);height:34%;display:flex;align-items:center;justify-content:center;gap:.4em;font-size:.95em}
+  .safari .adres::before{content:"aA";position:absolute;left:5%;font-weight:600;font-size:.9em}
+  .safari .araclar{display:flex;justify-content:space-around;color:#0a7aff;font-size:1.25em;padding-top:4%}
+  .safari .ev{position:absolute;bottom:6%;left:50%;width:36%;height:5px;transform:translateX(-50%) scaleY(var(--o,1));background:#111;border-radius:3px}
   .cihaz.bilgisayar{border:6px solid var(--cerceve);border-top-width:18px;border-radius:10px}
   .cihaz.bilgisayar .ekran{position:absolute;inset:0;overflow:hidden}
   .cihaz.bilgisayar .tus{display:none}
@@ -69,7 +80,7 @@
     .sol{height:100%}
     .sahne{padding:0}
     .cihaz,.cihaz.iphone,.cihaz.bilgisayar{border:0;border-radius:0;box-shadow:none;width:100% !important;height:100% !important}
-    .cihaz::before,.cihaz::after,.cihaz .tus{display:none}
+    .cihaz::before,.cihaz::after,.cihaz .tus,.cihaz .safari{display:none !important}
     .cihaz .ekran{border-radius:0 !important}
     .cihaz iframe{position:static;width:100% !important;height:100% !important;transform:none !important}
   }
@@ -93,7 +104,7 @@
       </div>
     </header>
     <div class="sahne" id="sahne">
-      <div class="cihaz iphone" id="cihaz"><div class="ekran"><iframe id="cerceve" title="Önizleme"></iframe></div><i class="tus" style="top:18%;height:5%"></i><i class="tus" style="top:26%;height:8%"></i><i class="tus" style="top:36%;height:8%"></i></div>
+      <div class="cihaz iphone" id="cihaz"><div class="ekran"><div class="safari ust" aria-hidden="true"><span>9:41</span><span>▮▮▮ ◔ ▭</span></div><iframe id="cerceve" title="Önizleme"></iframe><div class="safari alt" aria-hidden="true"><div class="adres">🔒 eminevim.com</div><div class="araclar"><span>‹</span><span style="opacity:.35">›</span><span>⇪</span><span>▢</span><span>⧉</span></div><i class="ev"></i></div></div><i class="tus" style="top:18%;height:5%"></i><i class="tus" style="top:26%;height:8%"></i><i class="tus" style="top:36%;height:8%"></i></div>
     </div>
     <nav class="alt" aria-label="Diğer bağlantılar">
       <a class="ana" id="yeniSekme" href="#" target="_blank" rel="noopener">Tam ekran aç ↗</a>
@@ -138,7 +149,11 @@
     var kx = g === "telefon" ? 22 : 12, ky = g === "telefon" ? 22 : 24;   // çerçeve kalınlıkları
     var w = sahne.clientWidth - 32 - kx, h = sahne.clientHeight - 12 - ky;
     var olcek = Math.min(w / b[0], h / b[1], 1);
-    cerceve.style.width = b[0] + "px"; cerceve.style.height = b[1] + "px";
+    // Web formu telefonda Safari çubuklarıyla: iPhone 15'te görünür alan 393×659 (üst 59, alt 134 px)
+    var tarayici = g === "telefon" && secim.ne === "web", ust = tarayici ? 59 : 0, yuk = tarayici ? 659 : b[1];
+    cihaz.classList.toggle("tarayici", tarayici); cihaz.style.setProperty("--o", olcek);
+    cerceve.style.width = b[0] + "px"; cerceve.style.height = yuk + "px";
+    cerceve.style.top = Math.round(ust * olcek) + "px";
     cerceve.style.transform = "scale(" + olcek + ")";
     cihaz.style.width = Math.round(b[0] * olcek) + kx + "px"; cihaz.style.height = Math.round(b[1] * olcek) + ky + "px";
   }

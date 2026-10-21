@@ -319,3 +319,13 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 
 - Kararlar, açık işler ve teknik notlar `CLAUDE.md`'ye yazıldı (yeni oturum oradan devam eder).
 - Bekleyen: Google E-Tablo linki (yapılacaklar ortak olsun), TestFlight derlemesi, finansman rakamları için uyum onayı.
+
+### 2026-10-21 - Web formu: takvim + harita akışı, e-posta kaldırıldı, telefon çubukları
+
+1. Telefonda tarayıcının üst/alt çubuğu: site penceresi ve yeni pencereler görünür yüksekliğe (dvh) oturur; önizlemede web-telefon görünümüne Safari çubukları eklendi (görünür alan 393×659).
+2. Sıra: Ad, Soyad, Telefon → onay kutuları → "Temsilcimiz size gelsin" düğmesi (konum simgesi + yazı) → Gönder. Altta açılan uzun alanlar kaldırıldı.
+3. Düğme → takvim penceresi (gün + saat) → Onayla → harita penceresi (haritadan yer, İş yeri/Ev) → Onayla → düğmede kısa özet, × ile kaldırma.
+4. E-posta alanı kaldırıldı; teşekkür ve önizleme "mesaj" diliyle.
+5. Demo: her açılışta ve "Yeni başvuru"da örnek bilgilerle dolu.
+- Doğrulama: 393×659 telefon ve 1440×900 bilgisayarda tam akış (takvim, harita sürükleme + adres, gönderim, mesaj önizleme, yeni başvuru); sayfa hatası yok, yatay taşma yok.
+- Bekleyen: `taslak/web-akisi.html` eski akışı (anahtar + alanlar + e-posta) gösteriyor; güncellenmesi gerekiyor.

@@ -27,7 +27,9 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 ## Kararlar (2026-10-20 / 21)
 - Proje adı Tasarruf Yanımda; amaç cumartesi yığılmasını hafta içine yaymak. Müşteriye uygulama indirtilmez, önce **web**.
 - Uygulama ve web formu ilk aşamalar; aynı akış/dil. Yeni müşteri üyeliksiz; finansman/bütçe yalnız üyelere ("Finansmanlarım").
-- Takip linki **e-postayla**. Web formu **gerçek site formu gibi**, temsilci çağırma **isteğe bağlı** seçenek.
+- Web formunda **e-posta istenmez** (2026-10-21 akşam); temsilci bilgisi ve takip linki telefona mesajla gider (önizleme "Gelecek mesajı önizle").
+  Web formu **gerçek site formu gibi**, temsilci çağırma **isteğe bağlı** seçenek.
+- Web formu demo: her açılışta ve "Yeni başvuru"da örnek bilgilerle dolu gelir (Mehmet Demir, 532 123 45 67; takvimde ilk hafta içi günü + 18:00, haritada Caferağa/Kadıköy, Ev).
 - Bütçe hesabı (kaba formül) ilk temasta gösterilmez; rakamlar müşteriye açılacaksa şirketin onaylı hesabı + uyum/hukuk onayı şart.
 - Uygulama dosyası (`Eminevim Saha Paneli.dc.html`) 2026-10-21'den beri değiştirilmedi; kullanıcı "şimdilik HTML'den
   (web formu, taslak, önizleme) devam" dedi — uygulamaya dokunmadan önce sor.
@@ -51,19 +53,26 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 
 ## Müşteri ekranı ilkeleri
 - Olabildiğince basit; gereksiz yazı yok, her ekranda tek soru grubu ve tek ana buton.
-- İlk temasta üyelik, şifre, konum izni, sohbet yok. Alanlar: ad, telefon, gün, saat, yer (+ilçe); e-posta isteğe bağlı.
+- İlk temasta üyelik, şifre, konum izni, sohbet yok. Alanlar: ad, soyad, telefon; temsilci istenirse gün, saat, haritadan yer (İş yeri/Ev). E-posta yok.
 - Korkutmayan dil: "Temsilciniz önce sizi arar", "Ücretsiz", "Görüşmede ödeme alınmaz", "Sicil numarası aynıdır".
   "Takip" müşteriyi değil temsilciyi anlatır ("Temsilcinizin nerede olduğunu görürsünüz").
 - Cumartesi engellenmez; hafta içi günler önce gelir, cumartesi "yoğun" etiketiyle durur.
-- Temsilci bilgileri ve takip linki **e-postayla** gider (SMS değil).
+- Temsilci bilgileri ve takip linki telefona **mesajla** gider (e-posta istenmez; 2026-10-21 kararıyla değişti).
 - Yeni müşteri üye olmadan sade akışla ilerler (uygulamada giriş ekranı → "Yeni Müşteri", `ya*` durumları).
   Finansman/bütçe hesabı yalnız **üyelere**, "Finansmanlarım" sekmesinde; web formu bunun için uygulama linki verir.
 - **Web formu gerçek sitedeki gibi görünmeli** (kullanıcı isteği, 2026-10-21): sitenin başlığı, gri kutucukları
   (`tk-inputGri` / mobilde `tk-inputMobilGri`), onay kutuları ve turuncu "Gönder". Formda "Tasarruf Yanımda" adı, açıklama
   simgeleri, adım çubuğu ya da "bilgiler gönderilmez" gibi önizleme yazısı YOK; sayfa sitenin kendi başlığıyla en üstten açılır.
-  Temsilci çağırma resmî görünen **isteğe bağlı** kart: konum simgesi, "Temsilcimiz size gelsin", "İsteğe bağlı" etiketi,
-  açma-kapama anahtarı; açılınca gün|saat yan yana, yer iki seçim (İş yeri / Ev), ilçe, e-posta (isteğe bağlı).
+  Sıra: Ad, Soyad, Telefon → iki onay kutusu → **"Temsilcimiz size gelsin" düğmesi** (yalnız konum simgesi + yazı) → Gönder.
+  Formun altında açılan uzun alan YOK. Düğmeye basınca **takvim penceresi** (yarından 3 hafta, pazar kapalı, cumartesi turuncu
+  nokta "yoğun", saat 10:00–20:00) → "Onayla" → **harita penceresi** (Leaflet + OpenStreetMap, ortadaki iğne; adres Nominatim'den;
+  İş yeri / Ev) → "Onayla" → düğme seçimi gösterir ("Pzt 26 Eki, 14:00 · Kadıköy", × ile kaldırılır).
+  Pencereler telefonda tam ekran ve **dvh** ile görünür alana oturur (tarayıcının üst/alt çubuğu); bilgisayarda ortada.
+  Site modalının içindeyse pencereler modalın içine eklenir (Bootstrap odak kilidi) ve açıkken modal z-index 10000'e çıkar
+  (sitenin solda gizli mobil menüsü z 9999, gölge düşürüyordu).
   Eksik kutu sitenin turuncu hata renginde (`--tdk_turuncuHata`) ve uyarı altında; telefonda "Gönder" pencere altında sabit.
+- Önizlemede (`linkler.html`) web formu telefon görünümü Safari çubuklarıyla: iPhone 15 görünür alan 393×659 (üst 59, alt 134 px).
+  Test de bu boyutta yapılmalı.
 
 ## Taslak isteği gelirse (web ya da uygulama)
 Kullanıcı "taslak göster" dediğinde çalışan kod değil, **sunuma eklenebilir ekran taslağı** hazırla:
