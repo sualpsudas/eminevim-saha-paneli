@@ -296,3 +296,9 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 
 - `linkler.html` artık tek sayfalık önizleme: üstte "Uygulama / Web formu" ve "Telefon / Bilgisayar" seçimi, seçilen görünüm ekrana sığdırılmış çerçevede açılır; "Tam ekran aç", taslaklar ve eski sürüm linkleri altta. Seçim adreste (`#uygulama-telefon` vb.) ve tarayıcıda hatırlanır.
 - Doğrulama: 390×844 ve 1440×900'de dört görünüm açıldı, yatay taşma ve sayfa hatası yok.
+
+### 2026-10-21 - Önizleme sayfası: telefonda tam ekran, iPhone çerçevesi, yapılacaklar
+
+- Telefonda yalnız sol üstte küçük "Uyg / Web" tuşları; sayfa gerçek boyutunda tam ekran.
+- Bilgisayarda iPhone 15 biçimi ve boyutu (393×852, Dynamic Island, yan tuşlar); uygulamanın bilgisayar görünümü kaldırıldı, Telefon/Bilgisayar seçimi yalnız Web formunda.
+- Sağda "Yapılacaklar" (ekle, işaretle, sil). ŞİMDİLİK yalnız o tarayıcıda saklanıyor; herkesin yazabileceği ortak kayıt yöntemi kullanıcı kararı bekliyor.

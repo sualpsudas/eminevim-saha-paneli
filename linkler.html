@@ -2,93 +2,189 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <title>Tasarruf Yanımda · Önizleme</title>
 <style>
-  :root{--yesil:#00724c;--zemin:#eef1f0;--kart:#fff;--yazi:#1f2a26;--soluk:#5f6b67;--cizgi:#dce3e0;--secili:#fff;--cerceve:#15201c}
+  :root{--yesil:#00724c;--zemin:#eef1f0;--kart:#fff;--yazi:#1f2a26;--soluk:#5f6b67;--cizgi:#dce3e0;--secili:#fff;--cerceve:#1c1c1e}
   @media (prefers-color-scheme:dark){:root{--yesil:#5fc39a;--zemin:#111715;--kart:#1b2421;--yazi:#e8eeeb;--soluk:#a3b0ab;--cizgi:#2c3733;--secili:#2a3632;--cerceve:#000}}
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{margin:0;background:var(--zemin);color:var(--yazi);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;display:flex;flex-direction:column}
-  header{padding:12px 16px 10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+  body{margin:0;background:var(--zemin);color:var(--yazi);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+  button{font:inherit}
+  [hidden]{display:none !important}
   .grup{display:inline-flex;background:var(--cizgi);border-radius:12px;padding:3px}
-  .grup button{border:0;background:transparent;color:var(--soluk);font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:9px;cursor:pointer;min-height:38px}
+  .grup button{border:0;background:transparent;color:var(--soluk);font-size:14px;font-weight:600;padding:8px 14px;border-radius:9px;cursor:pointer;min-height:38px}
   .grup button[aria-pressed="true"]{background:var(--secili);color:var(--yazi);box-shadow:0 1px 3px rgba(0,0,0,.12)}
-  .grup button:focus-visible,.alt a:focus-visible{outline:2px solid var(--yesil);outline-offset:2px}
+  button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--yesil);outline-offset:2px}
+
+  /* Bilgisayar düzeni: solda önizleme, sağda yapılacaklar */
+  .duzen{display:grid;grid-template-columns:1fr 340px;height:100%}
+  .sol{display:flex;flex-direction:column;min-width:0;min-height:0}
+  header{padding:14px 16px 10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
   .sahne{flex:1;min-height:0;display:flex;align-items:flex-start;justify-content:center;padding:4px 16px 8px}
   .cihaz{position:relative;flex:0 0 auto}
   .cihaz iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;background:#fff;display:block}
-  .cihaz.telefon{border:6px solid var(--cerceve);border-radius:30px;overflow:hidden}
-  .cihaz.bilgisayar{border:6px solid var(--cerceve);border-top-width:18px;border-radius:10px;overflow:hidden}
+  /* iPhone 15 biçimi: 393×852, yuvarlak köşe, Dynamic Island, yan tuşlar */
+  .cihaz.iphone{border:11px solid var(--cerceve);border-radius:58px;box-shadow:0 0 0 2px #3a3a3c,0 18px 40px rgba(0,0,0,.25)}
+  .cihaz.iphone .ekran{position:absolute;inset:0;border-radius:47px;overflow:hidden}
+  .cihaz.iphone::before{content:"";position:absolute;top:11px;left:50%;transform:translateX(-50%);width:31%;height:3.6%;max-height:34px;background:#000;border-radius:20px;z-index:3}
+  .cihaz.iphone::after{content:"";position:absolute;right:-14px;top:22%;width:3px;height:11%;background:#3a3a3c;border-radius:2px}
+  .cihaz.iphone .tus{position:absolute;left:-14px;width:3px;background:#3a3a3c;border-radius:2px}
+  .cihaz.bilgisayar{border:6px solid var(--cerceve);border-top-width:18px;border-radius:10px}
+  .cihaz.bilgisayar .ekran{position:absolute;inset:0;overflow:hidden}
+  .cihaz.bilgisayar .tus{display:none}
   .alt{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center;padding:6px 16px 14px;font-size:13px}
   .alt a{color:var(--soluk)}
   .alt a.ana{color:var(--yesil);font-weight:600}
+
+  /* Yapılacaklar */
+  aside{border-left:1px solid var(--cizgi);background:var(--kart);display:flex;flex-direction:column;min-height:0}
+  aside h2{font-size:17px;margin:0;padding:18px 18px 4px}
+  aside .durum{font-size:12px;color:var(--soluk);padding:0 18px 10px;min-height:16px}
+  aside form{display:flex;gap:8px;padding:0 18px 12px}
+  aside input[type=text]{flex:1;min-width:0;border:1px solid var(--cizgi);border-radius:10px;padding:10px 12px;font:inherit;font-size:14px;background:var(--zemin);color:var(--yazi)}
+  aside form button{border:0;border-radius:10px;background:var(--yesil);color:#fff;font-weight:700;padding:0 14px;cursor:pointer}
+  aside ul{list-style:none;margin:0;padding:0 10px 18px;overflow-y:auto;flex:1}
+  aside li{display:flex;align-items:flex-start;gap:10px;padding:9px 8px;border-radius:10px}
+  aside li:hover{background:var(--zemin)}
+  aside li input{margin-top:3px;width:17px;height:17px;accent-color:var(--yesil);flex:0 0 auto}
+  aside li span{flex:1;font-size:14px;line-height:1.4;word-break:break-word}
+  aside li.bitti span{text-decoration:line-through;color:var(--soluk)}
+  aside li .sil{border:0;background:none;color:var(--soluk);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px;opacity:.6}
+  aside li .sil:hover{opacity:1;color:#b3261e}
+  aside .bos{color:var(--soluk);font-size:13px;padding:6px 8px}
+
+  /* Telefon düzeni: üstte iki küçük tuş, altta sayfa gerçek boyutunda */
+  .ust-tel{display:none}
+  @media (max-width:760px){
+    .duzen{display:block}
+    aside,header,.alt{display:none}
+    .ust-tel{display:flex;gap:6px;align-items:center;height:40px;padding:0 10px;padding-top:env(safe-area-inset-top);box-sizing:content-box}
+    .ust-tel button{border:0;border-radius:8px;background:var(--cizgi);color:var(--soluk);font-size:12px;font-weight:700;padding:5px 11px;cursor:pointer}
+    .ust-tel button[aria-pressed="true"]{background:var(--yesil);color:#fff}
+    .sol{height:100%}
+    .sahne{padding:0}
+    .cihaz,.cihaz.iphone,.cihaz.bilgisayar{border:0;border-radius:0;box-shadow:none;width:100% !important;height:100% !important}
+    .cihaz::before,.cihaz::after,.cihaz .tus{display:none}
+    .cihaz .ekran{border-radius:0 !important}
+    .cihaz iframe{position:static;width:100% !important;height:100% !important;transform:none !important}
+  }
 </style>
 </head>
 <body>
-<header>
-  <div class="grup" role="group" aria-label="Ne gösterilsin">
-    <button type="button" data-ne="uygulama" aria-pressed="true">Uygulama</button>
-    <button type="button" data-ne="web" aria-pressed="false">Web formu</button>
+<div class="duzen">
+  <div class="sol">
+    <div class="ust-tel" role="group" aria-label="Ne gösterilsin">
+      <button type="button" data-ne="uygulama" aria-pressed="true">Uyg</button>
+      <button type="button" data-ne="web" aria-pressed="false">Web</button>
+    </div>
+    <header>
+      <div class="grup" role="group" aria-label="Ne gösterilsin">
+        <button type="button" data-ne="uygulama" aria-pressed="true">Uygulama</button>
+        <button type="button" data-ne="web" aria-pressed="false">Web formu</button>
+      </div>
+      <div class="grup" role="group" aria-label="Görünüm" id="gorunumGrup" hidden>
+        <button type="button" data-gorunum="telefon" aria-pressed="true">Telefon</button>
+        <button type="button" data-gorunum="bilgisayar" aria-pressed="false">Bilgisayar</button>
+      </div>
+    </header>
+    <div class="sahne" id="sahne">
+      <div class="cihaz iphone" id="cihaz"><div class="ekran"><iframe id="cerceve" title="Önizleme"></iframe></div><i class="tus" style="top:18%;height:5%"></i><i class="tus" style="top:26%;height:8%"></i><i class="tus" style="top:36%;height:8%"></i></div>
+    </div>
+    <nav class="alt" aria-label="Diğer bağlantılar">
+      <a class="ana" id="yeniSekme" href="#" target="_blank" rel="noopener">Tam ekran aç ↗</a>
+      <a href="taslak/uygulama-akisi.html">Uygulama taslağı</a>
+      <a href="taslak/web-akisi.html">Web taslağı</a>
+      <a href="backup/2026-10-21-eski-uygulama/index.html">Uygulamanın eski hâli</a>
+    </nav>
   </div>
-  <div class="grup" role="group" aria-label="Görünüm">
-    <button type="button" data-gorunum="telefon" aria-pressed="true">Telefon</button>
-    <button type="button" data-gorunum="bilgisayar" aria-pressed="false">Bilgisayar</button>
-  </div>
-</header>
 
-<div class="sahne" id="sahne">
-  <div class="cihaz telefon" id="cihaz"><iframe id="cerceve" title="Önizleme"></iframe></div>
+  <aside aria-labelledby="ypBaslik">
+    <h2 id="ypBaslik">Yapılacaklar</h2>
+    <div class="durum" id="ypDurum"></div>
+    <form id="ypForm"><input type="text" id="ypYeni" placeholder="Yeni madde yazın" aria-label="Yeni madde" maxlength="300" autocomplete="off"><button type="submit">Ekle</button></form>
+    <ul id="ypListe"></ul>
+  </aside>
 </div>
-
-<nav class="alt" aria-label="Diğer bağlantılar">
-  <a class="ana" id="yeniSekme" href="#" target="_blank" rel="noopener">Tam ekran aç ↗</a>
-  <a href="taslak/uygulama-akisi.html">Uygulama taslağı</a>
-  <a href="taslak/web-akisi.html">Web taslağı</a>
-  <a href="backup/2026-10-21-eski-uygulama/index.html">Uygulamanın eski hâli</a>
-</nav>
 
 <script>
 (function () {
   var ADRES = {
-    uygulama: { telefon: "Eminevim%20Saha%20Paneli.dc.html?native=1", bilgisayar: "Eminevim%20Saha%20Paneli.dc.html" },
+    uygulama: { telefon: "Eminevim%20Saha%20Paneli.dc.html?native=1" },
     web: { telefon: "web-basvuru/", bilgisayar: "web-basvuru/" }
   };
-  var BOYUT = { telefon: [390, 844], bilgisayar: [1440, 900] };
+  var BOYUT = { telefon: [393, 852], bilgisayar: [1440, 900] };
   var secim = { ne: "uygulama", gorunum: "telefon" };
   var m = /^#(uygulama|web)-(telefon|bilgisayar)$/.exec(location.hash);
   if (m) { secim.ne = m[1]; secim.gorunum = m[2]; }
-  else { try { var k = JSON.parse(localStorage.getItem("ty-onizleme") || "null"); if (k && ADRES[k.ne] && BOYUT[k.gorunum]) secim = k; } catch (e) {} }
+  else { try { var k = JSON.parse(localStorage.getItem("ty-onizleme") || "null"); if (k && ADRES[k.ne]) secim = k; } catch (e) {} }
 
-  var sahne = document.getElementById("sahne"), cihaz = document.getElementById("cihaz"), cerceve = document.getElementById("cerceve"), yeni = document.getElementById("yeniSekme");
+  var sahne = document.getElementById("sahne"), cihaz = document.getElementById("cihaz"), cerceve = document.getElementById("cerceve");
+  var yeni = document.getElementById("yeniSekme"), gorunumGrup = document.getElementById("gorunumGrup");
+  var telefonEkrani = window.matchMedia("(max-width:760px)");
   var yuklenen = "";
 
+  function gorunum() {
+    if (telefonEkrani.matches || secim.ne === "uygulama") return "telefon";   // uygulamanın bilgisayar görünümü yok
+    return secim.gorunum;
+  }
   function sigdir() {
-    var b = BOYUT[secim.gorunum], kenar = 12 + (secim.gorunum === "bilgisayar" ? 12 : 0);
-    var w = sahne.clientWidth - 32 - 12, h = sahne.clientHeight - 12 - kenar;
+    if (telefonEkrani.matches) return;
+    var g = gorunum(), b = BOYUT[g];
+    var kx = g === "telefon" ? 22 : 12, ky = g === "telefon" ? 22 : 24;   // çerçeve kalınlıkları
+    var w = sahne.clientWidth - 32 - kx, h = sahne.clientHeight - 12 - ky;
     var olcek = Math.min(w / b[0], h / b[1], 1);
-    if (secim.gorunum === "telefon") olcek = Math.max(olcek, Math.min(w / b[0], 1) * 0.6);
     cerceve.style.width = b[0] + "px"; cerceve.style.height = b[1] + "px";
     cerceve.style.transform = "scale(" + olcek + ")";
-    cihaz.style.width = Math.round(b[0] * olcek) + "px"; cihaz.style.height = Math.round(b[1] * olcek) + "px";
+    cihaz.style.width = Math.round(b[0] * olcek) + kx + "px"; cihaz.style.height = Math.round(b[1] * olcek) + ky + "px";
   }
   function uygula() {
+    var g = gorunum();
     document.querySelectorAll("[data-ne]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.ne === secim.ne ? "true" : "false"); });
-    document.querySelectorAll("[data-gorunum]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.gorunum === secim.gorunum ? "true" : "false"); });
-    cihaz.className = "cihaz " + secim.gorunum;
-    var adres = ADRES[secim.ne][secim.gorunum];
-    var anahtar = adres + "|" + secim.gorunum;
+    document.querySelectorAll("[data-gorunum]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.gorunum === g ? "true" : "false"); });
+    gorunumGrup.hidden = secim.ne !== "web";
+    cihaz.className = "cihaz " + (g === "telefon" ? "iphone" : "bilgisayar");
+    var adres = ADRES[secim.ne][g], anahtar = adres + "|" + g;
     if (anahtar !== yuklenen) { cerceve.src = adres; yuklenen = anahtar; }
     yeni.href = adres;
     sigdir();
-    try { history.replaceState(null, "", "#" + secim.ne + "-" + secim.gorunum); } catch (e) {}
+    try { history.replaceState(null, "", "#" + secim.ne + "-" + g); } catch (e) {}
     try { localStorage.setItem("ty-onizleme", JSON.stringify(secim)); } catch (e) {}
   }
   document.querySelectorAll("[data-ne]").forEach(function (x) { x.addEventListener("click", function () { secim.ne = x.dataset.ne; uygula(); }); });
   document.querySelectorAll("[data-gorunum]").forEach(function (x) { x.addEventListener("click", function () { secim.gorunum = x.dataset.gorunum; uygula(); }); });
   window.addEventListener("resize", sigdir);
+  if (telefonEkrani.addEventListener) telefonEkrani.addEventListener("change", uygula);
   uygula();
+
+  /* Yapılacaklar — ŞİMDİLİK yalnız bu tarayıcıda saklanır; ortak kayıt yöntemi seçilince Depo değişecek */
+  var Depo = {
+    oku: function () { try { return JSON.parse(localStorage.getItem("ty-yapilacaklar") || "[]"); } catch (e) { return []; } },
+    yaz: function (liste) { try { localStorage.setItem("ty-yapilacaklar", JSON.stringify(liste)); return true; } catch (e) { return false; } }
+  };
+  var liste = Depo.oku(), ul = document.getElementById("ypListe"), durum = document.getElementById("ypDurum");
+  durum.textContent = "Şimdilik yalnız bu tarayıcıda kaydediliyor.";
+  function ciz() {
+    ul.textContent = "";
+    if (!liste.length) { var b = document.createElement("li"); b.className = "bos"; b.textContent = "Henüz madde yok."; ul.appendChild(b); return; }
+    liste.forEach(function (md) {
+      var li = document.createElement("li"); if (md.bitti) li.className = "bitti";
+      var cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = !!md.bitti; cb.setAttribute("aria-label", "Tamamlandı: " + md.metin);
+      cb.addEventListener("change", function () { md.bitti = cb.checked; Depo.yaz(liste); ciz(); });
+      var sp = document.createElement("span"); sp.textContent = md.metin;
+      var sil = document.createElement("button"); sil.type = "button"; sil.className = "sil"; sil.textContent = "×"; sil.setAttribute("aria-label", "Sil: " + md.metin);
+      sil.addEventListener("click", function () { liste = liste.filter(function (x) { return x.id !== md.id; }); Depo.yaz(liste); ciz(); });
+      li.appendChild(cb); li.appendChild(sp); li.appendChild(sil); ul.appendChild(li);
+    });
+  }
+  document.getElementById("ypForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var inp = document.getElementById("ypYeni"), t = inp.value.trim(); if (!t) return;
+    liste.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), metin: t, bitti: false });
+    Depo.yaz(liste); inp.value = ""; ciz();
+  });
+  ciz();
 })();
 </script>
 </body>
