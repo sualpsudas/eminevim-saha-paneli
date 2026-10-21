@@ -39,12 +39,11 @@ def main():
         '<head>\n<base href="https://www.eminevim.com/">\n<meta name="robots" content="noindex,nofollow">',
         1,
     )
-    html = re.sub(r"<title>.*?</title>", "<title>Tasarruf Yanımda · Form Önizlemesi</title>", html, count=1, flags=re.S)
     html = html.replace("</head>", css + "\n</head>", 1)
 
     # Masaüstü form: aç/kapa düğmesi kalır, form yenilenir
     masaustu = (
-        '<div class="tk-desktopForm ty-genis d-none d-xl-block">\n'
+        '<div class="tk-desktopForm ty-panel d-none d-xl-block">\n'
         '    <div class="tk-formGizleAc" onclick="tyPanelAcKapa(this);" role="button" tabindex="0" aria-label="Formu gizle / göster"><i class="bi bi-arrow-right-short"></i></div>\n'
         '    <div class="tk-iletişimYazisi" id="kapaliBaslik">HIZLI BAŞVURU</div>\n'
         + form
@@ -53,7 +52,13 @@ def main():
     html = degistir(html, '<div class="tk-desktopForm d-none d-xl-block">', "<!-- Tablet ve Mobil Form -->", masaustu + "\n        ")
 
     # Tablet/mobil: açılır pencerenin içi yenilenir
-    mobil = form + '\n<div style="display:none !important" id="tabletBilgilendirmeFormTesekkur"></div>\n'
+    # Mobilde sitenin mobil sınıfları; logo gizli, başlık yalnız tablette (sitedeki gibi)
+    form_m = (form.replace("tk-inputGriLabel", "tk-inputGriLabelMobil").replace('"tk-inputGri"', '"tk-inputMobilGri"')
+              .replace("tk-bayrakDropdown ", "tk-bayrakDropdownMobil ")
+              .replace('ty-sadece-masaustu"', 'ty-sadece-masaustu d-none"')
+              .replace('ty-baslik-satir"', 'ty-baslik-satir formBaslik d-none d-lg-block"')
+              .replace('class="tk-turuncuButon"', 'class="tk-turuncuButon" style="padding: 15px !important;"'))
+    mobil = '<div class="ty-mobil">' + form_m + '</div>\n<div style="display:none !important" id="tabletBilgilendirmeFormTesekkur"></div>\n'
     html = degistir(html, "<!-- Form Başladı-->", "<!-- Form Bitti-->", mobil)
 
     # Bağlantılar tıklanır ama hiçbir yere gitmez (eminevim.com'a yönlendirmesin)
