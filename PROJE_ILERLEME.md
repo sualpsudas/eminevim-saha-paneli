@@ -361,3 +361,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Formda yalnız "Temsilci çağırmak istiyorum" kaydırmalı düğmesi. Açılınca pencere: harita (üstte arama, sağ altta "Hizmet bölgesini göster" / "Konumuma dön") → gün ve saat → Onayla. Formda tek satır özet.
 - Bölge dışı: "Telefonla görüşmeyle devam et" → formda not, başvuru telefonla.
 - Doğrulama: telefon (izinli Ümraniye, bölge düğmesi iki yönlü, takvim, özet, gönderim; onaysız kapatma; Kadıköy bölge dışı) ve bilgisayar; sayfa hatası yok.
+
+### 2026-10-21 - Uygulama senaryoları kurallara uyduruldu
+
+- Giriş/kayıt telefonla; "Yeni Müşteri" artık telefonla kayıt (eski üyeliksiz temsilci akışı girişten kalktı).
+- Web "Uygulamayı aç" → uygulama telefonla kayıtlı müşteri olarak açılır (finansman yok, talep + atanan temsilci + sohbet).
+- Yeni sekmeler: Başvurum, Sohbet, Finansman, Ayarlar. 3 sayfalık Hoş geldiniz. Kayıtlı Müşteri: randevusu netleşmiş, temsilcisini bekliyor.
+- Uygulamadan "Temsilci iste" (hizmet bölgesi kontrolü). Temsilci akışı ekranları giriş ekranının dışına taşındı (uygulama içinden açılmıyordu).
+- Doğrulama: web→uygulama uçtan uca, web telefonla, kayıtlı müşteri (telefonla giriş, sohbet, görüşme günü), yeni kayıt → Temsilci iste (Kadıköy reddi, Ataşehir kabul → atandı); sayfa hatası yok.

@@ -51,8 +51,20 @@ başvuru telefonla. Bölge sınırları `form_bolumu.html` içinde `BOLGELER`. C
 Adım 2 bitti: "Başarılı!" ekranı (ad soyad, gün/saat/yer özeti, "Size atanan temsilcinin adını,
 fotoğrafını ve sicil numarasını Eminevim uygulamasından kontrol edebilirsiniz.", yeşil kartta uygulama yazısı + turuncu
 "Uygulamayı aç"; link `?kaynak=web&ad=&tel=&gun=&saat=&yer=` taşır — adım 3'te uygulama bunu okuyacak). Mesaj önizleme
-düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Sıradakiler: 3 web'den gelen müşteri uygulamada · 4 Hoş geldiniz · 5 Kayıtlı Müşteri senaryosu ·
-6 uygulamada telefonla kayıt + Temsilci iste · 7 personel ekranları marka kontrolü.
+düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adım 3–6 yapıldı (2026-10-21, kullanıcı "uygulama senaryolarını kontrol et" dedi):
+- **Giriş ve kayıt telefonla** (e-posta yok). "Kayıtlı Müşteri" = telefon + şifre. "Yeni Müşteri" = telefonla kayıt
+  (ad soyad, telefon, şifre; adres de sorulmaz) → KVKK → Hoş geldiniz. Eski üyeliksiz "Temsilcimiz size gelsin" akışı
+  girişte yok; aynı ekranlar yalnız uygulama içi "Temsilci iste" ve "Görüşme günü (örnek)" için kullanılır (`yaKaynak:"uygulama"`).
+- **Web'den gelen:** `?kaynak=web&ad=&tel=&gun=&saat=&yer=` → giriş ekranı atlanır, telefonla kayıtlı, finansman yok,
+  talep Başvurum'da, temsilci atanmış (bölgeye göre: Üsküdar→Derya Aksoy, Ümraniye→Berk Cengiz, diğer→Onur Kaya) ve
+  Sohbet'te ilk mesajı var. Telefonla başvuruda "Sizi arayacağız" + "Temsilci iste".
+- **Müşteri sekmeleri:** Başvurum (durum, adımlar, gün/saat/yer, atanan temsilci kartı, Mesaj gönder, Görüşme günü) ·
+  Sohbet · Finansman (eski Finansmanlarım) · Ayarlar (ad, telefon, çıkış). Eski Profil/İletişim (Temsilci Bul) gizli.
+- **Hoş geldiniz:** 3 sayfalık alt pencere (yeni kayıt ve web'den gelen; Kayıtlı Müşteri'de çıkmaz).
+- **Kayıtlı Müşteri (Ayşe Kaya):** konut finansmanı var, Sohbet'te randevu netleşmiş, durum "Temsilcinizi bekliyorsunuz".
+- Uygulama içi "Temsilci iste" şimdilik gün/saat seçimi + ilçe yazımı (hizmet bölgesi kontrolü var), web'deki harita
+  penceresi uygulamaya henüz taşınmadı. Temsilci fotoğrafı yerine baş harfler (sentetik fotoğraflar bekleniyor).
+Sıradakiler: 7 personel ekranları marka kontrolü; açık sorular: SMS biçimi, sentetik fotoğraflar, uygulamada harita.
 
 ## Klasörler
 - `index.html`, `assignment.js`, `org-data.js`, `map.html`, `sw.js` — uygulama (web/PWA). Aynı kod Capacitor ile iPhone'a
