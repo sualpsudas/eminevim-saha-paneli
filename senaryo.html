@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>Senaryo Akışı</title>
+<script src="vendor/qrcode.min.js"></script>
+<style>
+  /* Senaryo tasarım tahtası: müşteri (telefon / bilgisayar) ve personel (tablet, yatay) adım adım.
+     Ekranlar uygulamanın görünümüyle aynı ama her adım için sabit; onaylanan ekranlar sonra uygulamaya taşınır. */
+  :root{--yesil:#00724c;--turuncu:#ea803f;--turuncuK:#b25e30;--zemin:#eef1f0;--kart:#fff;--yazi:#333;--soluk:#666;--cizgi:#dce3e0;--acik:#e9f0ed;--lacivert:#1e3856;--cerceve:#1c1c1e}
+  @media (prefers-color-scheme:dark){:root{--zemin:#111715;--kart:#1b2421;--yazi:#e8eeeb;--soluk:#a3b0ab;--cizgi:#2c3733;--cerceve:#000}}
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{background:var(--zemin);color:var(--yazi);font:15px/1.45 "Century Gothic",-apple-system,"Segoe UI",Arial,sans-serif;display:flex;flex-direction:column;overflow:hidden}
+  @supports (height:100dvh){html,body{height:100dvh}}
+  button{font:inherit;cursor:pointer}
+  button:focus-visible{outline:2px solid var(--yesil);outline-offset:2px}
+
+  /* Üst: senaryo adı ve müşteri cihazı seçimi */
+  .ust{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 16px 6px}
+  .ust h1{font-size:16px;margin:0;flex:1;min-width:180px}
+  .ust h1 small{display:block;font-size:12px;font-weight:400;color:var(--soluk)}
+  .grup{display:inline-flex;background:var(--cizgi);border-radius:22px;padding:3px}
+  .grup button{border:0;background:transparent;color:var(--soluk);font-size:13px;font-weight:700;padding:7px 13px;border-radius:22px;min-height:36px}
+  .grup button[aria-pressed="true"]{background:var(--kart);color:var(--yazi);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+  /* Sahne: iki cihaz yan yana */
+  .sahne{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,var(--sol,1fr)) minmax(0,var(--sag,1.6fr));gap:18px;padding:6px 16px}
+  .taraf{min-width:0;min-height:0;display:flex;flex-direction:column;align-items:center}
+  .taraf .etiket{font-size:12px;font-weight:700;color:var(--soluk);letter-spacing:.4px;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+  .taraf .etiket i{width:8px;height:8px;border-radius:50%;background:var(--cizgi)}
+  .taraf.aktif .etiket{color:var(--turuncuK)}
+  .taraf.aktif .etiket i{background:var(--turuncu);box-shadow:0 0 0 4px rgba(234,128,63,.25)}
+  .yer{flex:1;min-height:0;width:100%;position:relative}
+  .cihaz{position:absolute;left:50%;top:0;transform-origin:50% 0;transition:opacity .25s}
+  .taraf:not(.aktif) .cihaz{opacity:.62}
+  .cihaz .cam{position:absolute;inset:0;overflow:hidden;background:#f5f5f5}
+  .cihaz.telefon{border:12px solid var(--cerceve);border-radius:56px}
+  .cihaz.telefon .cam{border-radius:44px}
+  .cihaz.telefon::before{content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#000;z-index:30}
+  .cihaz.tablet{border:20px solid var(--cerceve);border-radius:34px}
+  .cihaz.tablet .cam{border-radius:16px}
+  .cihaz.dizustu{border:14px solid var(--cerceve);border-bottom-width:18px;border-radius:16px 16px 6px 6px}
+  .cihaz.dizustu::after{content:"";position:absolute;left:-60px;right:-60px;bottom:-34px;height:16px;background:#b9bec4;border-radius:0 0 18px 18px}
+
+  /* Alt: açıklama ve kontrol */
+  .alt{background:var(--kart);border-top:1px solid var(--cizgi);padding:10px 16px calc(10px + env(safe-area-inset-bottom));display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+  .aciklama{flex:1;min-width:260px}
+  .aciklama .no{font-size:12px;font-weight:700;color:var(--soluk)}
+  .aciklama .kim{display:inline-block;font-size:11px;font-weight:700;border-radius:22px;padding:1px 9px;margin-left:6px;background:var(--acik);color:var(--yesil)}
+  .aciklama .kim.p{background:#fce0d4;color:var(--turuncuK)}
+  .aciklama b{display:block;font-size:16px;margin:2px 0}
+  .aciklama p{margin:0;font-size:14px;color:var(--soluk)}
+  .kontrol{display:flex;align-items:center;gap:8px}
+  .kontrol button{min-height:44px;border-radius:22px;padding:0 16px;font-weight:700;font-size:14px}
+  .k-geri{border:1.5px solid var(--yesil);background:var(--kart);color:var(--yesil)}
+  .k-ileri{border:0;background:var(--turuncu);color:#fff}
+  .k-oynat{border:1.5px solid var(--cizgi);background:var(--kart);color:var(--yazi)}
+  .noktalar{display:flex;gap:5px;flex-wrap:wrap;max-width:260px}
+  .noktalar button{width:22px;height:22px;border-radius:50%;border:0;padding:0;background:var(--cizgi);color:var(--soluk);font-size:10px;font-weight:700;min-height:0}
+  .noktalar button.m{box-shadow:inset 0 0 0 2px var(--acik)}
+  .noktalar button[aria-current="step"]{background:var(--yesil);color:#fff}
+  .taraf-sec{display:none}
+
+  /* Dar ekran (telefon): tek cihaz, etkin taraf öne gelir */
+  @media (max-width:899px){
+    .sahne{grid-template-columns:1fr;padding:4px 10px}
+    .taraf{display:none}
+    .taraf.goster{display:flex}
+    .taraf-sec{display:inline-flex}
+    .noktalar{display:none}
+    .ust{padding:6px 10px 4px;gap:6px}
+    .ust h1{font-size:14px}
+    .ust h1 small{display:none}
+    .grup button{padding:5px 10px;min-height:32px;font-size:12px}
+    .alt{padding:8px 12px calc(8px + env(safe-area-inset-bottom))}
+    .aciklama b{font-size:15px}
+    .aciklama p{font-size:13px}
+    .kontrol{width:100%}
+    .kontrol .k-ileri{flex:1}
+  }
+
+  /* ===== Ekran bileşenleri (eminevim.com görünümü) ===== */
+  .ekr{position:absolute;inset:0;background:#f5f5f5;color:#666;font:14px/1.4 "Century Gothic","Segoe UI",Arial,sans-serif;overflow:hidden}
+  .ekr b,.ekr h3{color:#4a4a4a}
+  .ekr h3{margin:0;font-size:20px}
+  .durum{height:50px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 30px 6px 34px;font-weight:700;font-size:14px;color:#111;background:#fff}
+  .durum.y{background:#00724c;color:#fff}
+  .ab{background:#00724c;color:#fff;padding:10px 16px 14px;display:flex;align-items:center;gap:10px}
+  .ab img{height:15px}
+  .ab .bs{flex:1;text-align:center}
+  .ab .bs b{display:block;color:#fff;font-style:italic;font-size:16px}
+  .ab .bs span{font-size:11px;opacity:.9}
+  .ab .av{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+  .govde{padding:14px 16px;display:flex;flex-direction:column;gap:10px}
+  .kart{background:#fff;border:1px solid #ddd;border-radius:14px;padding:12px 14px}
+  .yk{background:#00724c;color:#fff;border-radius:22px;padding:14px 16px}
+  .yk b{color:#fff;display:block;font-size:17px}
+  .btn{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;border-radius:22px;font-weight:700;font-size:14px;border:0;background:#ea803f;color:#fff;padding:0 16px}
+  .btn.o{background:#fff;border:1.5px solid #00724c;color:#00724c}
+  .btn.b{background:transparent;border:1.5px solid #fff;color:#fff}
+  .btn.pasif{opacity:.45}
+  .vurgu{position:relative;box-shadow:0 0 0 4px rgba(234,128,63,.55);animation:vurgu 1.4s ease-in-out infinite}
+  @keyframes vurgu{50%{box-shadow:0 0 0 9px rgba(234,128,63,.12)}}
+  .alan{background:#eee;border-radius:22px;padding:11px 16px;font-weight:700;color:#555}
+  .satir{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:3px 0}
+  .satir b{text-align:right}
+  .adim{display:flex;gap:10px;align-items:center;font-weight:700;font-size:13px;color:#4a4a4a}
+  .adim i{flex:0 0 20px;height:20px;border-radius:50%;background:#00724c;color:#fff;font-style:normal;font-size:11px;display:flex;align-items:center;justify-content:center}
+  .adim.bos{color:#999}.adim.bos i{background:#eee}
+  .rep{display:flex;align-items:center;gap:10px}
+  .rep .bas{width:42px;height:42px;border-radius:50%;background:#1e3856;color:#fff;font-weight:700;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+  .rep .ad{flex:1;min-width:0}
+  .rep .ad b{display:block}
+  .rep .ad span{font-size:12px}
+  .rozet{display:inline-block;background:#e9f0ed;color:#00724c;font-size:11px;font-weight:700;border-radius:22px;padding:2px 9px}
+  .rozet.t{background:#fce0d4;color:#b25e30}
+  .sn{display:flex;border-top:1px solid #ddd;background:#fff;position:absolute;left:0;right:0;bottom:0;padding:6px 0 22px}
+  .sn span{flex:1;text-align:center;font-size:10px;font-weight:700;color:#aaa}
+  .sn span.a{color:#00724c}
+  .sn span i{display:block;width:20px;height:20px;margin:0 auto 3px;border-radius:6px;border:2px solid currentColor}
+  .bildirim{position:absolute;left:10px;right:10px;top:54px;z-index:20;background:rgba(255,255,255,.97);border-radius:18px;padding:10px 12px;box-shadow:0 10px 26px rgba(0,0,0,.18);display:flex;gap:10px;align-items:center;font-size:12.5px}
+  .bildirim img{width:30px;height:30px;border-radius:8px;background:#00724c;padding:6px}
+  .balon{max-width:82%;border-radius:16px;padding:8px 12px;font-size:13px;line-height:1.4;background:#fff;border:1px solid #ddd}
+  .balon.ben{align-self:flex-end;background:#00724c;color:#fff;border-color:#00724c}
+  .balon small{display:block;font-size:10px;opacity:.7;text-align:right;margin-top:2px}
+  .chip{align-self:flex-start;border:1.5px solid #00724c;background:#e9f0ed;color:#00724c;border-radius:22px;padding:8px 14px;font-weight:700;font-size:13px}
+  .alt-pen{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:22px 22px 0 0;padding:20px 20px 30px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;box-shadow:0 -12px 30px rgba(0,0,0,.18)}
+  .karart{position:absolute;inset:0;background:rgba(30,56,86,.5)}
+  .qr{padding:10px;border:1px solid #ddd;border-radius:14px;background:#fff;line-height:0}
+  .qr img{width:170px;height:170px;image-rendering:pixelated}
+  .tik{width:70px;height:70px;border-radius:50%;background:#00724c;display:flex;align-items:center;justify-content:center}
+  .yildiz{font-size:30px;letter-spacing:4px;color:#ea803f}
+  .not{font-size:11.5px;color:#999}
+
+  /* Site (web) */
+  .site-ust{background:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #eee}
+  .site-ust img{height:22px}
+  .site-hero{height:150px;background:linear-gradient(160deg,#0a5a3e,#00724c 60%,#2d8a62);color:#fff;display:flex;align-items:flex-end;padding:14px 16px;font-weight:700;font-size:20px;line-height:1.15}
+  .anahtar{display:flex;align-items:center;gap:10px;border:1.5px solid #00724c;background:#e9f0ed;color:#00724c;border-radius:22px;padding:9px 10px 9px 14px;font-weight:700;font-size:13px}
+  .anahtar .s{margin-left:auto;width:42px;height:24px;border-radius:12px;background:#00724c;position:relative}
+  .anahtar .s::after{content:"";position:absolute;top:3px;right:3px;width:18px;height:18px;border-radius:50%;background:#fff}
+  .onay{display:flex;gap:8px;font-size:11.5px;align-items:flex-start}
+  .onay i{flex:0 0 16px;height:16px;border-radius:4px;background:#00724c}
+  .pen-bas{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #eee;background:#fff}
+  .pen-bas b{flex:1}
+  .pen-bas small{display:block;font-weight:400;font-size:11.5px;color:#888}
+  .gunler{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;text-align:center;font-size:12px}
+  .gunler span{padding:7px 0;border-radius:10px;background:#eee;font-weight:700;color:#555}
+  .gunler span.k{background:transparent;color:#bbb}
+  .gunler span.s{background:#00724c;color:#fff}
+  .gunler span.c{box-shadow:inset 0 -3px 0 #ea803f}
+  .saatler{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+  .saatler span{text-align:center;padding:8px 0;border-radius:22px;background:#eee;font-weight:700;font-size:12.5px;color:#555}
+  .saatler span.s{background:#00724c;color:#fff}
+  .tarayici{height:38px;background:#f1f3f4;display:flex;align-items:center;gap:10px;padding:0 12px;border-bottom:1px solid #ddd}
+  .tarayici i{width:10px;height:10px;border-radius:50%;background:#ddd}
+  .tarayici span{flex:1;background:#fff;border-radius:16px;padding:5px 14px;font-size:12px;color:#555}
+
+  /* Tablet (personel) */
+  .tab{position:absolute;inset:0;display:flex;background:#f5f5f5}
+  .yan{width:200px;background:#00724c;color:#fff;display:flex;flex-direction:column;padding:22px 14px;gap:4px}
+  .yan img{height:18px;align-self:flex-start;margin:0 0 18px 6px}
+  .yan span{padding:10px 12px;border-radius:12px;font-weight:700;font-size:14px;opacity:.85}
+  .yan span.a{background:rgba(255,255,255,.16);opacity:1}
+  .yan .kisi{margin-top:auto;display:flex;align-items:center;gap:8px;font-size:12.5px;padding:10px 6px;border-top:1px solid rgba(255,255,255,.2)}
+  .yan .kisi i{width:34px;height:34px;border-radius:50%;background:#1e3856;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:700}
+  .yan .durumu{display:inline-block;background:#a1cb3a;color:#1e3856;border-radius:22px;padding:1px 8px;font-size:10.5px;font-weight:700;margin-top:2px}
+  .ana{flex:1;min-width:0;display:flex;flex-direction:column}
+  .ana-bas{background:#fff;border-bottom:1px solid #ddd;padding:16px 22px;display:flex;align-items:center;gap:12px}
+  .ana-bas h3{flex:1}
+  .ana-bas span{font-size:13px}
+  .iki{flex:1;min-height:0;display:grid;grid-template-columns:330px 1fr;gap:16px;padding:16px 22px}
+  .liste{display:flex;flex-direction:column;gap:8px}
+  .liste .kart{display:flex;gap:10px;align-items:center}
+  .liste .kart.s{border-color:#00724c;box-shadow:inset 3px 0 0 #00724c}
+  .liste .saat{font-weight:700;color:#00724c;width:46px}
+  .detay{display:flex;flex-direction:column;gap:12px;min-width:0}
+  .baslik-k{font-size:11px;font-weight:700;letter-spacing:.5px;color:#00724c}
+  .kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .kpi .kart b{display:block;font-size:22px;color:#00724c}
+  .tab-tara{position:absolute;inset:0;background:#1e3856;color:#fff;display:flex;align-items:center;justify-content:center;gap:50px}
+  .cerceve-qr{width:300px;height:300px;position:relative;border-radius:24px;background:rgba(255,255,255,.06)}
+  .cerceve-qr span{position:absolute;width:56px;height:56px;border:5px solid #ea803f}
+  .cerceve-qr .c1{left:0;top:0;border-right:0;border-bottom:0;border-radius:24px 0 0 0}
+  .cerceve-qr .c2{right:0;top:0;border-left:0;border-bottom:0;border-radius:0 24px 0 0}
+  .cerceve-qr .c3{left:0;bottom:0;border-right:0;border-top:0;border-radius:0 0 0 24px}
+  .cerceve-qr .c4{right:0;bottom:0;border-left:0;border-top:0;border-radius:0 0 24px 0}
+  .cerceve-qr .cizgi{position:absolute;left:20px;right:20px;height:3px;background:#ea803f;box-shadow:0 0 14px #ea803f;animation:tara 2s ease-in-out infinite alternate}
+  @keyframes tara{from{top:24px}to{top:272px}}
+  .kucuk-qr{position:absolute;left:90px;top:90px;width:120px;height:120px;background:#fff;border-radius:8px;padding:6px}
+  .kucuk-qr img{width:100%;height:100%;image-rendering:pixelated}
+  .hesap{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .buyuk{font-size:30px;font-weight:700;color:#fff}
+  .sakin{opacity:.55}
+  @media (prefers-reduced-motion:reduce){.vurgu,.cerceve-qr .cizgi{animation:none}}
+</style>
+</head>
+<body>
+<div class="ust">
+  <h1>Senaryo 1 · Web'den temsilci çağırma<small>Mehmet Demir hafta içi akşam evinde görüşmek istiyor · temsilci Onur Kaya</small></h1>
+  <div class="grup" role="group" aria-label="Müşteri cihazı">
+    <button type="button" data-mc="telefon" aria-pressed="true">Müşteri: Telefon</button>
+    <button type="button" data-mc="bilgisayar" aria-pressed="false">Müşteri: Bilgisayar</button>
+  </div>
+  <div class="grup taraf-sec" role="group" aria-label="Gösterilen taraf">
+    <button type="button" data-ts="m" aria-pressed="true">Müşteri</button>
+    <button type="button" data-ts="p" aria-pressed="false">Personel</button>
+  </div>
+</div>
+<div class="sahne" id="sahne">
+  <section class="taraf" id="tarafM" aria-label="Müşteri"><div class="etiket"><i></i><span id="etiketM">MÜŞTERİ · TELEFON</span></div><div class="yer" id="yerM"></div></section>
+  <section class="taraf" id="tarafP" aria-label="Personel"><div class="etiket"><i></i><span>PERSONEL · TABLET</span></div><div class="yer" id="yerP"></div></section>
+</div>
+<div class="alt">
+  <div class="aciklama" aria-live="polite"><span class="no" id="no"></span><span class="kim" id="kim"></span><b id="baslik"></b><p id="metin"></p></div>
+  <div class="noktalar" id="noktalar" role="group" aria-label="Adımlar"></div>
+  <div class="kontrol">
+    <button type="button" class="k-geri" id="geri">‹ Geri</button>
+    <button type="button" class="k-oynat" id="oynat" aria-pressed="false">Otomatik oynat</button>
+    <button type="button" class="k-ileri" id="ileri">İleri ›</button>
+  </div>
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var LOGO_Y = "assets/logo-green.png", LOGO_B = "assets/logo-white.png";
+  var M = { ad: "Mehmet Demir", ilk: "Mehmet", kisa: "Mehmet D.", tel: "0532 123 45 67", yer: "Atatürk Mah., Ataşehir", gun: "23 Eki Perşembe", gunK: "Per 23 Eki", saat: "18:00" };
+  var T = { ad: "Onur Kaya", bas: "OK", sube: "Ataşehir Şubesi", sicil: "48213", puan: "4,8", deneyim: "6 yıl", gorusme: "312" };
+  var KOD = "4821";
+
+  function qr(metin) {
+    try { var q = window.qrcode(0, "M"); q.addData(metin); q.make(); return q.createDataURL(6, 2); } catch (e) { return ""; }
+  }
+  var QR = qr("EMINEVIM-TY|s1|" + KOD);
+  function tik(boy) { boy = boy || 40; return '<svg width="' + boy + '" height="' + boy + '" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg>'; }
+
+  /* Basit harita çizimi: yollar, yeşil hizmet bölgesi, iğne ve istenirse rota */
+  function harita(w, h, rota) {
+    var s = '<svg width="100%" height="100%" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><rect width="' + w + '" height="' + h + '" fill="#e8ece9"/>';
+    s += '<path d="M' + (w * .15) + ' ' + (h * .1) + 'L' + (w * .85) + ' ' + (h * .18) + 'L' + (w * .9) + ' ' + (h * .8) + 'L' + (w * .3) + ' ' + (h * .9) + 'L' + (w * .08) + ' ' + (h * .5) + 'Z" fill="#00724c" fill-opacity=".16" stroke="#00724c" stroke-width="2"/>';
+    var yollar = [[0, .3, 1, .42], [0, .7, 1, .6], [.3, 0, .38, 1], [.68, 0, .6, 1], [0, .5, .5, .55], [.5, .2, .95, .3]];
+    yollar.forEach(function (y) { s += '<line x1="' + w * y[0] + '" y1="' + h * y[1] + '" x2="' + w * y[2] + '" y2="' + h * y[3] + '" stroke="#fff" stroke-width="' + (w > 500 ? 9 : 6) + '"/>'; });
+    if (rota) s += '<path d="M' + w * .15 + ' ' + h * .85 + ' L' + w * .34 + ' ' + h * .7 + ' L' + w * .36 + ' ' + h * .52 + ' L' + w * .55 + ' ' + h * .5 + '" fill="none" stroke="#ea803f" stroke-width="5" stroke-dasharray="10 7" stroke-linecap="round"/><circle cx="' + w * .15 + '" cy="' + h * .85 + '" r="9" fill="#1e3856" stroke="#fff" stroke-width="3"/>';
+    s += '<path transform="translate(' + (w * .55 - 16) + ' ' + (h * .5 - 36) + ')" d="M16 0C7.2 0 0 7.2 0 16c0 12 16 22 16 22s16-10 16-22C32 7.2 24.8 0 16 0z" fill="#00724c"/><circle cx="' + w * .55 + '" cy="' + (h * .5 - 20) + '" r="6" fill="#fff"/>';
+    return s + '</svg>';
+  }
+
+  /* ===== Müşteri: telefon ekranları ===== */
+  var durum = function (y) { return '<div class="durum' + (y ? ' y' : '') + '"><span>18:12</span><span>▮▮▮ ◔ ▭</span></div>'; };
+  var ab = function (alt) { return '<div class="ab"><img src="' + LOGO_B + '" alt=""><div class="bs"><b>Tasarruf Yanımda</b><span>' + alt + '</span></div><span class="av">MD</span></div>'; };
+  var sn = function (a) { return '<div class="sn">' + ["Randevum", "Sohbet", "Finansman", "Ayarlar"].map(function (x) { return '<span class="' + (x === a ? 'a' : '') + '"><i></i>' + x + '</span>'; }).join("") + '</div>'; };
+  var repSatir = function () { return '<div class="kart"><div class="rep"><span class="bas">' + T.bas + '</span><span class="ad"><b>' + T.ad + '</b><span>Temsilciniz · Sicil ' + T.sicil + '</span></span><span class="btn o" style="min-height:34px;font-size:12px">Bilgiler</span></div></div>'; };
+  var adimlar = function (n) { return '<div class="kart" style="display:flex;flex-direction:column;gap:9px">' + ["Talebiniz alındı", "Temsilciniz atandı", "Saat onaylandı", "Görüşme günü"].map(function (x, i) { return '<div class="adim' + (i < n ? '' : ' bos') + '"><i>' + (i < n ? '✓' : '') + '</i>' + x + '</div>'; }).join("") + '</div>'; };
+
+  var TEL = {
+    form: function () {
+      return '<div class="ekr">' + durum() + '<div class="site-ust"><img src="' + LOGO_Y + '" alt="Eminevim"><span style="font-size:22px">☰</span></div><div class="site-hero">Hayallerinize<br>bir adım daha yakın</div>' +
+        '<div class="govde"><h3 style="text-align:center">Hızlı Başvuru</h3><div class="alan">Mehmet</div><div class="alan">Demir</div><div class="alan">' + M.tel + '</div>' +
+        '<div class="onay"><i></i><span>Kişisel verilerin işlenmesine ilişkin aydınlatma metnini okudum.</span></div>' +
+        '<div class="anahtar vurgu">Temsilci çağırmak istiyorum<span class="s"></span></div><div class="btn pasif">Gönder</div></div></div>';
+    },
+    harita: function () {
+      return '<div class="ekr">' + durum() + '<div class="pen-bas"><b>Görüşme yerini seçin<small>1 / 2 · Temsilcimiz size gelsin</small></b><span>×</span></div>' +
+        '<div style="position:absolute;top:118px;left:0;right:0;bottom:170px">' + harita(393, 560) + '<div class="alan" style="position:absolute;left:12px;right:12px;top:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.15)">⌕ Adres veya mekân ara</div><span class="btn o" style="position:absolute;right:12px;bottom:14px;min-height:36px;font-size:12px">Hizmet bölgesini göster</span></div>' +
+        '<div style="position:absolute;left:0;right:0;bottom:0;background:#fff;padding:14px 18px 30px;display:flex;flex-direction:column;gap:10px"><div class="adim"><i>✓</i><span><b>' + M.yer + '</b><br><span style="font-weight:400;font-size:12px">Hizmet bölgemizde (Ataşehir).</span></span></div><div class="btn vurgu">Devam: gün ve saat</div></div></div>';
+    },
+    gun: function () {
+      var g = '<div class="gunler">' + ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"].map(function (x) { return '<span class="k">' + x + '</span>'; }).join("");
+      for (var d = 20; d <= 30; d++) g += '<span class="' + (d < 22 ? 'k' : d === 23 ? 's' : (d === 25 ? 'c' : d === 26 ? 'k' : '')) + '">' + d + '</span>';
+      g += '</div>';
+      var s = '<div class="saatler">' + ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"].map(function (x) { return '<span class="' + (x === "18:00" ? 's' : '') + '">' + x + '</span>'; }).join("") + '</div>';
+      return '<div class="ekr">' + durum() + '<div class="pen-bas"><b>Gün ve saat seçin<small>2 / 2 · ' + M.yer + '</small></b><span>×</span></div><div class="govde"><b>Ekim 2026</b>' + g + '<span class="not">Cumartesi yoğun; hafta içi günlerde daha hızlı gelinir. Pazar kapalı.</span><b>Saat</b>' + s + '</div>' +
+        '<div style="position:absolute;left:16px;right:16px;bottom:30px"><div class="btn vurgu">Onayla</div></div></div>';
+    },
+    basarili: function () {
+      return '<div class="ekr" style="background:#fff">' + durum() + '<div class="govde" style="align-items:center;text-align:center;padding-top:26px"><div class="tik" style="background:#a1cb3a">' + tik(38) + '</div><h3 style="color:#00724c">Başarılı!</h3><b>Temsilci talebiniz alındı</b>' +
+        '<p style="margin:0;font-size:13px">Sayın <b>' + M.ad + '</b>, temsilcimiz görüşmeden önce sizinle iletişime geçecek ve belirlediğiniz saatte belirttiğiniz konumda olacak.</p>' +
+        '<div class="kart" style="width:100%;background:#e9f0ed;border:0"><div class="satir"><span>Gün</span><b>' + M.gun + '</b></div><div class="satir"><span>Saat</span><b>' + M.saat + '</b></div><div class="satir"><span>Yer</span><b>' + M.yer + '</b></div></div>' +
+        '<div class="kart" style="width:100%"><img src="' + LOGO_Y + '" alt="" style="height:14px"><p style="font-size:12px;margin:8px 0">Kampanyalarımıza, Finansman Aracımıza ve size atanan temsilci hakkında detaylara ulaşmak için Eminevim uygulamasını kullanabilirsiniz.</p><div class="btn vurgu">Uygulamayı aç</div></div></div></div>';
+    },
+    atandi: function () {
+      return '<div class="ekr">' + durum(1) + ab("Temsilciniz atandı") + '<div class="bildirim"><img src="' + LOGO_B + '" alt=""><span><b>Eminevim</b><br>Temsilciniz Onur Kaya. Görüşme saatini Sohbet\'ten onaylayın.</span></div>' +
+        '<div class="govde"><h3>Randevum</h3><div class="yk"><b>Temsilciniz atandı</b>' + M.gun + ', ' + M.saat + ' · ' + M.yer + '</div>' + adimlar(2) + repSatir() + '</div>' + sn("Randevum") + '</div>';
+    },
+    onay: function () {
+      return '<div class="ekr">' + durum(1) + ab("Temsilciniz atandı") + '<div class="kart" style="border-radius:0;border-width:0 0 1px"><div class="rep"><span class="bas">' + T.bas + '</span><span class="ad"><b>' + T.ad + '</b><span>Temsilciniz · Sicil ' + T.sicil + '</span></span></div></div>' +
+        '<div class="govde" style="gap:8px"><div class="balon">Merhaba Mehmet Bey, ben Onur Kaya, Eminevim müşteri temsilcinizim. Görüşmemizi ' + M.gun + ' ' + M.saat + ', ' + M.yer + ' olarak planladım. Uygunsa aşağıdan onaylayabilirsiniz.<small>17:42</small></div>' +
+        '<div class="chip vurgu">✓ Saati onayla · ' + M.gunK + ' ' + M.saat + '</div></div>' + sn("Sohbet") + '</div>';
+    },
+    form1gun: function () {
+      return '<div class="ekr">' + durum(1) + ab("Randevunuz netleşti") + '<div class="govde"><h3>Randevum</h3><div class="yk"><b>Randevunuz netleşti</b>Yarın ' + M.saat + ' · ' + M.yer + '</div>' +
+        '<div class="kart" style="display:flex;flex-direction:column;gap:6px"><span class="rozet t" style="align-self:flex-start">Görüşmeden önce okuyun</span><b>Sözleşme öncesi bilgilendirme formu</b><span style="font-size:12.5px">Görüşmede konuşacağınız sözleşmenin temel bilgileri: organizasyon ücreti, tasarruf ve teslim süreci, cayma hakkı (14 gün).</span><div class="btn o" style="min-height:38px">Formu oku</div><div class="btn vurgu">Okudum, anladım</div></div>' + repSatir() + '</div>' + sn("Randevum") + '</div>';
+    },
+    yolda: function () {
+      return '<div class="ekr">' + durum(1) + ab("Temsilciniz yolda") + '<div class="bildirim"><img src="' + LOGO_B + '" alt=""><span><b>Eminevim</b><br>Onur Kaya yola çıktı · yaklaşık 12 dk</span></div><div class="govde"><h3>Randevum</h3><div class="yk"><b>Temsilciniz yolda</b>Bugün ' + M.saat + ' · ' + M.yer + ' · yaklaşık 12 dk<div class="btn b" style="margin-top:10px">Kapıda kimliğini doğrula</div><div class="btn" style="margin-top:8px">Temsilcinizi takip edin</div></div>' +
+        '<div class="kart" style="padding:0;height:210px;overflow:hidden">' + harita(360, 210, true) + '</div>' + repSatir() + '</div>' + sn("Randevum") + '</div>';
+    },
+    qr: function () {
+      return '<div class="ekr">' + durum(1) + ab("Temsilciniz kapıda") + '<div class="govde"><h3>Randevum</h3><div class="yk"><b>Temsilciniz yolda</b>Bugün ' + M.saat + '</div></div><div class="karart"></div>' +
+        '<div class="alt-pen"><b style="font-size:18px">Temsilcinizi doğrulayın</b><span style="font-size:12.5px">Temsilcinizden bu kodu Eminevim personel uygulamasıyla okutmasını isteyin.</span><div class="qr vurgu"><img src="' + QR + '" alt="QR"></div><span style="font-size:12px">Okutamazsa kod: <b style="font-size:17px;letter-spacing:5px">4 8 2 1</b></span><span style="font-size:11.5px;color:#b25e30;background:#fce0d4;border-radius:12px;padding:7px 10px">Ekranınız yeşile dönmezse kişisel bilgi vermeyin ve 444 36 46\'yı arayın.</span></div></div>';
+    },
+    dogrulandi: function () {
+      return '<div class="ekr">' + durum(1) + ab("Temsilciniz yanınızda") + '<div class="karart"></div><div class="alt-pen"><div class="tik">' + tik() + '</div><b style="font-size:19px;color:#00724c">Kimlik doğrulandı</b><div class="kart" style="background:#e9f0ed;border:0;width:100%"><div class="rep"><span class="bas">' + T.bas + '</span><span class="ad" style="text-align:left"><b>' + T.ad + '</b><span style="color:#00724c;font-weight:700">✓ Eminevim temsilcisi · Sicil ' + T.sicil + '</span></span></div></div><span style="font-size:13px">Görüşmeniz 18:10\'da başladı. İyi görüşmeler!</span><div class="btn" style="width:100%">Tamam</div></div></div>';
+    },
+    surer: function () {
+      return '<div class="ekr">' + durum(1) + ab("Görüşmeniz sürüyor") + '<div class="govde"><h3>Randevum</h3><div class="yk"><b>Görüşmeniz sürüyor</b>Kimliği 18:10\'da doğrulandı · ' + M.yer + '</div><div class="kart"><b>Planınız hazırlanıyor</b><p style="margin:6px 0 0;font-size:12.5px">Temsilcinizin tabletinde hesapladığı plan, görüşme bitince yazılı özet olarak buraya gelecek.</p></div>' + adimlar(4) + repSatir() + '</div>' + sn("Randevum") + '</div>';
+    },
+    ozet: function () {
+      return '<div class="ekr">' + durum(1) + ab("Görüşmeniz tamamlandı") + '<div class="govde"><h3>Randevum</h3><div class="kart" style="display:flex;flex-direction:column;gap:2px"><span class="baslik-k" style="font-size:11px;font-weight:700;color:#00724c">GÖRÜŞME ÖZETİ</span>' +
+        [["Konu", "Konut Finansmanı"], ["Finansman tutarı", "2.500.000 ₺"], ["Peşinat", "%10"], ["Vade", "80 ay"], ["Aylık ödeme (örnek)", "28.130 ₺"], ["Cayma hakkı", "Sözleşmeden itibaren 14 gün"]].map(function (r) { return '<div class="satir"><span>' + r[0] + '</span><b>' + r[1] + '</b></div>'; }).join("") +
+        '<div style="display:flex;gap:8px;margin-top:8px"><div class="btn vurgu" style="flex:1;min-height:40px;font-size:13px">Bilgiler doğru</div><div class="btn o" style="flex:1;min-height:40px;font-size:13px">Bir sorun var</div></div></div>' +
+        '<div class="kart" style="text-align:center"><b>Görüşmeniz nasıldı?</b><div class="yildiz">★★★★★</div></div></div>' + sn("Randevum") + '</div>';
+    }
+  };
+
+  /* ===== Müşteri: bilgisayar ekranları (site + uygulamasız takip sayfası) ===== */
+  var siteUst = '<div class="site-ust" style="padding:14px 40px"><img src="' + LOGO_Y + '" alt="Eminevim" style="height:30px"><span style="display:flex;gap:26px;font-size:13px;font-weight:700;color:#00724c"><span>Konut</span><span>Araç</span><span>İşyeri</span><span>Kampanyalar</span><span>444 36 46</span></span></div>';
+  var siteArka = function (sakin) { return '<div class="' + (sakin ? 'sakin' : '') + '">' + siteUst + '<div class="site-hero" style="height:420px;font-size:44px;padding:40px">Hayallerinize<br>bir adım daha yakın</div></div>'; };
+  var takipUst = function (yol) { return '<div class="tarayici"><i></i><i></i><i></i><span>🔒 eminevim.com/' + (yol || 'takip/8F3K') + '</span></div>' + '<div class="site-ust" style="padding:12px 40px"><img src="' + LOGO_Y + '" alt="Eminevim" style="height:26px"><b style="color:#00724c">Randevu takibi</b></div>'; };
+  var takipSablon = function (sol, sag) { return '<div class="ekr">' + takipUst() + '<div style="display:grid;grid-template-columns:1fr 360px;gap:22px;padding:24px 40px">' + '<div style="display:flex;flex-direction:column;gap:14px">' + sol + '</div><div style="display:flex;flex-direction:column;gap:14px">' + sag + '</div></div></div>'; };
+  var repKart = '<div class="kart"><span class="baslik-k" style="font-size:11px;font-weight:700;color:#00724c">TEMSİLCİNİZ</span><div class="rep" style="margin-top:8px"><span class="bas">' + T.bas + '</span><span class="ad"><b>' + T.ad + '</b><span>Müşteri Temsilcisi · ' + T.sube + '</span></span></div><div style="margin-top:8px"><span class="rozet">✓ Eminevim onaylı · Sicil ' + T.sicil + '</span></div><div class="satir" style="margin-top:8px"><span>Puan · Deneyim · Görüşme</span><b>★ ' + T.puan + ' · ' + T.deneyim + ' · ' + T.gorusme + '</b></div></div>';
+  var uygKart = '<div class="kart" style="background:#e9f0ed;border:0"><b>Uygulamayla daha kolay</b><p style="font-size:12.5px;margin:6px 0 10px">Sohbet, finansman aracı ve görüşme günü takibi için telefonunuza indirin.</p><div style="display:flex;gap:8px"><span class="btn" style="background:#111;min-height:38px;font-size:12px"> App Store</span><span class="btn" style="background:#111;min-height:38px;font-size:12px">▶ Google Play</span></div></div>';
+
+  var BIL = {
+    form: function () {
+      return '<div class="ekr" style="background:#fff">' + siteArka() + '<div class="kart" style="position:absolute;right:0;top:120px;width:330px;border-radius:22px 0 0 22px;border:2px solid #00724c;padding:22px;display:flex;flex-direction:column;gap:9px;box-shadow:0 10px 30px rgba(0,0,0,.2)"><h3 style="text-align:center;color:#00724c">Hızlı Başvuru</h3><div class="alan">Mehmet</div><div class="alan">Demir</div><div class="alan">' + M.tel + '</div><div class="onay"><i></i><span>Aydınlatma metnini okudum.</span></div><div class="anahtar vurgu">Temsilci çağırmak istiyorum<span class="s"></span></div><div class="btn pasif">Gönder</div></div></div>';
+    },
+    harita: function () {
+      return '<div class="ekr" style="background:#fff">' + siteArka(1) + '<div class="karart"></div><div class="kart" style="position:absolute;left:50%;top:60px;transform:translateX(-50%);width:760px;height:640px;padding:0;overflow:hidden;display:flex;flex-direction:column"><div class="pen-bas"><b>Görüşme yerini seçin<small>1 / 2 · Temsilcimiz size gelsin</small></b><span>×</span></div><div style="flex:1;position:relative">' + harita(760, 460) + '<div class="alan" style="position:absolute;left:14px;width:340px;top:14px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.15)">⌕ Adres veya mekân ara</div></div><div style="padding:14px 18px;display:flex;align-items:center;gap:14px;border-top:1px solid #eee"><div class="adim" style="flex:1"><i>✓</i><span>' + M.yer + ' · hizmet bölgemizde</span></div><div class="btn vurgu">Devam: gün ve saat</div></div></div></div>';
+    },
+    gun: function () {
+      var g = '<div class="gunler">' + ["Pt", "Sa", "Ça", "Pe", "Cu", "Ct", "Pz"].map(function (x) { return '<span class="k">' + x + '</span>'; }).join("");
+      for (var d = 20; d <= 30; d++) g += '<span class="' + (d < 22 ? 'k' : d === 23 ? 's' : d === 26 ? 'k' : '') + '">' + d + '</span>';
+      g += '</div>';
+      return '<div class="ekr" style="background:#fff">' + siteArka(1) + '<div class="karart"></div><div class="kart" style="position:absolute;left:50%;top:80px;transform:translateX(-50%);width:640px;padding:0;overflow:hidden"><div class="pen-bas"><b>Gün ve saat seçin<small>2 / 2 · ' + M.yer + '</small></b><span>×</span></div><div class="govde" style="padding:18px 24px">' + g + '<b>Saat</b><div class="saatler" style="grid-template-columns:repeat(6,1fr)">' + ["10:00", "12:00", "14:00", "16:00", "18:00", "20:00"].map(function (x) { return '<span class="' + (x === "18:00" ? 's' : '') + '">' + x + '</span>'; }).join("") + '</div><div class="btn vurgu" style="margin-top:6px">Onayla</div></div></div></div>';
+    },
+    basarili: function () {
+      return '<div class="ekr" style="background:#fff">' + siteArka() + '<div class="kart" style="position:absolute;right:0;top:110px;width:460px;border-radius:22px 0 0 22px;border:2px solid #00724c;padding:24px 30px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;box-shadow:0 10px 30px rgba(0,0,0,.2)"><div class="tik" style="background:#a1cb3a;width:56px;height:56px">' + tik(30) + '</div><h3 style="color:#00724c">Başarılı!</h3><b>Temsilci talebiniz alındı</b><p style="font-size:12.5px;margin:0">Takip linkini <b>' + M.tel + '</b> numarasına SMS ile gönderdik; bu bilgisayardan da açabilirsiniz.</p><div class="kart" style="width:100%;background:#e9f0ed;border:0;padding:14px 18px"><b style="font-size:13px">Telefonunuza indirip bu telefon numarasıyla giriş yapın.</b><div style="display:flex;gap:8px;justify-content:center;margin-top:10px"><span class="btn vurgu" style="background:#111;min-height:38px;font-size:12px"> App Store</span><span class="btn" style="background:#111;min-height:38px;font-size:12px">▶ Google Play</span></div></div></div></div>';
+    },
+    atandi: function () {
+      return takipSablon('<div class="yk"><b>Temsilciniz atandı</b>' + M.gun + ', ' + M.saat + ' · ' + M.yer + '</div>' + adimlar(2) + '<div class="kart vurgu"><b>Temsilcinizin mesajı</b><p style="margin:6px 0 10px;font-size:13px">"Görüşmemizi ' + M.gun + ' ' + M.saat + ' olarak planladım. Uygunsa onaylayabilirsiniz." — Onur Kaya</p><div style="display:flex;gap:8px"><span class="btn">Saati onayla</span><span class="btn o">Başka saat öner</span></div></div>', repKart + uygKart);
+    },
+    onay: function () {
+      return takipSablon('<div class="yk"><b>Temsilciniz atandı</b>' + M.gun + ', ' + M.saat + ' · ' + M.yer + '</div>' + adimlar(2) + '<div class="kart"><b>Temsilcinizin mesajı</b><p style="margin:6px 0 10px;font-size:13px">"Görüşmemizi ' + M.gun + ' ' + M.saat + ' olarak planladım. Uygunsa onaylayabilirsiniz." — Onur Kaya</p><div style="display:flex;gap:8px"><span class="btn vurgu">Saati onayla</span><span class="btn o">Başka saat öner</span></div></div>', repKart + uygKart);
+    },
+    form1gun: function () {
+      return takipSablon('<div class="yk"><b>Randevunuz netleşti</b>Yarın ' + M.saat + ' · ' + M.yer + '</div><div class="kart" style="display:flex;flex-direction:column;gap:8px"><span class="rozet t" style="align-self:flex-start">Görüşmeden önce okuyun</span><b>Sözleşme öncesi bilgilendirme formu</b><span style="font-size:13px">Organizasyon ücreti, tasarruf ve teslim süreci, cayma hakkı (14 gün).</span><div style="display:flex;gap:8px"><span class="btn o">Formu oku</span><span class="btn vurgu">Okudum, anladım</span></div></div>', repKart + uygKart);
+    },
+    yolda: function () {
+      return takipSablon('<div class="yk"><b>Temsilciniz yolda</b>Bugün ' + M.saat + ' · ' + M.yer + ' · yaklaşık 12 dk</div><div class="kart vurgu" style="padding:0;height:330px;overflow:hidden">' + harita(640, 330, true) + '</div>', repKart + '<div class="kart"><b>Kapıda doğrulama</b><p style="font-size:12.5px;margin:6px 0 0">Temsilciniz gelince SMS\'teki linki telefonunuzda açın; ekrandaki kodu temsilciniz okutacak.</p></div>');
+    }
+  };
+  // Bilgisayardaki müşteri kapıda telefonunu kullanır (SMS'teki link, uygulama gerekmez)
+  var TEL_WEB = {
+    qr: function () {
+      return '<div class="ekr" style="background:#fff">' + durum() + '<div class="tarayici"><span>🔒 eminevim.com/takip/8F3K</span></div><div class="govde" style="align-items:center;text-align:center"><img src="' + LOGO_Y + '" alt="" style="height:18px"><b style="font-size:18px">Temsilcinizi doğrulayın</b><span style="font-size:12.5px">Bu kodu temsilcinize okutun.</span><div class="qr vurgu"><img src="' + QR + '" alt="QR"></div><span>Kod: <b style="font-size:17px;letter-spacing:5px">4 8 2 1</b></span><span style="font-size:11.5px;color:#b25e30;background:#fce0d4;border-radius:12px;padding:7px 10px">Ekranınız yeşile dönmezse kişisel bilgi vermeyin ve 444 36 46\'yı arayın.</span></div></div>';
+    },
+    dogrulandi: function () {
+      return '<div class="ekr" style="background:#fff">' + durum() + '<div class="tarayici"><span>🔒 eminevim.com/takip/8F3K</span></div><div class="govde" style="align-items:center;text-align:center;padding-top:40px"><div class="tik">' + tik() + '</div><b style="font-size:19px;color:#00724c">Kimlik doğrulandı</b><div class="kart" style="background:#e9f0ed;border:0;width:100%"><div class="rep"><span class="bas">' + T.bas + '</span><span class="ad" style="text-align:left"><b>' + T.ad + '</b><span style="color:#00724c;font-weight:700">✓ Eminevim temsilcisi · Sicil ' + T.sicil + '</span></span></div></div><span style="font-size:13px">Görüşmeniz 18:10\'da başladı.</span></div></div>';
+    }
+  };
+  BIL.surer = function () { return takipSablon('<div class="yk"><b>Görüşmeniz sürüyor</b>Kimliği 18:10\'da doğrulandı · ' + M.yer + '</div><div class="kart"><b>Planınız hazırlanıyor</b><p style="font-size:13px;margin:6px 0 0">Görüşme bitince yazılı özet bu sayfaya ve SMS ile gelecek.</p></div>' + adimlar(4), repKart); };
+  BIL.ozet = function () {
+    return takipSablon('<div class="kart" style="display:flex;flex-direction:column;gap:3px"><span style="font-size:11px;font-weight:700;color:#00724c">GÖRÜŞME ÖZETİ</span>' + [["Konu", "Konut Finansmanı"], ["Finansman tutarı", "2.500.000 ₺"], ["Peşinat", "%10"], ["Vade", "80 ay"], ["Aylık ödeme (örnek)", "28.130 ₺"], ["Cayma hakkı", "Sözleşmeden itibaren 14 gün"]].map(function (r) { return '<div class="satir"><span>' + r[0] + '</span><b>' + r[1] + '</b></div>'; }).join("") + '<div style="display:flex;gap:8px;margin-top:10px"><span class="btn vurgu">Bilgiler doğru</span><span class="btn o">Bir sorun var</span></div></div>', '<div class="kart" style="text-align:center"><b>Görüşmeniz nasıldı?</b><div class="yildiz">★★★★★</div></div>' + uygKart);
+  };
+
+  /* ===== Personel: tablet (yatay) ekranları ===== */
+  var yan = function (a) { return '<div class="yan"><img src="' + LOGO_B + '" alt="Eminevim">' + ["Bugün", "Talepler", "Ajanda", "Sohbet", "Performans"].map(function (x) { return '<span class="' + (x === a ? 'a' : '') + '">' + x + '</span>'; }).join("") + '<div class="kisi"><i>OK</i><span>Onur Kaya<br><span class="durumu">Müsait</span></span></div></div>'; };
+  var ajanda = function (secili, mehmetDurum) {
+    var r = [["11:00", "Selin A.", "Kayışdağı · tamamlandı"], ["14:30", "Murat Y.", "Barbaros · tamamlandı"]];
+    if (mehmetDurum) r.push(["18:00", M.kisa, M.yer + " · " + mehmetDurum]);
+    return '<div class="liste">' + r.map(function (x) { return '<div class="kart' + (x[1] === secili ? ' s' : '') + '"><span class="saat">' + x[0] + '</span><span style="flex:1"><b>' + x[1] + '</b><br><span style="font-size:12px">' + x[2] + '</span></span></div>'; }).join("") + '</div>';
+  };
+  var tab = function (a, baslik, sag, govde) { return '<div class="ekr"><div class="tab">' + yan(a) + '<div class="ana"><div class="ana-bas"><h3>' + baslik + '</h3>' + (sag || '') + '</div>' + govde + '</div></div></div>'; };
+  var musteriKart = '<div class="kart"><span class="baslik-k">MÜŞTERİ</span><div class="rep" style="margin-top:8px"><span class="bas" style="background:#e9f0ed;color:#00724c">MD</span><span class="ad"><b>' + M.ad + '</b><span>' + M.tel + ' · Web formundan</span></span></div><div class="satir" style="margin-top:8px"><span>Yer</span><b>' + M.yer + '</b></div><div class="satir"><span>Gün / saat</span><b>' + M.gun + ' · ' + M.saat + '</b></div><div class="satir"><span>Uzaklık</span><b>1,8 km · 7 dk</b></div></div>';
+
+  var TAB = {
+    bos: function () { return tab("Bugün", "Bugün · 22 Ekim", '<span>2 görüşme tamamlandı</span>', '<div class="iki"><div><span class="baslik-k">AJANDA</span>' + ajanda() + '</div><div class="detay"><div class="kpi"><div class="kart"><b>2</b>Bugün tamamlanan</div><div class="kart"><b>0</b>Bekleyen talep</div><div class="kart"><b>★ 4,8</b>Puan</div></div><div class="kart sakin">Yeni talep geldiğinde burada görünür.</div></div></div>'); },
+    talep: function () {
+      return tab("Talepler", "Yeni talep", '<span class="rozet t">Yanıt için 1:48</span>', '<div class="iki"><div><span class="baslik-k">BEKLEYEN</span><div class="liste"><div class="kart s"><span class="saat">YENİ</span><span style="flex:1"><b>' + M.kisa + '</b><br><span style="font-size:12px">' + M.yer + ' · ' + M.gunK + ' ' + M.saat + '</span></span></div></div></div><div class="detay">' + musteriKart +
+        '<div class="kart" style="padding:0;height:200px;overflow:hidden">' + harita(560, 200) + '</div><div style="display:flex;gap:10px"><div class="btn vurgu" style="flex:2">Kabul et</div><div class="btn o" style="flex:1">Devret</div></div></div></div>');
+    },
+    mesaj: function () {
+      return tab("Sohbet", "Sohbet · " + M.kisa, '<span class="rozet">Kabul edildi</span>', '<div class="iki"><div class="detay">' + musteriKart + '</div><div class="kart" style="display:flex;flex-direction:column;gap:10px;justify-content:flex-end"><span class="not" style="align-self:center">Hazır mesaj · düzenleyebilirsiniz</span><div class="balon ben">Merhaba Mehmet Bey, ben Onur Kaya, Eminevim müşteri temsilcinizim. Görüşmemizi ' + M.gun + ' ' + M.saat + ', ' + M.yer + ' olarak planladım. Uygunsa onaylayabilirsiniz.</div><div style="display:flex;gap:8px"><div class="alan" style="flex:1">Mesajınızı yazın</div><div class="btn vurgu">Gönder</div></div></div></div>');
+    },
+    onaylandi: function () {
+      return tab("Sohbet", "Sohbet · " + M.kisa, '<span class="rozet">Saat onaylandı</span>', '<div class="iki"><div><span class="baslik-k">AJANDA · 23 EKİM</span>' + ajanda(M.kisa, "netleşti ✓") + '</div><div class="kart" style="display:flex;flex-direction:column;gap:10px;justify-content:flex-end"><div class="balon ben">… Uygunsa onaylayabilirsiniz.<small>17:42</small></div><div class="balon">' + M.gunK + ' ' + M.saat + ' uygun, onaylıyorum.<small>17:44</small></div><div class="kart vurgu" style="background:#e9f0ed;border:0"><b>✓ Randevu netleşti</b> · Ajandanıza eklendi. Bir gün önce müşteriye bilgilendirme formu otomatik gider.</div></div></div>');
+    },
+    formOkundu: function () {
+      return tab("Ajanda", "Ajanda · 23 Ekim", '', '<div class="iki"><div><span class="baslik-k">YARIN</span>' + ajanda(M.kisa, "netleşti") + '</div><div class="detay">' + musteriKart + '<div class="kart vurgu"><span class="baslik-k">HAZIRLIK</span><div class="adim" style="margin-top:8px"><i>✓</i>Bilgilendirme formu gönderildi · 22 Eki 18:00</div><div class="adim" style="margin-top:6px"><i>✓</i>Müşteri okudu · 22 Eki 21:14</div><div class="adim bos" style="margin-top:6px"><i></i>Görüşme · yarın 18:00</div></div></div></div>');
+    },
+    yolda: function () {
+      return tab("Bugün", "Görüşmeye gidiş", '<span class="rozet t">Müşteriye bildirildi · 12 dk</span>', '<div style="flex:1;position:relative;margin:16px 22px;border-radius:14px;overflow:hidden;border:1px solid #ddd">' + harita(940, 640, true) + '<div class="kart" style="position:absolute;left:16px;bottom:16px;width:360px"><b>' + M.kisa + ' · ' + M.saat + '</b><br>' + M.yer + '<div class="btn vurgu" style="margin-top:10px">Vardım: QR okut</div></div></div>');
+    },
+    tara: function () {
+      return '<div class="ekr"><div class="tab-tara"><div class="cerceve-qr"><span class="c1"></span><span class="c2"></span><span class="c3"></span><span class="c4"></span><div class="kucuk-qr"><img src="' + QR + '" alt=""></div><div class="cizgi"></div></div><div style="max-width:340px"><b style="color:#fff;font-size:22px">Kimlik doğrulama</b><p style="opacity:.85">Müşterinin ekranındaki QR kodu çerçeveye getirin.</p><p style="opacity:.85;font-size:13px">Okunmuyorsa 4 haneli kodu girin:</p><div style="display:flex;gap:8px"><div class="alan" style="flex:1;background:#fff;text-align:center;letter-spacing:8px">• • • •</div><div class="btn">Doğrula</div></div></div></div></div>';
+    },
+    gorusme: function () {
+      return tab("Bugün", "Görüşme · " + M.kisa, '<span class="rozet">✓ Doğrulandı 18:10 · varış kaydedildi</span>', '<div class="iki"><div class="detay">' + musteriKart + '<div class="kart"><span class="baslik-k">GÖRÜŞME</span><div class="adim" style="margin-top:8px"><i>✓</i>Kimlik doğrulandı</div><div class="adim bos" style="margin-top:6px"><i></i>İhtiyaç ve bütçe</div><div class="adim bos" style="margin-top:6px"><i></i>Plan ve özet</div></div></div><div class="detay"><div class="kart vurgu"><b>Müşterinin ekranında</b><p style="margin:6px 0 0">"Kimlik doğrulandı · Onur Kaya · Sicil 48213" yeşil olarak görünüyor.</p></div><div class="btn" style="align-self:flex-start;padding:0 28px">Plan hazırlamaya başla</div></div></div>');
+    },
+    plan: function () {
+      return tab("Bugün", "Plan · " + M.kisa, '<span>Görüşme 24 dk</span>', '<div class="iki" style="grid-template-columns:1fr 1fr"><div class="detay"><div class="kart"><span class="baslik-k">İHTİYAÇ</span><div style="display:flex;gap:8px;margin-top:8px"><span class="btn" style="flex:1;background:#00724c">Konut</span><span class="btn o" style="flex:1">Araç</span><span class="btn o" style="flex:1">İşyeri</span></div></div><div class="kart"><span class="baslik-k">TUTAR · PEŞİNAT · VADE</span><div class="alan" style="margin-top:8px">2.500.000 ₺</div><div class="saatler" style="margin-top:8px"><span>%0</span><span class="s">%10</span><span>%20</span><span>%30</span></div><div class="satir" style="margin-top:8px"><span>Vade</span><b>80 ay</b></div></div></div>' +
+        '<div class="detay"><div class="yk" style="text-align:center"><span style="font-size:11px;font-weight:700;opacity:.85">AYLIK ÖDEME (ÖRNEK)</span><div class="buyuk">28.130 ₺</div>Peşinat 250.000 ₺ · 80 ay</div><div class="kart"><span class="baslik-k">MÜŞTERİYE GİDECEK ÖZET</span><div class="satir"><span>Konu</span><b>Konut Finansmanı</b></div><div class="satir"><span>Cayma hakkı</span><b>14 gün</b></div></div><div class="btn vurgu">Özeti müşteriye gönder</div></div></div>');
+    },
+    bitti: function () {
+      return tab("Bugün", "Bugün · 22 Ekim", '<span>3 görüşme</span>', '<div class="iki"><div><span class="baslik-k">AJANDA</span>' + ajanda(M.kisa, "tamamlandı ✓") + '</div><div class="detay"><div class="kart vurgu" style="background:#e9f0ed;border:0"><b>' + M.kisa + ' özeti onayladı ✓</b><div class="yildiz" style="font-size:24px">★★★★★</div><span style="font-size:13px">Puan yalnız kapıda doğrulanan görüşmeden alınır.</span></div><div class="kpi"><div class="kart"><b>3</b>Bugün tamamlanan</div><div class="kart"><b>3 / 3</b>Doğrulanmış varış</div><div class="kart"><b>★ 4,8</b>Puan</div></div></div></div>');
+    }
+  };
+
+  /* ===== Adımlar ===== */
+  var ADIMLAR = [
+    { kim: "m", b: "Web sitesinden başvuru", t: "Mehmet Bey öğle arasında eminevim.com'daki Hızlı Başvuru formunu doldurur ve “Temsilci çağırmak istiyorum”u açar.", m: "form", p: "bos" },
+    { kim: "m", b: "Görüşme yerini seçer", t: "Haritada evini işaretler; konum hizmet bölgesinde (Ataşehir). Bölge dışında olsaydı telefonla görüşmeye geçilirdi.", m: "harita", p: "bos" },
+    { kim: "m", b: "Gün ve saati seçer", t: "Hafta içi Perşembe 18:00'i seçer. Cumartesi “yoğun” olarak görünür; hafta içi önce gelir.", m: "gun", p: "bos" },
+    { kim: "p", b: "Talep temsilciye düşer", t: "Başvuru tamamlanır. Bölgeye en yakın müsait temsilcinin tabletine yeni talep gelir; yanıt süresi işler.", m: "basarili", p: "talep" },
+    { kim: "p", b: "Temsilci kabul eder, saati önerir", t: "Onur Kaya talebi kabul eder; hazır tanıtım mesajını gönderir. Müşteriye bildirim gider: temsilcinin adı ve saat önerisi.", m: "atandi", p: "mesaj" },
+    { kim: "m", b: "Müşteri saati tek dokunuşla onaylar", t: "Telefonda Sohbet'ten, bilgisayarda takip sayfasından “Saati onayla”. Randevu iki tarafta da netleşir.", m: "onay", p: "onaylandi" },
+    { kim: "m", b: "Bir gün önce: bilgilendirme formu", t: "Sözleşme öncesi bilgilendirme formu otomatik gider; müşteri okuduğunu onaylar. Temsilci tablette “okundu” görür.", m: "form1gun", p: "formOkundu" },
+    { kim: "p", b: "Görüşme günü: temsilci yola çıkar", t: "Temsilci yola çıkınca müşteriye “yaklaşık 12 dk” bildirimi gider; müşteri temsilciyi haritada izler.", m: "yolda", p: "yolda" },
+    { kim: "p", b: "Kapıda: QR okutma", t: "Müşteri ekranındaki QR'ı gösterir; temsilci tabletle okutur. Okunmazsa 4 haneli kod girilir.", m: "qr", p: "tara" },
+    { kim: "m", b: "Müşterinin ekranı yeşile döner", t: "Onay müşterinin kendi ekranında görünür: “Onur Kaya · Sicil 48213 doğrulandı”. Varış saati kaydedilir.", m: "dogrulandi", p: "gorusme" },
+    { kim: "p", b: "Tablette plan ve özet", t: "Temsilci ihtiyaç ve bütçeyi tablette birlikte hesaplar; özeti müşteriye gönderir.", m: "surer", p: "plan" },
+    { kim: "m", b: "Müşteri özeti onaylar, puan verir", t: "Yazılı özet (cayma hakkı dahil) müşteriye düşer; “Bilgiler doğru” ya da “Bir sorun var”. Puanı yalnız doğrulanmış görüşmeden alınır.", m: "ozet", p: "bitti" }
+  ];
+
+  /* ===== Çizim ve ölçekleme ===== */
+  var BOYUT = { telefon: [393, 852], dizustu: [1280, 800], tablet: [1180, 820] };
+  var CERCEVE = { telefon: [24, 24], dizustu: [28, 32], tablet: [40, 40] };
+  var durumS = { i: 0, mc: "telefon", ts: "m", oynat: null };
+  var dar = window.matchMedia("(max-width:899px)");
+
+  function musteriEkrani(a) {
+    if (durumS.mc === "telefon") return { cihaz: "telefon", html: TEL[a.m](), etiket: "MÜŞTERİ · TELEFON" };
+    if (TEL_WEB[a.m]) return { cihaz: "telefon", html: TEL_WEB[a.m](), etiket: "MÜŞTERİ · KAPIDA TELEFONU (SMS LİNKİ)" };
+    return { cihaz: "dizustu", html: BIL[a.m](), etiket: a.m === "form" || a.m === "harita" || a.m === "gun" || a.m === "basarili" ? "MÜŞTERİ · BİLGİSAYAR (eminevim.com)" : "MÜŞTERİ · BİLGİSAYAR (takip sayfası, uygulamasız)" };
+  }
+  function yerlestir(yer, tur, html) {
+    var b = BOYUT[tur], c = CERCEVE[tur];
+    var el = yer.firstChild;
+    if (!el || el.dataset.tur !== tur) { yer.innerHTML = '<div class="cihaz ' + tur + '" data-tur="' + tur + '"><div class="cam"></div></div>'; el = yer.firstChild; }
+    el.style.width = b[0] + c[0] + "px"; el.style.height = b[1] + c[1] + "px";
+    el.querySelector(".cam").innerHTML = html;
+    var olcek = Math.min(yer.clientWidth / (b[0] + c[0] + (tur === "dizustu" ? 120 : 0)), (yer.clientHeight - (tur === "dizustu" ? 40 : 0)) / (b[1] + c[1]), 1);
+    el.style.transform = "translateX(-50%) scale(" + olcek + ")";
+  }
+  function olcekle() {
+    [["yerM"], ["yerP"]].forEach(function (x) {
+      var yer = document.getElementById(x[0]), el = yer.firstChild; if (!el) return;
+      var tur = el.dataset.tur, b = BOYUT[tur], c = CERCEVE[tur];
+      var olcek = Math.min(yer.clientWidth / (b[0] + c[0] + (tur === "dizustu" ? 120 : 0)), (yer.clientHeight - (tur === "dizustu" ? 40 : 0)) / (b[1] + c[1]), 1);
+      el.style.transform = "translateX(-50%) scale(" + olcek + ")";
+    });
+  }
+  function ciz() {
+    var a = ADIMLAR[durumS.i], mus = musteriEkrani(a);
+    var sahne = document.getElementById("sahne");
+    sahne.style.setProperty("--sol", mus.cihaz === "dizustu" ? "1.25fr" : ".62fr");
+    sahne.style.setProperty("--sag", "1fr");
+    document.getElementById("etiketM").textContent = mus.etiket;
+    var tM = document.getElementById("tarafM"), tP = document.getElementById("tarafP");
+    tM.classList.toggle("aktif", a.kim === "m"); tP.classList.toggle("aktif", a.kim === "p");
+    if (dar.matches) { durumS.ts = a.kim; }
+    tM.classList.toggle("goster", durumS.ts === "m"); tP.classList.toggle("goster", durumS.ts === "p");
+    document.querySelectorAll("[data-ts]").forEach(function (b) { b.setAttribute("aria-pressed", b.dataset.ts === durumS.ts ? "true" : "false"); });
+    yerlestir(document.getElementById("yerM"), mus.cihaz, mus.html);
+    yerlestir(document.getElementById("yerP"), "tablet", TAB[a.p]());
+    document.getElementById("no").textContent = "Adım " + (durumS.i + 1) + " / " + ADIMLAR.length;
+    var kim = document.getElementById("kim"); kim.textContent = a.kim === "m" ? "Müşteri" : "Personel"; kim.className = "kim" + (a.kim === "p" ? " p" : "");
+    document.getElementById("baslik").textContent = a.b;
+    document.getElementById("metin").textContent = a.t;
+    document.getElementById("geri").disabled = durumS.i === 0;
+    document.getElementById("ileri").textContent = durumS.i === ADIMLAR.length - 1 ? "Başa dön" : "İleri ›";
+    document.querySelectorAll("#noktalar button").forEach(function (b, i) { if (i === durumS.i) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
+    try { history.replaceState(null, "", "#adim-" + (durumS.i + 1) + "-" + durumS.mc); } catch (e) {}
+    olcekle();
+  }
+  function git(i) { durumS.i = (i + ADIMLAR.length) % ADIMLAR.length; ciz(); }
+
+  var nk = document.getElementById("noktalar");
+  ADIMLAR.forEach(function (a, i) {
+    var b = document.createElement("button"); b.type = "button"; b.textContent = i + 1; b.className = a.kim; b.setAttribute("aria-label", "Adım " + (i + 1) + ": " + a.b);
+    b.addEventListener("click", function () { durdur(); git(i); }); nk.appendChild(b);
+  });
+  function durdur() { if (durumS.oynat) { clearInterval(durumS.oynat); durumS.oynat = null; } var o = document.getElementById("oynat"); o.textContent = "Otomatik oynat"; o.setAttribute("aria-pressed", "false"); }
+  document.getElementById("geri").addEventListener("click", function () { durdur(); git(durumS.i - 1); });
+  document.getElementById("ileri").addEventListener("click", function () { durdur(); git(durumS.i + 1); });
+  document.getElementById("oynat").addEventListener("click", function () {
+    if (durumS.oynat) { durdur(); return; }
+    var o = this; o.textContent = "Durdur"; o.setAttribute("aria-pressed", "true");
+    durumS.oynat = setInterval(function () { if (durumS.i === ADIMLAR.length - 1) { durdur(); return; } git(durumS.i + 1); }, 6000);
+  });
+  document.querySelectorAll("[data-mc]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      durumS.mc = b.dataset.mc;
+      document.querySelectorAll("[data-mc]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); });
+      ciz();
+    });
+  });
+  document.querySelectorAll("[data-ts]").forEach(function (b) {
+    b.addEventListener("click", function () { durumS.ts = b.dataset.ts; var a = ADIMLAR[durumS.i]; document.getElementById("tarafM").classList.toggle("goster", durumS.ts === "m"); document.getElementById("tarafP").classList.toggle("goster", durumS.ts === "p"); document.querySelectorAll("[data-ts]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); }); olcekle(); });
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") { durdur(); git(durumS.i + 1); }
+    else if (e.key === "ArrowLeft") { durdur(); git(durumS.i - 1); }
+  });
+  window.addEventListener("resize", olcekle);
+  var m = /^#adim-(\d+)(?:-(telefon|bilgisayar))?$/.exec(location.hash);
+  if (m) { durumS.i = Math.max(0, Math.min(ADIMLAR.length - 1, +m[1] - 1)); if (m[2]) durumS.mc = m[2]; document.querySelectorAll("[data-mc]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.mc === durumS.mc ? "true" : "false"); }); }
+  ciz();
+})();
+</script>
+</body>
+</html>

@@ -46,6 +46,14 @@
   .cihaz.bilgisayar{border:6px solid var(--cerceve);border-top-width:18px;border-radius:10px}
   .cihaz.bilgisayar .ekran{position:absolute;inset:0;overflow:hidden}
   .cihaz.bilgisayar .tus{display:none}
+  /* Senaryo: kendi cihazlarını çizer; çerçevesiz, tüm alanı kaplar */
+  body.senaryo .duzen{grid-template-columns:1fr}
+  body.senaryo aside{display:none}
+  body.senaryo .sahne{padding:0 8px 4px;align-items:stretch}
+  .cihaz.senaryo{border:0;box-shadow:none;border-radius:12px;overflow:hidden;flex:1;width:auto!important;height:auto!important}
+  .cihaz.senaryo::before,.cihaz.senaryo::after,.cihaz.senaryo .tus,.cihaz.senaryo .safari{display:none!important}
+  .cihaz.senaryo .ekran{position:absolute;inset:0;border-radius:0}
+  .cihaz.senaryo iframe{position:static;width:100%!important;height:100%!important;transform:none!important}
   .alt{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center;padding:6px 16px 14px;font-size:13px}
   .alt a{color:var(--soluk)}
   .alt a.ana{color:var(--yesil);font-weight:600}
@@ -97,11 +105,13 @@
     <div class="ust-tel" role="group" aria-label="Ne gösterilsin">
       <button type="button" data-ne="uygulama" aria-pressed="true">Uyg</button>
       <button type="button" data-ne="web" aria-pressed="false">Web</button>
+      <button type="button" data-ne="senaryo" aria-pressed="false">Senaryo</button>
     </div>
     <header>
       <div class="grup" role="group" aria-label="Ne gösterilsin">
         <button type="button" data-ne="uygulama" aria-pressed="true">Uygulama</button>
         <button type="button" data-ne="web" aria-pressed="false">Web formu</button>
+        <button type="button" data-ne="senaryo" aria-pressed="false">Senaryo</button>
       </div>
       <div class="grup" role="group" aria-label="Görünüm" id="gorunumGrup" hidden>
         <button type="button" data-gorunum="telefon" aria-pressed="true">Telefon</button>
@@ -132,11 +142,12 @@
 (function () {
   var ADRES = {
     uygulama: { telefon: "Eminevim%20Saha%20Paneli.dc.html?native=1" },
-    web: { telefon: "web-basvuru/", bilgisayar: "web-basvuru/" }
+    web: { telefon: "web-basvuru/", bilgisayar: "web-basvuru/" },
+    senaryo: { telefon: "senaryo.html", bilgisayar: "senaryo.html" }
   };
   var BOYUT = { telefon: [393, 852], bilgisayar: [1440, 900] };
   var secim = { ne: "uygulama", gorunum: "telefon" };
-  var m = /^#(uygulama|web)-(telefon|bilgisayar)$/.exec(location.hash);
+  var m = /^#(uygulama|web|senaryo)-(telefon|bilgisayar)$/.exec(location.hash);
   if (m) { secim.ne = m[1]; secim.gorunum = m[2]; }
   else { try { var k = JSON.parse(localStorage.getItem("ty-onizleme") || "null"); if (k && ADRES[k.ne]) secim = k; } catch (e) {} }
 
@@ -150,7 +161,7 @@
     return secim.gorunum;
   }
   function sigdir() {
-    if (telefonEkrani.matches) return;
+    if (telefonEkrani.matches || secim.ne === "senaryo") return;
     var g = gorunum(), b = BOYUT[g];
     var kx = g === "telefon" ? 22 : 12, ky = g === "telefon" ? 22 : 24;   // çerçeve kalınlıkları
     var w = sahne.clientWidth - 32 - kx, h = sahne.clientHeight - 12 - ky;
@@ -169,7 +180,10 @@
     document.querySelectorAll("[data-ne]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.ne === secim.ne ? "true" : "false"); });
     document.querySelectorAll("[data-gorunum]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.gorunum === g ? "true" : "false"); });
     gorunumGrup.hidden = secim.ne !== "web";
-    cihaz.className = "cihaz " + (g === "telefon" ? "iphone" : "bilgisayar");
+    var sen = secim.ne === "senaryo";
+    document.body.classList.toggle("senaryo", sen);
+    cihaz.className = "cihaz " + (sen ? "senaryo" : g === "telefon" ? "iphone" : "bilgisayar");
+    if (sen) { cerceve.removeAttribute("style"); cihaz.removeAttribute("style"); }
     var adres = ADRES[secim.ne][g], anahtar = adres + "|" + g;
     if (anahtar !== yuklenen) { cerceve.src = adres; yuklenen = anahtar; }
     yeni.href = adres;

@@ -96,6 +96,15 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 - `web-basvuru/` — eminevim.com ana sayfa kopyasında yeni Hızlı Başvuru formu (`form_bolumu.html` düzenlenir,
   `python olustur.py` → `index.html`). Sayfadaki tüm linkler etkisizdir; bu kural korunmalı.
 - `taslak/` — sunuma eklenebilir ekran taslakları (aşağıya bakın).
+- `senaryo.html` — **Senaryo** sekmesi (linkler.html'de üçüncü üst sekme "Senaryo", `#senaryo-telefon`; kendi sayfası
+  `senaryo.html#adim-5-bilgisayar`). Senaryo tasarım tahtası: solda müşteri (Telefon / Bilgisayar seçimi; bilgisayarda
+  site + uygulamasız **takip sayfası** `eminevim.com/takip/…`, kapıda SMS linkiyle telefon), sağda personel **hep tablet,
+  yatay** (sol yeşil menü + iki sütun). Alt bantta adım açıklaması, İleri/Geri, adım noktaları, otomatik oynat (6 sn), ok tuşları.
+  Etkin taraf turuncu etiket + vurgulu düğme; telefonda tek cihaz, etkin taraf öne gelir. Ekranlar SABİT çizimdir (gerçek
+  uygulama değil): kullanıcıyla konuşarak senaryo geliştirmek için; onaylanan ekranlar sonra uygulamaya taşınır.
+  Senaryo 1 (12 adım, 2026-10-22): web formu → harita → gün/saat → talep tablete düşer → kabul + saat önerisi →
+  müşteri saati onaylar → bir gün önce bilgilendirme formu "okudum" → temsilci yola çıkar → kapıda QR → müşteri ekranı
+  yeşil → tablette plan + özet gönder → müşteri özeti onaylar + puan. Yeni senaryo = `ADIMLAR` dizisi + ekran işlevleri.
 - `rapor/benzer-uygulamalar.html` — Türkiye + dünya benzer uygulamalar, yenilik fikirleri, uyarılar (2026-10-21 taslak; kullanıcıyla
   konuşulup ortak rapora dönüşecek). linkler.html'de "Araştırma raporu".
 - `backup/2026-10-21-eski-uygulama/` — sade akıştan önceki uygulama (açılır hâlde; git etiketi `eski-uygulama-2026-10-21`).

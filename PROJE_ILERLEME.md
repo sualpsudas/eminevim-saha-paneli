@@ -398,3 +398,9 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Personel (SPY): "Bugünkü randevu" kartı + QR okutma ekranı (kod ile yedek, yanlış kodda uyarı).
 - Personel ekranları sitenin renk/kutu/yazı tipine çevrildi. Düzeltilen eski hatalar: personel çıkışı müşteri kaydını eziyordu; bildirim başlığı her zaman "Yeni Başvuru" yazıyordu.
 - Doğrulama: müşteri QR → personel yanlış/doğru kod → müşteri yeşil → görüşme bitti → puan; önceki tüm akışlar; sayfa hatası yok.
+
+### 2026-10-22 - Senaryo sekmesi (müşteri + personel tableti, adım adım)
+
+- linkler.html'e üçüncü üst sekme "Senaryo"; `senaryo.html`: solda müşteri (telefon ya da bilgisayar), sağda personel tableti (yatay), 12 adımlık Senaryo 1, İleri/Geri, otomatik oynat, adım linkleri.
+- Bilgisayardaki müşteri için uygulamasız takip sayfası tasarlandı; kapıda SMS linkiyle telefon.
+- Doğrulama: bilgisayar (1440) ve telefon (390) genişliği, iki müşteri cihazı, sekmeler arası geçiş; sayfa hatası yok.
