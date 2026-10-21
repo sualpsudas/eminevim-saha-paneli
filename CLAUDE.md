@@ -3,7 +3,39 @@
 Tek proje: **Tasarruf Yanımda** (klasör adı `eminevim-saas`, depo `sualpsudas/eminevim-saha-paneli` eski adlardır).
 Ana konu **müşteri teması**: hafta içi çalışan müşteri cumartesi şubeye yığılmasın, temsilci (SPY) uygun yer/saatte
 müşterinin yanına gitsin; müşteri kimin geleceğini önceden görsün ve görüşme günü temsilcinin yolda olduğunu izlesin.
-Uygulama ve web formu bu fikrin ilk aşamalarıdır; ikisi **aynı ekranları ve aynı dili** kullanmalı.
+Uygulama ve web formu bu fikrin ilk aşamalarıdır. İkisi **aynı marka görünümünü** kullanır (aşağıdaki Ürün kuralları);
+senaryoları birebir aynı olmak zorunda değil.
+
+## Ürün kuralları (2026-10-21, kullanıcıyla konuşarak yazıldı — bundan sonraki işlerin dayanağı)
+Bu bölüm aşağıdaki eski kararlarla çelişirse **bu bölüm geçerlidir**. Uygulama adım adım, kullanıcıyla konuşarak yapılır;
+her adım bitince burada "Durum" güncellenir.
+
+1. **Rol ayrımı.** Uygulama = kapsamlı içerik (başvuru takibi, sohbet, finansman aracı, ayarlar). Web formu ve sitedeki
+   yönlendirmeler = **hızlı aksiyon**: her şey yok, eksik kalan kısım uygulamaya yönlendirmeyle tamamlanır.
+2. **Marka birliği.** Uygulamayı kullanan müşteri de personel de eminevim.com'a baktığında **aynı firma** olduğunu anlamalı:
+   renkler, logolar, görseller, yazı tipi, düğme/kutu biçimi siteyle aynı. Kaynak her zaman eminevim.com (değerler
+   "Kararlar"daki "Görünüm kaynağı" maddesinde).
+3. **Web formu akışı.**
+   - Form doldurulurken bir **seçim düğmesi (radio)**: "Temsilci çağırmak istiyorum" işaretlenebilir.
+   - İşaretlendiği anda **konum izni istenir** ve formun içinde **küçük bir harita** açılır; altında WhatsApp'taki gibi
+     **elle konum girme/seçme** seçeneği olur (izin verilmezse ya da yanlışsa).
+   - Harita sade ama **mekânlar görünür** olmalı. Uzaktan bakınca yalnız harita + **hizmet bölgeleri yeşil** alan
+     (kompakt görünüm). Hizmet bölgeleri şimdilik: **İstanbul Ümraniye, Ataşehir, Üsküdar**.
+   - Seçilen konum hizmet bölgesinin içindeyse ilerlenir.
+   - Gönderince **yeni ekran: "Başarılı"** — kurumsal ama samimi dil: talebin alındığı, temsilcinin iletişime geçeceği,
+     belirlenen saatte belirtilen konumda olacağı. Ardından: "Kampanyalarımıza, Finansman Aracımıza ve size atanan
+     temsilci hakkında detaylara ulaşmak için Eminevim uygulamasını kullanabilirsiniz." + uygulamaya geçiş.
+4. **Web'den uygulamaya geçiş.** Uygulama, formdaki **telefon numarasıyla kayıtlı müşteri** gibi açılır; içinde **henüz
+   kayıtlı finansman yoktur**. Bölümler: **Başvuru takibi, Sohbet, Ayarlar, Finansman aracı**.
+5. **Hoş geldiniz penceresi.** Uygulamaya yeni gelen herkese (uygulamadan telefonla kayıt olan ya da web formundan gelen):
+   küçük, **3 sayfalık**, "Hoş geldiniz" ile başlayan, uygulamayı **çok basit** anlatan pencere.
+6. **Giriş ekranındaki "Kayıtlı Müşteri" (demo senaryosu).** Daha önce kayıt olmuş, **finansmanını belirlemiş**, temsilciyle
+   **sohbet ederek randevusunu netleştirmiş** ve **temsilciyi beklediğini** bildiğimiz müşteri.
+7. **Uygulamadan telefonla kayıt olan yeni müşteri** için de web'deki gibi **"Temsilci iste"** seçeneği olur.
+
+**Durum (2026-10-21):** Kurallar yazıldı, kod henüz bu kurallara göre değiştirilmedi. Şu anki web formu eski akışta
+(düğme → takvim penceresi → harita penceresi; site kutularında finansman penceresi). Açık sorular kullanıcıyla adım adım
+netleştirilecek (gün/saat seçimi kalıyor mu, bölge dışı konum, web'deki finansman penceresi kalıyor mu, vb.).
 
 ## Klasörler
 - `index.html`, `assignment.js`, `org-data.js`, `map.html`, `sw.js` — uygulama (web/PWA). Aynı kod Capacitor ile iPhone'a
@@ -26,7 +58,7 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 
 ## Kararlar (2026-10-20 / 21)
 - Proje adı Tasarruf Yanımda; amaç cumartesi yığılmasını hafta içine yaymak. Müşteriye uygulama indirtilmez, önce **web**.
-- Uygulama ve web formu ilk aşamalar; aynı akış/dil. Yeni müşteri üyeliksiz; finansman/bütçe yalnız üyelere ("Finansmanlarım").
+- Uygulama ve web formu ilk aşamalar; aynı marka görünümü (akış birebir aynı olmak zorunda değil, bkz. Ürün kuralları). Yeni müşteri üyeliksiz; finansman/bütçe yalnız üyelere ("Finansmanlarım").
 - Web formunda **e-posta istenmez** (2026-10-21 akşam); temsilci bilgisi ve takip linki telefona mesajla gider (önizleme "Gelecek mesajı önizle").
   Web formu **gerçek site formu gibi**, temsilci çağırma **isteğe bağlı** seçenek.
 - Web formu demo: her açılışta ve "Yeni başvuru"da örnek bilgilerle dolu gelir (Mehmet Demir, 532 123 45 67; takvimde ilk hafta içi günü + 18:00, haritada Caferağa/Kadıköy, Ev).

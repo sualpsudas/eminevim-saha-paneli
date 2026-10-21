@@ -337,3 +337,8 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 3. Web pencereleri (takvim, saat, harita, plan) sitenin renk/köşe/gri kutu değerleriyle.
 4. Uygulama: tüm ekranlar site görünümüne çevrildi (renk, turuncu ana düğme, gri hap kutular, yeşil çerçeveli ikincil düğmeler, yazı tipi). Yeni müşteri akışı: yer türü ve e-posta kaldırıldı, temsilci hemen gösterilmez. Finansman sonuç kartı web'deki gibi; tür seçilince tutar örnekle dolu.
 - Doğrulama: web 393×659 ve 1440×900 (kart → plan → form → takvim → harita → teşekkür, plan satırından yeniden açma); uygulamada giriş, KVKK, müşteri, finansman 3 adım, ayarlar, yeni müşteri 3 adım, personel ekranları; sayfa hatası yok.
+
+### 2026-10-21 - Ürün kuralları yazıldı (konuşarak ilerleme)
+
+- CLAUDE.md başına "Ürün kuralları" bölümü: uygulama kapsamlı / web hızlı aksiyon, marka birliği, web formunda radio + konum izni + küçük harita (yeşil hizmet bölgeleri: Ümraniye, Ataşehir, Üsküdar) + elle konum, Başarılı ekranı, web→uygulama geçişi (telefonla kayıtlı, finansmansız), 3 sayfalık Hoş geldiniz, Kayıtlı Müşteri demo senaryosu, uygulamada Temsilci iste.
+- Kod henüz değişmedi; açık sorular kullanıcıyla adım adım netleşecek.
