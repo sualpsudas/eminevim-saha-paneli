@@ -193,13 +193,18 @@
   .ty-uyg-kart p{font-size:9pt;line-height:1.4;color:var(--tkd_yaziRengi);margin:0 0 10px}
   .ty-mobil .ty-uyg-kart p{font-size:10.5pt}
   .ty-uyg-kart .ty-magaza-not{display:none;font-weight:700}
-  .tk-desktopForm .ty-uyg-kart .ty-magaza-not{display:block}
+  .tk-desktopForm .ty-uyg-kart .ty-magaza-not,.ty-masaustu .ty-uyg-kart .ty-magaza-not{display:block}
   .ty-uyg-kart .tk-turuncuButon{display:block;padding:8px 15px;color:#fff !important;text-decoration:none}
   .ty-mobil .ty-uyg-kart .tk-turuncuButon{padding:13px 15px}
   /* Bilgisayarda uygulama açılamaz: düğme yerine mağaza simgeleri */
   .ty-magaza{display:none;gap:8px;justify-content:center}
-  .tk-desktopForm .ty-magaza{display:flex}
-  .tk-desktopForm .ty-uyg-kart .tk-turuncuButon{display:none}
+  .tk-desktopForm .ty-magaza,.ty-masaustu .ty-magaza{display:flex}
+  .tk-desktopForm .ty-uyg-kart .tk-turuncuButon,.ty-masaustu .ty-uyg-kart .tk-turuncuButon{display:none}
+  /* Bilgisayarda Başarılı ekranı: dar yan panel genişler, içerik sarkmadan sığar */
+  .tk-desktopForm.ty-panel.ty-genis{width:460px !important;padding-left:34px !important;padding-right:34px !important}
+  .ty-genis .ty-sonuc .ty-basari-ikon i{font-size:34pt !important}
+  .ty-genis .ty-uyg-kart{padding:14px 18px}
+  .ty-genis .ty-magaza > span{padding:7px 16px 7px 12px}
   .ty-magaza > span{display:flex;align-items:center;gap:7px;background:#111;color:#fff;border-radius:9px;padding:5px 11px 5px 9px;text-align:left;line-height:1.05}
   .ty-magaza i{font-size:19px}
   .ty-magaza small{display:block;font-size:7pt;opacity:.85}
@@ -350,6 +355,8 @@
 <!-- TY_JS -->
 <script>
 (function(){
+  // Bilgisayardan (fare ile) doğrudan açıldıysa pencere dar olsa da uygulama düğmesi yerine mağaza simgeleri
+  try { if (window.top === window && matchMedia('(hover:hover) and (pointer:fine)').matches) document.documentElement.classList.add('ty-masaustu'); } catch (e) {}
   try { history.scrollRestoration = 'manual'; } catch (e) {}
   window.scrollTo(0, 0);
   var GUN = ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
@@ -734,8 +741,9 @@
         '<button type="button" class="ty-bag" data-yeni>Yeni başvuru</button>';
       sonuc.innerHTML = h; form.hidden = true; sonuc.hidden = false;
       var kap2 = form.closest('.tk-desktopForm, .modal-body'); if(kap2) kap2.scrollTop = 0;
+      var pnl = form.closest('.tk-desktopForm'); if(pnl) pnl.classList.add('ty-genis');
       sonuc.querySelector('[data-yeni]').addEventListener('click', function(){
-        ornekDoldur(); sonuc.hidden=true; sonuc.innerHTML=''; form.hidden=false;
+        ornekDoldur(); sonuc.hidden=true; sonuc.innerHTML=''; form.hidden=false; if(pnl) pnl.classList.remove('ty-genis');
       });
     });
 

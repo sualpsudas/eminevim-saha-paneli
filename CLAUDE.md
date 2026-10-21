@@ -153,8 +153,9 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 - Önizlemede (`linkler.html`) Safari'nin üst durum çubuğu + alt adres çubuğu **yalnız "Web formu · Telefon"** görünümünde
   (iPhone 15 görünür alan 393×659: üst 59, alt 134 px); Uygulama ve Bilgisayar görünümünde ve gerçek telefonda yok
   (kullanıcı kararı 2026-10-21). Test de bu boyutta yapılmalı.
-- Web "Başarılı" ekranı: bilgisayarda (`.tk-desktopForm`) "Uygulamayı aç" yerine App Store / Google Play simgeleri + kısa cümle;
-  telefonda düğme kalır.
+- Web "Başarılı" ekranı: bilgisayarda "Uygulamayı aç" yerine App Store / Google Play simgeleri + kısa cümle; telefonda düğme kalır.
+  Karar cihaza göre: masaüstü paneli (`.tk-desktopForm`) ya da fareyle doğrudan açılan sayfa (`html.ty-masaustu`; site 1200 px
+  altında telefon düzenine geçtiği için dar pencerede de). Başarılı ekranında yan panel 280 → 460 px (`.ty-genis`), sarkmaz.
 
 ## Taslak isteği gelirse (web ya da uygulama)
 Kullanıcı "taslak göster" dediğinde çalışan kod değil, **sunuma eklenebilir ekran taslağı** hazırla:
