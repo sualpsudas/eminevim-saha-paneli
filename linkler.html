@@ -4,61 +4,92 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
-<title>Tasarruf Yanımda · Bağlantılar</title>
+<title>Tasarruf Yanımda · Önizleme</title>
 <style>
-  :root{--yesil:#00724c;--zemin:#f3f5f4;--kart:#fff;--yazi:#1f2a26;--soluk:#5f6b67;--cizgi:#e3e8e6;--rozet:#e8f2ed}
-  @media (prefers-color-scheme:dark){:root{--yesil:#5fc39a;--zemin:#121816;--kart:#1b2421;--yazi:#e8eeeb;--soluk:#a3b0ab;--cizgi:#2c3733;--rozet:#1f3a2f}}
+  :root{--yesil:#00724c;--zemin:#eef1f0;--kart:#fff;--yazi:#1f2a26;--soluk:#5f6b67;--cizgi:#dce3e0;--secili:#fff;--cerceve:#15201c}
+  @media (prefers-color-scheme:dark){:root{--yesil:#5fc39a;--zemin:#111715;--kart:#1b2421;--yazi:#e8eeeb;--soluk:#a3b0ab;--cizgi:#2c3733;--secili:#2a3632;--cerceve:#000}}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--zemin);color:var(--yazi);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;line-height:1.45}
-  main{max-width:640px;margin:0 auto;padding:28px 16px 48px}
-  h1{font-size:24px;margin:0 0 6px}
-  .giris{color:var(--soluk);margin:0 0 24px;font-size:15px}
-  h2{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--soluk);margin:26px 0 10px}
-  a.kart{display:block;background:var(--kart);border:1px solid var(--cizgi);border-radius:16px;padding:15px 16px;margin-bottom:10px;text-decoration:none;color:inherit}
-  a.kart:hover,a.kart:focus-visible{border-color:var(--yesil)}
-  a.kart:focus-visible{outline:2px solid var(--yesil);outline-offset:2px}
-  .bas{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px}
-  .bas::after{content:"›";margin-left:auto;color:var(--soluk);font-size:22px;font-weight:400}
-  .rozet{font-size:11px;font-weight:700;color:var(--yesil);background:var(--rozet);border-radius:20px;padding:2px 8px}
-  .acik{color:var(--soluk);font-size:14px;margin-top:4px}
-  .ipucu{font-size:13px;margin-top:6px;color:var(--yazi)}
-  footer{color:var(--soluk);font-size:13px;margin-top:28px;border-top:1px solid var(--cizgi);padding-top:14px}
+  html,body{height:100%}
+  body{margin:0;background:var(--zemin);color:var(--yazi);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;display:flex;flex-direction:column}
+  header{padding:12px 16px 10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+  .grup{display:inline-flex;background:var(--cizgi);border-radius:12px;padding:3px}
+  .grup button{border:0;background:transparent;color:var(--soluk);font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:9px;cursor:pointer;min-height:38px}
+  .grup button[aria-pressed="true"]{background:var(--secili);color:var(--yazi);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+  .grup button:focus-visible,.alt a:focus-visible{outline:2px solid var(--yesil);outline-offset:2px}
+  .sahne{flex:1;min-height:0;display:flex;align-items:flex-start;justify-content:center;padding:4px 16px 8px}
+  .cihaz{position:relative;flex:0 0 auto}
+  .cihaz iframe{position:absolute;top:0;left:0;border:0;transform-origin:0 0;background:#fff;display:block}
+  .cihaz.telefon{border:6px solid var(--cerceve);border-radius:30px;overflow:hidden}
+  .cihaz.bilgisayar{border:6px solid var(--cerceve);border-top-width:18px;border-radius:10px;overflow:hidden}
+  .alt{display:flex;flex-wrap:wrap;gap:6px 16px;justify-content:center;padding:6px 16px 14px;font-size:13px}
+  .alt a{color:var(--soluk)}
+  .alt a.ana{color:var(--yesil);font-weight:600}
 </style>
 </head>
 <body>
-<main>
-  <h1>Tasarruf Yanımda</h1>
-  <p class="giris">Temsilci müşterinin ayağına gider, müşteri kimin geleceğini önceden görür. Uygulama ve web formu aynı 3 adımı kullanır.</p>
+<header>
+  <div class="grup" role="group" aria-label="Ne gösterilsin">
+    <button type="button" data-ne="uygulama" aria-pressed="true">Uygulama</button>
+    <button type="button" data-ne="web" aria-pressed="false">Web formu</button>
+  </div>
+  <div class="grup" role="group" aria-label="Görünüm">
+    <button type="button" data-gorunum="telefon" aria-pressed="true">Telefon</button>
+    <button type="button" data-gorunum="bilgisayar" aria-pressed="false">Bilgisayar</button>
+  </div>
+</header>
 
-  <h2>Taslaklar (sunum için)</h2>
-  <a class="kart" href="taslak/uygulama-akisi.html">
-    <div class="bas">Uygulama akışı <span class="rozet">6 ekran</span></div>
-    <div class="acik">Tanışma, ne zaman ve nerede, talep alındı, temsilcinizle tanışın, görüşme günü, Finansmanlarım.</div>
-  </a>
-  <a class="kart" href="taslak/web-akisi.html">
-    <div class="bas">Web formu akışı <span class="rozet">5 ekran + bilgisayar</span></div>
-    <div class="acik">Sitedeki Hızlı Başvuru formu aynen kalır; isteğe bağlı "Temsilcimiz size gelsin" seçeneği ve gelen e-posta.</div>
-  </a>
+<div class="sahne" id="sahne">
+  <div class="cihaz telefon" id="cihaz"><iframe id="cerceve" title="Önizleme"></iframe></div>
+</div>
 
-  <h2>Çalışan önizlemeler</h2>
-  <a class="kart" href="web-basvuru/">
-    <div class="bas">Web formu</div>
-    <div class="acik">eminevim.com ana sayfasının kopyası; Hızlı Başvuru formuna isteğe bağlı temsilci çağırma eklendi. Form hiçbir yere bilgi göndermez.</div>
-    <div class="ipucu">Telefonda alttaki "Hızlı Başvuru"ya dokunun.</div>
-  </a>
-  <a class="kart" href="./">
-    <div class="bas">Uygulama</div>
-    <div class="acik">Yeni müşteri üye olmadan temsilci çağırır. Bütçe hesabı yalnız üyelere, "Finansmanlarım" sekmesinde.</div>
-    <div class="ipucu">Giriş ekranında "Yeni Müşteri"ye dokunun.</div>
-  </a>
+<nav class="alt" aria-label="Diğer bağlantılar">
+  <a class="ana" id="yeniSekme" href="#" target="_blank" rel="noopener">Tam ekran aç ↗</a>
+  <a href="taslak/uygulama-akisi.html">Uygulama taslağı</a>
+  <a href="taslak/web-akisi.html">Web taslağı</a>
+  <a href="backup/2026-10-21-eski-uygulama/index.html">Uygulamanın eski hâli</a>
+</nav>
 
-  <h2>Yedek</h2>
-  <a class="kart" href="backup/2026-10-21-eski-uygulama/index.html">
-    <div class="bas">Uygulamanın eski hâli</div>
-    <div class="acik">21 Ekim 2026 öncesi: üyelikle başlayan akış ve başvuru sihirbazı.</div>
-  </a>
+<script>
+(function () {
+  var ADRES = {
+    uygulama: { telefon: "Eminevim%20Saha%20Paneli.dc.html?native=1", bilgisayar: "Eminevim%20Saha%20Paneli.dc.html" },
+    web: { telefon: "web-basvuru/", bilgisayar: "web-basvuru/" }
+  };
+  var BOYUT = { telefon: [390, 844], bilgisayar: [1440, 900] };
+  var secim = { ne: "uygulama", gorunum: "telefon" };
+  var m = /^#(uygulama|web)-(telefon|bilgisayar)$/.exec(location.hash);
+  if (m) { secim.ne = m[1]; secim.gorunum = m[2]; }
+  else { try { var k = JSON.parse(localStorage.getItem("ty-onizleme") || "null"); if (k && ADRES[k.ne] && BOYUT[k.gorunum]) secim = k; } catch (e) {} }
 
-  <footer>Tüm sayfalar örnek veri kullanır; temsilci adları ve rakamlar gerçek değildir.</footer>
-</main>
+  var sahne = document.getElementById("sahne"), cihaz = document.getElementById("cihaz"), cerceve = document.getElementById("cerceve"), yeni = document.getElementById("yeniSekme");
+  var yuklenen = "";
+
+  function sigdir() {
+    var b = BOYUT[secim.gorunum], kenar = 12 + (secim.gorunum === "bilgisayar" ? 12 : 0);
+    var w = sahne.clientWidth - 32 - 12, h = sahne.clientHeight - 12 - kenar;
+    var olcek = Math.min(w / b[0], h / b[1], 1);
+    if (secim.gorunum === "telefon") olcek = Math.max(olcek, Math.min(w / b[0], 1) * 0.6);
+    cerceve.style.width = b[0] + "px"; cerceve.style.height = b[1] + "px";
+    cerceve.style.transform = "scale(" + olcek + ")";
+    cihaz.style.width = Math.round(b[0] * olcek) + "px"; cihaz.style.height = Math.round(b[1] * olcek) + "px";
+  }
+  function uygula() {
+    document.querySelectorAll("[data-ne]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.ne === secim.ne ? "true" : "false"); });
+    document.querySelectorAll("[data-gorunum]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.gorunum === secim.gorunum ? "true" : "false"); });
+    cihaz.className = "cihaz " + secim.gorunum;
+    var adres = ADRES[secim.ne][secim.gorunum];
+    var anahtar = adres + "|" + secim.gorunum;
+    if (anahtar !== yuklenen) { cerceve.src = adres; yuklenen = anahtar; }
+    yeni.href = adres;
+    sigdir();
+    try { history.replaceState(null, "", "#" + secim.ne + "-" + secim.gorunum); } catch (e) {}
+    try { localStorage.setItem("ty-onizleme", JSON.stringify(secim)); } catch (e) {}
+  }
+  document.querySelectorAll("[data-ne]").forEach(function (x) { x.addEventListener("click", function () { secim.ne = x.dataset.ne; uygula(); }); });
+  document.querySelectorAll("[data-gorunum]").forEach(function (x) { x.addEventListener("click", function () { secim.gorunum = x.dataset.gorunum; uygula(); }); });
+  window.addEventListener("resize", sigdir);
+  uygula();
+})();
+</script>
 </body>
 </html>

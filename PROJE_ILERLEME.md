@@ -291,3 +291,8 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Onay kutularında yazıya tıklayınca da işaretlenir (sitenin iç içe etiket yapısı düzeltildi). Yazı tipi yüklenemezse tırnaklı yazıya düşmez.
 - `taslak/web-akisi.html` yeni forma göre yeniden çizildi.
 - Doğrulama: mobil ve masaüstünde seçenekli/seçeneksiz gönderim, e-posta önizlemesi, yeni başvuru; sayfa hatası yok.
+
+### 2026-10-21 - Tek önizleme sayfası
+
+- `linkler.html` artık tek sayfalık önizleme: üstte "Uygulama / Web formu" ve "Telefon / Bilgisayar" seçimi, seçilen görünüm ekrana sığdırılmış çerçevede açılır; "Tam ekran aç", taslaklar ve eski sürüm linkleri altta. Seçim adreste (`#uygulama-telefon` vb.) ve tarayıcıda hatırlanır.
+- Doğrulama: 390×844 ve 1440×900'de dört görünüm açıldı, yatay taşma ve sayfa hatası yok.

@@ -16,7 +16,8 @@ Uygulama ve web formu bu fikrin ilk aşamalarıdır; ikisi **aynı ekranları ve
 - `PROJE_ILERLEME.md` — her çalışmadan sonra tarihli kısa not eklenir.
 
 Yayın: GitHub Pages `master` dalından → https://sualpsudas.github.io/eminevim-saha-paneli/ (depo public; kullanıcı izinli).
-Paylaşım için tek sayfa: `linkler.html` (taslaklar, web formu, uygulama, eski sürüm) — yeni sayfa eklenince güncelle.
+Paylaşım için tek sayfa: `linkler.html` — Uygulama / Web formu × Telefon / Bilgisayar seçmeli önizleme (iframe, ekrana sığdırır;
+`#web-telefon` gibi adreslenebilir), altta taslak ve eski sürüm linkleri — yeni sayfa eklenince güncelle.
 
 ## Müşteri ekranı ilkeleri
 - Olabildiğince basit; gereksiz yazı yok, her ekranda tek soru grubu ve tek ana buton.
