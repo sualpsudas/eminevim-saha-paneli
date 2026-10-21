@@ -391,3 +391,10 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Randevum: Gün/saati değiştir (temsilci onayıyla), İptal et, gecikme uyarısı, görüşme özeti (doğru / sorun var), puan, yeni randevu.
 - Temsilci bilgileri: puan, deneyim, görüşme sayısı.
 - Doğrulama: kayıtlı müşteri (gecikme → bitti → puan → özet → sorun), yeni kayıt (talep → değiştir → netleşti → finansman sohbete → iptal), web'den bölge dışı; sayfa hatası yok.
+
+### 2026-10-21 (gece 3) - Kapıda QR doğrulama, personel ekranları marka birliği
+
+- Müşteri: görüşme günü "Kapıda kimliğini doğrula" → QR + 4 haneli kod; personel okutunca ekran yeşil ("Temsilciniz yanınızda").
+- Personel (SPY): "Bugünkü randevu" kartı + QR okutma ekranı (kod ile yedek, yanlış kodda uyarı).
+- Personel ekranları sitenin renk/kutu/yazı tipine çevrildi. Düzeltilen eski hatalar: personel çıkışı müşteri kaydını eziyordu; bildirim başlığı her zaman "Yeni Başvuru" yazıyordu.
+- Doğrulama: müşteri QR → personel yanlış/doğru kod → müşteri yeşil → görüşme bitti → puan; önceki tüm akışlar; sayfa hatası yok.

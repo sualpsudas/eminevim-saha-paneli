@@ -79,7 +79,16 @@ düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adı
   Yalnız talebi olmayan müşteride Başvurum'da görünür. **Finansman sekmesinde temsilci bulma/iletişim yok**; eski
   "Temsilci Bul" eşleştirme ekranı (customerNav "tasarruf") kaldırıldı. Temsilci fotoğrafı yerine baş harfler.
 - Önizleme telefonda `dvh` + visualViewport ile görünür alana oturur (iOS Safari alt çubuğu düğmeleri kapatıyordu).
-Sıradakiler: 7 personel ekranları marka kontrolü; açık sorular: SMS biçimi, sentetik fotoğraflar.
+- **Kapıda QR doğrulama (2026-10-21):** Görüşme günü Randevum'da "Kapıda kimliğini doğrula" → QR (vendor/qrcode.min.js,
+  internetsiz) + 4 haneli yedek kod (`DOGRULAMA_KODU` 4821, SMS ile de gider). Personel (SPY) Görüşmeler'in üstünde
+  "Bugünkü randevu · Ayşe K." kartı → "Kapıda: müşterinin QR'ını okut" (tarayıcı ekranı, "Örnek: QR okundu" ya da kod gir)
+  → müşterinin ekranı yeşil: "Temsilciniz yanınızda · Kimliği 18:10'da doğrulandı"; varış kaydı. Durum `demoDogrulama`
+  (oturumlar arası kalır; görüşme bitince sıfırlanır). Güvenlik mantığı: onay MÜŞTERİNİN ekranında görünür, sahte biri
+  okutsa da ekran değişmez; ekran yeşile dönmezse bilgi verme, 444 36 46.
+- **Personel ekranları marka birliği (2026-10-21):** kartlar düz (beyaz, #DDD çizgi, 14 px köşe; degrade/cam gölge yok),
+  kırmızı/altın yerine sitenin turuncu tonları (#B25E30 / #EA803F / #FCE0D4), koyu ton lacivert #1E3856, sekme anahtarı
+  hap biçimi, tek yazı tipi GOTHIC (Manrope kaldırıldı), küçük etiketler büyütüldü. Yeni personel ekranı da bu kurallarla.
+Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 
 ## Klasörler
 - `index.html`, `assignment.js`, `org-data.js`, `map.html`, `sw.js` — uygulama (web/PWA). Aynı kod Capacitor ile iPhone'a
