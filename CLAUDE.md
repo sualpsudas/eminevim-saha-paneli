@@ -150,8 +150,9 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
   Site modalının içindeyse pencereler modalın içine eklenir (Bootstrap odak kilidi) ve açıkken modal z-index 10000'e çıkar
   (sitenin solda gizli mobil menüsü z 9999, gölge düşürüyordu).
   Eksik kutu sitenin turuncu hata renginde (`--tdk_turuncuHata`) ve uyarı altında; telefonda "Gönder" pencere altında sabit.
-- Önizlemede (`linkler.html`) bilgisayarda Safari çubukları gösterilmez (2026-10-21 kullanıcı kararı); telefon testleri yine
-  393×659 (gerçek iPhone'un görünür alanı) boyutunda da yapılmalı.
+- Önizlemede (`linkler.html`) Safari'nin üst durum çubuğu + alt adres çubuğu **yalnız "Web formu · Telefon"** görünümünde
+  (iPhone 15 görünür alan 393×659: üst 59, alt 134 px); Uygulama ve Bilgisayar görünümünde ve gerçek telefonda yok
+  (kullanıcı kararı 2026-10-21). Test de bu boyutta yapılmalı.
 - Web "Başarılı" ekranı: bilgisayarda (`.tk-desktopForm`) "Uygulamayı aç" yerine App Store / Google Play simgeleri + kısa cümle;
   telefonda düğme kalır.
 
