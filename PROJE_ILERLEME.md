@@ -369,3 +369,10 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Yeni sekmeler: Başvurum, Sohbet, Finansman, Ayarlar. 3 sayfalık Hoş geldiniz. Kayıtlı Müşteri: randevusu netleşmiş, temsilcisini bekliyor.
 - Uygulamadan "Temsilci iste" (hizmet bölgesi kontrolü). Temsilci akışı ekranları giriş ekranının dışına taşındı (uygulama içinden açılmıyordu).
 - Doğrulama: web→uygulama uçtan uca, web telefonla, kayıtlı müşteri (telefonla giriş, sohbet, görüşme günü), yeni kayıt → Temsilci iste (Kadıköy reddi, Ataşehir kabul → atandı); sayfa hatası yok.
+
+### 2026-10-21 - Telefonda alt çubuk, uygulamada web gibi temsilci isteme
+
+- Önizleme (`linkler.html`) telefonda görünür yüksekliğe oturur (dvh + visualViewport): Safari'nin alt çubuğu uygulamanın alt sekmelerini / formun Gönder'ini kapatmıyordu.
+- Uygulama "Temsilci iste": web penceresiyle aynı — 1/2 harita (`konum-sec.html`: arama, yeşil hizmet bölgeleri, Konumuma dön) → 2/2 gün ve saat (10:00–20:00) → "Talebiniz alındı" → Başvurumu gör. Bölge dışı → telefonla talep.
+- Finansman sekmesinde temsilci bulma/iletişim düğmesi yok; kaydedince Finansman'da kalır. Eski "Temsilci Bul" eşleştirme ekranı kaldırıldı.
+- Doğrulama: yeni kayıt → Başvurum boş → harita (Üsküdar) → gün/saat → başarılı → temsilci atandı; Finansman'da temsilci düğmesi yok; sayfa hatası yok.

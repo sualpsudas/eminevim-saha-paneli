@@ -62,8 +62,12 @@ düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adı
   Sohbet · Finansman (eski Finansmanlarım) · Ayarlar (ad, telefon, çıkış). Eski Profil/İletişim (Temsilci Bul) gizli.
 - **Hoş geldiniz:** 3 sayfalık alt pencere (yeni kayıt ve web'den gelen; Kayıtlı Müşteri'de çıkmaz).
 - **Kayıtlı Müşteri (Ayşe Kaya):** konut finansmanı var, Sohbet'te randevu netleşmiş, durum "Temsilcinizi bekliyorsunuz".
-- Uygulama içi "Temsilci iste" şimdilik gün/saat seçimi + ilçe yazımı (hizmet bölgesi kontrolü var), web'deki harita
-  penceresi uygulamaya henüz taşınmadı. Temsilci fotoğrafı yerine baş harfler (sentetik fotoğraflar bekleniyor).
+- Uygulama içi "Temsilci iste" (2026-10-21 gece): web penceresiyle aynı akış — 1/2 harita (`konum-sec.html`, iframe;
+  seçimi `postMessage {tip:"ty-konum"}` ile yollar; `BOLGELER` form_bolumu.html'den kopya, bölge değişirse ikisini de
+  güncelle) → 2/2 gün + saat (10:00–20:00, web'deki gibi) → "Talebiniz alındı" → Başvurumu gör. Bölge dışı → telefonla talep.
+  Yalnız talebi olmayan müşteride Başvurum'da görünür. **Finansman sekmesinde temsilci bulma/iletişim yok**; eski
+  "Temsilci Bul" eşleştirme ekranı (customerNav "tasarruf") kaldırıldı. Temsilci fotoğrafı yerine baş harfler.
+- Önizleme telefonda `dvh` + visualViewport ile görünür alana oturur (iOS Safari alt çubuğu düğmeleri kapatıyordu).
 Sıradakiler: 7 personel ekranları marka kontrolü; açık sorular: SMS biçimi, sentetik fotoğraflar, uygulamada harita.
 
 ## Klasörler

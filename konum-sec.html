@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Görüşme Yeri</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<style>
+  /* Uygulamanın "Temsilci iste" adımındaki harita: web formundaki pencerenin 1/2 adımıyla aynı davranış.
+     Seçim üst pencereye postMessage ile gider: {tip:"ty-konum", konum:{lat,lng,adres,bolge,not}} */
+  :root{--yesil:#00724c;--acik:#e9f0ed;--yazi:#666;--koyu:#2b2f2c}
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;font-family:GOTHIC,"Century Gothic","Segoe UI",Arial,sans-serif;background:#e8ece9}
+  #harita{position:absolute;inset:0;background:#e8ece9}
+  .uzak .leaflet-tile-pane{filter:grayscale(1) brightness(1.12) contrast(.75);opacity:.75}
+  #harita:not(.uzak) .bolge-ad{display:none}
+  .leaflet-tooltip.bolge-ad{background:none;border:0;box-shadow:none;padding:0;color:var(--yesil);font-weight:700;font-size:11px;text-shadow:0 0 3px #fff,0 0 3px #fff,0 0 3px #fff}
+  .leaflet-tooltip.bolge-ad::before{display:none}
+  .leaflet-top.leaflet-right{top:58px}
+  .leaflet-control-attribution{font-size:9px}
+  .ust{position:absolute;left:10px;right:10px;top:10px;z-index:600}
+  .ara{position:relative;display:flex;align-items:center}
+  .ara svg{position:absolute;left:13px;color:#999;pointer-events:none}
+  .ara input{width:100%;border:0;border-radius:22px;background:#fff;color:var(--koyu);font:700 16px GOTHIC,"Century Gothic","Segoe UI",Arial,sans-serif;padding:11px 46px 11px 38px;box-shadow:0 2px 10px rgba(0,0,0,.18);-webkit-appearance:none;appearance:none}
+  .ara input:focus{outline:2px solid var(--yesil)}
+  .konumum{position:absolute;right:5px;width:34px;height:34px;border:0;border-radius:50%;background:#eee;color:var(--yesil);display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .oneriler{list-style:none;margin:6px 0 0;padding:4px;background:#fff;border-radius:14px;box-shadow:0 4px 14px rgba(0,0,0,.18);max-height:240px;overflow-y:auto}
+  .oneriler button{display:flex;gap:9px;align-items:flex-start;width:100%;border:0;background:none;text-align:left;padding:9px 8px;border-radius:10px;color:var(--koyu);font:700 14px GOTHIC,"Century Gothic","Segoe UI",Arial,sans-serif;cursor:pointer}
+  .oneriler button:hover,.oneriler button:focus-visible{background:var(--acik);outline:0}
+  .oneriler small{display:block;font-weight:400;font-size:12px;color:#888;margin-top:2px}
+  .oneriler .bos{padding:10px;font-size:13px;color:#888}
+  .bolge-dugme{position:absolute;right:10px;bottom:16px;z-index:600;display:flex;align-items:center;gap:6px;border:0;border-radius:22px;background:#fff;color:var(--yesil);font:700 13px GOTHIC,"Century Gothic","Segoe UI",Arial,sans-serif;padding:9px 14px;box-shadow:0 2px 10px rgba(0,0,0,.22);cursor:pointer}
+  .isaret{color:var(--yesil);filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+  .hata{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:30px;text-align:center;color:var(--yazi);font-size:14px}
+  [hidden]{display:none !important}
+</style>
+</head>
+<body>
+<div id="harita" role="application" aria-label="Görüşme yeri haritası. Yeşil alanlar hizmet bölgeleridir."></div>
+<div class="ust">
+  <div class="ara">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    <input type="search" id="ara" placeholder="Adres veya mekân ara" aria-label="Adres veya mekân ara" autocomplete="off">
+    <button type="button" class="konumum" id="konumum" aria-label="Konumumu kullan" title="Konumumu kullan"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/><path d="M12 1v4M12 19v4M1 12h4M19 12h4"/></svg></button>
+  </div>
+  <ul class="oneriler" id="oneriler" hidden></ul>
+</div>
+<button type="button" class="bolge-dugme" id="bolgeDugme"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M3 7l6-3 6 3 6-3v13l-6 3-6-3-6 3z"/></svg><span>Hizmet bölgesini göster</span></button>
+
+<script>
+(function () {
+  var BOLGELER = {"Ümraniye":[[[41.02943,29.08035],[41.02703,29.08139],[41.02471,29.0846],[41.02413,29.08309],[41.02112,29.08323],[41.01194,29.08813],[41.01194,29.08913],[41.00948,29.08944],[41.00703,29.09751],[40.99672,29.11301],[40.99569,29.12063],[40.9969,29.13738],[40.99476,29.15086],[40.99433,29.16414],[40.99084,29.17733],[40.98959,29.19334],[40.99247,29.19279],[40.99267,29.1913],[40.99619,29.19307],[41.00594,29.18941],[41.00904,29.18568],[41.0114,29.19466],[41.01332,29.19396],[41.01515,29.18345],[41.02132,29.17977],[41.03023,29.17092],[41.03464,29.16213],[41.03673,29.15412],[41.03689,29.1478],[41.03494,29.13987],[41.04495,29.13827],[41.04875,29.13432],[41.05195,29.13479],[41.05315,29.13382],[41.04991,29.1253],[41.05218,29.11982],[41.05898,29.11356],[41.06111,29.10819],[41.06031,29.10037],[41.0612,29.09644],[41.06378,29.09566],[41.06424,29.09797],[41.06541,29.0926],[41.06374,29.0836],[41.06028,29.0855],[41.05625,29.08309],[41.055,29.08685],[41.05245,29.08871],[41.04366,29.08966],[41.04042,29.09169],[41.03905,29.09027],[41.03718,29.09039],[41.03536,29.08799],[41.03175,29.08694],[41.02943,29.08035]]],"Ataşehir":[[[41.00567,29.07264],[40.99671,29.07403],[40.99252,29.07335],[40.98742,29.08657],[40.9836,29.0926],[40.97869,29.09709],[40.96568,29.10466],[40.95906,29.11123],[40.96138,29.11659],[40.968,29.12263],[40.97061,29.12332],[40.9728,29.12623],[40.9741,29.13744],[40.97245,29.1496],[40.97419,29.15388],[40.97911,29.15748],[40.98077,29.16232],[40.97822,29.17162],[40.9761,29.17345],[40.97719,29.17786],[40.97451,29.17959],[40.97531,29.18437],[40.97816,29.18884],[40.98317,29.20351],[40.98976,29.19039],[40.99084,29.17733],[40.99426,29.16464],[40.99476,29.15086],[40.99699,29.13624],[40.99569,29.12063],[40.99636,29.1141],[40.99847,29.10924],[41.00703,29.09751],[41.00939,29.09042],[41.00888,29.08346],[41.00567,29.07264]]],"Üsküdar":[[[41.02214,29.00636],[41.01299,29.01115],[41.01388,29.00944],[41.01233,29.01101],[41.01091,29.0089],[41.00923,29.00983],[41.01095,29.00686],[41.00722,29.01036],[41.0073,29.00666],[41.00486,29.00836],[41.00445,29.01244],[41.00255,29.01343],[41.00268,29.01039],[41.00091,29.01156],[41.00025,29.01579],[41.00129,29.01765],[40.99853,29.0218],[41.00283,29.02812],[41.0047,29.02792],[41.01229,29.03723],[41.01002,29.04182],[41.01015,29.04716],[41.0016,29.0472],[40.99252,29.07335],[40.99671,29.07403],[41.00252,29.07232],[41.00567,29.07264],[41.00948,29.08944],[41.01194,29.08913],[41.01194,29.08813],[41.02112,29.08323],[41.02413,29.08309],[41.02471,29.0846],[41.02703,29.08139],[41.02943,29.08035],[41.03175,29.08694],[41.03536,29.08799],[41.03718,29.09039],[41.03905,29.09027],[41.04027,29.09167],[41.04366,29.08966],[41.05245,29.08871],[41.055,29.08685],[41.05625,29.08309],[41.06163,29.08542],[41.06427,29.08345],[41.06615,29.0777],[41.07427,29.07085],[41.07789,29.06425],[41.07637,29.06369],[41.07432,29.05592],[41.06642,29.05696],[41.0615,29.05242],[41.05746,29.05328],[41.05413,29.05164],[41.04824,29.05212],[41.03841,29.0316],[41.02615,29.01317],[41.02596,29.00952],[41.02214,29.00636]]]};
+  var ISTANBUL = '28.45,41.35,29.45,40.80';
+  var ORNEK_KONUM = { lat:40.99230, lng:29.12440, adres:'Atatürk Mah., Ataşehir' };
+  var PIN = '<svg width="38" height="38" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z"/></svg>';
+  function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  function icinde(lat, lng){
+    var bulunan = null;
+    Object.keys(BOLGELER).forEach(function(ad){
+      BOLGELER[ad].forEach(function(halka){
+        var ic=false;
+        for(var i=0, j=halka.length-1; i<halka.length; j=i++){
+          var yi=halka[i][0], xi=halka[i][1], yj=halka[j][0], xj=halka[j][1];
+          if(((yi>lat)!==(yj>lat)) && (lng < (xj-xi)*(lat-yi)/(yj-yi)+xi)) ic=!ic;
+        }
+        if(ic) bulunan = ad;
+      });
+    });
+    return bulunan;
+  }
+  var konum = null, isaret = null, adresNo = 0, bolgeModu = false;
+  function bildir(durum){ try { parent.postMessage({ tip:'ty-konum', durum:durum || '', konum:konum }, '*'); } catch (e) {} }
+
+  var harita = L.map('harita', { zoomControl:false, attributionControl:true });
+  L.control.zoom({ position:'topright' }).addTo(harita);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, attribution:'© OpenStreetMap' }).addTo(harita);
+  var tumBolge = L.featureGroup();
+  Object.keys(BOLGELER).forEach(function(ad){
+    L.polygon(BOLGELER[ad], { color:'#00724c', weight:1.5, fillColor:'#00724c', fillOpacity:.22, interactive:false })
+      .bindTooltip(ad, { permanent:true, direction:'center', className:'bolge-ad' }).addTo(tumBolge);
+  });
+  tumBolge.addTo(harita);
+  harita.fitBounds(tumBolge.getBounds(), { padding:[10,10] });
+  function katman(){ harita.getContainer().classList.toggle('uzak', harita.getZoom() < 14); }
+  harita.on('zoomend', katman); katman();
+  harita.on('click', function(e){ onerEl.hidden=true; yerSec(e.latlng.lat, e.latlng.lng); });
+
+  var bolgeBtn = document.getElementById('bolgeDugme');
+  function bolgeDugme(mod){ bolgeModu = mod; bolgeBtn.querySelector('span').textContent = mod ? 'Konumuma dön' : 'Hizmet bölgesini göster'; }
+  function adresBul(lat, lng){
+    var no = ++adresNo;
+    fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=17&accept-language=tr&lat='+lat.toFixed(5)+'&lon='+lng.toFixed(5))
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if(no !== adresNo || !konum) return;
+        var a=j.address||{}, yer=a.amenity||a.shop||a.building||a.road, mah=a.suburb||a.neighbourhood||a.quarter||a.village, ilce=a.town||a.city_district||a.county||a.district;
+        konum.adres = [yer, mah, ilce].filter(Boolean).filter(function(x,i,d){ return d.indexOf(x)===i; }).slice(-2).join(', ') || konum.adres;
+        bildir();
+      }).catch(function(){});
+  }
+  function yerSec(lat, lng, adres, yakinlas, not){
+    konum = { lat:lat, lng:lng, adres:adres || 'Seçilen konum', bolge:icinde(lat, lng), not:not || '' };
+    if(!isaret){
+      isaret = L.marker([lat,lng], { draggable:true, keyboard:false, icon:L.divIcon({ className:'isaret', html:PIN, iconSize:[38,38], iconAnchor:[19,36] }) }).addTo(harita);
+      isaret.on('dragend', function(){ var p=isaret.getLatLng(); yerSec(p.lat, p.lng); });
+    } else isaret.setLatLng([lat,lng]);
+    if(yakinlas){ harita.setView([lat,lng], Math.max(harita.getZoom(), 16)); bolgeDugme(false); }
+    bildir();
+    if(!adres) adresBul(lat, lng);
+  }
+  function ornekKonum(neden){
+    yerSec(ORNEK_KONUM.lat, ORNEK_KONUM.lng, ORNEK_KONUM.adres, true, neden+' Örnek konum gösteriliyor; haritadan ya da aramayla değiştirebilirsiniz.');
+  }
+  function konumIste(){
+    if(!navigator.geolocation){ ornekKonum('Bu cihaz konum vermiyor.'); return; }
+    bildir('aliniyor');
+    navigator.geolocation.getCurrentPosition(function(p){ yerSec(p.coords.latitude, p.coords.longitude, null, true); },
+      function(){ ornekKonum('Konum izni verilmedi.'); }, { enableHighAccuracy:true, timeout:9000, maximumAge:60000 });
+  }
+  document.getElementById('konumum').addEventListener('click', konumIste);
+  bolgeBtn.addEventListener('click', function(){
+    if(!bolgeModu){ harita.flyToBounds(tumBolge.getBounds(), { padding:[16,16], duration:.6 }); bolgeDugme(true); }
+    else if(konum){ harita.flyTo([konum.lat, konum.lng], 16, { duration:.6 }); bolgeDugme(false); }
+    else { konumIste(); bolgeDugme(false); }
+  });
+
+  var araEl = document.getElementById('ara'), onerEl = document.getElementById('oneriler'), araZaman = null, araNo = 0;
+  araEl.addEventListener('input', function(){
+    clearTimeout(araZaman); var q = araEl.value.trim();
+    if(q.length < 3){ onerEl.hidden = true; return; }
+    araZaman = setTimeout(function(){
+      var no = ++araNo;
+      fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&accept-language=tr&countrycodes=tr&bounded=1&viewbox='+ISTANBUL+'&q='+encodeURIComponent(q))
+        .then(function(r){ return r.json(); })
+        .then(function(js){
+          if(no !== araNo) return;
+          onerEl.innerHTML = js.length ? js.map(function(x,i){
+            var parca=x.display_name.split(', '), ad=x.name||parca[0];
+            return '<li><button type="button" data-i="'+i+'"><span>'+esc(ad)+'<small>'+esc(parca.slice(1,4).join(', '))+'</small></span></button></li>';
+          }).join('') : '<li class="bos">Sonuç bulunamadı.</li>';
+          onerEl._sonuc = js; onerEl.hidden = false;
+        }).catch(function(){ onerEl.innerHTML='<li class="bos">Arama şu an yapılamadı.</li>'; onerEl.hidden=false; });
+    }, 600);
+  });
+  onerEl.addEventListener('click', function(e){
+    var b = e.target.closest('button[data-i]'); if(!b) return;
+    var x = onerEl._sonuc[+b.dataset.i], parca = x.display_name.split(', ');
+    yerSec(+x.lat, +x.lon, [x.name||parca[0], parca[1]].filter(Boolean).join(', '), true);
+    onerEl.hidden = true; araEl.value = ''; araEl.blur();
+  });
+
+  // Uygulama daha önce seçilmiş yeri gönderebilir: konum-sec.html?lat=&lng=&adres=
+  var q = new URLSearchParams(location.search);
+  if(q.get('lat') && q.get('lng')) yerSec(+q.get('lat'), +q.get('lng'), q.get('adres') || '', true);
+  else konumIste();
+})();
+</script>
+</body>
+</html>

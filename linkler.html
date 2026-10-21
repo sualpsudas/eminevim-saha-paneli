@@ -77,8 +77,12 @@
     .ust-tel{display:flex;gap:6px;align-items:center;height:40px;padding:0 10px;padding-top:env(safe-area-inset-top);box-sizing:content-box}
     .ust-tel button{border:0;border-radius:8px;background:var(--cizgi);color:var(--soluk);font-size:12px;font-weight:700;padding:5px 11px;cursor:pointer}
     .ust-tel button[aria-pressed="true"]{background:var(--yesil);color:#fff}
-    .sol{height:100%}
-    .sahne{padding:0}
+    /* iPhone Safari'nin alt çubuğu (iOS 26'da yüzen çubuk) sayfanın üstüne binmesin: yükseklik görünür alandan alınır */
+    html,body{height:100%;overflow:hidden;background:#fff}
+    @supports (height:100dvh){html,body{height:100dvh}}
+    .duzen{height:var(--gorunur,100%)}
+    .sol{height:100%;display:flex;flex-direction:column}
+    .sahne{padding:0;flex:1;min-height:0}
     .cihaz,.cihaz.iphone,.cihaz.bilgisayar{border:0;border-radius:0;box-shadow:none;width:100% !important;height:100% !important}
     .cihaz::before,.cihaz::after,.cihaz .tus,.cihaz .safari{display:none !important}
     .cihaz .ekran{border-radius:0 !important}
@@ -173,6 +177,15 @@
   document.querySelectorAll("[data-ne]").forEach(function (x) { x.addEventListener("click", function () { secim.ne = x.dataset.ne; uygula(); }); });
   document.querySelectorAll("[data-gorunum]").forEach(function (x) { x.addEventListener("click", function () { secim.gorunum = x.dataset.gorunum; uygula(); }); });
   window.addEventListener("resize", sigdir);
+  // Telefonda gerçekten görünen yükseklik (tarayıcı çubukları hariç); dvh'yi yanlış hesaplayan Safari sürümleri için
+  function gorunurAyarla() {
+    var h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+    if (telefonEkrani.matches && h) document.documentElement.style.setProperty("--gorunur", Math.round(Math.min(h, window.innerHeight)) + "px");
+    else document.documentElement.style.removeProperty("--gorunur");
+  }
+  gorunurAyarla();
+  window.addEventListener("resize", gorunurAyarla);
+  if (window.visualViewport) window.visualViewport.addEventListener("resize", gorunurAyarla);
   if (telefonEkrani.addEventListener) telefonEkrani.addEventListener("change", uygula);
   uygula();
 
