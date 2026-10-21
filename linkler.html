@@ -54,6 +54,9 @@
   aside li .sil{border:0;background:none;color:var(--soluk);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px;opacity:.6}
   aside li .sil:hover{opacity:1;color:#b3261e}
   aside .bos{color:var(--soluk);font-size:13px;padding:6px 8px}
+  aside .tablo{flex:1;min-height:0;display:flex;flex-direction:column;padding:0 12px 12px}
+  aside .tablo iframe{flex:1;width:100%;border:1px solid var(--cizgi);border-radius:10px;background:#fff}
+  aside .tablo a{font-size:13px;color:var(--yesil);font-weight:600;padding:8px 6px 0}
 
   /* Telefon düzeni: üstte iki küçük tuş, altta sayfa gerçek boyutunda */
   .ust-tel{display:none}
@@ -158,7 +161,20 @@
   if (telefonEkrani.addEventListener) telefonEkrani.addEventListener("change", uygula);
   uygula();
 
-  /* Yapılacaklar — ŞİMDİLİK yalnız bu tarayıcıda saklanır; ortak kayıt yöntemi seçilince Depo değişecek */
+  /* Yapılacaklar: ortak Google E-Tablo linki varsa o gömülür (herkes yazar);
+     yoksa liste yalnız bu tarayıcıda saklanır. Tablo: "Linke sahip herkes · Düzenleyen". */
+  var TABLO = "";
+  if (TABLO) {
+    var aside = document.querySelector("aside");
+    aside.querySelector("form").remove(); aside.querySelector("ul").remove();
+    document.getElementById("ypDurum").textContent = "Herkes ekleyebilir; satır satır yazın.";
+    var kutu = document.createElement("div"); kutu.className = "tablo";
+    var fr = document.createElement("iframe"); fr.title = "Yapılacaklar tablosu";
+    fr.src = TABLO.replace(/\/edit.*$/, "") + "/edit?rm=minimal";
+    var ac = document.createElement("a"); ac.href = TABLO; ac.target = "_blank"; ac.rel = "noopener"; ac.textContent = "Tabloyu ayrı aç ↗";
+    kutu.appendChild(fr); kutu.appendChild(ac); aside.appendChild(kutu);
+    return;
+  }
   var Depo = {
     oku: function () { try { return JSON.parse(localStorage.getItem("ty-yapilacaklar") || "[]"); } catch (e) { return []; } },
     yaz: function (liste) { try { localStorage.setItem("ty-yapilacaklar", JSON.stringify(liste)); return true; } catch (e) { return false; } }
