@@ -68,7 +68,7 @@ düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adı
   Yalnız talebi olmayan müşteride Başvurum'da görünür. **Finansman sekmesinde temsilci bulma/iletişim yok**; eski
   "Temsilci Bul" eşleştirme ekranı (customerNav "tasarruf") kaldırıldı. Temsilci fotoğrafı yerine baş harfler.
 - Önizleme telefonda `dvh` + visualViewport ile görünür alana oturur (iOS Safari alt çubuğu düğmeleri kapatıyordu).
-Sıradakiler: 7 personel ekranları marka kontrolü; açık sorular: SMS biçimi, sentetik fotoğraflar, uygulamada harita.
+Sıradakiler: 7 personel ekranları marka kontrolü; açık sorular: SMS biçimi, sentetik fotoğraflar.
 
 ## Klasörler
 - `index.html`, `assignment.js`, `org-data.js`, `map.html`, `sw.js` — uygulama (web/PWA). Aynı kod Capacitor ile iPhone'a
