@@ -329,3 +329,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 5. Demo: her açılışta ve "Yeni başvuru"da örnek bilgilerle dolu.
 - Doğrulama: 393×659 telefon ve 1440×900 bilgisayarda tam akış (takvim, harita sürükleme + adres, gönderim, mesaj önizleme, yeni başvuru); sayfa hatası yok, yatay taşma yok.
 - Bekleyen: `taslak/web-akisi.html` eski akışı (anahtar + alanlar + e-posta) gösteriyor; güncellenmesi gerekiyor.
+
+### 2026-10-21 - Finansman planı web'de, site görünümü uygulamaya
+
+1. Web: sitedeki Konut / Araç / İşyeri kutuları (bilgisayarda üst menü; telefonda Çözümlerimiz kartları ve menü) "Ödeme planınızı oluşturun" penceresini açar: tür, aylık ödeme (koyu yeşil kart), tutar (+hazır tutarlar), peşinat, vade, Bireysel/Çekilişli. Hesap uygulamadakiyle aynı; "Örnek hesaplamadır" notu. "Bu planla başvur" → plan forma tek satır eklenir, form açılır.
+2. Web teşekkür: temsilci hemen gösterilmez ("Görüşme saatinden önce bilgilendirileceksiniz"); uygulama indirme yazısı; haritadaki İş yeri/Ev kaldırıldı.
+3. Web pencereleri (takvim, saat, harita, plan) sitenin renk/köşe/gri kutu değerleriyle.
+4. Uygulama: tüm ekranlar site görünümüne çevrildi (renk, turuncu ana düğme, gri hap kutular, yeşil çerçeveli ikincil düğmeler, yazı tipi). Yeni müşteri akışı: yer türü ve e-posta kaldırıldı, temsilci hemen gösterilmez. Finansman sonuç kartı web'deki gibi; tür seçilince tutar örnekle dolu.
+- Doğrulama: web 393×659 ve 1440×900 (kart → plan → form → takvim → harita → teşekkür, plan satırından yeniden açma); uygulamada giriş, KVKK, müşteri, finansman 3 adım, ayarlar, yeni müşteri 3 adım, personel ekranları; sayfa hatası yok.

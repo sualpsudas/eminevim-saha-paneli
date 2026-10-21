@@ -30,9 +30,18 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 - Web formunda **e-posta istenmez** (2026-10-21 akşam); temsilci bilgisi ve takip linki telefona mesajla gider (önizleme "Gelecek mesajı önizle").
   Web formu **gerçek site formu gibi**, temsilci çağırma **isteğe bağlı** seçenek.
 - Web formu demo: her açılışta ve "Yeni başvuru"da örnek bilgilerle dolu gelir (Mehmet Demir, 532 123 45 67; takvimde ilk hafta içi günü + 18:00, haritada Caferağa/Kadıköy, Ev).
-- Bütçe hesabı (kaba formül) ilk temasta gösterilmez; rakamlar müşteriye açılacaksa şirketin onaylı hesabı + uyum/hukuk onayı şart.
-- Uygulama dosyası (`Eminevim Saha Paneli.dc.html`) 2026-10-21'den beri değiştirilmedi; kullanıcı "şimdilik HTML'den
-  (web formu, taslak, önizleme) devam" dedi — uygulamaya dokunmadan önce sor.
+- Bütçe hesabı (kaba formül): 2026-10-21 kullanıcı kararıyla web sitesinde de var — sitedeki Konut / Araç / İşyeri kutuları
+  (üst menü, Çözümlerimiz kartları, mobil menü) "Ödeme planınızı oluşturun" penceresini açar; hesap uygulamadakiyle aynı
+  (`senaryoHesapla`), "Örnek hesaplamadır" notuyla. Gerçek yayında şirketin onaylı hesabı + uyum/hukuk onayı yine şart.
+- **Görünüm kaynağı eminevim.com** (2026-10-21): renk/köşe/kutu/yazı tipi sitenin :root değerleri — yeşil #00724c,
+  ana düğme turuncu #ea803f, gri hap kutu #EEE (köşe 22px), kart köşesi 14px, yazı #666, çizgi #DDD, açık yeşil #e9f0ed,
+  yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyor). Uygulama da bu değerlere çevrildi
+  (tema değişkeninde `--kutu`); yeni ekran/bileşen bu değerlerle yapılır, web ve uygulama birbirine uyumlu tutulur.
+- Temsilci başvurudan hemen sonra gösterilmez: "Görüşme saatinden önce temsilciniz hakkında bilgilendirileceksiniz".
+  Yer türü (İş yeri / Ev) yok. Teşekkürde: "Görüşme öncesinde Çözümlerimize, Kampanyalarımıza ve Finansman aracına göz
+  atmak isterseniz Eminevim uygulamasını indirebilirsiniz." (uygulamada aynı dil "üye olun" ile).
+- Uygulama dosyası 2026-10-21 akşamı kullanıcı isteğiyle değişti: tüm ekranlar site görünümüne çevrildi, yeni müşteri
+  akışı web kararlarına uyduruldu (yer türü ve e-posta yok, temsilci hemen gösterilmez), finansman sonuç kartı web'deki gibi.
 
 ## Açık işler
 - Google E-Tablo linki (yukarıda) → yapılacaklar ortak hâle gelsin.
@@ -63,10 +72,10 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 - **Web formu gerçek sitedeki gibi görünmeli** (kullanıcı isteği, 2026-10-21): sitenin başlığı, gri kutucukları
   (`tk-inputGri` / mobilde `tk-inputMobilGri`), onay kutuları ve turuncu "Gönder". Formda "Tasarruf Yanımda" adı, açıklama
   simgeleri, adım çubuğu ya da "bilgiler gönderilmez" gibi önizleme yazısı YOK; sayfa sitenin kendi başlığıyla en üstten açılır.
-  Sıra: Ad, Soyad, Telefon → iki onay kutusu → **"Temsilcimiz size gelsin" düğmesi** (yalnız konum simgesi + yazı) → Gönder.
+  Sıra: Ad, Soyad, Telefon → iki onay kutusu → (seçildiyse tek satır finansman planı) → **"Temsilcimiz size gelsin" düğmesi** (yalnız konum simgesi + yazı) → Gönder.
   Formun altında açılan uzun alan YOK. Düğmeye basınca **takvim penceresi** (yarından 3 hafta, pazar kapalı, cumartesi turuncu
   nokta "yoğun", saat 10:00–20:00) → "Onayla" → **harita penceresi** (Leaflet + OpenStreetMap, ortadaki iğne; adres Nominatim'den;
-  İş yeri / Ev) → "Onayla" → düğme seçimi gösterir ("Pzt 26 Eki, 14:00 · Kadıköy", × ile kaldırılır).
+  yer türü sorulmaz) → "Onayla" → düğme seçimi gösterir ("Pzt 26 Eki, 14:00 · Kadıköy", × ile kaldırılır).
   Pencereler telefonda tam ekran ve **dvh** ile görünür alana oturur (tarayıcının üst/alt çubuğu); bilgisayarda ortada.
   Site modalının içindeyse pencereler modalın içine eklenir (Bootstrap odak kilidi) ve açıkken modal z-index 10000'e çıkar
   (sitenin solda gizli mobil menüsü z 9999, gölge düşürüyordu).
