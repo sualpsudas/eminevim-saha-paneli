@@ -302,3 +302,15 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Telefonda yalnız sol üstte küçük "Uyg / Web" tuşları; sayfa gerçek boyutunda tam ekran.
 - Bilgisayarda iPhone 15 biçimi ve boyutu (393×852, Dynamic Island, yan tuşlar); uygulamanın bilgisayar görünümü kaldırıldı, Telefon/Bilgisayar seçimi yalnız Web formunda.
 - Sağda "Yapılacaklar" (ekle, işaretle, sil). ŞİMDİLİK yalnız o tarayıcıda saklanıyor; herkesin yazabileceği ortak kayıt yöntemi kullanıcı kararı bekliyor.
+
+### 2026-10-21 - Web formu görünüm iyileştirmeleri (8 madde)
+
+1. Temsilci seçeneği: düz açık yeşil kart, konum simgesi, açma-kapama anahtarı, "İsteğe bağlı" etiketi; açıklama tam genişlikte.
+2. Açılan alanlar kısaldı: gün + saat yan yana (kısa etiketler), yer iki dokunmalık seçim (İş yeri / Ev), ilçe, e-posta; kart içindeki kutular beyaz.
+3. Telefonda "Gönder" açılır pencerenin altında sabit.
+4. Hatalar kutu başına: eksik kutu sitenin turuncu hata renginde, kısa uyarı altında; düzeltilince kaybolur, ilk eksiğe kaydırır.
+5. Okunabilirlik: eklenen bölümde yazı 9–10.5 pt, kutucuk ipuçları daha koyu.
+6. Seçenek açılınca kısa kayma ile açılır (hareket azaltma ayarında kapalı).
+7. Teşekkür: konum simgesi, özet + temsilci kartı tek kutuda, "Görüşmede ödeme alınmaz."
+8. Bilgisayarda panel gizlenince "HIZLI BAŞVURU" yanında küçük yeşil nokta.
+- `taslak/web-akisi.html` yeni görünüme uyarlandı. Doğrulama: mobil ve masaüstünde boş/eksik/tam gönderim, hata temizlenmesi, kapalı panel; sayfa hatası yok.

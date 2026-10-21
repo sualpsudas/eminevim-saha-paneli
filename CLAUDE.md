@@ -31,8 +31,9 @@ Paylaşım için tek sayfa: `linkler.html` — Uygulama / Web formu × Telefon /
 - **Web formu gerçek sitedeki gibi görünmeli** (kullanıcı isteği, 2026-10-21): sitenin başlığı, gri kutucukları
   (`tk-inputGri` / mobilde `tk-inputMobilGri`), onay kutuları ve turuncu "Gönder". Formda "Tasarruf Yanımda" adı, açıklama
   simgeleri, adım çubuğu ya da "bilgiler gönderilmez" gibi önizleme yazısı YOK; sayfa sitenin kendi başlığıyla en üstten açılır.
-  Temsilci çağırma resmî görünen **isteğe bağlı** kutu: "Temsilcimiz size gelsin · İsteğe bağlı — Dilerseniz temsilcimizi
-  konumunuza çağırabilirsiniz"; işaretlenince gün/saat/yer seçimi, ilçe, e-posta (isteğe bağlı) açılır.
+  Temsilci çağırma resmî görünen **isteğe bağlı** kart: konum simgesi, "Temsilcimiz size gelsin", "İsteğe bağlı" etiketi,
+  açma-kapama anahtarı; açılınca gün|saat yan yana, yer iki seçim (İş yeri / Ev), ilçe, e-posta (isteğe bağlı).
+  Eksik kutu sitenin turuncu hata renginde (`--tdk_turuncuHata`) ve uyarı altında; telefonda "Gönder" pencere altında sabit.
 
 ## Taslak isteği gelirse (web ya da uygulama)
 Kullanıcı "taslak göster" dediğinde çalışan kod değil, **sunuma eklenebilir ekran taslağı** hazırla:
