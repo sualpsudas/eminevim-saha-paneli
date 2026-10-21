@@ -149,6 +149,18 @@
   .tk-headerKutu,.homeCozumlerimizKutuCover,.tk-MobilMenuKutular a{cursor:pointer}
   .ty-harita .leaflet-control-attribution{font-size:9px}
 
+  /* Başarılı ekranı */
+  .ty-sonuc .ty-basari-ikon i{font-size:46pt !important;color:var(--tdk_cimenYesil) !important;line-height:1}
+  .ty-sonuc .ty-basari-ikon{padding-bottom:8px}
+  .ty-sonuc .ty-metin{font-size:10pt;line-height:1.45;color:var(--tkd_yaziRengi);margin:0 0 10px;text-align:center}
+  .ty-mobil .ty-sonuc .ty-metin{font-size:11pt}
+  .ty-sonuc .ty-not-turuncu{color:var(--tdk_turuncuHover)}
+  .ty-uyg-kart{background:var(--tdk_homeAcikYesilBack);border:1.5px solid var(--tkd_yesilBorder);border-radius:var(--tkd_yuvarlakIc);padding:12px 14px;margin:4px 0 6px;text-align:center}
+  .ty-uyg-kart img{height:16px;width:auto;margin-bottom:8px}
+  .ty-uyg-kart p{font-size:9pt;line-height:1.4;color:var(--tkd_yaziRengi);margin:0 0 10px}
+  .ty-mobil .ty-uyg-kart p{font-size:10.5pt}
+  .ty-uyg-kart .tk-turuncuButon{display:block;padding:8px 15px;color:#fff !important;text-decoration:none}
+  .ty-mobil .ty-uyg-kart .tk-turuncuButon{padding:13px 15px}
   /* Teşekkür */
   .ty-sonuc{text-align:center}
   .ty-sonuc .ty-ozet{background:var(--tkd_homeAcikYesilBack,#e9f0ed);border-radius:12px;padding:9px 11px;font-size:9pt;margin:0 0 10px;text-align:left}
@@ -288,7 +300,6 @@
       <p class="kucuk">Link görüşme günü, temsilciniz yola çıkınca açılır. Temsilcinizin nerede olduğunu ve ne zaman varacağını görürsünüz.</p>
       <div class="ty-guven">
         <div><i class="bi bi-shield-check"></i> Temsilciniz Eminevim kimlik kartı taşır. Kartındaki sicil numarası bu mesajdakiyle aynıdır.</div>
-        <div><i class="bi bi-cash-coin"></i> Görüşmede sizden hiçbir ödeme alınmaz.</div>
         <div><i class="bi bi-telephone-inbound"></i> Şüphe duyarsanız 444 36 46'yı arayın.</div>
       </div>
       <p class="kucuk">Randevunuzu değiştirmek için temsilcinizi ya da 444 36 46'yı arayabilirsiniz.</p>
@@ -602,26 +613,28 @@
 
       var h, ozet='';
       var secim = temsilciMi() && konum && konum.bolge, bolgeDisi = temsilciMi() && konum && !konum.bolge;
+      var adSoyad = esc(v.ad+' '+v.soyad);
       if(secim){ v.gun=uzunGun(zaman.gun); v.saat=zaman.saat; v.adres=konum.adres; ozet += satir('Gün',v.gun)+satir('Saat',v.saat)+satir('Yer',v.adres); }
       if(plan) ozet += satir('Plan', plan.uzun);
+      h = '<div class="ty-basari-ikon"><i class="bi bi-check-circle-fill"></i></div><div class="baslik pb-2">Başarılı!</div>';
       if(secim){
-        h = '<div class="pb-3"><i class="bi bi-geo-alt-fill"></i></div><div class="baslik pb-3">Teşekkürler!</div>'+
-          '<div class="basvuru pb-3">Temsilci talebiniz alınmıştır.</div>'+
+        h += '<div class="basvuru pb-3">Temsilci talebiniz alındı</div>'+
+          '<p class="ty-metin">Sayın <b>'+adSoyad+'</b>, talebiniz bize ulaştı. Temsilcimiz görüşmeden önce sizinle iletişime geçecek ve belirlediğiniz saatte belirttiğiniz konumda olacak.</p>'+
           '<div class="ty-ozet-kart"><div class="ty-ozet">'+ozet+'</div></div>'+
-          '<div class="yazi pb-2">Görüşme saatinden önce temsilciniz hakkında bilgilendirileceksiniz.</div>'+
-          '<p class="ty-guven-satir">Görüşmede ödeme alınmaz.</p>'+
-          '<button type="button" class="ty-ikincil" data-onizle><i class="bi bi-chat-text"></i> Gelecek mesajı önizle</button>';
+          '<p class="ty-metin">Size atanan temsilcinin adını, fotoğrafını ve sicil numarasını Eminevim uygulamasından kontrol edebilirsiniz.</p>';
       } else {
-        h = '<div class="pb-3"><i class="bi bi-chat-right-text-fill"></i></div><div class="baslik pb-3">Teşekkürler!</div>'+
-          '<div class="basvuru pb-3">Başvurunuz alınmıştır.</div>'+(ozet ? '<div class="ty-ozet-kart"><div class="ty-ozet">'+ozet+'</div></div>' : '')+
-          (bolgeDisi ? '<div class="yazi pb-2">Seçtiğiniz konumda henüz temsilci hizmetimiz yok; sizi telefonla arayacağız.</div>' : '')+
-          '<div class="yazi pb-3">En kısa süre içerisinde <strong>444 36 46</strong> numaralı telefonumuzdan size ulaşacağız.</div>';
+        h += '<div class="basvuru pb-3">Talebiniz alındı</div>'+
+          '<p class="ty-metin">Sayın <b>'+adSoyad+'</b>, talebiniz bize ulaştı. En kısa sürede <b>444 36 46</b> numaralı telefonumuzdan sizi arayacağız.</p>'+
+          (bolgeDisi ? '<p class="ty-metin ty-not-turuncu">Seçtiğiniz konumda henüz temsilci hizmetimiz bulunmadığı için sizinle telefonla görüşeceğiz.</p>' : '')+
+          (ozet ? '<div class="ty-ozet-kart"><div class="ty-ozet">'+ozet+'</div></div>' : '');
       }
-      h += '<div class="ty-uygulama"><span>Görüşme öncesinde Çözümlerimize, Kampanyalarımıza ve Finansman aracına göz atmak isterseniz Eminevim uygulamasını indirebilirsiniz.</span><a data-ty-dis href="'+UYGULAMA+'" target="_blank" rel="noopener">Uygulamayı indir</a></div>'+
+      // Uygulama: formdaki telefonla kayıtlı müşteri olarak açılır (adım 3)
+      var uygLink = UYGULAMA + '?kaynak=web&ad=' + encodeURIComponent(v.ad+' '+v.soyad) + '&tel=' + v.tel + (secim ? '&gun=' + encodeURIComponent(v.gun) + '&saat=' + encodeURIComponent(v.saat) + '&yer=' + encodeURIComponent(v.adres) : '');
+      h += '<div class="ty-uyg-kart"><img src="/Images/newWeb_2025/logo/eminevim_logo_yesil.svg" alt="Eminevim"><p>Kampanyalarımıza, Finansman Aracımıza ve size atanan temsilci hakkında detaylara ulaşmak için Eminevim uygulamasını kullanabilirsiniz.</p>'+
+        '<a class="tk-turuncuButon" data-ty-dis href="'+uygLink+'" target="_blank" rel="noopener">Uygulamayı aç</a></div>'+
         '<button type="button" class="ty-bag" data-yeni>Yeni başvuru</button>';
       sonuc.innerHTML = h; form.hidden = true; sonuc.hidden = false;
       var kap2 = form.closest('.tk-desktopForm, .modal-body'); if(kap2) kap2.scrollTop = 0;
-      if(secim) sonuc.querySelector('[data-onizle]').addEventListener('click', function(){ takipAc(v, form); });
       sonuc.querySelector('[data-yeni]').addEventListener('click', function(){
         ornekDoldur(); sonuc.hidden=true; sonuc.innerHTML=''; form.hidden=false;
       });

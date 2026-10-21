@@ -48,7 +48,10 @@ ve mekânlı), konum izni (yoksa demo için Ataşehir örnek konumu), dokun/sür
 (Nominatim, İstanbul sınırlı), bölge kontrolü (dışındaysa telefonla başvuruya döner), haritanın altında gün/saat satırı →
 takvim penceresi. Bölge sınırları `form_bolumu.html` içinde `BOLGELER` (OSM'den sadeleştirilmiş). CARTO sade harita anahtar
 istiyor — kullanılmaz. Önizleme iframe'inde `allow="geolocation"` gerekli (linkler.html'de var).
-Sıradakiler: 2 Başarılı ekranı · 3 web'den gelen müşteri uygulamada · 4 Hoş geldiniz · 5 Kayıtlı Müşteri senaryosu ·
+Adım 2 bitti: "Başarılı!" ekranı (ad soyad, gün/saat/yer özeti, "Size atanan temsilcinin adını,
+fotoğrafını ve sicil numarasını Eminevim uygulamasından kontrol edebilirsiniz.", yeşil kartta uygulama yazısı + turuncu
+"Uygulamayı aç"; link `?kaynak=web&ad=&tel=&gun=&saat=&yer=` taşır — adım 3'te uygulama bunu okuyacak). Mesaj önizleme
+düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Sıradakiler: 3 web'den gelen müşteri uygulamada · 4 Hoş geldiniz · 5 Kayıtlı Müşteri senaryosu ·
 6 uygulamada telefonla kayıt + Temsilci iste · 7 personel ekranları marka kontrolü.
 
 ## Klasörler
@@ -109,7 +112,8 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 ## Müşteri ekranı ilkeleri
 - Olabildiğince basit; gereksiz yazı yok, her ekranda tek soru grubu ve tek ana buton.
 - İlk temasta üyelik, şifre, konum izni, sohbet yok. Alanlar: ad, soyad, telefon; temsilci istenirse gün, saat, haritadan yer (İş yeri/Ev). E-posta yok.
-- Korkutmayan dil: "Temsilciniz önce sizi arar", "Ücretsiz", "Görüşmede ödeme alınmaz", "Sicil numarası aynıdır".
+- **Ödeme / ücret güvencesi cümleleri ASLA kullanılmaz** ("Görüşmede ödeme alınmaz", "hiçbir ödeme alınmaz", "Ücretsiz" vb.;
+  kullanıcı kuralı 2026-10-21). Dil kurumsal ama samimi: "Temsilcimiz görüşmeden önce sizinle iletişime geçecek", "Sicil numarası aynıdır".
   "Takip" müşteriyi değil temsilciyi anlatır ("Temsilcinizin nerede olduğunu görürsünüz").
 - Cumartesi engellenmez; hafta içi günler önce gelir, cumartesi "yoğun" etiketiyle durur.
 - Temsilci bilgileri ve takip linki telefona **mesajla** gider (e-posta istenmez; 2026-10-21 kararıyla değişti).
