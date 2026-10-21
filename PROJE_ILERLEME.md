@@ -314,3 +314,8 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 7. Teşekkür: konum simgesi, özet + temsilci kartı tek kutuda, "Görüşmede ödeme alınmaz."
 8. Bilgisayarda panel gizlenince "HIZLI BAŞVURU" yanında küçük yeşil nokta.
 - `taslak/web-akisi.html` yeni görünüme uyarlandı. Doğrulama: mobil ve masaüstünde boş/eksik/tam gönderim, hata temizlenmesi, kapalı panel; sayfa hatası yok.
+
+### 2026-10-21 - Oturum kapanışı
+
+- Kararlar, açık işler ve teknik notlar `CLAUDE.md`'ye yazıldı (yeni oturum oradan devam eder).
+- Bekleyen: Google E-Tablo linki (yapılacaklar ortak olsun), TestFlight derlemesi, finansman rakamları için uyum onayı.

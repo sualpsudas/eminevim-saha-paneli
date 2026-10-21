@@ -16,8 +16,38 @@ Uygulama ve web formu bu fikrin ilk aşamalarıdır; ikisi **aynı ekranları ve
 - `PROJE_ILERLEME.md` — her çalışmadan sonra tarihli kısa not eklenir.
 
 Yayın: GitHub Pages `master` dalından → https://sualpsudas.github.io/eminevim-saha-paneli/ (depo public; kullanıcı izinli).
-Paylaşım için tek sayfa: `linkler.html` — Uygulama / Web formu × Telefon / Bilgisayar seçmeli önizleme (iframe, ekrana sığdırır;
-`#web-telefon` gibi adreslenebilir), altta taslak ve eski sürüm linkleri — yeni sayfa eklenince güncelle.
+Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/eminevim-saha-paneli/linkler.html — yeni sayfa eklenince güncelle.
+- Telefonda: yalnız sol üstte küçük "Uyg / Web" tuşları, sayfa gerçek boyutunda tam ekran.
+- Bilgisayarda: iPhone 15 çerçevesi (393×852); uygulamanın bilgisayar görünümü YOK, Telefon/Bilgisayar seçimi yalnız Web'de;
+  sağda "Yapılacaklar" paneli. Adreslenebilir: `#uygulama-telefon`, `#web-telefon`, `#web-bilgisayar`.
+- Yapılacaklar ortak olacak: kullanıcı Google E-Tablo açıp "Bağlantıya sahip herkes · Düzenleyen" linkini verecek →
+  `linkler.html` içinde `var TABLO = ""` doldurulur, panel tabloyu gömer. Link gelene kadar liste yalnız tarayıcıda (localStorage).
+  (Drive bağlayıcısının yazma izni yok; üyeliksiz dış JSON servisleri denenmedi/çalışmadı — kullanıcı Google E-Tablo'yu seçti.)
+
+## Kararlar (2026-10-20 / 21)
+- Proje adı Tasarruf Yanımda; amaç cumartesi yığılmasını hafta içine yaymak. Müşteriye uygulama indirtilmez, önce **web**.
+- Uygulama ve web formu ilk aşamalar; aynı akış/dil. Yeni müşteri üyeliksiz; finansman/bütçe yalnız üyelere ("Finansmanlarım").
+- Takip linki **e-postayla**. Web formu **gerçek site formu gibi**, temsilci çağırma **isteğe bağlı** seçenek.
+- Bütçe hesabı (kaba formül) ilk temasta gösterilmez; rakamlar müşteriye açılacaksa şirketin onaylı hesabı + uyum/hukuk onayı şart.
+- Uygulama dosyası (`Eminevim Saha Paneli.dc.html`) 2026-10-21'den beri değiştirilmedi; kullanıcı "şimdilik HTML'den
+  (web formu, taslak, önizleme) devam" dedi — uygulamaya dokunmadan önce sor.
+
+## Açık işler
+- Google E-Tablo linki (yukarıda) → yapılacaklar ortak hâle gelsin.
+- iPhone (TestFlight) derlemesi yapılmadı; web hâli güncel. Codemagic ile yeni derleme gerekiyor (`IOS_TESTFLIGHT.md`).
+- Finansmanlarım rakamları için Eminevim uyum/hukuk onayı.
+- Klasör/depo adı eski (eminevim-saas / eminevim-saha-paneli) — yeniden adlandırma kararı verilmedi (Pages adresi değişir).
+- Öneri olarak bekliyor: cumartesi yığılmasını rakamla gösteren analiz (SPY raporları), yönetime kısa sunum.
+
+## Teknik notlar
+- Uygulama: tek dosya `Eminevim Saha Paneli.dc.html` (şablon `{{ }}`, `<sc-if>`, `<sc-for>`; durum `state`, görüntü değerleri
+  `renderVals()`), `support.js` çalışma zamanı. `?native=1` telefon düzeni ve service worker kapalı.
+- Web formu: `web-basvuru/form_bolumu.html` (TY_CSS / TY_FORM / TY_TAKIP / TY_JS blokları) → `python olustur.py` canlı
+  eminevim.com'u indirir, formu masaüstü paneline ve mobil pencereye koyar (mobilde `tk-input*Mobil*` sınıfları), izleme
+  kodlarını çıkarır, tüm `<a>`'ları etkisizleştirir (`data-ty-dis` hariç). Değişiklikten sonra mutlaka yeniden üret.
+- Test: conda `scrapling` Python + Playwright `channel="chrome"` (sunucuda Chromium indirme yok); yerel sunucu
+  `python -m http.server 8799`. Pages yayını ~1 dk; `curl ...?t=$RANDOM` ile kontrol.
+- Bu depoda git kimliği yerel ayarlı: `sualpsudas <sualpsudas@users.noreply.github.com>`.
 
 ## Müşteri ekranı ilkeleri
 - Olabildiğince basit; gereksiz yazı yok, her ekranda tek soru grubu ve tek ana buton.
