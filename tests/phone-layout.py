@@ -22,7 +22,7 @@ def aligned(page):
 
 def login(page):
     page.goto(BASE+'Eminevim%20Saha%20Paneli.dc.html?native=1')
-    page.get_by_text('Kayıtlı Müşteri',exact=True).click()
+    page.get_by_text('Giriş Yap',exact=True).click()
     page.get_by_role('button',name='Giriş Yap',exact=True).click()
     page.get_by_role('button',name='Randevularım',exact=True).wait_for()
 
@@ -102,7 +102,7 @@ with sync_playwright() as p:
     preview.emulate_media(reduced_motion='reduce')
     preview.goto(BASE+'linkler.html#uygulama-telefon')
     frame=preview.frame_locator('#cerceve')
-    frame.get_by_text('Kayıtlı Müşteri',exact=True).click()
+    frame.get_by_text('Giriş Yap',exact=True).click()
     frame.get_by_role('button',name='Giriş Yap',exact=True).click()
     for tab in ['Randevularım','Sohbetler','Finansman','Ayarlar']:
         frame.get_by_role('button',name=tab,exact=True).click()

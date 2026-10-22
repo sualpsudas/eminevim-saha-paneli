@@ -17,7 +17,7 @@ with sync_playwright() as p:
     page.goto('http://127.0.0.1:8799/linkler.html#uygulama-telefon')
     frame=page.frames[1]
     frame.on('pageerror',lambda e:errors.append(str(e)))
-    frame.get_by_text('Kayıtlı Müşteri',exact=True).click()
+    frame.get_by_text('Giriş Yap',exact=True).click()
     frame.get_by_role('button',name='Giriş Yap',exact=True).click()
     rows=frame.locator('.m-randevu-row')
     rows.first.wait_for()
@@ -54,7 +54,7 @@ with sync_playwright() as p:
     frame.get_by_role('button',name='Geri',exact=True).click()
     assert frame.locator('.m-yeni').count()==0
     frame.goto(frame.url)
-    frame.get_by_text('Kayıtlı Müşteri',exact=True).click()
+    frame.get_by_text('Giriş Yap',exact=True).click()
     frame.get_by_role('button',name='Giriş Yap',exact=True).click()
     rows.first.wait_for()
     assert frame.locator('.m-yeni').count()==0
@@ -85,7 +85,7 @@ with sync_playwright() as p:
     mobile=browser.new_page(viewport={'width':320,'height':568},reduced_motion='reduce')
     mobile.goto('http://127.0.0.1:8799/linkler.html#uygulama-telefon')
     mf=mobile.frame_locator('#cerceve')
-    mf.get_by_text('Kayıtlı Müşteri',exact=True).click()
+    mf.get_by_text('Giriş Yap',exact=True).click()
     mf.get_by_role('button',name='Giriş Yap',exact=True).click()
     mf.locator('.m-randevu-row').first.wait_for()
     assert 'preview-iphone' not in (mf.locator('html').get_attribute('class') or '')

@@ -22,8 +22,9 @@ senaryoları birebir aynı olmak zorunda değil.
 - **SMS kodu ve telefonla giriş (2026-10-22):** Web'de temsilci çağırma seçiliyse başarı ekranında telefona giden SMS
   önizlenir: 6 haneli **uygulama giriş kodu** (24 saat) + "Uygulamayı indirip randevu takibi, temsilciyle sohbet ve finansman
   aracı hizmetlerimizden faydalanabilirsiniz" + uygulama linki. Web → uygulama linki artık doğrudan giriş YAPMAZ: kod ekranı
-  (telefon dolu) → kod → **parola oluştur** → randevu açılır (onaylar web'de alındı, KVKK sorulmaz). Uygulamada "Yeni Müşteri":
-  telefon → kod (10 dk) → ad soyad + parola → KVKK → Hoş geldiniz. "Kayıtlı Müşteri": telefon + parola; "Parolamı unuttum ·
+  (telefon dolu) → kod → **parola oluştur** → randevu açılır (onaylar web'de alındı, KVKK sorulmaz). Giriş ekranında seçenekler
+  **Giriş Yap / Kayıt Ol** (2026-10-22). "Kayıt Ol": telefon (başlıksız) → kod (10 dk) → ad soyad + parola → KVKK → Hoş geldiniz.
+  **Test aşaması: telefon, kod, ad soyad ve parola (test123) hazır dolu gelir.** "Giriş Yap": telefon + parola; "Parolamı unuttum ·
   SMS koduyla gir" → kod → yeni parola. Demo: kod gerçek SMS yerine aynı sitedeki `localStorage` "ty-sms-kod"da; kod
   ekranında "Demo: … Kodunuz" görünür. Gerçek yayında kod sunucuda üretilip SMS'le gönderilmeli, parola sunucuda saklanmalı.
 - Doğrulama: `npm test`; yerel 8799 sunucusunda `tests/browser-flows.py` ve `tests/web-flows.py` (Playwright + Chrome). Senaryo sayfası bu geliştirmeden sonra ayrıca ele alınacak.

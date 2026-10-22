@@ -16,8 +16,8 @@ with sync_playwright() as p:
     errors=[]
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto(URL)
-    page.get_by_text('Kayıtlı Müşteri',exact=True).wait_for()
-    page.get_by_text('Kayıtlı Müşteri',exact=True).click()
+    page.get_by_text('Giriş Yap',exact=True).wait_for()
+    page.get_by_text('Giriş Yap',exact=True).click()
     page.get_by_role('button',name='Giriş Yap',exact=True).click()
     page.locator('.m-randevu-row').first.click()
     page.get_by_text('Temsilciniz yolda',exact=True).first.wait_for()
@@ -82,7 +82,7 @@ with sync_playwright() as p:
     page.get_by_role('button',name='Randevuyu iptal et',exact=True).click()
     assert app(page,'app.state.mTalep.durum')=='iptal'
     page.reload()
-    page.get_by_text('Kayıtlı Müşteri',exact=True).wait_for()
+    page.get_by_text('Giriş Yap',exact=True).wait_for()
     assert app(page,'app.state.mTalep.durum')=='iptal','Yenilemede iptal kaydı korunmalı'
     assert not errors,errors
     print('Müşteri/personel/QR/özet/destek akışı: OK')
