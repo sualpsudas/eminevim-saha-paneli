@@ -527,16 +527,17 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 
 <sc-if value="{{ mTalepYok }}"><div class="m-kart"><h3>Temsilcimiz size gelsin</h3><p>Uygun gün ve saatte, belirttiğiniz yerde görüşelim.</p><button class="m-btn" onClick="{{ mTemsilciIste }}">Temsilci iste</button></div></sc-if>
 <sc-if value="{{ mAktifDetay }}">
-<div class="m-kart m-durum" role="status"><h2>{{ mDurumBaslik }}</h2><sc-if value="{{ mDurumAltVar }}"><p>{{ mDurumAlt }}</p></sc-if><sc-if value="{{ mZiyaret }}"><p><b>{{ mGun }} · {{ mSaat }}</b><br>{{ mYer }}</p></sc-if><sc-if value="{{ mRepVar }}"><p>Temsilciniz: <b>{{ mRepAd }}</b></p></sc-if>
+<div class="m-kart m-durum" role="status"><sc-if value="{{ mDurumBaslikVar }}"><h2>{{ mDurumBaslik }}</h2></sc-if><sc-if value="{{ mDurumAltVar }}"><p>{{ mDurumAlt }}</p></sc-if><sc-if value="{{ mZiyaret }}"><p><b>{{ mGun }} · {{ mSaat }}</b><br>{{ mYer }}</p></sc-if><sc-if value="{{ mRepVar }}"><p>Temsilciniz: <b>{{ mRepAd }}</b></p></sc-if>
 <sc-if value="{{ mOnayVar }}"><button class="m-btn" onClick="{{ mSaatOnayla }}">Saati onayla · {{ mSaat }}</button></sc-if>
 <sc-if value="{{ mTakipVar }}"><button class="m-btn o" onClick="{{ mYoldaGor }}">Temsilcinizi takip edin</button></sc-if>
+<sc-if value="{{ mOnTercihVar }}"><div style="border-top:1px solid rgba(255,255,255,.3);padding-top:10px;display:flex;align-items:center;gap:10px;"><p style="flex:1;font-size:12.5px;">Beklerken finansman ön tercihlerinizi oluşturun.</p><button class="m-btn o" type="button" onClick="{{ mFinansmanTercihGit }}" style="flex:0 0 auto;">Ön tercihler</button></div></sc-if>
 </div>
 <sc-if value="{{ mGecikmeVar }}"><div class="m-kart m-uyari" role="status">{{ mGecikmeYazi }}</div></sc-if>
 <sc-if value="{{ mDegisiklikVar }}"><div class="m-kart m-not"><h3>Yeni zaman öneriniz iletildi</h3><p>{{ mDegisiklikYazi }}</p><p>Temsilcinizin onayı bekleniyor. Yukarıdaki mevcut randevunuz henüz değişmedi.</p><button class="m-btn o" onClick="{{ mDegisiklikVazgec }}">Öneriyi geri çek</button></div></sc-if>
 <sc-if value="{{ mDogrulaVar }}"><div class="m-kart"><h3>Temsilciniz kapıya geldiğinde</h3><p>Bilgilerini kontrol edin, ardından kodunuzu personel uygulamasıyla okutmasını isteyin.</p><button class="m-btn" onClick="{{ mQrAc }}">Kapıda kimliğini doğrula</button></div></sc-if>
 <sc-if value="{{ mYaninizdaVar }}"><div class="m-kart m-not"><h3>✓ Temsilciniz doğrulandı</h3><p>{{ mRepAd }} · Sicil {{ mRepSicil }}<br>Görüşme başlangıcı {{ mDogrulamaSaat }}</p></div></sc-if>
 <sc-if value="{{ mDegistirVar }}"><div class="m-actions"><button class="m-btn o" onClick="{{ mDegistir }}">Gün / saati değiştir</button><button class="m-btn o" onClick="{{ mIptalAc }}">İptal et</button></div></sc-if>
-<sc-if value="{{ mAktifFinansman }}"><div class="m-kart"><h3>Görüşme öncesi ön tercihleriniz</h3><div style="border-top:1px solid var(--line);padding-top:14px;display:flex;flex-direction:column;gap:10px;"><p>Temsilcinizle görüşmeyi beklerken finansman seçeneklerini inceleyebilir, ön tercihlerinizi oluşturabilirsiniz.</p><button class="m-btn o" type="button" onClick="{{ mFinansmanTercihGit }}">Ön tercihlerimi oluştur</button></div></div></sc-if>
+
 <sc-if value="{{ mEkBilgiSonra }}"><button class="m-btn o" onClick="{{ mEkBilgiAc }}">{{ mEkBilgiDugme }}</button></sc-if>
 <sc-if value="{{ mOzetVar }}"><div class="m-kart"><h3>Görüşme özeti</h3><sc-for list="{{ mOzetSatirlar }}" as="o"><div class="m-ozet"><span>{{ o.k }}</span><b>{{ o.v }}</b></div></sc-for><p>{{ mOzetNot }}</p><div class="m-not m-kart"><b>Sonraki adım</b><p>{{ mSonrakiAdim }}</p></div><sc-if value="{{ mOzetSorulsun }}"><div class="m-actions"><button class="m-btn" onClick="{{ mOzetDogru }}">Bilgiler doğru</button><button class="m-btn o" onClick="{{ mOzetSorun }}">Düzeltme iste</button></div></sc-if><sc-if value="{{ mOzetCevapVar }}"><p>{{ mOzetCevap }}</p></sc-if></div></sc-if>
 <sc-if value="{{ mPuanSorulsun }}"><button class="m-btn o" onClick="{{ mPuanAc }}">Görüşmeyi puanlayın · isteğe bağlı</button></sc-if><sc-if value="{{ mPuanVar }}"><p class="m-ek">Puanınız {{ mPuanYildiz }} · Teşekkürler</p></sc-if>
@@ -1610,7 +1611,7 @@ class Component extends DCLogic {
     const ac=t=>this.setState(st=>({mSeciliRandevuId:t.id,mOkunanRandevular:{...st.mOkunanRandevular,[t.id+":"+(t.revision||1)]:true},mSorunAcik:false}));
     return {mListeAcik:!secili,mListeVar:!!kayitlar.length,mDetayAcik:!!secili,mAktifDetay:!!secili&&secili.id===s.mTalep?.id,mGecmisDetay:!!secili&&secili.id!==s.mTalep?.id,
       mRandevular:kayitlar.map(t=>({temsilci:temsilci(t),tarih:tarih(t),saat:t.saat||"Saat belirleniyor",durum:durum[t.durum]||"Planlanıyor",durumBg:["alindi","atandi","degisti"].includes(t.durum)?"#FFF1E7":"var(--tintGreen)",durumRenk:["alindi","atandi","degisti"].includes(t.durum)?"#A95320":"#00724C",yeni:!Appointment.terminal(t)&&(["alindi","atandi","degisti"].includes(t.durum)||!s.mOkunanRandevular?.[t.id+":"+(t.revision||1)]),etiket:temsilci(t)+", "+tarih(t)+", "+(t.saat||""),onAc:()=>ac(t)})),
-      mAktifFinansman:!!secili&&secili.id===s.mTalep?.id&&!Appointment.terminal(secili),mGecmisDurum:durum[secili?.durum]||"",mGecmisTemsilci:temsilci(secili),mGecmisTarih:secili?tarih(secili)+" · "+(secili.saat||""):"",mGecmisYer:secili?.yer||"",mSeciliOzetVar:!!secili?.ozet,mSeciliOzet:secili?.ozet||[],mSeciliNot:secili?.ozetNot||"",mSeciliSonraki:secili?.sonrakiAdim||""};
+      mAktifFinansman:!!secili&&secili.id===s.mTalep?.id&&!Appointment.terminal(secili),mOnTercihVar:!!secili&&secili.id===s.mTalep?.id&&["netlesti","yolda","gorusme"].includes(secili.durum),mGecmisDurum:durum[secili?.durum]||"",mGecmisTemsilci:temsilci(secili),mGecmisTarih:secili?tarih(secili)+" · "+(secili.saat||""):"",mGecmisYer:secili?.yer||"",mSeciliOzetVar:!!secili?.ozet,mSeciliOzet:secili?.ozet||[],mSeciliNot:secili?.ozetNot||"",mSeciliSonraki:secili?.sonrakiAdim||""};
   }
   mAkisDegerleri(s) {
     const t=s.mTalep, d=t?.durum, rep=t?.repId?TEMSILCI_DETAY[t.repId]:null, eta=Appointment.eta(t), done=d==="tamamlandi", canceled=d==="iptal", moving=["yolda","gorusme"].includes(d), verified=d==="gorusmede";
@@ -1619,7 +1620,7 @@ class Component extends DCLogic {
     const point=t?.konum || DISTRICT_COORDS["Ataşehir"], r=s.spylerList.find((x)=>x.id===t?.repId);
     const rota = r ? "rota.html?takip=1&b="+r.lat+","+r.lng+"&n="+point.lat+","+point.lng+","+encodeURIComponent("Görüşme noktası")+",b" : "";
     return {
-      mDurumAltVar:d!=="netlesti",
+      mDurumAltVar:d!=="netlesti"&&d!=="atandi",mDurumBaslikVar:d!=="atandi",
       mDurumBaslik:t?.tip==="telefon"?"Sizi arayacağız":durum[d]||"",
       mDurumAlt:canceled?"İptal kaydınız saklandı. Dilerseniz yeni bir randevu oluşturabilirsiniz.":done?"Özeti inceleyebilir, düzeltme isteyebilirsiniz.":verified?"Kimlik "+saat+" saatinde doğrulandı.":moving?(eta?"Tahmini varış "+eta.saat+" · "+eta.dakika+" dakika":"Varış bilgisi bekleniyor"):d==="netlesti"?"":d==="atandi"?"Temsilciniz görüşme için bu zamanı önerdi.":t?.tip==="telefon"?"Telefonla iletişime geçeceğiz.":"Temsilciniz belirleniyor.",
       mTakipVar:moving,mDogrulaVar:moving,mQrAcik:!!s.mQrAcik&&(moving||verified),mYaninizdaVar:verified,mIletisimVar:!!rep&&!canceled,
@@ -3195,7 +3196,7 @@ class Component extends DCLogic {
         r.readAsDataURL(f);
       },
       userInitials: (s.customerForm.name || s.kayitAd || "Tasarruf Yanımda").trim().split(/\s+/).map((p) => p[0] || "").join("").slice(0, 2).toUpperCase() || "TY",
-      headerTagline: s.mTalep ? this.mAkisDegerleri(s).mDurumBaslik : "Hoş geldiniz",
+      headerTagline: s.mTalep ? (s.mTalep.durum === "atandi" ? "Temsilciniz atandı" : this.mAkisDegerleri(s).mDurumBaslik) : "Hoş geldiniz",
       profileName: s.customerForm.name || "Tasarruf Yanımda Kullanıcısı",
       profileEmail: s.customerForm.email || s.girisEmail || "E-posta bilgisi eklenmedi",
       profilePhone: s.customerForm.phone || "Telefon eklenmedi",

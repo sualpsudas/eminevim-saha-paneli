@@ -40,9 +40,9 @@ with sync_playwright() as p:
         dialog.get_by_role('button',name='Kaydet',exact=True).click()
         assert app(page,'app.state.customerForm.ekBilgi.calisma')=='Emekli'
         page.get_by_role('button',name='Bilgileri düzenle',exact=True).click()
-        assert dialog.get_by_role('button',name='Ön tercihlerimi oluştur',exact=True).count()==0
+        assert dialog.get_by_role('button',name='Ön tercihler',exact=True).count()==0
         dialog.get_by_role('button',name='Şimdi değil',exact=True).click()
-        page.get_by_role('button',name='Ön tercihlerimi oluştur',exact=True).click()
+        page.get_by_role('button',name='Ön tercihler',exact=True).click()
         page.locator('.customer-finance').wait_for()
         assert app(page,'app.state.mTalep.durum')=='netlesti'
         page.reload()

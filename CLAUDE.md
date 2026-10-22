@@ -212,6 +212,9 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 - Randevularım varsayılan olarak iki sütunlu liste açar. `mSeciliRandevuId` ayrıntıyı seçer; `mOkunanRandevular` id/revizyonla okunmayı tutar. Aktif kayıt eylemleri yalnız aktif ayrıntıda; geçmiş ayrıntı kendi verisini salt okunur gösterir. Finansman yönlendirmesi randevu ayrıntısındadır.
 - Masaüstü linkler önizlemesi `iphonePreview=1` ile iframe içinde iPhone 15 sistem alanını canlandırır (59 px üst, 34 px alt); gerçek cihazda `env(safe-area-inset-*)` kullanılır, sahte kamera çizilmez. `tests/appointment-list.py` liste, okunma, gezinme ve güvenli alan regresyonlarını doğrular.
 
+- Saat onayı bekleyen (atandi) randevu kartında başlık/yönerge yazısı yok ("Randevu saatinizi onaylayın" vb. kaldırıldı, 2026-10-22): yalnız tarih, yer,
+  temsilci ve "Saati onayla"; üst başlıkta "Temsilciniz atandı". Finansman ön tercihi saat onaylandıktan sonra (netlesti/yolda)
+  randevu kartının altında tek satır: "Beklerken finansman ön tercihlerinizi oluşturun." + "Ön tercihler"; ayrı kart yok.
 - Randevu ayrıntısında ileri/geri çubuğu veya Tüm randevular metni yoktur. Başlıktaki logo yerine Geri gelir; listeye döner. Temsilci adı aktif randevu kartında tarih/adres altındadır; ayrı temsilci kartı yoktur. Bekleyen randevu okunmuş olsa da ünlem taşır.
 - Sohbetler → Konuşmalar → temsilci satırı → konuşma; `mKonusmaAcik` bu ayrımı tutar. Sekmeye basmak konuşma listesini açar; üst Geri aynı listeye döner.
 

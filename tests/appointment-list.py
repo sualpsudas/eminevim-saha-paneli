@@ -43,7 +43,7 @@ with sync_playwright() as p:
     assert frame.get_by_text('Tüm randevular',exact=True).count()==0
     assert frame.get_by_role('button',name='Temsilciye yaz',exact=True).count()==0
     assert frame.locator('.m-durum').inner_text().find('Temsilciniz: Onur Kaya')>=0
-    assert frame.get_by_role('button',name='Ön tercihlerimi oluştur',exact=True).count()==1
+    assert frame.get_by_role('button',name='Ön tercihler',exact=True).count()==1
     page.screenshot(path=str(OUT/'iphone-randevu-detayi.png'))
     frame.get_by_role('button',name='Geri',exact=True).click()
     rows.nth(1).click()
