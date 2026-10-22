@@ -100,7 +100,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   solda yeşil menü (Görüşmeler / Performans / Saha Canlı; SPY'da Saha Canlı yok, SGL-ASK'ta Görüşmeler yok), altta kişi kartı
   (fotoğraf ya da baş harf, Müsait/Molada; görüşmede iken otomatik "Görüşmede"), Çıkış. Önizleme (linkler.html) uygulamadan
   `postMessage {tip:"ty-cihaz", cihaz:"tablet"}` alınca çerçeveyi yatay tablete (1180×820) çevirir, çıkışta telefona döner.
-  Dar ekranda (<900 px) üst menü + tek sütun.
+  Dar ekranda (<900 px, telefondan bakınca) üstte yalnız logo, altta sekme çubuğu (menü + Profil: müsaitlik, çıkış), tek sütun.
   - **Görüşmeler** (SPY ve TL; takım liderleri de görüşme yapar): tarih sırası, gruplar Yeni talepler · Bugün · Yarın ·
     Sonraki günler · Geçmiş; durumlar **Bekleyen** (yeni talep / yoldasınız alt hâlleri) → **Şu an görüşülüyor** (QR ile
     doğrulanınca, görüşme bitene kadar) → **Gerçekleşti**; süzgeç Tümü/Bekleyen/Şu an/Gerçekleşti. Sağda ayrıntı ve

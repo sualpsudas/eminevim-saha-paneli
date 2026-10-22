@@ -166,14 +166,20 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 .tp-pk{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px 12px}
 .tp-satirlar > div{display:flex;justify-content:space-between;gap:12px;font-size:13.5px;padding:4px 0;border-bottom:1px solid var(--line)}
 .tp-satirlar > div:last-child{border-bottom:0}
+.tp-alt{display:none}
+.tp-profil{display:none}
 .tp-satirlar > div > span{color:var(--dim)}
 .tp-satirlar b{text-align:right;color:var(--ink)}
 @media (max-width:899px){
   .tp{flex-direction:column}
   .tp-yan{width:auto;flex:0 0 auto;flex-direction:row;align-items:center;padding:max(10px,env(safe-area-inset-top)) 10px 8px;overflow-x:auto;gap:2px}
   .tp-yan > img{margin:0 10px 0 4px;height:16px}
-  .tp-men{flex-direction:row}
-  .tp-men button{min-height:38px;font-size:13px}
+  .tp-men{display:none}
+  .tp-ana{padding-bottom:calc(64px + env(safe-area-inset-bottom))}
+  .tp-alt{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:31;background:var(--card);border-top:1px solid var(--line);padding:4px 0 max(6px,env(safe-area-inset-bottom))}
+  .tp-alt button{flex:1;border:0;background:transparent;color:var(--navIdle);font:700 11px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;min-height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer}
+  .tp-alt button[aria-current="page"]{color:#00724C}
+  .tp-profil{display:block}
   .tp-kisi{display:none}
   .tp-iki{grid-template-columns:1fr;overflow-y:auto;padding:12px}
   .tp-sutun{overflow:visible}
@@ -568,7 +574,14 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
         </div></sc-if>
         </sc-if>
       </div></div></sc-if>
+      <sc-if value="{{ tpProfilAcik }}"><div class="tp-govde tp-profil"><div class="tp-kart" style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;align-items:center;gap:12px;"><span class="tp-av" style="width:56px;height:56px;font-size:18px;background-image:{{ tpFotoCss }};color:{{ tpBasRenk }};">{{ tpBas }}</span><span><b style="display:block;font-size:18px;color:var(--ink);">{{ tpAd }}</b><span style="font-size:13px;color:var(--dim);">{{ tpRol }}</span></span></div>
+        <sc-if value="{{ tpDurumElle }}"><div><div style="font-size:11px;font-weight:800;color:var(--dim);letter-spacing:.4px;margin-bottom:6px;">MÜSAİTLİK</div><div class="tp-cip" role="group" aria-label="Müsaitlik"><button type="button" aria-pressed="{{ tpMusait }}" onClick="{{ tpMusaitSec }}">Müsait</button><button type="button" aria-pressed="{{ tpMolada }}" onClick="{{ tpMoladaSec }}">Molada</button></div></div></sc-if>
+        <sc-if value="{{ tpDurumOto }}"><div style="background:var(--tintGreen);border-radius:12px;padding:9px 12px;font-size:13px;">Görüşmede · görüşme bitince Müsait olursunuz</div></sc-if>
+        <button type="button" class="tp-btn o" onClick="{{ cikisYap }}">Çıkış yap</button>
+      </div></div></sc-if>
     </main>
+    <nav class="tp-alt" aria-label="Personel sekmeleri"><sc-for list="{{ tpMenuAlt }}" as="m" hint-placeholder-count="3"><button type="button" aria-current="{{ m.aktif }}" onClick="{{ m.onSec }}"><sc-if value="{{ m.ikTakvim }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></sc-if><sc-if value="{{ m.ikGrafik }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></sc-if><sc-if value="{{ m.ikCanli }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="2.5"/><path d="M7.5 7.5a6.5 6.5 0 0 0 0 9M16.5 7.5a6.5 6.5 0 0 1 0 9M4.5 4.5a10.5 10.5 0 0 0 0 15M19.5 4.5a10.5 10.5 0 0 1 0 15"/></svg></sc-if><sc-if value="{{ m.ikKisi }}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></sc-if>{{ m.ad }}</button></sc-for></nav>
   </div></sc-if>
 
   <sc-if value="{{ isSpy }}" hint-placeholder-val="{{ true }}">
@@ -2274,9 +2287,11 @@ class Component extends DCLogic {
       isPersonel: true,
       tpMenu: menu.map(([k, a]) => ({ ad: a, aktif: k === sekme ? "page" : "false", onSec: () => this.setState({ tpSekme: k, tpSecim: null, tpRota: false }) })),
       tpAd: ad, tpBas: bas, tpRol: ROL_AD[rol], tpFotoCss: foto ? "url(" + foto + ")" : "none", tpBasRenk: foto ? "transparent" : "#fff",
+      tpMenuAlt: menu.concat([["profil", "Profil"]]).map(([k, a]) => ({ ad: a, aktif: k === sekme ? "page" : "false", ikTakvim: k === "gorusmeler", ikGrafik: k === "performans", ikCanli: k === "canli", ikKisi: k === "profil", onSec: () => this.setState({ tpSekme: k, tpSecim: null, tpRota: false }) })),
+      tpProfilAcik: sekme === "profil",
       tpGorusmelerAcik: sekme === "gorusmeler", tpCanliAcik: sekme === "canli", tpPerfAcik: sekme === "performans",
       tpPerfSpy: sekme === "performans" && rol === "spy", tpPerfYon: sekme === "performans" && rol !== "spy",
-      tpBaslik: sekme === "gorusmeler" ? "Görüşmeler" : sekme === "canli" ? "Saha Canlı" : "Performans",
+      tpBaslik: sekme === "gorusmeler" ? "Görüşmeler" : sekme === "canli" ? "Saha Canlı" : sekme === "profil" ? "Profil" : "Performans",
       tpAltBaslik: sekme === "gorusmeler" ? gunAd(0) : (user.birimAd || ""),
     };
     // Müsaitlik: görüşmede iken otomatik; değilse Müsait / Molada elle
