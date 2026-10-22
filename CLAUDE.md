@@ -1,8 +1,11 @@
 # Tasarruf Yanımda
 
 Tek proje: **Tasarruf Yanımda** (klasör adı `eminevim-saas`, depo `sualpsudas/eminevim-saha-paneli` eski adlardır).
-Ana konu **müşteri teması**: hafta içi çalışan müşteri cumartesi şubeye yığılmasın, temsilci (SPY) uygun yer/saatte
-müşterinin yanına gitsin; müşteri kimin geleceğini önceden görsün ve görüşme günü temsilcinin yolda olduğunu izlesin.
+**Amaç (2026-10-22, kullanıcı onaylı; eski "cumartesi yığılmasını hafta içine yaymak" tanımının yerine):** mevcut saha
+satış gücüne **müşteriden doğrudan gelen talep kanalı** eklemek — ekip müşteriyi bulmaya devam eder, görüşmek isteyen müşteri
+de temsilci (SPY) çağırabilir; temsilci uygun yer/saatte gider, müşteri kimin geleceğini önceden görür, görüşme günü takip eder.
+"Talebe ulaşan saha gücümüzü, talebin bize ulaştığı bir kanalla tamamlıyoruz." Cumartesi yoğunluğu ana amaç değil; satış
+artışı kanıtlanmış değil, pilotta ölçülecek. Ayrıntı ve araştırma: `rapor/tasarruf-yanimda-proje-calismasi/`.
 Uygulama ve web formu bu fikrin ilk aşamalarıdır. İkisi **aynı marka görünümünü** kullanır (aşağıdaki Ürün kuralları);
 senaryoları birebir aynı olmak zorunda değil.
 
@@ -169,7 +172,7 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
   (Drive bağlayıcısının yazma izni yok; üyeliksiz dış JSON servisleri denenmedi/çalışmadı — kullanıcı Google E-Tablo'yu seçti.)
 
 ## Kararlar (2026-10-20 / 21)
-- Proje adı Tasarruf Yanımda; amaç cumartesi yığılmasını hafta içine yaymak. Müşteriye uygulama indirtilmez, önce **web**.
+- Proje adı Tasarruf Yanımda; amaç 2026-10-22'de değişti (yukarıdaki "Amaç"; eskiden cumartesi yığılmasını yaymak). Müşteriye uygulama indirtilmez, önce **web**.
 - Uygulama ve web formu ilk aşamalar; aynı marka görünümü (akış birebir aynı olmak zorunda değil, bkz. Ürün kuralları). Yeni müşteri üyeliksiz; finansman/bütçe yalnız üyelere ("Finansmanlarım").
 - Web formunda **e-posta istenmez** (2026-10-21 akşam); temsilci bilgisi ve takip linki telefona mesajla gider (önizleme "Gelecek mesajı önizle").
   Web formu **gerçek site formu gibi**, temsilci çağırma **isteğe bağlı** seçenek.
