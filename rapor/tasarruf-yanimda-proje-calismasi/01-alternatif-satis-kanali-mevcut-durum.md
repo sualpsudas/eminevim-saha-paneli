@@ -12,7 +12,7 @@ Müşteriyi bulma → yüz yüze ilk temas → anında görüşme veya randevu �
 
 Kullanıcının açıklamasına göre temel işleyiş, saha ekibinin müşteriyi bulması ve doğrudan yüz yüze temas kurmasıdır. İlk temas sonrası görüşme hemen yapılabilir veya randevuya bağlanabilir. Dolayısıyla randevu ve yüz yüze görüşme yeni projenin tek başına yeniliği değildir.
 
-“Kapı kapı dolaşmak” konuşmada bir benzetme olarak kullanılmıştır. Gerçek saha faaliyetlerinin tamamının kapı kapı satış olduğu sonucuna varılmamalıdır. Personel sayısı, müşteri bulma yöntemlerinin dağılımı, kullanılan mevcut sistemler ve performans değerleri bu konuşmada paylaşılmamıştır.
+Kullanıcı müşteri bulma yöntemlerini kapı kapı ziyaret, stant ve benzeri çalışmalar olarak belirtmiştir (22 Ekim 2026). Personel sayısı, müşteri bulma yöntemlerinin dağılımı, kullanılan mevcut sistemler ve performans değerleri bu konuşmada paylaşılmamıştır.
 
 ## Genel amacı
 
