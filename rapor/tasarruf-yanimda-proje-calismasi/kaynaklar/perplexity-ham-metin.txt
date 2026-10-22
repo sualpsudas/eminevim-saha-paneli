@@ -1,0 +1,120 @@
+Tasarruf Yanımda için Referans Araştırması
+
+Ana bulgu: Müşterinin doğrudan temsilci/randevu talep edebildiği kanallar, özellikle niyeti yüksek talebi yakalama, randevu gösterimini artırma ve saha ekibinin zamanını satışa ayırmasını sağladığında satış hunisini güçlendiriyor. Ancak kamuya açık kaynaklarda “yeni kanal nedeniyle toplam satış X arttı” şeklinde temiz bir nedensel kanıt nadir; çoğu örnek talep, randevu veya dönüşüm ölçüyor.
+Yönetici özeti
+
+Bu model en güçlü sonucu, müşterinin zaten ilgi duyduğu bir ürün/hizmet için belirli zaman ve yer seçerek insanla görüşme talep edebildiği durumlarda üretiyor. Mazda’nın online test sürüşü akışı, Redfin’in ev turu talebi ve ADT’nin online danışmanlık randevusu bu mantığa yakın; sonuçlar talep ve randevu düzeyinde ölçülebilir şekilde iyileşiyor.
+
+Kanıt gücü üç kademede değerlendirilebilir:
+
+    Güçlü/orta: Mazda, Redfin ve Sunrun; şirket veya bağımsız kaynaklarda ölçülebilir talep/dönüşüm verisi var.
+
+    İşleyiş kanıtı güçlü, satış etkisi zayıf: ADT ve IKEA; müşterinin online randevu ile uzman/temsilciye bağlanması net, fakat kamuya açık satış artışı verisi yok.
+
+    Uyarı örneği: Angi/HomeAdvisor; müşteri talebini yükleniciye yönlendirse de paylaşılan lead modelinde dönüşüm ve memnuniyet sorunları yaşanabiliyor; bu, “talep geldiyse satış da gelir” varsayımının yanlış olduğunu gösteriyor.
+
+Karşılaştırma tablosu
+Şirket	Sektör / ülke	Önceki model	Eklenen talep kanalı	Ölçülen sonuç	Dönem / kapsam	Tasarruf Yanımda benzerliği
+Mazda	Otomotiv, global/dealer ağı	Bayiden test sürüşü, telefon/form	Web ve dijital yolculukta “test sürüşü randevusu”	“Book a test drive” form tamamlama %46 arttı; bayiler açıldığında test sürüşleri %40’tan fazla arttı	2020, kilitlenme sonrası karşılaştırma	Yüksek: müşteri zaman/yer seçip saha temsilcisiyle buluşuyor
+Redfin	Gayrimenkul, ABD	Müşteriyi agent bulur, tur telefonla planlanır	Listing sayfasından tur/randevu talebi; sonra video veya yüz yüze tur	Tur taleplerinin üçte biri aynı gün için; 2020’de agent-led video tur talebi bir haftada %494 arttı	2015 ve 2020, ABD	Yüksek: müşteri talebi, temsilci ataması, görüşme
+Sunrun	Güneş enerjisi, ABD	Kapı kapı/kanal lead’leri, yüz yüze satış	Dijital satış ve sanal konsültasyon; müşteri talebiyle uzmanla görüşme	Dijital kanallardan lead’ler “benzer veya daha cazip” edinme maliyetiyle geldi; Q1 2020’de müşteri başına creation cost 11% düştü	Q1 2020, ABD; pandemi dönemi etkisi ayrıştırılmalı	Orta-yüksek: danışmanlık + saha kurulum modeli
+ADT	Güvenlik, ABD	Telefon, bayi/saha ziyareti	Web/app üzerinden ücretsiz konsültasyon veya uzaktan danışmanlık randevusu	Online randevu sonrası uzman eve/iş yerine gelir; satış etkisi kamuya açık değil	Güncel hizmet, ABD	Yüksek: müşteri randevu talep ediyor, temsilci gidiyor
+IKEA	Ev ürünleri / iç mimari, çok ülke	Mağazada sıra bekleyerek danışmanlık	Online mağaza içi, telefon veya video danışmanlık randevusu	Kamuya açık satış etkisi yok; hizmet, ölçü/plan ve satış teklifine bağlanıyor	Güncel hizmet, çok ülke	Orta: randevu + danışman + teklif; saha ziyareti değil
+Angi / HomeAdvisor	Ev hizmetleri lead pazarı, ABD	Yüklenici kendi müşterisini bulur	Ev sahibi online talep bırakır, yükleniciye lead verilir	Başarı hikâyeleri var; ancak bağımsız/vaka verilerinde düşük dönüşüm, 12 ayda 86 lead → 9 randevu → 0 satış örneği de var	Değişken, ABD	Orta: talep başlatma benzer, ama tek temsilci ataması ve sahiplenme farklı
+ADT Virtual Assistance	Güvenlik servis/satış, ABD	Teknisyen dispatch	App’ten 30 dakikalık sanal randevu; gerekirse saha ziyareti	Servis taleplerinin yaklaşık %40’ı sanal kanala kaydı; %80’i trucksuz çözüldü	Salesforce vaka çalışması, ABD	Kısmi: satıştan çok servis verimliliği; talep-to-appointment mantığı öğretici
+En güçlü örnekler
+1. Mazda — test sürüşü randevusu
+
+Mazda, dijital müşteri yolculuğunu sadeleştirerek kullanıcının bayiye gitmeden test sürüşü talebi oluşturmasını kolaylaştırdı. 2020’nin Haziran–Ağustos döneminde “book a test drive” form tamamlamaları bir önceki yılın aynı dönemine göre %46 arttı; kilitlenmeler sonrası bayiler açıldığında gerçekleşen test sürüşleri %40’tan fazla arttı.
+
+Bu sonuç doğrudan “online randevu kanalı”na bağlanabilir; ancak pandemi sonrası talep toparlanması da tabloda olduğundan, kanalın tek başına yarattığı ilave satış ayrıştırılmamıştır. Tasarruf Yanımda için en önemli ders, talep formunun kısa olması, uygun zaman seçimi ve hızlı insan onayıdır.
+2. Redfin — müşteri başlatan ev turu
+
+Redfin, ilan sayfasında gösterim saatleri yayınlayarak müşterinin birkaç tıkla tur talep etmesini sağladı; yeni müşterilerde çoğunlukla agent önce arıyor, zamanla süreç otomatikleşiyor. 2015’te tur taleplerinin üçte biri aynı gün için geliyordu; bu, talebin yüksek niyetli olduğunu gösteriyor.
+
+2020’de agent-led video tur talepleri tek haftada %494 arttı; bu, kanalın talep üretebildiğini fakat olağan dışı bir dönemde ölçüldüğünü gösterir. Satışa doğrudan etki için “video turu yapan müşterilerin teklif oranı” gibi ara göstergeler var; ancak net “bu özellik toplam satışı X artırdı” verisi yok.
+3. Sunrun — dijital talep ve danışmanlık
+
+Sunrun, yüz yüze satışa dayalı modelini pandemide sanal konsültasyona taşıdı; müşteri dijital kanaldan ulaşabiliyor, satış danışmanı görüşmeyi yürütüyor, kurulum saha ekibinde kalıyor. Şirket, dijital kanallardan gelen lead’lerin benzer veya daha cazip müşteri edinme maliyetiyle geldiğini açıkladı.
+
+Q1 2020’de watt başına müşteri oluşturma maliyeti 3,46 dolardan 3,09 dolara indi; bu %11 göreli iyileşme, fakat doğrudan “dijital randevu kanalı”na atfedilemez; maliyet düşüşü, operasyonel sadeleşme ve pandemi kaynaklı model değişikliğini de içeriyor.
+4. ADT — online danışmanlık ve saha ziyareti
+
+ADT, web sitesinden ücretsiz güvenlik danışmanlığı randevusu alınmasına izin veriyor; müşteri tarih/saat seçiyor, ADT bölgedeki uzmanı belirliyor ve uzman iş yerine/eve gelerek ihtiyaç analizi yapıyor. Bu, Tasarruf Yanımda’nın “müşteri temsilci çağırır” akışına en yakın işleyişlerden biri.
+
+Ayrıca ADT’nin Remote Consultation modeli, müşterinin telefonla evi uzmana göstermesi, çözümün hazırlanması ve ardından yüz yüze kurulum randevusunun açılması şeklinde çalışıyor. Ancak ADT, bu kanalın satış veya müşteri kazanımına etkisini kamuya açık rakamla paylaşmıyor; satış etkisi doğrulanamadı.
+5. IKEA — planlama randevusu
+
+IKEA, müşterinin online olarak mağaza içi, telefon veya video danışmanlık randevusu almasını sağlıyor; danışman ihtiyaç, ölçü ve bütçeye göre plan ve alışveriş listesi çıkarıyor, ardından satış teklifi oluşuyor.
+
+Bu örnek, Eminevim’in “müşteri ihtiyacını anlama → uygun ürün/plan → satış” akışına kavramsal olarak yakın. Fakat IKEA örneklerinde kamuya açık satış artışı verisi bulunmadığı için satış etkisi doğrulanamadı; değer, randevunun müşteri hazırlığını ve görüşme kalitesini artırmasında.
+6. Angi / HomeAdvisor — dikkatli okunması gereken örnek
+
+Angi/HomeAdvisor, ev sahibinin hizmet talebini ilgili yüklenicilere ileten bir pazar yeri; yüklenici bu lead’leri arayıp randevuya ve işe çeviriyor. Bazı yükleniciler lead kalitesini ve iş akışını olumlu bulduğunu anlatıyor.
+
+Buna karşılık bağımsız bir 12 aylık testte 86 lead’ten 9 randevu, 3 demo ve 0 satış çıkması; 8.400 dolarlık harcamanın satışa dönüşmemesi, talep kanalının tek başına yeterli olmadığını gösteriyor. Ayrıca ABD’de lead platformlarına yönelik düzenleyici süreçler, dönüşüm iddialarının abartılabileceğini hatırlatıyor.
+Tasarruf Yanımda için öneriler
+
+    Talebi “randevu” olarak değil, “nitelikli görüşme” olarak tasarlayın. Mazda ve Redfin’deki etki, basit iletişim formundan değil; müşterinin ürün/ilgi alanını, uygun zamanı ve lokasyonu seçmesiyle geliyor.
+
+    Temsilci atamasını kapasite ve bölgeye göre otomatikleştirin. ADT’nin “tarih/saat seç, bölgedeki uzmanı bul” akışı; Eminevim saha ekibinin boş kapasitesine göre müşteri eşleştirmesi için uygundur.
+
+    İlk temas süresini KPI yapın. Otomotiv örneklerinde hızlı geri dönüş, randevu ve satış dönüşümünde belirleyici; talep geldikten sonra uzun bekleme, lead’in kaybına yol açıyor.
+
+    Müşteriye ön hazırlık isteyin. IKEA’nın ölçü, fotoğraf ve ihtiyaç listesi istemesi gibi; Eminevim’de hedef birikim, süre, bütçe ve mevcut tasarruf durumu önceden toplanabilir. Bu, görüşmeyi daha kısa ve satışa daha yakın hâle getirir.
+
+    Paylaşılan lead modelinden kaçının. Angi deneyimi, aynı talebin birden çok satıcıya gitmesinin güven ve dönüşüm sorunları yaratabildiğini gösteriyor; Tasarruf Yanımda’da talep tek saha temsilcisine atanmalı, yedek temsilci yalnızca yanıt gelmezse devreye girmelidir.
+
+    Cumartesi varsayımını test edin. Mevcut satışların cumartesi yoğunluğu doğrulanmamış; yeni kanal, talebi hafta içi akşamlara veya müşterinin seçtiği zamanlara yayıp yayamadığını ayrıca ölçmelidir.
+
+Pilot ölçüm önerisi
+
+Yeni kanalın başarısı yalnızca “kaç talep geldi” değil; mevcut saha satışından talep çalıp çalamadığı ve gerçekten ilave görüşme/satış üretip üretmediği ile ölçülmelidir.
+Önerilen pilot tasarımı
+
+    Süre: En az 8–12 hafta; cumartesi etkisini görmek için en az 8 tam hafta gerekir.
+
+    Kapsam: Benzer büyüklükte 2–4 bölge veya şube; mümkünse bir kısmı kontrol, bir kısmı pilot.
+
+    Kontrol grubu: Pilot bölgede mevcut saha çalışması aynen sürsün; Tasarruf Yanımda yalnızca seçilen bölgelerde açılsın.
+
+    Eşleştirme: Pilot ve kontrol bölgeleri geçmiş 6–12 aylık satış, lead, randevu ve müşteri profili bakımından benzer seçilmeli.
+
+Ölçülecek metrikler
+Aşama	Metrik	Karar sorusu
+Talep	Talep sayısı, talep başına maliyet	Yeni kanal gerçek talep üretiyor mu?
+Kalite	Uygun müşteri oranı, eksik/yanlış bilgi oranı	Talepler saha ekibi için çalışılabilir mi?
+Hız	Talepten ilk insan temasına süre	Hızlı temas dönüşümü artırıyor mu?
+Randevu	Talep → onaylı randevu oranı, no-show oranı	Müşteri gerçekten görüşmeye geliyor mu?
+Görüşme	Randevu → gerçekleşen görüşme oranı	Randevular saha verimliliğini düşürüyor mu?
+Satış	Görüşme → teklif, teklif → satış, kişi başı satış	Yeni talepler mevcut huni kadar verimli mi?
+İlavet	Pilot bölge toplam görüşme ve satışı, kontrol bölgesine göre	Kanal mevcut talebi mi taşıyor, yeni talep mi üretiyor?
+Zaman	Talep ve satışların gün/saat dağılımı	Cumartesi yoğunluğu azalıyor mu, hafta içi talep açılıyor mu?
+“Taşıma mı, ilave mi?” testi
+
+Kanalın net etkisi şu dört sonuçla ayrılmalı:
+
+    Kanal satışları: Tasarruf Yanımda’dan gelen görüşmelerden gerçekleşen satış.
+
+    Toplam bölge satışı: Pilot bölgede tüm kanalların toplam satışı.
+
+    Kontrol bölgesi satışı: Benzer dönemde yeni kanal olmayan bölgenin satışı.
+
+    Kanal kaynaklı kayıp: Daha önce saha ekibinin kendi bulduğu, fakat artık uygulama üzerinden gelen müşteriler.
+
+Eğer pilot bölgede toplam satış, kontrol bölgesine göre anlamlı biçimde artmıyorsa ancak Tasarruf Yanımda satışları artıyorsa, kanal büyük olasılıkla mevcut talebi başka kanala taşıyor demektir. Toplam satış da artıyorsa ve bu artış mevsimsellik, kampanya veya ekip büyümesiyle açıklanamıyorsa, kanal ilave müşteri/satış üretiyor olabilir. Bu ayrım, Sunrun ve Mazda örneklerindeki gibi “dijitalleşme döneminde artış” gözleminin neden tek başına yeterli olmadığını gösterir.
+Pilot hedefleri
+
+İlk pilot için makul hedefler şunlar olabilir:
+
+    Talep → onaylı randevu dönüşümü: %50 üzeri.
+
+    Onaylı randevu → gerçekleşen görüşme: %70 üzeri.
+
+    Gerçekleşen görüşme → satış: mevcut saha randevularının en az %80’i.
+
+    Pilot bölge toplam satışı: kontrol bölgesine göre istatistiksel olarak anlamlı artış.
+
+    Cumartesi satış payı: pilot öncesi döneme göre düşüş veya hafta içi talep/satış payında artış.
+
+Bu eşikler başlangıç varsayımıdır; pilotun ilk 4 haftasında gerçekleşen dönüşümlere göre yeniden kalibre edilmelidir.
