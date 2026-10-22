@@ -6,7 +6,7 @@ Tarih: 22 Ekim 2026. Kaynak: kullanıcının sağladığı [ham metin](kaynaklar
 
 Metin, yeni kanalın yalnızca talep sayısıyla değerlendirilmemesi; randevu, görüşme, satış ve toplam katkının ayrılması açısından yararlı bir araştırma başlangıcıdır. Mevcut satışların kanallar arasında taşınmasıyla ilave satış oluşması arasındaki ayrımı gündeme getirmesi özellikle değerlidir.
 
-Ancak sağlanan metinde doğrudan kaynak bağlantısı yoktur. Bu incelemede internet doğrulaması yapılmamıştır. Bu nedenle şirketlerin işleyişleri ve bütün sayısal iddialar **doğrulama bekleyen dış araştırma iddialarıdır**. Aşağıdaki değerlendirme, metnin kendi tutarlılığını ve proje amacına uygunluğunu inceler; şirket sonuçlarını onaylamaz.
+Ham metinde kaynak bağlantısı yoktu; kullanıcı bağlantıları sonradan ayrı bir [kaynak listesi](kaynaklar/perplexity-kaynaklari.md) olarak sağladı. Bağlantılar henüz açılıp içerikle karşılaştırılmadı. Bu incelemede internet doğrulaması yapılmamıştır. Bu nedenle şirketlerin işleyişleri ve bütün sayısal iddialar **doğrulama bekleyen dış araştırma iddialarıdır**. Aşağıdaki değerlendirme, metnin kendi tutarlılığını ve proje amacına uygunluğunu inceler; şirket sonuçlarını onaylamaz.
 
 Metindeki “güçlü/orta kanıt” sınıflaması bu aşamada devralınamaz. İşleyiş benzerliği, ölçümün güvenilirliği ve satışa nedensel etki ayrı değerlendirilmelidir.
 

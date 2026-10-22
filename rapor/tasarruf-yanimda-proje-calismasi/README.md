@@ -15,13 +15,14 @@ Bu klasör, kullanıcıyla yapılan görüşmede netleşen proje amacını, mevc
 | [05 — Olası çıktılar ve pilot ölçümü](05-olasi-ciktilar-ve-pilot-olcumu.md) | Henüz kesinleşmemiş çıktı adayları ve sonuçları ölçme önerileri |
 | [06 — Kararlar ve açık sorular](06-kararlar-ve-acik-sorular.md) | Kullanıcı bilgileri, netleşen amaç, öneriler ve yanıtlanması gereken sorular |
 | [Perplexity ham metni](kaynaklar/perplexity-ham-metin.txt) | Kullanıcının sağladığı çıktının değiştirilmemiş kopyası |
+| [Perplexity kaynak listesi](kaynaklar/perplexity-kaynaklari.md) | Sonradan sağlanan kaynak bağlantıları, türüne göre (resmî / ikincil / ticari / kişisel) |
 
 ## Nasıl okunmalı?
 
 - **Kullanıcı bilgisi:** Bu konuşmada kullanıcının anlattığı mevcut işleyiştir; kurum verisiyle ayrıca denetlenmiş değildir.
 - **Netleşen amaç:** Kullanıcının düzeltmeleriyle oluşan proje çerçevesidir.
 - **Öneri / hipotez:** Üzerinde çalışılacak seçeneklerdir; kapsam veya performans taahhüdü değildir.
-- **Dış araştırma iddiası:** Perplexity metninde yer alır; bu çalışma sırasında internetten bağımsız doğrulama yapılmamıştır. Ham metinde kaynak bağlantıları yoktur.
+- **Dış araştırma iddiası:** Perplexity metninde yer alır; bu çalışma sırasında internetten bağımsız doğrulama yapılmamıştır. Kaynak bağlantıları sonradan ayrı listede verilmiştir; bağlantılar henüz açılıp içerikle karşılaştırılmamıştır.
 
 Önceki [Türkiye ve dünya karşılaştırması](../tasarruf-yanimda-karsilastirma-2026-10-22.md) ayrı bir ürün/deneyim araştırmasıdır. Buradaki Perplexity analizi o raporu doğrulamaz veya onunla birleşik bir kanıt seti oluşturmaz.
 

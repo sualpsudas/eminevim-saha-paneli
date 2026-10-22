@@ -38,7 +38,7 @@ Tarih: 22 Ekim 2026. Bu belge kelimesi kelimesine konuşma dökümü değil, kar
 
 ## Araştırma süreci
 
-Kullanıcı aynı araştırmayı birkaç yapay zekaya yaptırıp örnekleri bir araya getirerek seçenekleri tartışmak istiyor. Bu amaçla araştırma metni hazırlandı. İlk gelen çıktı Perplexity'den; ham kopyası bu klasörde saklandı. Kaynak bağlantıları bulunmadığından sayısal iddialar henüz doğrulanmış kanıt sayılmıyor.
+Kullanıcı aynı araştırmayı birkaç yapay zekaya yaptırıp örnekleri bir araya getirerek seçenekleri tartışmak istiyor. Bu amaçla araştırma metni hazırlandı. İlk gelen çıktı Perplexity'den; ham kopyası bu klasörde saklandı. Kaynak bağlantıları sonradan [ayrı listede](kaynaklar/perplexity-kaynaklari.md) verildi; bağlantılar açılıp karşılaştırılana kadar sayısal iddialar doğrulanmış kanıt sayılmıyor.
 
 Sonraki çıktılar için önerilen kayıt: araştırmayı yapan araç, alınma tarihi, ham dosya, şirket/iddia listesi, birincil kaynaklar ve eleştirel değerlendirme. Aynı kaynağa dayanan tekrarlar bağımsız kanıt sayılmamalı.
 
