@@ -16,6 +16,7 @@
   body{background:var(--zemin);color:var(--yazi);font:15px/1.45 "Century Gothic",-apple-system,"Segoe UI",Arial,sans-serif;display:flex;flex-direction:column;overflow:hidden}
   @supports (height:100dvh){html,body{height:100dvh}}
   button{font:inherit;cursor:pointer}
+  [hidden]{display:none !important}
   button:focus-visible{outline:2px solid var(--yesil);outline-offset:2px}
 
   /* Üst: senaryo adı ve müşteri cihazı seçimi */
@@ -209,8 +210,12 @@
 </head>
 <body>
 <div class="ust">
-  <h1>Senaryo 1 · Web'den temsilci çağırma<small>Mehmet Demir hafta içi akşam evinde görüşmek istiyor · temsilci Onur Kaya</small></h1>
-  <div class="grup" role="group" aria-label="Müşteri cihazı">
+  <h1><span id="senAd"></span><small id="senAlt"></small></h1>
+  <div class="grup" role="group" aria-label="Senaryo">
+    <button type="button" data-sn="uyg" aria-pressed="true">1 · Uygulamadan</button>
+    <button type="button" data-sn="web" aria-pressed="false">2 · Web'den</button>
+  </div>
+  <div class="grup" role="group" aria-label="Müşteri cihazı" id="cihazSec">
     <button type="button" data-mc="telefon" aria-pressed="true">Müşteri: Telefon</button>
     <button type="button" data-mc="bilgisayar" aria-pressed="false">Müşteri: Bilgisayar</button>
   </div>
@@ -260,8 +265,8 @@
 
   /* ===== Müşteri: telefon ekranları ===== */
   var durum = function (y) { return '<div class="durum' + (y ? ' y' : '') + '"><span>18:12</span><span>▮▮▮ ◔ ▭</span></div>'; };
-  var ab = function (alt) { return '<div class="ab"><img src="' + LOGO_B + '" alt=""><div class="bs"><b>Tasarruf Yanımda</b><span>' + alt + '</span></div><span class="av">MD</span></div>'; };
-  var sn = function (a) { return '<div class="sn">' + ["Randevum", "Sohbet", "Finansman", "Ayarlar"].map(function (x) { return '<span class="' + (x === a ? 'a' : '') + '"><i></i>' + x + '</span>'; }).join("") + '</div>'; };
+  var ab = function (alt, geri) { return '<div class="ab" style="position:relative;justify-content:center"><span style="position:absolute;left:16px;font-weight:700;font-size:13px;opacity:' + (geri ? 1 : 0) + '">Geri</span><div class="bs"><b>Tasarruf Yanımda</b><span>' + alt + '</span></div></div>'; };
+  var sn = function (a) { return '<div class="sn">' + ["Randevularım", "Sohbetler", "Finansman", "Ayarlar"].map(function (x) { return '<span class="' + (x === ({ Randevum: "Randevularım", Sohbet: "Sohbetler" }[a] || a) ? 'a' : '') + '"><i></i>' + x + '</span>'; }).join("") + '</div>'; };
   var repSatir = function () { return '<div class="kart"><div class="rep"><span class="bas">' + T.bas + '</span><span class="ad"><b>' + T.ad + '</b><span>Temsilciniz · Sicil ' + T.sicil + '</span></span><span class="btn o" style="min-height:34px;font-size:12px">Bilgiler</span></div></div>'; };
   var adimlar = function (n) { return '<div class="kart" style="display:flex;flex-direction:column;gap:9px">' + ["Talebiniz alındı", "Temsilciniz atandı", "Saat onaylandı", "Görüşme günü"].map(function (x, i) { return '<div class="adim' + (i < n ? '' : ' bos') + '"><i>' + (i < n ? '✓' : '') + '</i>' + x + '</div>'; }).join("") + '</div>'; };
 
@@ -293,7 +298,7 @@
     },
     atandi: function () {
       return '<div class="ekr">' + durum(1) + ab("Temsilciniz atandı") + '<div class="bildirim"><img src="' + LOGO_B + '" alt=""><span><b>Eminevim</b><br>Temsilciniz Onur Kaya. Görüşme saatini Sohbet\'ten onaylayın.</span></div>' +
-        '<div class="govde"><h3>Randevum</h3><div class="yk"><b>Temsilciniz atandı</b>' + M.gun + ', ' + M.saat + ' · ' + M.yer + '</div>' + adimlar(2) + repSatir() + '</div>' + sn("Randevum") + '</div>';
+        '<div class="govde"><h3>Randevularım</h3><div class="yk"><b>Temsilciniz atandı</b>' + M.gun + ', ' + M.saat + ' · ' + M.yer + '</div>' + adimlar(2) + repSatir() + '</div>' + sn("Randevum") + '</div>';
     },
     onay: function () {
       return '<div class="ekr">' + durum(1) + ab("Temsilciniz atandı") + '<div class="kart" style="border-radius:0;border-width:0 0 1px"><div class="rep"><span class="bas">' + T.bas + '</span><span class="ad"><b>' + T.ad + '</b><span>Temsilciniz · Sicil ' + T.sicil + '</span></span></div></div>' +
@@ -301,7 +306,7 @@
         '<div class="chip vurgu">✓ Saati onayla · ' + M.gunK + ' ' + M.saat + '</div></div>' + sn("Sohbet") + '</div>';
     },
     form1gun: function () {
-      return '<div class="ekr">' + durum(1) + ab("Randevunuz netleşti") + '<div class="govde"><h3>Randevum</h3><div class="yk"><b>Randevunuz netleşti</b>Yarın ' + M.saat + ' · ' + M.yer + '</div>' +
+      return '<div class="ekr">' + durum(1) + ab("Randevunuz netleşti") + '<div class="govde"><h3>Randevularım</h3><div class="yk"><b>Randevunuz netleşti</b>Yarın ' + M.saat + ' · ' + M.yer + '</div>' +
         '<div class="kart" style="display:flex;flex-direction:column;gap:6px"><span class="rozet t" style="align-self:flex-start">Görüşmeden önce okuyun</span><b>Sözleşme öncesi bilgilendirme formu</b><span style="font-size:12.5px">Görüşmede konuşacağınız sözleşmenin temel bilgileri: organizasyon ücreti, tasarruf ve teslim süreci, cayma hakkı (14 gün).</span><div class="btn o" style="min-height:38px">Formu oku</div><div class="btn vurgu">Okudum, anladım</div></div>' + repSatir() + '</div>' + sn("Randevum") + '</div>';
     },
     yolda: function () {
@@ -309,22 +314,74 @@
         '<div class="kart" style="padding:0;height:210px;overflow:hidden">' + harita(360, 210, true) + '</div>' + repSatir() + '</div>' + sn("Randevum") + '</div>';
     },
     qr: function () {
-      return '<div class="ekr">' + durum(1) + ab("Temsilciniz kapıda") + '<div class="govde"><h3>Randevum</h3><div class="yk"><b>Temsilciniz yolda</b>Bugün ' + M.saat + '</div></div><div class="karart"></div>' +
+      return '<div class="ekr">' + durum(1) + ab("Temsilciniz kapıda") + '<div class="govde"><h3>Randevularım</h3><div class="yk"><b>Temsilciniz yolda</b>Bugün ' + M.saat + '</div></div><div class="karart"></div>' +
         '<div class="alt-pen"><b style="font-size:18px">Temsilcinizi doğrulayın</b><span style="font-size:12.5px">Temsilcinizden bu kodu Eminevim personel uygulamasıyla okutmasını isteyin.</span><div class="qr vurgu"><img src="' + QR + '" alt="QR"></div><span style="font-size:12px">Okutamazsa kod: <b style="font-size:17px;letter-spacing:5px">4 8 2 1</b></span><span style="font-size:11.5px;color:#b25e30;background:#fce0d4;border-radius:12px;padding:7px 10px">Ekranınız yeşile dönmezse kişisel bilgi vermeyin ve 444 36 46\'yı arayın.</span></div></div>';
     },
     dogrulandi: function () {
       return '<div class="ekr">' + durum(1) + ab("Temsilciniz yanınızda") + '<div class="karart"></div><div class="alt-pen"><div class="tik">' + tik() + '</div><b style="font-size:19px;color:#00724c">Kimlik doğrulandı</b><div class="kart" style="background:#e9f0ed;border:0;width:100%"><div class="rep"><span class="bas">' + T.bas + '</span><span class="ad" style="text-align:left"><b>' + T.ad + '</b><span style="color:#00724c;font-weight:700">✓ Eminevim temsilcisi · Sicil ' + T.sicil + '</span></span></div></div><span style="font-size:13px">Görüşmeniz 18:10\'da başladı. İyi görüşmeler!</span><div class="btn" style="width:100%">Tamam</div></div></div>';
     },
     surer: function () {
-      return '<div class="ekr">' + durum(1) + ab("Görüşmeniz sürüyor") + '<div class="govde"><h3>Randevum</h3><div class="yk"><b>Görüşmeniz sürüyor</b>Kimliği 18:10\'da doğrulandı · ' + M.yer + '</div><div class="kart"><b>Planınız hazırlanıyor</b><p style="margin:6px 0 0;font-size:12.5px">Temsilcinizin tabletinde hesapladığı plan, görüşme bitince yazılı özet olarak buraya gelecek.</p></div>' + adimlar(4) + repSatir() + '</div>' + sn("Randevum") + '</div>';
+      return '<div class="ekr">' + durum(1) + ab("Görüşmeniz sürüyor") + '<div class="govde"><h3>Randevularım</h3><div class="yk"><b>Görüşmeniz sürüyor</b>Kimliği 18:10\'da doğrulandı · ' + M.yer + '</div><div class="kart"><b>Planınız hazırlanıyor</b><p style="margin:6px 0 0;font-size:12.5px">Temsilcinizin tabletinde hesapladığı plan, görüşme bitince yazılı özet olarak buraya gelecek.</p></div>' + adimlar(4) + repSatir() + '</div>' + sn("Randevum") + '</div>';
     },
     ozet: function () {
-      return '<div class="ekr">' + durum(1) + ab("Görüşmeniz tamamlandı") + '<div class="govde"><h3>Randevum</h3><div class="kart" style="display:flex;flex-direction:column;gap:2px"><span class="baslik-k" style="font-size:11px;font-weight:700;color:#00724c">GÖRÜŞME ÖZETİ</span>' +
+      return '<div class="ekr">' + durum(1) + ab("Görüşmeniz tamamlandı") + '<div class="govde"><h3>Randevularım</h3><div class="kart" style="display:flex;flex-direction:column;gap:2px"><span class="baslik-k" style="font-size:11px;font-weight:700;color:#00724c">GÖRÜŞME ÖZETİ</span>' +
         [["Konu", "Konut Finansmanı"], ["Finansman tutarı", "2.500.000 ₺"], ["Peşinat", "%10"], ["Vade", "80 ay"], ["Aylık ödeme (örnek)", "28.130 ₺"], ["Cayma hakkı", "Sözleşmeden itibaren 14 gün"]].map(function (r) { return '<div class="satir"><span>' + r[0] + '</span><b>' + r[1] + '</b></div>'; }).join("") +
         '<div style="display:flex;gap:8px;margin-top:8px"><div class="btn vurgu" style="flex:1;min-height:40px;font-size:13px">Bilgiler doğru</div><div class="btn o" style="flex:1;min-height:40px;font-size:13px">Bir sorun var</div></div></div>' +
-        '<div class="kart" style="text-align:center"><b>Görüşmeniz nasıldı?</b><div class="yildiz">★★★★★</div></div></div>' + sn("Randevum") + '</div>';
+        '<div class="btn o">Görüşmeyi puanlayın · isteğe bağlı</div></div>' + sn("Randevum") + '</div>';
     }
   };
+
+  /* ===== Müşteri: uygulamadan başlayan akış ekranları ===== */
+  var basGeri = function (alt) { return '<div style="display:flex;align-items:center;gap:10px;padding:8px 18px 4px"><span style="width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:18px">‹</span><b style="color:#00724c;font-size:13px;flex:1">Tasarruf Yanımda</b></div>' + (alt ? '<div style="padding:4px 22px 10px"><h3>' + alt[0] + '</h3><span style="font-size:12px">' + alt[1] + '</span></div>' : ''); };
+  var evResim = '<svg width="150" height="100" viewBox="0 0 150 100" aria-hidden="true"><rect width="150" height="100" rx="18" fill="#E9F0ED"/><circle cx="118" cy="26" r="11" fill="#EA803F"/><path d="M42 56 75 30l33 26v28H42z" fill="#00724C"/><rect x="67" y="62" width="16" height="22" rx="3" fill="#fff"/><path d="M36 58 75 26l39 32" fill="none" stroke="#005A3C" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  Object.assign(TEL, {
+    giris: function () {
+      return '<div class="ekr">' + durum() + '<span style="position:absolute;right:20px;top:62px;font-size:12px;font-weight:700;color:#00724c">Personel Girişi</span><div class="govde" style="align-items:center;text-align:center;padding-top:150px;gap:14px"><img src="' + LOGO_Y + '" alt="Eminevim" style="height:34px"><b style="font-size:19px">Tasarruf Yanımda</b><span style="font-size:13px;margin-top:-8px">Emin olmak, güven demek</span>' +
+        '<div class="kart" style="width:100%;display:flex;align-items:center;gap:12px;text-align:left"><span style="width:44px;height:44px;border-radius:12px;background:#00724c"></span><span style="flex:1"><b>Kayıtlı Müşteri</b><br><span style="font-size:12px">Hesabınızla giriş yapın</span></span>›</div>' +
+        '<div class="kart vurgu" style="width:100%;display:flex;align-items:center;gap:12px;text-align:left"><span style="width:44px;height:44px;border-radius:12px;background:#e9f0ed"></span><span style="flex:1"><b>Yeni Müşteri</b><br><span style="font-size:12px">Telefon numaranız ve SMS koduyla</span></span>›</div></div></div>';
+    },
+    kTel: function () {
+      return '<div class="ekr">' + durum() + '<span style="position:absolute;left:20px;top:62px;font-size:12px;font-weight:700;color:#00724c">Geri</span><span style="position:absolute;right:20px;top:62px;font-size:12px;font-weight:700;color:#00724c">Personel Girişi</span><div class="govde" style="padding-top:120px;gap:12px"><div style="text-align:center"><img src="' + LOGO_Y + '" alt="Eminevim" style="height:30px"><b style="display:block;font-size:18px;margin-top:10px">Tasarruf Yanımda</b><span style="font-size:12.5px">Telefon numaranızla güvenle devam edin</span></div>' + '<b style="font-size:16px;margin-top:10px">Telefon numaranızla devam edin</b><span style="font-size:12px;margin-top:-6px">Numaranıza SMS ile 6 haneli bir kod göndereceğiz.</span><div class="alan">' + M.tel + '</div><div class="btn vurgu" style="background:#00724c">Kodu gönder</div></div></div>';
+    },
+    kKod: function () {
+      return '<div class="ekr">' + durum() + '<span style="position:absolute;left:20px;top:62px;font-size:12px;font-weight:700;color:#00724c">Geri</span><span style="position:absolute;right:20px;top:62px;font-size:12px;font-weight:700;color:#00724c">Personel Girişi</span><div class="govde" style="padding-top:120px;gap:12px"><div style="text-align:center"><img src="' + LOGO_Y + '" alt="Eminevim" style="height:30px"><b style="display:block;font-size:18px;margin-top:10px">Tasarruf Yanımda</b><span style="font-size:12.5px">Telefon numaranızla güvenle devam edin</span></div>' + '<b style="font-size:16px;margin-top:10px">SMS kodunu girin</b><span style="font-size:12px;margin-top:-6px">' + M.tel + ' numarasına 6 haneli kod gönderdik.</span><div class="alan" style="text-align:center;font-size:22px;letter-spacing:10px">4 8 2 1 9 3</div><div class="btn vurgu" style="background:#00724c">Doğrula</div><span style="text-align:center;font-size:12px;font-weight:700;color:#00724c">Kodu tekrar gönder</span></div><div class="bildirim"><img src="' + LOGO_B + '" alt=""><span><b>Eminevim</b><br>Giriş kodunuz: 482193. Kimseyle paylaşmayın.</span></div></div>';
+    },
+    kParola: function () {
+      return '<div class="ekr">' + durum() + '<span style="position:absolute;left:20px;top:62px;font-size:12px;font-weight:700;color:#00724c">Geri</span><span style="position:absolute;right:20px;top:62px;font-size:12px;font-weight:700;color:#00724c">Personel Girişi</span><div class="govde" style="padding-top:120px;gap:12px"><div style="text-align:center"><img src="' + LOGO_Y + '" alt="Eminevim" style="height:30px"><b style="display:block;font-size:18px;margin-top:10px">Tasarruf Yanımda</b><span style="font-size:12.5px">Telefon numaranızla güvenle devam edin</span></div>' + '<b style="font-size:16px;margin-top:10px">Hesabınızı oluşturun</b><span style="font-size:12px;margin-top:-6px">Bundan sonra telefon numaranız ve bu parolayla giriş yapacaksınız.</span><div class="alan">' + M.ad + '</div><div class="alan">••••••••</div><div class="alan">••••••••</div><div class="btn vurgu" style="background:#00724c">Parolayı kaydet ve devam et</div></div></div>';
+    },
+    kayit: function () {
+      return '<div class="ekr">' + durum() + '<div class="karart"></div><div class="kart" style="position:absolute;left:18px;right:18px;top:200px;border-radius:24px;padding:22px;display:flex;flex-direction:column;gap:10px"><b style="font-size:18px">Kayıt Ol</b><span style="font-size:12px">Telefon numaranızla hesabınızı oluşturun. Bir sonraki adımda veri işleme onayınız alınacaktır.</span><div class="alan">' + M.ad + '</div><div class="alan">' + M.tel + '</div><div class="alan">••••••</div><div class="btn vurgu" style="background:#00724c">Kaydet ve Devam</div></div></div>';
+    },
+    hosgeldin: function () {
+      return '<div class="ekr">' + durum(1) + ab("Hoş geldiniz") + '<div class="govde sakin"><h3>Randevum</h3><div class="kart" style="height:180px"></div></div><div class="karart"></div><div class="alt-pen" style="align-items:stretch;text-align:left"><div style="align-self:center;line-height:0">' + evResim + '</div><b style="font-size:20px;color:#00724c">Hoş geldiniz, ' + M.ilk + '!</b><span style="font-size:13.5px">Temsilcimizle görüşmenizi buradan kolayca planlayın.</span><div style="display:flex;gap:6px"><i style="width:18px;height:7px;border-radius:4px;background:#00724c"></i><i style="width:7px;height:7px;border-radius:4px;background:#ddd"></i><i style="width:7px;height:7px;border-radius:4px;background:#ddd"></i></div><div style="display:flex;gap:10px;align-items:center"><span style="padding:0 14px;font-weight:700">Atla</span><div class="btn vurgu" style="flex:1">İleri</div></div></div></div>';
+    },
+    bos: function () {
+      return '<div class="ekr">' + durum(1) + ab("Hoş geldiniz") + '<div class="govde"><h3>Randevularım</h3><div class="kart" style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:24px 18px"><span style="width:56px;height:56px;border-radius:50%;background:#e9f0ed;display:flex;align-items:center;justify-content:center;color:#00724c;font-size:24px">⌖</span><b style="font-size:17px">Temsilcimiz size gelsin</b><span style="font-size:13px">Uygun gün ve saatte, belirttiğiniz yerde temsilcimiz yanınıza gelsin.</span><div class="btn vurgu" style="width:100%">Temsilci iste</div></div></div>' + sn("Randevum") + '</div>';
+    },
+    uHarita: function () {
+      return '<div class="ekr">' + durum() + basGeri(["Görüşme yerini seçin", "1 / 2 · Temsilcimiz size gelsin"]) + '<div style="position:absolute;top:150px;left:0;right:0;bottom:150px">' + harita(393, 560) + '<div class="alan" style="position:absolute;left:12px;right:12px;top:12px;background:#fff;box-shadow:0 2px 10px rgba(0,0,0,.15)">⌕ Adres veya mekân ara</div><span class="btn o" style="position:absolute;right:12px;bottom:14px;min-height:36px;font-size:12px">Hizmet bölgesini göster</span></div>' +
+        '<div style="position:absolute;left:0;right:0;bottom:0;background:#f5f5f5;padding:12px 22px 30px;display:flex;flex-direction:column;gap:10px;border-top:1px solid #ddd"><div class="adim"><i>✓</i><span><b>' + M.yer + '</b><br><span style="font-weight:400;font-size:12px">Hizmet bölgemizde (Ataşehir).</span></span></div><div class="btn vurgu">Devam: gün ve saat</div></div></div>';
+    },
+    uGun: function () {
+      var gun = [["Per 23", "Eki", 1], ["Cum 24", "Eki"], ["Pzt 26", "Eki"], ["Sal 27", "Eki"], ["Çar 28", "Eki"], ["Cmt 25", "yoğun"]];
+      var g = '<div style="display:flex;flex-wrap:wrap;gap:7px">' + gun.map(function (x) { return '<span style="min-width:58px;padding:6px 10px;border-radius:22px;text-align:center;font-weight:700;font-size:13px;line-height:1.2;background:' + (x[2] ? '#00724c;color:#fff' : '#eee;color:#555') + '">' + x[0] + '<br><span style="font-size:10px;font-weight:400;color:' + (x[2] ? '#e9f0ed' : x[1] === 'yoğun' ? '#b25e30' : '#888') + '">' + x[1] + '</span></span>'; }).join("") + '</div>';
+      var st = '<div class="saatler">' + ["10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00"].map(function (x) { return '<span class="' + (x === "18:00" ? 's' : '') + '">' + x + '</span>'; }).join("") + '</div>';
+      return '<div class="ekr">' + durum() + basGeri(["Gün ve saat seçin", "2 / 2 · " + M.yer]) + '<div class="govde"><b style="font-size:11px">GÜN</b>' + g + '<b style="font-size:11px">SAAT</b>' + st + '</div><div style="position:absolute;left:22px;right:22px;bottom:30px"><div class="btn vurgu">Onayla</div></div></div>';
+    },
+    uAtandi: function () {
+      return '<div class="ekr">' + durum(1) + ab("Randevu saatinizi onaylayın", 1) + '<div class="bildirim"><img src="' + LOGO_B + '" alt=""><span><b>Eminevim</b><br>Temsilciniz Onur Kaya. Randevu saatinizi onaylayın.</span></div><div class="govde"><div class="yk"><b>Randevu saatinizi onaylayın</b>Temsilciniz görüşme için bu zamanı önerdi.<br><br><b style="font-size:14px">' + M.gun + ' · ' + M.saat + '</b>' + M.yer + '<br><br>Temsilciniz: <b style="display:inline;font-size:13px">' + T.ad + '</b></div><div class="btn vurgu">Saati onayla · ' + M.saat + '</div><div style="display:flex;gap:8px"><div class="btn o" style="flex:1">Gün / saati değiştir</div><div class="btn o" style="flex:1">İptal et</div></div></div>' + sn("Randevum") + '</div>';
+    },
+    uHazirlik: function () {
+      var secim = function (e) { return '<div style="text-align:left;width:100%"><span style="font-size:12px">' + e + '</span><div class="alan" style="margin-top:4px;font-weight:400">Paylaşmak istemiyorum ▾</div></div>'; };
+      return '<div class="ekr">' + durum(1) + ab("Randevunuz kesinleşti", 1) + '<div class="govde sakin"><div class="yk"><b>Randevunuz kesinleşti</b>' + M.gun + ' · ' + M.saat + '</div></div><div class="karart"></div><div class="alt-pen" style="text-align:left;align-items:stretch"><b style="font-size:17px">Görüşmeye hazırlanmamıza yardımcı olun</b><span style="font-size:12.5px">Randevu saatiniz onaylandı. Çalışma durumu ve yaş aralığınızı isterseniz paylaşabilirsiniz. Bu adımı atlayabilirsiniz; randevunuz devam eder.</span>' + secim("Çalışma durumu") + secim("Yaş aralığı") + '<div style="display:flex;gap:8px"><div class="btn" style="flex:1">Kaydet</div><div class="btn o vurgu" style="flex:1">Şimdi değil</div></div></div></div>';
+    },
+    uYolda: function () {
+      return '<div class="ekr">' + durum(1) + ab("Temsilciniz yolda", 1) + '<div class="bildirim"><img src="' + LOGO_B + '" alt=""><span><b>Eminevim</b><br>Onur Kaya yola çıktı · tahmini varış 18:10</span></div><div class="govde"><div class="yk"><b>Temsilciniz yolda</b>Tahmini varış 18:10 · 12 dakika<br><br><b style="font-size:14px">Bugün · ' + M.saat + '</b>' + M.yer + '<br>Temsilciniz: <b style="display:inline;font-size:13px">' + T.ad + '</b></div><div class="kart"><b>Temsilciniz kapıya geldiğinde</b><p style="margin:6px 0 10px;font-size:12.5px">Bilgilerini kontrol edin, ardından kodunuzu personel uygulamasıyla okutmasını isteyin.</p><div class="btn">Kapıda kimliğini doğrula</div></div><div class="btn o vurgu">Temsilcinizi takip edin</div></div>' + sn("Randevum") + '</div>';
+    },
+    uAlindi: function () {
+      return '<div class="ekr">' + durum() + basGeri() + '<div class="govde" style="padding:10px 22px;gap:12px"><div class="tik" style="width:52px;height:52px">' + tik(26) + '</div><h3 style="font-size:23px">Talebiniz alındı</h3><div class="kart" style="background:#e9f0ed;border:0;font-weight:700;color:#4a4a4a">' + M.gun + ' · ' + M.saat + '<br>' + M.yer + '</div><span style="font-size:13px">Temsilciniz atanınca Randevum\'da görünür ve telefonunuza mesajla bildirilir.</span></div><div style="position:absolute;left:22px;right:22px;bottom:30px"><div class="btn">Randevumu gör</div></div></div>';
+    }
+  });
 
   /* ===== Müşteri: bilgisayar ekranları (site + uygulamasız takip sayfası) ===== */
   var siteUst = '<div class="site-ust" style="padding:14px 40px"><img src="' + LOGO_Y + '" alt="Eminevim" style="height:30px"><span style="display:flex;gap:26px;font-size:13px;font-weight:700;color:#00724c"><span>Konut</span><span>Araç</span><span>İşyeri</span><span>Kampanyalar</span><span>444 36 46</span></span></div>';
@@ -387,7 +444,7 @@
     return '<div class="liste">' + r.map(function (x) { return '<div class="kart' + (x[1] === secili ? ' s' : '') + '"><span class="saat">' + x[0] + '</span><span style="flex:1"><b>' + x[1] + '</b><br><span style="font-size:12px">' + x[2] + '</span></span></div>'; }).join("") + '</div>';
   };
   var tab = function (a, baslik, sag, govde) { return '<div class="ekr"><div class="tab">' + ustb() + '<div class="ana" style="min-height:0"><div class="ana-bas"><h3>' + baslik + '</h3>' + (sag || '') + '</div>' + govde + '</div>' + altb(a === "Performans" ? "Performans" : "Görüşmeler") + '</div></div>'; };
-  var musteriKart = '<div class="kart"><span class="baslik-k">MÜŞTERİ</span><div class="rep" style="margin-top:8px"><span class="bas" style="background:#e9f0ed;color:#00724c">MD</span><span class="ad"><b>' + M.ad + '</b><span>' + M.tel + ' · Web formundan</span></span></div><div class="satir" style="margin-top:8px"><span>Yer</span><b>' + M.yer + '</b></div><div class="satir"><span>Gün / saat</span><b>' + M.gun + ' · ' + M.saat + '</b></div><div class="satir"><span>Uzaklık</span><b>1,8 km · 7 dk</b></div></div>';
+  var musteriKart = function () { return '<div class="kart"><span class="baslik-k">MÜŞTERİ</span><div class="rep" style="margin-top:8px"><span class="bas" style="background:#e9f0ed;color:#00724c">MD</span><span class="ad"><b>' + M.ad + '</b><span>' + M.tel + ' · ' + (durumS.sn === "web" ? 'Web formundan' : 'Uygulamadan') + '</span></span></div><div class="satir" style="margin-top:8px"><span>Yer</span><b>' + M.yer + '</b></div><div class="satir"><span>Gün / saat</span><b>' + M.gun + ' · ' + M.saat + '</b></div><div class="satir"><span>Uzaklık</span><b>1,8 km · 7 dk</b></div></div>'; };
 
   var TAB = {
     bos: function () { return tab("Bugün", "Bugün · 22 Ekim", '<span>2 görüşme tamamlandı</span>', '<div class="iki"><div><span class="baslik-k">AJANDA</span>' + ajanda() + '</div><div class="detay"><div class="kpi"><div class="kart"><b>2</b>Bugün tamamlanan</div><div class="kart"><b>0</b>Bekleyen talep</div><div class="kart"><b>★ 4,8</b>Puan</div></div><div class="kart sakin">Yeni talep geldiğinde burada görünür.</div></div></div>'); },
@@ -396,13 +453,13 @@
         '<div class="kart" style="padding:0;height:200px;overflow:hidden">' + harita(560, 200) + '</div><div style="display:flex;gap:10px"><div class="btn vurgu" style="flex:2">Kabul et</div><div class="btn o" style="flex:1">Devret</div></div></div></div>');
     },
     mesaj: function () {
-      return tab("Sohbet", "Sohbet · " + M.kisa, '<span class="rozet">Kabul edildi</span>', '<div class="iki"><div class="detay">' + musteriKart + '</div><div class="kart" style="display:flex;flex-direction:column;gap:10px;justify-content:flex-end"><span class="not" style="align-self:center">Hazır mesaj · düzenleyebilirsiniz</span><div class="balon ben">Merhaba Mehmet Bey, ben Onur Kaya, Eminevim müşteri temsilcinizim. Görüşmemizi ' + M.gun + ' ' + M.saat + ', ' + M.yer + ' olarak planladım. Uygunsa onaylayabilirsiniz.</div><div style="display:flex;gap:8px"><div class="alan" style="flex:1">Mesajınızı yazın</div><div class="btn vurgu">Gönder</div></div></div></div>');
+      return tab("Sohbet", "Sohbet · " + M.kisa, '<span class="rozet">Kabul edildi</span>', '<div class="iki"><div class="detay">' + musteriKart() + '</div><div class="kart" style="display:flex;flex-direction:column;gap:10px;justify-content:flex-end"><span class="not" style="align-self:center">Hazır mesaj · düzenleyebilirsiniz</span><div class="balon ben">Merhaba Mehmet Bey, ben Onur Kaya, Eminevim müşteri temsilcinizim. Görüşmemizi ' + M.gun + ' ' + M.saat + ', ' + M.yer + ' olarak planladım. Uygunsa onaylayabilirsiniz.</div><div style="display:flex;gap:8px"><div class="alan" style="flex:1">Mesajınızı yazın</div><div class="btn vurgu">Gönder</div></div></div></div>');
     },
     onaylandi: function () {
       return tab("Sohbet", "Sohbet · " + M.kisa, '<span class="rozet">Saat onaylandı</span>', '<div class="iki"><div><span class="baslik-k">AJANDA · 23 EKİM</span>' + ajanda(M.kisa, "netleşti ✓") + '</div><div class="kart" style="display:flex;flex-direction:column;gap:10px;justify-content:flex-end"><div class="balon ben">… Uygunsa onaylayabilirsiniz.<small>17:42</small></div><div class="balon">' + M.gunK + ' ' + M.saat + ' uygun, onaylıyorum.<small>17:44</small></div><div class="kart vurgu" style="background:#e9f0ed;border:0"><b>✓ Randevu netleşti</b> · Ajandanıza eklendi. Bir gün önce müşteriye bilgilendirme formu otomatik gider.</div></div></div>');
     },
     formOkundu: function () {
-      return tab("Ajanda", "Ajanda · 23 Ekim", '', '<div class="iki"><div><span class="baslik-k">YARIN</span>' + ajanda(M.kisa, "netleşti") + '</div><div class="detay">' + musteriKart + '<div class="kart vurgu"><span class="baslik-k">HAZIRLIK</span><div class="adim" style="margin-top:8px"><i>✓</i>Bilgilendirme formu gönderildi · 22 Eki 18:00</div><div class="adim" style="margin-top:6px"><i>✓</i>Müşteri okudu · 22 Eki 21:14</div><div class="adim bos" style="margin-top:6px"><i></i>Görüşme · yarın 18:00</div></div></div></div>');
+      return tab("Ajanda", "Ajanda · 23 Ekim", '', '<div class="iki"><div><span class="baslik-k">YARIN</span>' + ajanda(M.kisa, "netleşti") + '</div><div class="detay">' + musteriKart() + '<div class="kart vurgu"><span class="baslik-k">HAZIRLIK</span><div class="adim" style="margin-top:8px"><i>✓</i>Bilgilendirme formu gönderildi · 22 Eki 18:00</div><div class="adim" style="margin-top:6px"><i>✓</i>Müşteri okudu · 22 Eki 21:14</div><div class="adim bos" style="margin-top:6px"><i></i>Görüşme · yarın 18:00</div></div></div></div>');
     },
     yolda: function () {
       return tab("Bugün", "Görüşmeye gidiş", '<span class="rozet t">Müşteriye bildirildi · 12 dk</span>', '<div style="flex:1;position:relative;margin:16px 22px;border-radius:14px;overflow:hidden;border:1px solid #ddd">' + harita(940, 640, true) + '<div class="kart" style="position:absolute;left:16px;bottom:16px;width:360px"><b>' + M.kisa + ' · ' + M.saat + '</b><br>' + M.yer + '<div class="btn vurgu" style="margin-top:10px">Vardım: QR okut</div></div></div>');
@@ -411,7 +468,7 @@
       return '<div class="ekr"><div class="tab-tara"><div class="cerceve-qr"><span class="c1"></span><span class="c2"></span><span class="c3"></span><span class="c4"></span><div class="kucuk-qr"><img src="' + QR + '" alt=""></div><div class="cizgi"></div></div><div style="max-width:340px"><b style="color:#fff;font-size:22px">Kimlik doğrulama</b><p style="opacity:.85">Müşterinin ekranındaki QR kodu çerçeveye getirin.</p><p style="opacity:.85;font-size:13px">Okunmuyorsa 4 haneli kodu girin:</p><div style="display:flex;gap:8px"><div class="alan" style="flex:1;background:#fff;text-align:center;letter-spacing:8px">• • • •</div><div class="btn">Doğrula</div></div></div></div></div>';
     },
     gorusme: function () {
-      return tab("Bugün", "Görüşme · " + M.kisa, '<span class="rozet">✓ Doğrulandı 18:10 · varış kaydedildi</span>', '<div class="iki"><div class="detay">' + musteriKart + '<div class="kart"><span class="baslik-k">GÖRÜŞME</span><div class="adim" style="margin-top:8px"><i>✓</i>Kimlik doğrulandı</div><div class="adim bos" style="margin-top:6px"><i></i>İhtiyaç ve bütçe</div><div class="adim bos" style="margin-top:6px"><i></i>Plan ve özet</div></div></div><div class="detay"><div class="kart vurgu"><b>Müşterinin ekranında</b><p style="margin:6px 0 0">"Kimlik doğrulandı · Onur Kaya · Sicil 48213" yeşil olarak görünüyor.</p></div><div class="btn" style="align-self:flex-start;padding:0 28px">Plan hazırlamaya başla</div></div></div>');
+      return tab("Bugün", "Görüşme · " + M.kisa, '<span class="rozet">✓ Doğrulandı 18:10 · varış kaydedildi</span>', '<div class="iki"><div class="detay">' + musteriKart() + '<div class="kart"><span class="baslik-k">GÖRÜŞME</span><div class="adim" style="margin-top:8px"><i>✓</i>Kimlik doğrulandı</div><div class="adim bos" style="margin-top:6px"><i></i>İhtiyaç ve bütçe</div><div class="adim bos" style="margin-top:6px"><i></i>Plan ve özet</div></div></div><div class="detay"><div class="kart vurgu"><b>Müşterinin ekranında</b><p style="margin:6px 0 0">"Kimlik doğrulandı · Onur Kaya · Sicil 48213" yeşil olarak görünüyor.</p></div><div class="btn" style="align-self:flex-start;padding:0 28px">Plan hazırlamaya başla</div></div></div>');
     },
     plan: function () {
       return tab("Bugün", "Plan · " + M.kisa, '<span>Görüşme 24 dk</span>', '<div class="iki" style="grid-template-columns:1fr 1fr"><div class="detay"><div class="kart"><span class="baslik-k">İHTİYAÇ</span><div style="display:flex;gap:8px;margin-top:8px"><span class="btn" style="flex:1;background:#00724c">Konut</span><span class="btn o" style="flex:1">Araç</span><span class="btn o" style="flex:1">İşyeri</span></div></div><div class="kart"><span class="baslik-k">TUTAR · PEŞİNAT · VADE</span><div class="alan" style="margin-top:8px">2.500.000 ₺</div><div class="saatler" style="margin-top:8px"><span>%0</span><span class="s">%10</span><span>%20</span><span>%30</span></div><div class="satir" style="margin-top:8px"><span>Vade</span><b>80 ay</b></div></div></div>' +
@@ -423,7 +480,27 @@
   };
 
   /* ===== Adımlar ===== */
-  var ADIMLAR = [
+  var SEN_UYG = [
+    { kim: "m", b: "Müşteri uygulamayı açar", t: "Mehmet Bey Eminevim uygulamasını indirip açar ve “Yeni Müşteri”yi seçer.", m: "giris", p: "bos" },
+    { kim: "m", b: "Telefon numarasını yazar", t: "E-posta ya da adres sorulmaz; numaraya SMS ile 6 haneli giriş kodu gönderilir.", m: "kTel", p: "bos" },
+    { kim: "m", b: "SMS kodunu girer", t: "Kod 10 dakika geçerlidir; yanlış girilirse uyarı çıkar, “Kodu tekrar gönder” ile yenisi istenir.", m: "kKod", p: "bos" },
+    { kim: "m", b: "Ad soyad ve parola oluşturur", t: "Bundan sonra telefon numarası ve parolayla girer; parolayı unutursa yine SMS koduyla girer. Ardından kişisel veri onayı alınır.", m: "kParola", p: "bos" },
+    { kim: "m", b: "Hoş geldiniz", t: "Üç sayfalık kısa tanıtım: Randevularım, Sohbetler ve Finansman ne işe yarar.", m: "hosgeldin", p: "bos" },
+    { kim: "m", b: "Randevularım'dan temsilci ister", t: "Henüz randevusu olmadığı için tek seçenek görünür: “Temsilci iste”.", m: "bos", p: "bos" },
+    { kim: "m", b: "Görüşme yerini seçer", t: "Haritada evini işaretler; konum hizmet bölgesinde (Ataşehir). Bölge dışında olsaydı telefonla görüşme talebi oluşurdu.", m: "uHarita", p: "bos" },
+    { kim: "m", b: "Gün ve saati seçer", t: "Hafta içi Perşembe 18:00. Cumartesi “yoğun” olarak görünür; hafta içi günler önce gelir.", m: "uGun", p: "bos" },
+    { kim: "p", b: "Talep temsilciye düşer", t: "Talep alınır. Bölgedeki temsilcinin tabletinde Görüşmeler'e “Yeni talep” olarak gelir.", m: "uAlindi", p: "talep" },
+    { kim: "p", b: "Temsilci kabul eder", t: "Onur Kaya talebi kabul eder; tanıtım mesajı Sohbetler'e düşer. Müşteriye bildirim: temsilcinin adı ve saat onayı.", m: "uAtandi", p: "mesaj" },
+    { kim: "m", b: "Müşteri saati onaylar", t: "Randevularım'da “Saati onayla”. Randevu iki tarafta da kesinleşir; sonuç sohbete de düşer.", m: "uAtandi", p: "onaylandi" },
+    { kim: "m", b: "İsteğe bağlı hazırlık bilgileri", t: "Çalışma durumu ve yaş aralığı sorulur; atlanabilir, sonra düzenlenebilir. Randevuyu etkilemez.", m: "uHazirlik", p: "onaylandi" },
+    { kim: "m", b: "Bir gün önce: bilgilendirme formu (öneri)", t: "Sözleşme öncesi bilgilendirme formu uygulamaya düşer; müşteri okuduğunu onaylar. Bu adım henüz uygulamada yok.", m: "form1gun", p: "formOkundu" },
+    { kim: "p", b: "Görüşme günü: temsilci yola çıkar", t: "Temsilci “Yola çık” deyince müşteriye tahmini varış gider; müşteri temsilciyi haritada izler.", m: "uYolda", p: "yolda" },
+    { kim: "p", b: "Kapıda: QR okutma", t: "Müşteri Randevularım'daki kodu gösterir; temsilci tabletle okutur. Kod o randevuya özel, 10 dakika geçerli, tek kullanımlık.", m: "qr", p: "tara" },
+    { kim: "m", b: "Müşterinin ekranı yeşile döner", t: "Onay müşterinin kendi ekranında görünür: “Onur Kaya · Sicil 48213 doğrulandı”. Varış saati kaydedilir.", m: "dogrulandi", p: "gorusme" },
+    { kim: "p", b: "Tablette plan ve özet", t: "Temsilci ihtiyaç ve bütçeyi tablette birlikte hesaplar; özet, not ve sonraki adımı müşteriye gönderir.", m: "surer", p: "plan" },
+    { kim: "m", b: "Müşteri özeti inceler", t: "Yazılı özet (cayma hakkı dahil) Randevularım'a düşer; “Bilgiler doğru” ya da açıklamalı düzeltme isteği. Puan isteğe bağlı.", m: "ozet", p: "bitti" }
+  ];
+  var SEN_WEB = [
     { kim: "m", b: "Web sitesinden başvuru", t: "Mehmet Bey öğle arasında eminevim.com'daki Hızlı Başvuru formunu doldurur ve “Temsilci çağırmak istiyorum”u açar.", m: "form", p: "bos" },
     { kim: "m", b: "Görüşme yerini seçer", t: "Haritada evini işaretler; konum hizmet bölgesinde (Ataşehir). Bölge dışında olsaydı telefonla görüşmeye geçilirdi.", m: "harita", p: "bos" },
     { kim: "m", b: "Gün ve saati seçer", t: "Hafta içi Perşembe 18:00'i seçer. Cumartesi “yoğun” olarak görünür; hafta içi önce gelir.", m: "gun", p: "bos" },
@@ -437,15 +514,20 @@
     { kim: "p", b: "Tablette plan ve özet", t: "Temsilci ihtiyaç ve bütçeyi tablette birlikte hesaplar; özeti müşteriye gönderir.", m: "surer", p: "plan" },
     { kim: "m", b: "Müşteri özeti onaylar, puan verir", t: "Yazılı özet (cayma hakkı dahil) müşteriye düşer; “Bilgiler doğru” ya da “Bir sorun var”. Puanı yalnız doğrulanmış görüşmeden alınır.", m: "ozet", p: "bitti" }
   ];
+  var SENARYOLAR = {
+    uyg: { ad: "Senaryo 1 · Uygulamadan temsilci isteme", alt: "Mehmet Demir uygulamayı indirip kayıt olur, hafta içi akşam evinde görüşmek ister · temsilci Onur Kaya", adimlar: SEN_UYG, cihazSecimi: false },
+    web: { ad: "Senaryo 2 · Web'den temsilci çağırma", alt: "eminevim.com'daki formdan başlar; bilgisayarda uygulamasız takip sayfasıyla sürer", adimlar: SEN_WEB, cihazSecimi: true }
+  };
+  var ADIMLAR = SEN_UYG;
 
   /* ===== Çizim ve ölçekleme ===== */
   var BOYUT = { telefon: [393, 852], dizustu: [1280, 800], tablet: [1180, 820] };
   var CERCEVE = { telefon: [24, 24], dizustu: [28, 32], tablet: [40, 40] };
-  var durumS = { i: 0, mc: "telefon", ts: "m", oynat: null };
+  var durumS = { i: 0, mc: "telefon", ts: "m", oynat: null, sn: "uyg" };
   var dar = window.matchMedia("(max-width:899px)");
 
   function musteriEkrani(a) {
-    if (durumS.mc === "telefon") return { cihaz: "telefon", html: TEL[a.m](), etiket: "MÜŞTERİ · TELEFON" };
+    if (durumS.sn === "uyg" || durumS.mc === "telefon") return { cihaz: "telefon", html: TEL[a.m](), etiket: "MÜŞTERİ · TELEFON" };
     if (TEL_WEB[a.m]) return { cihaz: "telefon", html: TEL_WEB[a.m](), etiket: "MÜŞTERİ · KAPIDA TELEFONU (SMS LİNKİ)" };
     return { cihaz: "dizustu", html: BIL[a.m](), etiket: a.m === "form" || a.m === "harita" || a.m === "gun" || a.m === "basarili" ? "MÜŞTERİ · BİLGİSAYAR (eminevim.com)" : "MÜŞTERİ · BİLGİSAYAR (takip sayfası, uygulamasız)" };
   }
@@ -467,6 +549,13 @@
     });
   }
   function ciz() {
+    var sen = SENARYOLAR[durumS.sn];
+    ADIMLAR = sen.adimlar;
+    document.getElementById("senAd").textContent = sen.ad;
+    document.getElementById("senAlt").textContent = sen.alt;
+    document.getElementById("cihazSec").hidden = !sen.cihazSecimi;
+    document.querySelectorAll("[data-sn]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.sn === durumS.sn ? "true" : "false"); });
+    if (nk.dataset.sn !== durumS.sn) noktalariKur();
     var a = ADIMLAR[durumS.i], mus = musteriEkrani(a);
     var sahne = document.getElementById("sahne");
     sahne.style.setProperty("--sol", mus.cihaz === "dizustu" ? "1.25fr" : ".62fr");
@@ -486,15 +575,21 @@
     document.getElementById("geri").disabled = durumS.i === 0;
     document.getElementById("ileri").textContent = durumS.i === ADIMLAR.length - 1 ? "Başa dön" : "İleri ›";
     document.querySelectorAll("#noktalar button").forEach(function (b, i) { if (i === durumS.i) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
-    try { history.replaceState(null, "", "#adim-" + (durumS.i + 1) + "-" + durumS.mc); } catch (e) {}
+    try { history.replaceState(null, "", "#" + durumS.sn + "-adim-" + (durumS.i + 1) + (durumS.sn === "web" ? "-" + durumS.mc : "")); } catch (e) {}
     olcekle();
   }
   function git(i) { durumS.i = (i + ADIMLAR.length) % ADIMLAR.length; ciz(); }
 
   var nk = document.getElementById("noktalar");
-  ADIMLAR.forEach(function (a, i) {
-    var b = document.createElement("button"); b.type = "button"; b.textContent = i + 1; b.className = a.kim; b.setAttribute("aria-label", "Adım " + (i + 1) + ": " + a.b);
-    b.addEventListener("click", function () { durdur(); git(i); }); nk.appendChild(b);
+  function noktalariKur() {
+    nk.textContent = ""; nk.dataset.sn = durumS.sn;
+    SENARYOLAR[durumS.sn].adimlar.forEach(function (a, i) {
+      var b = document.createElement("button"); b.type = "button"; b.textContent = i + 1; b.className = a.kim; b.setAttribute("aria-label", "Adım " + (i + 1) + ": " + a.b);
+      b.addEventListener("click", function () { durdur(); git(i); }); nk.appendChild(b);
+    });
+  }
+  document.querySelectorAll("[data-sn]").forEach(function (b) {
+    b.addEventListener("click", function () { if (durumS.sn === b.dataset.sn) return; durdur(); durumS.sn = b.dataset.sn; durumS.i = 0; ciz(); });
   });
   function durdur() { if (durumS.oynat) { clearInterval(durumS.oynat); durumS.oynat = null; } var o = document.getElementById("oynat"); o.textContent = "Otomatik oynat"; o.setAttribute("aria-pressed", "false"); }
   document.getElementById("geri").addEventListener("click", function () { durdur(); git(durumS.i - 1); });
@@ -519,8 +614,9 @@
     else if (e.key === "ArrowLeft") { durdur(); git(durumS.i - 1); }
   });
   window.addEventListener("resize", olcekle);
-  var m = /^#adim-(\d+)(?:-(telefon|bilgisayar))?$/.exec(location.hash);
-  if (m) { durumS.i = Math.max(0, Math.min(ADIMLAR.length - 1, +m[1] - 1)); if (m[2]) durumS.mc = m[2]; document.querySelectorAll("[data-mc]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.mc === durumS.mc ? "true" : "false"); }); }
+  // Adres: #uyg-adim-5 · #web-adim-9-bilgisayar (eski #adim-9-bilgisayar = web senaryosu)
+  var m = /^#(?:(uyg|web)-)?adim-(\d+)(?:-(telefon|bilgisayar))?$/.exec(location.hash);
+  if (m) { durumS.sn = m[1] || "web"; var top = SENARYOLAR[durumS.sn].adimlar.length; durumS.i = Math.max(0, Math.min(top - 1, +m[2] - 1)); if (m[3]) durumS.mc = m[3]; document.querySelectorAll("[data-mc]").forEach(function (x) { x.setAttribute("aria-pressed", x.dataset.mc === durumS.mc ? "true" : "false"); }); }
   ciz();
 })();
 </script>

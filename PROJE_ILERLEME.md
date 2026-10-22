@@ -488,3 +488,8 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Web: temsilci çağrıldıysa başarı ekranında SMS önizlemesi (6 haneli kod, 24 saat; uygulama hizmetleri cümlesi; link).
 - Uygulama: web linki kod ekranını açar → kod → parola oluştur → randevu. Yeni müşteri: telefon → kod → ad soyad + parola → KVKK → Hoş geldiniz. Kayıtlı müşteri: "Parolamı unuttum · SMS koduyla gir".
 - tests/web-flows.py SMS kodu + parola adımlarıyla güncellendi; yanlış kod ve uyuşmayan parola uyarıları denendi. Tüm tarayıcı testleri geçti.
+
+### 2026-10-22 - Senaryo: uygulamadan başlayan akış
+
+- Senaryo 1 artık uygulamadan başlıyor (18 adım): SMS koduyla kayıt, parola, Hoş geldiniz, Randevularım'dan temsilci isteme, saat onayı Randevularım'da, hazırlık penceresi, kapıda QR, özet. Web'den başlayan akış Senaryo 2 olarak duruyor.
+- Ekranlar uygulamanın güncel görünümüne uyduruldu (logo yok, Geri, yeni sekme adları, puan isteğe bağlı). Bilgilendirme formu adımı "öneri" olarak işaretli.

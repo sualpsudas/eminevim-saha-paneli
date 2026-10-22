@@ -143,9 +143,15 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   yatay** (sol yeşil menü + iki sütun). Alt bantta adım açıklaması, İleri/Geri, adım noktaları, otomatik oynat (6 sn), ok tuşları.
   Etkin taraf turuncu etiket + vurgulu düğme; telefonda tek cihaz, etkin taraf öne gelir. Ekranlar SABİT çizimdir (gerçek
   uygulama değil): kullanıcıyla konuşarak senaryo geliştirmek için; onaylanan ekranlar sonra uygulamaya taşınır.
-  Senaryo 1 (12 adım, 2026-10-22): web formu → harita → gün/saat → talep tablete düşer → kabul + saat önerisi →
-  müşteri saati onaylar → bir gün önce bilgilendirme formu "okudum" → temsilci yola çıkar → kapıda QR → müşteri ekranı
-  yeşil → tablette plan + özet gönder → müşteri özeti onaylar + puan. Yeni senaryo = `ADIMLAR` dizisi + ekran işlevleri.
+  Üstte senaryo seçimi (kullanıcı isteği 2026-10-22: ana akış UYGULAMADAN):
+  **Senaryo 1 · Uygulamadan** (18 adım, müşteri hep telefon): uygulamayı açar → telefon → SMS kodu → ad soyad + parola →
+  Hoş geldiniz → Randevularım'dan "Temsilci iste" → harita → gün/saat → talep tablete düşer → temsilci kabul eder →
+  müşteri Randevularım'da "Saati onayla" → isteğe bağlı hazırlık bilgileri → bir gün önce bilgilendirme formu (ÖNERİ, uygulamada
+  yok) → yola çıkar → kapıda QR → yeşil → tablette plan + özet → müşteri özeti inceler (puan isteğe bağlı).
+  **Senaryo 2 · Web'den** (12 adım, eski akış; müşteri Telefon/Bilgisayar seçilir, bilgisayarda uygulamasız takip sayfası).
+  Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
+  taklit eder (başlıkta logo yok, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
+  Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
 - `rapor/benzer-uygulamalar.html` — Türkiye + dünya benzer uygulamalar, yenilik fikirleri, uyarılar (2026-10-21 taslak; kullanıcıyla
   konuşulup ortak rapora dönüşecek). linkler.html'de "Araştırma raporu".
 - `backup/2026-10-21-eski-uygulama/` — sade akıştan önceki uygulama (açılır hâlde; git etiketi `eski-uygulama-2026-10-21`).
