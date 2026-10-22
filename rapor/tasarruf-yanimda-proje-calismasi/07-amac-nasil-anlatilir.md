@@ -4,11 +4,11 @@ Tarih: 22 Ekim 2026. Durum: kullanıcıyla oturtulan amaç iskeletinin ([02](02-
 
 ## Tek cümle
 
-**Tasarruf Yanımda, saha ekibimizin önce bizi çağıran müşteriye gitmesini, talep olmayan zamanlarda ise sahadaki çalışmalarını sürdürmesini sağlayan bir talep kanalıdır.**
+**Tasarruf Yanımda, saha gücümüzün bir bölümünü bizi çağıran müşteriye ayıran, geri kalanının sahadaki çalışmalarını sürdürdüğü ve bu dağılımı gelen talebe göre ayarlayan bir talep kanalıdır.**
 
 ## Otuz saniyelik cevap
 
-> Saha ekibimiz bugün müşteriyi kendisi buluyor; kapı kapı ziyaretler ve stantlarla teması hep biz başlatıyoruz. Oysa görüşmek isteyen ama bize nasıl ulaşacağını bilmeyen müşteriler de var. Tasarruf Yanımda ile bu müşteri, web sitesinden ya da uygulamadan temsilci çağırabilecek. Ekibimiz önce bu taleplere gidecek, talep olmayan zamanlarda sahadaki çalışmalarına devam edecek. Çünkü görüşmek isteyen müşteriye zamanında ulaşmak, ilgisi henüz olmayan kişiyi ikna etmeye çalışmaktan daha verimli. Bunu pilotta temsilci saati başına görüşme ve satışla ölçeceğiz.
+> Saha ekibimiz bugün müşteriyi kendisi buluyor; kapı kapı ziyaretler ve stantlarla teması hep biz başlatıyoruz. Oysa görüşmek isteyen ama bize nasıl ulaşacağını bilmeyen müşteriler de var. Tasarruf Yanımda ile bu müşteri, web sitesinden ya da uygulamadan temsilci çağırabilecek. Saha gücümüzün bir bölümünü bu taleplere ayıracağız, diğer çalışanlarımız sahada çalışmaya devam edecek; talep arttıkça bu payı büyüteceğiz. Çünkü görüşmek isteyen müşteriye zamanında ulaşmak, ilgisi henüz olmayan kişiyi ikna etmeye çalışmaktan daha verimli. Bunu pilotta temsilci saati başına görüşme ve satışla ölçeceğiz.
 
 ## Katmanlı anlatım
 
@@ -34,9 +34,13 @@ Müşteriye **temsilci çağırma** imkânı. Görüşmek isteyen müşteri web 
 
 ### 5. Çalışma ilkesi
 
-**Ekibimiz önce bizi çağıran müşteriye gider; talep olmayan zamanlarda sahadaki çalışmalarını sürdürür.**
+**Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğer çalışanlarımız sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.**
 
-Saha çalışması kaldırılmıyor; yalnızca öncelik sırası değişiyor. Gelen talep az olursa ekip bugünkü gibi çalışır. Bu yüzden proje, mevcut satış gücünü riske atmadan denenebilir.
+Bu bir kaynak yönetimi kararıdır. Herkesin çalışma düzeni değişmez. Başlangıçta her bölgede dönüşümlü “talep sorumlusu” temsilciler belirlenir. Bu temsilciler randevu olmayan saatlerde onlar da sahada çalışır.
+
+Müşteri görüşme gününü ve saatini önceden seçtiği için talepler önceden bilinir. Kimse sahadaki işini bırakıp koşmaz; randevular günün planına önceden yerleşir.
+
+Talep az olursa ayrılan pay küçülür ve ekip bugünkü gibi çalışır. Bu yüzden proje, mevcut satış gücünü riske atmadan denenebilir. Ayrıntı: [08 — Kaynak yönetimi](08-kaynak-yonetimi.md).
 
 ### 6. Neden bu ilke?
 
@@ -85,7 +89,13 @@ Hedefimiz bu değil. Başlangıç noktamız buydu ama asıl meseleyi müşterini
 Beklentimiz, ekibimizin aynı zamanda daha çok sonuç alması. Bunu söz olarak değil, pilotta ölçerek göstereceğiz.
 
 **“Talep gelmezse ne olur?”**
-Ekip bugünkü gibi sahada çalışmaya devam eder. Kayıp olmaz, yalnızca öğrenmiş oluruz.
+Talebe ayrılan pay küçültülür; ekip bugünkü gibi sahada çalışmaya devam eder. Kayıp olmaz, yalnızca öğrenmiş oluruz.
+
+**“Herkes talebe mi gidecek?”**
+Hayır. Her bölgede dönüşümlü olarak belirlenen temsilciler talepleri karşılar, diğerleri sahada çalışır. Talep arttıkça ayrılan temsilci sayısı artırılır.
+
+**“Talepler en iyi temsilcilere mi gidecek?”**
+Hayır. Fırsatlar dönüşümlü dağıtılır. Bu hem adaleti sağlar hem de sonucun kişiden değil, kanaldan geldiğini doğru ölçmemizi sağlar.
 
 **“Reklam yapacak mıyız?”**
 Amacımız talep yaratmak değil, var olan talebin bize ulaşması. Müşterinin bu hizmetten haberdar olması gerekir; bunun yolları ayrıca planlanacak.

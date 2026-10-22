@@ -15,6 +15,7 @@ Bu klasör, kullanıcıyla yapılan görüşmede netleşen proje amacını, mevc
 | [05 — Olası çıktılar ve pilot ölçümü](05-olasi-ciktilar-ve-pilot-olcumu.md) | Henüz kesinleşmemiş çıktı adayları ve sonuçları ölçme önerileri |
 | [06 — Kararlar ve açık sorular](06-kararlar-ve-acik-sorular.md) | Kullanıcı bilgileri, netleşen amaç, öneriler ve yanıtlanması gereken sorular |
 | [07 — Amaç nasıl anlatılır?](07-amac-nasil-anlatilir.md) | Tek cümle, 30 saniye ve katmanlı kurumsal anlatım; cumartesinin yeri; sık sorular |
+| [08 — Kaynak yönetimi](08-kaynak-yonetimi.md) | Saha gücünün ne kadarının talebe ayrılacağı: modeller, nöbet önerisi, atama kuralları, kapasite ayarı |
 | [Perplexity ham metni](kaynaklar/perplexity-ham-metin.txt) | Kullanıcının sağladığı çıktının değiştirilmemiş kopyası |
 | [Perplexity kaynak listesi](kaynaklar/perplexity-kaynaklari.md) | Sonradan sağlanan kaynak bağlantıları, türüne göre (resmî / ikincil / ticari / kişisel) |
 

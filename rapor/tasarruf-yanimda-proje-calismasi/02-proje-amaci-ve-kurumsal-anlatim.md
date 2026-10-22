@@ -4,9 +4,11 @@ Tarih: 22 Ekim 2026. Durum: kullanıcıyla konuşarak oturtulan amaç iskeleti v
 
 ## İlke
 
-**Ekibimiz önce bizi çağıran müşteriye gider; talep olmayan zamanlarda sahadaki çalışmalarını sürdürür.**
+**Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğer çalışanlarımız sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.**
 
 Kısa anlatım: **Bizi çağırana önce biz gideriz.**
+
+Herkesin çalışma düzeni değişmez; talebe ne kadar kaynak ayrılacağı bir kaynak yönetimi kararıdır. Ayrıntı: [08 — Kaynak yönetimi](08-kaynak-yonetimi.md).
 
 ## Bugün nasıl işliyor?
 
@@ -16,15 +18,16 @@ Saha ekibi müşteriyi kendisi buluyor: kapı kapı ziyaret, stant gibi çalış
 
 Görüşmek isteyen müşteri de süreci başlatabilecek. Web sitesinden veya uygulamadan temsilci isteyecek; talebi ilgili saha ekibine iletilecek ve uygun yer ve zamanda yüz yüze görüşmeye dönüşecek.
 
-Ekibin çalışma sırası değişir, saha çalışması kaldırılmaz:
+Saha çalışması kaldırılmaz; saha gücü ikiye paylaştırılır:
 
-1. Gelen talepler önce ve zamanında karşılanır.
-2. Talep olmayan zamanlarda ekip sahadaki çalışmalarına devam eder.
+1. Talebe ayrılan çalışanlar gelen talepleri zamanında karşılar. Randevu olmayan saatlerde onlar da sahada çalışır.
+2. Diğer çalışanlar bugünkü gibi sahada çalışmaya devam eder.
+3. Talep arttıkça talebe ayrılan pay büyür, azaldıkça küçülür.
 
 | Boyut | Bugün | Tasarruf Yanımda ile |
 |---|---|---|
 | İlk temas | Ekip müşteriyi bulur | Müşteri de ekibi çağırabilir |
-| Ekibin önceliği | Sahada yeni müşteri bulmak | Önce gelen talep, ardından saha çalışması |
+| Ekibin önceliği | Herkes sahada yeni müşteri bulur | Bir bölüm gelen talebi karşılar, diğerleri sahada çalışır |
 | Görüşme | Anında veya randevuyla | Müşterinin seçtiği yer ve saatte |
 | Satış fırsatı | Saha çalışmasıyla oluşur | Saha çalışmasına müşteri talepleri eklenir |
 
@@ -47,7 +50,7 @@ Bu örnek yalnızca çalışma sırasını anlatır. Anında personel gönderme,
 | **Bulunabilirlik** | Müşteri hizmetten haberdar olur ve temsilciyi nereden çağıracağını bilir. Bu, talep yaratmak değil; var olan talebin bize ulaşmasıdır. |
 | **Kolay talep** | Müşteri web sitesinden veya uygulamadan kısa sürede temsilci isteyebilir. |
 | **Zamanında dönüş** | Her talep sahiplenilir ve belirlenen süre içinde yanıtlanır. Geciken talep, yakalanmış fırsatı kaybettirir. |
-| **Planlı yönlendirme** | Talepler bölgeye, saate ve temsilcinin uygunluğuna göre atanır. Karşılanamayan talep telefonla görüşmeye veya şubeye yönlendirilir. |
+| **Kaynak yönetimi** | Talebe ne kadar çalışan ayrılacağı talebe göre ayarlanır; talepler bölgeye, saate ve temsilcinin uygunluğuna göre atanır. Karşılanamayan talep telefonla görüşmeye veya şubeye yönlendirilir. |
 | **Güven** | Müşteri kimin geleceğini önceden bilir, temsilciyi görüşmede doğrulayabilir ve görüşmeden sonra iletişimi sürdürür. |
 
 Web sitesi ve uygulama bu unsurların araçlarıdır; dijitalleşme projenin amacı değildir.

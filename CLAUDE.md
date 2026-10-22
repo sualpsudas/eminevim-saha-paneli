@@ -1,7 +1,7 @@
 # Tasarruf Yanımda
 
 Tek proje: **Tasarruf Yanımda** (klasör adı `eminevim-saas`, depo `sualpsudas/eminevim-saha-paneli` eski adlardır).
-**Amaç (2026-10-22, kullanıcı onaylı; eski "cumartesi yığılmasını hafta içine yaymak" tanımının yerine):** İlke "Ekibimiz önce bizi çağıran müşteriye gider; talep olmayan zamanlarda sahadaki çalışmalarını sürdürür" (var olan talebe yetişmek talep yaratmaktan verimli — varsayım; ana ölçü temsilci saati başına görüşme/satış). Yani mevcut saha
+**Amaç (2026-10-22, kullanıcı onaylı; eski "cumartesi yığılmasını hafta içine yaymak" tanımının yerine):** İlke (kaynak yönetimi) "Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğerleri sahada çalışır; dağılım talebe göre ayarlanır" (öneri: bölge başına dönüşümlü nöbetçi, taşmada takım lideri atar; rapor/.../08-kaynak-yonetimi.md) (var olan talebe yetişmek talep yaratmaktan verimli — varsayım; ana ölçü temsilci saati başına görüşme/satış). Yani mevcut saha
 satış gücüne **müşteriden doğrudan gelen talep kanalı** eklemek — ekip müşteriyi bulmaya devam eder, görüşmek isteyen müşteri
 de temsilci (SPY) çağırabilir; temsilci uygun yer/saatte gider, müşteri kimin geleceğini önceden görür, görüşme günü takip eder.
 "Talebe ulaşan saha gücümüzü, talebin bize ulaştığı bir kanalla tamamlıyoruz." Cumartesi yoğunluğu ana amaç değil; satış
