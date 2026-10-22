@@ -274,6 +274,14 @@
   .ty-sonuc .ty-rep i,.ty-sonuc .ty-ikincil i,.ty-sonuc .ty-onayli i{font-size:inherit !important;color:inherit !important}
   @media (prefers-reduced-motion:reduce){.ty-rep,.ty-pen{animation:none}}
 </style>
+<style>
+.ty-ek{margin:16px 0;border:1px solid #ddd;border-radius:14px;padding:14px;text-align:left;min-width:0}
+.ty-ek summary{cursor:pointer;font-size:14px;font-weight:bold;color:#00724c;line-height:1.5}
+.ty-ek p{font-size:13px;line-height:1.5;margin:10px 0;color:#666}.ty-ek label{display:flex;flex-direction:column;gap:6px;font-size:13px;margin:12px 0}
+.ty-ek select{box-sizing:border-box;width:100%;min-width:0;min-height:44px;border:1px solid #ddd;border-radius:12px;background:#eee;color:#333;padding:10px;font:inherit}
+.ty-ek-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.ty-ek-actions button{flex:1 1 140px;min-height:44px;white-space:normal}.ty-ek-actions .ty-bag{font-size:13px!important;padding:10px!important}
+.ty-ozet-kart,.ty-uyg-kart{overflow-wrap:anywhere;min-width:0}
+</style>
 <!-- /TY_CSS -->
 
 <!-- TY_FORM -->
@@ -366,7 +374,7 @@
   /* Demo: her açılışta örnek bilgilerle dolu gelir */
   var ORNEK = { ad:'Mehmet', soyad:'Demir', telefon:'532 123 45 67', saat:'18:00',
                 lat:40.98736, lng:29.02670, adres:'Caferağa Mah., Kadıköy' };
-  var UYGULAMA = 'https://sualpsudas.github.io/eminevim-saha-paneli/Eminevim%20Saha%20Paneli.dc.html';
+  var UYGULAMA = new URL('../Eminevim%20Saha%20Paneli.dc.html', window.location.href).href;
   function tl(n){ return Math.round(n).toLocaleString('tr-TR'); }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
   function gunAnahtar(d){ return d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate(); }
@@ -723,7 +731,7 @@
       h = '<div class="ty-basari-ikon"><i class="bi bi-check-circle-fill"></i></div><div class="baslik pb-2">Başarılı!</div>';
       if(secim){
         h += '<div class="basvuru pb-3">Temsilci talebiniz alındı</div>'+
-          '<p class="ty-metin">Sayın <b>'+adSoyad+'</b>, talebiniz bize ulaştı. Temsilcimiz görüşmeden önce sizinle iletişime geçecek ve belirlediğiniz saatte belirttiğiniz konumda olacak.</p>'+
+          '<p class="ty-metin">Sayın <b>'+adSoyad+'</b>, talebiniz bize ulaştı. Temsilcimiz görüşmeden önce sizinle iletişime geçecek. Seçtiğiniz gün, saat ve konumu birlikte netleştireceksiniz.</p>'+
           '<div class="ty-ozet-kart"><div class="ty-ozet">'+ozet+'</div></div>'+
           '<p class="ty-metin">Size atanan temsilcinin adını, fotoğrafını ve sicil numarasını Eminevim uygulamasından kontrol edebilirsiniz.</p>';
       } else {
@@ -733,13 +741,24 @@
           (ozet ? '<div class="ty-ozet-kart"><div class="ty-ozet">'+ozet+'</div></div>' : '');
       }
       // Uygulama: formdaki telefonla kayıtlı müşteri olarak açılır (adım 3)
-      var uygLink = UYGULAMA + '?kaynak=web&ad=' + encodeURIComponent(v.ad+' '+v.soyad) + '&tel=' + v.tel + (bolgeDisi && !secim ? '&bolgeDisi=1' : '') + (secim ? '&gun=' + encodeURIComponent(v.gun) + '&saat=' + encodeURIComponent(v.saat) + '&yer=' + encodeURIComponent(v.adres) : '');
+      var requestId = window.crypto && crypto.randomUUID ? crypto.randomUUID() : 'web-'+Date.now();
+      var uygLink = UYGULAMA + '?kaynak=web&rid='+encodeURIComponent(requestId)+'&ad=' + encodeURIComponent(v.ad+' '+v.soyad) + '&tel=' + v.tel + (bolgeDisi && !secim ? '&bolgeDisi=1' : '') + (secim ? '&gun=' + encodeURIComponent(v.gun) + '&saat=' + encodeURIComponent(v.saat) + '&yer=' + encodeURIComponent(v.adres) + '&lat='+talep.lat+'&lng='+talep.lng+'&bolge='+encodeURIComponent(talep.bolge)+'&tarih='+talep.gun.getFullYear()+'-'+String(talep.gun.getMonth()+1).padStart(2,'0')+'-'+String(talep.gun.getDate()).padStart(2,'0') : '');
       h += '<div class="ty-uyg-kart"><img src="/Images/newWeb_2025/logo/eminevim_logo_yesil.svg" alt="Eminevim"><p>Kampanyalarımıza, Finansman Aracımıza ve size atanan temsilci hakkında detaylara ulaşmak için Eminevim uygulamasını kullanabilirsiniz.</p>'+
         '<p class="ty-magaza-not">Telefonunuza indirip bu telefon numarasıyla giriş yapın.</p>'+
         '<div class="ty-magaza" aria-label="Uygulamayı indirin"><span><i class="bi bi-apple" aria-hidden="true"></i><span><small>Download on the</small><b>App Store</b></span></span><span><i class="bi bi-google-play" aria-hidden="true"></i><span><small>GET IT ON</small><b>Google Play</b></span></span></div>'+
         '<a class="tk-turuncuButon" data-ty-dis href="'+uygLink+'" target="_blank" rel="noopener">Uygulamayı aç</a></div>'+
+        '<details class="ty-ek"><summary>Görüşmeye hazırlanmamıza yardımcı olun · isteğe bağlı</summary><p>Başvurunuz bu bilgiler olmadan da devam eder. İsterseniz paylaşabilirsiniz.</p><label>Çalışma durumu<select aria-label="Çalışma durumu" data-ek-calisma><option value="">Paylaşmak istemiyorum</option><option>Ücretli çalışan</option><option>Serbest çalışan / işletme sahibi</option><option>Emekli</option><option>Öğrenci</option><option>Çalışmıyor</option><option>Diğer</option></select></label><label>Yaş aralığı<select aria-label="Yaş aralığı" data-ek-yas><option value="">Paylaşmak istemiyorum</option><option>18 yaş altı</option><option>18–24</option><option>25–34</option><option>35–44</option><option>45–54</option><option>55–64</option><option>65 ve üzeri</option></select></label><div class="ty-ek-actions"><button type="button" class="tk-turuncuButon" data-ek-kaydet>Bilgileri ekle</button><button type="button" class="ty-bag" data-ek-atla>Şimdi değil</button></div><p data-ek-durum role="status"></p></details>'+
         '<button type="button" class="ty-bag" data-yeni>Yeni başvuru</button>';
       sonuc.innerHTML = h; form.hidden = true; sonuc.hidden = false;
+      sonuc.querySelector('[data-ek-kaydet]').addEventListener('click', function(){
+        var link=new URL(uygLink);
+        var calisma=sonuc.querySelector('[data-ek-calisma]').value, yas=sonuc.querySelector('[data-ek-yas]').value;
+        if(calisma)link.searchParams.set('calisma',calisma);
+        if(yas)link.searchParams.set('yas',yas);
+        sonuc.querySelector('a[data-ty-dis]').href=link.href;
+        sonuc.querySelector('[data-ek-durum]').textContent='Bilgiler uygulamaya geçerken randevunuzla birlikte aktarılacak.';
+      });
+      sonuc.querySelector('[data-ek-atla]').addEventListener('click',function(){sonuc.querySelector('.ty-ek').open=false;});
       var kap2 = form.closest('.tk-desktopForm, .modal-body'); if(kap2) kap2.scrollTop = 0;
       var pnl = form.closest('.tk-desktopForm'); if(pnl) pnl.classList.add('ty-genis');
       sonuc.querySelector('[data-yeni]').addEventListener('click', function(){

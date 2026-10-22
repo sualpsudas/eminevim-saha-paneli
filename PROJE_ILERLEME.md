@@ -412,3 +412,73 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Müşteri ↔ personel bağlantısı: QR → "Şu an görüşülüyor"; "Görüşmeyi bitir" → müşteride özet + puan; puan personelde görünür; uygulamadan talep → "Yeni talep".
 - Fotoğraf: sentetik portre komutu `assets/temsilci/OKUBENI.md`, dosyalar bekleniyor.
 - Doğrulama: SPY (kabul, rota, QR, bitir), müşteri (özet, puan), TL (Görüşmeler, Saha Canlı), ASK (Saha Canlı, Performans), önizleme tablet/telefon geçişi, telefon genişliği, önceki müşteri akışları; sayfa hatası yok.
+
+### 2026-10-22 - Yerinde hizmet modelleri ve tasarım araştırması
+
+- `rapor/tasarruf-yanimda-karsilastirma-2026-10-22.md`: Türkiye ve dünya örnekleri, resmî kaynaklar, başvuru/randevu/takip/doğrulama karşılaştırması ve Tasarruf Yanımda için öneriler.
+- Enpara, Akbank, Memorial, Kolay Gelsin, tasarruf finansmanı uygulamaları; ANZ, PSB Alliance, Urban Company, Uber ve Bank of America incelendi. Yeni müşterinin hem webden hem uygulama kaydından başvurması esas alındı.
+- PSB ekran kılavuzu, ANZ hazırlık listesi ve Urban Company güvenlik şeması render edilerek incelendi; beş görsel `rapor/arastirma-gorselleri/` altında saklandı. Canlı tarayıcı erişimi olmadığı ve tarihli ekranların güncel arayüz kanıtı sayılmadığı raporda belirtildi.
+- Düzeltme: Birevim uygulamadan yeni başvuru sunuyor; rakiplerin yalnız sözleşme sonrasında başladığı genellemesi kullanılmamalı. Bulunamayan özellikler yokluk kanıtı olarak sunulmadı.
+- Doğrulama: raporun beş yerel görsel bağlantısı kontrol edildi. Uygulama kodu değiştirilmedi; yayın/commit/push yapılmadı.
+
+### 2026-10-22 - Randevu, takip ve görüşme sonrası döngüsü
+
+- Randevum durum odaklı düzenlendi; doğrudan saat onayı, temsilci erişimi, değişiklik/iptal ve destek. Bekleyen yeni öneri eski randevuyu değiştirmiyor; personel onaylıyor.
+- Web başvurusu kimlik, tarih ve koordinatlarla uygulamaya aktarılıyor. Çalışma durumu/yaş aralığı başvuru sonrasında atlanabilir; müşteri uygulamasında düzenleniyor, personel ayrıntısında görünüyor.
+- Personelin hareketi, gecikmesi, QR doğrulaması ve özeti aynı randevuya bağlandı. Sabit kod yerine randevu/temsilci/revizyona bağlı, süreli ve tek kullanımlık demo kodu. Gerçek kamera/sunucu doğrulaması ve canlı GPS/ETA henüz yok.
+- Görüşme özeti, personel notu ve sonraki adım müşteriye ulaşıyor. Açıklamalı düzeltme/destek talebi ve ASK panelinden inceleme/yanıt; müşteri durum takibi. Puan isteğe bağlı; yeni randevuyu engellemiyor.
+- İptaller ve geçmiş görüşmeler korunuyor; sekme içi sessionStorage ile yenilemede geri geliyor. Gerçek cihazlar arası eşitleme henüz yok.
+- Native paketleme ve PWA listesine yeni randevu modülü, konum/rota sayfaları ve QR kitaplığı eklendi. Web önizlemesi yeniden üretildi.
+- Web üreticisinde satır sonları kararlı LF çıktısına çevrildi; canlı siteden gelen Citrix performans ölçümü de ayıklanıyor. Bu nedenle üretilmiş index.html farkı kaynak formundan daha büyük; satır sonu temizliği içeriyor.
+- Doğrulama: organizasyon ve randevu regresyonları; Chrome'da 320/393 px müşteri, 1180 px personel; 393/1440 px web başvurusu ve uygulamaya veri aktarımı. Görsel inceleme yapıldı. Senaryo sayfası değiştirilmedi.
+
+### 2026-10-22 - Telefon sekmelerinde yerleşim düzeltmesi
+
+- Finansman/Ayarlar ekranlarında alt menünün yukarı çıkması ve Sohbet altındaki boşluk düzeltildi. Yükseklik kuralları animasyon adlarından bağımsız `app-stage`, `customer-shell` ve `customer-panel` sınıflarına bağlandı.
+- Başlık/alt menü sabit alanı ve orta kaydırma alanı ayrıldı; finansman eylemleri, kısa ekran pencereleri ve görünür ekran yüksekliği düzenlendi.
+- 400 px altındaki personel sayaçlarında kelime bölünmesi giderildi; performans göstergeleri iki sütuna alındı.
+- Doğrulama: `tests/phone-layout.py` ile 320×568, 393×852, 390×659, 430×932; kısa görünür alan, QR penceresi, müşteri/personel sekmeleri ve linkler.html telefon çerçevesi. Chrome görselleri incelendi; `tests/browser-flows.py` geçti. Yerel web paketi yenilendi; yayın/push yapılmadı.
+
+### 2026-10-22 - Hazırlık bilgileri saat onayından sonra
+
+- Sayfadaki hazırlık kartı ve gömülü form kaldırıldı; Randevum veya Sohbet üzerinden saati onaylayınca isteğe bağlı alt pencere açılıyor. Önceden bilgi paylaşılmışsa tekrar otomatik sorulmuyor.
+- Şimdi değil veya dış alana dokunma pencereyi kapatır; randevu onayı korunur. Onay sonrası Randevum üzerinden bilgi ekleme/düzenleme erişimi sürer.
+- Doğrulama: 320×568 ve 393×852 ekranlarda onay öncesi gizlilik, her iki sekmeden açılma, atlama, kaydetme, yeniden giriş ve görsel kontrol (`tests/preparation-popup.py`); tam müşteri/personel akışı geçti. Yerel paket yenilendi.
+
+### 2026-10-22 - Hazırlık penceresinden finansman tercihleri
+
+- Hazırlık bilgileri penceresine görüşmeyi beklerken finansman seçeneklerini inceleme açıklaması ve Ön tercihlerimi oluştur düğmesi eklendi. Pencere kapanıp Finansman sekmesi açılır; mevcut tercihler ve randevu korunur.
+- 320/393 px görsel kontrol ve hazırlık penceresi testinde yönlendirme doğrulandı.
+
+### 2026-10-22 - Randevularım listesi ve iPhone güvenli alanları
+
+- Randevularım sekmesi temsilci ve tarih sütunlarıyla açılır. Aktif randevu önce, geçmiş kayıtlar yakın tarihten geriye sıralanır. Yeni/henüz açılmamış aktif kayıtta ünlem vardır; okunma bilgisi randevu kimliği/revizyonuyla sekme içinde saklanır.
+- Satırdan ayrıntıya geçilir; üstte geri/ileri ve tüm randevular bağlantısı vardır. Geçmiş kayıtlar kendi temsilci/tarih/özetini gösterir; aktif randevu eylemleri geçmiş kayda uygulanmaz.
+- Müşteri başlığındaki Giriş kaldırıldı; Ayarlar çıkışı sürer. Finansman ön tercih yönlendirmesi hazırlık penceresinden aktif randevu ayrıntısına taşındı.
+- Masaüstü iPhone 15 önizlemesinde 59 px üst durum alanı, ölçeklenen 126×37 kamera adası ve 34 px alt güvenli alan/ana ekran göstergesi. Gerçek cihazda kamera çizilmez; sistem safe-area değerleri kullanılır. Alt pencereler üst/alt güvenli alanı gözetir.
+- Doğrulama: organizasyon/randevu regresyonları; müşteri–personel–QR–özet–destek, hazırlık penceresi, 320–430 px telefon yerleşimi ve yeni liste/okunma/gezinme testleri geçti. iPhone çerçevesi ve 320 px görüntüleri incelendi. Gerçek iPhone cihaz testi yapılmadı. Yerel paket yenilendi, yayın/push yok.
+
+### 2026-10-22 - Sade randevu ayrıntısı ve Konuşmalar listesi
+
+- Ayrıntı içindeki Tüm randevular/açıklama ve ileri/geri çubuğu kaldırıldı. Üst başlıkta logo yerine Geri görünür; randevu veya konuşma listesine döner.
+- Kesinleşen randevunun yola çıkış açıklaması kaldırıldı; tarih/adres altına Temsilciniz: ad soyad eklendi. Ayrı temsilci kartı ve Temsilciye yaz düğmesi kaldırıldı.
+- Sohbetler sekmesi Konuşmalar listesi açar; mevcut temsilcinin adından konuşma açılır. Doğrudan takip ekranındaki Mesaj gönder konuşmayı açmaya devam eder.
+- Liste kartlarında randevu durumu belirgin etiket; henüz kesinleşmeyen bekleyen kayıtta, okunmuş olsa bile ünlem kalır. Kesinleşmiş kayıt için mevcut okunma davranışı korunur.
+- Telefon modu URL algısındaki kontrol karakteri düzeltildi; native=1 önizlemesi yanlışlıkla servis çalışanı kurup girişten sonra yenilenmez.
+- Doğrulama: liste/geçmiş/Geri/konuşma açma ve mesaj gönderme, okunmuş bekleyen kayıtta ünlem; tam müşteri-personel akışı; hazırlık ve 320–430 px yerleşim testleri. Görseller incelendi; yerel paket güncellendi.
+
+### 2026-10-22 - Lacivert üst şeritlerin kaldırılması
+
+- Giriş ve KVKK ekranlarındaki dekoratif 30 px lacivert şeritler kaldırıldı. Eski panel durum çubuğunun varsayılan rengi başlık yeşiline bağlandı.
+- 393×852 Chrome görüntülerinde giriş/onay ekranları incelendi; lacivert üst şerit olmadığı doğrulandı. Yerel paket güncellendi.
+
+### 2026-10-22 - Tek yerde Geri ve sade müşteri başlığı
+
+- Müşteri başlığındaki Eminevim logosu ve sağdaki fotoğraf/baş harf simgesi kaldırıldı. Başlık ortada hizalanır; dönüş gereken ekranda sol üstte yalnız Geri metni görünür.
+- Finansman formunun altındaki Geri ve takip/başvuru kartlarındaki dönüş düğmeleri kaldırıldı; finansman adımlarında ve ekran başlıklarında Geri kullanılır. Girişte form içindeki geri de sol üste taşındı. Harita başlıkları yalnız Geri metni kullanır.
+- Doğrulama: 320–430 px telefon sekmeleri ve finansman adımlarında üst Geri ile adım/liste dönüşleri; randevu ve konuşma liste/detay akışları geçti. iPhone önizleme görseli incelendi, yerel paket yenilendi.
+
+### 2026-10-22 - Codex değişikliklerinin incelenmesi ve yayını
+
+- Codex'in randevu modeli, Randevularım/Konuşmalar, hazırlık penceresi, destek, iPhone güvenli alanı ve web üreticisi değişiklikleri incelendi; 5 tarayıcı testi geçti (Node bu sunucuda yok, birim testleri çalıştırılamadı).
+- Düzeltmeler: başka kurumlardan alınmış 5 araştırma görseli herkese açık depodan çıkarıldı (.gitignore; raporda kaynak linkleri); Ayşe Kaya kaynağı "Uygulama · kayıtlı müşteri"; randevu ayrıntısında "Temsilcinizi takip edin" ikincil düğme (ana eylem kapıda doğrulama); CLAUDE.md'de sona eklenmiş notlar "Müşteri uygulaması yerleşimi ve gezinme" bölümüne taşındı.

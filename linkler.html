@@ -101,6 +101,10 @@
     .cihaz .ekran{border-radius:0 !important}
     .cihaz iframe{position:static;width:100% !important;height:100% !important;transform:none !important}
   }
+
+  .cihaz.iphone::before{width:calc(126px * var(--o,1));height:calc(37px * var(--o,1));max-height:none;top:calc(11px * var(--o,1));border-radius:30px}
+  .cihaz.iphone:not(.tarayici) .ekran::after{content:"";position:absolute;bottom:calc(8px * var(--o,1));left:50%;transform:translateX(-50%);width:calc(134px * var(--o,1));height:calc(5px * var(--o,1));background:#111;border-radius:8px;pointer-events:none;z-index:4}
+  @media(max-width:760px){.cihaz.iphone .ekran::after{display:none}}
 </style>
 </head>
 <body>
@@ -190,7 +194,7 @@
     document.body.classList.toggle("senaryo", sen);
     cihaz.className = "cihaz " + (sen ? "senaryo" : g === "telefon" ? "iphone" : g === "tablet" ? "tablet" : "bilgisayar");
     if (sen) { cerceve.removeAttribute("style"); cihaz.removeAttribute("style"); }
-    var adres = ADRES[secim.ne][g === "tablet" ? "telefon" : g], anahtar = adres + (secim.ne === "uygulama" ? "" : "|" + g);   // tablete geçişte uygulama yeniden yüklenmez
+    var adres = ADRES[secim.ne][g === "tablet" ? "telefon" : g] + (secim.ne === "uygulama" && !telefonEkrani.matches ? "&iphonePreview=1" : ""), anahtar = adres + (secim.ne === "uygulama" ? "" : "|" + g);   // tablete geçişte uygulama yeniden yüklenmez
     if (anahtar !== yuklenen) { cerceve.src = adres; yuklenen = anahtar; }
     yeni.href = adres;
     sigdir();

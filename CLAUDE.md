@@ -7,6 +7,20 @@ Uygulama ve web formu bu fikrin ilk aşamalarıdır. İkisi **aynı marka görü
 senaryoları birebir aynı olmak zorunda değil.
 
 ## Ürün kuralları (2026-10-21, kullanıcıyla konuşarak yazıldı — bundan sonraki işlerin dayanağı)
+
+### 2026-10-22 güncellemesi — randevu odaklı akış
+
+- Web başvurusu ve uygulamadan yeni kayıt aynı randevu modeline bağlanır. Randevum'da saat doğrudan onaylanır; sonuç sohbete düşer.
+- Randevu durumları: `alindi → atandi → netlesti → yolda → gorusmede → tamamlandi`; iptal `iptal` olarak saklanır. Yeni randevuda önceki kayıt müşteri geçmişine taşınır. Puan vermek yeni randevu şartı değildir.
+- Değişiklik `degisiklik` alanında bekler; eski kesin saat korunur. Personel yeni öneriyi onaylayınca gün/saat/konum güncellenir. Yoldayken de değişiklik/iptal erişimi vardır.
+- Personelin Yola çık / gecikme / QR / bitir işlemleri seçili randevuya bağlıdır. Kod randevu, temsilci ve revizyonla eşleşir, 10 dakika geçerlidir ve kullanıldığında tüketilir. Gerçek kamera ve sunucuda kimlik doğrulama henüz yoktur; demo tarama düğmesi ve kod girişi korunmuştur.
+- Takipte son bilinen temsilci ve görüşme noktası, tahmini varış ve eski konum uyarısı görünür. Haritadaki çizgi yol ağına göre hesaplanmış navigasyon rotası değildir. Gerçek GPS/ETA için canlı servis gerekir.
+- Personel görüşmeyi bitirince aynı müşteriye özet/not/sonraki adım gider. Puan penceresi kendiliğinden açılmaz. Müşteri düzeltme açıklaması yazabilir; destek talebi ASK panelinde incelenip yanıtlanır, durum müşteride görünür.
+- Çalışma durumu ve yaş aralığı **ilk başvuruda zorunlu değildir**. Başvurudan sonra isteğe bağlı, atlanabilir; sonra düzenlenebilir. Webde başarı ekranında seçilen bilgiler uygulama bağlantısıyla aktarılır. Kesin yaş/doğum tarihi istenmez.
+- Randevu ve hesaplar bu tarayıcı sekmesinin `sessionStorage` alanında saklanır. Gerçek hesap güvenliği, cihazlar arası eşitleme ve kalıcı sunucu kaydı henüz yoktur.
+- Web kaynak formu değişince `python web-basvuru/olustur.py`; native paket için `npm run web:sync`. Yeni `appointment.js`, konum seçimi, rota ve QR kitaplığı native/PWA paketlerine dahil edilmiştir.
+- Doğrulama: `npm test`; yerel 8799 sunucusunda `tests/browser-flows.py` ve `tests/web-flows.py` (Playwright + Chrome). Senaryo sayfası bu geliştirmeden sonra ayrıca ele alınacak.
+
 Bu bölüm aşağıdaki eski kararlarla çelişirse **bu bölüm geçerlidir**. Uygulama adım adım, kullanıcıyla konuşarak yapılır;
 her adım bitince burada "Durum" güncellenir.
 
@@ -175,6 +189,19 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 - Test: conda `scrapling` Python + Playwright `channel="chrome"` (sunucuda Chromium indirme yok); yerel sunucu
   `python -m http.server 8799`. Pages yayını ~1 dk; `curl ...?t=$RANDOM` ile kontrol.
 - Bu depoda git kimliği yerel ayarlı: `sualpsudas <sualpsudas@users.noreply.github.com>`.
+
+## Müşteri uygulaması yerleşimi ve gezinme (2026-10-22)
+- Telefon yerleşimi: animasyonların inline stil adlarına bağlı seçiciler kullanma. `app-stage` → `customer-shell` → `customer-screen` → `customer-panel` yüksekliği taşır; başlık/alt menü küçülmez, orta alan kayar. Görünür yükseklik `--app-height` ile güncellenir. `tests/phone-layout.py` müşteri/personel sekmeleri, kısa ekran ve önizleme çerçevesini kontrol eder.
+
+- İsteğe bağlı hazırlık bilgileri sayfa içi kart değildir: müşteri saati onayladıktan sonra alt pencerede sorulur; daha önce paylaşılmışsa otomatik açılmaz. Şimdi değil randevuyu değiştirmez. `tests/preparation-popup.py` bu akışı kontrol eder.
+
+- Randevularım varsayılan olarak iki sütunlu liste açar. `mSeciliRandevuId` ayrıntıyı seçer; `mOkunanRandevular` id/revizyonla okunmayı tutar. Aktif kayıt eylemleri yalnız aktif ayrıntıda; geçmiş ayrıntı kendi verisini salt okunur gösterir. Finansman yönlendirmesi randevu ayrıntısındadır.
+- Masaüstü linkler önizlemesi `iphonePreview=1` ile iframe içinde iPhone 15 sistem alanını canlandırır (59 px üst, 34 px alt); gerçek cihazda `env(safe-area-inset-*)` kullanılır, sahte kamera çizilmez. `tests/appointment-list.py` liste, okunma, gezinme ve güvenli alan regresyonlarını doğrular.
+
+- Randevu ayrıntısında ileri/geri çubuğu veya Tüm randevular metni yoktur. Başlıktaki logo yerine Geri gelir; listeye döner. Temsilci adı aktif randevu kartında tarih/adres altındadır; ayrı temsilci kartı yoktur. Bekleyen randevu okunmuş olsa da ünlem taşır.
+- Sohbetler → Konuşmalar → temsilci satırı → konuşma; `mKonusmaAcik` bu ayrımı tutar. Sekmeye basmak konuşma listesini açar; üst Geri aynı listeye döner.
+
+- Müşteri üst başlığı: solda logo yok, sağda fotoğraf/baş harf yok; başlık simetrik hizalanır. Dönüş gereken ekranda sol üstte yalnız Geri metni; ok/chevron yok. İçerikte/kartta ve finansman formunun altında tekrar dönüş düğmesi kullanma; finansman adım dönüşü de üst Geri üzerinden yapılır.
 
 ## Müşteri ekranı ilkeleri
 - Olabildiğince basit; gereksiz yazı yok, her ekranda tek soru grubu ve tek ana buton.

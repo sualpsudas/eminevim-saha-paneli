@@ -29,13 +29,13 @@
   var noktalar = [];
   var bas = (q.get("b") || "").split(",").map(Number);
   if (bas.length === 2 && !isNaN(bas[0])) {
-    L.marker(bas, { icon: L.divIcon({ className: "", html: '<div class="bas"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }) }).addTo(harita).bindTooltip("Şube", { className: "etiket", direction: "top" });
+    L.marker(bas, { icon: L.divIcon({ className: "", html: '<div class="bas"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }) }).addTo(harita).bindTooltip(q.get("takip") === "1" ? "Temsilci · son bilinen konum" : "Şube", { className: "etiket", direction: "top" });
     noktalar.push(bas);
   }
   (q.get("n") || "").split("|").filter(Boolean).forEach(function (p, i) {
     var x = p.split(","), ll = [+x[0], +x[1]], dur = x[3] || "b";
     L.marker(ll, { icon: L.divIcon({ className: "", html: '<div class="no ' + dur + '">' + (i + 1) + '</div>', iconSize: [30, 30], iconAnchor: [15, 15] }) })
-      .addTo(harita).bindTooltip(decodeURIComponent(x[2] || ""), { permanent: true, direction: "right", offset: [14, 0], className: "etiket" });
+      .addTo(harita).bindTooltip(L.Util.escapeHTML ? L.Util.escapeHTML(x[2] || "") : (x[2] || "").replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}), { permanent: true, direction: "right", offset: [14, 0], className: "etiket" });
     noktalar.push(ll);
   });
   if (noktalar.length > 1) L.polyline(noktalar, { color: "#ea803f", weight: 4, dashArray: "8 7", opacity: .85 }).addTo(harita);

@@ -8,7 +8,7 @@
     "native:sync": "npm run web:sync && cap sync",
     "ios:add": "npm run web:sync && cap add ios --packagemanager SPM",
     "ios:open": "cap open ios",
-    "test": "node tests/org-data.test.js"
+    "test": "node tests/org-data.test.js && node tests/appointment.test.js"
   },
   "dependencies": {
     "@capacitor/core": "8.5.2",

@@ -25,6 +25,7 @@ def degistir(metin, bas, son, yeni):
 def main():
     istek = urllib.request.Request(KAYNAK, headers={"User-Agent": "Mozilla/5.0"})
     html = urllib.request.urlopen(istek, timeout=30).read().decode("utf-8")
+    html = html.replace("\r\n", "\n").replace("\r", "")
     bilesen = (KLASOR / "form_bolumu.html").read_text(encoding="utf-8")
     css, form, takip, js = (parca(bilesen, a) for a in ("TY_CSS", "TY_FORM", "TY_TAKIP", "TY_JS"))
 
@@ -33,6 +34,8 @@ def main():
     html = re.sub(r"<noscript><iframe src=\"https://www.googletagmanager.com.*?</noscript>", "", html, flags=re.S)
     html = re.sub(r"<!-- Messenger Sohbet Eklentisi Code -->.*?facebook-jssdk'\)\);\s*</script>", "", html, flags=re.S)
     html = re.sub(r"<script[^>]*recaptcha/api\.js[^>]*></script>", "", html)
+    # Canlı sitedeki Citrix performans ölçümünü önizlemeye taşımayın.
+    html = re.sub(r"<script[^>]*>\s*NS_CSM_td=.*?</script>\s*<script[^>]*>.*?sendTimingInfo.*?</script>", "", html, flags=re.S)
 
     html = html.replace(
         "<head>",
@@ -96,7 +99,9 @@ document.addEventListener('keydown', function (e) {
 
     son = html.rindex("</body>")
     html = html[:son] + takip + js + bekci + html[son:]
-    CIKTI.write_text(html, encoding="utf-8")
+    # Windows'ta tekrar üretim çift CR eklemesin; çıktı satır sonları kararlı olsun.
+    html = "\n".join(line.rstrip() for line in html.splitlines()) + "\n"
+    CIKTI.write_text(html, encoding="utf-8", newline="\n")
     print("Yazıldı:", CIKTI)
 
 

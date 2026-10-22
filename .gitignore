@@ -7,3 +7,6 @@ www/
 *.p12
 *.mobileprovision
 .DS_Store
+
+# Başka kurumların belgelerinden alınmış araştırma görselleri: yalnız yerelde (depo herkese açık, telif)
+rapor/arastirma-gorselleri/
