@@ -1,55 +1,80 @@
 # Tasarruf Yanımda — Proje amacı ve kurumsal anlatım
 
-Tarih: 22 Ekim 2026. Durum: konuşmada netleşen amaç ve bu amaçtan türetilen anlatım taslağı.
+Tarih: 22 Ekim 2026. Durum: kullanıcıyla konuşarak oturtulan amaç iskeleti ve kurumsal anlatım taslağı.
 
-## Temel amaç
+## İlke
 
-Tasarruf Yanımda, Eminevim'in mevcut saha satış gücünü müşteriden doğrudan gelen taleplerle desteklemek amacıyla geliştirilen bir projedir. Saha ekibinin müşteriye ulaşma faaliyetlerinin yanında, görüşmek isteyen müşterinin de doğrudan temsilci talep edebilmesini ve uygun yer ve zamanda yüz yüze görüşme başlatabilmesini sağlar.
+**Ekibimiz önce bizi çağıran müşteriye gider; talep olmayan zamanlarda sahadaki çalışmalarını sürdürür.**
 
-**Talebe ulaşan saha gücümüzü, talebin bize ulaştığı bir kanalla tamamlıyoruz.**
+Kısa anlatım: **Bizi çağırana önce biz gideriz.**
 
 ## Bugün nasıl işliyor?
 
-Saha ekibi müşteriyi buluyor, yüz yüze temas kuruyor ve görüşmeyi o anda veya randevuyla gerçekleştiriyor. Süreç ağırlıklı olarak ekibimizin iletişimi başlatmasıyla ilerliyor.
+Saha ekibi müşteriyi kendisi buluyor: kapı kapı ziyaret, stant gibi çalışmalarla yüz yüze temas kuruyor; görüşmeyi o anda veya randevuyla yapıyor. Süreci çoğunlukla ekibimiz başlatıyor.
 
-## Tasarruf Yanımda ile ne eklenecek?
+## Ne değişiyor?
 
-Görüşmek isteyen müşteri de süreci başlatabilecek. Web sitesi veya uygulama üzerinden temsilci talep edebilecek; talebi ilgili saha ekibine ulaştırılarak uygun yer ve zamanda görüşmeye dönüştürülebilecek. Mevcut müşteri bulma faaliyetleriyle birlikte çalışacak.
+Görüşmek isteyen müşteri de süreci başlatabilecek. Web sitesinden veya uygulamadan temsilci isteyecek; talebi ilgili saha ekibine iletilecek ve uygun yer ve zamanda yüz yüze görüşmeye dönüşecek.
 
-| Boyut | Mevcut saha işleyişi | Eklenecek imkân |
+Ekibin çalışma sırası değişir, saha çalışması kaldırılmaz:
+
+1. Gelen talepler önce ve zamanında karşılanır.
+2. Talep olmayan zamanlarda ekip sahadaki çalışmalarına devam eder.
+
+| Boyut | Bugün | Tasarruf Yanımda ile |
 |---|---|---|
-| İlk temas | Ekip müşteriyi bulup temas kurar | Müşteri de temsilci talebiyle teması başlatabilir |
-| Hizmete erişim | Saha teması üzerinden gelişir | Müşteri doğrudan talep kanalına ulaşabilir |
-| Görüşme | Anında veya randevuyla yapılır | Müşterinin yer/zaman tercihi talebe eklenebilir |
-| Satış fırsatı | Saha faaliyetleriyle oluşturulur | Doğrudan gelen talepler ek fırsat kaynağı olabilir |
+| İlk temas | Ekip müşteriyi bulur | Müşteri de ekibi çağırabilir |
+| Ekibin önceliği | Sahada yeni müşteri bulmak | Önce gelen talep, ardından saha çalışması |
+| Görüşme | Anında veya randevuyla | Müşterinin seçtiği yer ve saatte |
+| Satış fırsatı | Saha çalışmasıyla oluşur | Saha çalışmasına müşteri talepleri eklenir |
+
+## Gerekçe
+
+Görüşmek isteyen müşteriye zamanında ulaşmak, ilgisi olmayan kişiyi ikna etmeye çalışmaktan daha verimlidir. Ekibimizin zamanı, sonuca dönüşme ihtimali yüksek görüşmelere öncelikle ayrılır.
+
+> Bu gerekçe şu aşamada bir **varsayımdır**; pilotta ölçülerek doğrulanacaktır.
 
 ## Açıklayıcı örnek
 
-Bir taksinin yolcu bulmak için dolaşmasının yanında, yolculuk yapmak isteyen kişinin bulunduğu yere taksi çağırabilmesi gibi. Hizmet devam eder; müşterinin hizmeti talep edebildiği yeni bir yol eklenir.
+Taksi, yolcu bulmak için dolaşmaya devam eder; ama yolcu da bulunduğu yere taksi çağırabilir. Çağrı geldiğinde taksi önce çağırana gider, çağrı yokken yolda yolcu arar.
 
-Bu örnek yalnızca talebin yönünü açıklar. Anında personel gönderme, her bölgede hizmet veya kesin satış vaadi anlamına gelmez. Pizza örneği de konuşmada bu mantığı açıklamak için kullanılmıştır; kurumsal anlatımda taksi örneği daha uygun bir seçenek olarak önerilmiştir.
+Bu örnek yalnızca çalışma sırasını anlatır. Anında personel gönderme, her bölgede hizmet veya kesin satış vaadi anlamına gelmez.
 
-## Amacı destekleyen başlıklar
+## İlkeyi mümkün kılan unsurlar
 
-- **Bulunabilirlik:** Müşterinin saha hizmetini öğrenmesi ve nereden ulaşacağını bilmesi.
-- **Doğrudan talep:** Görüşmek isteyen müşterinin temsilci isteyebilmesi.
-- **Buluşma kolaylığı:** Uygun yer ve zamanın karşılıklı netleştirilebilmesi.
-- **Güven ve iletişim:** Temsilcinin tanınması ve görüşme öncesi/sonrası iletişimin sürmesi.
+| Unsur | Açıklama |
+|---|---|
+| **Bulunabilirlik** | Müşteri hizmetten haberdar olur ve temsilciyi nereden çağıracağını bilir. Bu, talep yaratmak değil; var olan talebin bize ulaşmasıdır. |
+| **Kolay talep** | Müşteri web sitesinden veya uygulamadan kısa sürede temsilci isteyebilir. |
+| **Zamanında dönüş** | Her talep sahiplenilir ve belirlenen süre içinde yanıtlanır. Geciken talep, yakalanmış fırsatı kaybettirir. |
+| **Planlı yönlendirme** | Talepler bölgeye, saate ve temsilcinin uygunluğuna göre atanır. Karşılanamayan talep telefonla görüşmeye veya şubeye yönlendirilir. |
+| **Güven** | Müşteri kimin geleceğini önceden bilir, temsilciyi görüşmede doğrulayabilir ve görüşmeden sonra iletişimi sürdürür. |
 
-Bu başlıklar temel amacı destekleyen tasarım alanlarıdır. Bilinirlik ve kolaylık tek başına amaç tanımının yerine geçmez. Dijitalleşme, web sitesi ve uygulama ise bu yapının araçlarıdır.
+Web sitesi ve uygulama bu unsurların araçlarıdır; dijitalleşme projenin amacı değildir.
 
-## Beklenen katkı ve sınırlar
+## Başarı nasıl ölçülür?
 
-Daha fazla doğrudan talep, gerçekleşen görüşme ve satış fırsatı oluşturması beklenir. Daha yüksek dönüşüm veya satış artışı henüz kanıtlanmış değildir. Kanalın mevcut müşteriyi başka bir kanala taşımakla mı kaldığı, yoksa ilave katkı mı sağladığı ölçülmelidir.
+| Ölçü | Ne gösterir? |
+|---|---|
+| **Temsilci saati başına görüşme ve satış** (ana ölçü) | Gelen taleplerle yapılan çalışmanın saha çalışmasından daha verimli olup olmadığı |
+| Talebe ilk dönüş süresi | Talebe zamanında yetişilip yetişilmediği |
+| Talep → görüşme → satış oranları | Taleplerin gerçek görüşmeye ve satışa dönüşüp dönüşmediği |
+| Karşılanamayan talep oranı | Ekip sayısı veya hizmet bölgesinin yetip yetmediği |
+| Bölgenin toplam satışı | Satışların gerçekten artması mı, yoksa başka kanaldan bu kanala geçmesi mi |
 
-Cumartesi satış payını düşürmek ana amaç değildir. Hafta içi görüşmelerin artması olası bir kazanımdır. Görüşmenin hafta içi, satışın cumartesi yapılması proje amacına aykırı değildir.
+Bugün saha görüşmelerinin satışa dönüşme oranı bilinmiyor. Karşılaştırma için önce bu başlangıç değeri ölçülmelidir.
+
+## Dikkat edilecekler
+
+- **Yol süresi:** Müşterinin seçtiği yer ve saat, ekibin bölgede toplu çalışmasını bozabilir. Hizmet bölgesi ve saat kuralları bu nedenle başından tanımlanmalıdır.
+- **Satışın sahipliği:** Şubeye gidecek bir müşteri bu kanaldan gelirse satışın kime yazılacağı önceden belirlenmelidir.
+- **Anlatım:** Yönetime "ilave satış" değil, "ekibimizin zamanını daha verimli kullanma" anlatılır. Satış artışı söz verilmez, pilotta ölçülür.
+- **Cumartesi yoğunluğu** ana amaç değildir. Hafta içi görüşmelerin artması olası bir yan kazanımdır.
 
 ## Taslak müşteri akışı
 
-Hizmeti keşfet → talep oluştur → temsilci atansın → yer/zaman netleşsin → yüz yüze görüş → sonraki adımı takip et.
-
-Webden talep oluşturmanın uygulama indirmeye bağlı olmaması ve uygulamanın takip/iletişim faydası sunması önceki tartışmada önerilmiştir. Otomatik atama, geri dönüş süresi ve kapasite kuralları bu görüşmede kesinleştirilmemiştir.
+Hizmeti öğren → temsilci iste → temsilci atansın → yer ve saat netleşsin → yüz yüze görüş → sonraki adımı takip et.
 
 ## Mevcut prototiple ilişki
 
-Proje notlarında başvuru, randevu, mesajlaşma, temsilci bilgisi, takip, QR/kod ve görüşme sonrası özet akışlarının prototipi bulunuyor. Bu tespit canlı hizmetin çalıştığı anlamına gelmez. Gerçek SMS, sunucu kimlik doğrulaması, canlı GPS/varış tahmini, kalıcı kayıt ve cihazlar arası eşitleme gibi parçaların tamamlandığı varsayılmamalıdır. Buradaki amaç kaydı teknik sürüm denetimi değildir.
+Proje notlarında başvuru, randevu, mesajlaşma, temsilci bilgisi, takip, QR/kod ve görüşme sonrası özet akışlarının prototipi bulunuyor. Bu, canlı hizmetin çalıştığı anlamına gelmez. Gerçek SMS, sunucuda kimlik doğrulama, canlı konum ve varış tahmini, kalıcı kayıt ve cihazlar arası eşitleme gibi parçalar henüz yoktur.

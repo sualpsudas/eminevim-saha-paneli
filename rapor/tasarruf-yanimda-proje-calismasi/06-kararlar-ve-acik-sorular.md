@@ -8,6 +8,15 @@ Tarih: 22 Ekim 2026. Bu belge kelimesi kelimesine konuşma dökümü değil, kar
 - Ekip müşteriyi bulur, doğrudan yüz yüze temas kurar; görüşme anında veya randevuyla yapılır.
 - Hem şubelerde hem saha kanalında satışlar en çok cumartesi gerçekleşir.
 - Bu bilgilerin sayısal karşılıkları ve yoğunluğun nedenleri henüz paylaşılmamıştır.
+- Ekip müşteriyi kapı kapı ziyaret, stant gibi çalışmalarla bulur. Saha görüşmelerinin satışa dönüşme oranı bilinmiyor.
+
+## Amaç iskeleti (22 Ekim 2026, kullanıcının çerçevesi)
+
+- **İlke:** Ekibimiz önce bizi çağıran müşteriye gider; talep olmayan zamanlarda sahadaki çalışmalarını sürdürür. Kısa anlatım: “Bizi çağırana önce biz gideriz.”
+- **Gerekçe:** Talep yaratmak yerine var olan talebe yetişmek daha verimlidir (pilotta ölçülecek varsayım).
+- **Ana ölçü:** Temsilci saati başına görüşme ve satış; gelen talep ile saha çalışması karşılaştırılır.
+- **Dil:** Yalın ama kurumsal. “Arz/talep” ve “kalan kapasite” gibi ifadeler kurumsal anlatımda kullanılmaz.
+- Ayrıntı: [02 — Proje amacı](02-proje-amaci-ve-kurumsal-anlatim.md).
 
 ## Konuşmada netleşen amaç
 
