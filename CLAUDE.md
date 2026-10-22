@@ -97,10 +97,11 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   `python olustur.py` → `index.html`). Sayfadaki tüm linkler etkisizdir; bu kural korunmalı.
 - `taslak/` — sunuma eklenebilir ekran taslakları (aşağıya bakın).
 - **Personel (2026-10-22): tablet düzeni.** Personel girişi (SPY, Takım Lideri, SGL, ASK) `isPersonel` → yeni `.tp` düzeni:
-  solda yeşil menü (Görüşmeler / Performans / Saha Canlı; SPY'da Saha Canlı yok, SGL-ASK'ta Görüşmeler yok), altta kişi kartı
-  (fotoğraf ya da baş harf, Müsait/Molada; görüşmede iken otomatik "Görüşmede"), Çıkış. Önizleme (linkler.html) uygulamadan
+  üstte yeşil bant (logo; sağda kişi: ad, rol · durum, fotoğraf ya da baş harf → Profil), **sekmeler her cihazda ALTTA,
+  müşteri uygulamasındaki gibi** (kullanıcı isteği): Görüşmeler / Performans / Saha Canlı / Profil (SPY'da Saha Canlı yok,
+  SGL-ASK'ta Görüşmeler yok). Profil: Müsait/Molada (görüşmede iken otomatik "Görüşmede"), Çıkış yap. Senaryo'daki tablet de aynı. Önizleme (linkler.html) uygulamadan
   `postMessage {tip:"ty-cihaz", cihaz:"tablet"}` alınca çerçeveyi yatay tablete (1180×820) çevirir, çıkışta telefona döner.
-  Dar ekranda (<900 px, telefondan bakınca) üstte yalnız logo, altta sekme çubuğu (menü + Profil: müsaitlik, çıkış), tek sütun.
+  Dar ekranda (<900 px) tek sütun; seçilen görüşmenin ayrıntısı listenin üstünde açılır.
   - **Görüşmeler** (SPY ve TL; takım liderleri de görüşme yapar): tarih sırası, gruplar Yeni talepler · Bugün · Yarın ·
     Sonraki günler · Geçmiş; durumlar **Bekleyen** (yeni talep / yoldasınız alt hâlleri) → **Şu an görüşülüyor** (QR ile
     doğrulanınca, görüşme bitene kadar) → **Gerçekleşti**; süzgeç Tümü/Bekleyen/Şu an/Gerçekleşti. Sağda ayrıntı ve
