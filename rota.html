@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Bugünkü Rota</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<style>
+  /* Personel tabletindeki "Bugünkü rota": günün randevuları saat sırasıyla numaralı iğneler ve rota.
+     Adres: rota.html?b=lat,lng&n=lat,lng,etiket,durum|lat,lng,etiket,durum  (durum: g=gerçekleşti, a=şu an, b=bekleyen) */
+  html,body{margin:0;height:100%;font-family:"Century Gothic","Segoe UI",Arial,sans-serif}
+  #harita{position:absolute;inset:0;background:#e8ece9}
+  .leaflet-tile-pane{filter:saturate(.5) contrast(.95) brightness(1.04)}
+  .no{width:30px;height:30px;border-radius:50%;color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+  .no.b{background:#ea803f}.no.a{background:#00724c}.no.g{background:#9aa5a0}
+  .bas{width:18px;height:18px;border-radius:50%;background:#1e3856;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+  .leaflet-tooltip.etiket{font:700 12px "Century Gothic","Segoe UI",Arial,sans-serif;color:#333;border-radius:10px;padding:3px 8px}
+</style>
+</head>
+<body>
+<div id="harita" role="application" aria-label="Bugünkü randevuların rotası"></div>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var harita = L.map("harita", { zoomControl: true, attributionControl: true });
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(harita);
+  var noktalar = [];
+  var bas = (q.get("b") || "").split(",").map(Number);
+  if (bas.length === 2 && !isNaN(bas[0])) {
+    L.marker(bas, { icon: L.divIcon({ className: "", html: '<div class="bas"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }) }).addTo(harita).bindTooltip("Şube", { className: "etiket", direction: "top" });
+    noktalar.push(bas);
+  }
+  (q.get("n") || "").split("|").filter(Boolean).forEach(function (p, i) {
+    var x = p.split(","), ll = [+x[0], +x[1]], dur = x[3] || "b";
+    L.marker(ll, { icon: L.divIcon({ className: "", html: '<div class="no ' + dur + '">' + (i + 1) + '</div>', iconSize: [30, 30], iconAnchor: [15, 15] }) })
+      .addTo(harita).bindTooltip(decodeURIComponent(x[2] || ""), { permanent: true, direction: "right", offset: [14, 0], className: "etiket" });
+    noktalar.push(ll);
+  });
+  if (noktalar.length > 1) L.polyline(noktalar, { color: "#ea803f", weight: 4, dashArray: "8 7", opacity: .85 }).addTo(harita);
+  if (noktalar.length) harita.fitBounds(noktalar, { padding: [50, 50], maxZoom: 15 }); else harita.setView([40.99, 29.12], 13);
+})();
+</script>
+</body>
+</html>

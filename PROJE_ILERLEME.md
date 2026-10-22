@@ -404,3 +404,11 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - linkler.html'e üçüncü üst sekme "Senaryo"; `senaryo.html`: solda müşteri (telefon ya da bilgisayar), sağda personel tableti (yatay), 12 adımlık Senaryo 1, İleri/Geri, otomatik oynat, adım linkleri.
 - Bilgisayardaki müşteri için uygulamasız takip sayfası tasarlandı; kapıda SMS linkiyle telefon.
 - Doğrulama: bilgisayar (1440) ve telefon (390) genişliği, iki müşteri cihazı, sekmeler arası geçiş; sayfa hatası yok.
+
+### 2026-10-22 - Personel tablet düzeni, Görüşmeler, Saha Canlı, bugünkü rota
+
+- Personel girişi yatay tablet düzeninde (önizleme çerçevesi kendiliğinden tablete döner). SPY ve Takım Lideri: Görüşmeler (Bekleyen / Şu an görüşülüyor / Gerçekleşti, tarih sırası), Performans; TL/SGL/ASK: Saha Canlı (3 sayı + personel listesi).
+- Eski mantıklar kaldırıldı: geri arama sayacı, eski harita düğmeleri, Geçmiş sekmesi, uydurma bildirimler; müsaitlik görüşmede otomatik.
+- Müşteri ↔ personel bağlantısı: QR → "Şu an görüşülüyor"; "Görüşmeyi bitir" → müşteride özet + puan; puan personelde görünür; uygulamadan talep → "Yeni talep".
+- Fotoğraf: sentetik portre komutu `assets/temsilci/OKUBENI.md`, dosyalar bekleniyor.
+- Doğrulama: SPY (kabul, rota, QR, bitir), müşteri (özet, puan), TL (Görüşmeler, Saha Canlı), ASK (Saha Canlı, Performans), önizleme tablet/telefon geçişi, telefon genişliği, önceki müşteri akışları; sayfa hatası yok.

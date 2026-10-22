@@ -46,6 +46,10 @@
   .cihaz.bilgisayar{border:6px solid var(--cerceve);border-top-width:18px;border-radius:10px}
   .cihaz.bilgisayar .ekran{position:absolute;inset:0;overflow:hidden}
   .cihaz.bilgisayar .tus{display:none}
+  /* Uygulamada personel girişi: yatay tablet (iPad Air 1180×820) */
+  .cihaz.tablet{border:14px solid var(--cerceve);border-radius:30px;box-shadow:0 0 0 2px #3a3a3c,0 18px 40px rgba(0,0,0,.25)}
+  .cihaz.tablet .ekran{position:absolute;inset:0;overflow:hidden;border-radius:16px}
+  .cihaz.tablet .tus{display:none}
   /* Senaryo: kendi cihazlarını çizer; çerçevesiz, tüm alanı kaplar */
   body.senaryo .duzen{grid-template-columns:1fr}
   body.senaryo aside{display:none}
@@ -145,7 +149,8 @@
     web: { telefon: "web-basvuru/", bilgisayar: "web-basvuru/" },
     senaryo: { telefon: "senaryo.html", bilgisayar: "senaryo.html" }
   };
-  var BOYUT = { telefon: [393, 852], bilgisayar: [1440, 900] };
+  var BOYUT = { telefon: [393, 852], bilgisayar: [1440, 900], tablet: [1180, 820] };
+  var uygCihaz = "telefon";   // uygulama personel girişinde "tablet" der (postMessage ty-cihaz)
   var secim = { ne: "uygulama", gorunum: "telefon" };
   var m = /^#(uygulama|web|senaryo)-(telefon|bilgisayar)$/.exec(location.hash);
   if (m) { secim.ne = m[1]; secim.gorunum = m[2]; }
@@ -157,13 +162,14 @@
   var yuklenen = "";
 
   function gorunum() {
-    if (telefonEkrani.matches || secim.ne === "uygulama") return "telefon";   // uygulamanın bilgisayar görünümü yok
+    if (telefonEkrani.matches) return "telefon";
+    if (secim.ne === "uygulama") return uygCihaz;   // müşteri telefonda, personel tablette
     return secim.gorunum;
   }
   function sigdir() {
     if (telefonEkrani.matches || secim.ne === "senaryo") return;
     var g = gorunum(), b = BOYUT[g];
-    var kx = g === "telefon" ? 22 : 12, ky = g === "telefon" ? 22 : 24;   // çerçeve kalınlıkları
+    var kx = g === "telefon" ? 22 : g === "tablet" ? 28 : 12, ky = g === "telefon" ? 22 : g === "tablet" ? 28 : 24;   // çerçeve kalınlıkları
     var w = sahne.clientWidth - 32 - kx, h = sahne.clientHeight - 12 - ky;
     var olcek = Math.min(w / b[0], h / b[1], 1);
     // Web formu telefonda Safari çubuklarıyla: iPhone 15'te görünür alan 393×659 (üst 59, alt 134 px)
@@ -182,18 +188,22 @@
     gorunumGrup.hidden = secim.ne !== "web";
     var sen = secim.ne === "senaryo";
     document.body.classList.toggle("senaryo", sen);
-    cihaz.className = "cihaz " + (sen ? "senaryo" : g === "telefon" ? "iphone" : "bilgisayar");
+    cihaz.className = "cihaz " + (sen ? "senaryo" : g === "telefon" ? "iphone" : g === "tablet" ? "tablet" : "bilgisayar");
     if (sen) { cerceve.removeAttribute("style"); cihaz.removeAttribute("style"); }
-    var adres = ADRES[secim.ne][g], anahtar = adres + "|" + g;
+    var adres = ADRES[secim.ne][g === "tablet" ? "telefon" : g], anahtar = adres + (secim.ne === "uygulama" ? "" : "|" + g);   // tablete geçişte uygulama yeniden yüklenmez
     if (anahtar !== yuklenen) { cerceve.src = adres; yuklenen = anahtar; }
     yeni.href = adres;
     sigdir();
-    try { history.replaceState(null, "", "#" + secim.ne + "-" + g); } catch (e) {}
+    try { history.replaceState(null, "", "#" + secim.ne + "-" + (g === "tablet" ? "telefon" : g)); } catch (e) {}
     try { localStorage.setItem("ty-onizleme", JSON.stringify(secim)); } catch (e) {}
   }
   document.querySelectorAll("[data-ne]").forEach(function (x) { x.addEventListener("click", function () { secim.ne = x.dataset.ne; uygula(); }); });
   document.querySelectorAll("[data-gorunum]").forEach(function (x) { x.addEventListener("click", function () { secim.gorunum = x.dataset.gorunum; uygula(); }); });
   window.addEventListener("resize", sigdir);
+  window.addEventListener("message", function (e) {
+    var d = e.data || {};
+    if (d.tip === "ty-cihaz" && (d.cihaz === "tablet" || d.cihaz === "telefon") && d.cihaz !== uygCihaz) { uygCihaz = d.cihaz; if (secim.ne === "uygulama") uygula(); }
+  });
   // Telefonda gerçekten görünen yükseklik (tarayıcı çubukları hariç); dvh'yi yanlış hesaplayan Safari sürümleri için
   function gorunurAyarla() {
     var h = window.visualViewport ? window.visualViewport.height : window.innerHeight;

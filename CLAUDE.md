@@ -96,6 +96,25 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 - `web-basvuru/` — eminevim.com ana sayfa kopyasında yeni Hızlı Başvuru formu (`form_bolumu.html` düzenlenir,
   `python olustur.py` → `index.html`). Sayfadaki tüm linkler etkisizdir; bu kural korunmalı.
 - `taslak/` — sunuma eklenebilir ekran taslakları (aşağıya bakın).
+- **Personel (2026-10-22): tablet düzeni.** Personel girişi (SPY, Takım Lideri, SGL, ASK) `isPersonel` → yeni `.tp` düzeni:
+  solda yeşil menü (Görüşmeler / Performans / Saha Canlı; SPY'da Saha Canlı yok, SGL-ASK'ta Görüşmeler yok), altta kişi kartı
+  (fotoğraf ya da baş harf, Müsait/Molada; görüşmede iken otomatik "Görüşmede"), Çıkış. Önizleme (linkler.html) uygulamadan
+  `postMessage {tip:"ty-cihaz", cihaz:"tablet"}` alınca çerçeveyi yatay tablete (1180×820) çevirir, çıkışta telefona döner.
+  Dar ekranda (<900 px) üst menü + tek sütun.
+  - **Görüşmeler** (SPY ve TL; takım liderleri de görüşme yapar): tarih sırası, gruplar Yeni talepler · Bugün · Yarın ·
+    Sonraki günler · Geçmiş; durumlar **Bekleyen** (yeni talep / yoldasınız alt hâlleri) → **Şu an görüşülüyor** (QR ile
+    doğrulanınca, görüşme bitene kadar) → **Gerçekleşti**; süzgeç Tümü/Bekleyen/Şu an/Gerçekleşti. Sağda ayrıntı ve
+    eylemler: Kabul et / Devret · Yola çık · Vardım: QR okut · Görüşmeyi bitir · özeti gönder. Veri `tpTohum` (demo) +
+    uygulamadan gelen talepler `tpEkGorusmeler`. Ayşe K. satırı müşteri uygulamasıyla bağlı (`demoDogrulama`,
+    `gorusmeBittiDemo`, `demoPuan`).
+  - **Bugünkü rota**: `rota.html?b=şube&n=lat,lng,etiket,durum|…` (Leaflet; numaralı iğneler, saat sırası). Ayrı Harita sekmesi yok.
+  - **Saha Canlı** (TL/SGL/ASK): 3 sayı (Şu an görüşmede · Yolda · Bugün gerçekleşen) + personel listesi (durum, şube,
+    sıradaki randevu, süzgeç). Mesai dışında örnek olarak son iş gününün 15:30 durumu gösterilir (başlıkta yazar).
+  - **Performans** eski ekranlardan aynen taşındı.
+  - Eski telefon personel ekranları (`isSpy`/`isManager`: geri arama sayaçlı liste, eski harita akışı Kabul/Geliyorum/Ulaştım,
+    Geçmiş) artık gösterilmiyor; kod duruyor, temizlenebilir. Uydurma "Yeni Başvuru" bildirim zamanlayıcısı kapatıldı.
+  - **Fotoğraflar:** `TEMSILCI_DETAY[*].foto` (boşsa baş harf). Sentetik portre komutu ve dosya adları `assets/temsilci/OKUBENI.md`;
+    kullanıcı üretip gönderecek (gerçek kişi fotoğrafı yok; açık lisanslı uygun hazır görsel bulunamadı).
 - `senaryo.html` — **Senaryo** sekmesi (linkler.html'de üçüncü üst sekme "Senaryo", `#senaryo-telefon`; kendi sayfası
   `senaryo.html#adim-5-bilgisayar`). Senaryo tasarım tahtası: solda müşteri (Telefon / Bilgisayar seçimi; bilgisayarda
   site + uygulamasız **takip sayfası** `eminevim.com/takip/…`, kapıda SMS linkiyle telefon), sağda personel **hep tablet,
