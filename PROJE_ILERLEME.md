@@ -482,3 +482,9 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 
 - Codex'in randevu modeli, Randevularım/Konuşmalar, hazırlık penceresi, destek, iPhone güvenli alanı ve web üreticisi değişiklikleri incelendi; 5 tarayıcı testi geçti (Node bu sunucuda yok, birim testleri çalıştırılamadı).
 - Düzeltmeler: başka kurumlardan alınmış 5 araştırma görseli herkese açık depodan çıkarıldı (.gitignore; raporda kaynak linkleri); Ayşe Kaya kaynağı "Uygulama · kayıtlı müşteri"; randevu ayrıntısında "Temsilcinizi takip edin" ikincil düğme (ana eylem kapıda doğrulama); CLAUDE.md'de sona eklenmiş notlar "Müşteri uygulaması yerleşimi ve gezinme" bölümüne taşındı.
+
+### 2026-10-22 - SMS giriş kodu ve parola oluşturma
+
+- Web: temsilci çağrıldıysa başarı ekranında SMS önizlemesi (6 haneli kod, 24 saat; uygulama hizmetleri cümlesi; link).
+- Uygulama: web linki kod ekranını açar → kod → parola oluştur → randevu. Yeni müşteri: telefon → kod → ad soyad + parola → KVKK → Hoş geldiniz. Kayıtlı müşteri: "Parolamı unuttum · SMS koduyla gir".
+- tests/web-flows.py SMS kodu + parola adımlarıyla güncellendi; yanlış kod ve uyuşmayan parola uyarıları denendi. Tüm tarayıcı testleri geçti.

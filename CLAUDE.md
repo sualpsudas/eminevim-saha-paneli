@@ -19,6 +19,13 @@ senaryoları birebir aynı olmak zorunda değil.
 - Çalışma durumu ve yaş aralığı **ilk başvuruda zorunlu değildir**. Başvurudan sonra isteğe bağlı, atlanabilir; sonra düzenlenebilir. Webde başarı ekranında seçilen bilgiler uygulama bağlantısıyla aktarılır. Kesin yaş/doğum tarihi istenmez.
 - Randevu ve hesaplar bu tarayıcı sekmesinin `sessionStorage` alanında saklanır. Gerçek hesap güvenliği, cihazlar arası eşitleme ve kalıcı sunucu kaydı henüz yoktur.
 - Web kaynak formu değişince `python web-basvuru/olustur.py`; native paket için `npm run web:sync`. Yeni `appointment.js`, konum seçimi, rota ve QR kitaplığı native/PWA paketlerine dahil edilmiştir.
+- **SMS kodu ve telefonla giriş (2026-10-22):** Web'de temsilci çağırma seçiliyse başarı ekranında telefona giden SMS
+  önizlenir: 6 haneli **uygulama giriş kodu** (24 saat) + "Uygulamayı indirip randevu takibi, temsilciyle sohbet ve finansman
+  aracı hizmetlerimizden faydalanabilirsiniz" + uygulama linki. Web → uygulama linki artık doğrudan giriş YAPMAZ: kod ekranı
+  (telefon dolu) → kod → **parola oluştur** → randevu açılır (onaylar web'de alındı, KVKK sorulmaz). Uygulamada "Yeni Müşteri":
+  telefon → kod (10 dk) → ad soyad + parola → KVKK → Hoş geldiniz. "Kayıtlı Müşteri": telefon + parola; "Parolamı unuttum ·
+  SMS koduyla gir" → kod → yeni parola. Demo: kod gerçek SMS yerine aynı sitedeki `localStorage` "ty-sms-kod"da; kod
+  ekranında "Demo: … Kodunuz" görünür. Gerçek yayında kod sunucuda üretilip SMS'le gönderilmeli, parola sunucuda saklanmalı.
 - Doğrulama: `npm test`; yerel 8799 sunucusunda `tests/browser-flows.py` ve `tests/web-flows.py` (Playwright + Chrome). Senaryo sayfası bu geliştirmeden sonra ayrıca ele alınacak.
 
 Bu bölüm aşağıdaki eski kararlarla çelişirse **bu bölüm geçerlidir**. Uygulama adım adım, kullanıcıyla konuşarak yapılır;

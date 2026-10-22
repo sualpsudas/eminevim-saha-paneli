@@ -407,7 +407,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
   <sc-if value="{{ girisGosterilsin }}" hint-placeholder-val="{{ false }}">
   <div style="width:375px; max-width:100%; background:#1E3856; border-radius:44px; padding:12px; box-shadow:0 34px 60px -20px rgba(30,56,86,.45);">
     <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column;position:relative;">
-      <sc-if value="{{ girisModKayitli }}"><button onClick="{{ girisGeri }}" class="login-back">Geri</button></sc-if>
+      <sc-if value="{{ girisGeriVar }}"><button onClick="{{ girisGeri }}" class="login-back">Geri</button></sc-if>
       <button class="login-staff-button" onClick="{{ openPersonelGiris }}" style="position:absolute;right:16px;top:42px;z-index:2;min-height:36px;border:none;background:transparent;color:#00724C;font-size:11px;font-weight:800;cursor:pointer;">Personel Girişi</button>
       <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:36px 30px; gap:20px;">
         <img src="assets/logo-green.png" alt="Eminevim" style="width:150px;">
@@ -417,13 +417,22 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
         </div>
         <sc-if value="{{ girisModYok }}"><div style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px;">
           <button onClick="{{ secKayitli }}" style-active="transform:scale(.98);" style="width:100%; min-height:64px; border:1px solid var(--line); background:var(--card); border-radius:14px; display:flex; align-items:center; gap:12px; padding:0 16px; cursor:pointer; text-align:left; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;"><span style="width:40px;height:40px;border-radius:14px;background:#00724C;color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><circle cx="12" cy="8" r="3.5"></circle><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"></path></svg></span><span style="flex:1;"><span style="display:block;font-size:14px;font-weight:800;color:var(--ink);">Kayıtlı Müşteri</span><span style="display:block;font-size:11px;color:var(--dim);margin-top:2px;">Hesabınızla giriş yapın</span></span><span style="color:var(--dim);font-size:18px;">›</span></button>
-          <button onClick="{{ secYeni }}" style-active="transform:scale(.98);" style="width:100%; min-height:64px; border:1px solid var(--line); background:var(--card); border-radius:14px; display:flex; align-items:center; gap:12px; padding:0 16px; cursor:pointer; text-align:left; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;"><span style="width:40px;height:40px;border-radius:14px;background:var(--tintGreen);color:#00724C;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00724C" stroke-width="2"><circle cx="10" cy="8" r="3.5"></circle><path d="M3 20c0-3.6 3.1-6 7-6"></path><path d="M18 14v6M15 17h6"></path></svg></span><span style="flex:1;"><span style="display:block;font-size:14px;font-weight:800;color:var(--ink);">Yeni Müşteri</span><span style="display:block;font-size:11px;color:var(--dim);margin-top:2px;">Telefon numaranızla kayıt olun</span></span><span style="color:var(--dim);font-size:18px;">›</span></button>
+          <button onClick="{{ secYeni }}" style-active="transform:scale(.98);" style="width:100%; min-height:64px; border:1px solid var(--line); background:var(--card); border-radius:14px; display:flex; align-items:center; gap:12px; padding:0 16px; cursor:pointer; text-align:left; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;"><span style="width:40px;height:40px;border-radius:14px;background:var(--tintGreen);color:#00724C;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00724C" stroke-width="2"><circle cx="10" cy="8" r="3.5"></circle><path d="M3 20c0-3.6 3.1-6 7-6"></path><path d="M18 14v6M15 17h6"></path></svg></span><span style="flex:1;"><span style="display:block;font-size:14px;font-weight:800;color:var(--ink);">Yeni Müşteri</span><span style="display:block;font-size:11px;color:var(--dim);margin-top:2px;">Telefon numaranız ve SMS koduyla</span></span><span style="color:var(--dim);font-size:18px;">›</span></button>
         </div></sc-if>
         <sc-if value="{{ girisModKayitli }}"><div style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
           <input value="{{ girisTelefon }}" onChange="{{ setGirisTelefon }}" inputmode="tel" autocomplete="tel" placeholder="Telefon numaranız" aria-label="Telefon numaranız" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700">
-          <input value="{{ girisSifre }}" onChange="{{ setGirisSifre }}" type="password" placeholder="Şifre" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700">
+          <input value="{{ girisSifre }}" onChange="{{ setGirisSifre }}" type="password" placeholder="Parola" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700">
           <button onClick="{{ submitGiris }}" style-active="transform:scale(.97);" style="width:100%; min-height:46px; background:#00724C; color:#fff; border:none; border-radius:22px; font-size:14px; font-weight:700; cursor:pointer; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Giriş Yap</button>
-          <div style="display:flex;justify-content:space-between;align-items:center;"><span style="font-size:12px; color:#00724C; font-weight:600; cursor:pointer;">Şifremi unuttum</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;"><button onClick="{{ parolaUnuttum }}" style="border:0;background:transparent;padding:0;font-size:12px; color:#00724C; font-weight:600; cursor:pointer;">Parolamı unuttum · SMS koduyla gir</button></div>
+        </div></sc-if>
+        <sc-if value="{{ girisModKod }}"><div style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
+          <div style="text-align:left;"><b style="display:block;font-size:16px;color:var(--ink);">{{ kodBaslik }}</b><span style="font-size:12px;color:var(--dim);line-height:1.45;">{{ kodAlt }}</span></div>
+          <sc-if value="{{ kodAdim1 }}"><input value="{{ kodTel }}" onChange="{{ setKodTel }}" inputmode="tel" autocomplete="tel" placeholder="Telefon numaranız" aria-label="Telefon numaranız" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>
+          <sc-if value="{{ kodAdim2 }}"><input value="{{ kodGirdi }}" onChange="{{ setKodGirdi }}" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="• • • • • •" aria-label="SMS ile gelen 6 haneli kod" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700;text-align:center;font-size:22px;letter-spacing:10px;"><sc-if value="{{ kodDemoVar }}"><div style="font-size:11.5px;color:var(--dim);background:var(--tintGreen);border-radius:12px;padding:7px 10px;text-align:left;">Demo: gerçek SMS gönderilmez. Kodunuz <b style="color:#00724C;letter-spacing:2px;">{{ kodDemo }}</b></div></sc-if></sc-if>
+          <sc-if value="{{ kodAdim3 }}"><sc-if value="{{ kodAdGerekli }}"><input value="{{ kodAd }}" onChange="{{ setKodAd }}" autocomplete="name" placeholder="Ad Soyad" aria-label="Ad Soyad" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if><input value="{{ kodParola }}" onChange="{{ setKodParola }}" type="password" autocomplete="new-password" placeholder="Parola (en az 6 karakter)" aria-label="Parola" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"><input value="{{ kodParola2 }}" onChange="{{ setKodParola2 }}" type="password" autocomplete="new-password" placeholder="Parola tekrar" aria-label="Parola tekrar" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>
+          <sc-if value="{{ kodHataVar }}"><div role="alert" style="font-size:12px;font-weight:700;color:#B25E30;text-align:left;">{{ kodHata }}</div></sc-if>
+          <button onClick="{{ kodIleri }}" style-active="transform:scale(.97);" style="width:100%; min-height:46px; background:#00724C; color:#fff; border:none; border-radius:22px; font-size:14px; font-weight:700; cursor:pointer; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">{{ kodDugme }}</button>
+          <sc-if value="{{ kodAdim2 }}"><button onClick="{{ kodTekrar }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;">Kodu tekrar gönder</button></sc-if>
         </div></sc-if>
       </div>
     </div>
@@ -1178,6 +1187,12 @@ function qrResim(metin) {
   // vendor/qrcode.min.js ile QR görüntüsü (internet gerekmez); kütüphane yoksa boş
   try { const q = window.qrcode(0, "M"); q.addData(metin); q.make(); return q.createDataURL(6, 2); } catch (e) { return ""; }
 }
+function telYaz(t) { t = telAnahtar(t); return t.length === 10 ? "0" + t.slice(0, 3) + " " + t.slice(3, 6) + " " + t.slice(6, 8) + " " + t.slice(8) : t; }
+/* SMS giriş kodu (demo): gerçek SMS yerine aynı sitedeki tarayıcı deposunda tutulur. Web başvurusu 24 saat geçerli kod yazar,
+   uygulama "Kodu gönder" ile 10 dakika geçerli yeni kod üretir. Gerçek yayında kod sunucuda üretilir ve SMS ile gider. */
+function smsKodOku(tel) { try { const k = JSON.parse(localStorage.getItem("ty-sms-kod") || "null"); return k && k.tel === telAnahtar(tel) && k.son > Date.now() ? k : null; } catch (e) { return null; } }
+function smsKodUret(tel) { const v = new Uint32Array(1); (window.crypto && crypto.getRandomValues) ? crypto.getRandomValues(v) : (v[0] = Math.floor(Math.random() * 1e9)); const k = { tel: telAnahtar(tel), kod: String(100000 + v[0] % 900000), son: Date.now() + 10 * 60000 }; try { localStorage.setItem("ty-sms-kod", JSON.stringify(k)); } catch (e) {} return k; }
+function smsKodSil() { try { localStorage.removeItem("ty-sms-kod"); } catch (e) {} }
 function telAnahtar(t) { return String(t || "").replace(/\D/g, "").replace(/^0/, ""); }
 function bugunYazi() {
   const gunler = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"], aylar = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
@@ -1480,7 +1495,10 @@ class Component extends DCLogic {
       if (this._themeQuery.addEventListener) this._themeQuery.addEventListener("change", this._themeListener);
     }
     const q = new URLSearchParams(window.location.search);
-    if (q.get("kaynak") === "web") this.webdenGel(q);
+    if (q.get("kaynak") === "web") {
+      const t = telAnahtar(q.get("tel"));
+      this.setState({ girisMod: "kod", kodAdim: t.length === 10 ? 2 : 1, kodTel: telYaz(t), kodWeb: q.toString(), kodGirdi: "", kodHata: "", kodParola: "", kodParola2: "", kodAd: (q.get("ad") || "").trim() });
+    }
     const directRole = q.get("rol");
     if (["tl", "sgl", "ask", "spy"].indexOf(directRole) >= 0) this.loginRole(directRole);
   }
@@ -2192,6 +2210,46 @@ class Component extends DCLogic {
     const s = this.state;
     if (this._yaTimer) clearTimeout(this._yaTimer);
     this.setState({ yaOpen: false, girisMod: "yeni", kayitOpen: true, kayitAd: s.yaAd.trim(), kayitTelefon: s.yaTel, kayitEmail: s.yaEposta.trim(), kayitSifre: "", kayitAdres: s.yaIlce.trim() });
+  }
+  kodIleri() {
+    // Telefonla giriş: 1 telefon → 2 SMS kodu → 3 parola oluştur (yeni müşteride ad soyad da)
+    const s = this.state, tel = telAnahtar(s.kodTel);
+    if (s.kodAdim === 1) {
+      if (tel.length !== 10) { this.setState({ kodHata: "Telefon numaranızı 10 hane olarak yazın." }); return; }
+      if (!smsKodOku(tel)) smsKodUret(tel);
+      this.setState({ kodAdim: 2, kodHata: "", kodGirdi: "", kodTel: telYaz(tel) });
+      return;
+    }
+    if (s.kodAdim === 2) {
+      const k = smsKodOku(tel);
+      if (!k) { this.setState({ kodHata: "Kodun süresi doldu. “Kodu tekrar gönder”e dokunun." }); return; }
+      if (String(s.kodGirdi).replace(/\D/g, "") !== k.kod) { this.setState({ kodHata: "Kod eşleşmedi. SMS'teki 6 haneli kodu girin." }); return; }
+      this.setState({ kodAdim: 3, kodHata: "" });
+      return;
+    }
+    const adGerekli = this.kodAdGerekli(s);
+    if (adGerekli && (s.kodAd || "").trim().length < 3) { this.setState({ kodHata: "Adınızı ve soyadınızı yazın." }); return; }
+    if ((s.kodParola || "").length < 6) { this.setState({ kodHata: "Parola en az 6 karakter olmalı." }); return; }
+    if (s.kodParola !== s.kodParola2) { this.setState({ kodHata: "Parolalar aynı değil." }); return; }
+    smsKodSil();
+    const temel = { girisMod: "", kodAdim: 1, kodHata: "", kodGirdi: "", kodParola: "", kodParola2: "", kodWeb: "" };
+    if (s.kodWeb) {
+      // Web başvurusu: onaylar web formunda alındı; randevu hazır açılır
+      this.setState(temel, () => { this.webdenGel(new URLSearchParams(s.kodWeb)); this.showBildirim({ ad: "Parolanız oluşturuldu", ilce: "Bundan sonra telefon ve parolanızla girebilirsiniz" }); });
+      return;
+    }
+    if (!adGerekli) {
+      // Kayıtlı müşteri (parolasını unuttu): parola yenilenir, hesap açılır
+      this.setState({ ...temel, girisTelefon: telYaz(tel), kvkk1: true, yeniMusteri: false, panel: "musteri" }, () => { this.kvkkOnayla(); this.showBildirim({ ad: "Parolanız yenilendi", ilce: "Hoş geldiniz" }); });
+      return;
+    }
+    // Yeni müşteri: kişisel veri onayı → Hoş geldiniz
+    this.setState({ ...temel, kayitAd: s.kodAd.trim(), kayitTelefon: telYaz(tel), yeniMusteri: true, kvkkAsama: true, kvkk1: false, kvkk2: false, kvkk3: false, panel: "musteri" });
+  }
+  kodAdGerekli(s) {
+    const tel = telAnahtar(s.kodTel);
+    // 5321456789: demo kayıtlı müşteri Ayşe Kaya
+    return !s.kodWeb && tel !== "5321456789" && !(this._hesaplar || {})[tel];
   }
   kvkkOnayla() {
     const s = this.state;
@@ -3347,10 +3405,23 @@ class Component extends DCLogic {
       submitGiris: () => this.setState({ kvkk1: true, yeniMusteri: false, panel: "musteri" }, () => this.kvkkOnayla()),   // kayıtlı müşteri onayı daha önce vermiş: KVKK sorulmaz
       girisModYok: !s.girisMod,
       girisModKayitli: s.girisMod === "kayitli",
-      girisAltYazi: s.girisMod === "kayitli" ? "Hesabınızla güvenle devam edin" : "Emin olmak, güven demek",
+      girisModKod: s.girisMod === "kod", girisGeriVar: s.girisMod === "kayitli" || s.girisMod === "kod",
+      kodAdim1: s.kodAdim === 1 || !s.kodAdim, kodAdim2: s.kodAdim === 2, kodAdim3: s.kodAdim === 3,
+      kodTel: s.kodTel || "", kodGirdi: s.kodGirdi || "", kodAd: s.kodAd || "", kodParola: s.kodParola || "", kodParola2: s.kodParola2 || "",
+      setKodTel: (e) => this.setState({ kodTel: e.target.value, kodHata: "" }), setKodGirdi: (e) => this.setState({ kodGirdi: e.target.value.replace(/\D/g, "").slice(0, 6), kodHata: "" }),
+      setKodAd: (e) => this.setState({ kodAd: e.target.value, kodHata: "" }), setKodParola: (e) => this.setState({ kodParola: e.target.value, kodHata: "" }), setKodParola2: (e) => this.setState({ kodParola2: e.target.value, kodHata: "" }),
+      kodHata: s.kodHata || "", kodHataVar: !!s.kodHata, kodAdGerekli: s.kodAdim === 3 && this.kodAdGerekli(s),
+      kodDemo: (smsKodOku(s.kodTel) || {}).kod || "", kodDemoVar: s.kodAdim === 2 && !!smsKodOku(s.kodTel),
+      kodBaslik: s.kodAdim === 2 ? "SMS kodunu girin" : s.kodAdim === 3 ? (this.kodAdGerekli(s) ? "Hesabınızı oluşturun" : "Parola oluşturun") : "Telefon numaranızla devam edin",
+      kodAlt: s.kodAdim === 2 ? (s.kodWeb ? "Başvurunuzdan sonra " + (s.kodTel || "") + " numarasına gönderdiğimiz 6 haneli kodu girin." : (s.kodTel || "") + " numarasına 6 haneli kod gönderdik.") : s.kodAdim === 3 ? "Bundan sonra telefon numaranız ve bu parolayla giriş yapacaksınız." : "Numaranıza SMS ile 6 haneli bir kod göndereceğiz.",
+      kodDugme: s.kodAdim === 2 ? "Doğrula" : s.kodAdim === 3 ? "Parolayı kaydet ve devam et" : "Kodu gönder",
+      kodIleri: () => this.kodIleri(),
+      kodTekrar: () => { smsKodUret(this.state.kodTel); this.setState({ kodGirdi: "", kodHata: "" }); this.showBildirim({ ad: "Yeni kod gönderildi", ilce: "10 dakika geçerli" }); },
+      parolaUnuttum: () => this.setState({ girisMod: "kod", kodAdim: 1, kodTel: this.state.girisTelefon || "", kodWeb: "", kodHata: "", kodAd: "" }),
+      girisAltYazi: s.girisMod === "kayitli" ? "Hesabınızla güvenle devam edin" : s.girisMod === "kod" ? "Telefon numaranızla güvenle devam edin" : "Emin olmak, güven demek",
       secKayitli: () => this.setState({ girisMod: "kayitli" }),
-      secYeni: () => this.setState({ kayitOpen: true, girisMod: "yeni" }),
-      girisGeri: () => this.setState({ girisMod: "" }),
+      secYeni: () => this.setState({ girisMod: "kod", kodAdim: 1, kodTel: "", kodWeb: "", kodHata: "", kodAd: "" }),
+      girisGeri: () => this.setState((st) => st.girisMod === "kod" && st.kodAdim > 1 && !st.kodWeb ? { kodAdim: st.kodAdim - 1, kodHata: "" } : { girisMod: "", kodHata: "" }),
       kvkkAsama: s.kvkkAsama,
       kvkkAd: s.yeniMusteri ? s.kayitAd : (s.customerForm.name || "değerli müşterimiz"),
       kvkk1: s.kvkk1, kvkk2: s.kvkk2, kvkk3: s.kvkk3,

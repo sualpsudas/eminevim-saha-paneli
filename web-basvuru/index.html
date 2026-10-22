@@ -322,6 +322,15 @@
   .ty-sonuc .ty-not-turuncu{color:var(--tdk_turuncuHover)}
   .ty-uyg-kart{background:var(--tdk_homeAcikYesilBack);border:1.5px solid var(--tkd_yesilBorder);border-radius:var(--tkd_yuvarlakIc);padding:12px 14px;margin:4px 0 6px;text-align:center}
   .ty-uyg-kart img{height:16px;width:auto;margin-bottom:8px}
+  /* Temsilci çağrıldıysa telefona giden SMS (giriş kodu + uygulama linki) önizlemesi */
+  .ty-sms{margin:4px 0 12px;text-align:left}
+  .ty-sms-bas{display:flex;align-items:center;gap:7px;font-size:9.5pt;font-weight:700;color:var(--tkd_yesil);margin-bottom:6px}
+  .ty-mobil .ty-sms-bas{font-size:10.5pt}
+  .ty-sms-balon{background:#f1f1f1;border-radius:16px 16px 16px 4px;padding:10px 13px;font-size:9pt;line-height:1.45;color:#333}
+  .ty-mobil .ty-sms-balon{font-size:10.5pt}
+  .ty-sms-balon b{letter-spacing:2px}
+  .ty-sms-balon a{color:var(--tkd_yesil) !important;font-weight:700}
+  .ty-sms small{display:block;font-size:7.5pt;color:#999;margin-top:4px}
   .ty-uyg-kart p{font-size:9pt;line-height:1.4;color:var(--tkd_yaziRengi);margin:0 0 10px}
   .ty-mobil .ty-uyg-kart p{font-size:10.5pt}
   .ty-uyg-kart .ty-magaza-not{display:none;font-weight:700}
@@ -940,13 +949,13 @@
                         EKİM
                         AYI TESLİMATIMIZ
                     </div>
-                    <div class="tvalue counterValue" akhi="15027"></div>
+                    <div class="tvalue counterValue" akhi="15026"></div>
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-4 col-xxl-3">
                 <a href="javascript:void(0)" class="tk-counterKutu2">
                     <div class="tk-counterAciklama">TOPLAM TESLİMATIMIZ</div>
-                    <div class="counterValue tvalue" akhi="624300"></div>
+                    <div class="counterValue tvalue" akhi="624296"></div>
                 </a>
             </div>
             <div class="col-12 col-md-6 col-lg-2 col-xxl-3">
@@ -957,7 +966,7 @@
             </div>
             <div class="col-12 col-md-6 col-lg-2 col-xxl-3">
                 <a href="javascript:void(0)" class="tk-counterKutu4">
-                    <div class="tvalue counterValue" akhi="4549"></div>
+                    <div class="tvalue counterValue" akhi="4550"></div>
                     <div class="tk-counterAciklama">ÇALIŞAN</div>
                 </a>
             </div>
@@ -2642,7 +2651,8 @@ _utmx</strong></strong></p>
         h += '<div class="basvuru pb-3">Temsilci talebiniz alındı</div>'+
           '<p class="ty-metin">Sayın <b>'+adSoyad+'</b>, talebiniz bize ulaştı. Temsilcimiz görüşmeden önce sizinle iletişime geçecek. Seçtiğiniz gün, saat ve konumu birlikte netleştireceksiniz.</p>'+
           '<div class="ty-ozet-kart"><div class="ty-ozet">'+ozet+'</div></div>'+
-          '<p class="ty-metin">Size atanan temsilcinin adını, fotoğrafını ve sicil numarasını Eminevim uygulamasından kontrol edebilirsiniz.</p>';
+          '<p class="ty-metin">Size atanan temsilcinin adını, fotoğrafını ve sicil numarasını Eminevim uygulamasından kontrol edebilirsiniz.</p>'+
+          '<!--SMS-->';
       } else {
         h += '<div class="basvuru pb-3">Talebiniz alındı</div>'+
           '<p class="ty-metin">Sayın <b>'+adSoyad+'</b>, talebiniz bize ulaştı. En kısa sürede <b>444 36 46</b> numaralı telefonumuzdan sizi arayacağız.</p>'+
@@ -2652,6 +2662,15 @@ _utmx</strong></strong></p>
       // Uygulama: formdaki telefonla kayıtlı müşteri olarak açılır (adım 3)
       var requestId = window.crypto && crypto.randomUUID ? crypto.randomUUID() : 'web-'+Date.now();
       var uygLink = UYGULAMA + '?kaynak=web&rid='+encodeURIComponent(requestId)+'&ad=' + encodeURIComponent(v.ad+' '+v.soyad) + '&tel=' + v.tel + (bolgeDisi && !secim ? '&bolgeDisi=1' : '') + (secim ? '&gun=' + encodeURIComponent(v.gun) + '&saat=' + encodeURIComponent(v.saat) + '&yer=' + encodeURIComponent(v.adres) + '&lat='+talep.lat+'&lng='+talep.lng+'&bolge='+encodeURIComponent(talep.bolge)+'&tarih='+talep.gun.getFullYear()+'-'+String(talep.gun.getMonth()+1).padStart(2,'0')+'-'+String(talep.gun.getDate()).padStart(2,'0') : '');
+      if(secim){
+        // Temsilci çağrıldı: telefona uygulama giriş kodu + uygulama linki SMS ile gider (demo: önizleme).
+        // Kod uygulamanın okuyabileceği yerde saklanır (aynı site); uygulamada telefon → kod → parola oluştur.
+        var kod = String(100000 + Math.floor(Math.random()*900000)), t10 = String(v.tel).replace(/\D/g,'').replace(/^0/,'');
+        try { localStorage.setItem('ty-sms-kod', JSON.stringify({ tel:t10, kod:kod, son:Date.now()+24*3600000, rid:requestId })); } catch(e) {}
+        var telYazi = t10.length===10 ? '0'+t10.slice(0,3)+' '+t10.slice(3,6)+' '+t10.slice(6,8)+' '+t10.slice(8) : esc(v.tel);
+        h = h.replace('<!--SMS-->', '<div class="ty-sms" aria-label="Gönderilen SMS"><div class="ty-sms-bas"><i class="bi bi-chat-dots-fill" aria-hidden="true"></i><span><b>'+telYazi+'</b> numarasına SMS gönderdik</span></div>'+
+          '<div class="ty-sms-balon">Eminevim: Temsilci talebiniz alındı. Uygulama giriş kodunuz: <b>'+kod+'</b> (24 saat geçerli).<br>Uygulamayı indirip randevu takibi, temsilciyle sohbet ve finansman aracı hizmetlerimizden faydalanabilirsiniz: <a data-ty-dis href="'+uygLink+'" target="_blank" rel="noopener">eminevim.com/uygulama</a></div><small>SMS önizlemesi</small></div>');
+      }
       h += '<div class="ty-uyg-kart"><img src="/Images/newWeb_2025/logo/eminevim_logo_yesil.svg" alt="Eminevim"><p>Kampanyalarımıza, Finansman Aracımıza ve size atanan temsilci hakkında detaylara ulaşmak için Eminevim uygulamasını kullanabilirsiniz.</p>'+
         '<p class="ty-magaza-not">Telefonunuza indirip bu telefon numarasıyla giriş yapın.</p>'+
         '<div class="ty-magaza" aria-label="Uygulamayı indirin"><span><i class="bi bi-apple" aria-hidden="true"></i><span><small>Download on the</small><b>App Store</b></span></span><span><i class="bi bi-google-play" aria-hidden="true"></i><span><small>GET IT ON</small><b>Google Play</b></span></span></div>'+
@@ -2664,7 +2683,7 @@ _utmx</strong></strong></p>
         var calisma=sonuc.querySelector('[data-ek-calisma]').value, yas=sonuc.querySelector('[data-ek-yas]').value;
         if(calisma)link.searchParams.set('calisma',calisma);
         if(yas)link.searchParams.set('yas',yas);
-        sonuc.querySelector('a[data-ty-dis]').href=link.href;
+        sonuc.querySelectorAll('a[data-ty-dis]').forEach(function(a){ a.href=link.href; });
         sonuc.querySelector('[data-ek-durum]').textContent='Bilgiler uygulamaya geçerken randevunuzla birlikte aktarılacak.';
       });
       sonuc.querySelector('[data-ek-atla]').addEventListener('click',function(){sonuc.querySelector('.ty-ek').open=false;});
