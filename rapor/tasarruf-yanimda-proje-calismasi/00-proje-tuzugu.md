@@ -116,7 +116,7 @@ Her bölgeye ve her saate hizmet bu aşamanın konusu değil. Saha çalışmalar
 **Bu proje üç varsayım üzerine kurulu; pilot her birini sınayacak.**
 
 1. **Bizi bekleyen müşteri var.** Bizimle görüşmek isteyen ama bize ulaşamayan aday müşteriler vardır.
-2. **Çağıran müşteri karara daha yakındır.** Temsilcimizi kendisi çağıran müşterinin satışa dönme ihtimali daha yüksektir.
+2. **Çağıran müşteri karara daha yakındır.** Temsilcimizi kendisi çağıran müşterinin satışa dönme ihtimali daha yüksektir. Bu varsayımın doğru olduğunu düşünüyoruz; talep ekibinin başarılı personele ödül olarak verilmesi de buna dayanır. Pilot bunu teyit edecek.
 3. **Saha çalışmamız zayıflamaz.** Ekibimizin bir bölümünü taleplere ayırdığımızda kapı kapı çalışmalarımızın sonuçları belirgin şekilde düşmez.
 
 Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pilotun görevi, doğru olup olmadıklarını göstermektir.
