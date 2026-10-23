@@ -43,7 +43,7 @@ Gerekçe:
 
 Bu yönün iki zayıf yanı için önlemler:
 - **Talep azsa boş zaman:** Talep ekibi küçük başlar ve talebe göre büyütülür. Boş zamanında kendi bölgesinde saha çalışması yapabilir.
-- **“Kolay müşteri onlara gidiyor” algısı ve ölçüm sapması:** Karar (23 Ekim 2026): Sistem ilk aşamada **başarılı personellerin** kullanımına açılır. Ölçüm sapmasını önlemek için talep ekibi, benzer başarıdaki saha çalışanlarıyla karşılaştırılır; seçim ölçütleri açıkça paylaşılır ve sistem yaygınlaştırmayla herkese açılır.
+- **“Kolay müşteri onlara gidiyor” algısı ve ölçüm sapması:** Karar (23 Ekim 2026): Sistem ilk aşamada **başarılı personellerin** kullanımına açılır. Ölçüm sapmasını önlemek için talep ekibi, benzer başarıdaki saha çalışanlarıyla karşılaştırılır; seçim ölçütleri açıkça paylaşılır. Talep ekibine girmek başarılı personel için bir ödül olarak konumlanır (müşteriyi kolay bulan, satışa yakın görüşmeler). Sistemin sonra kimlere açılacağı henüz belirlenmedi; pilot sonuçlarıyla değerlendirilecek.
 
 ## Kim talebe gider? Kim sahada kalır?
 

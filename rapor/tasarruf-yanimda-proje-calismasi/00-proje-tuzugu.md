@@ -28,6 +28,8 @@ Bu düşünce bizi projenin ana fikrine taşıdı: **Bugün sahada temas tek yö
 
 **Çalışma ilkemiz:** Bizi çağırana önce biz gideriz. Ekibimizin bir bölümü gelen taleplere ayrılır, diğerleri sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.
 
+**Başarıya ödül:** Bizi çağıran müşteriye ilk aşamada başarılı personellerimiz gider. Müşterinin kendisinin bizi çağırdığı, satışa daha yakın bu görüşmeler, gösterilen başarının ödülüdür.
+
 ## 4. Hedefler
 
 Vadeler aşamalara bağlıdır: **kısa vade** Hazırlık ve Pilot, **orta vade** pilot sonu ve ilk yeni bölgeler, **uzun vade** Yaygınlaştırma sonrasıdır.
@@ -131,7 +133,7 @@ Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pil
 
 ### Aşama 2: Hazırlık
 *Pilota çıkmak için ekibi, kuralları ve sistemi kuruyoruz.*
-- **Ne yapılır?** Pilot bölgesi seçilir. Talep ekibi başarılı personellerimiz arasından belirlenir; müşterinin bizi çağırdığı ilk deneyimin güçlü olması için sistem önce onların kullanımına açılır. Atama ve satış sahipliği kuralları yazılır. Uygulama gerçek kullanıma hazırlanır. Uyum ve hukuk onayları alınır.
+- **Ne yapılır?** Pilot bölgesi seçilir. Talep ekibi başarılı personellerimiz arasından belirlenir; sistem onların kullanımına açılır. Böylece hem başarı ödüllendirilir hem de müşterinin bizi çağırdığı ilk deneyim güçlü olur. Atama ve satış sahipliği kuralları yazılır. Uygulama gerçek kullanıma hazırlanır. Uyum ve hukuk onayları alınır.
 - **Ne teslim edilir?** Çalışan sistem, eğitilmiş talep ekibi ve yazılı çalışma kuralları.
 - **Karar sorusu:** *Bir müşteri bugün bizi çağırsa, ona zamanında gidebilir miyiz?*
 
@@ -147,7 +149,7 @@ Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pil
 
 ### Aşama 4: Yaygınlaştırma
 *Öğrendiklerimizle bölge bölge büyüyoruz.*
-- **Ne yapılır?** Yeni bölgeler kademeli olarak açılır. Sistem, pilotta yazılan kurallarla diğer ekip arkadaşlarımızın da kullanımına açılır. Her bölgede talep ekibinin büyüklüğü o bölgenin talebine göre belirlenir. Pilotta yazılan kurallar güncellenir.
+- **Ne yapılır?** Yeni bölgeler kademeli olarak açılır. Sistemin kimlerin kullanımına açılacağı pilot sonuçlarıyla birlikte değerlendirilir. Her bölgede talep ekibinin büyüklüğü o bölgenin talebine göre belirlenir. Pilotta yazılan kurallar güncellenir.
 - **Ne teslim edilir?** Alternatif Satış Kanalı'nın kalıcı çalışma düzeni.
 - **Karar sorusu:** *Her yeni bölgede, pilotta aldığımız sonucu tekrar alabiliyor muyuz?*
 
@@ -160,7 +162,8 @@ Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pil
 | Beklediğimiz kadar talep gelmez | Talep ekibini küçültürüz; ekip arkadaşlarımız kapı kapı çalışmaya döner. Kayıp değil, öğrenme olur. |
 | Talebe geç kalırız | Taşan talebi takım lideri, o an uygun olan başka bir temsilciye atar. |
 | Yolda geçen süre kazancı yer | Hizmet bölgesini daraltır, randevuları bölgeye göre gruplarız. |
-| Ekipte “kolay müşteri onlara gidiyor” algısı oluşur | Talep ekibinin seçim ölçütlerini ve atama kurallarını açıkça paylaşırız; sistemin zamanla herkese açılacağını baştan söyleriz. |
+| Talep ekibine seçim adil bulunmaz | Seçim ölçütlerini açıkça paylaşırız; talep ekibine girmeyi herkesin ulaşabileceği bir hedef olarak tanımlarız. |
+| Çağıran müşteri beklendiği kadar satışa yakın çıkmaz, ödülün değeri düşer | Pilotta ilk ölçtüğümüz şey budur (Varsayım 2); sonuca göre talep ekibinin rolü yeniden değerlendirilir. |
 | Sonuç kanaldan değil, personelin başarısından gelir | Talep ekibini sıradan saha ekibiyle değil, benzer başarıdaki saha çalışanlarıyla karşılaştırırız. |
 | Satış başka kanallardan bu kanala kayar, toplam artmaz | Yalnızca bu kanalın değil, bölgenin toplam satışını da izleriz. |
 | Kişisel veri ve konum bilgisi | Uyum ve hukuk onayı olmadan başlamayız; gerekirse konum takibi olmadan ilerleriz. |

@@ -93,7 +93,7 @@ Talebe ayrılan pay küçültülür; ekip bugünkü gibi sahada çalışmaya dev
 Hayır. Ekibin ayrılmış bir bölümü talepleri karşılar, diğerleri sahada çalışır. Talep arttıkça bu ekip büyütülür.
 
 **“Talep ekibine en iyi temsilciler mi seçilecek?”**
-Evet, ilk aşamada. Müşterinin bizi çağırdığı ilk deneyimin güçlü olması için sistem önce başarılı personellerimizin kullanımına açılır; yaygınlaştırmayla birlikte diğer ekip arkadaşlarımıza da açılır. Sonucu doğru ölçmek için talep ekibini benzer başarıdaki saha çalışanlarıyla karşılaştırırız.
+Evet, ilk aşamada. Müşterinin kendisinin bizi çağırdığı, satışa daha yakın görüşmeler başarılı personellerimiz için bir ödüldür; aynı zamanda müşterinin ilk deneyimini güçlü kılar. Sistemin sonra kimlere açılacağı pilot sonuçlarıyla değerlendirilecek. Sonucu doğru ölçmek için talep ekibini benzer başarıdaki saha çalışanlarıyla karşılaştırırız.
 
 **“Reklam yapacak mıyız?”**
 Amacımız talep yaratmak değil, var olan talebin bize ulaşması. Müşterinin bu hizmetten haberdar olması gerekir; bunun yolları ayrıca planlanacak.
