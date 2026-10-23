@@ -97,3 +97,13 @@ Hayır. Ekip yalnız en başarılı temsilcilerden kurulmaz ve üyelik dönemsel
 
 **“Reklam yapacak mıyız?”**
 Amacımız talep yaratmak değil, var olan talebin bize ulaşması. Müşterinin bu hizmetten haberdar olması gerekir; bunun yolları ayrıca planlanacak.
+
+## Sunum için saklanan cümleler
+
+- “Böylece saha gücümüz hem bulduğumuz hem de bizi bulan müşteriye ulaşır.” (kapanış cümlesi adayı, 23 Ekim 2026)
+- Hedefler müşteri ve ekip ağzından (sunum için):
+  1. “Görüşmek istedim, kolayca çağırdım.”
+  2. “Çağırdım, zamanında geldiler.”
+  3. “Görüştük, karar verdim.”
+  4. “Zamanım sonuç aldığım yere gidiyor.”
+  5. “Kimin geleceğini biliyordum.”

@@ -8,36 +8,47 @@
 
 ## 1. Arka plan
 
-Eminevim müşteriyle iki yoldan buluşur: **şubeler** müşterinin gelmesini bekler, **Alternatif Satış Kanalı** ise şubeye gelmeyen ya da gelemeyen müşteriye kendisi ulaşır.
+**Müşteriyi beklemeyiz, ona gideriz.**
 
-Alternatif Satış Kanalı'nın görevi; müşteriye ulaşmak, yüz yüze ilişki kurmak, ihtiyacına uygun çözümleri anlatmak ve satış fırsatı oluşturmaktır. Bugün saha ekibi müşteriyi kapı kapı ziyaretler ve stantlarla kendisi bulur.
+Alternatif Satış Kanalı, Eminevim'in sahadaki yüzüdür. Müşteriye kapı kapı ziyaretlerle ulaşır, yüz yüze güven kurar ve satış fırsatı yaratır.
 
 ## 2. Gözlem
 
-- Saha ekibiyle temas yalnızca ekipten başlıyor. Görüşmek isteyen müşterinin ekibe doğrudan ulaşabileceği bir yol yok.
-- Ekibin zamanının önemli bir kısmı, henüz ilgisi olmayan kişilere ulaşmaya gidiyor.
-- Satışlar şubede de sahada da en çok cumartesi gerçekleşiyor. Proje bu gözlemle başladı; incelendiğinde asıl meselenin gün değil, **temasın kimden başladığı** olduğu görüldü.
+Alternatif Satış Kanalı olarak satışlarımız en çok cumartesi günleri gerçekleşir. Buradan yola çıkarak şunu düşündük: Hafta içi yüz yüze görüşme fırsatı bulamayan aday müşteriye bu fırsatı biz yaratabiliriz.
+
+Bu düşünce bizi projenin ana fikrine taşıdı: **Bugün sahada temas tek yönlüdür.** Müşteriyi bulan her zaman biziz; talebi ya da aklında bir sorusu olan müşterinin ise bizi çağırabileceği bir yol yoktur.
+
+**Müşteri bizi çağırabilmeli, biz de onun ayağına gitmeliyiz.**
 
 ## 3. Amaç
 
-> **Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğer çalışanlarımız sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.**
->
-> *Kısa anlatım: Bizi çağırana önce biz gideriz.*
+**Genel amacımız:** Sahada temasın iki yönlü olmasını sağlamak ve saha gücümüzü en çok sonuç alacağı yerde kullanmak.
 
-| Katman | İfade |
-|---|---|
-| **Genel amaç** | Alternatif Satış Kanalı'nın müşteriye ulaşma görevini güçlendirmek ve saha gücünü daha verimli kullanmak |
-| **Proje amacı** | Görüşmek isteyen müşterinin saha ekibine doğrudan ulaşabilmesi ve talebin ayrılmış bir ekip tarafından zamanında karşılanması |
+**Proje amacımız:** Görüşmek isteyen müşterinin temsilcimizi bulunduğu yere çağırabilmesi ve bu talebin ayrılmış ekibimiz tarafından, aynı gün dahil, zamanında karşılanması.
+
+**Çalışma ilkemiz:** Bizi çağırana önce biz gideriz. Ekibimizin bir bölümü gelen taleplere ayrılır, diğerleri sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.
 
 ## 4. Hedefler
 
-| # | Hedef | Nasıl izlenir? |
-|---|---|---|
-| H1 | Müşteri web sitesinden veya uygulamadan temsilci çağırabilsin | Gelen talep sayısı |
-| H2 | Talepler, aynı gün dahil, zamanında karşılansın | İlk dönüş süresi; karşılanamayan talepler |
-| H3 | Talepler görüşmeye ve satışa dönüşsün | Talep → görüşme → satış |
-| H4 | Saha gücü verimli paylaştırılsın | Temsilci saati başına görüşme ve satış: talep ekibi ile saha ekibi, aynı dönemde |
-| H5 | Müşteri temsilciye güvensin | Geri bildirim, şikâyet ve iptal nedenleri |
+**1. Ulaşılabilir olmak**
+Görüşmek isteyen her müşteri, web sitemizden ya da uygulamamızdan birkaç adımda temsilcimizi çağırabilmeli.
+*İzleme: gelen talep sayısı*
+
+**2. Zamanında yetişmek**
+Her talep sahiplenilmeli; aynı gün talepleri dahil, müşterinin beklediği zamanda karşılanmalı.
+*İzleme: ilk dönüş süresi, karşılanamayan talepler*
+
+**3. Talebi sonuca taşımak**
+Gelen talepler yüz yüze görüşmeye, görüşmeler satışa dönüşmeli.
+*İzleme: talep → görüşme → satış*
+
+**4. Gücümüzü doğru yere koymak**
+Talep ekibi ile saha ekibi, saha gücümüzden en yüksek verimi alacak şekilde paylaştırılmalı.
+*İzleme: temsilci saati başına görüşme ve satış; iki ekip aynı dönemde karşılaştırılır*
+
+**5. Güven vermek**
+Müşteri kimin, ne zaman geleceğini önceden bilmeli ve temsilcimizi kapıda doğrulayabilmeli.
+*İzleme: müşteri geri bildirimi, şikâyet ve iptal nedenleri*
 
 Sayısal hedef konmaz. Pilotun ilk haftaları başlangıç değerini verir; hedefler bundan sonra belirlenir.
 
