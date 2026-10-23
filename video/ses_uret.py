@@ -1,8 +1,10 @@
-"""Seslendirme: her sahne parçasını edge-tts ile üretir, sürelerini ölçer, ses/plan.js yazar.
+"""Seslendirme: her parçayı edge-tts ile üretir; süre ve KELİME ZAMANLARINI ses/plan.js'e yazar.
 
   python video/ses_uret.py          → video/ses/*.mp3 + video/ses/plan.js
-Gerekenler: edge-tts, imageio-ffmpeg. Ses: fr-FR-RemyMultilingualNeural (deneme sayfasındaki "Ses 4"), hız +4%.
-METIN altyazıda görünen yazıdır; OKU seslendiriciye giden yazıdır (SPY ve QR Türkçe okunsun diye).
+Gerekenler: edge-tts, imageio-ffmpeg. Ses: fr-FR-RemyMultilingualNeural (deneme sayfasındaki "Ses 4").
+METIN altyazıda görünen yazıdır; oku() seslendiriciye gideni üretir (SPY "Sepeye" okunur).
+Çok dilli ses kısa/yarım cümlede dili yanlış tahmin ediyor: kısa cümleleri ve "Tasarruf Yanımda"yı tek başına okutma,
+uzun cümleyle aynı parçada tut; görüntü geçişleri tanitim.html'de kelime zamanına bağlanır.
 """
 import asyncio
 import json
@@ -14,41 +16,29 @@ import edge_tts
 import imageio_ffmpeg
 
 KLASOR = pathlib.Path(__file__).resolve().parent / "ses"
-SES, HIZ = "fr-FR-RemyMultilingualNeural", "+4%"
+SES, HIZ = "fr-FR-RemyMultilingualNeural", "+8%"
 
 METIN = {
-    "s1": "Alternatif Satış Kanalı'ndan yeni bir proje: Tasarruf Yanımda.",
-    "s2a": "İstanbul'da Üsküdar, Ümraniye ve Ataşehir'den başlıyoruz.",
-    "s2b": "Bugün SPY'ler sahada müşterileri kapı kapı, tek tek ziyaret ediyor.",
-    "s3": "Yani sahadaki temas tek yönlü: ilk adımı her zaman biz atıyoruz.",
-    "s4": "Bizimle görüşmek isteyen bir müşterinin ise bizi çağırabileceği bir kanal yok.",
-    "s5": "Müşterinin gözünden bakınca, yüz yüze görüşme çoğu zaman cumartesiye kalıyor; hafta içi mesai buna fırsat vermiyor.",
-    "s6": "Oysa müşteriye, dilediği yerde ve dilediği zamanda ulaşabilmeliyiz.",
-    "s6ba": "Tasarruf Yanımda ile ikisi bir arada yürür.",
-    "s6bb": "SPY'ler kapı kapı çalışmayı sürdürürken, bizi çağıran müşteriye aktif SPY'ler gider; pazartesi, salı ya da perşembe, hangi günü seçerse.",
-    "b1": "Peki nasıl işliyor? Müşteri uygulamaya telefon numarasıyla kaydoluyor,",
-    "b2": "Randevularım'dan temsilci istiyor,",
-    "b3": "görüşme yerini haritada işaretliyor",
-    "b4": "ve uygun gün ile saati seçiyor; aynı gün bile olabilir.",
-    "b5": "Talep, bölgedeki aktif SPY'nin tabletine anında düşüyor.",
-    "b6": "SPY kabul ettiği anda müşteri, kimin geleceğini adıyla görüyor.",
-    "b7": "Saat onaylanınca randevu iki tarafta da kesinleşiyor.",
-    "b8": "Müşteri beklerken Finansman Aracı'yla ihtiyacını ve bütçesini netleştirebiliyor.",
-    "b9": "Bu tercihler SPY'nin tabletine ön bilgi olarak geçiyor; görüşme hazırlıklı başlıyor.",
-    "b10": "Görüşme günü müşteri, SPY'nin yolda olduğunu haritadan izliyor.",
-    "b11": "Kapıda QR kod okutuluyor ve doğrulama müşterinin kendi ekranında beliriyor.",
-    "b12": "Görüşme bitince yazılı özet doğrudan telefona geliyor.",
-    "s19a": "Bu düzeni önce pilot bölgede deneyip her adımını ölçeceğiz.",
-    "s19b": "Sonuçlara göre hizmet alanı, komşu ilçelere doğru adım adım genişleyebilir.",
-    "s20": "Böylece müşteri ile SPY ekibi arasında çift yönlü bir temas kuruluyor. Her talep, ön bilgisiyle birlikte bize ek bir veri de kazandırıyor.",
-    "s21a": "SPY kaynağını önceliklendirerek saha gücümüzü daha doğru yönetiyoruz.",
-    "s21b": "Tasarruf Yanımda.",
+    "ac": "Yeni projemiz Tasarruf Yanımda, müşterilerimizle saha ekibimiz arasında yeni bir iletişim kanalı açıyor.",
+    "bugun": "Bugün Alternatif Satış Kanalı'nda SPY'ler kapı kapı dolaşır ve aday müşterileri kendileri bulur.",
+    "sorun": "Yani ilk adımı çoğunlukla biz atarız. Görüşmek isteyen müşterinin doğrudan temsilci çağırabileceği bir kanal ise yok. "
+             "Hafta içi çalışan biri için yüz yüze görüşme de çoğu zaman cumartesiye kalıyor.",
+    "cozum": "Peki ilk adımı müşteri de atabilse? Tasarruf Yanımda bu düzene ikinci bir temas yolu ekleyecek: "
+             "saha ziyaretleri sürerken, uygulamadan gelen talepleri bölgedeki aktif SPY'ler karşılayacak.",
+    "talep": "Müşteri telefon numarasıyla kaydolup haritadan yerini işaretler, uygun gün ve saati kendisi seçer.",
+    "esles": "Talep aktif SPY'nin tabletine iletilir; kabul edildiğinde temsilcinin adı ve kesin saat uygulamada görünür.",
+    "hazir": "Beklerken Finansman Aracı'yla ihtiyacını ve bütçesini belirleyebilecek; temsilci de görüşmeye bu ön bilgiyle hazırlıklı gidecek.",
+    "guven": "Ziyaret günü temsilci haritadan izlenebilir; kapıda kimliği QR kodla doğrulanır, görüşmenin yazılı özeti de telefonda kalır.",
+    "yol": "Proje önce belirlenecek bir pilot bölgede başlayacak; talep sayısı, yanıt süresi ve gerçekleşen görüşmeler izlenecek. "
+           "Sonuçlara göre hizmet alanını uygun görülen ilçelere genişletmek mümkün.",
+    "cift": "Böylece iletişim çift yönlü hâle gelir; her talep, ön bilgisiyle birlikte bize ek veri de kazandırır.",
+    "oncelik": "Bizi çağırana öncelik vererek, saha gücümüzü talebe göre daha doğru planlayabileceğiz.",
 }
 
 
 def oku(m):
-    m = re.sub(r"\bSPY'", "Es-Pe-Ye'", m)
-    m = re.sub(r"\bSPY\b", "Es-Pe-Ye", m)
+    m = re.sub(r"\bSPY'", "Sepeye'", m)
+    m = re.sub(r"\bSPY\b", "Sepeye", m)
     return m.replace("QR kod", "kuar kod")
 
 
@@ -58,21 +48,35 @@ def sure(dosya):
     return int(h) * 3600 + int(m) * 60 + float(s)
 
 
+async def parca(k, m):
+    for deneme in range(5):
+        try:
+            ses, kelime = bytearray(), []
+            async for c in edge_tts.Communicate(oku(m), SES, rate=HIZ, boundary="WordBoundary").stream():
+                if c["type"] == "audio":
+                    ses += c["data"]
+                elif c["type"] == "WordBoundary":
+                    kelime.append([round(c["offset"] / 1e7, 3), c["text"]])
+            if not ses:
+                raise RuntimeError("ses gelmedi")
+            (KLASOR / f"{k}.mp3").write_bytes(bytes(ses))
+            return kelime
+        except Exception as e:  # servis arada bir boş döner
+            print("yeniden", k, e)
+            await asyncio.sleep(3)
+    raise SystemExit(f"{k} üretilemedi")
+
+
 async def uret():
     KLASOR.mkdir(exist_ok=True)
+    for eski in KLASOR.glob("*.mp3"):
+        eski.unlink()
     plan = {}
     for k, m in METIN.items():
-        hedef = KLASOR / f"{k}.mp3"
-        for deneme in range(4):
-            try:
-                await edge_tts.Communicate(oku(m), SES, rate=HIZ).save(str(hedef))
-                break
-            except Exception as e:  # servis arada bir boş döner
-                print("yeniden", k, e)
-                await asyncio.sleep(3)
-        plan[k] = {"sure": round(sure(hedef), 2), "metin": m}
-        print(k, plan[k]["sure"])
-    (KLASOR / "plan.js").write_text("/* ses_uret.py üretir */\nvar SES = " + json.dumps(plan, ensure_ascii=False, indent=1) + ";\n", encoding="utf-8")
+        kelime = await parca(k, m)
+        plan[k] = {"sure": round(sure(KLASOR / f"{k}.mp3"), 2), "metin": m, "kelime": kelime}
+        print(k, plan[k]["sure"], len(kelime))
+    (KLASOR / "plan.js").write_text("/* ses_uret.py üretir */\nvar SES = " + json.dumps(plan, ensure_ascii=False) + ";\n", encoding="utf-8")
 
 
 asyncio.run(uret())

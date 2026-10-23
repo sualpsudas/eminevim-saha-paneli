@@ -38,6 +38,8 @@ with sync_playwright() as p:
     sayfa.evaluate("Promise.all([...document.images].map(i => i.decode().catch(() => {})))")
     sure = sayfa.evaluate("SURE")
     plan = sayfa.evaluate("SES_PLAN")
+    altyazi = sayfa.evaluate("ALTYAZI")
+    kapanis = sayfa.evaluate("KAPANIS_T")
 
     if arg.kare is not None:
         hedef = KLASOR / "onizleme"
@@ -67,7 +69,7 @@ with sync_playwright() as p:
 
 # altyazı
 srt = pathlib.Path(arg.cikti).with_suffix(".srt")
-srt.write_text("\n".join(f"{i + 1}\n{zaman(x['t'])} --> {zaman(x['t'] + x['sure'])}\n{x['metin']}\n" for i, x in enumerate(plan)), encoding="utf-8")
+srt.write_text("\n".join(f"{i + 1}\n{zaman(x['t'])} --> {zaman(x['son'])}\n{x['metin']}\n" for i, x in enumerate(altyazi)), encoding="utf-8")
 
 # müzik
 subprocess.run([sys.executable, str(KLASOR / "muzik_uret.py"), f"{sure + 1:.1f}"], check=True)
@@ -80,7 +82,8 @@ for k, x in enumerate(plan):
     filtre.append(f"[{k + 1}:a]aresample=44100,adelay={int(x['t'] * 1000)}:all=1[s{k}]")
 m = len(plan) + 1
 girdi += ["-i", str(KLASOR / "ses" / "muzik.wav"), "-i", str(srt)]
-filtre.append(f"[{m}:a]aresample=44100,volume={MUZIK_SES}[muz]")
+# müzik konuşmanın altında kısık; sessiz kapanışta hafifçe yükselir
+filtre.append(f"[{m}:a]aresample=44100,volume='{MUZIK_SES}+0.17*min(1,max(0,(t-{kapanis:.2f})/1.5))':eval=frame[muz]")
 filtre.append("".join(f"[s{k}]" for k in range(len(plan))) + f"[muz]amix=inputs={len(plan) + 1}:normalize=0:duration=longest,alimiter=limit=0.95[a]")
 subprocess.run([
     FF, "-y", "-loglevel", "error", *girdi, "-filter_complex", ";".join(filtre),

@@ -158,35 +158,27 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
   taklit eder (başlıkta logo yok, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
   Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
-- `video/` — **tanıtım videosu** (2026-10-23 v4, SESLİ; içeride izlenecek PROJE TANITIMI, reklam havası yok; 16:9, ~2 dk 28 sn):
-  seslendirme (edge-tts `fr-FR-RemyMultilingualNeural` +4% = kullanıcının seçtiği "Ses 4"; ücretsiz Türkçe Ahmet sesi
-  servis tarafında çalışmadı) + kodla üretilen sakin müzik (`muzik_uret.py`) + videoya gömülü açılıp kapanabilen Türkçe
-  altyazı izi ve ayrı `.srt`. Ekranda yalnız ANAHTAR KELİMELER. Bölümler: 01 Gözlem (İstanbul haritası → yeşil hizmet
-  bölgeleri + ilçe balonları, "pilot" yazılmaz → Ataşehir'e yakınlaşma → işyeri sokağı; tek yönlü temas, kanal yok,
-  cumartesi takvimi, dilediği yer/zaman) · "Tasarruf Yanımda ile" sokağı (kapı kapı SPY + hafta içi çağrıya giden yeşil
-  Aktif SPY; gün şeridinde Pzt/Sal/Per) · 02 İşleyiş (senaryo ekranları + uygulamanın Finansman ekranları + ön bilgi) ·
-  03 Yol haritası (4 aşama + Anadolu yakası komşu ilçeler tek tek hizmete katılır, adları belirir) · 04 Hedeflenen düzen
-  (çift yönlü temas; ön bilgi = YAN kazanç; SPY kaynağı önceliklendirilir). Kullanıcı kuralları: satış cümlesi yok,
-  "Amacımız" yazılmaz, "SPY'ler", konuşmada "işyeri" değil "müşteri", tekrar yok, hızlı geçiş.
-  Üretim: `python video/ses_uret.py` (konuşma metni METIN sözlüğünde; SPY/QR Türkçe okunsun diye OKU dönüşümü) →
-  `python video/kaydet.py` (sahne süreleri ses süresinden; SES_PLAN). imageio-ffmpeg, edge-tts, numpy gerekir (conda
-  `scrapling`de yok). `video/kareler/`: senaryo görüntüleri, `fin1-3` uygulamanın Finansman ekranları, `harita_z10-16`
-  OpenStreetMap gri (merkez 40.9866, 29.1225; köşede atıf zorunlu); ilçe sınırları Nominatim. Linkte `?v=N` sürüm
-  parametresi (telefon eski kopyayı gösteriyordu) — videoyu her güncellemede linkler.html'de N'i artır.
-  Müşteriye yönelik reklam videosu çerçevenin kapsamı dışında.
-- **Video v5 PLANI (2026-10-23, kullanıcıyla konuşuldu; metin ChatGPT'ye dış göz için gönderildi, dönüş bekleniyor):**
-  Sıra: Açılış (logo) → 01 Bugün sahada (doğrudan işyeri sokağı, AÇILIŞTA HARİTA YOK) → 02 Sorun (tek yönlü, kanal yok,
-  cumartesi) → 03 Çözüm (iki yönlü ok, çözüm sokağı, işleyiş 4 akıcı cümle) → 04 Yol haritası (aşamalar + harita: hizmet
-  bölgesi yeşil, ilçeler tek tek katılır; harita yalnız burada) → 05 Hedeflenen düzen (çift yönlü temas; Sepeye kaynağı) →
-  sessiz kapanış (3 simgeli özet kartı: Çift yönlü temas · Hazırlıklı görüşme · Doğru kaynak yönetimi + logo).
-  Seslendirme kuralları: SPY "Sepeye" okunur (OKU dönüşümü); "Tasarruf Yanımda" ve kısa/yarım cümleler TEK BAŞINA okutulmaz
-  (çok dilli ses yabancı dil sanıyor) → işleyiş 4 uzun cümle, ekran geçişleri edge-tts kelime zamanlarına bağlanır; aynı
-  zaman kipi sürekli kullanılmaz (geniş/gelecek/-ebilir/isim cümlesi karışık; çözüm kısmı gelecek zaman); kelime tekrarı yok;
-  ilçe adı söylenmez ("pilot bölgede", "uygun görülen ilçelere genişletilebilir"); haritada "örnek bölge" notu GEREKMEZ.
-  Hız: ~+8%, boşluklar kısalır, hedef ~1:45. Animasyon: etkileyici ve kurumsal (logo süpürme girişi, bölüm geçiş kartları,
-  dokunuş dalgası, aktif ekrana hafif yakınlaşma, telefondan tablete veri çizgisi, kelime kelime anahtar kelime, özet kartı;
-  müzik sona doğru hafif yükselir). SES EFEKTİ YOK. Taslak metin (kip karışık) sohbette verildi; ChatGPT yorumu gelince
-  METIN'e işlenecek.
+- `video/` — **tanıtım videosu** (2026-10-23 **v5**, linkler.html'de `?v=5`; içeride izlenecek KURUMSAL PROJE TANITIMI; 16:9, ~1 dk 47 sn,
+  seslendirme + kodla üretilen sakin müzik (sessiz kapanışta yükselir) + açılıp kapanabilen Türkçe altyazı izi ve `.srt`).
+  Sıra: Açılış (logo süpürme, "Tasarruf Yanımda" kelime kelime) → bölüm geçiş kartı (yeşil, 01–05) → 01 Bugün sahada (işyeri
+  sokağı, SPY kapı kapı) → 02 Sorun (tek yönlü ok · çağrı kanalı yok · cumartesi takvimi) → 03 Çözüm (iki yönlü ok + "Dilediği
+  yer, dilediği zaman" → çözüm sokağı: kapı kapı SPY + çağrıya giden yeşil Aktif SPY, gün şeridi Pzt/Sal/Per → işleyiş
+  telefon+tablet 4 bölüm: Talep · Eşleşme (telefondan tablete veri çizgisi) · Hazırlık·ön bilgi (Finansman ekranları, tablette
+  ön bilgiye yakınlaşma) · Güven; dokunuş dalgası vurgulu düğmede, etkin cihaz hafif yakınlaşır) → 04 Yol haritası (4 aşama,
+  ölçüm etiketleri: talep sayısı/yanıt süresi/gerçekleşen görüşme → harita: hizmet bölgesi + Anadolu yakası ilçeler tek tek)
+  → 05 Hedeflenen düzen (çift yönlü temas + "yan kazanç: ön bilgi = ek veri" · "Öncelik bizi çağırana" rozetli kutular)
+  → sessiz kapanış (3 simgeli özet kartı + logo). SES EFEKTİ YOK.
+  Seslendirme kuralları (kullanıcı): SPY "Sepeye" okunur; "Tasarruf Yanımda" ve kısa cümleler tek başına okutulmaz (çok dilli
+  ses yabancı dil sanıyor) → uzun parçalar, ekran geçişleri edge-tts KELİME ZAMANLARINA bağlı (`W()`); zaman kipi karışık,
+  çözüm gelecek zaman; kelime tekrarı yok; satış vaadi ve "Amacımız" yok; ilçe adı söylenmez ("belirlenecek bir pilot bölge",
+  "uygun görülen ilçelere genişletmek mümkün"); konuşmada "işyeri" değil "müşteri". Metin ChatGPT dış gözüyle birleştirildi.
+  Üretim: `python video/ses_uret.py` (METIN + kelime zamanları → ses/plan.js) → `python video/kaydet.py` (sahne süreleri sesten;
+  SES_PLAN, ALTYAZI cümle cümle, KAPANIS_T). Ses edge-tts `fr-FR-RemyMultilingualNeural` +8% (kullanıcının seçtiği "Ses 4";
+  ücretsiz Türkçe Ahmet sesi servis tarafında çalışmadı). Tam doğal Türkçe için seçenek: ElevenLabs (ücretli).
+  `kareler/vurgu.js` = ekranlardaki turuncu vurgulu düğmenin yeri (otomatik tespit; dokunuş dalgası ve yakınlaşma için).
+  `kareler/`: senaryo görüntüleri, `fin1-3` uygulamanın Finansman ekranları, `harita_z11` OpenStreetMap gri (atıf zorunlu);
+  ilçe sınırları Nominatim. imageio-ffmpeg, edge-tts, numpy gerekir (conda `scrapling`de yok). Videoyu her güncellemede
+  linkler.html'deki `?v=N`'i artır (telefon eski kopyayı gösteriyordu). Müşteriye yönelik reklam videosu kapsam dışı.
 - `rapor/benzer-uygulamalar.html` — Türkiye + dünya benzer uygulamalar, yenilik fikirleri, uyarılar (2026-10-21 taslak; kullanıcıyla
   konuşulup ortak rapora dönüşecek). linkler.html'de "Araştırma raporu".
 - `backup/2026-10-21-eski-uygulama/` — sade akıştan önceki uygulama (açılır hâlde; git etiketi `eski-uygulama-2026-10-21`).
