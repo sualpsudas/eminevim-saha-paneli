@@ -158,17 +158,22 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
   taklit eder (başlıkta logo yok, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
   Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
-- `video/` — **tanıtım videosu** (2026-10-23 v2; içeride izlenecek PROJE TANITIMI, reklam havası yok; 16:9, sessiz, ekran
-  yazılı, ~1 dk 44 sn): bölümler 01 Gözlem (İstanbul haritası → yeşil hizmet bölgeleri + ilçe balonları, "pilot" yazılmaz →
-  Ataşehir'e yakınlaşma → işyeri sokağı: market, eczane, kuaför, oto galeri, emlak, büro; tek yönlü temas, kanal yok,
-  cumartesi takvimi, dilediği yer/zaman) · 02 İşleyiş (senaryo ekranları + uygulamanın Finansman ekranları + ön bilgi) ·
-  03 Yol haritası (4 aşama şeması + genişleyen hizmet alanı) · 04 Hedeflenen düzen (çift yönlü temas; ön bilgi = YAN kazanç;
-  SPY kaynağı önceliklendirilir). Kullanıcı kuralları: satış cümlesi yok, "Amacımız" yazılmaz, "SPY'ler" (SPY'lerimiz değil),
-  aynı kelime/cümle tekrarı yok, hızlı geçiş. Kaynak `tanitim.html` (SAHNELER + B dizisi; tarayıcıda oynar),
-  `python video/kaydet.py` → `tasarruf-yanimda-tanitim.mp4` (imageio-ffmpeg gerekir; conda `scrapling`de yok).
-  `video/kareler/`: senaryo görüntüleri, `fin1-3` uygulamanın Finansman ekranları (telefon çerçevesine yerleştirildi),
-  `harita_z10-16` OpenStreetMap gri (merkez 40.9866, 29.1225; köşede atıf zorunlu). Müşteriye yönelik reklam videosu
-  çerçevenin kapsamı dışında.
+- `video/` — **tanıtım videosu** (2026-10-23 v4, SESLİ; içeride izlenecek PROJE TANITIMI, reklam havası yok; 16:9, ~2 dk 28 sn):
+  seslendirme (edge-tts `fr-FR-RemyMultilingualNeural` +4% = kullanıcının seçtiği "Ses 4"; ücretsiz Türkçe Ahmet sesi
+  servis tarafında çalışmadı) + kodla üretilen sakin müzik (`muzik_uret.py`) + videoya gömülü açılıp kapanabilen Türkçe
+  altyazı izi ve ayrı `.srt`. Ekranda yalnız ANAHTAR KELİMELER. Bölümler: 01 Gözlem (İstanbul haritası → yeşil hizmet
+  bölgeleri + ilçe balonları, "pilot" yazılmaz → Ataşehir'e yakınlaşma → işyeri sokağı; tek yönlü temas, kanal yok,
+  cumartesi takvimi, dilediği yer/zaman) · "Tasarruf Yanımda ile" sokağı (kapı kapı SPY + hafta içi çağrıya giden yeşil
+  Aktif SPY; gün şeridinde Pzt/Sal/Per) · 02 İşleyiş (senaryo ekranları + uygulamanın Finansman ekranları + ön bilgi) ·
+  03 Yol haritası (4 aşama + Anadolu yakası komşu ilçeler tek tek hizmete katılır, adları belirir) · 04 Hedeflenen düzen
+  (çift yönlü temas; ön bilgi = YAN kazanç; SPY kaynağı önceliklendirilir). Kullanıcı kuralları: satış cümlesi yok,
+  "Amacımız" yazılmaz, "SPY'ler", konuşmada "işyeri" değil "müşteri", tekrar yok, hızlı geçiş.
+  Üretim: `python video/ses_uret.py` (konuşma metni METIN sözlüğünde; SPY/QR Türkçe okunsun diye OKU dönüşümü) →
+  `python video/kaydet.py` (sahne süreleri ses süresinden; SES_PLAN). imageio-ffmpeg, edge-tts, numpy gerekir (conda
+  `scrapling`de yok). `video/kareler/`: senaryo görüntüleri, `fin1-3` uygulamanın Finansman ekranları, `harita_z10-16`
+  OpenStreetMap gri (merkez 40.9866, 29.1225; köşede atıf zorunlu); ilçe sınırları Nominatim. Linkte `?v=N` sürüm
+  parametresi (telefon eski kopyayı gösteriyordu) — videoyu her güncellemede linkler.html'de N'i artır.
+  Müşteriye yönelik reklam videosu çerçevenin kapsamı dışında.
 - `rapor/benzer-uygulamalar.html` — Türkiye + dünya benzer uygulamalar, yenilik fikirleri, uyarılar (2026-10-21 taslak; kullanıcıyla
   konuşulup ortak rapora dönüşecek). linkler.html'de "Araştırma raporu".
 - `backup/2026-10-21-eski-uygulama/` — sade akıştan önceki uygulama (açılır hâlde; git etiketi `eski-uygulama-2026-10-21`).

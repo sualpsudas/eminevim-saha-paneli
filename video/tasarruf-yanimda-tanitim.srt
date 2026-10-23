@@ -1,0 +1,103 @@
+1
+00:00:00,300 --> 00:00:04,640
+Alternatif Satış Kanalı'ndan yeni bir proje: Tasarruf Yanımda.
+
+2
+00:00:05,740 --> 00:00:09,940
+İstanbul'da Üsküdar, Ümraniye ve Ataşehir'den başlıyoruz.
+
+3
+00:00:12,340 --> 00:00:17,090
+Bugün SPY'ler sahada müşterileri kapı kapı, tek tek ziyaret ediyor.
+
+4
+00:00:18,440 --> 00:00:22,950
+Yani sahadaki temas tek yönlü: ilk adımı her zaman biz atıyoruz.
+
+5
+00:00:23,750 --> 00:00:28,960
+Bizimle görüşmek isteyen bir müşterinin ise bizi çağırabileceği bir kanal yok.
+
+6
+00:00:29,760 --> 00:00:37,320
+Müşterinin gözünden bakınca, yüz yüze görüşme çoğu zaman cumartesiye kalıyor; hafta içi mesai buna fırsat vermiyor.
+
+7
+00:00:38,120 --> 00:00:42,660
+Oysa müşteriye, dilediği yerde ve dilediği zamanda ulaşabilmeliyiz.
+
+8
+00:00:43,460 --> 00:00:46,530
+Tasarruf Yanımda ile ikisi bir arada yürür.
+
+9
+00:00:46,730 --> 00:00:56,260
+SPY'ler kapı kapı çalışmayı sürdürürken, bizi çağıran müşteriye aktif SPY'ler gider; pazartesi, salı ya da perşembe, hangi günü seçerse.
+
+10
+00:00:57,010 --> 00:01:02,510
+Peki nasıl işliyor? Müşteri uygulamaya telefon numarasıyla kaydoluyor,
+
+11
+00:01:03,260 --> 00:01:05,780
+Randevularım'dan temsilci istiyor,
+
+12
+00:01:06,530 --> 00:01:09,430
+görüşme yerini haritada işaretliyor
+
+13
+00:01:10,180 --> 00:01:14,210
+ve uygun gün ile saati seçiyor; aynı gün bile olabilir.
+
+14
+00:01:14,960 --> 00:01:19,300
+Talep, bölgedeki aktif SPY'nin tabletine anında düşüyor.
+
+15
+00:01:20,050 --> 00:01:24,470
+SPY kabul ettiği anda müşteri, kimin geleceğini adıyla görüyor.
+
+16
+00:01:25,220 --> 00:01:29,160
+Saat onaylanınca randevu iki tarafta da kesinleşiyor.
+
+17
+00:01:29,910 --> 00:01:35,290
+Müşteri beklerken Finansman Aracı'yla ihtiyacını ve bütçesini netleştirebiliyor.
+
+18
+00:01:36,040 --> 00:01:41,820
+Bu tercihler SPY'nin tabletine ön bilgi olarak geçiyor; görüşme hazırlıklı başlıyor.
+
+19
+00:01:42,570 --> 00:01:46,960
+Görüşme günü müşteri, SPY'nin yolda olduğunu haritadan izliyor.
+
+20
+00:01:47,710 --> 00:01:52,700
+Kapıda QR kod okutuluyor ve doğrulama müşterinin kendi ekranında beliriyor.
+
+21
+00:01:53,450 --> 00:01:57,190
+Görüşme bitince yazılı özet doğrudan telefona geliyor.
+
+22
+00:01:57,990 --> 00:02:02,310
+Bu düzeni önce pilot bölgede deneyip her adımını ölçeceğiz.
+
+23
+00:02:02,510 --> 00:02:07,530
+Sonuçlara göre hizmet alanı, komşu ilçelere doğru adım adım genişleyebilir.
+
+24
+00:02:08,330 --> 00:02:17,930
+Böylece müşteri ile SPY ekibi arasında çift yönlü bir temas kuruluyor. Her talep, ön bilgisiyle birlikte bize ek bir veri de kazandırıyor.
+
+25
+00:02:18,730 --> 00:02:23,460
+SPY kaynağını önceliklendirerek saha gücümüzü daha doğru yönetiyoruz.
+
+26
+00:02:24,330 --> 00:02:25,960
+Tasarruf Yanımda.
