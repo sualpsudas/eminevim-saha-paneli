@@ -449,7 +449,7 @@
   var TAB = {
     bos: function () { return tab("Bugün", "Bugün · 22 Ekim", '<span>2 görüşme tamamlandı</span>', '<div class="iki"><div><span class="baslik-k">AJANDA</span>' + ajanda() + '</div><div class="detay"><div class="kpi"><div class="kart"><b>2</b>Bugün tamamlanan</div><div class="kart"><b>0</b>Bekleyen talep</div><div class="kart"><b>★ 4,8</b>Puan</div></div><div class="kart sakin">Yeni talep geldiğinde burada görünür.</div></div></div>'); },
     talep: function () {
-      return tab("Talepler", "Yeni talep", '<span class="rozet t">Yanıt için 1:48</span>', '<div class="iki"><div><span class="baslik-k">BEKLEYEN</span><div class="liste"><div class="kart s"><span class="saat">YENİ</span><span style="flex:1"><b>' + M.kisa + '</b><br><span style="font-size:12px">' + M.yer + ' · ' + M.gunK + ' ' + M.saat + '</span></span></div></div></div><div class="detay">' + musteriKart +
+      return tab("Talepler", "Yeni talep", '<span class="rozet t">Yanıt için 1:48</span>', '<div class="iki"><div><span class="baslik-k">BEKLEYEN</span><div class="liste"><div class="kart s"><span class="saat">YENİ</span><span style="flex:1"><b>' + M.kisa + '</b><br><span style="font-size:12px">' + M.yer + ' · ' + M.gunK + ' ' + M.saat + '</span></span></div></div></div><div class="detay">' + musteriKart() +
         '<div class="kart" style="padding:0;height:200px;overflow:hidden">' + harita(560, 200) + '</div><div style="display:flex;gap:10px"><div class="btn vurgu" style="flex:2">Kabul et</div><div class="btn o" style="flex:1">Devret</div></div></div></div>');
     },
     mesaj: function () {

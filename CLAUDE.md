@@ -156,6 +156,10 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
   taklit eder (başlıkta logo yok, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
   Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
+- `video/` — **tanıtım videosu** (2026-10-23; içeride izlenecek, 16:9, sessiz, ekran yazılı, ~2 dk 14 sn): `tanitim.html` kaynak
+  (sahne metinleri `A`/`B`/`C` dizilerinde; tarayıcıda oynar), `python video/kaydet.py` → `tasarruf-yanimda-tanitim.mp4`
+  (imageio-ffmpeg gerekir; conda `scrapling`de yok). Ekranlar `video/kareler/` = senaryo.html Senaryo 1 görüntüleri (senaryo
+  değişirse yeniden alınır). Müşteriye yönelik reklam videosu çerçevenin kapsamı dışında; pilot bölge denemesinden sonra ayrı iş.
 - `rapor/benzer-uygulamalar.html` — Türkiye + dünya benzer uygulamalar, yenilik fikirleri, uyarılar (2026-10-21 taslak; kullanıcıyla
   konuşulup ortak rapora dönüşecek). linkler.html'de "Araştırma raporu".
 - `backup/2026-10-21-eski-uygulama/` — sade akıştan önceki uygulama (açılır hâlde; git etiketi `eski-uygulama-2026-10-21`).

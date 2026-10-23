@@ -493,3 +493,10 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 
 - Senaryo 1 artık uygulamadan başlıyor (18 adım): SMS koduyla kayıt, parola, Hoş geldiniz, Randevularım'dan temsilci isteme, saat onayı Randevularım'da, hazırlık penceresi, kapıda QR, özet. Web'den başlayan akış Senaryo 2 olarak duruyor.
 - Ekranlar uygulamanın güncel görünümüne uyduruldu (logo yok, Geri, yeni sekme adları, puan isteğe bağlı). Bilgilendirme formu adımı "öneri" olarak işaretli.
+
+### 2026-10-23 - Tanıtım videosu (içeride izlenecek)
+
+- `video/tasarruf-yanimda-tanitim.mp4`: 16:9, sessiz, ekran yazılı, yaklaşık 2 dk 14 sn. Bölümler: Neden? (temas tek yönlü) · Nasıl çalışır? (Senaryo 1 ekranları, müşteri telefonu + SPY tableti) · Nasıl ilerleyeceğiz? (aktif SPY'ler, dört aşama, "ölçerek göstereceğiz").
+- Kaynak `video/tanitim.html` (tarayıcıda oynar; metinler `B` dizisinde), üretim `python video/kaydet.py` (imageio-ffmpeg gerekir). Ekranlar `video/kareler/` (senaryo.html'den). Bilgilendirme formu (öneri) videoda gösterilmez; tablet hazırlık kartı gizlendi.
+- senaryo.html: Senaryo 1 adım 9 "Yeni talep" ekranında müşteri kartı yerine kod görünüyordu, düzeltildi.
+- linkler.html alt satırına "Tanıtım videosu" eklendi.
