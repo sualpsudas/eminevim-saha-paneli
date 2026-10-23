@@ -148,18 +148,27 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Etkin taraf turuncu etiket + vurgulu düğme; telefonda tek cihaz, etkin taraf öne gelir. Ekranlar SABİT çizimdir (gerçek
   uygulama değil): kullanıcıyla konuşarak senaryo geliştirmek için; onaylanan ekranlar sonra uygulamaya taşınır.
   Üstte senaryo seçimi (kullanıcı isteği 2026-10-22: ana akış UYGULAMADAN):
-  **Senaryo 1 · Uygulamadan** (18 adım, müşteri hep telefon): uygulamayı açar → telefon → SMS kodu → ad soyad + parola →
+  **Senaryo 1 · Uygulamadan** (19 adım, müşteri hep telefon): uygulamayı açar → telefon → SMS kodu → ad soyad + parola →
   Hoş geldiniz → Randevularım'dan "Temsilci iste" → harita → gün/saat → talep tablete düşer → temsilci kabul eder →
-  müşteri Randevularım'da "Saati onayla" → isteğe bağlı hazırlık bilgileri → bir gün önce bilgilendirme formu (ÖNERİ, uygulamada
+  müşteri Randevularım'da "Saati onayla" → isteğe bağlı hazırlık bilgileri → Finansman Aracı tercihi SPY tabletinde
+  "ÖN BİLGİ" kartı (2026-10-23; değerler uygulamadaki örnekle aynı: Konut · ~3.500.000 ₺ · %10 · 72 ay · ~43.750 ₺)
+  → bir gün önce bilgilendirme formu (ÖNERİ, uygulamada
   yok) → yola çıkar → kapıda QR → yeşil → tablette plan + özet → müşteri özeti inceler (puan isteğe bağlı).
   **Senaryo 2 · Web'den** (12 adım, eski akış; müşteri Telefon/Bilgisayar seçilir, bilgisayarda uygulamasız takip sayfası).
   Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
   taklit eder (başlıkta logo yok, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
   Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
-- `video/` — **tanıtım videosu** (2026-10-23; içeride izlenecek, 16:9, sessiz, ekran yazılı, ~2 dk 14 sn): `tanitim.html` kaynak
-  (sahne metinleri `A`/`B`/`C` dizilerinde; tarayıcıda oynar), `python video/kaydet.py` → `tasarruf-yanimda-tanitim.mp4`
-  (imageio-ffmpeg gerekir; conda `scrapling`de yok). Ekranlar `video/kareler/` = senaryo.html Senaryo 1 görüntüleri (senaryo
-  değişirse yeniden alınır). Müşteriye yönelik reklam videosu çerçevenin kapsamı dışında; pilot bölge denemesinden sonra ayrı iş.
+- `video/` — **tanıtım videosu** (2026-10-23 v2; içeride izlenecek PROJE TANITIMI, reklam havası yok; 16:9, sessiz, ekran
+  yazılı, ~1 dk 44 sn): bölümler 01 Gözlem (İstanbul haritası → yeşil hizmet bölgeleri + ilçe balonları, "pilot" yazılmaz →
+  Ataşehir'e yakınlaşma → işyeri sokağı: market, eczane, kuaför, oto galeri, emlak, büro; tek yönlü temas, kanal yok,
+  cumartesi takvimi, dilediği yer/zaman) · 02 İşleyiş (senaryo ekranları + uygulamanın Finansman ekranları + ön bilgi) ·
+  03 Yol haritası (4 aşama şeması + genişleyen hizmet alanı) · 04 Hedeflenen düzen (çift yönlü temas; ön bilgi = YAN kazanç;
+  SPY kaynağı önceliklendirilir). Kullanıcı kuralları: satış cümlesi yok, "Amacımız" yazılmaz, "SPY'ler" (SPY'lerimiz değil),
+  aynı kelime/cümle tekrarı yok, hızlı geçiş. Kaynak `tanitim.html` (SAHNELER + B dizisi; tarayıcıda oynar),
+  `python video/kaydet.py` → `tasarruf-yanimda-tanitim.mp4` (imageio-ffmpeg gerekir; conda `scrapling`de yok).
+  `video/kareler/`: senaryo görüntüleri, `fin1-3` uygulamanın Finansman ekranları (telefon çerçevesine yerleştirildi),
+  `harita_z10-16` OpenStreetMap gri (merkez 40.9866, 29.1225; köşede atıf zorunlu). Müşteriye yönelik reklam videosu
+  çerçevenin kapsamı dışında.
 - `rapor/benzer-uygulamalar.html` — Türkiye + dünya benzer uygulamalar, yenilik fikirleri, uyarılar (2026-10-21 taslak; kullanıcıyla
   konuşulup ortak rapora dönüşecek). linkler.html'de "Araştırma raporu".
 - `backup/2026-10-21-eski-uygulama/` — sade akıştan önceki uygulama (açılır hâlde; git etiketi `eski-uygulama-2026-10-21`).

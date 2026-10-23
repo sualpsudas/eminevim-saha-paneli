@@ -500,3 +500,9 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Kaynak `video/tanitim.html` (tarayıcıda oynar; metinler `B` dizisinde), üretim `python video/kaydet.py` (imageio-ffmpeg gerekir). Ekranlar `video/kareler/` (senaryo.html'den). Bilgilendirme formu (öneri) videoda gösterilmez; tablet hazırlık kartı gizlendi.
 - senaryo.html: Senaryo 1 adım 9 "Yeni talep" ekranında müşteri kartı yerine kod görünüyordu, düzeltildi.
 - linkler.html alt satırına "Tanıtım videosu" eklendi.
+
+### 2026-10-23 - Tanıtım videosu v2
+
+- Kullanıcı geri bildirimiyle yeniden kurgulandı: daha hızlı (~1 dk 44 sn), proje tanıtımı havası (açık zemin, bölüm etiketleri), satış cümleleri ve "vaat etmiyoruz" sahnesi çıktı, "SPY'ler".
+- Yeni açılış: İstanbul haritası, hizmet bölgeleri ve ilçe balonları, Ataşehir'e yakınlaşma, SPY'nin işyeri kapılarını tek tek ziyaret ettiği sokak çizimi. Cumartesi takvimi, Finansman Aracı (uygulama ekranları) ve tablette ön bilgi eklendi; yol haritası şeması + genişleyen hizmet alanı; kapanışta çift yönlü temas ve SPY kaynağının önceliklendirilmesi.
+- senaryo.html Senaryo 1'e "SPY ön bilgiyi görür" adımı eklendi (telefonda Finansmanlarım, tablette ÖN BİLGİ kartı); 19 adım.
