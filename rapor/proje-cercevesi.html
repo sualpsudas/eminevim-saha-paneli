@@ -6,89 +6,173 @@
 <meta name="robots" content="noindex,nofollow">
 <title>Proje Çerçevesi</title>
 <style>
-  :root{--yesil:#00724c;--turuncu:#b25e30;--zemin:#f5f5f5;--kart:#fff;--yazi:#333;--soluk:#666;--cizgi:#ddd;--acik:#e9f0ed;--uyari:#fce0d4}
-  @media (prefers-color-scheme:dark){:root{--yesil:#5fc39a;--turuncu:#f0a070;--zemin:#14171c;--kart:#1e2229;--yazi:#edeff2;--soluk:#a3acb6;--cizgi:#2b303a;--acik:#1c332a;--uyari:#3a2a22}}
+  :root{--yesil:#00724c;--kirmizi:#b3261e;--zemin:#f4f4f2;--kagit:#fff;--yazi:#1f1f1f;--soluk:#6b6b6b;--cizgi:#e3e3e0;--acik:#eef4f1;--secili:#e9f0ed}
+  @media (prefers-color-scheme:dark){:root{--yesil:#5fc39a;--kirmizi:#ff8a80;--zemin:#14171c;--kagit:#1c1f25;--yazi:#eceef1;--soluk:#a3acb6;--cizgi:#2d323b;--acik:#1d2b26;--secili:#22352d}}
   *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
-  body{margin:0;background:var(--zemin);color:var(--yazi);font:16px/1.55 "Century Gothic",-apple-system,"Segoe UI",Arial,sans-serif}
+  html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+  body{margin:0;background:var(--zemin);color:var(--yazi);font:17px/1.65 "Century Gothic",-apple-system,"Segoe UI",Arial,sans-serif}
   a{color:var(--yesil)}
   a:focus-visible{outline:2px solid var(--yesil);outline-offset:2px}
-  .bant{position:sticky;top:0;z-index:5;background:#00724c;color:#fff;padding:calc(10px + env(safe-area-inset-top)) 16px 10px}
-  .bant b{display:block;font-size:17px}
-  .bant span{font-size:13px;opacity:.9}
-  nav{display:flex;gap:6px;overflow-x:auto;padding:10px 16px;background:var(--kart);border-bottom:1px solid var(--cizgi);position:sticky;top:calc(58px + env(safe-area-inset-top));z-index:4}
-  nav a{flex:0 0 auto;text-decoration:none;color:var(--yazi);background:var(--zemin);border-radius:22px;padding:8px 14px;font-size:14px;min-height:40px;display:flex;align-items:center}
-  main{max-width:760px;margin:0 auto;padding:16px 16px calc(32px + env(safe-area-inset-bottom))}
-  h2{font-size:21px;color:var(--yesil);margin:28px 0 10px;scroll-margin-top:130px}
-  h3{font-size:17px;margin:20px 0 6px}
-  p{margin:0 0 10px}
-  .giris{background:var(--acik);border-radius:14px;padding:14px 16px}
-  .slogan{font-size:19px;font-weight:700;margin:4px 0 10px}
-  .kart{background:var(--kart);border:1px solid var(--cizgi);border-radius:14px;padding:14px 16px;margin:0 0 10px}
-  .kart p:last-child{margin-bottom:0}
-  .alt-baslik{color:var(--soluk);font-style:italic;margin:0 0 10px}
-  .hedef b{display:block}
-  .hedef .izleme{font-size:14px;color:var(--soluk);margin-top:6px}
-  .tablo{overflow-x:auto;margin:0 0 10px}
-  table{border-collapse:collapse;width:100%;min-width:520px;background:var(--kart);border:1px solid var(--cizgi);border-radius:14px;overflow:hidden;font-size:15px}
+
+  /* Düzen: solda bölümler, ortada belge */
+  .duzen{display:grid;grid-template-columns:250px minmax(0,1fr);max-width:1180px;margin:0 auto;gap:32px;padding:32px 24px}
+  .icindekiler{position:sticky;top:24px;align-self:start;max-height:calc(100vh - 48px);overflow:auto}
+  .icindekiler b{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--soluk);margin:0 0 10px 12px}
+  .icindekiler a{display:block;text-decoration:none;color:var(--yazi);font-size:15px;padding:7px 12px;border-radius:8px;line-height:1.35}
+  .icindekiler a:hover{background:var(--secili)}
+  .icindekiler a.aktif{background:var(--secili);color:var(--yesil);font-weight:700}
+
+  .kagit{background:var(--kagit);border:1px solid var(--cizgi);border-radius:12px;padding:56px 64px 64px;max-width:820px}
+  h1{font-size:36px;line-height:1.2;margin:0 0 6px}
+  .kunye{color:var(--soluk);font-size:15px;margin:0 0 28px}
+  h2{font-size:28px;line-height:1.25;color:var(--yesil);margin:48px 0 14px;scroll-margin-top:24px}
+  h3{font-size:21px;line-height:1.3;color:var(--kirmizi);margin:28px 0 4px}
+  p{margin:0 0 14px}
+  .giris{background:var(--acik);border-radius:10px;padding:16px 20px;margin-bottom:8px}
+  .vurgu{font-size:21px;font-weight:700;line-height:1.4;margin:6px 0 16px}
+  .vurgu.kirmizi{color:var(--kirmizi)}
+  .alt-baslik{color:var(--soluk);font-style:italic;margin:0 0 12px}
+  .izleme{display:block;font-size:15px;color:var(--soluk);font-style:italic;margin-top:2px}
+  .hedef{margin:0 0 14px}
+  .hedef b:first-child{display:block}
+  ol,ul{padding-left:24px;margin:0 0 14px}
+  li{margin-bottom:8px}
+  li ul{margin:8px 0 0}
+  .tablo{overflow-x:auto;margin:6px 0 14px}
+  table{border-collapse:collapse;width:100%;font-size:16px}
   th,td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--cizgi)}
-  th{background:var(--acik)}
-  tr:last-child td{border-bottom:0}
-  ol,ul{padding-left:22px;margin:0 0 10px}
-  li{margin-bottom:6px}
-  .asama ul{margin-bottom:0}
-  .soru{background:var(--uyari);border-radius:10px;padding:8px 12px;margin-top:8px}
-  .alt{font-size:13px;color:var(--soluk);margin-top:24px}
+  th{font-weight:700;border-bottom:2px solid var(--yazi)}
+  .asama{border-left:3px solid var(--yesil);padding:2px 0 2px 18px;margin:0 0 22px}
+  .asama h3{margin-top:0}
+  .soru{margin-top:6px}
+  .soru i{color:var(--kirmizi);font-style:normal;font-weight:700}
+  .not{font-size:15px;color:var(--soluk)}
+
+  /* Telefon: bölümler üstte kaydırılabilir satır */
+  @media (max-width:900px){
+    .duzen{display:block;padding:0}
+    .icindekiler{position:sticky;top:0;z-index:5;max-height:none;display:flex;gap:6px;overflow-x:auto;background:var(--kagit);border-bottom:1px solid var(--cizgi);padding:10px 16px calc(10px) 16px;padding-top:calc(10px + env(safe-area-inset-top))}
+    .icindekiler b{display:none}
+    .icindekiler a{flex:0 0 auto;font-size:14px;background:var(--zemin);border-radius:20px;padding:8px 14px;white-space:nowrap}
+    .kagit{border:0;border-radius:0;padding:28px 16px calc(40px + env(safe-area-inset-bottom))}
+    h1{font-size:28px}
+    h2{font-size:24px;margin-top:40px;scroll-margin-top:72px}
+    h3{font-size:19px}
+    .vurgu{font-size:19px}
+    table{min-width:520px}
+  }
+
+  /* Yazdırma: A4, bölümler bölünmez */
+  @page{size:A4;margin:16mm 16mm 18mm}
+  @media print{
+    :root{--yesil:#00724c;--kirmizi:#b3261e;--zemin:#fff;--kagit:#fff;--yazi:#1f1f1f;--soluk:#555;--cizgi:#ccc;--acik:#eef4f1}
+    body{font-size:10.5pt;line-height:1.42;background:#fff}
+    p{margin:0 0 7pt}
+    li{margin-bottom:3pt}
+    ol,ul{margin:0 0 7pt}
+    .hedef{margin:0 0 7pt}
+    .asama{margin:0 0 12pt}
+    .izleme{font-size:9.5pt}
+    .alt-baslik{margin:0 0 6pt}
+    .giris{padding:10pt 14pt}
+    .icindekiler{display:none}
+    .duzen{display:block;padding:0;max-width:none}
+    .kagit{border:0;padding:0;max-width:none}
+    h1{font-size:22pt}
+    h2{font-size:16pt;margin:0 0 8pt}
+    h3{font-size:13pt;margin:10pt 0 2pt}
+    .vurgu{font-size:13pt}
+    section{break-inside:avoid;page-break-inside:avoid;padding-top:14pt}
+    section.uzun{break-inside:auto;page-break-inside:auto}
+    .blok,.asama,.hedef,tr,li{break-inside:avoid;page-break-inside:avoid}
+    h2,h3,.alt-baslik{break-after:avoid;page-break-after:avoid}
+    .tablo{overflow:visible}
+    table{min-width:0;font-size:10pt}
+    a{color:inherit;text-decoration:none}
+  }
 </style>
 </head>
 <body>
-<div class="bant"><b>Tasarruf Yanımda — Proje Çerçevesi</b><span>Alternatif Satış Kanalı · Taslak 0.6 · 23 Ekim 2026</span></div>
-<nav aria-label="Bölümler"><a href="#arka-plan">Arka plan</a><a href="#gozlem">Gözlem</a><a href="#amac">Amaç</a><a href="#hedefler">Hedefler</a><a href="#beklentiler">Beklentiler</a><a href="#degisim">Ne değişiyor?</a><a href="#ciktilar">Çıktılar</a><a href="#kapsam">Kapsam</a><a href="#varsayimlar">Varsayımlar</a><a href="#asamalar">Aşamalar</a><a href="#riskler">Riskler</a><a href="#sorular">Sonra netleşecekler</a></nav>
-<main>
+<div class="duzen">
+<nav class="icindekiler" aria-label="Bölümler">
+  <b>Bölümler</b>
+  <a href="#arka-plan">1. Arka plan</a>
+  <a href="#gozlem">2. Gözlem</a>
+  <a href="#amac">3. Amaç</a>
+  <a href="#hedefler">4. Hedefler</a>
+  <a href="#beklentiler">5. Beklentiler ve sınırlar</a>
+  <a href="#degisim">6. Ne değişiyor?</a>
+  <a href="#ciktilar">7. Çıktılar</a>
+  <a href="#kapsam">8. Kapsam</a>
+  <a href="#varsayimlar">9. Varsayımlar</a>
+  <a href="#asamalar">10. Aşamalar</a>
+  <a href="#riskler">11. Başlıca riskler</a>
+  <a href="#sorular">12. Sonra netleşecekler</a>
+</nav>
 
+<main class="kagit">
+<h1>Tasarruf Yanımda — Proje Çerçevesi</h1>
+<p class="kunye">Alternatif Satış Kanalı · Taslak 0.6 · 23 Ekim 2026</p>
 <p class="giris">Bu belge, Alternatif Satış Kanalı'nın Tasarruf Yanımda projesinin neden yapıldığını, neyi hedeflediğini ve hangi aşamalarla ilerleyeceğini anlatır. Taslaktır: <b>sayılar değil, yön içerir.</b> Sayıları pilot bölge denemeleri verecek.</p>
 
-<h2 id="arka-plan">1. Arka plan</h2>
-<p class="slogan">Müşteriyi beklemeyiz, ona gideriz.</p>
+<section id="arka-plan">
+<h2>1. Arka plan</h2>
+<p class="vurgu">Müşteriyi beklemeyiz, ona gideriz.</p>
 <p>Alternatif Satış Kanalı, Eminevim'in sahadaki yüzüdür. Saha Portföy Yöneticilerimiz (SPY) müşteriye kapı kapı ziyaretlerle ulaşır, yüz yüze güven kurar ve satış fırsatı yaratır.</p>
+</section>
 
-<h2 id="gozlem">2. Gözlem</h2>
+<section id="gozlem">
+<h2>2. Gözlem</h2>
 <p>Alternatif Satış Kanalı olarak satışlarımız en çok cumartesi günleri gerçekleşir. Buradan yola çıkarak şunu düşündük: Hafta içi yüz yüze görüşme fırsatı bulamayan aday müşteriye bu fırsatı biz yaratabiliriz.</p>
 <p>Bu düşünce bizi projenin ana fikrine taşıdı: <b>Bugün sahada temas tek yönlüdür.</b> Müşteriyi bulan her zaman biziz; talebi ya da aklında bir sorusu olan müşterinin ise bizi çağırabileceği bir yol yoktur.</p>
-<p class="slogan">Müşteri bizi çağırabilmeli; biz de ona dilediği yerde ve saatte ulaşabilmeliyiz.</p>
+<p class="vurgu kirmizi">Müşteri bizi çağırabilmeli; biz de ona dilediği yerde ve saatte ulaşabilmeliyiz.</p>
+</section>
 
-<h2 id="amac">3. Amaç</h2>
-<div class="kart"><p><b>Genel amacımız:</b> Sahada temasın iki yönlü olmasını sağlamak ve saha gücümüzü en çok sonuç alacağı yerde kullanmak.</p></div>
-<div class="kart"><p><b>Proje amacımız:</b> Görüşmek isteyen müşterinin bizi bulunduğu yere çağırabilmesi ve bu talebin, aynı gün dahil, zamanında karşılanması.</p></div>
-<div class="kart"><p><b>Çalışma ilkemiz:</b> Bizi çağırana önce biz gideriz. Gelen talepleri, Tasarruf Yanımda'da aktif olan SPY'ler karşılar (bu belgede kısaca <b>aktif SPY'ler</b>); diğerleri sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.</p></div>
-<div class="kart"><p><b>Başarıya teşvik:</b> Bizi çağıran müşteriye ilk aşamada en başarılı SPY'ler gider. Müşterinin kendisinin çağırdığı, satışa daha yakın bu görüşmeler başarının teşvikidir; Tasarruf Yanımda'da aktif olmak da sahadaki herkes için ulaşılacak bir hedef hâline gelir. Bu yaklaşım ilk aşama içindir; fizibilite çalışmalarına ve pilot bölge denemelerine göre kanalın ağırlığı artırılabilir.</p></div>
+<section id="amac">
+<h2>3. Amaç</h2>
+<p><b>Genel amacımız:</b> Sahada temasın iki yönlü olmasını sağlamak ve saha gücümüzü en çok sonuç alacağı yerde kullanmak.</p>
+<p><b>Proje amacımız:</b> Görüşmek isteyen müşterinin bizi bulunduğu yere çağırabilmesi ve bu talebin, aynı gün dahil, zamanında karşılanması.</p>
+<p><b>Çalışma ilkemiz:</b> Bizi çağırana önce biz gideriz. Gelen talepleri, Tasarruf Yanımda'da aktif olan SPY'ler karşılar (bu belgede kısaca <b>aktif SPY'ler</b>); diğerleri sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.</p>
+<p><b>Başarıya teşvik:</b> Bizi çağıran müşteriye ilk aşamada en başarılı SPY'ler gider. Müşterinin kendisinin çağırdığı, satışa daha yakın bu görüşmeler başarının teşvikidir; Tasarruf Yanımda'da aktif olmak da sahadaki herkes için ulaşılacak bir hedef hâline gelir. Bu yaklaşım ilk aşama içindir; fizibilite çalışmalarına ve pilot bölge denemelerine göre kanalın ağırlığı artırılabilir.</p>
+</section>
 
-<h2 id="hedefler">4. Hedefler</h2>
+<section id="hedefler">
+<h2>4. Hedefler</h2>
 <p>Vadeler aşamalara bağlıdır: <b>kısa vade</b> Hazırlık ve pilot bölge denemesi, <b>orta vade</b> deneme sonu ve ilk yeni bölgeler, <b>uzun vade</b> Yaygınlaştırma sonrasıdır. Sayısal hedef konmaz; pilot bölge denemesinin ilk haftaları başlangıç değerini verir.</p>
 
+<div class="blok">
 <h3>Kısa vade: İlk talep, ilk görüşme, ilk ölçüm</h3>
 <p class="alt-baslik">Çağrıyı mümkün kılmak; zamanında ve hazırlıklı karşılamak.</p>
-<div class="kart hedef"><b>1. Ulaşılabilir olmak</b>Hizmet bölgemizde görüşmek isteyen her müşteri, web sitemizden ya da uygulamamızdan birkaç adımda bizi çağırabilmeli.<div class="izleme">İzleme: gelen talep sayısı</div></div>
-<div class="kart hedef"><b>2. Zamanında yetişmek</b>Her talep sahiplenilmeli; aynı gün talepleri dahil, müşterinin beklediği zamanda karşılanmalı.<div class="izleme">İzleme: ilk dönüş süresi, karşılanamayan talepler</div></div>
-<div class="kart hedef"><b>3. Hazırlıklı gitmek</b>Müşteri görüşme saatini beklerken Finansman Aracı ile tercihlerini netleştirebilmeli; SPY görüşmeye bu tercihleri ve isteğe bağlı paylaşılan bilgileri (meslek gibi) bilerek gitmeli.<div class="izleme">İzleme: görüşme öncesi Finansman Aracı'nı kullanan müşteri oranı, ön bilgisi olan görüşmeler</div></div>
-<div class="kart hedef"><b>4. Güven vermek</b>Müşteri kimin, ne zaman geleceğini önceden bilmeli ve gelen kişiyi kapıda doğrulayabilmeli.<div class="izleme">İzleme: müşteri geri bildirimi, şikâyet ve iptal nedenleri</div></div>
+<p class="hedef"><b>1. Ulaşılabilir olmak</b>Hizmet bölgemizde görüşmek isteyen her müşteri, web sitemizden ya da uygulamamızdan birkaç adımda bizi çağırabilmeli.<span class="izleme">İzleme: gelen talep sayısı</span></p>
+<p class="hedef"><b>2. Zamanında yetişmek</b>Her talep sahiplenilmeli; aynı gün talepleri dahil, müşterinin beklediği zamanda karşılanmalı.<span class="izleme">İzleme: ilk dönüş süresi, karşılanamayan talepler</span></p>
+<p class="hedef"><b>3. Hazırlıklı gitmek</b>Müşteri görüşme saatini beklerken Finansman Aracı ile tercihlerini netleştirebilmeli; SPY görüşmeye bu tercihleri ve isteğe bağlı paylaşılan bilgileri (meslek gibi) bilerek gitmeli.<span class="izleme">İzleme: görüşme öncesi Finansman Aracı'nı kullanan müşteri oranı, ön bilgisi olan görüşmeler</span></p>
+<p class="hedef"><b>4. Güven vermek</b>Müşteri kimin, ne zaman geleceğini önceden bilmeli ve gelen kişiyi kapıda doğrulayabilmeli.<span class="izleme">İzleme: müşteri geri bildirimi, şikâyet ve iptal nedenleri</span></p>
+</div>
 
+<div class="blok">
 <h3>Orta vade: Veriyle yönetilen bir çağrı düzeni</h3>
 <p class="alt-baslik">Çağrının sonuç verdiğini ve gücümüzü doğru kullandığımızı göstermek.</p>
-<div class="kart hedef"><b>5. Talebi sonuca taşımak</b>Gelen talepler yüz yüze görüşmeye, görüşmeler satışa dönüşmeli.<div class="izleme">İzleme: talep → görüşme → satış</div></div>
-<div class="kart hedef"><b>6. Gücümüzü doğru yere koymak</b>Talep ile saha çalışması arasındaki dağılım, saha gücümüzden en yüksek verimi alacak şekilde kurulmalı.<div class="izleme">İzleme: saat başına görüşme ve satış; aktif SPY'ler, benzer başarıdaki meslektaşlarıyla aynı dönemde karşılaştırılır</div></div>
+<p class="hedef"><b>5. Talebi sonuca taşımak</b>Gelen talepler yüz yüze görüşmeye, görüşmeler satışa dönüşmeli.<span class="izleme">İzleme: talep → görüşme → satış</span></p>
+<p class="hedef"><b>6. Gücümüzü doğru yere koymak</b>Talep ile saha çalışması arasındaki dağılım, saha gücümüzden en yüksek verimi alacak şekilde kurulmalı.<span class="izleme">İzleme: saat başına görüşme ve satış; aktif SPY'ler, benzer başarıdaki meslektaşlarıyla aynı dönemde karşılaştırılır</span></p>
+</div>
 
+<div class="blok">
 <h3>Uzun vade: “Çağırınca gelen” Eminevim</h3>
 <p class="alt-baslik">Çağrıyı Alternatif Satış Kanalı'nın kalıcı çalışma biçimine dönüştürmek.</p>
-<div class="kart hedef"><b>7. Kalıcı bir düzen kurmak</b>Talep ile saha çalışması arasındaki dağılım, tüm bölgelerde gelen talebe göre yönetilen kalıcı bir çalışma biçimine dönüşmeli.<div class="izleme">İzleme: talebe göre yönetilen bölge sayısı, bölgeler arasında sonuçların tutarlılığı</div></div>
-<div class="kart hedef"><b>8. Akla ilk gelen olmak</b>Eminevim, müşterisinin zihninde çağırdığında yanına gelen kurum olarak yer etmeli.<div class="izleme">İzleme: tekrar eden talepler, tavsiyeyle gelen müşteriler</div></div>
+<p class="hedef"><b>7. Kalıcı bir düzen kurmak</b>Talep ile saha çalışması arasındaki dağılım, tüm bölgelerde gelen talebe göre yönetilen kalıcı bir çalışma biçimine dönüşmeli.<span class="izleme">İzleme: talebe göre yönetilen bölge sayısı, bölgeler arasında sonuçların tutarlılığı</span></p>
+<p class="hedef"><b>8. Akla ilk gelen olmak</b>Eminevim, müşterisinin zihninde çağırdığında yanına gelen kurum olarak yer etmeli.<span class="izleme">İzleme: tekrar eden talepler, tavsiyeyle gelen müşteriler</span></p>
+</div>
+</section>
 
-<h2 id="beklentiler">5. Beklentiler ve sınırlar</h2>
-<div class="kart"><p><b>Hafta içi: Aday müşteriye yüz yüze görüşme fırsatı.</b> Hafta içi yüz yüze görüşme fırsatı bulamayan aday müşteriye bu fırsatı sunmayı ve görüşmelerin bir kısmının hafta içine yayılmasını bekliyoruz. Bunu izleyeceğiz, ama başarı ölçüsü olarak koymuyoruz.</p></div>
-<div class="kart"><p><b>Satış artışını vaat etmiyoruz; ölçerek göstereceğiz.</b> Her bölgeye ve her saate hizmet bu aşamanın konusu değil. Saha çalışmalarımız sürecek.</p></div>
+<section id="beklentiler">
+<h2>5. Beklentiler ve sınırlar</h2>
+<p><b>Hafta içi: Aday müşteriye yüz yüze görüşme fırsatı.</b> Hafta içi yüz yüze görüşme fırsatı bulamayan aday müşteriye bu fırsatı sunmayı ve görüşmelerin bir kısmının hafta içine yayılmasını bekliyoruz. Bunu izleyeceğiz, ama başarı ölçüsü olarak koymuyoruz.</p>
+<p><b>Satış artışını vaat etmiyoruz; ölçerek göstereceğiz.</b> Her bölgeye ve her saate hizmet bu aşamanın konusu değil. Saha çalışmalarımız sürecek.</p>
+</section>
 
-<h2 id="degisim">6. Ne değişiyor?</h2>
-<p class="slogan">Kapı artık iki yönden açılıyor.</p>
+<section id="degisim">
+<h2>6. Ne değişiyor?</h2>
+<p class="vurgu kirmizi">Kapı artık iki yönden açılıyor.</p>
 <p><b>Değişmeyenler:</b> Görevimiz müşteriye gitmektir. Kapı kapı çalışmalarımız sürer. Satış yine yüz yüze görüşmede gerçekleşir.</p>
 <div class="tablo"><table>
   <thead><tr><th></th><th>Bugün</th><th>Tasarruf Yanımda ile</th></tr></thead>
@@ -101,8 +185,10 @@
     <tr><td><b>Bizim gördüğümüz</b></td><td>Saha sonuçları</td><td>Talepten satışa her adım</td></tr>
   </tbody>
 </table></div>
+</section>
 
-<h2 id="ciktilar">7. Çıktılar</h2>
+<section id="ciktilar">
+<h2>7. Çıktılar</h2>
 <p><b>Projenin sonunda elimizde altı somut şey olacak:</b></p>
 <ol>
   <li><b>Çağrı kanalı:</b> Müşterinin web sitemizden ya da uygulamamızdan bizi çağırabildiği, yer ve saat seçebildiği akış.</li>
@@ -112,12 +198,16 @@
   <li><b>Güven adımları:</b> Müşterinin kendisine gelecek kişiyi önceden tanıdığı, görüşme günü takip ettiği ve kapıda doğruladığı adımlar.</li>
   <li><b>Ölçüm raporu:</b> Talepten satışa her adımı tek bakışta gösteren rapor.</li>
 </ol>
+</section>
 
-<h2 id="kapsam">8. Kapsam</h2>
-<div class="kart"><p><b>Bu projenin konusu:</b> Müşterinin bizi çağırmasından görüşmenin sonrasına kadar uzanan yol. Çağrı, atama, randevu, görüşme öncesi ön bilgi, görüşme günü, görüşme sonrası özet ve ölçüm bu yolun parçalarıdır.</p></div>
-<div class="kart"><p><b>Bu projenin konusu olmayanlar:</b> Kapı kapı çalışmalarımızın yöntemi, reklam ve tanıtım planı, prim ve hedef sistemi. Bunlar projeden etkilenebilir, ancak kendi süreçleri içinde ele alınır.</p></div>
+<section id="kapsam">
+<h2>8. Kapsam</h2>
+<p><b>Bu projenin konusu:</b> Müşterinin bizi çağırmasından görüşmenin sonrasına kadar uzanan yol. Çağrı, atama, randevu, görüşme öncesi ön bilgi, görüşme günü, görüşme sonrası özet ve ölçüm bu yolun parçalarıdır.</p>
+<p><b>Bu projenin konusu olmayanlar:</b> Kapı kapı çalışmalarımızın yöntemi, reklam ve tanıtım planı, prim ve hedef sistemi. Bunlar projeden etkilenebilir, ancak kendi süreçleri içinde ele alınır.</p>
+</section>
 
-<h2 id="varsayimlar">9. Dayandığımız varsayımlar</h2>
+<section id="varsayimlar">
+<h2>9. Dayandığımız varsayımlar</h2>
 <p><b>Bu proje üç varsayım üzerine kurulu; pilot bölge denemesi her birini sınayacak.</b></p>
 <ol>
   <li><b>Bizi bekleyen müşteri var.</b> Bizimle görüşmek isteyen ama bize ulaşamayan aday müşteriler vardır.</li>
@@ -125,31 +215,33 @@
   <li><b>Saha çalışmamız zayıflamaz.</b> Saha gücümüzün bir bölümü taleplere ayrıldığında kapı kapı çalışmalarımızın sonuçları belirgin şekilde düşmez.</li>
 </ol>
 <p>Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pilot bölge denemesinin görevi, doğru olup olmadıklarını göstermektir.</p>
+</section>
 
-<h2 id="asamalar">10. Aşamalar</h2>
+<section id="asamalar">
+<h2>10. Aşamalar</h2>
 <p><b>Dört aşama, her birinin sonunda bir karar.</b> Karar sorusuna “evet” denmeden bir sonraki aşamaya geçilmez.</p>
 
-<div class="kart asama">
+<div class="asama">
   <h3>Aşama 1: Tanımlama</h3>
   <p class="alt-baslik">Ne yapacağımızı ve neden yapacağımızı netleştiriyoruz.</p>
   <ul>
     <li><b>Ne yapılır?</b> Amaç, hedefler ve kapsam bu belgede yazıya dökülür; ilgili yöneticilerle paylaşılır.</li>
     <li><b>Ne teslim edilir?</b> Üzerinde uzlaşılmış belge.</li>
   </ul>
-  <div class="soru"><b>Karar sorusu:</b> Neyi, neden yapacağımız konusunda aynı cümleyi kuruyor muyuz?</div>
+  <p class="soru"><i>Karar sorusu:</i> Neyi, neden yapacağımız konusunda aynı cümleyi kuruyor muyuz?</p>
 </div>
 
-<div class="kart asama">
+<div class="asama">
   <h3>Aşama 2: Hazırlık</h3>
   <p class="alt-baslik">Pilot bölge denemesine çıkmak için kadroyu, kuralları ve sistemi hazırlıyoruz.</p>
   <ul>
     <li><b>Ne yapılır?</b> Pilot bölge seçilir. En başarılı SPY'ler Tasarruf Yanımda'da aktif hâle getirilir; böylece başarı teşvik edilir ve müşterinin bizi çağırdığı ilk deneyim güçlü olur. Atama yöntemi belirlenir: ilk ölçüt başarıdır; yöntemin geri kalanı, anlık hizmet ve çağrı tabanlı uygulamalarda kullanılan atama modelleri (yakınlık, uygunluk, sıra, performans puanı gibi) incelenerek seçilir. Satış sahipliği kuralları yazılır. Uygulama ve Finansman Aracı gerçek kullanıma hazırlanır. Uyum ve hukuk onayları alınır.</li>
     <li><b>Ne teslim edilir?</b> Çalışan sistem, eğitilmiş aktif kadro ve yazılı çalışma kuralları.</li>
   </ul>
-  <div class="soru"><b>Karar sorusu:</b> Bir müşteri bugün bizi çağırsa, ona zamanında gidebilir miyiz?</div>
+  <p class="soru"><i>Karar sorusu:</i> Bir müşteri bugün bizi çağırsa, ona zamanında gidebilir miyiz?</p>
 </div>
 
-<div class="kart asama">
+<div class="asama">
   <h3>Aşama 3: Pilot bölge denemesi</h3>
   <p class="alt-baslik">Sınırlı bir bölgede, gerçek müşteriyle deniyor ve her adımı ölçüyoruz.</p>
   <ul>
@@ -163,20 +255,22 @@
       </ul>
     </li>
   </ul>
-  <div class="soru"><b>Karar sorusu:</b> Aktif kadro, benzer başarıdaki meslektaşlarına göre saat başına daha çok sonuç aldı mı?</div>
+  <p class="soru"><i>Karar sorusu:</i> Aktif kadro, benzer başarıdaki meslektaşlarına göre saat başına daha çok sonuç aldı mı?</p>
 </div>
 
-<div class="kart asama">
+<div class="asama">
   <h3>Aşama 4: Yaygınlaştırma</h3>
   <p class="alt-baslik">Öğrendiklerimizle bölge bölge büyüyoruz.</p>
   <ul>
     <li><b>Ne yapılır?</b> Yeni bölgeler kademeli olarak açılır. Kimlerin Tasarruf Yanımda'da aktif olacağı, pilot bölge denemelerinden çıkan sonuçlarla birlikte değerlendirilir. Her bölgede aktif kadronun büyüklüğü o bölgenin talebine göre belirlenir. Deneme sırasında yazılan kurallar güncellenir.</li>
     <li><b>Ne teslim edilir?</b> Alternatif Satış Kanalı'nın kalıcı çalışma düzeni.</li>
   </ul>
-  <div class="soru"><b>Karar sorusu:</b> Her yeni bölgede, pilot bölgede aldığımız sonucu tekrar alabiliyor muyuz?</div>
+  <p class="soru"><i>Karar sorusu:</i> Her yeni bölgede, pilot bölgede aldığımız sonucu tekrar alabiliyor muyuz?</p>
 </div>
+</section>
 
-<h2 id="riskler">11. Başlıca riskler</h2>
+<section id="riskler">
+<h2>11. Başlıca riskler</h2>
 <p><b>Her riskin önceden belirlenmiş bir cevabı var.</b></p>
 <div class="tablo"><table>
   <thead><tr><th>Risk</th><th>Cevabımız</th></tr></thead>
@@ -192,8 +286,10 @@
     <tr><td>Kişisel veri, konum ve ön bilgiler</td><td>Uyum ve hukuk onayı olmadan başlamayız; gerekirse konum takibi olmadan ilerleriz.</td></tr>
   </tbody>
 </table></div>
+</section>
 
-<h2 id="sorular">12. Sonra netleşecekler</h2>
+<section id="sorular">
+<h2>12. Sonra netleşecekler</h2>
 <p><b>Bu sorular Hazırlık aşamasında cevaplanacak:</b></p>
 <ol>
   <li>Kaç SPY ile başlanacak; başarı hangi ölçütle belirlenecek?</li>
@@ -204,8 +300,27 @@
   <li>Pilot bölge denemesi nerede yapılacak, ne kadar sürecek?</li>
   <li>Denemenin başarısına kim karar verecek?</li>
 </ol>
-<p class="alt">Fizibilite çalışması sırasında bu liste genişletilecektir.</p>
-
+<p class="not">Fizibilite çalışması sırasında bu liste genişletilecektir.</p>
+</section>
 </main>
+</div>
+
+<script>
+  /* Solda o an okunan bölümü işaretle */
+  (function () {
+    var baglar = {}, liste = document.querySelectorAll(".icindekiler a");
+    liste.forEach(function (a) { baglar[a.getAttribute("href").slice(1)] = a; });
+    if (!("IntersectionObserver" in window)) return;
+    var gozlemci = new IntersectionObserver(function (girdiler) {
+      girdiler.forEach(function (g) {
+        if (!g.isIntersecting) return;
+        liste.forEach(function (a) { a.classList.remove("aktif"); });
+        var a = baglar[g.target.id];
+        if (a) { a.classList.add("aktif"); if (a.scrollIntoView && window.innerWidth <= 900) a.scrollIntoView({ block: "nearest", inline: "center" }); }
+      });
+    }, { rootMargin: "-20% 0px -70% 0px" });
+    document.querySelectorAll("section[id]").forEach(function (s) { gozlemci.observe(s); });
+  })();
+</script>
 </body>
 </html>
