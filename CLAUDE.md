@@ -158,11 +158,13 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
   taklit eder (başlıkta logo yok, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
   Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
-- `video/` — **tanıtım videosu** (2026-10-24 **v6**, linkler.html'de `?v=6`; içeride izlenecek KURUMSAL PROJE TANITIMI; 16:9, ~1 dk 47 sn,
+- `video/` — **tanıtım videosu** (2026-10-24 **v7**, linkler.html'de `?v=7`; içeride izlenecek KURUMSAL PROJE TANITIMI; 16:9, ~1 dk 47 sn,
   seslendirme + kodla üretilen sakin müzik (sessiz kapanışta yükselir) + açılıp kapanabilen Türkçe altyazı izi ve `.srt`).
-  Sıra: Açılış (logo süpürme, "Tasarruf Yanımda" kelime kelime) → bölüm geçiş kartı (yeşil, 01–05) → 01 Bugün sahada (işyeri
-  sokağı, SPY kapı kapı) → 02 Sorun (tek yönlü ok · çağrı kanalı yok · cumartesi takvimi) → 03 Çözüm (iki yönlü ok + "Dilediği
-  yer, dilediği zaman" → çözüm sokağı: kapı kapı SPY + çağrıya giden yeşil Aktif SPY, gün şeridi Pzt/Sal/Per → işleyiş
+  Sıra: Açılış (logo süpürme, "Tasarruf Yanımda" kelime kelime) → bölüm geçiş kartı (yeşil, 01–05) → 01 Bugün sahada (İZOMETRİK mahalle `izo.js`,
+  SPY kapı kapı, rota çizgisi, arabalar/yayalar) → 02 Sorun (tek yönlü ok · çağrı kanalı yok · cumartesi takvimi) → 03 Çözüm (iki yönlü ok + "Dilediği
+  yer, dilediği zaman" → aynı izometrik mahalle: turuncu SPY kapı kapı + çağrıya giden yeşil SPY (ikisi de yalnız "SPY"; "aktif" kelimesi
+  görüntüde ve konuşmada YOK, ayrım renkle), gün şeridinde vurgu haftanın günleri üzerinde sırayla ilerler (belirli gün öne
+  çıkmaz, "her gün" de yazılmaz) → işleyiş
   telefon+tablet 4 bölüm: Talep · Eşleşme (telefondan tablete veri çizgisi) · Hazırlık·ön bilgi (Finansman ekranları, tablette
   ön bilgiye yakınlaşma) · Güven; dokunuş dalgası vurgulu düğmede, etkin cihaz hafif yakınlaşır) → 04 Yol haritası (4 aşama,
   ölçüm etiketleri: talep sayısı/yanıt süresi/gerçekleşen görüşme → harita: hizmet bölgesi + Anadolu yakası ilçeler tek tek)

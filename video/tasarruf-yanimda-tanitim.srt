@@ -27,57 +27,57 @@ Peki ilk adımı müşteri de atabilse?
 Tasarruf Yanımda bu düzene ikinci bir temas yolu ekleyecek:
 
 8
-00:00:42,110 --> 00:00:47,720
-saha ziyaretleri sürerken, uygulamadan gelen talepleri bölgedeki aktif SPY'ler karşılayacak.
+00:00:42,110 --> 00:00:47,410
+saha ziyaretleri sürerken, uygulamadan gelen talepleri bölgedeki SPY'ler karşılayacak.
 
 9
-00:00:48,469 --> 00:00:54,660
+00:00:48,159 --> 00:00:54,350
 Müşteri telefon numarasıyla kaydolup haritadan yerini işaretler, uygun gün ve saati kendisi seçer.
 
 10
-00:00:55,310 --> 00:00:58,049
-Talep aktif SPY'nin tabletine iletilir;
+00:00:55,000 --> 00:00:58,179
+Talep, bölgedeki SPY'nin tabletine iletilir;
 
 11
-00:00:58,099 --> 00:01:02,220
+00:00:58,229 --> 00:01:02,390
 kabul edildiğinde temsilcinin adı ve kesin saat uygulamada görünür.
 
 12
-00:01:02,869 --> 00:01:06,905
+00:01:03,039 --> 00:01:07,075
 Beklerken Finansman Aracı'yla ihtiyacını ve bütçesini belirleyebilecek;
 
 13
-00:01:06,955 --> 00:01:10,210
+00:01:07,125 --> 00:01:10,380
 temsilci de görüşmeye bu ön bilgiyle hazırlıklı gidecek.
 
 14
-00:01:10,860 --> 00:01:13,622
+00:01:11,030 --> 00:01:13,792
 Ziyaret günü temsilci haritadan izlenebilir;
 
 15
-00:01:13,672 --> 00:01:18,350
+00:01:13,842 --> 00:01:18,520
 kapıda kimliği QR kodla doğrulanır, görüşmenin yazılı özeti de telefonda kalır.
 
 16
-00:01:21,046 --> 00:01:24,087
+00:01:21,216 --> 00:01:24,257
 Proje önce belirlenecek bir pilot bölgede başlayacak;
 
 17
-00:01:24,137 --> 00:01:28,221
+00:01:24,307 --> 00:01:28,391
 talep sayısı, yanıt süresi ve gerçekleşen görüşmeler izlenecek.
 
 18
-00:01:28,271 --> 00:01:32,660
+00:01:28,441 --> 00:01:32,830
 Sonuçlara göre hizmet alanını uygun görülen ilçelere genişletmek mümkün.
 
 19
-00:01:35,510 --> 00:01:38,134
+00:01:35,680 --> 00:01:38,304
 Böylece iletişim çift yönlü hâle gelir;
 
 20
-00:01:38,184 --> 00:01:41,940
+00:01:38,354 --> 00:01:42,110
 her talep, ön bilgisiyle birlikte bize ek veri de kazandırır.
 
 21
-00:01:42,739 --> 00:01:48,090
+00:01:42,909 --> 00:01:48,260
 Bizi çağırana öncelik vererek, saha gücümüzü talebe göre daha doğru planlayabileceğiz.

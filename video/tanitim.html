@@ -109,7 +109,6 @@
     <svg width="1920" height="1080" id="sokak2"></svg>
     <div class="bolum hap"><span>03 · ÇÖZÜM</span></div>
     <div id="gunler"></div>
-    <div id="gunAdi" style="position:absolute;left:0;right:0;top:186px;text-align:center;font-size:40px;font-weight:700;color:var(--yesil)"></div>
     <div class="bant"><div class="yazi kelimeler" data-y="Saha çalışması <b>+</b> müşterinin çağrısı"></div></div>
   </div>
   <div class="kat" id="nasil">
@@ -173,6 +172,7 @@
 
 <script src="ses/plan.js"></script>
 <script src="kareler/vurgu.js"></script>
+<script src="izo.js"></script>
 <script>
 /* Hizmet bölgeleri: web-basvuru/form_bolumu.html BOLGELER kopyası */
 var BOLGELER = {"Ümraniye":[[[41.02943,29.08035],[41.02703,29.08139],[41.02471,29.0846],[41.02413,29.08309],[41.02112,29.08323],[41.01194,29.08813],[41.01194,29.08913],[41.00948,29.08944],[41.00703,29.09751],[40.99672,29.11301],[40.99569,29.12063],[40.9969,29.13738],[40.99476,29.15086],[40.99433,29.16414],[40.99084,29.17733],[40.98959,29.19334],[40.99247,29.19279],[40.99267,29.1913],[40.99619,29.19307],[41.00594,29.18941],[41.00904,29.18568],[41.0114,29.19466],[41.01332,29.19396],[41.01515,29.18345],[41.02132,29.17977],[41.03023,29.17092],[41.03464,29.16213],[41.03673,29.15412],[41.03689,29.1478],[41.03494,29.13987],[41.04495,29.13827],[41.04875,29.13432],[41.05195,29.13479],[41.05315,29.13382],[41.04991,29.1253],[41.05218,29.11982],[41.05898,29.11356],[41.06111,29.10819],[41.06031,29.10037],[41.0612,29.09644],[41.06378,29.09566],[41.06424,29.09797],[41.06541,29.0926],[41.06374,29.0836],[41.06028,29.0855],[41.05625,29.08309],[41.055,29.08685],[41.05245,29.08871],[41.04366,29.08966],[41.04042,29.09169],[41.03905,29.09027],[41.03718,29.09039],[41.03536,29.08799],[41.03175,29.08694],[41.02943,29.08035]]],"Ataşehir":[[[41.00567,29.07264],[40.99671,29.07403],[40.99252,29.07335],[40.98742,29.08657],[40.9836,29.0926],[40.97869,29.09709],[40.96568,29.10466],[40.95906,29.11123],[40.96138,29.11659],[40.968,29.12263],[40.97061,29.12332],[40.9728,29.12623],[40.9741,29.13744],[40.97245,29.1496],[40.97419,29.15388],[40.97911,29.15748],[40.98077,29.16232],[40.97822,29.17162],[40.9761,29.17345],[40.97719,29.17786],[40.97451,29.17959],[40.97531,29.18437],[40.97816,29.18884],[40.98317,29.20351],[40.98976,29.19039],[40.99084,29.17733],[40.99426,29.16464],[40.99476,29.15086],[40.99699,29.13624],[40.99569,29.12063],[40.99636,29.1141],[40.99847,29.10924],[41.00703,29.09751],[41.00939,29.09042],[41.00888,29.08346],[41.00567,29.07264]]],"Üsküdar":[[[41.02214,29.00636],[41.01299,29.01115],[41.01388,29.00944],[41.01233,29.01101],[41.01091,29.0089],[41.00923,29.00983],[41.01095,29.00686],[41.00722,29.01036],[41.0073,29.00666],[41.00486,29.00836],[41.00445,29.01244],[41.00255,29.01343],[41.00268,29.01039],[41.00091,29.01156],[41.00025,29.01579],[41.00129,29.01765],[40.99853,29.0218],[41.00283,29.02812],[41.0047,29.02792],[41.01229,29.03723],[41.01002,29.04182],[41.01015,29.04716],[41.0016,29.0472],[40.99252,29.07335],[40.99671,29.07403],[41.00252,29.07232],[41.00567,29.07264],[41.00948,29.08944],[41.01194,29.08913],[41.01194,29.08813],[41.02112,29.08323],[41.02413,29.08309],[41.02471,29.0846],[41.02703,29.08139],[41.02943,29.08035],[41.03175,29.08694],[41.03536,29.08799],[41.03718,29.09039],[41.03905,29.09027],[41.04027,29.09167],[41.04366,29.08966],[41.05245,29.08871],[41.055,29.08685],[41.05625,29.08309],[41.06163,29.08542],[41.06427,29.08345],[41.06615,29.0777],[41.07427,29.07085],[41.07789,29.06425],[41.07637,29.06369],[41.07432,29.05592],[41.06642,29.05696],[41.0615,29.05242],[41.05746,29.05328],[41.05413,29.05164],[41.04824,29.05212],[41.03841,29.0316],[41.02615,29.01317],[41.02596,29.00952],[41.02214,29.00636]]]};
@@ -253,84 +253,14 @@ function halkaYol(halkalar, z, cx, cy, k) {
 }
 var SIRA = ["Üsküdar", "Ümraniye", "Ataşehir"];
 
-/* ===== Sokak (işyerleri) ===== */
-var DUKKAN = [
-  { ad: "MARKET", duvar: "#ffffff", tente: "#00724c" }, { ad: "ECZANE", duvar: "#f3f5f8", tente: "#1E3856" },
-  { ad: "KUAFÖR", duvar: "#fbf3ee", tente: "#ea803f" }, { ad: "OTO GALERİ", duvar: "#f2f4f3", tente: "#5f6b66" },
-  { ad: "EMLAK", duvar: "#eef4f1", tente: "#00724c" }, { ad: "BÜRO", duvar: "#f7f2ea", tente: "#B25E30" }
-];
-var SX = 180, SG = 260, ZEMIN = 700;
-function kapiX(k) { return SX + k * SG + 203; }
-function sokakKur(s) {
-  var sk = { kapi: [], tik: [], s: s };
-  svgEl("rect", { x: 0, y: 0, width: 1920, height: 1080, fill: "#eef3f0" }, s);
-  svgEl("rect", { x: 0, y: ZEMIN, width: 1920, height: 70, fill: "#dfe4e1" }, s);
-  svgEl("rect", { x: 0, y: ZEMIN + 70, width: 1920, height: 8, fill: "#c9d0cc" }, s);
-  svgEl("rect", { x: 0, y: ZEMIN + 78, width: 1920, height: 240, fill: "#cfd6d2" }, s);
-  for (var x = 40; x < 1920; x += 160) svgEl("rect", { x: x, y: ZEMIN + 150, width: 80, height: 8, rx: 4, fill: "#fff", opacity: .7 }, s);
-  DUKKAN.forEach(function (d, i) {
-    var x0 = SX + i * SG, g = svgEl("g", {}, s);
-    svgEl("rect", { x: x0, y: 270 - (i % 2) * 30, width: SG, height: ZEMIN - 270 + (i % 2) * 30, fill: d.duvar, stroke: "#d3dad6", "stroke-width": 2 }, g);
-    for (var w = 0; w < 2; w++) svgEl("rect", { x: x0 + 45 + w * 105, y: 320 - (i % 2) * 20, width: 65, height: 80, rx: 4, fill: "#d9e3df" }, g);
-    svgEl("rect", { x: x0 + 14, y: 440, width: SG - 28, height: 56, rx: 8, fill: "#fff", stroke: "#cfd6d2", "stroke-width": 2 }, g);
-    metin(g, x0 + SG / 2, 480, d.ad, { "font-size": 28, fill: d.tente });
-    for (var k = 0; k < 6; k++) svgEl("path", { d: "M" + (x0 + 6 + k * 41.3) + " 506h41.3v34a20.6 14 0 0 1-41.3 0z", fill: k % 2 ? "#fff" : d.tente }, g);
-    svgEl("rect", { x: x0 + 20, y: 560, width: 130, height: ZEMIN - 575, rx: 4, fill: "#cfdcd7" }, g);
-    sk.kapi.push(svgEl("rect", { x: x0 + 170, y: 556, width: 66, height: ZEMIN - 556, rx: 4, fill: "#8fa39b" }, g));
-    var t = svgEl("g", {}, s);
-    svgEl("circle", { r: 24, fill: "#00724c", stroke: "#fff", "stroke-width": 4 }, t);
-    svgEl("path", { d: "M-10 0l7 7 13-14", fill: "none", stroke: "#fff", "stroke-width": 5, "stroke-linecap": "round", "stroke-linejoin": "round" }, t);
-    sk.tik.push(t);
-  });
-  return sk;
-}
-function spyYap(s, etiket, renk) {
-  var g = svgEl("g", {}, s), w = etiket.length * 12 + 30, yaziRenk = renk === "#00724c" ? "#00724c" : "#B25E30";
-  svgEl("ellipse", { cx: 0, cy: 4, rx: 30, ry: 7, fill: "rgba(0,0,0,.12)" }, g);
-  svgEl("path", { d: "M-26 0c0-30 11-50 26-50s26 20 26 50z", fill: renk }, g);
-  svgEl("circle", { cx: 0, cy: -68, r: 17, fill: renk }, g);
-  svgEl("rect", { x: 10, y: -40, width: 24, height: 32, rx: 3, fill: "#1E3856", stroke: "#fff", "stroke-width": 2 }, g);
-  var e = svgEl("g", { transform: "translate(0,-112)" }, g);
-  svgEl("rect", { x: -w / 2, y: -20, width: w, height: 32, rx: 16, fill: "#fff", stroke: renk, "stroke-width": 2.5 }, e);
-  metin(e, 0, 4, etiket, { "font-size": 20, fill: yaziRenk });
-  return g;
-}
-function yuru(g, x, y, adim) { g.setAttribute("transform", "translate(" + x + "," + (y - (adim ? Math.abs(Math.sin(adim * 18)) * 6 : 0)) + ")"); }
-function tikGoster(sk, k, v) {
-  var p = cik(v / .25);
-  sk.tik[k].style.opacity = v > 0 ? 1 : 0;
-  sk.tik[k].setAttribute("transform", "translate(" + kapiX(k) + ",530) scale(" + (v > 0 ? .6 + .4 * p : 0) + ")");
-  sk.kapi[k].setAttribute("fill", v > 0 ? "#5d7a6f" : "#8fa39b");
-}
-/* bir SPY'nin kapıları sırayla gezmesi: duraklar, başlangıç, aralık */
-function gez(spy, sk, duraklar, lt, bas, aralik, y, x0) {
-  var x = x0, adim = 0;
-  duraklar.forEach(function (dk, k) {
-    var b = bas + k * aralik, once = k === 0 ? x0 : kapiX(duraklar[k - 1]), yuru_ = aralik * .6;
-    if (lt >= b) { var p = kis((lt - b) / yuru_); x = once + (kapiX(dk) - once) * yumus(p); adim = p > 0 && p < 1 ? lt : 0; }
-    tikGoster(sk, dk, lt - (b + yuru_));
-  });
-  yuru(spy, x, y, adim);
-}
-var sk1 = sokakKur($("sokak")); sk1.spy = spyYap($("sokak"), "SPY", "#ea803f");
-var sk2 = sokakKur($("sokak2")), GUNK = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"];
-var CAGRI = [{ gun: 0, ad: "Pazartesi", dk: 1 }, { gun: 1, ad: "Salı", dk: 3 }, { gun: 3, ad: "Perşembe", dk: 5 }];
-(function () {
-  sk2.cagri = CAGRI.map(function (c) {
-    var g = svgEl("g", {}, sk2.s), x = SX + c.dk * SG + SG / 2;
-    g.halka = svgEl("circle", { cx: x, cy: 392, r: 30, fill: "none", stroke: "#00724c", "stroke-width": 4 }, g);
-    svgEl("circle", { cx: x, cy: 392, r: 34, fill: "#00724c", stroke: "#fff", "stroke-width": 4 }, g);
-    svgEl("path", { d: "M" + (x - 13) + " 380c0 14 12 26 26 26l5-7-8-6-4 4c-5-2-9-6-11-11l4-4-6-8z", fill: "#fff" }, g);
-    return g;
-  });
-  sk2.spy = spyYap(sk2.s, "SPY", "#ea803f");
-  sk2.aktif = spyYap(sk2.s, "Aktif SPY", "#00724c");
-  GUNK.forEach(function (g, i) {
-    var c = document.createElement("div"); c.id = "gk" + i; c.textContent = g;
-    c.style.cssText = "position:absolute;top:110px;left:" + (552 + i * 120) + "px;width:96px;height:56px;line-height:56px;border-radius:28px;text-align:center;font-size:26px;font-weight:700;background:#e3e8e5;color:#8a9691";
-    $("gunler").appendChild(c);
-  });
-})();
+/* ===== Sokak sahneleri: izometrik mahalle (izo.js) ===== */
+var izo1 = izoSahne($("sokak"), { cagri: false }), izo2 = izoSahne($("sokak2"), { cagri: true });
+var GUNK = ["Pzt", "Sal", "Çar", "Per", "Cum", "Cmt", "Paz"];
+GUNK.forEach(function (g, i) {
+  var c = document.createElement("div"); c.id = "gk" + i; c.textContent = g;
+  c.style.cssText = "position:absolute;top:40px;left:" + (552 + i * 120) + "px;width:96px;height:56px;line-height:56px;border-radius:28px;text-align:center;font-size:26px;font-weight:700;background:rgba(227,232,229,.95);color:#8a9691";
+  $("gunler").appendChild(c);
+});
 
 /* ===== Sorun / çözüm diyagramları ===== */
 var YK = 640, XS = 600, XM = 1320, d2a = {}, d2b = {}, d3a = {};
@@ -570,7 +500,7 @@ function kartCiz(id) {
     p.querySelector(".cizgi").style.transform = "scaleX(" + ic + ")";
   };
 }
-function bugunCiz(lt, d) { gez(sk1.spy, sk1, [0, 1, 2, 3, 4, 5], lt, .2, (d - .9) / 6, ZEMIN + 40, 60); kelimeGoster(document.querySelector("#bugun .yazi"), lt, .4); }
+function bugunCiz(lt, d) { izo1.ciz(lt, d); kelimeGoster(document.querySelector("#bugun .yazi"), lt, .4); }
 function s2aCiz(lt) { kelimeGoster(document.querySelector("#s2a .baslik"), lt, .1); okIlerle(d2a.ok, cik((lt - .3) / .8)); }
 function s2bCiz(lt) {
   kelimeGoster(document.querySelector("#s2b .baslik"), lt, .1); okIlerle(d2b.ok, cik((lt - .2) / .8));
@@ -594,29 +524,15 @@ function s3aCiz(lt) {
 }
 function s3bCiz(lt, d) {
   kelimeGoster(document.querySelector("#s3b .yazi"), lt, .3);
-  var ARA = 2.3, bas = function (k) { return .6 + k * ARA; };
-  var aktifGun = -1;
-  CAGRI.forEach(function (c, k) { if (lt >= bas(k)) aktifGun = k; });
+  /* haftanın akışı: vurgu günler üzerinde ilerler, belirli bir gün öne çıkmaz */
+  var gun = Math.min(6, Math.floor(lt / (d / 7)));
   GUNK.forEach(function (g, i) {
-    var e = $("gk" + i), c = CAGRI.filter(function (x) { return x.gun === i; })[0], k = CAGRI.indexOf(c);
-    var yandi = !!c && lt >= bas(k), simdi = k >= 0 && k === aktifGun;
-    e.style.background = yandi ? "#00724c" : "#e3e8e5"; e.style.color = yandi ? "#fff" : "#8a9691";
-    e.style.transform = "scale(" + (simdi ? 1 + .12 * cik((lt - bas(k)) / .3) : 1) + ")";
+    var e = $("gk" + i), on = i === gun;
+    e.style.background = on ? "#00724c" : "rgba(227,232,229,.95)"; e.style.color = on ? "#fff" : "#8a9691";
+    e.style.transform = "scale(" + (on ? 1.1 : 1) + ")";
   });
   $("gunler").style.opacity = ara(lt, .1, .4);
-  $("gunAdi").textContent = aktifGun >= 0 ? CAGRI[aktifGun].ad : "";
-  $("gunAdi").style.opacity = aktifGun >= 0 ? cik((lt - bas(aktifGun)) / .3) : 0;
-  var ax = 1990, adim = 0;
-  CAGRI.forEach(function (c, k) {
-    var b = bas(k), varis = b + 1.4, g = sk2.cagri[k], gor = lt >= b + .1 && lt < varis + .2;
-    g.style.opacity = gor ? cik((lt - b - .1) / .25) : 0;
-    var r = (Math.max(0, lt - b) % .9) / .9; g.halka.setAttribute("r", 34 + 26 * r); g.halka.style.opacity = gor ? 1 - r : 0;
-    var once = k === 0 ? 1990 : kapiX(CAGRI[k - 1].dk);
-    if (lt >= b + .3) { var p = kis((lt - b - .3) / 1.1); ax = once + (kapiX(c.dk) - once) * yumus(p); adim = p > 0 && p < 1 ? lt : 0; }
-    tikGoster(sk2, c.dk, lt - varis);
-  });
-  yuru(sk2.aktif, ax, ZEMIN + 50, adim);
-  gez(sk2.spy, sk2, [0, 2, 4], lt, .3, (d - 1) / 3, ZEMIN + 30, 60);
+  izo2.ciz(lt, d);
 }
 
 /* ===== Zaman çizelgesi (seslendirmeden) ===== */
