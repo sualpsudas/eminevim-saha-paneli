@@ -43,7 +43,7 @@ Gerekçe:
 
 Bu yönün iki zayıf yanı için önlemler:
 - **Talep azsa boş zaman:** Talep ekibi küçük başlar ve talebe göre büyütülür. Boş zamanında kendi bölgesinde saha çalışması yapabilir.
-- **“Kolay müşteri onlara gidiyor” algısı ve ölçüm sapması:** Talep ekibine yalnız en başarılı temsilciler seçilmez; ekip üyeliği dönemsel olarak değişebilir. (Önceki taslakta önerilen nöbet modeli bu önlemin bir biçimi olarak kalabilir.)
+- **“Kolay müşteri onlara gidiyor” algısı ve ölçüm sapması:** Karar (23 Ekim 2026): Sistem ilk aşamada **başarılı personellerin** kullanımına açılır. Ölçüm sapmasını önlemek için talep ekibi, benzer başarıdaki saha çalışanlarıyla karşılaştırılır; seçim ölçütleri açıkça paylaşılır ve sistem yaygınlaştırmayla herkese açılır.
 
 ## Kim talebe gider? Kim sahada kalır?
 
@@ -85,7 +85,7 @@ Kaynak yönetimi bakışıyla ana ölçü aynı kalır, ama karşılaştırma ne
 - **Karşılanamayan talep oranı**
 - **Talebe ilk dönüş süresi**
 
-Dikkat edilmesi gereken bir nokta var. Talebe en başarılı temsilciler ayrılırsa sonuçlar şişer: farkın kanaldan mı, yoksa kişiden mi geldiği anlaşılmaz. Dönüşümlü nöbet bu sorunu da azaltır.
+Talep ekibi başarılı personelden kurulduğu için sonuçlar sıradan saha ekibiyle karşılaştırılmaz; aksi hâlde farkın kanaldan mı kişiden mi geldiği anlaşılmaz. Karşılaştırma, benzer başarıdaki saha çalışanlarıyla yapılır.
 
 ## Açık sorular
 

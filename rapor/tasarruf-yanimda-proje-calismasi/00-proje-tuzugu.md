@@ -1,8 +1,8 @@
 # Tasarruf Yanımda — Proje Tüzüğü (Taslak)
 
-**Sahip birim:** Alternatif Satış Kanalı · **Sürüm:** Taslak 0.3 · **Tarih:** 23 Ekim 2026
+**Sahip birim:** Alternatif Satış Kanalı · **Sürüm:** Taslak 0.4 · **Tarih:** 23 Ekim 2026
 
-> Bu taslak, kurum verisi olmadan ilerleyebilecek şekilde hazırlanmıştır. Sayısal hedefler konmaz; gereken veriler pilotun kendisinden elde edilir. Yapı, yaygın proje başlangıç yöntemlerinden uyarlanmıştır ([09](09-tuzuk-yontem-arastirmasi.md)).
+> Bu belge, Tasarruf Yanımda projesinin neden yapıldığını, neyi hedeflediğini ve hangi aşamalarla ilerleyeceğini anlatır. Bir taslaktır: **sayılar değil, yön içerir.** Sayıları pilotun kendisi verecek.
 
 ---
 
@@ -30,6 +30,11 @@ Bu düşünce bizi projenin ana fikrine taşıdı: **Bugün sahada temas tek yö
 
 ## 4. Hedefler
 
+Vadeler aşamalara bağlıdır: **kısa vade** Hazırlık ve Pilot, **orta vade** pilot sonu ve ilk yeni bölgeler, **uzun vade** Yaygınlaştırma sonrasıdır.
+
+### Kısa vade: İlk talep, ilk görüşme, ilk ölçüm
+*Çağrıyı mümkün kılmak ve zamanında karşılamak.*
+
 **1. Ulaşılabilir olmak**
 Görüşmek isteyen her müşteri, web sitemizden ya da uygulamamızdan birkaç adımda temsilcimizi çağırabilmeli.
 *İzleme: gelen talep sayısı*
@@ -38,30 +43,35 @@ Görüşmek isteyen her müşteri, web sitemizden ya da uygulamamızdan birkaç 
 Her talep sahiplenilmeli; aynı gün talepleri dahil, müşterinin beklediği zamanda karşılanmalı.
 *İzleme: ilk dönüş süresi, karşılanamayan talepler*
 
-**3. Talebi sonuca taşımak**
-Gelen talepler yüz yüze görüşmeye, görüşmeler satışa dönüşmeli.
-*İzleme: talep → görüşme → satış*
-
-**4. Gücümüzü doğru yere koymak**
-Talep ekibi ile saha ekibi, saha gücümüzden en yüksek verimi alacak şekilde paylaştırılmalı.
-*İzleme: temsilci saati başına görüşme ve satış; iki ekip aynı dönemde karşılaştırılır*
-
-**5. Güven vermek**
+**3. Güven vermek**
 Müşteri kimin, ne zaman geleceğini önceden bilmeli ve temsilcimizi kapıda doğrulayabilmeli.
 *İzleme: müşteri geri bildirimi, şikâyet ve iptal nedenleri*
 
+### Orta vade: Veriyle yönetilen bir talep ekibi
+*Çağrının sonuç verdiğini ve gücümüzü doğru kullandığımızı göstermek.*
+
+**4. Talebi sonuca taşımak**
+Gelen talepler yüz yüze görüşmeye, görüşmeler satışa dönüşmeli.
+*İzleme: talep → görüşme → satış*
+
+**5. Gücümüzü doğru yere koymak**
+Talep ekibi ile saha ekibi, saha gücümüzden en yüksek verimi alacak şekilde paylaştırılmalı.
+*İzleme: temsilci saati başına görüşme ve satış; talep ekibi, benzer başarıdaki saha çalışanlarıyla aynı dönemde karşılaştırılır*
+
+### Uzun vade: “Çağırınca gelen” Eminevim
+*Çağrıyı Alternatif Satış Kanalı'nın kalıcı çalışma biçimine dönüştürmek.*
+
+**6. Kalıcı bir düzen kurmak**
+Talep ekibi ile saha ekibi arasındaki dağılım, tüm bölgelerde gelen talebe göre yönetilen kalıcı bir çalışma biçimine dönüşmeli.
+*İzleme: talebe göre yönetilen bölge sayısı, bölgeler arasında sonuçların tutarlılığı*
+
+**7. Akla ilk gelen olmak**
+Eminevim, müşterisinin zihninde çağırdığında yanına gelen kurum olarak yer etmeli.
+*İzleme: tekrar eden talepler, tavsiyeyle gelen müşteriler*
+
 Sayısal hedef konmaz. Pilotun ilk haftaları başlangıç değerini verir; hedefler bundan sonra belirlenir.
 
-## 5. Beklentiler
-
-**Pilotta: İlk talep, ilk görüşme, ilk ölçüm.**
-Müşteriden ilk doğrudan talepleri almayı, bu talepleri zamanında karşılamayı ve talepten satışa uzanan yolu ilk kez uçtan uca görmeyi bekliyoruz.
-
-**Pilottan sonra: Veriyle yönetilen bir talep ekibi.**
-Talep ekibimizin saat başına daha çok sonuç almasını ve ekip büyüklüğünü tahminle değil, gelen talebe göre belirlemeyi bekliyoruz.
-
-**Uzun vadede: “Çağırınca gelen” Eminevim.**
-Eminevim'in müşterisinin zihninde, çağırdığında yanına gelen bir kurum olarak yer etmesini bekliyoruz.
+## 5. Beklentiler ve sınırlar
 
 **Hafta içi: Aday müşteriye yüz yüze görüşme fırsatı.**
 Hafta içi yüz yüze görüşme fırsatı bulamayan aday müşteriye bu fırsatı sunmayı ve görüşmelerin bir kısmının hafta içine yayılmasını bekliyoruz. Bunu izleyeceğiz, ama başarı ölçüsü olarak koymuyoruz.
@@ -85,24 +95,29 @@ Her bölgeye ve her saate hizmet bu aşamanın konusu değil. Saha çalışmalar
 
 ## 7. Çıktılar
 
-1. Müşterinin temsilci çağırabildiği talep kanalı (web ve uygulama)
-2. Talep ekibi ve atama kuralları ([08](08-kaynak-yonetimi.md))
-3. Talep ekibi ve takım liderleri için iş takibi ekranları
-4. Müşteri için temsilci bilgisi, takip ve kapıda doğrulama
-5. Talepten satışa zinciri gösteren basit rapor
+**Projenin sonunda elimizde beş somut şey olacak:**
+
+1. **Çağrı kanalı:** Müşterinin web sitemizden ya da uygulamamızdan temsilcimizi çağırabildiği, yer ve saat seçebildiği akış.
+2. **Talep ekibi ve çalışma kuralları:** Hangi talebe kimin, ne kadar sürede gideceğini belirleyen yazılı düzen ([08](08-kaynak-yonetimi.md)).
+3. **Ekip ekranları:** Talep ekibinin kendi işini, takım liderlerinin de ekiplerini izlediği ekranlar.
+4. **Güven adımları:** Müşterinin temsilcisini önceden tanıdığı, görüşme günü takip ettiği ve kapıda doğruladığı adımlar.
+5. **Ölçüm raporu:** Talepten satışa her adımı tek bakışta gösteren rapor.
 
 ## 8. Kapsam
 
-**Kapsamda:** Talep kanalı, atama, randevu, görüşme günü takibi, görüşme sonrası özet, ölçüm.
-**Kapsam dışında:** Saha çalışmasının yöntemi, şube süreçleri, reklam planı, prim sistemi.
+**Bu projenin konusu:** Müşterinin bizi çağırmasından görüşmenin sonrasına kadar uzanan yol. Çağrı, atama, randevu, görüşme günü, görüşme sonrası özet ve ölçüm bu yolun parçalarıdır.
+
+**Bu projenin konusu olmayanlar:** Kapı kapı çalışmalarımızın yöntemi, reklam ve tanıtım planı, prim ve hedef sistemi. Bunlar projeden etkilenebilir, ancak kendi süreçleri içinde ele alınır.
 
 ## 9. Dayandığımız varsayımlar
 
-1. Görüşmek isteyen ama ekibe ulaşamayan müşteriler vardır.
-2. Kendisi temsilci çağıran müşterinin satışa dönme ihtimali daha yüksektir.
-3. Ekibin bir bölümü talebe ayrıldığında saha çalışmasının sonuçları belirgin şekilde düşmez.
+**Bu proje üç varsayım üzerine kurulu; pilot her birini sınayacak.**
 
-Bunlar şu an kanıtlanmış değildir; pilot bu varsayımları test etmek için yapılır.
+1. **Bizi bekleyen müşteri var.** Bizimle görüşmek isteyen ama bize ulaşamayan aday müşteriler vardır.
+2. **Çağıran müşteri karara daha yakındır.** Temsilcimizi kendisi çağıran müşterinin satışa dönme ihtimali daha yüksektir.
+3. **Saha çalışmamız zayıflamaz.** Ekibimizin bir bölümünü taleplere ayırdığımızda kapı kapı çalışmalarımızın sonuçları belirgin şekilde düşmez.
+
+Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pilotun görevi, doğru olup olmadıklarını göstermektir.
 
 ## 10. Aşamalar
 
@@ -116,15 +131,15 @@ Bunlar şu an kanıtlanmış değildir; pilot bu varsayımları test etmek için
 
 ### Aşama 2: Hazırlık
 *Pilota çıkmak için ekibi, kuralları ve sistemi kuruyoruz.*
-- **Ne yapılır?** Pilot bölgesi seçilir. Talep ekibi belirlenir. Atama ve satış sahipliği kuralları yazılır. Uygulama gerçek kullanıma hazırlanır. Uyum ve hukuk onayları alınır.
+- **Ne yapılır?** Pilot bölgesi seçilir. Talep ekibi başarılı personellerimiz arasından belirlenir; müşterinin bizi çağırdığı ilk deneyimin güçlü olması için sistem önce onların kullanımına açılır. Atama ve satış sahipliği kuralları yazılır. Uygulama gerçek kullanıma hazırlanır. Uyum ve hukuk onayları alınır.
 - **Ne teslim edilir?** Çalışan sistem, eğitilmiş talep ekibi ve yazılı çalışma kuralları.
 - **Karar sorusu:** *Bir müşteri bugün bizi çağırsa, ona zamanında gidebilir miyiz?*
 
 ### Aşama 3: Pilot
 *Sınırlı bir bölgede, gerçek müşteriyle deniyor ve her adımı ölçüyoruz.*
-- **Ne yapılır?** Talep ekibi gelen talepleri karşılar, saha ekibi bugünkü gibi çalışır. İki ekibin sonuçları aynı dönemde yan yana izlenir. İlk haftalar başlangıç değerlerini verir. Ekip büyüklüğü her hafta gelen talebe göre gözden geçirilir.
+- **Ne yapılır?** Talep ekibi gelen talepleri karşılar, saha ekibi bugünkü gibi çalışır. Talep ekibinin sonuçları, benzer başarıdaki saha çalışanlarının sonuçlarıyla aynı dönemde yan yana izlenir. İlk haftalar başlangıç değerlerini verir. Ekip büyüklüğü her hafta gelen talebe göre gözden geçirilir.
 - **Ne teslim edilir?** Pilot değerlendirme raporu.
-- **Karar sorusu:** *Talep ekibi, saha ekibine göre saat başına daha çok sonuç aldı mı?*
+- **Karar sorusu:** *Talep ekibi, benzer başarıdaki saha çalışanlarına göre saat başına daha çok sonuç aldı mı?*
 - **Olası kararlar:**
   - **Genişlet:** Sonuçlar olumlu, diğer bölgelere geçilir.
   - **Düzelt:** Fikir doğru ama işleyişte aksaklık var. Düzeltilir ve pilot sürdürülür.
@@ -132,25 +147,36 @@ Bunlar şu an kanıtlanmış değildir; pilot bu varsayımları test etmek için
 
 ### Aşama 4: Yaygınlaştırma
 *Öğrendiklerimizle bölge bölge büyüyoruz.*
-- **Ne yapılır?** Yeni bölgeler kademeli olarak açılır. Her bölgede talep ekibinin büyüklüğü o bölgenin talebine göre belirlenir. Pilotta yazılan kurallar güncellenir.
+- **Ne yapılır?** Yeni bölgeler kademeli olarak açılır. Sistem, pilotta yazılan kurallarla diğer ekip arkadaşlarımızın da kullanımına açılır. Her bölgede talep ekibinin büyüklüğü o bölgenin talebine göre belirlenir. Pilotta yazılan kurallar güncellenir.
 - **Ne teslim edilir?** Alternatif Satış Kanalı'nın kalıcı çalışma düzeni.
 - **Karar sorusu:** *Her yeni bölgede, pilotta aldığımız sonucu tekrar alabiliyor muyuz?*
 
 ## 11. Başlıca riskler
 
-| Risk | Ne yaparız? |
+**Her riskin önceden belirlenmiş bir cevabı var.**
+
+| Risk | Cevabımız |
 |---|---|
-| Talep az gelir | Talep ekibi küçültülür; ekip saha çalışmasına döner |
-| Talebe geç dönülür | Taşan talep takım lideri tarafından başka bir temsilciye atanır |
-| Yol süresi verimliliği yer | Hizmet bölgesi daraltılır |
-| “Kolay müşteri onlara gidiyor” algısı | Atama kuralları açık olur; ekip üyeliği dönemsel değişebilir |
-| Satış şubeden bu kanala kayar | Bölgenin toplam satışı da izlenir |
-| Kişisel veri ve konum | Uyum ve hukuk onayı; gerekirse konum takibi olmadan ilerlenir |
+| Beklediğimiz kadar talep gelmez | Talep ekibini küçültürüz; ekip arkadaşlarımız kapı kapı çalışmaya döner. Kayıp değil, öğrenme olur. |
+| Talebe geç kalırız | Taşan talebi takım lideri, o an uygun olan başka bir temsilciye atar. |
+| Yolda geçen süre kazancı yer | Hizmet bölgesini daraltır, randevuları bölgeye göre gruplarız. |
+| Ekipte “kolay müşteri onlara gidiyor” algısı oluşur | Talep ekibinin seçim ölçütlerini ve atama kurallarını açıkça paylaşırız; sistemin zamanla herkese açılacağını baştan söyleriz. |
+| Sonuç kanaldan değil, personelin başarısından gelir | Talep ekibini sıradan saha ekibiyle değil, benzer başarıdaki saha çalışanlarıyla karşılaştırırız. |
+| Satış başka kanallardan bu kanala kayar, toplam artmaz | Yalnızca bu kanalın değil, bölgenin toplam satışını da izleriz. |
+| Kişisel veri ve konum bilgisi | Uyum ve hukuk onayı olmadan başlamayız; gerekirse konum takibi olmadan ilerleriz. |
 
 ## 12. Sonra netleşecekler
 
-- Talep ekibinin büyüklüğü ve üyeliğin sabit mi dönemsel mi olacağı
-- Aynı gün talepleri için dönüş süresi
-- Satışın şube ile saha arasında nasıl sayılacağı
-- Pilot bölgesi ve süresi
-- Pilotun başarısına kimin karar vereceği
+**Bu sorular Hazırlık aşamasında cevaplanacak:**
+
+1. Talep ekibi kaç kişiyle başlayacak; başarılı personel hangi ölçütle seçilecek?
+2. Aynı gün gelen bir talebe en geç ne kadar sürede dönülecek?
+3. Bu kanaldan gelen satış nasıl sayılacak?
+4. Pilot hangi bölgede yapılacak, ne kadar sürecek?
+5. Pilotun başarısına kim karar verecek?
+
+*Fizibilite çalışması sırasında bu liste genişletilecektir.*
+
+---
+
+*Tüzüğün yapısı yaygın proje başlangıç yöntemlerinden uyarlanmıştır ([09](09-tuzuk-yontem-arastirmasi.md)).*
