@@ -1,12 +1,12 @@
-# Proje başlangıcı ve tüzük — Yöntem araştırması
+# Proje başlangıcı ve çerçeve belgesi — Yöntem araştırması
 
-Tarih: 23 Ekim 2026. Amaç: Tasarruf Yanımda tüzüğünü ([00](00-proje-tuzugu.md)) hazırlarken şirketlerin ve akademik projelerin işe nasıl başladığını incelemek. Kaynakların çoğu eğitim siteleri, şablonlar ve kurum rehberleridir; resmî kılavuzların (PMBOK, PRINCE2) tam metni okunmamıştır.
+Tarih: 23 Ekim 2026. Amaç: Tasarruf Yanımda proje çerçevesini ([00](00-proje-cercevesi.md)) hazırlarken şirketlerin ve akademik projelerin işe nasıl başladığını incelemek. Kaynakların çoğu eğitim siteleri, şablonlar ve kurum rehberleridir; resmî kılavuzların (PMBOK, PRINCE2) tam metni okunmamıştır.
 
 ## Yöntemler ve bize kattıkları
 
 | Yöntem | Nerede kullanılır? | Başlangıç belgesinde ne ister? | Tasarruf Yanımda'ya kattığı |
 |---|---|---|---|
-| **PMI / PMBOK — Proje Tüzüğü** | Kurumsal proje yönetimi | Amaç ve gerekçe; ölçülebilir hedefler ve başarı ölçütleri; üst düzey gereksinimler; varsayım, kısıt, riskler; kilometre taşları; paydaşlar; **başarıya kimin karar vereceği** | Hedeflerin ölçülebilir yazılması; onay bölümü; başarıya kimin karar vereceği |
+| **PMI / PMBOK — Project Charter (proje başlatma belgesi)** | Kurumsal proje yönetimi | Amaç ve gerekçe; ölçülebilir hedefler ve başarı ölçütleri; üst düzey gereksinimler; varsayım, kısıt, riskler; kilometre taşları; paydaşlar; **başarıya kimin karar vereceği** | Hedeflerin ölçülebilir yazılması; onay bölümü; başarıya kimin karar vereceği |
 | **PRINCE2 — Proje Özeti → Başlangıç Belgesi** | Kamu ve büyük kurumlar (İngiltere kökenli) | Önce kısa özet (arka plan, amaç, kapsam ve hariçler, çıktılar, kısıtlar, ön iş gerekçesi); onaydan sonra ayrıntılı başlangıç belgesine dönüşür | İki aşamalı belge: önce kısa tüzük, onaydan sonra ayrıntılı plan |
 | **Altı Sigma — DMAIC “Tanımla” aşaması** | Süreç iyileştirme | İş gerekçesi; **çözüm söylemeden, veriyle** sorun tanımı; hedef ifadesi; kapsam; ekip; takvim | Sorun tanımını çözümden ayırmak; “yapılmazsa ne olur?” sorusu; sorunun veriyle desteklenmesi |
 | **Mantıksal Çerçeve (Logframe)** | AB, kalkınma projeleri, hibe başvuruları | 4 katman: **Genel amaç → Proje amacı → Çıktılar → Faaliyetler**; her katman için gösterge, doğrulama kaynağı ve varsayım | Katmanlı amaç yapısı; her hedefe gösterge ve “nereden ölçeceğiz?” sütunu |
@@ -30,9 +30,9 @@ Bütün yöntemler ilk belgede aynı soruları yanıtlar:
 8. **Nasıl ilerleyeceğiz?** Aşamalar ve karar noktaları
 9. **Başarılı olduğumuzu nasıl anlayacağız?** Göstergeler ve doğrulama kaynakları
 
-## Tüzüğe uygulanan yapı
+## Proje çerçevesine uygulanan yapı
 
-[00 — Proje tüzüğü](00-proje-tuzugu.md) bu araştırmaya göre yeniden düzenlendi:
+[00 — Proje çerçevesi](00-proje-cercevesi.md) bu araştırmaya göre yeniden düzenlendi:
 
 - **Katmanlı amaç** (Mantıksal Çerçeve): genel amaç → proje amacı → hedefler → çıktılar
 - **Hedef tablosu:** gösterge, doğrulama kaynağı, hedef değer (PMBOK, TÜBİTAK)

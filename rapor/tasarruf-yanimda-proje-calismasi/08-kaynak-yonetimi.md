@@ -1,6 +1,6 @@
 # Tasarruf Yanımda — Kaynak yönetimi
 
-Tarih: 22 Ekim 2026, güncelleme 23 Ekim 2026. Durum: kullanıcının yönlendirmesiyle (“sahada çok çalışan var, herkes talebe gitmeyebilir”; “ekibin ayrılmış kısmı bunlarla ilgilenebilir”) hazırlanmış çerçeve. Yön: ayrılmış talep ekibi. Ayrıntılı kurallar henüz karar değildir. Proje tüzüğü: [00](00-proje-tuzugu.md).
+Tarih: 22 Ekim 2026, güncelleme 23 Ekim 2026. Durum: kullanıcının yönlendirmesiyle (“sahada çok çalışan var, herkes talebe gitmeyebilir”; “ekibin ayrılmış kısmı bunlarla ilgilenebilir”) hazırlanmış çerçeve. Yön: ayrılmış talep ekibi. Ayrıntılı kurallar henüz karar değildir. Proje çerçevesi: [00](00-proje-cercevesi.md).
 
 ## Çerçeve
 

@@ -1,4 +1,4 @@
-# Tasarruf Yanımda — Proje Tüzüğü (Taslak)
+# Tasarruf Yanımda — Proje Çerçevesi (Taslak)
 
 **Sahip birim:** Alternatif Satış Kanalı · **Sürüm:** Taslak 0.5 · **Tarih:** 23 Ekim 2026
 
@@ -127,8 +127,8 @@ Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pil
 
 ### Aşama 1: Tanımlama
 *Ne yapacağımızı ve neden yapacağımızı netleştiriyoruz.*
-- **Ne yapılır?** Amaç, hedefler ve kapsam bu tüzükte yazıya dökülür; ilgili yöneticilerle paylaşılır.
-- **Ne teslim edilir?** Üzerinde uzlaşılmış tüzük.
+- **Ne yapılır?** Amaç, hedefler ve kapsam bu belgede yazıya dökülür; ilgili yöneticilerle paylaşılır.
+- **Ne teslim edilir?** Üzerinde uzlaşılmış belge.
 - **Karar sorusu:** *Neyi, neden yapacağımız konusunda aynı cümleyi kuruyor muyuz?*
 
 ### Aşama 2: Hazırlık
@@ -182,4 +182,4 @@ Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pil
 
 ---
 
-*Tüzüğün yapısı yaygın proje başlangıç yöntemlerinden uyarlanmıştır ([09](09-tuzuk-yontem-arastirmasi.md)).*
+*Belgenin yapısı yaygın proje başlangıç yöntemlerinden uyarlanmıştır ([09](09-yontem-arastirmasi.md)).*
