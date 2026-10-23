@@ -2,7 +2,7 @@
 
   python video/ses_uret.py          → video/ses/*.mp3 + video/ses/plan.js
 Gerekenler: edge-tts, imageio-ffmpeg. Ses: fr-FR-RemyMultilingualNeural (deneme sayfasındaki "Ses 4").
-METIN altyazıda görünen yazıdır; oku() seslendiriciye gideni üretir (SPY "Sepeye" okunur).
+METIN altyazıda görünen yazıdır; oku() seslendiriciye gideni üretir (SPY "Seğpeğyeğ" yazımıyla okutulur; kullanıcı telaffuz denemesinde seçti).
 Çok dilli ses kısa/yarım cümlede dili yanlış tahmin ediyor: kısa cümleleri ve "Tasarruf Yanımda"yı tek başına okutma,
 uzun cümleyle aynı parçada tut; görüntü geçişleri tanitim.html'de kelime zamanına bağlanır.
 """
@@ -37,8 +37,8 @@ METIN = {
 
 
 def oku(m):
-    m = re.sub(r"\bSPY'", "Sepeye'", m)
-    m = re.sub(r"\bSPY\b", "Sepeye", m)
+    m = re.sub(r"\bSPY'", "Seğpeğyeğ'", m)
+    m = re.sub(r"\bSPY\b", "Seğpeğyeğ", m)
     return m.replace("QR kod", "kuar kod")
 
 

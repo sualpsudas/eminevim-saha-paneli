@@ -562,9 +562,9 @@ function acCiz(lt) {
 }
 function kartCiz(id) {
   return function (lt, d) {
-    var p = $(id).querySelector(".gecis"), gir = cik(lt / .28), cik_ = yumus((lt - (d - .28)) / .28);
-    p.style.transform = "translateX(" + (lt < d - .28 ? -1920 * (1 - gir) : 1920 * cik_) + "px)";
-    var ic = ara(lt, .2, .3);
+    var p = $(id).querySelector(".gecis"), gir = cik(lt / .45), cik_ = yumus((lt - (d - .45)) / .45);
+    p.style.transform = "translateX(" + (lt < d - .45 ? -1920 * (1 - gir) : 1920 * cik_) + "px)";
+    var ic = ara(lt, .35, .45);
     p.querySelector(".no").style.opacity = .35 * ic; p.querySelector(".ad").style.opacity = ic;
     p.querySelector(".ad").style.transform = "translateY(" + (20 * (1 - ic)) + "px)";
     p.querySelector(".cizgi").style.transform = "scaleX(" + ic + ")";
@@ -620,13 +620,13 @@ function s3bCiz(lt, d) {
 }
 
 /* ===== Zaman çizelgesi (seslendirmeden) ===== */
-var KART = .9;
+var KART = 2.0;
 var tSorunB = Wy("sorun", "görüşmek", .3), tSorunC = Wy("sorun", "hafta", .65), tCozumB = Wy("cozum", "tasarruf", .23);
 var YOL_OLCUM = .3 + Wy("yol", "talep", .45) - .1, YOL_GENIS = .3 + Wy("yol", "sonuçlara", .7);
 var CIFT_YAN = .3 + Wy("cift", "her", .5), ONC_DAG = .3 + Wy("oncelik", "talebe", .6);
 function dd(enaz, son) { return Math.max(enaz, son + .45); }
 var SAHNELER = [
-  { id: "ac", d: dd(4, .5 + S("ac")), f: acCiz, ses: [["ac", .5]] },
+  { id: "ac", d: dd(5.5, 2.8 + S("ac")), f: acCiz, ses: [["ac", 2.8]] },
   { id: "k1", d: KART, f: kartCiz("k1"), kart: true },
   { id: "bugun", d: dd(6.5, .3 + S("bugun")), f: bugunCiz, ses: [["bugun", .3]] },
   { id: "k2", d: KART, f: kartCiz("k2"), kart: true },

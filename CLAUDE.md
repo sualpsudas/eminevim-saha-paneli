@@ -158,7 +158,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
   taklit eder (başlıkta logo yok, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
   Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
-- `video/` — **tanıtım videosu** (2026-10-23 **v5**, linkler.html'de `?v=5`; içeride izlenecek KURUMSAL PROJE TANITIMI; 16:9, ~1 dk 47 sn,
+- `video/` — **tanıtım videosu** (2026-10-24 **v6**, linkler.html'de `?v=6`; içeride izlenecek KURUMSAL PROJE TANITIMI; 16:9, ~1 dk 47 sn,
   seslendirme + kodla üretilen sakin müzik (sessiz kapanışta yükselir) + açılıp kapanabilen Türkçe altyazı izi ve `.srt`).
   Sıra: Açılış (logo süpürme, "Tasarruf Yanımda" kelime kelime) → bölüm geçiş kartı (yeşil, 01–05) → 01 Bugün sahada (işyeri
   sokağı, SPY kapı kapı) → 02 Sorun (tek yönlü ok · çağrı kanalı yok · cumartesi takvimi) → 03 Çözüm (iki yönlü ok + "Dilediği
@@ -168,7 +168,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   ölçüm etiketleri: talep sayısı/yanıt süresi/gerçekleşen görüşme → harita: hizmet bölgesi + Anadolu yakası ilçeler tek tek)
   → 05 Hedeflenen düzen (çift yönlü temas + "yan kazanç: ön bilgi = ek veri" · "Öncelik bizi çağırana" rozetli kutular)
   → sessiz kapanış (3 simgeli özet kartı + logo). SES EFEKTİ YOK.
-  Seslendirme kuralları (kullanıcı): SPY "Sepeye" okunur; "Tasarruf Yanımda" ve kısa cümleler tek başına okutulmaz (çok dilli
+  Seslendirme kuralları (kullanıcı): SPY "Seğpeğyeğ" yazımıyla okutulur (telaffuz denemesinde E seçildi, `ses-deneme/`); açılışta konuşma 2,8 sn sonra başlar; bölüm kartları 2 sn; "Tasarruf Yanımda" ve kısa cümleler tek başına okutulmaz (çok dilli
   ses yabancı dil sanıyor) → uzun parçalar, ekran geçişleri edge-tts KELİME ZAMANLARINA bağlı (`W()`); zaman kipi karışık,
   çözüm gelecek zaman; kelime tekrarı yok; satış vaadi ve "Amacımız" yok; ilçe adı söylenmez ("belirlenecek bir pilot bölge",
   "uygun görülen ilçelere genişletmek mümkün"); konuşmada "işyeri" değil "müşteri". Metin ChatGPT dış gözüyle birleştirildi.

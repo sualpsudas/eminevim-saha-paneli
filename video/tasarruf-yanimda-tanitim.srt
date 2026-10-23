@@ -1,83 +1,83 @@
 1
-00:00:00,549 --> 00:00:06,760
+00:00:02,849 --> 00:00:09,060
 Yeni projemiz Tasarruf Yanımda, müşterilerimizle saha ekibimiz arasında yeni bir iletişim kanalı açıyor.
 
 2
-00:00:08,460 --> 00:00:14,430
+00:00:11,860 --> 00:00:18,030
 Bugün Alternatif Satış Kanalı'nda SPY'ler kapı kapı dolaşır ve aday müşterileri kendileri bulur.
 
 3
-00:00:16,138 --> 00:00:18,730
+00:00:20,838 --> 00:00:23,430
 Yani ilk adımı çoğunlukla biz atarız.
 
 4
-00:00:18,780 --> 00:00:23,591
+00:00:23,480 --> 00:00:28,291
 Görüşmek isteyen müşterinin doğrudan temsilci çağırabileceği bir kanal ise yok.
 
 5
-00:00:23,641 --> 00:00:28,510
+00:00:28,341 --> 00:00:33,210
 Hafta içi çalışan biri için yüz yüze görüşme de çoğu zaman cumartesiye kalıyor.
 
 6
-00:00:30,241 --> 00:00:32,903
+00:00:36,041 --> 00:00:38,703
 Peki ilk adımı müşteri de atabilse?
 
 7
-00:00:32,953 --> 00:00:36,283
+00:00:38,753 --> 00:00:42,060
 Tasarruf Yanımda bu düzene ikinci bir temas yolu ekleyecek:
 
 8
-00:00:36,333 --> 00:00:41,800
+00:00:42,110 --> 00:00:47,720
 saha ziyaretleri sürerken, uygulamadan gelen talepleri bölgedeki aktif SPY'ler karşılayacak.
 
 9
-00:00:42,549 --> 00:00:48,740
+00:00:48,469 --> 00:00:54,660
 Müşteri telefon numarasıyla kaydolup haritadan yerini işaretler, uygun gün ve saati kendisi seçer.
 
 10
-00:00:49,390 --> 00:00:51,956
+00:00:55,310 --> 00:00:58,049
 Talep aktif SPY'nin tabletine iletilir;
 
 11
-00:00:52,006 --> 00:00:56,180
+00:00:58,099 --> 00:01:02,220
 kabul edildiğinde temsilcinin adı ve kesin saat uygulamada görünür.
 
 12
-00:00:56,829 --> 00:01:00,865
+00:01:02,869 --> 00:01:06,905
 Beklerken Finansman Aracı'yla ihtiyacını ve bütçesini belirleyebilecek;
 
 13
-00:01:00,915 --> 00:01:04,170
+00:01:06,955 --> 00:01:10,210
 temsilci de görüşmeye bu ön bilgiyle hazırlıklı gidecek.
 
 14
-00:01:04,820 --> 00:01:07,582
+00:01:10,860 --> 00:01:13,622
 Ziyaret günü temsilci haritadan izlenebilir;
 
 15
-00:01:07,632 --> 00:01:12,310
+00:01:13,672 --> 00:01:18,350
 kapıda kimliği QR kodla doğrulanır, görüşmenin yazılı özeti de telefonda kalır.
 
 16
-00:01:13,906 --> 00:01:16,947
+00:01:21,046 --> 00:01:24,087
 Proje önce belirlenecek bir pilot bölgede başlayacak;
 
 17
-00:01:16,997 --> 00:01:21,081
+00:01:24,137 --> 00:01:28,221
 talep sayısı, yanıt süresi ve gerçekleşen görüşmeler izlenecek.
 
 18
-00:01:21,131 --> 00:01:25,520
+00:01:28,271 --> 00:01:32,660
 Sonuçlara göre hizmet alanını uygun görülen ilçelere genişletmek mümkün.
 
 19
-00:01:27,270 --> 00:01:29,894
+00:01:35,510 --> 00:01:38,134
 Böylece iletişim çift yönlü hâle gelir;
 
 20
-00:01:29,944 --> 00:01:33,700
+00:01:38,184 --> 00:01:41,940
 her talep, ön bilgisiyle birlikte bize ek veri de kazandırır.
 
 21
-00:01:34,499 --> 00:01:39,850
+00:01:42,739 --> 00:01:48,090
 Bizi çağırana öncelik vererek, saha gücümüzü talebe göre daha doğru planlayabileceğiz.
