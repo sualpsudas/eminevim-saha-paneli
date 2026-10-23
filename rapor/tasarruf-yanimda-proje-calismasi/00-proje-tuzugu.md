@@ -1,6 +1,6 @@
 # Tasarruf Yanımda — Proje Tüzüğü (Taslak)
 
-**Sahip birim:** Alternatif Satış Kanalı · **Sürüm:** Taslak 0.4 · **Tarih:** 23 Ekim 2026
+**Sahip birim:** Alternatif Satış Kanalı · **Sürüm:** Taslak 0.5 · **Tarih:** 23 Ekim 2026
 
 > Bu belge, Tasarruf Yanımda projesinin neden yapıldığını, neyi hedeflediğini ve hangi aşamalarla ilerleyeceğini anlatır. Bir taslaktır: **sayılar değil, yön içerir.** Sayıları pilotun kendisi verecek.
 
@@ -24,11 +24,11 @@ Bu düşünce bizi projenin ana fikrine taşıdı: **Bugün sahada temas tek yö
 
 **Genel amacımız:** Sahada temasın iki yönlü olmasını sağlamak ve saha gücümüzü en çok sonuç alacağı yerde kullanmak.
 
-**Proje amacımız:** Görüşmek isteyen müşterinin temsilcimizi bulunduğu yere çağırabilmesi ve bu talebin ayrılmış ekibimiz tarafından, aynı gün dahil, zamanında karşılanması.
+**Proje amacımız:** Görüşmek isteyen müşterinin temsilcimizi bulunduğu yere çağırabilmesi ve bu talebin talep ekibimiz tarafından, aynı gün dahil, zamanında karşılanması.
 
-**Çalışma ilkemiz:** Bizi çağırana önce biz gideriz. Ekibimizin bir bölümü gelen taleplere ayrılır, diğerleri sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.
+**Çalışma ilkemiz:** Bizi çağırana önce biz gideriz. Ekibimizin bir bölümü (**talep ekibi**) gelen taleplere ayrılır; diğerleri (**saha ekibi**) sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.
 
-**Başarıya ödül:** Bizi çağıran müşteriye ilk aşamada başarılı personellerimiz gider. Müşterinin kendisinin bizi çağırdığı, satışa daha yakın bu görüşmeler, gösterilen başarının ödülüdür.
+**Başarıya ödül:** Bizi çağıran müşteriye ilk aşamada başarılı saha personelimiz gider. Müşterinin kendisinin bizi çağırdığı, satışa daha yakın bu görüşmeler, gösterilen başarının ödülüdür. Bu yaklaşım ilk aşama içindir; fizibilite çalışmaları ve pilot sonuçlarına göre kanalın ağırlığı artırılabilir.
 
 ## 4. Hedefler
 
@@ -38,7 +38,7 @@ Vadeler aşamalara bağlıdır: **kısa vade** Hazırlık ve Pilot, **orta vade*
 *Çağrıyı mümkün kılmak ve zamanında karşılamak.*
 
 **1. Ulaşılabilir olmak**
-Görüşmek isteyen her müşteri, web sitemizden ya da uygulamamızdan birkaç adımda temsilcimizi çağırabilmeli.
+Hizmet bölgemizde görüşmek isteyen her müşteri, web sitemizden ya da uygulamamızdan birkaç adımda temsilcimizi çağırabilmeli.
 *İzleme: gelen talep sayısı*
 
 **2. Zamanında yetişmek**
@@ -133,7 +133,7 @@ Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pil
 
 ### Aşama 2: Hazırlık
 *Pilota çıkmak için ekibi, kuralları ve sistemi kuruyoruz.*
-- **Ne yapılır?** Pilot bölgesi seçilir. Talep ekibi başarılı personellerimiz arasından belirlenir; sistem onların kullanımına açılır. Böylece hem başarı ödüllendirilir hem de müşterinin bizi çağırdığı ilk deneyim güçlü olur. Atama ve satış sahipliği kuralları yazılır. Uygulama gerçek kullanıma hazırlanır. Uyum ve hukuk onayları alınır.
+- **Ne yapılır?** Pilot bölgesi seçilir. Talep ekibi başarılı saha personelimiz arasından belirlenir; sistem onların kullanımına açılır. Böylece hem başarı ödüllendirilir hem de müşterinin bizi çağırdığı ilk deneyim güçlü olur. Atama ve satış sahipliği kuralları yazılır. Uygulama gerçek kullanıma hazırlanır. Uyum ve hukuk onayları alınır.
 - **Ne teslim edilir?** Çalışan sistem, eğitilmiş talep ekibi ve yazılı çalışma kuralları.
 - **Karar sorusu:** *Bir müşteri bugün bizi çağırsa, ona zamanında gidebilir miyiz?*
 
