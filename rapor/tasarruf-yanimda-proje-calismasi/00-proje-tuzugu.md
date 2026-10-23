@@ -54,21 +54,34 @@ Sayısal hedef konmaz. Pilotun ilk haftaları başlangıç değerini verir; hede
 
 ## 5. Beklentiler
 
-- **Pilotta:** Müşteriden doğrudan talep gelmesi, taleplerin zamanında karşılanması ve talepten satışa zincirin ilk kez görünmesi
-- **Pilottan sonra:** Talep ekibinin saat başına daha çok sonuç alması; ekip büyüklüğünün talebe göre ayarlanması
-- **Uzun vadede:** Eminevim'in “çağırınca gelen” bir kurum olarak tanınması
-- **Yan kazanım (hedef değil):** Görüşmelerin bir kısmının hafta içine yayılması
+**Pilotta: İlk talep, ilk görüşme, ilk ölçüm.**
+Müşteriden ilk doğrudan talepleri almayı, bu talepleri zamanında karşılamayı ve talepten satışa uzanan yolu ilk kez uçtan uca görmeyi bekliyoruz.
 
-**Söz verilmeyenler:** Satış artışı, her bölgeye ve her saate hizmet. Saha çalışması kaldırılmaz.
+**Pilottan sonra: Veriyle yönetilen bir talep ekibi.**
+Talep ekibimizin saat başına daha çok sonuç almasını ve ekip büyüklüğünü tahminle değil, gelen talebe göre belirlemeyi bekliyoruz.
+
+**Uzun vadede: “Çağırınca gelen” Eminevim.**
+Eminevim'in müşterisinin zihninde, çağırdığında yanına gelen bir kurum olarak yer etmesini bekliyoruz.
+
+**Hafta içi: Aday müşteriye yüz yüze görüşme fırsatı.**
+Hafta içi yüz yüze görüşme fırsatı bulamayan aday müşteriye bu fırsatı sunmayı ve görüşmelerin bir kısmının hafta içine yayılmasını bekliyoruz. Bunu izleyeceğiz, ama başarı ölçüsü olarak koymuyoruz.
+
+**Satış artışını vaat etmiyoruz; ölçerek göstereceğiz.**
+Her bölgeye ve her saate hizmet bu aşamanın konusu değil. Saha çalışmalarımız sürecek.
 
 ## 6. Ne değişiyor?
 
-| | Önce | Sonra |
+**Kapı artık iki yönden açılıyor.**
+
+**Değişmeyenler:** Görevimiz müşteriye gitmektir. Kapı kapı çalışmalarımız sürer. Satış yine yüz yüze görüşmede gerçekleşir.
+
+| | Bugün | Tasarruf Yanımda ile |
 |---|---|---|
-| Ekibin görevi | Müşteriye ulaşmak | **Aynı**; buna müşterinin bizi çağırması eklenir |
-| İlk temas | Yalnızca ekipten | Ekipten **veya** müşteriden |
-| Ekip yapısı | Herkes saha çalışması yapar | **Talep ekibi** + **saha ekibi** |
-| Zamanlama | Anında ya da randevuyla | Müşterinin seçtiği saatte, aynı gün dahil |
+| **İlk temas** | Biz başlatırız | Biz başlatırız **ya da** müşteri bizi çağırır |
+| **Ekibimiz** | Herkes sahada müşteri arar | Talep ekibi çağrılara gider, saha ekibi müşteri aramaya devam eder |
+| **Görüşme zamanı** | Karşılaştığımız an ya da randevuyla | Müşterinin seçtiği gün ve saatte, aynı gün dahil |
+| **Müşterinin bildiği** | Temsilciyi görüşmede tanır | Kimin, ne zaman geleceğini önceden bilir |
+| **Bizim gördüğümüz** | Saha sonuçları | Talepten satışa her adım |
 
 ## 7. Çıktılar
 
@@ -93,12 +106,35 @@ Bunlar şu an kanıtlanmış değildir; pilot bu varsayımları test etmek için
 
 ## 10. Aşamalar
 
-| Aşama | İçerik | Aşama sonunda verilecek karar |
-|---|---|---|
-| **1. Tanımlama** | Bu tüzüğün netleşmesi | Devam mı? |
-| **2. Hazırlık** | Pilot bölgesi, talep ekibi, atama kuralları, sistem | Pilota çıkılabilir mi? |
-| **3. Pilot** | Sınırlı bölgede uygulama; talep ekibi ve saha ekibi aynı dönemde karşılaştırılır | Genişlet / düzelt / durdur |
-| **4. Yaygınlaştırma** | Diğer bölgelere kademeli geçiş | — |
+**Dört aşama, her birinin sonunda bir karar.** Karar sorusuna “evet” denmeden bir sonraki aşamaya geçilmez.
+
+### Aşama 1: Tanımlama
+*Ne yapacağımızı ve neden yapacağımızı netleştiriyoruz.*
+- **Ne yapılır?** Amaç, hedefler ve kapsam bu tüzükte yazıya dökülür; ilgili yöneticilerle paylaşılır.
+- **Ne teslim edilir?** Üzerinde uzlaşılmış tüzük.
+- **Karar sorusu:** *Neyi, neden yapacağımız konusunda aynı cümleyi kuruyor muyuz?*
+
+### Aşama 2: Hazırlık
+*Pilota çıkmak için ekibi, kuralları ve sistemi kuruyoruz.*
+- **Ne yapılır?** Pilot bölgesi seçilir. Talep ekibi belirlenir. Atama ve satış sahipliği kuralları yazılır. Uygulama gerçek kullanıma hazırlanır. Uyum ve hukuk onayları alınır.
+- **Ne teslim edilir?** Çalışan sistem, eğitilmiş talep ekibi ve yazılı çalışma kuralları.
+- **Karar sorusu:** *Bir müşteri bugün bizi çağırsa, ona zamanında gidebilir miyiz?*
+
+### Aşama 3: Pilot
+*Sınırlı bir bölgede, gerçek müşteriyle deniyor ve her adımı ölçüyoruz.*
+- **Ne yapılır?** Talep ekibi gelen talepleri karşılar, saha ekibi bugünkü gibi çalışır. İki ekibin sonuçları aynı dönemde yan yana izlenir. İlk haftalar başlangıç değerlerini verir. Ekip büyüklüğü her hafta gelen talebe göre gözden geçirilir.
+- **Ne teslim edilir?** Pilot değerlendirme raporu.
+- **Karar sorusu:** *Talep ekibi, saha ekibine göre saat başına daha çok sonuç aldı mı?*
+- **Olası kararlar:**
+  - **Genişlet:** Sonuçlar olumlu, diğer bölgelere geçilir.
+  - **Düzelt:** Fikir doğru ama işleyişte aksaklık var. Düzeltilir ve pilot sürdürülür.
+  - **Durdur:** Varsayımlar doğrulanmadı. Ekip saha çalışmasına döner, öğrenilenler kayda geçer.
+
+### Aşama 4: Yaygınlaştırma
+*Öğrendiklerimizle bölge bölge büyüyoruz.*
+- **Ne yapılır?** Yeni bölgeler kademeli olarak açılır. Her bölgede talep ekibinin büyüklüğü o bölgenin talebine göre belirlenir. Pilotta yazılan kurallar güncellenir.
+- **Ne teslim edilir?** Alternatif Satış Kanalı'nın kalıcı çalışma düzeni.
+- **Karar sorusu:** *Her yeni bölgede, pilotta aldığımız sonucu tekrar alabiliyor muyuz?*
 
 ## 11. Başlıca riskler
 
