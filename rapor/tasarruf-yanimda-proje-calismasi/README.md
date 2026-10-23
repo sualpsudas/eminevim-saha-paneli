@@ -8,6 +8,7 @@ Bu klasör, kullanıcıyla yapılan görüşmede netleşen proje amacını, mevc
 
 | Dosya | İçerik |
 |---|---|
+| [00 — Proje tüzüğü](00-proje-tuzugu.md) | **Başlangıç noktası.** Arka plan, ASK'nin görevi önce/sonra, amaç, hedefler, kaynak yönetimi, kapsam, roller, ölçütler, varsayımlar, riskler |
 | [01 — Alternatif Satış Kanalı ve mevcut durum](01-alternatif-satis-kanali-mevcut-durum.md) | Sahanın ne yaptığı, nasıl çalıştığı, cumartesi yoğunluğu ve bilginin sınırları |
 | [02 — Proje amacı ve kurumsal anlatım](02-proje-amaci-ve-kurumsal-anlatim.md) | Konuşmada netleşen amaç, bugün/gelecek karşılaştırması ve açıklayıcı örnek |
 | [03 — Yapay zekalara verilecek araştırma metni](03-yapay-zeka-arastirma-metni.md) | Yeni araştırmalarda kullanılabilecek, bu konuşmaya göre güncellenmiş bağımsız araştırma metni |

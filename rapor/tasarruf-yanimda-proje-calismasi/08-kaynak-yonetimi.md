@@ -1,6 +1,6 @@
 # Tasarruf Yanımda — Kaynak yönetimi
 
-Tarih: 22 Ekim 2026. Durum: kullanıcının yönlendirmesiyle (“sahada çok çalışan var, herkes talebe gitmeyebilir”) hazırlanmış öneri. Model seçimi henüz karar değildir.
+Tarih: 22 Ekim 2026, güncelleme 23 Ekim 2026. Durum: kullanıcının yönlendirmesiyle (“sahada çok çalışan var, herkes talebe gitmeyebilir”; “ekibin ayrılmış kısmı bunlarla ilgilenebilir”) hazırlanmış çerçeve. Yön: ayrılmış talep ekibi. Ayrıntılı kurallar henüz karar değildir. Proje tüzüğü: [00](00-proje-tuzugu.md).
 
 ## Çerçeve
 
@@ -12,14 +12,16 @@ Sahada çok sayıda çalışanımız var. Gelen talepleri karşılamak için her
 
 **Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğer çalışanlarımız sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.**
 
-## Önemli bir tespit: Bu bir planlama işi, acil çağrı işi değil
+## Zamanlama: aynı gün talepleri de var
 
-Müşteri temsilci isterken gün ve saati kendisi seçiyor ve görüşme en erken ertesi güne veriliyor. Dolayısıyla talepler **önceden bilinir**. Temsilcinin sahadaki işini bırakıp koşması gerekmez:
+Talepler yalnızca ileri tarihli olmayabilir; müşteri **aynı gün** için de temsilci isteyebilir (kullanıcı düzeltmesi, 23 Ekim 2026). Bu nedenle talepler iki türdür:
 
-- Randevular önce takvime yerleşir.
-- Randevu arasındaki ve sonrasındaki saatler saha çalışmasına ayrılır.
+- **İleri tarihli talepler:** Önceden bilinir, günün planına yerleşir.
+- **Aynı gün talepleri:** Gün içinde hızlı yönlendirme gerektirir.
 
-Bu, taksi çağırmaktan çok **günlük iş planı** yapmaya benzer. Kaynak yönetimini kolaylaştırır.
+Aynı gün talebi için saha çalışanının elindeki işi bırakması verimli değildir. Bu talepleri, gün içinde yönlendirilebilir olan **ayrılmış talep ekibi** karşılar.
+
+> Uygulama notu: Prototipte takvim bugün “yarından itibaren 3 hafta” açılıyor; aynı gün seçeneği yok. Bu karar kabul edilirse takvim güncellenmelidir.
 
 ## Kaynak ayırma modelleri
 
@@ -30,14 +32,18 @@ Bu, taksi çağırmaktan çok **günlük iş planı** yapmaya benzer. Kaynak yö
 | **3. Uygun olana atama** | Talep, o saatte boş ve en yakın temsilciye atanır | Kaynak en verimli kullanılır | Karmaşık; stant gibi sabit işleri bozabilir; anlık konum ve takvim verisi gerekir |
 | **4. Karma** | Bölge başına nöbetçi; nöbetçi doluysa takım lideri uygun bir başkasına atar | Esnek ve kontrollü | Kuralların açıkça yazılması gerekir |
 
-## Öneri
+## Seçilen yön
 
-**Başlangıçta Model 2 (nöbet), taşma için Model 4'ün takım lideri ataması.**
+**Model 1: ayrılmış talep ekibi; taşan talep için takım lideri ataması (Model 4'ten).** Kullanıcı yönlendirmesi, 23 Ekim 2026.
 
 Gerekçe:
-1. Talep hacmi başlangıçta bilinmiyor. Ayrılmış ekip boş kalabilir, nöbetçi boş kalmaz.
-2. Fırsat dönüşümlü dağıldığı için adalet ve prim tartışması azalır.
-3. Talep arttıkça nöbetçi sayısı artırılır; hacim yeterince büyürse ayrılmış ekibe geçilebilir.
+1. Aynı gün talepleri hızlı yönlendirme ister; bunu saha çalışanının işini bölmeden ayrılmış ekip karşılar.
+2. Sorumluluk nettir: talep sahipsiz kalmaz.
+3. Talep ekibi ile saha ekibinin sonuçları doğrudan karşılaştırılabilir.
+
+Bu yönün iki zayıf yanı için önlemler:
+- **Talep azsa boş zaman:** Talep ekibi küçük başlar ve talebe göre büyütülür. Boş zamanında kendi bölgesinde saha çalışması yapabilir.
+- **“Kolay müşteri onlara gidiyor” algısı ve ölçüm sapması:** Talep ekibine yalnız en başarılı temsilciler seçilmez; ekip üyeliği dönemsel olarak değişebilir. (Önceki taslakta önerilen nöbet modeli bu önlemin bir biçimi olarak kalabilir.)
 
 ## Kim talebe gider? Kim sahada kalır?
 

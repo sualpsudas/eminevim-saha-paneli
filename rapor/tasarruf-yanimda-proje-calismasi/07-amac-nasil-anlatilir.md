@@ -36,9 +36,7 @@ Müşteriye **temsilci çağırma** imkânı. Görüşmek isteyen müşteri web 
 
 **Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğer çalışanlarımız sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.**
 
-Bu bir kaynak yönetimi kararıdır. Herkesin çalışma düzeni değişmez. Başlangıçta her bölgede dönüşümlü “talep sorumlusu” temsilciler belirlenir. Bu temsilciler randevu olmayan saatlerde onlar da sahada çalışır.
-
-Müşteri görüşme gününü ve saatini önceden seçtiği için talepler önceden bilinir. Kimse sahadaki işini bırakıp koşmaz; randevular günün planına önceden yerleşir.
+Bu bir kaynak yönetimi kararıdır. Herkesin çalışma düzeni değişmez. Ekibin ayrılmış bir bölümü (**talep ekibi**) gelen talepleri karşılar; aynı gün gelen talepler de bu ekibe yönlendirilir. Böylece saha ekibi işini bölmeden çalışmaya devam eder.
 
 Talep az olursa ayrılan pay küçülür ve ekip bugünkü gibi çalışır. Bu yüzden proje, mevcut satış gücünü riske atmadan denenebilir. Ayrıntı: [08 — Kaynak yönetimi](08-kaynak-yonetimi.md).
 
@@ -92,10 +90,10 @@ Beklentimiz, ekibimizin aynı zamanda daha çok sonuç alması. Bunu söz olarak
 Talebe ayrılan pay küçültülür; ekip bugünkü gibi sahada çalışmaya devam eder. Kayıp olmaz, yalnızca öğrenmiş oluruz.
 
 **“Herkes talebe mi gidecek?”**
-Hayır. Her bölgede dönüşümlü olarak belirlenen temsilciler talepleri karşılar, diğerleri sahada çalışır. Talep arttıkça ayrılan temsilci sayısı artırılır.
+Hayır. Ekibin ayrılmış bir bölümü talepleri karşılar, diğerleri sahada çalışır. Talep arttıkça bu ekip büyütülür.
 
-**“Talepler en iyi temsilcilere mi gidecek?”**
-Hayır. Fırsatlar dönüşümlü dağıtılır. Bu hem adaleti sağlar hem de sonucun kişiden değil, kanaldan geldiğini doğru ölçmemizi sağlar.
+**“Talep ekibine en iyi temsilciler mi seçilecek?”**
+Hayır. Ekip yalnız en başarılı temsilcilerden kurulmaz ve üyelik dönemsel olarak değişebilir. Bu hem adaleti sağlar hem de sonucun kişiden değil, kanaldan geldiğini doğru ölçmemizi sağlar.
 
 **“Reklam yapacak mıyız?”**
 Amacımız talep yaratmak değil, var olan talebin bize ulaşması. Müşterinin bu hizmetten haberdar olması gerekir; bunun yolları ayrıca planlanacak.
