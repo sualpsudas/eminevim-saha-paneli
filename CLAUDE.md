@@ -174,6 +174,19 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   OpenStreetMap gri (merkez 40.9866, 29.1225; köşede atıf zorunlu); ilçe sınırları Nominatim. Linkte `?v=N` sürüm
   parametresi (telefon eski kopyayı gösteriyordu) — videoyu her güncellemede linkler.html'de N'i artır.
   Müşteriye yönelik reklam videosu çerçevenin kapsamı dışında.
+- **Video v5 PLANI (2026-10-23, kullanıcıyla konuşuldu; metin ChatGPT'ye dış göz için gönderildi, dönüş bekleniyor):**
+  Sıra: Açılış (logo) → 01 Bugün sahada (doğrudan işyeri sokağı, AÇILIŞTA HARİTA YOK) → 02 Sorun (tek yönlü, kanal yok,
+  cumartesi) → 03 Çözüm (iki yönlü ok, çözüm sokağı, işleyiş 4 akıcı cümle) → 04 Yol haritası (aşamalar + harita: hizmet
+  bölgesi yeşil, ilçeler tek tek katılır; harita yalnız burada) → 05 Hedeflenen düzen (çift yönlü temas; Sepeye kaynağı) →
+  sessiz kapanış (3 simgeli özet kartı: Çift yönlü temas · Hazırlıklı görüşme · Doğru kaynak yönetimi + logo).
+  Seslendirme kuralları: SPY "Sepeye" okunur (OKU dönüşümü); "Tasarruf Yanımda" ve kısa/yarım cümleler TEK BAŞINA okutulmaz
+  (çok dilli ses yabancı dil sanıyor) → işleyiş 4 uzun cümle, ekran geçişleri edge-tts kelime zamanlarına bağlanır; aynı
+  zaman kipi sürekli kullanılmaz (geniş/gelecek/-ebilir/isim cümlesi karışık; çözüm kısmı gelecek zaman); kelime tekrarı yok;
+  ilçe adı söylenmez ("pilot bölgede", "uygun görülen ilçelere genişletilebilir"); haritada "örnek bölge" notu GEREKMEZ.
+  Hız: ~+8%, boşluklar kısalır, hedef ~1:45. Animasyon: etkileyici ve kurumsal (logo süpürme girişi, bölüm geçiş kartları,
+  dokunuş dalgası, aktif ekrana hafif yakınlaşma, telefondan tablete veri çizgisi, kelime kelime anahtar kelime, özet kartı;
+  müzik sona doğru hafif yükselir). SES EFEKTİ YOK. Taslak metin (kip karışık) sohbette verildi; ChatGPT yorumu gelince
+  METIN'e işlenecek.
 - `rapor/benzer-uygulamalar.html` — Türkiye + dünya benzer uygulamalar, yenilik fikirleri, uyarılar (2026-10-21 taslak; kullanıcıyla
   konuşulup ortak rapora dönüşecek). linkler.html'de "Araştırma raporu".
 - `backup/2026-10-21-eski-uygulama/` — sade akıştan önceki uygulama (açılır hâlde; git etiketi `eski-uygulama-2026-10-21`).
