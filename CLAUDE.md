@@ -173,6 +173,8 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   gelen çağrılara göre ayarlanır"; "doğru yere"de bir kişi saha kutusundan çağrı kutusuna geçer (3/5 → 4/4). Çift yönlü şemada ok etiketleri (Uygulamadan
   çağrı / Saha ziyareti), tek haleli saha ekibi, "Yan kazanç: Ön bilgi → Ek veri" hapları. Kapanış kartlarında ikinci satır. Finansman fin2 ekranı CANLI
   (`finansmanCanli`, `#finCanli` kaydırma katmanında): %20 → %10 dokunuş, vade 48 → 72 sürükleme, aylık 58.333 → 65.625 → 43.750 ₺ (= ön bilgi).
+  Seslendirmede ve video yazılarında "talep" YOK, yerine "çağrı" (kullanıcı 2026-10-24; işleyiş bant adı "Çağrı", yol haritasında "Çağrı sayısı").
+  Uygulama ekran görüntülerindeki "Yeni talep" / "Talebiniz alındı" ve bildirim kartı uygulamayla aynı kaldı (uygulama değişirse birlikte değişir).
   Sıra: Açılış (arkada soluk mahalle, kamera kayar; logo süpürme, "Tasarruf Yanımda" kelime kelime) → bölüm geçiş kartı (yeşil, yalnız başlık; NUMARA YOK, köşe etiketlerinde de yok: kullanıcı 2026-10-24) → 01 Bugün sahada
   (İZOMETRİK mahalle `izo.js` mod "bugun": SPY kapı kapı, kamera SPY'ye yakından başlar açılır) → 02 Sorun (`izo.js` mod "sorun", bant yazısı üç kez değişir:
   tek yönlü temas = SPY'den kapıya kavisli ok · çağrı kanalı yok = müşteri telefonuna bakar, balonda telefon+? → "yok"ta turuncu çarpı ·

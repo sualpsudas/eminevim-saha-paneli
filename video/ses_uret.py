@@ -26,14 +26,14 @@ METIN = {
     "sorun": "İlk adımı çoğunlukla biz atarız. Görüşmek isteyen müşterinin doğrudan temsilci çağırabileceği bir kanal ise yok. "
              "Hafta içi çalışan biri için yüz yüze görüşme de çoğu zaman cumartesiye kalıyor.",
     "cozum": "İlk adımı müşteri de atabilse? Tasarruf Yanımda bu düzene ikinci bir temas yolu ekleyecek: "
-             "saha ziyaretleri sürerken, uygulamadan gelen talepleri bölgedeki SPY'ler karşılayacak.",
+             "saha ziyaretleri sürerken, uygulamadan gelen çağrıları bölgedeki SPY'ler karşılayacak.",
     "talep": "Müşteri telefon numarasıyla kaydolup haritadan yerini işaretler, uygun gün ve saati kendisi seçer.",
-    "esles": "Talep, bölgedeki SPY'nin tabletine iletilir; kabul edildiğinde temsilcinin adı ve kesin saat uygulamada görünür.",
+    "esles": "Çağrı, bölgedeki SPY'nin tabletine iletilir; kabul edildiğinde temsilcinin adı ve kesin saat uygulamada görünür.",
     "hazir": "Beklerken Finansman Aracı'yla ihtiyacını ve bütçesini belirleyebilecek; temsilci de görüşmeye bu ön bilgiyle hazırlıklı gidecek.",
     "guven": "Ziyaret günü temsilci haritadan izlenebilir; kapıda kimliği QR kodla doğrulanır, görüşmenin yazılı özeti de telefonda kalır.",
-    "yol": "Proje önce belirlenecek bir pilot bölgede başlayacak; talep sayısı, yanıt süresi ve gerçekleşen görüşmeler izlenecek. "
+    "yol": "Proje önce belirlenecek bir pilot bölgede başlayacak; çağrı sayısı, yanıt süresi ve gerçekleşen görüşmeler izlenecek. "
            "Sonuçlara göre hizmet alanını uygun görülen ilçelere genişletmek mümkün.",
-    "cift": "Böylece iletişim çift yönlü hâle gelir; her talep, ön bilgisiyle birlikte bize ek veri de kazandırır.",
+    "cift": "Böylece iletişim çift yönlü hâle gelir; her çağrı, ön bilgisiyle birlikte bize ek veri de kazandırır.",
     "oncelik": "Önceliği bizi çağırana vermek, saha gücümüzü doğru yere yönlendirmeyi kolaylaştırır.",
 }
 

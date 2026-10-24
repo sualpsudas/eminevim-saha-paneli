@@ -170,7 +170,7 @@
     <div class="dugum" style="left:1530px;top:368px">Yaygınlaştırma</div>
     <div class="kart-harita" id="kh"><img src="kareler/harita_z11.webp" alt=""><svg width="1500" height="520" id="khsvg"></svg><div id="khetk"></div><div class="osm">© OpenStreetMap katkıda bulunanlar</div></div>
     <div id="olcBas">İZLENECEK</div>
-    <div class="olcum" style="top:520px"><svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="26" fill="#e9f0ed"/><circle cx="20" cy="20" r="6" fill="#00724c"/><path d="M10 38c0-8 4-12 10-12s10 4 10 12z" fill="#00724c"/><circle cx="34" cy="20" r="5" fill="#ea803f"/><path d="M27 38c1-7 4-10 7-10 5 0 8 4 8 10z" fill="#ea803f"/></svg>Talep sayısı</div>
+    <div class="olcum" style="top:520px"><svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="26" fill="#e9f0ed"/><circle cx="20" cy="20" r="6" fill="#00724c"/><path d="M10 38c0-8 4-12 10-12s10 4 10 12z" fill="#00724c"/><circle cx="34" cy="20" r="5" fill="#ea803f"/><path d="M27 38c1-7 4-10 7-10 5 0 8 4 8 10z" fill="#ea803f"/></svg>Çağrı sayısı</div>
     <div class="olcum" style="top:612px"><svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="26" fill="#e9f0ed"/><circle cx="26" cy="27" r="13" fill="none" stroke="#00724c" stroke-width="4"/><path id="olcIbre" d="M26 27v-8" stroke="#00724c" stroke-width="4" stroke-linecap="round"/><path d="M22 10h8" stroke="#00724c" stroke-width="4" stroke-linecap="round"/></svg>Yanıt süresi</div>
     <div class="olcum" style="top:704px"><svg width="52" height="52" viewBox="0 0 52 52"><circle cx="26" cy="26" r="26" fill="#e9f0ed"/><path d="M15 27l7 7 15-16" fill="none" stroke="#00724c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>Gerçekleşen görüşme</div>
   </div>
@@ -312,11 +312,11 @@ var YK = 640, XS = 600, XM = 1320;
 /* ===== İşleyiş: telefon + tablet, adımlar kelimeye bağlı ===== */
 var TEL = { x: 330, y: 92, w: 371, h: 780 }, TAB = { x: 791, y: 112, w: 1049, h: 740 };
 var ISLEYIS = [
-  { ses: "talep", y: "<b>Talep</b>", adim: [
+  { ses: "talep", y: "<b>Çağrı</b>", adim: [
     { w: "müşteri", m: "tel02", p: "tab01", k: "m" },
     { w: "haritadan", m: "tel07" }, { w: "uygun", m: "tel08" }, { w: "seçer", m: "tel09", sonda: true }] },
   { ses: "esles", y: "<b>Eşleşme</b>", adim: [
-    { w: "talep", m: "tel09", p: "tab09", k: "p", veri: true }, { w: "kabul", m: "tel10", p: "tab10", k: "mp" }, { w: "kesin", m: "tel11", p: "tab11", k: "m" }] },
+    { w: "çağrı", m: "tel09", p: "tab09", k: "p", veri: true }, { w: "kabul", m: "tel10", p: "tab10", k: "mp" }, { w: "kesin", m: "tel11", p: "tab11", k: "m" }] },
   { ses: "hazir", y: "<b>Hazırlık</b> · ön bilgi", adim: [
     { w: "beklerken", m: "fin1", p: "tab11", k: "m" }, { w: "aracı", m: "fin2", fin: true }, { w: "temsilci", m: "fin3", p: "tabOn", k: "p", yakin: 1.1 }] },
   { ses: "guven", y: "<b>Güven</b>", adim: [
@@ -657,7 +657,7 @@ function cozumCiz(lt, d) {
 /* ===== Zaman çizelgesi (seslendirmeden) ===== */
 var KART = 2.0;
 var tSorunB = Wy("sorun", "görüşmek", .3), tSorunC = Wy("sorun", "hafta", .65), tCozumB = Wy("cozum", "tasarruf", .23);
-var YOL_OLCUM = .3 + Wy("yol", "talep", .45) - .1, YOL_GENIS = .3 + Wy("yol", "sonuçlara", .7);
+var YOL_OLCUM = .3 + Wy("yol", "çağrı", .45) - .1, YOL_GENIS = .3 + Wy("yol", "sonuçlara", .7);
 var CIFT_YAN = .3 + Wy("cift", "her", .5), ONC_DAG = .3 + Wy("oncelik", "doğru", .6);
 function dd(enaz, son) { return Math.max(enaz, son + .45); }
 /* sorun: üç anın başları ve vurgu anları (sahne içi saniye = kelime zamanı + .3) */
