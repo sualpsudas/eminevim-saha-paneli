@@ -1,6 +1,7 @@
 """Seslendirme: her parçayı edge-tts ile üretir; süre ve KELİME ZAMANLARINI ses/plan.js'e yazar.
 
-  python video/ses_uret.py          → video/ses/*.mp3 + video/ses/plan.js
+  python video/ses_uret.py          → video/ses/*.mp3 + video/ses/plan.js (hepsi)
+  python video/ses_uret.py sorun    → yalnız bu parçalar yeniden; diğerleri plan.js’ten aynen kalır
 Gerekenler: edge-tts, imageio-ffmpeg. Ses: fr-FR-RemyMultilingualNeural (deneme sayfasındaki "Ses 4").
 METIN altyazıda görünen yazıdır; oku() seslendiriciye gideni üretir (SPY "Seğpeğyeğ" yazımıyla okutulur; kullanıcı telaffuz denemesinde seçti).
 Çok dilli ses kısa/yarım cümlede dili yanlış tahmin ediyor: kısa cümleleri ve "Tasarruf Yanımda"yı tek başına okutma,
@@ -11,6 +12,7 @@ import json
 import pathlib
 import re
 import subprocess
+import sys
 
 import edge_tts
 import imageio_ffmpeg
@@ -21,9 +23,9 @@ SES, HIZ = "fr-FR-RemyMultilingualNeural", "+8%"
 METIN = {
     "ac": "Yeni projemiz Tasarruf Yanımda, müşterilerimizle saha ekibimiz arasında yeni bir iletişim kanalı açıyor.",
     "bugun": "Bugün Alternatif Satış Kanalı'nda SPY'ler kapı kapı dolaşır ve aday müşterileri kendileri bulur.",
-    "sorun": "Yani ilk adımı çoğunlukla biz atarız. Görüşmek isteyen müşterinin doğrudan temsilci çağırabileceği bir kanal ise yok. "
+    "sorun": "İlk adımı çoğunlukla biz atarız. Görüşmek isteyen müşterinin doğrudan temsilci çağırabileceği bir kanal ise yok. "
              "Hafta içi çalışan biri için yüz yüze görüşme de çoğu zaman cumartesiye kalıyor.",
-    "cozum": "Peki ilk adımı müşteri de atabilse? Tasarruf Yanımda bu düzene ikinci bir temas yolu ekleyecek: "
+    "cozum": "İlk adımı müşteri de atabilse? Tasarruf Yanımda bu düzene ikinci bir temas yolu ekleyecek: "
              "saha ziyaretleri sürerken, uygulamadan gelen talepleri bölgedeki SPY'ler karşılayacak.",
     "talep": "Müşteri telefon numarasıyla kaydolup haritadan yerini işaretler, uygun gün ve saati kendisi seçer.",
     "esles": "Talep, bölgedeki SPY'nin tabletine iletilir; kabul edildiğinde temsilcinin adı ve kesin saat uygulamada görünür.",
@@ -69,10 +71,17 @@ async def parca(k, m):
 
 async def uret():
     KLASOR.mkdir(exist_ok=True)
-    for eski in KLASOR.glob("*.mp3"):
-        eski.unlink()
+    secili = sys.argv[1:]
     plan = {}
+    if secili:   # yalnız seçilen parçalar; diğerleri eski plan.js’ten
+        eski = (KLASOR / "plan.js").read_text(encoding="utf-8")
+        plan = json.loads(eski[eski.index("{"):eski.rindex("}") + 1])
+    else:
+        for eski in KLASOR.glob("*.mp3"):
+            eski.unlink()
     for k, m in METIN.items():
+        if secili and k not in secili:
+            continue
         kelime = await parca(k, m)
         plan[k] = {"sure": round(sure(KLASOR / f"{k}.mp3"), 2), "metin": m, "kelime": kelime}
         print(k, plan[k]["sure"], len(kelime))
