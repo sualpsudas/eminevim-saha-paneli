@@ -163,6 +163,10 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   v8 (kullanıcı "en iyi iyileştirmeler"): Sorun ve Çözüm girişi düz ikon değil, AYNI izometrik mahallede kamera hareketli anlar; yeni karakter
   MÜŞTERİ (lacivert ceket, telefonlu, "Müşteri" etiketli; 05'teki diyagramda da müşteri lacivert). Mahallede ağaç sallanması + bulut gölgesi
   (kuş denendi, hata gibi göründü → kaldırıldı; sokak lambası tabelaya bindi → kaldırıldı). Altyazı/seslendirme DEĞİŞMEDİ.
+  v8 sonrası (kullanıcı 2026-10-24, video HENÜZ yeniden üretilmedi): kapı kapı ziyaretlerde sonuç karışık: yeşil tik + KIRMIZI çarpı (`OLUMLU` izo.js;
+  bugün 1,0,0,1,0,1 · sorunda ECZANE çarpı · çözümde turuncu SPY KUAFÖR çarpı, çağrıya giden yeşil SPY hep tik); yayalar SPY/müşteriyle AYNI boy (izometride
+  uzaklık küçültmez); işleyiş yavaşladı: her bölüm seslendirmeden sonra +1,6 sn bekler, Talep 4 ekran (tel02 → tel07 → tel08 → tel09), ekran kaydırma 0,6 sn,
+  kamera 1,2 sn → video ~2 dk 0 sn.
   Sıra: Açılış (arkada soluk mahalle, kamera kayar; logo süpürme, "Tasarruf Yanımda" kelime kelime) → bölüm geçiş kartı (yeşil, yalnız başlık; NUMARA YOK, köşe etiketlerinde de yok: kullanıcı 2026-10-24) → 01 Bugün sahada
   (İZOMETRİK mahalle `izo.js` mod "bugun": SPY kapı kapı, kamera SPY'ye yakından başlar açılır) → 02 Sorun (`izo.js` mod "sorun", bant yazısı üç kez değişir:
   tek yönlü temas = SPY'den kapıya kavisli ok · çağrı kanalı yok = müşteri telefonuna bakar, balonda telefon+? → "yok"ta turuncu çarpı ·

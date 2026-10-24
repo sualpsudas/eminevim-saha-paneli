@@ -50,8 +50,8 @@
   .kay img{opacity:1}
   #cM .kay{clip-path:inset(7.4% 3.1% 1.6% 3.1% round 0 0 24px 24px)}
   #cP .kay{clip-path:inset(9% 1.75% 2.45% 1.75% round 0 0 14px 14px)}
-  #cM .kay img{clip-path:inset(7.4% 3.1% 1.6% 3.1%)}
-  #cP .kay img{clip-path:inset(9% 1.75% 2.45% 1.75%)}
+  #cM .kay img{clip-path:inset(7.4% 3.1% 4.8% 3.1%)}   /* alt köşelerdeki çerçeve kavisi kopyada görünmesin */
+  #cP .kay img{clip-path:inset(9% 1.75% 4.6% 1.75%)}
   #bildirim{position:absolute;left:0;top:0;width:330px;height:84px;margin:-42px 0 0 -165px;background:#fff;border-radius:18px;box-shadow:0 10px 30px rgba(20,40,30,.22);opacity:0;z-index:6;font-size:17px;color:#5f6b66}
   #bildirim i{position:absolute;left:16px;top:16px;width:52px;height:52px;border-radius:50%;background:#e9f0ed;color:#00724c;font-style:normal;font-weight:700;font-size:19px;line-height:52px;text-align:center}
   #bildirim b{position:absolute;left:84px;top:15px;font-size:21px;color:#00724c}
@@ -292,8 +292,8 @@ var YK = 640, XS = 600, XM = 1320;
 var TEL = { x: 330, y: 92, w: 371, h: 780 }, TAB = { x: 791, y: 112, w: 1049, h: 740 };
 var ISLEYIS = [
   { ses: "talep", y: "<b>Talep</b>", adim: [
-    { w: "müşteri", m: "tel01", p: "tab01", k: "m" }, { w: "numarasıyla", m: "tel02" }, { w: "kaydolup", m: "tel04" },
-    { w: "haritadan", m: "tel06" }, { w: "yerini", m: "tel07" }, { w: "uygun", m: "tel08" }, { w: "seçer", m: "tel09" }] },
+    { w: "müşteri", m: "tel02", p: "tab01", k: "m" },
+    { w: "haritadan", m: "tel07" }, { w: "uygun", m: "tel08" }, { w: "seçer", m: "tel09", sonda: true }] },
   { ses: "esles", y: "<b>Eşleşme</b>", adim: [
     { w: "talep", m: "tel09", p: "tab09", k: "p", veri: true }, { w: "kabul", m: "tel10", p: "tab10", k: "mp" }, { w: "kesin", m: "tel11", p: "tab11", k: "m" }] },
   { ses: "hazir", y: "<b>Hazırlık</b> · ön bilgi", adim: [
@@ -305,12 +305,14 @@ var ISLEYIS = [
 (function () {
   var b = 0, adlar = {};
   ISLEYIS.forEach(function (sg) {
-    sg.b0 = b; sg.d = .25 + S(sg.ses) + .35; b += sg.d;
+    /* seslendirmeden sonra bekleme: son ekran okunacak kadar kalır (kullanıcı: aşamalar çok hızlı geçiyordu) */
+    sg.b0 = b; sg.d = .25 + S(sg.ses) + 1.6; b += sg.d;
     var m, p, k;
     sg.adim.forEach(function (a, i) {
       m = a.m || m; p = a.p || p; k = a.k || k; a.m = m; a.p = p; a.k = k;
       var w = W(sg.ses, a.w); a.t = sg.b0 + .25 + (w === null ? S(sg.ses) * i / sg.adim.length : w) - .1;
       if (i === 0) a.t = sg.b0;
+      if (a.sonda) a.t = Math.max(a.t, sg.b0 + .25 + S(sg.ses) - .2);   /* sonuç ekranı cümle bitince */
       adlar[m] = "icM"; adlar[p] = "icP";
     });
   });
@@ -353,7 +355,7 @@ function adimBul(t) { /* t: işleyiş içindeki saniye */
   return { simdi: tum[i], once: i > 0 ? tum[i - 1] : null };
 }
 function nasil(lt) {
-  var r = adimBul(lt), a = r.simdi.a, o = r.once ? r.once.a : null, gl = lt - a.t, GK = .42;
+  var r = adimBul(lt), a = r.simdi.a, o = r.once ? r.once.a : null, gl = lt - a.t, GK = .6;
   /* ekranlar: değişen ekran, çerçevenin içinde sağdan kayarak gelir; eskisi hafifçe sola çekilir */
   document.querySelectorAll(".cihaz img").forEach(function (im) { im.style.opacity = 0; im.style.zIndex = 0; im.style.transform = ""; });
   [["m", "kayM"], ["p", "kayP"]].forEach(function (x) {
@@ -368,7 +370,7 @@ function nasil(lt) {
     } else { kay.style.opacity = 0; $("i_" + yeni).style.opacity = 1; $("i_" + yeni).style.zIndex = 1; }
   });
   /* kamera */
-  var k1 = kamHedef(a), k0 = o ? kamHedef(o) : k1, kp = yumus(gl / .85);
+  var k1 = kamHedef(a), k0 = o ? kamHedef(o) : k1, kp = yumus(gl / 1.2);
   var kam = { x: k0.x + (k1.x - k0.x) * kp, y: k0.y + (k1.y - k0.y) * kp, z: k0.z + (k1.z - k0.z) * kp };
   if (r.simdi.si === 0 && r.simdi.a === ISLEYIS[0].adim[0]) {   /* bölüm başı: genişten telefona yaklaş */
     var gn = kamHedef({ k: "mp" }), bp = yumus((lt - .15) / 1.1);

@@ -145,7 +145,8 @@ function izoSahne(svg, sec) {
     };
     return k;
   }
-  var yaya1 = kisi("#a3aea9", null, .75), yaya2 = kisi("#c2b3a3", null, .75), yaya3 = kisi("#9fb1c2", null, .72);
+  /* izometrik çizimde uzaklık küçültmez: yayalar da SPY ve müşteriyle aynı boyda */
+  var yaya1 = kisi("#a3aea9", null, 1), yaya2 = kisi("#c2b3a3", null, 1), yaya3 = kisi("#9fb1c2", null, 1);
   var spy = kisi("#ea803f", "SPY", 1), spy2 = MOD === "cozum" ? kisi("#00724c", "SPY", 1) : null;
   if (MOD === "ac") spy.g.style.display = "none";
   /* müşteri (Mehmet Bey): lacivert ceket, elinde telefon; kaldırımın önünde durur, SPY'lerden sonra çizilir */
@@ -154,9 +155,14 @@ function izoSahne(svg, sec) {
   var rotaT = E("polyline", { fill: "none", stroke: "#ea803f", "stroke-width": 5, "stroke-dasharray": "2 11", "stroke-linecap": "round", opacity: .9 }, ON);
   var rotaY = E("polyline", { fill: "none", stroke: "#00724c", "stroke-width": 5, "stroke-dasharray": "2 11", "stroke-linecap": "round", opacity: .9 }, ON);
   /* ---- onay işaretleri ve çağrı simgeleri ---- */
-  var tik = dukkan.map(function (d) {
-    var g = E("g", {}, ON); E("circle", { r: 20, fill: "#00724c", stroke: "#fff", "stroke-width": 4 }, g);
-    E("path", { d: "M-8 0l6 6 11-12", fill: "none", stroke: "#fff", "stroke-width": 4.5, "stroke-linecap": "round", "stroke-linejoin": "round" }, g);
+  /* ziyaret sonucu: her kapı olumlu (yeşil tik) değil; kapı kapı gezide bazıları olumsuz (kırmızı çarpı).
+     Çağrıya giden yeşil SPY'nin kapıları (çözümde 1, 3, 5) hep olumlu. */
+  var OLUMLU = { bugun: [1, 0, 0, 1, 0, 1], sorun: [1, 0, 1, 1, 1, 1], cozum: [1, 1, 0, 1, 1, 1] }[MOD] || [1, 1, 1, 1, 1, 1];
+  var tik = dukkan.map(function (d, i) {
+    var g = E("g", {}, ON), iyi = OLUMLU[i];
+    E("circle", { r: 20, fill: iyi ? "#00724c" : "#d64541", stroke: "#fff", "stroke-width": 4 }, g);
+    if (iyi) E("path", { d: "M-8 0l6 6 11-12", fill: "none", stroke: "#fff", "stroke-width": 4.5, "stroke-linecap": "round", "stroke-linejoin": "round" }, g);
+    else E("path", { d: "M-7 -7L7 7M7 -7L-7 7", stroke: "#fff", "stroke-width": 4.5, "stroke-linecap": "round" }, g);
     var a = P(d.x + 1.78, .02, 1.78); g.xy = a; g.style.opacity = 0; return g;
   });
   var cagriPin = dukkan.map(function (d) {
