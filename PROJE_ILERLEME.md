@@ -513,3 +513,10 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Telefon + tablet: kamera etkin cihazın vurgulu yerine yakınlaşır (yazılar okunur), ekranlar kayarak değişir, talep telefondan tablete bildirim kartı olarak uçar, cihaz etiketleri alt bantta.
 - Yol haritası: harita baştan, simgeli "İzlenecek" kartları, ilçeler dalga gibi; Sultanbeyli/Pendik etiket çakışması giderildi. Öncelik sahnesinde kişiler başlıkların üstünden geçmiyor. Kapanış kartları birleşip logoya dönüyor.
 - Bölüm kartlarında ve köşe etiketlerinde numara yok (kullanıcı isteği). 50 kare/sn, kayıpsız kare; seslendirme ve altyazı değişmedi. Önce/sonra sayfası: `video/v8-karsilastirma/`.
+
+### 2026-10-24 - Tanıtım videosu v9
+
+- Kapı kapı ziyaretlerde olumsuz sonuçlar da var (kırmızı çarpı); çağrıya giden SPY'nin ziyaretleri hep olumlu. Yayalar SPY/müşteriyle aynı boy.
+- İşleyiş yavaşladı (bölüm sonlarında bekleme, Talep 4 ekran, yavaş kaydırma/kamera); finansman bütçe ekranı canlı (peşinat ve vade değişir, aylık ödeme sayar).
+- Seslendirme: "Yani", "Peki" çıktı; "talep" yerine "çağrı"; son cümle "Önceliği bizi çağırana vermek, saha gücümüzü doğru yere yönlendirmeyi kolaylaştırır."
+- Son bölüm şemaları: ok etiketleri, Yan kazanç hapları, öncelikte dağılımın değişmesi (3/5 → 4/4), kapanış kartlarında ikinci satır. Süre ~2 dk.

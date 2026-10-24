@@ -7,77 +7,77 @@ Yeni projemiz Tasarruf Yanımda, müşterilerimizle saha ekibimiz arasında yeni
 Bugün Alternatif Satış Kanalı'nda SPY'ler kapı kapı dolaşır ve aday müşterileri kendileri bulur.
 
 3
-00:00:20,838 --> 00:00:23,430
-Yani ilk adımı çoğunlukla biz atarız.
+00:00:20,861 --> 00:00:23,117
+İlk adımı çoğunlukla biz atarız.
 
 4
-00:00:23,480 --> 00:00:28,291
+00:00:23,167 --> 00:00:27,978
 Görüşmek isteyen müşterinin doğrudan temsilci çağırabileceği bir kanal ise yok.
 
 5
-00:00:28,341 --> 00:00:33,210
+00:00:28,028 --> 00:00:32,900
 Hafta içi çalışan biri için yüz yüze görüşme de çoğu zaman cumartesiye kalıyor.
 
 6
-00:00:36,041 --> 00:00:38,703
-Peki ilk adımı müşteri de atabilse?
+00:00:35,731 --> 00:00:37,988
+İlk adımı müşteri de atabilse?
 
 7
-00:00:38,753 --> 00:00:42,060
+00:00:38,038 --> 00:00:41,356
 Tasarruf Yanımda bu düzene ikinci bir temas yolu ekleyecek:
 
 8
-00:00:42,110 --> 00:00:47,410
-saha ziyaretleri sürerken, uygulamadan gelen talepleri bölgedeki SPY'ler karşılayacak.
+00:00:41,406 --> 00:00:46,790
+saha ziyaretleri sürerken, uygulamadan gelen çağrıları bölgedeki SPY'ler karşılayacak.
 
 9
-00:00:48,159 --> 00:00:54,350
+00:00:47,539 --> 00:00:53,730
 Müşteri telefon numarasıyla kaydolup haritadan yerini işaretler, uygun gün ve saati kendisi seçer.
 
 10
-00:00:55,000 --> 00:00:58,179
-Talep, bölgedeki SPY'nin tabletine iletilir;
+00:00:55,630 --> 00:00:58,902
+Çağrı, bölgedeki SPY'nin tabletine iletilir;
 
 11
-00:00:58,229 --> 00:01:02,390
+00:00:58,952 --> 00:01:03,090
 kabul edildiğinde temsilcinin adı ve kesin saat uygulamada görünür.
 
 12
-00:01:03,039 --> 00:01:07,075
+00:01:04,989 --> 00:01:09,025
 Beklerken Finansman Aracı'yla ihtiyacını ve bütçesini belirleyebilecek;
 
 13
-00:01:07,125 --> 00:01:10,380
+00:01:09,075 --> 00:01:12,330
 temsilci de görüşmeye bu ön bilgiyle hazırlıklı gidecek.
 
 14
-00:01:11,030 --> 00:01:13,792
+00:01:14,230 --> 00:01:16,992
 Ziyaret günü temsilci haritadan izlenebilir;
 
 15
-00:01:13,842 --> 00:01:18,520
+00:01:17,042 --> 00:01:21,720
 kapıda kimliği QR kodla doğrulanır, görüşmenin yazılı özeti de telefonda kalır.
 
 16
-00:01:21,216 --> 00:01:24,257
+00:01:25,669 --> 00:01:28,814
 Proje önce belirlenecek bir pilot bölgede başlayacak;
 
 17
-00:01:24,307 --> 00:01:28,391
-talep sayısı, yanıt süresi ve gerçekleşen görüşmeler izlenecek.
+00:01:28,864 --> 00:01:32,992
+çağrı sayısı, yanıt süresi ve gerçekleşen görüşmeler izlenecek.
 
 18
-00:01:28,441 --> 00:01:32,830
+00:01:33,042 --> 00:01:37,450
 Sonuçlara göre hizmet alanını uygun görülen ilçelere genişletmek mümkün.
 
 19
-00:01:35,680 --> 00:01:38,304
+00:01:40,299 --> 00:01:42,876
 Böylece iletişim çift yönlü hâle gelir;
 
 20
-00:01:38,354 --> 00:01:42,110
-her talep, ön bilgisiyle birlikte bize ek veri de kazandırır.
+00:01:42,926 --> 00:01:46,780
+her çağrı, ön bilgisiyle birlikte bize ek veri de kazandırır.
 
 21
-00:01:42,909 --> 00:01:48,260
-Bizi çağırana öncelik vererek, saha gücümüzü talebe göre daha doğru planlayabileceğiz.
+00:01:47,579 --> 00:01:52,760
+Önceliği bizi çağırana vermek, saha gücümüzü doğru yere yönlendirmeyi kolaylaştırır.

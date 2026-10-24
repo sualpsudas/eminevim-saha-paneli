@@ -158,12 +158,12 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
   taklit eder (başlıkta logo yok, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
   Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
-- `video/` — **tanıtım videosu** (2026-10-24 **v8**, linkler.html'de `?v=8`; içeride izlenecek KURUMSAL PROJE TANITIMI; 16:9, ~1 dk 55 sn, 50 kare/sn,
+- `video/` — **tanıtım videosu** (2026-10-24 **v9**, linkler.html'de `?v=9`; içeride izlenecek KURUMSAL PROJE TANITIMI; 16:9, ~2 dk, 50 kare/sn,
   seslendirme + kodla üretilen sakin müzik (sessiz kapanışta yükselir) + açılıp kapanabilen Türkçe altyazı izi ve `.srt`).
   v8 (kullanıcı "en iyi iyileştirmeler"): Sorun ve Çözüm girişi düz ikon değil, AYNI izometrik mahallede kamera hareketli anlar; yeni karakter
   MÜŞTERİ (lacivert ceket, telefonlu, "Müşteri" etiketli; 05'teki diyagramda da müşteri lacivert). Mahallede ağaç sallanması + bulut gölgesi
   (kuş denendi, hata gibi göründü → kaldırıldı; sokak lambası tabelaya bindi → kaldırıldı). Altyazı/seslendirme DEĞİŞMEDİ.
-  v8 sonrası (kullanıcı 2026-10-24, video HENÜZ yeniden üretilmedi): kapı kapı ziyaretlerde sonuç karışık: yeşil tik + KIRMIZI çarpı (`OLUMLU` izo.js;
+  v9 (2026-10-24, üretildi): kapı kapı ziyaretlerde sonuç karışık: yeşil tik + KIRMIZI çarpı (`OLUMLU` izo.js;
   bugün 1,0,0,1,0,1 · sorunda ECZANE çarpı · çözümde turuncu SPY KUAFÖR çarpı, çağrıya giden yeşil SPY hep tik); yayalar SPY/müşteriyle AYNI boy (izometride
   uzaklık küçültmez); işleyiş yavaşladı: her bölüm seslendirmeden sonra +1,6 sn bekler, Talep 4 ekran (tel02 → tel07 → tel08 → tel09), ekran kaydırma 0,6 sn,
   kamera 1,2 sn → video ~2 dk 0 sn.
