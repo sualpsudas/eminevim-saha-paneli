@@ -169,6 +169,10 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   kamera 1,2 sn → video ~2 dk 0 sn.
   Dolgu kelime YOK (kullanıcı 2026-10-24): "Yani" ve "Peki" metinden çıktı (sorun/çözüm sesleri yeniden üretildi). Tek parça yenilemek:
   `python video/ses_uret.py sorun cozum` (diğer parçalar plan.js’ten aynen kalır).
+  Son cümle (kullanıcı: -ceğiz ve talep olmasın): "Önceliği bizi çağırana vermek, saha gücümüzü doğru yere yönlendirmeyi kolaylaştırır."; ekranda "Dağılım,
+  gelen çağrılara göre ayarlanır"; "doğru yere"de bir kişi saha kutusundan çağrı kutusuna geçer (3/5 → 4/4). Çift yönlü şemada ok etiketleri (Uygulamadan
+  çağrı / Saha ziyareti), tek haleli saha ekibi, "Yan kazanç: Ön bilgi → Ek veri" hapları. Kapanış kartlarında ikinci satır. Finansman fin2 ekranı CANLI
+  (`finansmanCanli`, `#finCanli` kaydırma katmanında): %20 → %10 dokunuş, vade 48 → 72 sürükleme, aylık 58.333 → 65.625 → 43.750 ₺ (= ön bilgi).
   Sıra: Açılış (arkada soluk mahalle, kamera kayar; logo süpürme, "Tasarruf Yanımda" kelime kelime) → bölüm geçiş kartı (yeşil, yalnız başlık; NUMARA YOK, köşe etiketlerinde de yok: kullanıcı 2026-10-24) → 01 Bugün sahada
   (İZOMETRİK mahalle `izo.js` mod "bugun": SPY kapı kapı, kamera SPY'ye yakından başlar açılır) → 02 Sorun (`izo.js` mod "sorun", bant yazısı üç kez değişir:
   tek yönlü temas = SPY'den kapıya kavisli ok · çağrı kanalı yok = müşteri telefonuna bakar, balonda telefon+? → "yok"ta turuncu çarpı ·

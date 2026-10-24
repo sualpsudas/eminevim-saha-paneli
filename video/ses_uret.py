@@ -34,7 +34,7 @@ METIN = {
     "yol": "Proje önce belirlenecek bir pilot bölgede başlayacak; talep sayısı, yanıt süresi ve gerçekleşen görüşmeler izlenecek. "
            "Sonuçlara göre hizmet alanını uygun görülen ilçelere genişletmek mümkün.",
     "cift": "Böylece iletişim çift yönlü hâle gelir; her talep, ön bilgisiyle birlikte bize ek veri de kazandırır.",
-    "oncelik": "Bizi çağırana öncelik vererek, saha gücümüzü talebe göre daha doğru planlayabileceğiz.",
+    "oncelik": "Önceliği bizi çağırana vermek, saha gücümüzü doğru yere yönlendirmeyi kolaylaştırır.",
 }
 
 

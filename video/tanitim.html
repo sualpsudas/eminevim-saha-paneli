@@ -56,6 +56,20 @@
   #bildirim i{position:absolute;left:16px;top:16px;width:52px;height:52px;border-radius:50%;background:#e9f0ed;color:#00724c;font-style:normal;font-weight:700;font-size:19px;line-height:52px;text-align:center}
   #bildirim b{position:absolute;left:84px;top:15px;font-size:21px;color:#00724c}
   #bildirim span{position:absolute;left:84px;top:46px;white-space:nowrap}
+  /* finansman ekranı canlı katmanı (fin2 üstünde): peşinat seçimi ve vade çubuğu değişir, aylık ödeme sayar. Ölçüler telefon öğesine göre (371×780) */
+  #finCanli{position:absolute;left:0;top:0;width:371px;height:780px;z-index:3;opacity:0;pointer-events:none;font-family:"Century Gothic","Segoe UI",Arial,sans-serif}
+  #finCanli .kart{position:absolute;left:27px;top:169px;width:317px;height:103.5px;border-radius:18px;background:#00724c;color:#fff;text-align:center}
+  #finCanli .kart i{position:absolute;left:0;right:0;top:12px;font-style:normal;font-size:9.5px;font-weight:700;letter-spacing:1px;color:#dfeee7}
+  #finCanli .kart b{position:absolute;left:0;right:0;top:24px;font-size:27px;font-weight:700;letter-spacing:-.3px}
+  #finCanli .kart b small{font-size:12px;font-weight:400;margin-left:3px}
+  #finCanli .kart span{position:absolute;left:0;right:0;font-size:10px}
+  #finCanli .alt{position:absolute;left:30px;top:366px;width:310px;height:86px;background:#fff}
+  #finCanli .pd{position:absolute;top:374.5px;height:28px;line-height:28px;border-radius:7px;background:#eee;color:#5f6b66;font-size:10px;font-weight:700;text-align:center}
+  #finCanli .pd.on{background:#00724c;color:#fff}
+  #finCanli .vd{position:absolute;right:39.5px;top:411px;font-size:10px;font-weight:700;color:#00724c}
+  #finCanli .iz{position:absolute;left:40px;top:438.5px;width:291px;height:7px;border-radius:4px;background:#eee;border:1px solid #c9cfcc;box-sizing:border-box}
+  #finCanli .dolu{position:absolute;left:40px;top:438.5px;height:7px;border-radius:4px;background:#00724c}
+  #finCanli .tut{position:absolute;top:435.5px;width:13px;height:13px;margin-left:-6.5px;border-radius:50%;background:#00724c}
   .parmak{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:rgba(34,48,42,.28);border:3px solid rgba(255,255,255,.85);opacity:0;z-index:6;pointer-events:none}
   #adimlar{position:absolute;left:0;right:0;top:0;height:0}
   /* yol haritası */
@@ -65,10 +79,17 @@
   #olcBas{position:absolute;left:1250px;top:478px;font-size:22px;font-weight:700;letter-spacing:2px;color:var(--soluk);opacity:0;z-index:2}
   .kart-harita{position:absolute;left:210px;top:455px;width:1500px;height:520px;border-radius:14px;overflow:hidden;border:1px solid var(--cizgi);background:#e8ebe9;opacity:0}
   .kart-harita img{position:absolute;width:1500px;filter:contrast(.78) brightness(1.1)}
+  #yan{position:absolute;left:0;right:0;top:880px;display:flex;justify-content:center;align-items:center;gap:22px;font-size:32px;font-weight:700;color:var(--yazi)}
+  #yan .et{color:var(--soluk);font-size:28px;letter-spacing:1px;opacity:0}
+  #yan .hp{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--yesil);color:var(--yesil);border-radius:30px;padding:10px 26px 10px 18px;opacity:0;box-shadow:0 4px 14px rgba(20,40,30,.08)}
+  #yan .ok{color:var(--yesil);font-size:40px;opacity:0}
+  #yan svg{position:static;flex:none}
+  .okEt{font-size:30px;font-weight:700}
   .kutu{position:absolute;border:3px solid var(--yesil);border-radius:22px;background:#fff;text-align:center;font-size:34px;font-weight:700;color:var(--yesil);padding-top:22px}
-  .rozet{position:absolute;right:-18px;top:-22px;background:var(--turuncu);color:#fff;font-size:24px;font-weight:700;padding:8px 18px;border-radius:20px;opacity:0}
+  .rozet{position:absolute;right:-22px;top:-28px;background:var(--turuncu);color:#fff;font-size:30px;font-weight:700;padding:10px 24px;border-radius:26px;opacity:0;box-shadow:0 4px 12px rgba(178,94,48,.25)}
   .ozet{position:absolute;top:400px;width:440px;height:330px;border-radius:22px;background:#fff;border:1px solid var(--cizgi);text-align:center;opacity:0}
   .ozet b{display:block;font-size:32px;margin-top:26px;color:var(--yazi);padding:0 24px}
+  .ozet span{display:block;font-size:25px;margin-top:12px;color:var(--soluk);padding:0 24px}
   #ilerleme{position:absolute;left:0;bottom:0;height:6px;background:var(--turuncu);width:0;z-index:20}
   #duraklat{position:fixed;right:12px;bottom:12px;color:#888;font:13px sans-serif}
 </style>
@@ -159,22 +180,22 @@
     <div class="bolum"><i></i><span>HEDEFLENEN DÜZEN</span></div>
     <div class="baslik kelimeler" style="top:200px" data-y="<b>Çift yönlü</b> temas"></div>
     <svg width="1920" height="1080" id="ciftsvg"></svg>
-    <div class="not" id="yan" style="top:890px;opacity:0">Yan kazanç: her talebin ön bilgisi = ek veri</div>
+    <div id="yan"><span class="et">Yan kazanç</span><span class="hp" id="yan1"><svg width="34" height="34" viewBox="0 0 34 34"><rect x="7" y="4" width="20" height="26" rx="4" fill="none" stroke="#00724c" stroke-width="3.5"/><path d="M12 12h10M12 18h10M12 24h6" stroke="#00724c" stroke-width="3" stroke-linecap="round"/></svg>Ön bilgi</span><span class="ok" id="yanOk">→</span><span class="hp" id="yan2"><svg width="34" height="34" viewBox="0 0 34 34"><path d="M8 28v-8M15 28v-14M22 28v-10M29 28v-18" stroke="#00724c" stroke-width="4" stroke-linecap="round"/></svg>Ek veri</span></div>
   </div>
   <div class="kat" id="oncelik">
     <div class="bolum"><i></i><span>HEDEFLENEN DÜZEN</span></div>
     <div class="baslik kelimeler" style="top:190px" data-y="Öncelik <b>bizi çağırana</b>"></div>
     <div class="kutu" id="kutuA" style="left:330px;top:560px;width:560px;height:300px">Çağrılara yanıt<div class="rozet" id="rozet">Öncelik</div></div>
     <div class="kutu" id="kutuB" style="left:1030px;top:560px;width:560px;height:300px;border-color:#bfc8c4;color:var(--soluk)">Saha çalışması</div>
-    <div class="not" id="dagilim" style="top:895px;opacity:0">Dağılım, gelen talebe göre ayarlanır</div>
+    <div class="not" id="dagilim" style="top:895px;opacity:0">Dağılım, gelen çağrılara göre ayarlanır</div>
     <svg width="1920" height="1080" id="onceliksvg"></svg>
   </div>
 
   <!-- Kapanış (sessiz) -->
   <div class="kat" id="kapanis">
-    <div class="ozet" id="oz1" style="left:240px"><svg width="440" height="160" viewBox="0 0 440 160"><circle cx="220" cy="92" r="58" fill="#e9f0ed"/><path d="M178 78h70l-14-14M262 106h-70l14 14" fill="none" stroke="#00724c" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg><b style="margin-top:150px">Çift yönlü temas</b></div>
-    <div class="ozet" id="oz2" style="left:740px"><svg width="440" height="160" viewBox="0 0 440 160"><circle cx="220" cy="92" r="58" fill="#FCE0D4"/><rect x="192" y="62" width="56" height="64" rx="8" fill="none" stroke="#B25E30" stroke-width="8"/><path d="M204 84h32M204 100h32M204 116h18" stroke="#B25E30" stroke-width="7" stroke-linecap="round"/></svg><b style="margin-top:150px">Hazırlıklı görüşme</b></div>
-    <div class="ozet" id="oz3" style="left:1240px"><svg width="440" height="160" viewBox="0 0 440 160"><circle cx="220" cy="92" r="58" fill="#e9f0ed"/><path d="M186 124v-26M210 124v-44M234 124v-34M258 124v-56" stroke="#00724c" stroke-width="12" stroke-linecap="round"/></svg><b style="margin-top:150px">Doğru kaynak yönetimi</b></div>
+    <div class="ozet" id="oz1" style="left:240px"><svg width="440" height="160" viewBox="0 0 440 160"><circle cx="220" cy="92" r="58" fill="#e9f0ed"/><path d="M178 78h70l-14-14M262 106h-70l14 14" fill="none" stroke="#00724c" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/></svg><b style="margin-top:150px">Çift yönlü temas</b><span>Müşteri de bize ulaşır</span></div>
+    <div class="ozet" id="oz2" style="left:740px"><svg width="440" height="160" viewBox="0 0 440 160"><circle cx="220" cy="92" r="58" fill="#FCE0D4"/><rect x="192" y="62" width="56" height="64" rx="8" fill="none" stroke="#B25E30" stroke-width="8"/><path d="M204 84h32M204 100h32M204 116h18" stroke="#B25E30" stroke-width="7" stroke-linecap="round"/></svg><b style="margin-top:150px">Hazırlıklı görüşme</b><span>Ön bilgiyle gidilir</span></div>
+    <div class="ozet" id="oz3" style="left:1240px"><svg width="440" height="160" viewBox="0 0 440 160"><circle cx="220" cy="92" r="58" fill="#e9f0ed"/><path d="M186 124v-26M210 124v-44M234 124v-34M258 124v-56" stroke="#00724c" stroke-width="12" stroke-linecap="round"/></svg><b style="margin-top:150px">Doğru kaynak yönetimi</b><span>Saha gücü doğru yere</span></div>
     <div id="son" style="position:absolute;inset:0;background:var(--zemin);opacity:0">
       <img src="kareler/logo-green.png" alt="Eminevim" style="position:absolute;left:50%;top:360px;width:400px;transform:translateX(-50%)">
       <div class="baslik" style="top:490px;font-size:92px">Tasarruf Yanımda</div>
@@ -297,7 +318,7 @@ var ISLEYIS = [
   { ses: "esles", y: "<b>Eşleşme</b>", adim: [
     { w: "talep", m: "tel09", p: "tab09", k: "p", veri: true }, { w: "kabul", m: "tel10", p: "tab10", k: "mp" }, { w: "kesin", m: "tel11", p: "tab11", k: "m" }] },
   { ses: "hazir", y: "<b>Hazırlık</b> · ön bilgi", adim: [
-    { w: "beklerken", m: "fin1", p: "tab11", k: "m" }, { w: "ihtiyacını", m: "fin2" }, { w: "temsilci", m: "fin3", p: "tabOn", k: "p", yakin: 1.1 }] },
+    { w: "beklerken", m: "fin1", p: "tab11", k: "m" }, { w: "aracı", m: "fin2", fin: true }, { w: "temsilci", m: "fin3", p: "tabOn", k: "p", yakin: 1.1 }] },
   { ses: "guven", y: "<b>Güven</b>", adim: [
     { w: "ziyaret", m: "tel14", p: "tab14", k: "mp" }, { w: "kapıda", m: "tel15", p: "tab15", k: "mp" },
     { w: "doğrulanır", m: "tel16", p: "tab16", k: "m" }, { w: "görüşmenin", m: "tel18", p: "tab17", k: "mp" }] }
@@ -323,6 +344,12 @@ var ISLEYIS = [
     var k = new Image(); k.src = im.src; k.id = "k_" + n; k.alt = ""; $(adlar[n] === "icM" ? "kayM" : "kayP").appendChild(k);
   });
   ["cM", "cP"].forEach(function (c) { var p = document.createElement("div"); p.className = "parmak"; p.id = "parmak" + c; $(c).querySelector(".ic").appendChild(p); });
+  /* finansman canlı katmanı: kaydırma katmanında durur, fin2 görüntüsüyle birlikte kayar */
+  var fc = document.createElement("div"); fc.id = "finCanli";
+  fc.innerHTML = '<div class="kart"><i>AYLIK ÖDEMENİZ</i><b><span id="fcTutar" style="position:static;font-size:inherit"></span><small>₺ / ay</small></b><span id="fcSat1" style="top:61px"></span><span id="fcSat2" style="top:79px"></span></div><div class="alt"></div>' +
+    [["Yok", 39.5, 54.5], ["%10", 99, 54.5], ["%20", 158.5, 54], ["%30", 217.5, 54], ["%40", 277, 54.5]].map(function (b, i) { return '<div class="pd" id="fcP' + i + '" style="left:' + b[1] + 'px;width:' + b[2] + 'px">' + b[0] + '</div>'; }).join("") +
+    '<div class="vd" style="left:39.5px;right:auto;color:#5f6b66">VADE</div><div class="vd" id="fcVade"></div><div class="iz"></div><div class="dolu" id="fcDolu"></div><div class="tut" id="fcTut"></div>';
+  $("kayM").appendChild(fc);
   [["cM", TEL], ["cP", TAB]].forEach(function (x) { var e = $(x[0]), bx = x[1]; e.style.left = bx.x + "px"; e.style.top = bx.y + "px"; e.style.width = bx.w + "px"; e.style.height = bx.h + "px"; });
   var dl = document.createElement("div"); dl.className = "dalga"; dl.id = "dalga"; $("icM").appendChild(dl);
   ISLEYIS.forEach(function (sg, i) { var d = document.createElement("div"); d.className = "yazi kelimeler"; d.id = "yb" + i; d.setAttribute("data-y", sg.y); kelimeHazirla(d); $("bantB").appendChild(d); });
@@ -349,6 +376,33 @@ function kamHedef(a) {
 }
 /* sahne noktası → ekran noktası (kamera uygulanmış) */
 function kamUygula(k) { $("nasilKam").style.transform = "translate(960px,460px) scale(" + k.z.toFixed(4) + ") translate(" + (-k.x).toFixed(1) + "px," + (-k.y).toFixed(1) + "px)"; }
+/* fin2: önce peşinat %20 → %10, sonra vade 48 → 72 ay; aylık ödeme = (tutar − peşinat) ÷ vade (uygulamadaki gibi). Son değerler tabletteki ön bilgiyle aynı. */
+function tl(n) { return Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); }
+function finansmanCanli(a, o, gl, GK) {
+  var fc = $("finCanli"), kf = $("k_fin2"), pm = $("parmakcM");
+  var simdi = a.m === "fin2", cikis = o && o.m === "fin2" && a.m !== "fin2" && gl < GK;
+  if (!simdi && !cikis) { fc.style.opacity = 0; return; }
+  var giris = simdi && o && o.m !== "fin2" && gl < GK;
+  if (simdi && !giris) { $("kayM").style.opacity = 1; kf.style.opacity = 1; kf.style.zIndex = 1; kf.style.transform = ""; }
+  fc.style.opacity = 1; fc.style.transform = kf.style.transform;
+  var t = simdi ? gl : 99, TUTAR = 3500000;
+  var pes = t < GK + .55 ? .2 : .1, vade = 48 + 24 * yumus((t - (GK + 1.05)) / 1.1);
+  var aylik = TUTAR * (1 - pes) / Math.round(vade);
+  $("fcTutar").textContent = tl(aylik) + " ";
+  $("fcSat1").textContent = "Peşinat " + tl(TUTAR * pes) + " ₺ · Org. ücreti ~297.500 ₺";
+  $("fcSat2").textContent = "Ayda " + tl(aylik) + " ₺ taksitle bütçenizi zorlamadan ev sahibi olun.";
+  [0, 1, 2, 3, 4].forEach(function (i) { $("fcP" + i).className = "pd" + ((pes === .2 && i === 2) || (pes === .1 && i === 1) ? " on" : ""); });
+  $("fcVade").textContent = Math.round(vade) + " ay";
+  var kx = 40 + 291 * (Math.round(vade) - 24) / 96;
+  $("fcDolu").style.width = (kx - 40) + "px"; $("fcTut").style.left = kx + "px";
+  /* parmak: önce %10 düğmesine dokunur, sonra çubuğu sürükler */
+  if (simdi && t > GK && t < GK + 2.4) {
+    var tap = t < GK + .9, x = tap ? 126 : kx, y = tap ? 388.5 : 442;
+    pm.style.left = (x / 371 * 100) + "%"; pm.style.top = (y / 780 * 100) + "%";
+    pm.style.opacity = .9 * kis((t - GK) / .2) * (tap ? 1 - kis((t - GK - .75) / .15) : kis((t - GK - .9) / .15) * (1 - kis((t - GK - 2.25) / .15)));
+    pm.style.transform = "scale(" + (tap && t > GK + .45 && t < GK + .6 ? .85 : 1) + ")";
+  }
+}
 function adimBul(t) { /* t: işleyiş içindeki saniye */
   var tum = []; ISLEYIS.forEach(function (sg, si) { sg.adim.forEach(function (a) { tum.push({ a: a, si: si }); }); });
   var i = 0; while (i < tum.length - 1 && t >= tum[i + 1].a.t) i++;
@@ -369,6 +423,7 @@ function nasil(lt) {
       $("k_" + yeni).style.boxShadow = "-12px 0 24px rgba(0,0,0," + (.12 * (1 - p)) + ")";
     } else { kay.style.opacity = 0; $("i_" + yeni).style.opacity = 1; $("i_" + yeni).style.zIndex = 1; }
   });
+  finansmanCanli(a, o, gl, GK);
   /* kamera */
   var k1 = kamHedef(a), k0 = o ? kamHedef(o) : k1, kp = yumus(gl / 1.2);
   var kam = { x: k0.x + (k1.x - k0.x) * kp, y: k0.y + (k1.y - k0.y) * kp, z: k0.z + (k1.z - k0.z) * kp };
@@ -392,7 +447,7 @@ function nasil(lt) {
     pm.style.left = (vm[0] * 100) + "%"; pm.style.top = (vm[1] * 100) + "%";
     var pin = kis((gl - .05) / .3); pm.style.opacity = .9 * pin * (1 - kis((gl - .75) / .3)); pm.style.transform = "scale(" + (1.5 - .5 * cik(pin) - (gl > .3 && gl < .45 ? .12 : 0)) + ")";
     if (dp > 0 && dp < 1) { dl.style.left = pm.style.left; dl.style.top = pm.style.top; dl.style.opacity = 1 - dp; dl.style.transform = "scale(" + (1 + 6 * cik(dp)) + ")"; } else dl.style.opacity = 0;
-  } else { dl.style.opacity = 0; pm.style.opacity = 0; }
+  } else { dl.style.opacity = 0; if (a.m !== "fin2") pm.style.opacity = 0; }   /* fin2 parmağı finansmanCanli yönetir */
   /* talep bildirimi: telefondan çıkar, tablette "Bekleyen" listesine iner */
   var bd = $("bildirim");
   if (a.veri && gl < 1.6) {
@@ -482,11 +537,20 @@ var dCift = {}, dOnc = { nokta: [] };
 (function () {
   var s = $("ciftsvg");
   insan(s, XS, YK, "#1E3856", "Müşteri");
+  /* saha ekibi: tek hale, üç kişi (haleler üst üste binmesin) */
   var g = svgEl("g", {}, s);
-  insan(g, XM - 70, YK + 10, "#f2b48c", null, .8); insan(g, XM + 70, YK + 10, "#f2b48c", null, .8); insan(g, XM, YK, "#ea803f", null, 1);
+  svgEl("circle", { cx: XM, cy: YK, r: 110, fill: "rgba(0,114,76,.07)" }, g);
+  [[-50, 8, "#f2b48c", .72], [50, 8, "#f2b48c", .72], [0, 0, "#ea803f", 1]].forEach(function (k) {
+    var h = svgEl("g", { transform: "translate(" + (XM + k[0]) + "," + (YK + k[1]) + ") scale(" + k[3] + ")" }, g);
+    svgEl("circle", { cx: 0, cy: -32, r: 30, fill: k[2], stroke: "#f4f6f5", "stroke-width": 5 }, h);
+    svgEl("path", { d: "M-54 66c0-38 24-58 54-58s54 20 54 58z", fill: k[2], stroke: "#f4f6f5", "stroke-width": 5 }, h);
+  });
   metin(s, XM, YK + 168, "Saha ekibi");
-  dCift.ok1 = ok(s, XS + 150, XM - 190, YK - 34, "#1E3856");
-  dCift.ok2 = ok(s, XM - 190, XS + 150, YK + 34, "#ea803f");
+  dCift.ok1 = ok(s, XS + 150, XM - 150, YK - 34, "#1E3856");
+  dCift.ok2 = ok(s, XM - 150, XS + 150, YK + 34, "#ea803f");
+  /* okların anlamı */
+  dCift.et1 = metin(s, (XS + XM) / 2, YK - 64, "Uygulamadan çağrı", { fill: "#1E3856", class: "okEt" });
+  dCift.et2 = metin(s, (XS + XM) / 2, YK + 92, "Saha ziyareti", { fill: "#B25E30", class: "okEt" });
   dCift.veri = svgEl("g", {}, s);
   svgEl("rect", { x: -26, y: -30, width: 52, height: 60, rx: 8, fill: "#fff", stroke: "#00724c", "stroke-width": 4 }, dCift.veri);
   svgEl("path", { d: "M-14 -12h28M-14 2h28M-14 16h16", stroke: "#00724c", "stroke-width": 5, "stroke-linecap": "round" }, dCift.veri);
@@ -500,20 +564,27 @@ var dCift = {}, dOnc = { nokta: [] };
 function ciftCiz(lt) {
   kelimeGoster(document.querySelector("#cift .baslik"), lt, .1);
   okIlerle(dCift.ok1, cik((lt - .3) / .7)); okIlerle(dCift.ok2, cik((lt - .7) / .7));
-  var yt = CIFT_YAN, y = ara(lt, yt, .4);
-  $("yan").style.opacity = y; $("yan").style.transform = "translateY(" + 14 * (1 - y) + "px)";
-  var vp = kis((lt - yt) / 1.4);
-  dCift.veri.setAttribute("transform", "translate(" + (XS + 150 + (XM - XS - 340) * yumus(vp)) + "," + (YK + 130) + ")");
-  dCift.veri.style.opacity = vp > 0 && vp < 1 ? 1 : (vp >= 1 ? 1 - kis((lt - yt - 1.4) / .3) : 0);
+  dCift.et1.style.opacity = ara(lt, .7, .4); dCift.et2.style.opacity = ara(lt, 1.1, .4);
+  /* yan kazanç: önce etiket, sonra "Ön bilgi" → "Ek veri" */
+  var yt = CIFT_YAN;
+  [["#yan .et", 0], ["#yan1", .25], ["#yanOk", .6], ["#yan2", .85]].forEach(function (x) {
+    var e = document.querySelector(x[0]), p = ara(lt, yt + x[1], .4); e.style.opacity = p; e.style.transform = "translateY(" + 14 * (1 - p) + "px)";
+  });
+  dCift.veri.style.opacity = 0;
 }
 function oncelikCiz(lt) {
   kelimeGoster(document.querySelector("#oncelik .baslik"), lt, .1);
-  var bol = yumus((lt - .9) / 1.1);
+  var kay = yumus((lt - ONC_DAG - .15) / 1.1);
   dOnc.nokta.forEach(function (g, i) {
     var a = i < 3, j = a ? i : i - 3, x0 = 960 + ((i * 37) % 5 - 2) * 14, y0 = 690 + (i % 3) * 42;
     var x1 = a ? 470 + j * 140 : 1110 + j * 100, y1 = 760, bi = yumus((lt - .9 - (a ? 2 - j : j) * .07) / 1.1);
     var ol = .7 + .3 * zipla(ara(lt, .2 + i * .05, .35));
-    g.setAttribute("transform", "translate(" + (x0 + (x1 - x0) * bi) + "," + (y0 + (y1 - y0) * bi - 26 * Math.sin(Math.PI * bi)) + ") scale(" + ol + ")");
+    var x = x0 + (x1 - x0) * bi, y = y0 + (y1 - y0) * bi - 26 * Math.sin(Math.PI * bi);
+    /* dağılım ayarı: çağrı kutusu 3 → 4, saha 5 → 4 */
+    if (a) x += (455 + j * 110 - x1) * kay;
+    else if (j === 0) { x += (785 - x1) * kay; y -= 70 * Math.sin(Math.PI * kay); }
+    else x += (1160 + (j - 1) * 100 - x1) * kay;
+    g.setAttribute("transform", "translate(" + x + "," + y + ") scale(" + ol + ")");
     g.style.opacity = ara(lt, .2 + i * .05, .3);
   });
   var k = ara(lt, .4, .4); $("kutuA").style.opacity = k; $("kutuB").style.opacity = k;
@@ -587,7 +658,7 @@ function cozumCiz(lt, d) {
 var KART = 2.0;
 var tSorunB = Wy("sorun", "görüşmek", .3), tSorunC = Wy("sorun", "hafta", .65), tCozumB = Wy("cozum", "tasarruf", .23);
 var YOL_OLCUM = .3 + Wy("yol", "talep", .45) - .1, YOL_GENIS = .3 + Wy("yol", "sonuçlara", .7);
-var CIFT_YAN = .3 + Wy("cift", "her", .5), ONC_DAG = .3 + Wy("oncelik", "talebe", .6);
+var CIFT_YAN = .3 + Wy("cift", "her", .5), ONC_DAG = .3 + Wy("oncelik", "doğru", .6);
 function dd(enaz, son) { return Math.max(enaz, son + .45); }
 /* sorun: üç anın başları ve vurgu anları (sahne içi saniye = kelime zamanı + .3) */
 SEC_S.b2 = .3 + tSorunB - .1; SEC_S.b3 = SEC_S.b2 + (tSorunC - tSorunB);
