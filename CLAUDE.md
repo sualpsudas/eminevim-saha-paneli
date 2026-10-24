@@ -158,18 +158,27 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
   taklit eder (başlıkta logo yok, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
   Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
-- `video/` — **tanıtım videosu** (2026-10-24 **v7**, linkler.html'de `?v=7`; içeride izlenecek KURUMSAL PROJE TANITIMI; 16:9, ~1 dk 47 sn,
+- `video/` — **tanıtım videosu** (2026-10-24 **v8**, linkler.html'de `?v=8`; içeride izlenecek KURUMSAL PROJE TANITIMI; 16:9, ~1 dk 55 sn, 50 kare/sn,
   seslendirme + kodla üretilen sakin müzik (sessiz kapanışta yükselir) + açılıp kapanabilen Türkçe altyazı izi ve `.srt`).
-  Sıra: Açılış (logo süpürme, "Tasarruf Yanımda" kelime kelime) → bölüm geçiş kartı (yeşil, 01–05) → 01 Bugün sahada (İZOMETRİK mahalle `izo.js`,
-  SPY kapı kapı, rota çizgisi, arabalar/yayalar) → 02 Sorun (tek yönlü ok · çağrı kanalı yok · cumartesi takvimi) → 03 Çözüm (iki yönlü ok + "Dilediği
-  yer, dilediği zaman" → aynı izometrik mahalle: turuncu SPY kapı kapı + çağrıya giden yeşil SPY (ikisi de yalnız "SPY"; "aktif" kelimesi
+  v8 (kullanıcı "en iyi iyileştirmeler"): Sorun ve Çözüm girişi düz ikon değil, AYNI izometrik mahallede kamera hareketli anlar; yeni karakter
+  MÜŞTERİ (lacivert ceket, telefonlu, "Müşteri" etiketli; 05'teki diyagramda da müşteri lacivert). Mahallede ağaç sallanması + bulut gölgesi
+  (kuş denendi, hata gibi göründü → kaldırıldı; sokak lambası tabelaya bindi → kaldırıldı). Altyazı/seslendirme DEĞİŞMEDİ.
+  Sıra: Açılış (arkada soluk mahalle, kamera kayar; logo süpürme, "Tasarruf Yanımda" kelime kelime) → bölüm geçiş kartı (yeşil, yalnız başlık; NUMARA YOK, köşe etiketlerinde de yok: kullanıcı 2026-10-24) → 01 Bugün sahada
+  (İZOMETRİK mahalle `izo.js` mod "bugun": SPY kapı kapı, kamera SPY'ye yakından başlar açılır) → 02 Sorun (`izo.js` mod "sorun", bant yazısı üç kez değişir:
+  tek yönlü temas = SPY'den kapıya kavisli ok · çağrı kanalı yok = müşteri telefonuna bakar, balonda telefon+? → "yok"ta turuncu çarpı ·
+  cumartesi = üstte gün şeridi, hafta içi gri geçer + BÜRO'da çanta balonu, Cmt turuncu: SPY ile müşteri buluşur, iki kişi balonu) →
+  03 Çözüm (mod "cozum": "Dilediği yer, dilediği zaman" = müşteri telefona dokunur, BÜRO üstünde çağrı simgesi; sonra geniş açı: turuncu SPY kapı kapı
+  + çağrıya giden yeşil SPY (ikisi de yalnız "SPY"; "aktif" kelimesi
   görüntüde ve konuşmada YOK, ayrım renkle), gün şeridinde vurgu haftanın günleri üzerinde sırayla ilerler (belirli gün öne
   çıkmaz, "her gün" de yazılmaz) → işleyiş
-  telefon+tablet 4 bölüm: Talep · Eşleşme (telefondan tablete veri çizgisi) · Hazırlık·ön bilgi (Finansman ekranları, tablette
-  ön bilgiye yakınlaşma) · Güven; dokunuş dalgası vurgulu düğmede, etkin cihaz hafif yakınlaşır) → 04 Yol haritası (4 aşama,
-  ölçüm etiketleri: talep sayısı/yanıt süresi/gerçekleşen görüşme → harita: hizmet bölgesi + Anadolu yakası ilçeler tek tek)
-  → 05 Hedeflenen düzen (çift yönlü temas + "yan kazanç: ön bilgi = ek veri" · "Öncelik bizi çağırana" rozetli kutular)
-  → sessiz kapanış (3 simgeli özet kartı + logo). SES EFEKTİ YOK.
+  telefon+tablet 4 bölüm: Talep · Eşleşme (telefondan tablete uçan "Yeni talep" bildirim kartı) · Hazırlık·ön bilgi (Finansman ekranları, tablette
+  ön bilgiye yakınlaşma) · Güven. KAMERA (`kamHedef`): yalnız telefon etkinse ×1,6 vurgulu yere, yalnız tablet ×1,32 (ön bilgi ×1,5), ikisi birden geniş;
+  ekranlar çerçeve içinde sağdan KAYARAK değişir (`.kay` katmanı, kopyalar ekran alanına kırpılı); parmak izi + dokunuş dalgası; cihaz etiketleri alt bantta
+  (etkin turuncu), "Prototip ekranları" notu yalnız geniş açıda) → 04 Yol haritası (4 aşama; harita pilot bölgeyle erken gelir, sağda simgeli
+  "İzlenecek" kartları: talep sayısı/yanıt süresi/gerçekleşen görüşme; genişlemede harita uzaklaşır, Anadolu yakası ilçeler dalga gibi;
+  Sultanbeyli/Pendik etiket yeri elle)
+  → 05 Hedeflenen düzen (çift yönlü temas + "yan kazanç: ön bilgi = ek veri" · "Öncelik bizi çağırana" rozetli kutular; kişiler iki kutunun
+  arasından yatay dağılır, başlıkların üstünden geçmez) → sessiz kapanış (3 simgeli özet kartı ortada birleşip kaybolur → logo). SES EFEKTİ YOK.
   Seslendirme kuralları (kullanıcı): SPY "Seğpeğyeğ" yazımıyla okutulur (telaffuz denemesinde E seçildi, `ses-deneme/`); açılışta konuşma 2,8 sn sonra başlar; bölüm kartları 2 sn; "Tasarruf Yanımda" ve kısa cümleler tek başına okutulmaz (çok dilli
   ses yabancı dil sanıyor) → uzun parçalar, ekran geçişleri edge-tts KELİME ZAMANLARINA bağlı (`W()`); zaman kipi karışık,
   çözüm gelecek zaman; kelime tekrarı yok; satış vaadi ve "Amacımız" yok; ilçe adı söylenmez ("belirlenecek bir pilot bölge",
@@ -179,7 +188,8 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   ücretsiz Türkçe Ahmet sesi servis tarafında çalışmadı). Tam doğal Türkçe için seçenek: ElevenLabs (ücretli).
   `kareler/vurgu.js` = ekranlardaki turuncu vurgulu düğmenin yeri (otomatik tespit; dokunuş dalgası ve yakınlaşma için).
   `kareler/`: senaryo görüntüleri, `fin1-3` uygulamanın Finansman ekranları, `harita_z11` OpenStreetMap gri (atıf zorunlu);
-  ilçe sınırları Nominatim. imageio-ffmpeg, edge-tts, numpy gerekir (conda `scrapling`de yok). Videoyu her güncellemede
+  ilçe sınırları Nominatim. Gerekenler conda `video` ortamında (playwright, imageio-ffmpeg, edge-tts, numpy, pillow; 2026-10-24 kuruldu):
+  `%LOCALAPPDATA%\miniconda3\envs\video\python.exe video/kaydet.py` (50 kare/sn PNG → ~45-60 dk sürer; `--kare 12 40.5` hızlı önizleme). Videoyu her güncellemede
   linkler.html'deki `?v=N`'i artır (telefon eski kopyayı gösteriyordu). Müşteriye yönelik reklam videosu kapsam dışı.
 - `rapor/benzer-uygulamalar.html` — Türkiye + dünya benzer uygulamalar, yenilik fikirleri, uyarılar (2026-10-21 taslak; kullanıcıyla
   konuşulup ortak rapora dönüşecek). linkler.html'de "Araştırma raporu".

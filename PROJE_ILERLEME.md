@@ -506,3 +506,10 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Kullanıcı geri bildirimiyle yeniden kurgulandı: daha hızlı (~1 dk 44 sn), proje tanıtımı havası (açık zemin, bölüm etiketleri), satış cümleleri ve "vaat etmiyoruz" sahnesi çıktı, "SPY'ler".
 - Yeni açılış: İstanbul haritası, hizmet bölgeleri ve ilçe balonları, Ataşehir'e yakınlaşma, SPY'nin işyeri kapılarını tek tek ziyaret ettiği sokak çizimi. Cumartesi takvimi, Finansman Aracı (uygulama ekranları) ve tablette ön bilgi eklendi; yol haritası şeması + genişleyen hizmet alanı; kapanışta çift yönlü temas ve SPY kaynağının önceliklendirilmesi.
 - senaryo.html Senaryo 1'e "SPY ön bilgiyi görür" adımı eklendi (telefonda Finansmanlarım, tablette ÖN BİLGİ kartı); 19 adım.
+
+### 2026-10-24 - Tanıtım videosu v8
+
+- Sorun ve Çözüm girişi düz ikon yerine aynı izometrik mahallede kamera hareketli anlar; yeni karakter Müşteri (lacivert). Mahallede ağaç sallanması, bulut gölgesi; açılışta arkada soluk mahalle.
+- Telefon + tablet: kamera etkin cihazın vurgulu yerine yakınlaşır (yazılar okunur), ekranlar kayarak değişir, talep telefondan tablete bildirim kartı olarak uçar, cihaz etiketleri alt bantta.
+- Yol haritası: harita baştan, simgeli "İzlenecek" kartları, ilçeler dalga gibi; Sultanbeyli/Pendik etiket çakışması giderildi. Öncelik sahnesinde kişiler başlıkların üstünden geçmiyor. Kapanış kartları birleşip logoya dönüyor.
+- Bölüm kartlarında ve köşe etiketlerinde numara yok (kullanıcı isteği). 50 kare/sn, kayıpsız kare; seslendirme ve altyazı değişmedi. Önce/sonra sayfası: `video/v8-karsilastirma/`.

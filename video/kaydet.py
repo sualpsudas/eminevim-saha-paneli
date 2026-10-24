@@ -1,4 +1,4 @@
-"""tanitim.html → MP4 (1920×1080, 25 kare/sn) + seslendirme + müzik + açılıp kapanabilen altyazı.
+"""tanitim.html → MP4 (1920×1080, 50 kare/sn) + seslendirme + müzik + açılıp kapanabilen altyazı.
 
 Her kare için sayfadaki cizim(t) çağrılır ve ekran görüntüsü ffmpeg'e verilir; süre tarayıcı hızından bağımsızdır.
 Ses parçalarının yeri sayfanın SES_PLAN listesinden gelir (önce: python video/ses_uret.py).
@@ -16,7 +16,7 @@ import imageio_ffmpeg
 from playwright.sync_api import sync_playwright
 
 KLASOR = pathlib.Path(__file__).resolve().parent
-FPS = 25
+FPS = 50   # kamera hareketleri ve kaydırmalar akıcı olsun
 MUZIK_SES = 0.13  # konuşmanın altında kısık
 
 ap = argparse.ArgumentParser()
@@ -53,14 +53,14 @@ with sync_playwright() as p:
 
     gecici = KLASOR / "_goruntu.mp4"
     ffmpeg = subprocess.Popen([
-        FF, "-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", str(FPS), "-i", "-",
-        "-vf", "scale=out_range=tv,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "20",
+        FF, "-y", "-loglevel", "error", "-f", "image2pipe", "-c:v", "png", "-framerate", str(FPS), "-i", "-",
+        "-vf", "scale=out_range=tv,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "22",
         "-pix_fmt", "yuv420p", str(gecici),
     ], stdin=subprocess.PIPE)
     toplam = int(sure * FPS)
     for i in range(toplam):
         sayfa.evaluate("t => cizim(t)", i / FPS)
-        ffmpeg.stdin.write(sayfa.screenshot(type="jpeg", quality=95))
+        ffmpeg.stdin.write(sayfa.screenshot(type="png"))   # kayıpsız kare: yazı kenarları keskin
         if i % (FPS * 10) == 0:
             print(f"{i / FPS:5.0f} / {sure:.0f} sn", flush=True)
     ffmpeg.stdin.close()
