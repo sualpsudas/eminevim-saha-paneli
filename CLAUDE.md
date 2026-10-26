@@ -158,7 +158,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
   taklit eder (başlıkta logo yok, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
   Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
-- `video/` — **tanıtım videosu** (2026-10-24 **v9**, linkler.html'de `?v=9`; içeride izlenecek KURUMSAL PROJE TANITIMI; 16:9, ~2 dk, 50 kare/sn,
+- `video/` — **tanıtım videosu** (2026-10-26 **v10**, linkler.html'de `?v=10`; içeride izlenecek KURUMSAL PROJE TANITIMI; 16:9, ~2 dk, 50 kare/sn,
   seslendirme + kodla üretilen sakin müzik (sessiz kapanışta yükselir) + açılıp kapanabilen Türkçe altyazı izi ve `.srt`).
   v8 (kullanıcı "en iyi iyileştirmeler"): Sorun ve Çözüm girişi düz ikon değil, AYNI izometrik mahallede kamera hareketli anlar; yeni karakter
   MÜŞTERİ (lacivert ceket, telefonlu, "Müşteri" etiketli; 05'teki diyagramda da müşteri lacivert). Mahallede ağaç sallanması + bulut gölgesi
@@ -167,6 +167,10 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   bugün 1,0,0,1,0,1 · sorunda ECZANE çarpı · çözümde turuncu SPY KUAFÖR çarpı, çağrıya giden yeşil SPY hep tik); yayalar SPY/müşteriyle AYNI boy (izometride
   uzaklık küçültmez); işleyiş yavaşladı: her bölüm seslendirmeden sonra +1,6 sn bekler, Talep 4 ekran (tel02 → tel07 → tel08 → tel09), ekran kaydırma 0,6 sn,
   kamera 1,2 sn → video ~2 dk 0 sn.
+  v10 (2026-10-26, kullanıcı): konuşma/altyazıda SPY yerine "Saha Portföy Yöneticileri / Yöneticisinin" (ekrandaki kısa SPY etiketleri
+  kaldı); "kanal ise yok" → "kanal yok"; çözüm girişi "Bu kez ilk adımı müşteri atıyor."; işleyişte yakınlaşma azaldı (telefon ×1,3,
+  tablet ×1,15, ön bilgi ×1,2). YAN VİDEO: `kaydet.py --yan` (sayfa `?yan=1`) yol haritası kartı ve bölümü olmadan → pilot bölgeden
+  söz edilmez; `tasarruf-yanimda-tanitim-kisa.mp4` (~1 dk 47 sn), linkler.html'de "Tanıtım videosu (pilot bölgesiz)" `?v=N`.
   Dolgu kelime YOK (kullanıcı 2026-10-24): "Yani" ve "Peki" metinden çıktı (sorun/çözüm sesleri yeniden üretildi). Tek parça yenilemek:
   `python video/ses_uret.py sorun cozum` (diğer parçalar plan.js’ten aynen kalır).
   Son cümle (kullanıcı: -ceğiz ve talep olmasın): "Önceliği bizi çağırana vermek, saha gücümüzü doğru yere yönlendirmeyi kolaylaştırır."; ekranda "Dağılım,

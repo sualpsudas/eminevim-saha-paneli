@@ -358,14 +358,14 @@ var ISLEYIS = [
 function kamHedef(a) {
   var vg, z, fx, fy, yari;
   if (a.k === "m") {
-    vg = VURGU[a.m]; z = 1.6; yari = 460 / z;
+    vg = VURGU[a.m]; z = 1.3; yari = 460 / z;
     fx = TEL.x + TEL.w / 2 + 40;
     fy = TEL.y + TEL.h * (vg && vg[3] < .35 ? vg[1] : .42);
     fy = Math.max(TEL.y + yari - 50, Math.min(TEL.y + TEL.h - yari + 30, fy));
     return { x: fx, y: fy, z: z };
   }
   if (a.k === "p") {
-    vg = VURGU[a.p]; z = a.yakin ? 1.5 : 1.32; yari = 460 / z;
+    vg = VURGU[a.p]; z = a.yakin ? 1.2 : 1.15; yari = 460 / z;
     fx = TAB.x + TAB.w / 2 - 30;
     if (a.yakin && vg) fx = Math.max(TAB.x + 960 / z - 40, Math.min(TAB.x + TAB.w - 960 / z + 20, TAB.x + TAB.w * vg[0]));
     fy = TAB.y + TAB.h * (vg && vg[3] < .65 ? vg[1] : .45);
@@ -663,7 +663,7 @@ function dd(enaz, son) { return Math.max(enaz, son + .45); }
 /* sorun: üç anın başları ve vurgu anları (sahne içi saniye = kelime zamanı + .3) */
 SEC_S.b2 = .3 + tSorunB - .1; SEC_S.b3 = SEC_S.b2 + (tSorunC - tSorunB);
 SEC_S.yok = .3 + Wy("sorun", "yok", .55); SEC_S.cmt = .3 + Wy("sorun", "cumartesi", .9);
-/* çözüm: giriş süresi; müşteri "müşteri de atabilse" derken telefona dokunur */
+/* çözüm: giriş süresi; müşteri "ilk adımı müşteri atıyor" derken telefona dokunur */
 SEC_C.A = .3 + tCozumB - .1; SEC_C.tik = .3 + Wy("cozum", "müşteri", .1) + .25;
 var SAHNELER = [
   { id: "ac", d: dd(5.5, 2.8 + S("ac")), f: acCiz, ses: [["ac", 2.8]] },
@@ -681,6 +681,12 @@ var SAHNELER = [
   { id: "oncelik", d: dd(4.5, .3 + S("oncelik") + .2), f: oncelikCiz, ses: [["oncelik", .3]] },
   { id: "kapanis", d: 6.2, f: kapanisCiz }
 ];
+/* yan video (?yan=1): pilot bölge geçmez → yol haritası kartı ve bölümü çıkar */
+var YAN = /[?&]yan=1/.test(location.search);
+if (YAN) SAHNELER = SAHNELER.filter(function (s) {
+  if (s.id !== "k4" && s.id !== "yol") return true;
+  $(s.id).style.visibility = "hidden"; return false;
+});
 var t0 = 0; SAHNELER.forEach(function (s) { s.t0 = t0; t0 += s.d; });
 var SURE = t0, KAPANIS_T = SAHNELER[SAHNELER.length - 1].t0;
 

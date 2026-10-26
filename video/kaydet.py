@@ -6,6 +6,7 @@ Gerekenler: Playwright (Chrome), imageio-ffmpeg, numpy (müzik için).
 
   python video/kaydet.py                    → video/tasarruf-yanimda-tanitim.mp4 (+ .srt)
   python video/kaydet.py --kare 12 40.5     → yalnız o saniyelerin PNG'leri (video/onizleme/)
+  python video/kaydet.py --yan              → yan video (pilot bölge / yol haritası yok): video/tasarruf-yanimda-tanitim-kisa.mp4
 """
 import argparse
 import pathlib
@@ -21,8 +22,10 @@ MUZIK_SES = 0.13  # konuşmanın altında kısık
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--kare", nargs="*", type=float, help="yalnız bu saniyelerin görüntüsünü al")
-ap.add_argument("--cikti", default=str(KLASOR / "tasarruf-yanimda-tanitim.mp4"))
+ap.add_argument("--cikti")
+ap.add_argument("--yan", action="store_true", help="pilot bölgesiz yan video")
 arg = ap.parse_args()
+arg.cikti = arg.cikti or str(KLASOR / ("tasarruf-yanimda-tanitim-kisa.mp4" if arg.yan else "tasarruf-yanimda-tanitim.mp4"))
 FF = imageio_ffmpeg.get_ffmpeg_exe()
 
 
@@ -34,7 +37,7 @@ def zaman(t):
 with sync_playwright() as p:
     tarayici = p.chromium.launch(channel="chrome")
     sayfa = tarayici.new_page(viewport={"width": 1920, "height": 1080})
-    sayfa.goto((KLASOR / "tanitim.html").as_uri() + "?kayit=1")
+    sayfa.goto((KLASOR / "tanitim.html").as_uri() + "?kayit=1" + ("&yan=1" if arg.yan else ""))
     sayfa.evaluate("Promise.all([...document.images].map(i => i.decode().catch(() => {})))")
     sure = sayfa.evaluate("SURE")
     plan = sayfa.evaluate("SES_PLAN")
@@ -51,7 +54,7 @@ with sync_playwright() as p:
         tarayici.close()
         sys.exit()
 
-    gecici = KLASOR / "_goruntu.mp4"
+    gecici = KLASOR / ("_goruntu_yan.mp4" if arg.yan else "_goruntu.mp4")
     ffmpeg = subprocess.Popen([
         FF, "-y", "-loglevel", "error", "-f", "image2pipe", "-c:v", "png", "-framerate", str(FPS), "-i", "-",
         "-vf", "scale=out_range=tv,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "22",

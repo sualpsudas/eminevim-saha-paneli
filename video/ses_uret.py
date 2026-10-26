@@ -22,13 +22,13 @@ SES, HIZ = "fr-FR-RemyMultilingualNeural", "+8%"
 
 METIN = {
     "ac": "Yeni projemiz Tasarruf Yanımda, müşterilerimizle saha ekibimiz arasında yeni bir iletişim kanalı açıyor.",
-    "bugun": "Bugün Alternatif Satış Kanalı'nda SPY'ler kapı kapı dolaşır ve aday müşterileri kendileri bulur.",
-    "sorun": "İlk adımı çoğunlukla biz atarız. Görüşmek isteyen müşterinin doğrudan temsilci çağırabileceği bir kanal ise yok. "
+    "bugun": "Bugün Alternatif Satış Kanalı'nda Saha Portföy Yöneticileri kapı kapı dolaşır ve aday müşterileri kendileri bulur.",
+    "sorun": "İlk adımı çoğunlukla biz atarız. Görüşmek isteyen müşterinin doğrudan temsilci çağırabileceği bir kanal yok. "
              "Hafta içi çalışan biri için yüz yüze görüşme de çoğu zaman cumartesiye kalıyor.",
-    "cozum": "İlk adımı müşteri de atabilse? Tasarruf Yanımda bu düzene ikinci bir temas yolu ekleyecek: "
-             "saha ziyaretleri sürerken, uygulamadan gelen çağrıları bölgedeki SPY'ler karşılayacak.",
+    "cozum": "Bu kez ilk adımı müşteri atıyor. Tasarruf Yanımda bu düzene ikinci bir temas yolu ekleyecek: "
+             "saha ziyaretleri sürerken, uygulamadan gelen çağrıları bölgedeki Saha Portföy Yöneticileri karşılayacak.",
     "talep": "Müşteri telefon numarasıyla kaydolup haritadan yerini işaretler, uygun gün ve saati kendisi seçer.",
-    "esles": "Çağrı, bölgedeki SPY'nin tabletine iletilir; kabul edildiğinde temsilcinin adı ve kesin saat uygulamada görünür.",
+    "esles": "Çağrı, bölgedeki Saha Portföy Yöneticisinin tabletine iletilir; kabul edildiğinde temsilcinin adı ve kesin saat uygulamada görünür.",
     "hazir": "Beklerken Finansman Aracı'yla ihtiyacını ve bütçesini belirleyebilecek; temsilci de görüşmeye bu ön bilgiyle hazırlıklı gidecek.",
     "guven": "Ziyaret günü temsilci haritadan izlenebilir; kapıda kimliği QR kodla doğrulanır, görüşmenin yazılı özeti de telefonda kalır.",
     "yol": "Proje önce belirlenecek bir pilot bölgede başlayacak; çağrı sayısı, yanıt süresi ve gerçekleşen görüşmeler izlenecek. "

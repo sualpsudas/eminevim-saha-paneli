@@ -520,3 +520,8 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - İşleyiş yavaşladı (bölüm sonlarında bekleme, Talep 4 ekran, yavaş kaydırma/kamera); finansman bütçe ekranı canlı (peşinat ve vade değişir, aylık ödeme sayar).
 - Seslendirme: "Yani", "Peki" çıktı; "talep" yerine "çağrı"; son cümle "Önceliği bizi çağırana vermek, saha gücümüzü doğru yere yönlendirmeyi kolaylaştırır."
 - Son bölüm şemaları: ok etiketleri, Yan kazanç hapları, öncelikte dağılımın değişmesi (3/5 → 4/4), kapanış kartlarında ikinci satır. Süre ~2 dk.
+
+## 2026-10-26 · Tanıtım videosu v10 + pilot bölgesiz yan video
+- Seslendirme ve altyazıda SPY yerine "Saha Portföy Yöneticileri"; "kanal ise yok" → "kanal yok"; "İlk adımı müşteri de atabilse?" → "Bu kez ilk adımı müşteri atıyor."
+- İşleyiş bölümünde ekranlara yakınlaşma azaltıldı.
+- Yan video: yol haritası (pilot bölge) bölümü yok; `python video/kaydet.py --yan`.

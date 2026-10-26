@@ -1,0 +1,71 @@
+1
+00:00:02,849 --> 00:00:09,060
+Yeni projemiz Tasarruf Yanımda, müşterilerimizle saha ekibimiz arasında yeni bir iletişim kanalı açıyor.
+
+2
+00:00:11,860 --> 00:00:18,580
+Bugün Alternatif Satış Kanalı'nda Saha Portföy Yöneticileri kapı kapı dolaşır ve aday müşterileri kendileri bulur.
+
+3
+00:00:21,411 --> 00:00:23,699
+İlk adımı çoğunlukla biz atarız.
+
+4
+00:00:23,749 --> 00:00:28,285
+Görüşmek isteyen müşterinin doğrudan temsilci çağırabileceği bir kanal yok.
+
+5
+00:00:28,335 --> 00:00:33,210
+Hafta içi çalışan biri için yüz yüze görüşme de çoğu zaman cumartesiye kalıyor.
+
+6
+00:00:36,041 --> 00:00:38,576
+Bu kez ilk adımı müşteri atıyor.
+
+7
+00:00:38,626 --> 00:00:41,944
+Tasarruf Yanımda bu düzene ikinci bir temas yolu ekleyecek:
+
+8
+00:00:41,994 --> 00:00:48,150
+saha ziyaretleri sürerken, uygulamadan gelen çağrıları bölgedeki Saha Portföy Yöneticileri karşılayacak.
+
+9
+00:00:48,899 --> 00:00:55,090
+Müşteri telefon numarasıyla kaydolup haritadan yerini işaretler, uygun gün ve saati kendisi seçer.
+
+10
+00:00:56,990 --> 00:01:00,910
+Çağrı, bölgedeki Saha Portföy Yöneticisinin tabletine iletilir;
+
+11
+00:01:00,960 --> 00:01:05,100
+kabul edildiğinde temsilcinin adı ve kesin saat uygulamada görünür.
+
+12
+00:01:06,999 --> 00:01:11,035
+Beklerken Finansman Aracı'yla ihtiyacını ve bütçesini belirleyebilecek;
+
+13
+00:01:11,085 --> 00:01:14,340
+temsilci de görüşmeye bu ön bilgiyle hazırlıklı gidecek.
+
+14
+00:01:16,240 --> 00:01:19,002
+Ziyaret günü temsilci haritadan izlenebilir;
+
+15
+00:01:19,052 --> 00:01:23,730
+kapıda kimliği QR kodla doğrulanır, görüşmenin yazılı özeti de telefonda kalır.
+
+16
+00:01:27,679 --> 00:01:30,256
+Böylece iletişim çift yönlü hâle gelir;
+
+17
+00:01:30,306 --> 00:01:34,160
+her çağrı, ön bilgisiyle birlikte bize ek veri de kazandırır.
+
+18
+00:01:34,959 --> 00:01:40,140
+Önceliği bizi çağırana vermek, saha gücümüzü doğru yere yönlendirmeyi kolaylaştırır.
