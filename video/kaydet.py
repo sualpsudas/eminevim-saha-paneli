@@ -18,7 +18,7 @@ from playwright.sync_api import sync_playwright
 
 KLASOR = pathlib.Path(__file__).resolve().parent
 FPS = 50   # kamera hareketleri ve kaydırmalar akıcı olsun
-MUZIK_SES = 0.13  # konuşmanın altında kısık
+MUZIK_SES = 0.16  # konuşma yokken; konuşma sırasında ayrıca kısılır (ducking)
 
 ap = argparse.ArgumentParser()
 ap.add_argument("--kare", nargs="*", type=float, help="yalnız bu saniyelerin görüntüsünü al")
@@ -57,8 +57,9 @@ with sync_playwright() as p:
     gecici = KLASOR / ("_goruntu_yan.mp4" if arg.yan else "_goruntu.mp4")
     ffmpeg = subprocess.Popen([
         FF, "-y", "-loglevel", "error", "-f", "image2pipe", "-c:v", "png", "-framerate", str(FPS), "-i", "-",
-        "-vf", "scale=out_range=tv,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "22",
-        "-pix_fmt", "yuv420p", str(gecici),
+        # renk: PNG (sRGB) → BT.709 dönüşümü + etiket; etiketsiz videoda telefonlar marka yeşilini/turuncusunu kaydırabiliyordu
+        "-vf", "scale=out_color_matrix=bt709:out_range=tv,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-tune", "animation",
+        "-pix_fmt", "yuv420p", "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-color_range", "tv", str(gecici),
     ], stdin=subprocess.PIPE)
     toplam = int(sure * FPS)
     for i in range(toplam):
@@ -87,11 +88,15 @@ m = len(plan) + 1
 girdi += ["-i", str(KLASOR / "ses" / "muzik.wav"), "-i", str(srt)]
 # müzik konuşmanın altında kısık; sessiz kapanışta hafifçe yükselir
 filtre.append(f"[{m}:a]aresample=44100,volume='{MUZIK_SES}+0.17*min(1,max(0,(t-{kapanis:.2f})/1.5))':eval=frame[muz]")
-filtre.append("".join(f"[s{k}]" for k in range(len(plan))) + f"[muz]amix=inputs={len(plan) + 1}:normalize=0:duration=longest,alimiter=limit=0.95[a]")
+# konuşma tek izde; müzik konuşma sırasında kısılır (sidechain), sonra telefon/web için standart ses düzeyi (-16 LUFS)
+filtre.append("".join(f"[s{k}]" for k in range(len(plan))) + f"amix=inputs={len(plan)}:normalize=0:duration=longest,asplit=2[kon][kyan]")
+filtre.append("[muz][kyan]sidechaincompress=threshold=0.02:ratio=4:attack=60:release=700[muzk]")
+filtre.append("[kon][muzk]amix=inputs=2:normalize=0:duration=longest,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000[a]")
 subprocess.run([
     FF, "-y", "-loglevel", "error", *girdi, "-filter_complex", ";".join(filtre),
     "-map", "0:v", "-map", "[a]", "-map", f"{m + 1}:s",
-    "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-c:s", "mov_text", "-metadata:s:s:0", "language=tur", "-disposition:s:0", "-default",
+    # renk etiketi akışın içine de yazılır (kodlayıcı ana renk/aktarım eğrisini "unknown" bırakıyordu)
+    "-c:v", "copy", "-bsf:v", "h264_metadata=colour_primaries=1:transfer_characteristics=1:matrix_coefficients=1:video_full_range_flag=0", "-c:a", "aac", "-b:a", "192k", "-c:s", "mov_text", "-metadata:s:s:0", "language=tur", "-disposition:s:0", "-default",
     "-t", f"{sure:.2f}", "-movflags", "+faststart", arg.cikti,
 ], check=True)
 gecici.unlink()

@@ -116,31 +116,52 @@ function izoSahne(svg, sec) {
   var ar1 = araba(["#a9bed1", "#93abc0", "#7f97ad"]), ar2 = araba(["#e8c6ae", "#d9ad8f", "#c49779"]), ar3 = araba(["#c9d2d9", "#b5c0c8", "#9faab3"]);
   ar3.ciz(18.5, 1.05);
   /* ---- kişiler ---- */
+  /* bir adım çevrimi (iki adım) ≈ 0,75 birim yol; adimGenlik: yumuşak (in-out) ilerlemede hıza göre adım açıklığı */
+  var ADIM = 2 * Math.PI / .75;
+  function adimGenlik(p) { return p <= 0 || p >= 1 ? 0 : Math.min(1, 4 * Math.min(p, 1 - p)); }
   function kisi(renk, etiket, ol, sec2) {
     sec2 = sec2 || {};
     var k = { g: E("g", {}, ON), ol: ol || 1 };
     E("ellipse", { cx: 6, cy: 3, rx: 26, ry: 8, fill: "rgba(40,50,45,.18)" }, k.g);
     k.a = E("path", { stroke: "#2f3b48", "stroke-width": 9, "stroke-linecap": "round" }, k.g);
     k.b = E("path", { stroke: "#3a4653", "stroke-width": 9, "stroke-linecap": "round" }, k.g);
-    E("path", { d: "M-16 -38c0-24 6-36 16-36s16 12 16 36z", fill: renk }, k.g);
-    k.kol = E("path", { stroke: renk, "stroke-width": 8, "stroke-linecap": "round" }, k.g);
+    k.v = E("g", {}, k.g);   /* gövde: yürürken öne eğilir, adımla iner kalkar (gölge yerde kalır) */
+    k.a.remove(); k.b.remove(); k.v.appendChild(k.a); k.v.appendChild(k.b);
+    E("path", { d: "M-16 -38c0-24 6-36 16-36s16 12 16 36z", fill: renk }, k.v);
+    k.kol = E("path", { stroke: renk, "stroke-width": 8, "stroke-linecap": "round", fill: "none", "stroke-linejoin": "round" }, k.v);
     if (sec2.telefon) {   /* elinde telefon; ekranı yanabilir */
-      k.kol2 = E("path", { d: "M12 -62L16 -52L8 -50", fill: "none", stroke: renk, "stroke-width": 8, "stroke-linecap": "round", "stroke-linejoin": "round" }, k.g);
-      E("rect", { x: 2, y: -66, width: 12, height: 20, rx: 2.5, fill: "#22302a" }, k.g);
-      k.ekran = E("rect", { x: 4, y: -64, width: 8, height: 16, rx: 1.5, fill: "#9aa6a1" }, k.g);
-    } else E("rect", { x: 8, y: -62, width: 15, height: 21, rx: 2, fill: "#1E3856", stroke: "#fff", "stroke-width": 1.5 }, k.g);
-    E("circle", { cx: 0, cy: -86, r: 12, fill: "#f1c9a5" }, k.g);
-    E("path", { d: sec2.sac || "M-12 -89a12 12 0 0 1 24 0c-5-5-19-5-24 0z", fill: sec2.sacRenk || "#3b2a20" }, k.g);
+      k.kol2 = E("path", { d: "M12 -62L16 -52L8 -50", fill: "none", stroke: renk, "stroke-width": 8, "stroke-linecap": "round", "stroke-linejoin": "round" }, k.v);
+      E("rect", { x: 2, y: -66, width: 12, height: 20, rx: 2.5, fill: "#22302a" }, k.v);
+      k.ekran = E("rect", { x: 4, y: -64, width: 8, height: 16, rx: 1.5, fill: "#9aa6a1" }, k.v);
+    } else {   /* dosya tutan ön kol: omuzdan hafifçe sallanır */
+      k.dosya = E("g", {}, k.v);
+      E("rect", { x: 8, y: -62, width: 15, height: 21, rx: 2, fill: "#1E3856", stroke: "#fff", "stroke-width": 1.5 }, k.dosya);
+    }
+    E("circle", { cx: 0, cy: -86, r: 12, fill: "#f1c9a5" }, k.v);
+    E("path", { d: sec2.sac || "M-12 -89a12 12 0 0 1 24 0c-5-5-19-5-24 0z", fill: sec2.sacRenk || "#3b2a20" }, k.v);
     if (etiket) {
       var ew = sec2.etkW || 56, er = sec2.etkRenk || (renk === "#00724c" ? "#00724c" : "#B25E30");
       k.etk = E("g", {}, k.g); E("rect", { x: -ew / 2, y: -126, width: ew, height: 26, rx: 13, fill: "#fff", stroke: renk, "stroke-width": 3 }, k.etk); T(k.etk, 0, -107, etiket, { "font-size": 16, fill: er });
     }
+    /* yürüyüş: adım evresi gidilen YOLA bağlı (zamana değil) → ayak yerde kaymaz.
+       yuruyor: 0..1 adım genliği (true = 1); kalkışta küçük başlar, duruşta küçülerek biter (bkz. adimGenlik). */
     k.ciz = function (x, y, faz, yuruyor, ters) {
-      var a = P(x, y, 0), s = yuruyor ? Math.sin(faz * 10) * 10 : 0, z = yuruyor ? Math.abs(Math.cos(faz * 10)) * 2.5 : 0;
-      k.a.setAttribute("d", "M-5 -36L" + (-5 - s) + " 0"); k.b.setAttribute("d", "M5 -36L" + (5 + s) + " 0");
-      k.kol.setAttribute("d", "M-14 -64L" + (-18 + s * .7) + " -40");
-      k.g.setAttribute("transform", "translate(" + a[0].toFixed(1) + "," + (a[1] - z).toFixed(1) + ") scale(" + (ters ? -k.ol : k.ol) + "," + k.ol + ")");
-      if (k.etk) k.etk.setAttribute("transform", "scale(" + (ters ? -1 : 1) + ",1)");
+      var a = P(x, y, 0), g = +yuruyor || 0, f = (ters ? y - x : x - y) * ADIM;   /* yüzü dönük yöne ilerledikçe artar */
+      function bacak(el, hx, ev) {   /* uyluk + baldır; öne salınırken diz bükülür */
+        var u = .42 * g * Math.sin(ev), d = .75 * g * Math.max(0, Math.cos(ev)),
+          dx = hx + 18 * Math.sin(u), dy = -36 + 18 * Math.cos(u), ax = dx + 18 * Math.sin(u - d), ay = dy + 18 * Math.cos(u - d);
+        el.setAttribute("d", "M" + hx + " -36L" + dx.toFixed(1) + " " + dy.toFixed(1) + "L" + ax.toFixed(1) + " " + ay.toFixed(1));
+        return ay;
+      }
+      var y1 = bacak(k.a, -5, f + Math.PI), y2 = bacak(k.b, 5, f);
+      var in_ = -Math.max(y1, y2), egim = 3 * g;   /* yere en yakın ayak tabana basar: iki ayak açıkken gövde biraz iner */
+      var kol = -.38 * g * Math.sin(f);   /* arka kol öndeki bacağın tersine */
+      k.kol.setAttribute("d", "M-14 -64L" + (-14 + 13 * Math.sin(kol)).toFixed(1) + " " + (-64 + 13 * Math.cos(kol)).toFixed(1) +
+        "L" + (-14 + 13 * Math.sin(kol) + 11 * Math.sin(kol * 1.6 + .25 * g)).toFixed(1) + " " + (-64 + 13 * Math.cos(kol) + 11 * Math.cos(kol * 1.6 + .25 * g)).toFixed(1));
+      if (k.dosya) k.dosya.setAttribute("transform", "rotate(" + (9 * g * Math.sin(f)).toFixed(2) + " 12 -62)");
+      k.v.setAttribute("transform", "translate(0," + in_.toFixed(2) + ") rotate(" + egim.toFixed(2) + ")");
+      k.g.setAttribute("transform", "translate(" + a[0].toFixed(1) + "," + a[1].toFixed(1) + ") scale(" + (ters ? -k.ol : k.ol) + "," + k.ol + ")");
+      if (k.etk) k.etk.setAttribute("transform", "scale(" + (ters ? -1 : 1) + ",1) translate(0," + in_.toFixed(2) + ")");
       k.x = x; k.y = y;
     };
     return k;
@@ -182,7 +203,7 @@ function izoSahne(svg, sec) {
     var x = x0, yuruyor = false, ters = false, nokta = [[x0, YT]];
     duraklar.forEach(function (dk, k) {
       var b = bas + k * aralik, once = k === 0 ? x0 : dukkan[duraklar[k - 1]].kapiX, sure = aralik * .6, hedef = dukkan[dk].kapiX;
-      if (lt >= b) { var p = Math.max(0, Math.min(1, (lt - b) / sure)); x = once + (hedef - once) * yum(p); yuruyor = p > 0 && p < 1; ters = hedef < once; nokta.push([x, YT]); }
+      if (lt >= b) { var p = Math.max(0, Math.min(1, (lt - b) / sure)); x = once + (hedef - once) * yum(p); yuruyor = adimGenlik(p); ters = hedef < once; nokta.push([x, YT]); }
       var varis = b + sure, ayrilis = k < duraklar.length - 1 ? b + aralik : 1e9;
       kapiAc(dk, lt > varis && lt < ayrilis - .05); tikGoster(dk, lt - varis - .15);
     });
@@ -249,7 +270,9 @@ function izoSahne(svg, sec) {
       if (lt >= yol[i][0] && lt < yol[i + 1][0]) { a = kamDeger(yol[i][1]); b = kamDeger(yol[i + 1][1]); p = yum((lt - yol[i][0]) / (yol[i + 1][0] - yol[i][0])); break; }
       if (lt >= yol[i + 1][0]) { a = b = kamDeger(yol[i + 1][1]); }
     }
-    var cx = a.cx + (b.cx - a.cx) * p, cy = a.cy + (b.cy - a.cy) * p, s = a.s + (b.s - a.s) * p;
+    /* yakınlaşma oranla (eşit hızda hissedilir); odak yakınlaşmayla uyumlu kayar */
+    var s = a.s * Math.pow(b.s / a.s, p), q = Math.abs(b.s - a.s) < 1e-4 ? p : (1 / a.s - 1 / s) / (1 / a.s - 1 / b.s);
+    var cx = a.cx + (b.cx - a.cx) * q, cy = a.cy + (b.cy - a.cy) * q;
     /* odak noktası ekranın görünen ortasına (alt bant hariç) gelir */
     KAM.setAttribute("transform", "translate(960,460) scale(" + s.toFixed(4) + ") translate(" + (-cx).toFixed(1) + "," + (-cy).toFixed(1) + ")");
   }
@@ -291,7 +314,7 @@ function izoSahne(svg, sec) {
         hepsiniGizle(); rotaY.setAttribute("points", "");
         /* 1) Tek yönlü temas: SPY MARKET'ten ECZANE kapısına; ok SPY'den kapıya */
         var s1 = Math.min(lt, b2), x1 = dukkan[0].kapiX + (dukkan[1].kapiX - 1.25 - dukkan[0].kapiX) * yum((s1 - .2) / 1.3);
-        var sx = x1, sy = YT, yur = s1 > .2 && s1 < 1.5, ters = false, nokta = [[dukkan[0].kapiX, YT], [x1, YT]];
+        var sx = x1, sy = YT, yur = adimGenlik((s1 - .2) / 1.3), ters = false, nokta = [[dukkan[0].kapiX, YT], [x1, YT]];
         tikGoster(0, 1);
         if (lt < b2) okCiz(x1 + .15, YT, dukkan[1].kapiX - .05, .02, (lt - 1.45) / .6); else tekYon.style.opacity = 1 - kis((lt - b2) / .3);
         if (lt > 1.6) kapiAc(1, true);
@@ -299,15 +322,15 @@ function izoSahne(svg, sec) {
         var cmt = sec.cmt;
         if (lt >= b3) {
           var yp = yum((lt - b3) / (cmt - b3 + .2));
-          sx = x1 + (MX - .95 - x1) * yp; yur = yp > 0 && yp < 1; nokta = [[dukkan[0].kapiX, YT], [sx, YT]];
+          sx = x1 + (MX - .95 - x1) * yp; yur = adimGenlik((lt - b3) / (cmt - b3 + .2)); nokta = [[dukkan[0].kapiX, YT], [sx, YT]];
           kapiAc(1, false); tikGoster(1, lt - b3);
         }
         spy.ciz(sx, sy, lt, yur, ters); cizgi(rotaT, nokta);
         /* müşteri: 2) telefonuna bakar (kanal yok); 3) hafta içi BÜRO'da mesaide, cumartesi kapıda */
-        var mCik = kis((lt - cmt) / .4), mGir = kis((lt - b3) / .4);
+        var mCik = yum((lt - cmt) / .4), mGir = yum((lt - b3) / .4);
         MUS.g.style.opacity = lt < b3 ? 1 : (lt < cmt ? 1 - mGir : mCik);
         var mx = lt < b3 ? MX : (lt < cmt ? MX + (BURO.kapiX - MX) * mGir : BURO.kapiX - (BURO.kapiX - MX) * mCik);
-        MUS.ciz(mx, MY, lt, (lt > b3 && lt < b3 + .4) || (lt > cmt && lt < cmt + .4), true);
+        MUS.ciz(mx, MY, lt, lt < cmt ? adimGenlik((lt - b3) / .4) : adimGenlik((lt - cmt) / .4), true);
         musteriTelefon(lt > b2 && lt < b3);
         kapiAc(5, (lt > b3 && lt < b3 + .5) || (lt > cmt - .1 && lt < cmt + .5));
         var sp = lt >= b2 + .5 && lt < b3 - .1 ? kis((lt - b2 - .5) / .4) : (lt >= b3 - .1 && lt < b3 + .15 ? 1 - kis((lt - b3 + .1) / .25) : 0);
@@ -345,7 +368,7 @@ function izoSahne(svg, sec) {
               var seg1 = 6.58, seg2 = 14.4 - dukkan[dk].kapiX - .2, top = seg1 + seg2, m = e * top;
               if (m < seg1) { ax = 14.4; ay = 7 - m; nok = [[14.4, 7], [ax, ay]]; } else { ax = 14.4 - (m - seg1); ay = YT; nok = [[14.4, 7], [14.4, YT], [ax, YT]]; }
             } else { var on = dukkan[CG[k - 1]].kapiX; ax = on + (dukkan[dk].kapiX - on) * e; ay = YT; nok = [[on, YT], [ax, YT]]; }
-            yur2 = p > 0 && p < 1; ters2 = ay === YT;
+            yur2 = adimGenlik(p); ters2 = ay === YT;
           }
           var ayrilis = k < CG.length - 1 ? .6 + (k + 1) * ARA + .3 : 1e9;
           if (l2 >= 0) { kapiAc(dk, l2 > varis && l2 < ayrilis); tikGoster(dk, l2 - varis - .15); }

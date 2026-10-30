@@ -19,7 +19,7 @@
   body{font-family:"Century Gothic",-apple-system,"Segoe UI",Arial,sans-serif}
   #sahne{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;background:var(--zemin);overflow:hidden;color:var(--yazi)}
   .kat{position:absolute;inset:0;opacity:0;visibility:hidden;background:var(--zemin)}
-  .kat.seffaf{background:transparent}
+  .kat.seffaf{background:transparent;z-index:20}
   svg{position:absolute;left:0;top:0;overflow:visible}
   .bolum{position:absolute;left:80px;top:60px;font-size:24px;font-weight:700;letter-spacing:3px;color:var(--yesil);display:flex;align-items:center;gap:16px;z-index:5}
   .bolum i{display:block;width:56px;height:3px;background:var(--yesil)}
@@ -374,6 +374,11 @@ function kamHedef(a) {
   }
   return { x: 1085, y: 470, z: .97 };   /* iki cihaz birlikte */
 }
+/* kamera geçişi: yakınlaşma oranla (eşit hızda hissedilir), odak ekranda düz çizgide kayar (yana savrulmaz) */
+function kamAra(a, b, p) {
+  var z = a.z * Math.pow(b.z / a.z, p), q = Math.abs(b.z - a.z) < 1e-4 ? p : (1 / a.z - 1 / z) / (1 / a.z - 1 / b.z);
+  return { x: a.x + (b.x - a.x) * q, y: a.y + (b.y - a.y) * q, z: z };
+}
 /* sahne noktası → ekran noktası (kamera uygulanmış) */
 function kamUygula(k) { $("nasilKam").style.transform = "translate(960px,460px) scale(" + k.z.toFixed(4) + ") translate(" + (-k.x).toFixed(1) + "px," + (-k.y).toFixed(1) + "px)"; }
 /* fin2: önce peşinat %20 → %10, sonra vade 48 → 72 ay; aylık ödeme = (tutar − peşinat) ÷ vade (uygulamadaki gibi). Son değerler tabletteki ön bilgiyle aynı. */
@@ -426,10 +431,10 @@ function nasil(lt) {
   finansmanCanli(a, o, gl, GK);
   /* kamera */
   var k1 = kamHedef(a), k0 = o ? kamHedef(o) : k1, kp = yumus(gl / 1.2);
-  var kam = { x: k0.x + (k1.x - k0.x) * kp, y: k0.y + (k1.y - k0.y) * kp, z: k0.z + (k1.z - k0.z) * kp };
+  var kam = kamAra(k0, k1, kp);
   if (r.simdi.si === 0 && r.simdi.a === ISLEYIS[0].adim[0]) {   /* bölüm başı: genişten telefona yaklaş */
     var gn = kamHedef({ k: "mp" }), bp = yumus((lt - .15) / 1.1);
-    kam = { x: gn.x + (k1.x - gn.x) * bp, y: gn.y + (k1.y - gn.y) * bp, z: gn.z + (k1.z - gn.z) * bp };
+    kam = kamAra(gn, k1, bp);
   }
   kamUygula(kam);
   $("proto").style.opacity = 1 - kis((kam.z - 1) / .08);   /* not yalnız geniş açıda */
@@ -613,9 +618,10 @@ function acCiz(lt) {
 }
 function kartCiz(id) {
   return function (lt, d) {
-    var p = $(id).querySelector(".gecis"), gir = cik(lt / .45), cik_ = yumus((lt - (d - .45)) / .45);
-    p.style.transform = "translateX(" + (lt < d - .45 ? -1920 * (1 - gir) : 1920 * cik_) + "px)";
-    var ic = ara(lt, .35, .45);
+    /* giriş yavaşlayarak (.55 sn), çıkış hızlanarak ve daha kısa (KART_CIK); arkadaki sahneler bu sürelerde altta bekler */
+    var p = $(id).querySelector(".gecis"), gir = cik(lt / KART_GIR), c = kis((lt - (d - KART_CIK)) / KART_CIK);
+    p.style.transform = "translateX(" + (lt < d - KART_CIK ? -1920 * (1 - gir) : 1920 * c * c) + "px)";
+    var ic = ara(lt, .4, .45);
     p.querySelector(".ad").style.opacity = ic;
     p.querySelector(".ad").style.transform = "translateY(" + (20 * (1 - ic)) + "px)";
     p.querySelector(".cizgi").style.transform = "scaleX(" + ic + ")";
@@ -655,7 +661,7 @@ function cozumCiz(lt, d) {
 }
 
 /* ===== Zaman çizelgesi (seslendirmeden) ===== */
-var KART = 2.0;
+var KART = 2.0, KART_GIR = .55, KART_CIK = .45, GECIS = .5;   /* bölüm kartı giriş/çıkış, sahneler arası çapraz geçiş (sn) */
 var tSorunB = Wy("sorun", "görüşmek", .3), tSorunC = Wy("sorun", "hafta", .65), tCozumB = Wy("cozum", "tasarruf", .23);
 var YOL_OLCUM = .3 + Wy("yol", "çağrı", .45) - .1, YOL_GENIS = .3 + Wy("yol", "sonuçlara", .7);
 var CIFT_YAN = .3 + Wy("cift", "her", .5), ONC_DAG = .3 + Wy("oncelik", "doğru", .6);
@@ -710,13 +716,19 @@ SAHNELER.forEach(function (s) {
 /* ===== Çizim ===== */
 function cizim(t) {
   t = Math.max(0, Math.min(SURE - .001, t));
+  /* geçişler boş zemine düşmez: sahneden sahneye çapraz geçiş (yeni sahne GECIS sn'de belirip hafifçe yerine oturur);
+     bölüm kartı önceki sahnenin son karesinin üstüne kayar, çıkarken sonraki sahnenin ilk karesini açar */
   SAHNELER.forEach(function (s, i) {
-    var lt = t - s.t0, on = lt >= 0 && lt < s.d, el = $(s.id), G = .25;
-    var op = on ? (s.kart ? 1 : kis(lt / G) * kis((s.d - lt) / G)) : 0;
-    if (i === 0 && on) op = kis((s.d - lt) / G);
-    if (i === SAHNELER.length - 1 && on) op = kis(lt / G);
+    var lt = t - s.t0, el = $(s.id), on = lt >= 0 && lt < s.d, op = 0, ciz = null, olc = 1;
+    var onceki = SAHNELER[i - 1], sonraki = SAHNELER[i + 1];
+    if (on) {
+      ciz = lt; op = 1;
+      if (!s.kart && onceki && !onceki.kart) { var e = yumus(lt / GECIS); op = e; olc = 1.012 - .012 * e; }
+    } else if (!s.kart && sonraki && lt >= s.d && lt < s.d + (sonraki.kart ? KART_GIR : GECIS)) { ciz = s.d - .001; op = 1; }   /* son kare altta kalır */
+    else if (!s.kart && onceki && onceki.kart && lt < 0 && lt >= -KART_CIK) { ciz = 0; op = 1; }                                  /* kartın altında hazır bekler */
     el.style.opacity = op; el.style.visibility = op > 0 ? "visible" : "hidden";
-    if (on && s.f) s.f(lt, s.d);
+    el.style.transform = olc === 1 ? "" : "scale(" + olc.toFixed(4) + ")";
+    if (ciz !== null && s.f) s.f(ciz, s.d);
   });
   $("ilerleme").style.width = (t / SURE * 100) + "%";
 }

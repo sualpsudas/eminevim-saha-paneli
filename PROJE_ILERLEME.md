@@ -525,3 +525,10 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Seslendirme ve altyazıda SPY yerine "Saha Portföy Yöneticileri"; "kanal ise yok" → "kanal yok"; "İlk adımı müşteri de atabilse?" → "Bu kez ilk adımı müşteri atıyor."
 - İşleyiş bölümünde ekranlara yakınlaşma azaltıldı.
 - Yan video: yol haritası (pilot bölge) bölümü yok; `python video/kaydet.py --yan`.
+
+## 2026-10-30 · Tanıtım videosu v11: animasyon kalitesi (motion-design skill denetimi)
+- Yürüyüş: ayak kayması giderildi (adım yola bağlı), dizli bacak, iki kol, kalkış/duruşta yumuşak adım.
+- Sahne geçişleri boş zemine düşmüyor (çapraz geçiş; bölüm kartı sahnenin üstüne kayıyor).
+- Kamera yakınlaşması oranla, eşit hızda.
+- Kayıt: BT.709 renk etiketi (telefonda marka renkleri doğru), CRF 18, müzik konuşmada kısılıyor, ses -16 LUFS.
+- Seslendirme metni ve ses aynı. Gemini TTS (ücretsiz) araştırıldı, ertelendi.

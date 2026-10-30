@@ -171,6 +171,13 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   kaldı); "kanal ise yok" → "kanal yok"; çözüm girişi "Bu kez ilk adımı müşteri atıyor."; işleyişte yakınlaşma azaldı (telefon ×1,3,
   tablet ×1,15, ön bilgi ×1,2). YAN VİDEO: `kaydet.py --yan` (sayfa `?yan=1`) yol haritası kartı ve bölümü olmadan → pilot bölgeden
   söz edilmez; `tasarruf-yanimda-tanitim-kisa.mp4` (~1 dk 47 sn), linkler.html'de "Tanıtım videosu (pilot bölgesiz)" `?v=N`.
+  v11 (2026-10-30, motion-design skill denetimi; metin/ses DEĞİŞMEDİ): yürüyüş `kisi().ciz` adım evresi YOLA bağlı (ayak kaymaz), dizli bacak,
+  iki kol + dosya sallanır, öne eğilme; `adimGenlik(p)` kalkış/duruşta adımı küçültür (yeni yürüyüşte de kullan). Sahne geçişi boş zemine
+  düşmez: çapraz geçiş `GECIS` .5 sn + hafif ölçek; kart önceki sahnenin son karesine kayar, çıkarken sonrakinin ilk karesini açar
+  (`KART_GIR` .55 / `KART_CIK` .45, kartlar z-index 20). Kamera yakınlaşması oranla (`kamAra`, izo `kamera`). kaydet.py: BT.709 renk
+  dönüşümü + etiketi (eskiden etiketsiz → telefonda renk kayması), CRF 18 + tune animation, müzik konuşmada kısılır (sidechain),
+  loudnorm -16 LUFS, AAC 192k. Hareket bulanıklığı yapılmadı (üretimi 2-3 kat uzatır; istenirse). Ses için ücretsiz Gemini 3.8 Flash TTS
+  (Türkçe, tarifle ton) araştırıldı, kullanıcı şimdilik erteledi; kelime zamanı vermez → Whisper ile hizalama gerekir.
   Dolgu kelime YOK (kullanıcı 2026-10-24): "Yani" ve "Peki" metinden çıktı (sorun/çözüm sesleri yeniden üretildi). Tek parça yenilemek:
   `python video/ses_uret.py sorun cozum` (diğer parçalar plan.js’ten aynen kalır).
   Son cümle (kullanıcı: -ceğiz ve talep olmasın): "Önceliği bizi çağırana vermek, saha gücümüzü doğru yere yönlendirmeyi kolaylaştırır."; ekranda "Dağılım,
