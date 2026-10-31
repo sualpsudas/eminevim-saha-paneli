@@ -7,6 +7,7 @@ Gerekenler: Playwright (Chrome), imageio-ffmpeg, numpy (müzik için).
   python video/kaydet.py                    → video/tasarruf-yanimda-tanitim.mp4 (+ .srt)
   python video/kaydet.py --kare 12 40.5     → yalnız o saniyelerin PNG'leri (video/onizleme/)
   python video/kaydet.py --yan              → yan video (pilot bölge / yol haritası yok): video/tasarruf-yanimda-tanitim-kisa.mp4
+  python video/kaydet.py --ses [--yan]      → görüntü aynen, yalnız ses yeniden (birkaç dakika)
 """
 import argparse
 import pathlib
@@ -24,6 +25,7 @@ ap = argparse.ArgumentParser()
 ap.add_argument("--kare", nargs="*", type=float, help="yalnız bu saniyelerin görüntüsünü al")
 ap.add_argument("--cikti")
 ap.add_argument("--yan", action="store_true", help="pilot bölgesiz yan video")
+ap.add_argument("--ses", action="store_true", help="görüntüyü yeniden üretme; mevcut videonun sesini yeniden kur")
 arg = ap.parse_args()
 arg.cikti = arg.cikti or str(KLASOR / ("tasarruf-yanimda-tanitim-kisa.mp4" if arg.yan else "tasarruf-yanimda-tanitim.mp4"))
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -55,20 +57,23 @@ with sync_playwright() as p:
         sys.exit()
 
     gecici = KLASOR / ("_goruntu_yan.mp4" if arg.yan else "_goruntu.mp4")
-    ffmpeg = subprocess.Popen([
-        FF, "-y", "-loglevel", "error", "-f", "image2pipe", "-c:v", "png", "-framerate", str(FPS), "-i", "-",
-        # renk: PNG (sRGB) → BT.709 dönüşümü + etiket; etiketsiz videoda telefonlar marka yeşilini/turuncusunu kaydırabiliyordu
-        "-vf", "scale=out_color_matrix=bt709:out_range=tv,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-tune", "animation",
-        "-pix_fmt", "yuv420p", "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-color_range", "tv", str(gecici),
-    ], stdin=subprocess.PIPE)
-    toplam = int(sure * FPS)
-    for i in range(toplam):
-        sayfa.evaluate("t => cizim(t)", i / FPS)
-        ffmpeg.stdin.write(sayfa.screenshot(type="png"))   # kayıpsız kare: yazı kenarları keskin
-        if i % (FPS * 10) == 0:
-            print(f"{i / FPS:5.0f} / {sure:.0f} sn", flush=True)
-    ffmpeg.stdin.close()
-    ffmpeg.wait()
+    if arg.ses:   # görüntü değişmediyse: mevcut videonun görüntü izi aynen kullanılır, yalnız ses yeniden kurulur
+        subprocess.run([FF, "-y", "-loglevel", "error", "-i", arg.cikti, "-map", "0:v", "-c", "copy", str(gecici)], check=True)
+    else:
+        ffmpeg = subprocess.Popen([
+            FF, "-y", "-loglevel", "error", "-f", "image2pipe", "-c:v", "png", "-framerate", str(FPS), "-i", "-",
+            # renk: PNG (sRGB) → BT.709 dönüşümü + etiket; etiketsiz videoda telefonlar marka yeşilini/turuncusunu kaydırabiliyordu
+            "-vf", "scale=out_color_matrix=bt709:out_range=tv,format=yuv420p", "-c:v", "libx264", "-preset", "slow", "-crf", "18", "-tune", "animation",
+            "-pix_fmt", "yuv420p", "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-color_range", "tv", str(gecici),
+        ], stdin=subprocess.PIPE)
+        toplam = int(sure * FPS)
+        for i in range(toplam):
+            sayfa.evaluate("t => cizim(t)", i / FPS)
+            ffmpeg.stdin.write(sayfa.screenshot(type="png"))   # kayıpsız kare: yazı kenarları keskin
+            if i % (FPS * 10) == 0:
+                print(f"{i / FPS:5.0f} / {sure:.0f} sn", flush=True)
+        ffmpeg.stdin.close()
+        ffmpeg.wait()
     tarayici.close()
 
 # altyazı
@@ -90,7 +95,9 @@ girdi += ["-i", str(KLASOR / "ses" / "muzik.wav"), "-i", str(srt)]
 filtre.append(f"[{m}:a]aresample=44100,volume='{MUZIK_SES}+0.17*min(1,max(0,(t-{kapanis:.2f})/1.5))':eval=frame[muz]")
 # konuşma tek izde; müzik konuşma sırasında kısılır (sidechain), sonra telefon/web için standart ses düzeyi (-16 LUFS)
 filtre.append("".join(f"[s{k}]" for k in range(len(plan))) + f"amix=inputs={len(plan)}:normalize=0:duration=longest,asplit=2[kon][kyan]")
-filtre.append("[muz][kyan]sidechaincompress=threshold=0.02:ratio=4:attack=60:release=700[muzk]")
+# kyan sessizlikle uzatılır: sidechaincompress yan girdi bitince durur → konuşma bitince müzik de kesiliyordu (v11: son ~7 sn sessiz)
+filtre.append("[kyan]apad[kyanp]")
+filtre.append("[muz][kyanp]sidechaincompress=threshold=0.02:ratio=4:attack=60:release=700[muzk]")
 filtre.append("[kon][muzk]amix=inputs=2:normalize=0:duration=longest,loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000[a]")
 subprocess.run([
     FF, "-y", "-loglevel", "error", *girdi, "-filter_complex", ";".join(filtre),

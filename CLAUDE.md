@@ -176,7 +176,8 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   düşmez: çapraz geçiş `GECIS` .5 sn + hafif ölçek; kart önceki sahnenin son karesine kayar, çıkarken sonrakinin ilk karesini açar
   (`KART_GIR` .55 / `KART_CIK` .45, kartlar z-index 20). Kamera yakınlaşması oranla (`kamAra`, izo `kamera`). kaydet.py: BT.709 renk
   dönüşümü + etiketi (eskiden etiketsiz → telefonda renk kayması), CRF 18 + tune animation, müzik konuşmada kısılır (sidechain),
-  loudnorm -16 LUFS, AAC 192k. Hareket bulanıklığı yapılmadı (üretimi 2-3 kat uzatır; istenirse). Ses için ücretsiz Gemini 3.8 Flash TTS
+  loudnorm -16 LUFS, AAC 192k. **v11 ses düzeltmesi (2026-10-31):** sidechaincompress yan girdi (konuşma) bitince duruyordu → sessiz kapanışta
+  (son ~7 sn) hiç ses yoktu; artık yan girdi `apad` ile uzar. Yalnız ses değişince `kaydet.py --ses [--yan]` (görüntü aynen, birkaç dk); `?v=12` / kısa `?v=3`. Hareket bulanıklığı yapılmadı (üretimi 2-3 kat uzatır; istenirse). Ses için ücretsiz Gemini 3.8 Flash TTS
   (Türkçe, tarifle ton) araştırıldı, kullanıcı şimdilik erteledi; kelime zamanı vermez → Whisper ile hizalama gerekir.
   Dolgu kelime YOK (kullanıcı 2026-10-24): "Yani" ve "Peki" metinden çıktı (sorun/çözüm sesleri yeniden üretildi). Tek parça yenilemek:
   `python video/ses_uret.py sorun cozum` (diğer parçalar plan.js’ten aynen kalır).
