@@ -250,12 +250,22 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
   akışı web kararlarına uyduruldu (yer türü ve e-posta yok, temsilci hemen gösterilmez), finansman sonuç kartı web'deki gibi.
 
 ## Açık işler
-- **İş planı ve görev dağılımı (2026-11-03):** 5 aşama (çerçeve → araştırma/uyarlama → tasarım + yönetim sunumu
-  (ana akışın canlı gösterimiyle) → altyapı kaynakları (BT ile) → çalışan prototip + BT devri), 4 kişi: Pazarlama (müşteri),
-  Fizibilite 1 (personel), Fizibilite 2 (araştırma, altyapı, BT), Alternatif Satış Kanalı (veri, raporlama, prototip
-  değişiklikleri; belgelerde "Sen" değil bu ad, yapay zeka adı geçmez). PDF'ler ve kaynak HTML: OneDrive
-  `Eminevim\AlternatifSatisKanali\Belgeler\Tasarruf Yanimda Gorev Dagilimi\` (genel plan + Pazarlama yapıldı; Fizibilite 1/2
-  ve ASK belgeleri aynı düzende bekliyor). Ortak görev takip sayfası konuşuluyor.
+- **İş planı ve görev dağılımı (2026-11-03):** 4 kişi: Pazarlama (müşteri), Fizibilite 1 (personel), Fizibilite 2
+  (araştırma, altyapı, BT), Alternatif Satış Kanalı (veri, raporlama, prototip değişiklikleri; belgelerde "Sen" değil bu ad).
+  İlk taslak 5 aşamalıydı: PDF'ler (genel plan + Pazarlama) ve kaynak HTML OneDrive
+  `Eminevim\AlternatifSatisKanali\Belgeler\Tasarruf Yanimda Gorev Dagilimi\`; görev takip sayfası `..\gorev-takip`
+  (48 iş, yayın bekliyor). **İkisi de aşağıdaki yeni yöne göre YENİDEN yazılacak.**
+- **Yeni yön (kullanıcı, 2026-11-03) — bundan sonraki planın dayanağı:**
+  - Aşamalar: **1 Proje Çerçevesi · 2 Araştırma · 3 Yöntem ve Tasarım · (Sunum, olacaksa, 3'ten sonra) · 4 Teslim.**
+  - Asıl iş bu projenin **mühendisliği: yöntem ve tasarım.** Görev tanımları buna göre ve daha kolay anlaşılır yazılır.
+  - İlk adım çerçeve: ana fikir, hedef kitle, temel işleyiş gibi ana konular netleşmeden tasarıma geçilmez. Sonra
+    araştırmalarla birlikte geliştirme; sonra tasarım adım adım: uygulama nasıl çalışacak, uygulama–web–kanal→saha
+    personeli işleyişi ve aralarındaki iletişim; oluşturma; sunuma hazırlama; sonrası teslim.
+  - **Tasarım kararı henüz verilmedi.** Mevcut prototip kesin değil: ekleme/çıkarma olabilir, yöntemler (ör. kimlik
+    doğrulama, giriş, kapıda doğrulama) değişebilir. Mevcut ekranları "karar" sayma.
+  - Proje çerçevesi, uygulama, senaryo, videolar ve tüm belgeler **aynı standartta, çelişkisiz** olacak; bu iş Claude ile birlikte yapılır.
+  - Basit işler görev listesinde **"Yapay zekayla yapılabilir"** diye etiketlenir (taslak, metin düzeltme, çelişki
+    taraması, kılavuz, prototipe işleme gibi); kararlar, görüşmeler (SPY, hukuk, BT) ve denemeler insanda kalır.
 - **"Talep" yerine "çağrı" (kullanıcı kararı 2026-11-03):** müşteri ve personel ekranlarındaki görünen yazılar, web formu ve
   senaryo sayfası da "çağrı"ya geçecek (kod adları değişmez). Henüz uygulanmadı.
 - Google E-Tablo linki (yukarıda) → yapılacaklar ortak hâle gelsin.
