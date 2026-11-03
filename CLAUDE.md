@@ -264,8 +264,23 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
   - **Tasarım kararı henüz verilmedi.** Mevcut prototip kesin değil: ekleme/çıkarma olabilir, yöntemler (ör. kimlik
     doğrulama, giriş, kapıda doğrulama) değişebilir. Mevcut ekranları "karar" sayma.
   - Proje çerçevesi, uygulama, senaryo, videolar ve tüm belgeler **aynı standartta, çelişkisiz** olacak; bu iş Claude ile birlikte yapılır.
-  - Basit işler görev listesinde **"Yapay zekayla yapılabilir"** diye etiketlenir (taslak, metin düzeltme, çelişki
-    taraması, kılavuz, prototipe işleme gibi); kararlar, görüşmeler (SPY, hukuk, BT) ve denemeler insanda kalır.
+  - "Yapay zekayla yapılabilir" etiketi KULLANILMAZ (kullanıcı vazgeçti).
+  - **Onaylı alt başlıklar (2026-11-03):**
+    1 Proje Çerçevesi: 1.1 Ana fikir ve amaç · 1.2 Hedef kitle (kim çağırır, hizmeti nerede görür) · 1.3 Temel işleyiş
+    (çağrıdan görüşme sonrasına tek sayfalık akış) · 1.4 Kapsam ve sınırlar · 1.5 Varsayımlar ve başarı ölçüsü · 1.6 Ortak dil (sözlük).
+    2 Araştırma: 2.1 Bugünkü durum (saha verisi) · 2.2 Benzer uygulamalar (müşteri ve personel) · 2.3 Saha ve atama yöntemleri ·
+    2.4 Kimlik doğrulama ve güven yöntemleri · 2.5 Hukuk ve uyum · 2.6 Altyapı ön araştırması (SMS, harita, mevcut sistemler) ·
+    2.7 Uyarlama kararları.
+    3 Yöntem ve Tasarım: 3.1 Uçtan uca işleyiş (müşteri–web–uygulama–kanal–SPY–yönetici; kim, ne zaman, kime, ne bildirir —
+    ÖNCE bu biter, diğerleri buna dayanır) · 3.2 Kurallar (atama, taşma, dönüş süresi, satış sahipliği) · 3.3 Kimlik doğrulama
+    ve güven · 3.4 Bildirim ve iletişim (SMS, bildirim, sohbet) · 3.5 Müşteri ekranları (uygulama + web) · 3.6 Personel ekranları
+    (telefon + tablet) · 3.7 Yönetici ekranları ve ölçüm · 3.8 Standart birliği (belge, senaryo, video çelişki kontrolü) ·
+    3.9 Çalışan prototip.
+    Sunum (isteğe bağlı, 3'ten sonra).
+    4 Teslim: 4.1 Altyapı ihtiyaçları ve BT görüşmesi · 4.2 Devir paketi · 4.3 Devir toplantısı.
+    Ayrı "altyapı kaynakları" aşaması yok (ön araştırma 2.6, BT ile netleştirme 4.1).
+  - Sıradaki iş: bu başlıklara göre görevleri, kişi dağılımını (adil yük, paralel) ve kolay anlaşılır görev tanımlarını
+    yeniden çıkarmak; sonra PDF'ler ve görev takip sayfası.
 - **"Talep" yerine "çağrı" (kullanıcı kararı 2026-11-03):** müşteri ve personel ekranlarındaki görünen yazılar, web formu ve
   senaryo sayfası da "çağrı"ya geçecek (kod adları değişmez). Henüz uygulanmadı.
 - Google E-Tablo linki (yukarıda) → yapılacaklar ortak hâle gelsin.
