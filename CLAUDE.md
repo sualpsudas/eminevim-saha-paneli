@@ -250,6 +250,14 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
   akışı web kararlarına uyduruldu (yer türü ve e-posta yok, temsilci hemen gösterilmez), finansman sonuç kartı web'deki gibi.
 
 ## Açık işler
+- **İş planı ve görev dağılımı (2026-11-03):** 5 aşama (çerçeve → araştırma/uyarlama → tasarım + yönetim sunumu
+  (ana akışın canlı gösterimiyle) → altyapı kaynakları (BT ile) → çalışan prototip + BT devri), 4 kişi: Pazarlama (müşteri),
+  Fizibilite 1 (personel), Fizibilite 2 (araştırma, altyapı, BT), Alternatif Satış Kanalı (veri, raporlama, prototip
+  değişiklikleri; belgelerde "Sen" değil bu ad, yapay zeka adı geçmez). PDF'ler ve kaynak HTML: OneDrive
+  `Eminevim\AlternatifSatisKanali\Belgeler\Tasarruf Yanimda Gorev Dagilimi\` (genel plan + Pazarlama yapıldı; Fizibilite 1/2
+  ve ASK belgeleri aynı düzende bekliyor). Ortak görev takip sayfası konuşuluyor.
+- **"Talep" yerine "çağrı" (kullanıcı kararı 2026-11-03):** müşteri ve personel ekranlarındaki görünen yazılar, web formu ve
+  senaryo sayfası da "çağrı"ya geçecek (kod adları değişmez). Henüz uygulanmadı.
 - Google E-Tablo linki (yukarıda) → yapılacaklar ortak hâle gelsin.
 - iPhone (TestFlight) derlemesi yapılmadı; web hâli güncel. Codemagic ile yeni derleme gerekiyor (`IOS_TESTFLIGHT.md`).
 - Finansmanlarım rakamları için Eminevim uyum/hukuk onayı.
