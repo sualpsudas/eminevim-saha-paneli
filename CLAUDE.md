@@ -281,6 +281,9 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
     Ayrı "altyapı kaynakları" aşaması yok (ön araştırma 2.6, BT ile netleştirme 4.1).
   - Sıradaki iş: bu başlıklara göre görevleri, kişi dağılımını (adil yük, paralel) ve kolay anlaşılır görev tanımlarını
     yeniden çıkarmak; sonra PDF'ler ve görev takip sayfası.
+  - **Durum (2026-11-04):** 43 iş (yük P 22 · F1 21 · F2 22 · ASK 24) ve görev tanımları hazır, kullanıcı onayı bekliyor:
+    OneDrive `...Gorev Dagilimi\kaynak\gorev-listesi-taslak2.md` + `gorev-tanimlari-taslak.md`. Onaydan sonra: genel plan PDF'i,
+    kişi PDF'leri, `gorev-takip\baslangic.json`, proje notu. Takip sayfası yayını ayrıca onay ister.
 - **"Talep" yerine "çağrı" (kullanıcı kararı 2026-11-03):** müşteri ve personel ekranlarındaki görünen yazılar, web formu ve
   senaryo sayfası da "çağrı"ya geçecek (kod adları değişmez). Henüz uygulanmadı.
 - Google E-Tablo linki (yukarıda) → yapılacaklar ortak hâle gelsin.
