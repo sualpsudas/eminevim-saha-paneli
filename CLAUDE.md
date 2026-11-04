@@ -252,9 +252,9 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 ## Açık işler
 - **İş planı ve görev dağılımı (2026-11-03):** 4 kişi: Pazarlama (müşteri), Fizibilite 1 (personel), Fizibilite 2
   (araştırma, altyapı, BT), Alternatif Satış Kanalı (veri, raporlama, prototip değişiklikleri; belgelerde "Sen" değil bu ad).
-  İlk taslak 5 aşamalıydı: PDF'ler (genel plan + Pazarlama) ve kaynak HTML OneDrive
+  Belgeler OneDrive
   `Eminevim\AlternatifSatisKanali\Belgeler\Tasarruf Yanimda Gorev Dagilimi\`; görev takip sayfası `..\gorev-takip`
-  (48 iş, yayın bekliyor). **İkisi de aşağıdaki yeni yöne göre YENİDEN yazılacak.**
+  (yayın bekliyor). Aşağıdaki yeni yöne göre yeniden yazıldı (2026-11-04).
 - **Yeni yön (kullanıcı, 2026-11-03) — bundan sonraki planın dayanağı:**
   - Aşamalar: **1 Proje Çerçevesi · 2 Araştırma · 3 Yöntem ve Tasarım · (Sunum, olacaksa, 3'ten sonra) · 4 Teslim.**
   - Asıl iş bu projenin **mühendisliği: yöntem ve tasarım.** Görev tanımları buna göre ve daha kolay anlaşılır yazılır.
@@ -279,11 +279,12 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
     Sunum (isteğe bağlı, 3'ten sonra).
     4 Teslim: 4.1 Altyapı ihtiyaçları ve BT görüşmesi · 4.2 Devir paketi · 4.3 Devir toplantısı.
     Ayrı "altyapı kaynakları" aşaması yok (ön araştırma 2.6, BT ile netleştirme 4.1).
-  - Sıradaki iş: bu başlıklara göre görevleri, kişi dağılımını (adil yük, paralel) ve kolay anlaşılır görev tanımlarını
-    yeniden çıkarmak; sonra PDF'ler ve görev takip sayfası.
-  - **Durum (2026-11-04):** 43 iş (yük P 22 · F1 21 · F2 22 · ASK 24) ve görev tanımları hazır, kullanıcı onayı bekliyor:
-    OneDrive `...Gorev Dagilimi\kaynak\gorev-listesi-taslak2.md` + `gorev-tanimlari-taslak.md`. Onaydan sonra: genel plan PDF'i,
-    kişi PDF'leri, `gorev-takip\baslangic.json`, proje notu. Takip sayfası yayını ayrıca onay ister.
+  - Görevler, kişi dağılımı ve görev tanımları bu başlıklara göre çıkarıldı.
+  - **Durum (2026-11-04, kullanıcı onayladı):** 43 iş (yük: Pazarlama 22, Fizibilite 1 21, Fizibilite 2 22, Alternatif Satış Kanalı 24).
+    Tek kaynak OneDrive `...Gorev Dagilimi\kaynak\gorev-tanimlari.md`; `kaynak\uret.py` (conda scrapling) genel plan + 4 kişi PDF'ini ve
+    `gorev-takip\baslangic.json`'ı üretir. Taslak 1 `kaynak\eski-taslak1\`. Plana giren iki öneri: 3.9a ekran notları geldikçe parça parça;
+    3.8'e 3.9a sonrası son kontrol. Video güncellemesi plana eklenmedi (kullanıcı istemedi). Belgelerde "ASK" kısaltması yok, tam ad yazılır.
+    Takip sayfası yayını ayrıca onay ister (`gorev-takip\CLAUDE.md`).
 - **"Talep" yerine "çağrı" (kullanıcı kararı 2026-11-03):** müşteri ve personel ekranlarındaki görünen yazılar, web formu ve
   senaryo sayfası da "çağrı"ya geçecek (kod adları değişmez). Henüz uygulanmadı.
 - Google E-Tablo linki (yukarıda) → yapılacaklar ortak hâle gelsin.

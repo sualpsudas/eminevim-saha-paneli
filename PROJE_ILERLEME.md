@@ -536,3 +536,7 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 
 ## 2026-10-31 · Tanıtım videosu ses düzeltmesi
 - v11'de sessiz kapanışta (son ~7 sn) ses yoktu: müziği konuşmada kısan sidechain, konuşma bitince müziği de kesiyordu. Düzeltildi (apad); iki videonun yalnız sesi yeniden kuruldu (`kaydet.py --ses`). linkler.html `?v=12` / kısa `?v=3`.
+
+## 2026-11-04 · İş planı ve görev dağılımı yenilendi
+- Kullanıcı onayladı: 4 aşama + isteğe bağlı Sunum, 43 iş. Genel plan ve 4 kişi için görev PDF'leri OneDrive'da; görev takip listesi güncel.
+- Takip sayfası henüz yayında değil.
