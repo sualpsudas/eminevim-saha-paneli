@@ -539,4 +539,4 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 
 ## 2026-11-04 · İş planı ve görev dağılımı yenilendi
 - Kullanıcı onayladı: 4 aşama + isteğe bağlı Sunum, 43 iş. Genel plan ve 4 kişi için görev PDF'leri OneDrive'da; görev takip listesi güncel.
-- Takip sayfası henüz yayında değil.
+- Takip sayfası yayına alındı; bağlantı ekibe WhatsApp'tan verilir.

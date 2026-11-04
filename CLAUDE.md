@@ -254,7 +254,7 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
   (araştırma, altyapı, BT), Alternatif Satış Kanalı (veri, raporlama, prototip değişiklikleri; belgelerde "Sen" değil bu ad).
   Belgeler OneDrive
   `Eminevim\AlternatifSatisKanali\Belgeler\Tasarruf Yanimda Gorev Dagilimi\`; görev takip sayfası `..\gorev-takip`
-  (yayın bekliyor). Aşağıdaki yeni yöne göre yeniden yazıldı (2026-11-04).
+  (yayında; ayrıntı o klasörün CLAUDE.md'si). Aşağıdaki yeni yöne göre yeniden yazıldı (2026-11-04).
 - **Yeni yön (kullanıcı, 2026-11-03) — bundan sonraki planın dayanağı:**
   - Aşamalar: **1 Proje Çerçevesi · 2 Araştırma · 3 Yöntem ve Tasarım · (Sunum, olacaksa, 3'ten sonra) · 4 Teslim.**
   - Asıl iş bu projenin **mühendisliği: yöntem ve tasarım.** Görev tanımları buna göre ve daha kolay anlaşılır yazılır.
