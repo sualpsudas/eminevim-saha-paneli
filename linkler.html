@@ -18,8 +18,8 @@
   .grup button[aria-pressed="true"]{background:var(--secili);color:var(--yazi);box-shadow:0 1px 3px rgba(0,0,0,.12)}
   button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--yesil);outline-offset:2px}
 
-  /* Bilgisayar düzeni: solda önizleme, sağda yapılacaklar */
-  .duzen{display:grid;grid-template-columns:1fr 340px;height:100%}
+  /* Bilgisayar düzeni: önizleme tüm genişlikte */
+  .duzen{display:grid;grid-template-columns:1fr;height:100%}
   .sol{display:flex;flex-direction:column;min-width:0;min-height:0}
   header{padding:14px 16px 10px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
   .sahne{flex:1;min-height:0;display:flex;align-items:flex-start;justify-content:center;padding:4px 16px 8px}
@@ -51,8 +51,6 @@
   .cihaz.tablet .ekran{position:absolute;inset:0;overflow:hidden;border-radius:16px}
   .cihaz.tablet .tus{display:none}
   /* Senaryo: kendi cihazlarını çizer; çerçevesiz, tüm alanı kaplar */
-  body.senaryo .duzen{grid-template-columns:1fr}
-  body.senaryo aside{display:none}
   body.senaryo .sahne{padding:0 8px 4px;align-items:stretch}
   .cihaz.senaryo{border:0;box-shadow:none;border-radius:12px;overflow:hidden;flex:1;width:auto!important;height:auto!important}
   .cihaz.senaryo::before,.cihaz.senaryo::after,.cihaz.senaryo .tus,.cihaz.senaryo .safari{display:none!important}
@@ -62,31 +60,11 @@
   .alt a{color:var(--soluk)}
   .alt a.ana{color:var(--yesil);font-weight:600}
 
-  /* Yapılacaklar */
-  aside{border-left:1px solid var(--cizgi);background:var(--kart);display:flex;flex-direction:column;min-height:0}
-  aside h2{font-size:17px;margin:0;padding:18px 18px 4px}
-  aside .durum{font-size:12px;color:var(--soluk);padding:0 18px 10px;min-height:16px}
-  aside form{display:flex;gap:8px;padding:0 18px 12px}
-  aside input[type=text]{flex:1;min-width:0;border:1px solid var(--cizgi);border-radius:10px;padding:10px 12px;font:inherit;font-size:14px;background:var(--zemin);color:var(--yazi)}
-  aside form button{border:0;border-radius:10px;background:var(--yesil);color:#fff;font-weight:700;padding:0 14px;cursor:pointer}
-  aside ul{list-style:none;margin:0;padding:0 10px 18px;overflow-y:auto;flex:1}
-  aside li{display:flex;align-items:flex-start;gap:10px;padding:9px 8px;border-radius:10px}
-  aside li:hover{background:var(--zemin)}
-  aside li input{margin-top:3px;width:17px;height:17px;accent-color:var(--yesil);flex:0 0 auto}
-  aside li span{flex:1;font-size:14px;line-height:1.4;word-break:break-word}
-  aside li.bitti span{text-decoration:line-through;color:var(--soluk)}
-  aside li .sil{border:0;background:none;color:var(--soluk);cursor:pointer;font-size:16px;line-height:1;padding:2px 4px;opacity:.6}
-  aside li .sil:hover{opacity:1;color:#b3261e}
-  aside .bos{color:var(--soluk);font-size:13px;padding:6px 8px}
-  aside .tablo{flex:1;min-height:0;display:flex;flex-direction:column;padding:0 12px 12px}
-  aside .tablo iframe{flex:1;width:100%;border:1px solid var(--cizgi);border-radius:10px;background:#fff}
-  aside .tablo a{font-size:13px;color:var(--yesil);font-weight:600;padding:8px 6px 0}
-
   /* Telefon düzeni: üstte iki küçük tuş, altta sayfa gerçek boyutunda */
   .ust-tel{display:none}
   @media (max-width:760px){
     .duzen{display:block}
-    aside,header,.alt{display:none}
+    header,.alt{display:none}
     .ust-tel{display:flex;gap:6px;align-items:center;height:40px;padding:0 10px;padding-top:env(safe-area-inset-top);box-sizing:content-box}
     .ust-tel button{border:0;border-radius:8px;background:var(--cizgi);color:var(--soluk);font-size:12px;font-weight:700;padding:5px 11px;cursor:pointer}
     .ust-tel button[aria-pressed="true"]{background:var(--yesil);color:#fff}
@@ -141,12 +119,6 @@
     </nav>
   </div>
 
-  <aside aria-labelledby="ypBaslik">
-    <h2 id="ypBaslik">Yapılacaklar</h2>
-    <div class="durum" id="ypDurum"></div>
-    <form id="ypForm"><input type="text" id="ypYeni" placeholder="Yeni madde yazın" aria-label="Yeni madde" maxlength="300" autocomplete="off"><button type="submit">Ekle</button></form>
-    <ul id="ypListe"></ul>
-  </aside>
 </div>
 
 <script>
@@ -223,46 +195,6 @@
   if (telefonEkrani.addEventListener) telefonEkrani.addEventListener("change", uygula);
   uygula();
 
-  /* Yapılacaklar: ortak Google E-Tablo linki varsa o gömülür (herkes yazar);
-     yoksa liste yalnız bu tarayıcıda saklanır. Tablo: "Linke sahip herkes · Düzenleyen". */
-  var TABLO = "";
-  if (TABLO) {
-    var aside = document.querySelector("aside");
-    aside.querySelector("form").remove(); aside.querySelector("ul").remove();
-    document.getElementById("ypDurum").textContent = "Herkes ekleyebilir; satır satır yazın.";
-    var kutu = document.createElement("div"); kutu.className = "tablo";
-    var fr = document.createElement("iframe"); fr.title = "Yapılacaklar tablosu";
-    fr.src = TABLO.replace(/\/edit.*$/, "") + "/edit?rm=minimal";
-    var ac = document.createElement("a"); ac.href = TABLO; ac.target = "_blank"; ac.rel = "noopener"; ac.textContent = "Tabloyu ayrı aç ↗";
-    kutu.appendChild(fr); kutu.appendChild(ac); aside.appendChild(kutu);
-    return;
-  }
-  var Depo = {
-    oku: function () { try { return JSON.parse(localStorage.getItem("ty-yapilacaklar") || "[]"); } catch (e) { return []; } },
-    yaz: function (liste) { try { localStorage.setItem("ty-yapilacaklar", JSON.stringify(liste)); return true; } catch (e) { return false; } }
-  };
-  var liste = Depo.oku(), ul = document.getElementById("ypListe"), durum = document.getElementById("ypDurum");
-  durum.textContent = "Şimdilik yalnız bu tarayıcıda kaydediliyor.";
-  function ciz() {
-    ul.textContent = "";
-    if (!liste.length) { var b = document.createElement("li"); b.className = "bos"; b.textContent = "Henüz madde yok."; ul.appendChild(b); return; }
-    liste.forEach(function (md) {
-      var li = document.createElement("li"); if (md.bitti) li.className = "bitti";
-      var cb = document.createElement("input"); cb.type = "checkbox"; cb.checked = !!md.bitti; cb.setAttribute("aria-label", "Tamamlandı: " + md.metin);
-      cb.addEventListener("change", function () { md.bitti = cb.checked; Depo.yaz(liste); ciz(); });
-      var sp = document.createElement("span"); sp.textContent = md.metin;
-      var sil = document.createElement("button"); sil.type = "button"; sil.className = "sil"; sil.textContent = "×"; sil.setAttribute("aria-label", "Sil: " + md.metin);
-      sil.addEventListener("click", function () { liste = liste.filter(function (x) { return x.id !== md.id; }); Depo.yaz(liste); ciz(); });
-      li.appendChild(cb); li.appendChild(sp); li.appendChild(sil); ul.appendChild(li);
-    });
-  }
-  document.getElementById("ypForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-    var inp = document.getElementById("ypYeni"), t = inp.value.trim(); if (!t) return;
-    liste.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), metin: t, bitti: false });
-    Depo.yaz(liste); inp.value = ""; ciz();
-  });
-  ciz();
 })();
 </script>
 </body>

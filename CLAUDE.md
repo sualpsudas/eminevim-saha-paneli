@@ -223,12 +223,10 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 
 Yayın: GitHub Pages `master` dalından → https://sualpsudas.github.io/eminevim-saha-paneli/ (depo public; kullanıcı izinli).
 Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/eminevim-saha-paneli/linkler.html — yeni sayfa eklenince güncelle.
+**Çalışma sayfası** (ekibin kullandığı ad): https://sualpsudas.github.io/eminevim-saha-paneli/linkler.html#web-bilgisayar; görev takip sayfasından da bağlantı verilir.
 - Telefonda: yalnız sol üstte küçük "Uyg / Web" tuşları, sayfa gerçek boyutunda tam ekran.
-- Bilgisayarda: iPhone 15 çerçevesi (393×852); uygulamanın bilgisayar görünümü YOK, Telefon/Bilgisayar seçimi yalnız Web'de;
-  sağda "Yapılacaklar" paneli. Adreslenebilir: `#uygulama-telefon`, `#web-telefon`, `#web-bilgisayar`.
-- Yapılacaklar ortak olacak: kullanıcı Google E-Tablo açıp "Bağlantıya sahip herkes · Düzenleyen" linkini verecek →
-  `linkler.html` içinde `var TABLO = ""` doldurulur, panel tabloyu gömer. Link gelene kadar liste yalnız tarayıcıda (localStorage).
-  (Drive bağlayıcısının yazma izni yok; üyeliksiz dış JSON servisleri denenmedi/çalışmadı — kullanıcı Google E-Tablo'yu seçti.)
+- Bilgisayarda: iPhone 15 çerçevesi (393×852); uygulamanın bilgisayar görünümü YOK, Telefon/Bilgisayar seçimi yalnız Web'de.
+  Yapılacaklar paneli 2026-11-04 kaldırıldı (görev takibi `gorev-takip`te). Adreslenebilir: `#uygulama-telefon`, `#web-telefon`, `#web-bilgisayar`.
 
 ## Kararlar (2026-10-20 / 21)
 - Proje adı Tasarruf Yanımda; amaç 2026-10-22'de değişti (yukarıdaki "Amaç"; eskiden cumartesi yığılmasını yaymak). Müşteriye uygulama indirtilmez, önce **web**.
@@ -287,7 +285,6 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
     Takip sayfası yayını ayrıca onay ister (`gorev-takip\CLAUDE.md`).
 - **"Talep" yerine "çağrı" (kullanıcı kararı 2026-11-03):** müşteri ve personel ekranlarındaki görünen yazılar, web formu ve
   senaryo sayfası da "çağrı"ya geçecek (kod adları değişmez). Henüz uygulanmadı.
-- Google E-Tablo linki (yukarıda) → yapılacaklar ortak hâle gelsin.
 - iPhone (TestFlight) derlemesi yapılmadı; web hâli güncel. Codemagic ile yeni derleme gerekiyor (`IOS_TESTFLIGHT.md`).
 - Finansmanlarım rakamları için Eminevim uyum/hukuk onayı.
 - Klasör/depo adı eski (eminevim-saas / eminevim-saha-paneli) — yeniden adlandırma kararı verilmedi (Pages adresi değişir).
