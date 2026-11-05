@@ -8,6 +8,7 @@ Gerekenler: Playwright (Chrome), imageio-ffmpeg, numpy (müzik için).
   python video/kaydet.py --kare 12 40.5     → yalnız o saniyelerin PNG'leri (video/onizleme/)
   python video/kaydet.py --yan              → yan video (pilot bölge / yol haritası yok): video/tasarruf-yanimda-tanitim-kisa.mp4
   python video/kaydet.py --ses [--yan]      → görüntü aynen, yalnız ses yeniden (birkaç dakika)
+  python video/kaydet.py --seslendiren ses-ahmet --cikti video/x.mp4  → video/ses-ahmet/ sesleriyle (önce: python video/ses_bol.py)
 """
 import argparse
 import pathlib
@@ -26,6 +27,7 @@ ap.add_argument("--kare", nargs="*", type=float, help="yalnız bu saniyelerin g�
 ap.add_argument("--cikti")
 ap.add_argument("--yan", action="store_true", help="pilot bölgesiz yan video")
 ap.add_argument("--ses", action="store_true", help="görüntüyü yeniden üretme; mevcut videonun sesini yeniden kur")
+ap.add_argument("--seslendiren", default="ses", help="seslerin klasörü (video/ altında)")
 arg = ap.parse_args()
 arg.cikti = arg.cikti or str(KLASOR / ("tasarruf-yanimda-tanitim-kisa.mp4" if arg.yan else "tasarruf-yanimda-tanitim.mp4"))
 FF = imageio_ffmpeg.get_ffmpeg_exe()
@@ -39,7 +41,7 @@ def zaman(t):
 with sync_playwright() as p:
     tarayici = p.chromium.launch(channel="chrome")
     sayfa = tarayici.new_page(viewport={"width": 1920, "height": 1080})
-    sayfa.goto((KLASOR / "tanitim.html").as_uri() + "?kayit=1" + ("&yan=1" if arg.yan else ""))
+    sayfa.goto((KLASOR / "tanitim.html").as_uri() + "?kayit=1" + ("&yan=1" if arg.yan else "") + f"&ses={arg.seslendiren}")
     sayfa.evaluate("Promise.all([...document.images].map(i => i.decode().catch(() => {})))")
     sure = sayfa.evaluate("SURE")
     plan = sayfa.evaluate("SES_PLAN")
@@ -56,7 +58,7 @@ with sync_playwright() as p:
         tarayici.close()
         sys.exit()
 
-    gecici = KLASOR / ("_goruntu_yan.mp4" if arg.yan else "_goruntu.mp4")
+    gecici = KLASOR / (f"_goruntu_{arg.seslendiren}.mp4" if arg.seslendiren != "ses" else "_goruntu_yan.mp4" if arg.yan else "_goruntu.mp4")
     if arg.ses:   # görüntü değişmediyse: mevcut videonun görüntü izi aynen kullanılır, yalnız ses yeniden kurulur
         subprocess.run([FF, "-y", "-loglevel", "error", "-i", arg.cikti, "-map", "0:v", "-c", "copy", str(gecici)], check=True)
     else:
@@ -81,16 +83,16 @@ srt = pathlib.Path(arg.cikti).with_suffix(".srt")
 srt.write_text("\n".join(f"{i + 1}\n{zaman(x['t'])} --> {zaman(x['son'])}\n{x['metin']}\n" for i, x in enumerate(altyazi)), encoding="utf-8")
 
 # müzik
-subprocess.run([sys.executable, str(KLASOR / "muzik_uret.py"), f"{sure + 1:.1f}"], check=True)
+subprocess.run([sys.executable, str(KLASOR / "muzik_uret.py"), f"{sure + 1:.1f}", arg.seslendiren], check=True)
 
 # birleştirme: görüntü + konuşma parçaları (yerinde) + müzik + altyazı izi
 girdi = ["-i", str(gecici)]
 filtre = []
 for k, x in enumerate(plan):
-    girdi += ["-i", str(KLASOR / "ses" / f"{x['id']}.mp3")]
+    girdi += ["-i", str(KLASOR / arg.seslendiren / f"{x['id']}.mp3")]
     filtre.append(f"[{k + 1}:a]aresample=44100,adelay={int(x['t'] * 1000)}:all=1[s{k}]")
 m = len(plan) + 1
-girdi += ["-i", str(KLASOR / "ses" / "muzik.wav"), "-i", str(srt)]
+girdi += ["-i", str(KLASOR / arg.seslendiren / "muzik.wav"), "-i", str(srt)]
 # müzik konuşmanın altında kısık; sessiz kapanışta hafifçe yükselir
 filtre.append(f"[{m}:a]aresample=44100,volume='{MUZIK_SES}+0.17*min(1,max(0,(t-{kapanis:.2f})/1.5))':eval=frame[muz]")
 # konuşma tek izde; müzik konuşma sırasında kısılır (sidechain), sonra telefon/web için standart ses düzeyi (-16 LUFS)

@@ -207,7 +207,8 @@
 </div>
 <div id="duraklat"></div>
 
-<script src="ses/plan.js"></script>
+<script>/* ?ses=ses-ahmet → o seslendirmenin planı (kaydet.py --seslendiren) */
+document.write('<script src="' + (new URLSearchParams(location.search).get("ses") || "ses") + '/plan.js"><\/script>');</script>
 <script src="kareler/vurgu.js"></script>
 <script src="izo.js"></script>
 <script>

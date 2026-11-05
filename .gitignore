@@ -12,6 +12,6 @@ www/
 rapor/arastirma-gorselleri/
 video/onizleme/
 video/_goruntu.mp4
-video/_goruntu_yan.mp4
+video/_goruntu_*.mp4
 video/_kayit_*.log
-video/ses/muzik.wav
+video/ses*/muzik.wav

@@ -59,3 +59,9 @@
   ilçe sınırları Nominatim. Gerekenler conda `video` ortamında (playwright, imageio-ffmpeg, edge-tts, numpy, pillow; 2026-10-24 kuruldu):
   `%LOCALAPPDATA%\miniconda3\envs\video\python.exe video/kaydet.py` (50 kare/sn PNG → ~45-60 dk sürer; `--kare 12 40.5` hızlı önizleme). Videoyu her güncellemede
   linkler.html'deki `?v=N`'i artır (telefon eski kopyayı gösteriyordu). Müşteriye yönelik reklam videosu kapsam dışı.
+
+## ElevenLabs sesli sürümler (2026-11-05)
+Ana videonun iki ek sürümü: `tasarruf-yanimda-tanitim-kadin.mp4` (Nazlı Yeni) ve `-erkek.mp4` (Ahmet), linkler.html `?v=N`. Eski ses (`ses/`) ve eski videolar aynen duruyor; pilot bölgesiz sürüm bu seslerle güncellenmedi (kullanıcı istemedi).
+- Ayarlar: Eleven v4, Stability %50, Similarity %75, Turkish; site üzerinden tek parça üretildi, kaynak: OneDrive `Eminevim\AlternatifSatisKanali\Belgeler\sesler`. Etiketli metin `METIN` ile aynı kelimeler (altyazı `METIN`'den).
+- Bölme: Whisper (faster-whisper medium, word_timestamps) → `kelime_ham.json`; `python video/ses_bol.py <mp3> <json> ses-ahmet` → `video/ses-ahmet/` 11 parça + plan.js.
+- Kayıt: `python video/kaydet.py --seslendiren ses-ahmet --cikti video/tasarruf-yanimda-tanitim-erkek.mp4` (iki kayıt aynı anda ~35 dk).

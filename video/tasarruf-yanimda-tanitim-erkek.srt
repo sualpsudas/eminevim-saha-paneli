@@ -1,0 +1,83 @@
+1
+00:00:02,800 --> 00:00:09,380
+Yeni projemiz Tasarruf Yanımda, müşterilerimizle saha ekibimiz arasında yeni bir iletişim kanalı açıyor.
+
+2
+00:00:12,310 --> 00:00:19,210
+Bugün Alternatif Satış Kanalı'nda Saha Portföy Yöneticileri kapı kapı dolaşır ve aday müşterileri kendileri bulur.
+
+3
+00:00:22,060 --> 00:00:24,130
+İlk adımı çoğunlukla biz atarız.
+
+4
+00:00:24,180 --> 00:00:28,130
+Görüşmek isteyen müşterinin doğrudan temsilci çağırabileceği bir kanal yok.
+
+5
+00:00:28,180 --> 00:00:32,520
+Hafta içi çalışan biri için yüz yüze görüşme de çoğu zaman cumartesiye kalıyor.
+
+6
+00:00:35,470 --> 00:00:37,380
+Bu kez ilk adımı müşteri atıyor.
+
+7
+00:00:37,430 --> 00:00:41,340
+Tasarruf Yanımda bu düzene ikinci bir temas yolu ekleyecek:
+
+8
+00:00:41,390 --> 00:00:47,340
+saha ziyaretleri sürerken, uygulamadan gelen çağrıları bölgedeki Saha Portföy Yöneticileri karşılayacak.
+
+9
+00:00:48,190 --> 00:00:54,250
+Müşteri telefon numarasıyla kaydolup haritadan yerini işaretler, uygun gün ve saati kendisi seçer.
+
+10
+00:00:56,280 --> 00:01:00,110
+Çağrı, bölgedeki Saha Portföy Yöneticisinin tabletine iletilir;
+
+11
+00:01:00,160 --> 00:01:04,340
+kabul edildiğinde temsilcinin adı ve kesin saat uygulamada görünür.
+
+12
+00:01:06,350 --> 00:01:10,220
+Beklerken Finansman Aracı'yla ihtiyacını ve bütçesini belirleyebilecek;
+
+13
+00:01:10,270 --> 00:01:13,950
+temsilci de görüşmeye bu ön bilgiyle hazırlıklı gidecek.
+
+14
+00:01:15,960 --> 00:01:18,690
+Ziyaret günü temsilci haritadan izlenebilir;
+
+15
+00:01:18,740 --> 00:01:23,640
+kapıda kimliği QR kodla doğrulanır, görüşmenin yazılı özeti de telefonda kalır.
+
+16
+00:01:27,800 --> 00:01:30,990
+Proje önce belirlenecek bir pilot bölgede başlayacak;
+
+17
+00:01:31,040 --> 00:01:35,130
+çağrı sayısı, yanıt süresi ve gerçekleşen görüşmeler izlenecek.
+
+18
+00:01:35,180 --> 00:01:39,370
+Sonuçlara göre hizmet alanını uygun görülen ilçelere genişletmek mümkün.
+
+19
+00:01:42,320 --> 00:01:44,910
+Böylece iletişim çift yönlü hâle gelir;
+
+20
+00:01:44,960 --> 00:01:48,680
+her çağrı, ön bilgisiyle birlikte bize ek veri de kazandırır.
+
+21
+00:01:49,430 --> 00:01:54,750
+Önceliği bizi çağırana vermek, saha gücümüzü doğru yere yönlendirmeyi kolaylaştırır.

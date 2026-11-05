@@ -52,7 +52,7 @@ karisim = pad * 0.5 + arp * 0.32
 karisim *= np.clip(t / 2.5, 0, 1) * np.clip((SURE - t) / 4, 0, 1)
 karisim = karisim / np.max(np.abs(karisim)) * 0.5
 
-hedef = pathlib.Path(__file__).resolve().parent / "ses" / "muzik.wav"
+hedef = pathlib.Path(__file__).resolve().parent / (sys.argv[2] if len(sys.argv) > 2 else "ses") / "muzik.wav"
 with wave.open(str(hedef), "wb") as w:
     w.setnchannels(1)
     w.setsampwidth(2)
