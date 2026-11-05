@@ -1,6 +1,6 @@
 # Taslaklar
 
-Sunuma eklenebilir ekran taslakları (tıklanmaz, yalnızca görünüm). Yeni taslak için kurallar: kökteki `CLAUDE.md` →
+Sunuma eklenebilir ekran taslakları (tıklanmaz, yalnızca görünüm). Yeni taslak için kurallar: kökteki `URUN_KURALLARI.md` →
 "Taslak isteği gelirse".
 
 | Taslak | Ne gösterir | Link |
