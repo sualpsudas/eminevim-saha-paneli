@@ -33,4 +33,4 @@ Bu nedenle “cumartesi satışı yüksek” bilgisi, tek başına “müşteri 
 
 ## Yeni projenin başlangıç noktası
 
-Mevcut ekibin müşteriyi bulma faaliyetine, müşterinin de kendi isteğiyle saha ekibine ulaşabildiği bir talep kanalı eklemek.
+Mevcut ekibin müşteriyi bulma faaliyetine, müşterinin de kendi isteğiyle saha ekibine ulaşabildiği bir çağrı kanalı eklemek.

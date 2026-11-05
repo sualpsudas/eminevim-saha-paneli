@@ -4,11 +4,11 @@ Tarih: 22 Ekim 2026. Durum: kullanıcıyla konuşarak oturtulan amaç iskeleti v
 
 ## İlke
 
-**Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğer çalışanlarımız sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.**
+**Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğer çalışanlarımız sahadaki çalışmalarını sürdürür. Bu dağılım gelen çağrılara göre ayarlanır.**
 
 Kısa anlatım: **Bizi çağırana önce biz gideriz.**
 
-Herkesin çalışma düzeni değişmez; talebe ne kadar kaynak ayrılacağı bir kaynak yönetimi kararıdır. Ayrıntı: [08 — Kaynak yönetimi](08-kaynak-yonetimi.md).
+Herkesin çalışma düzeni değişmez; çağrıya ne kadar kaynak ayrılacağı bir kaynak yönetimi kararıdır. Ayrıntı: [08 — Kaynak yönetimi](08-kaynak-yonetimi.md).
 
 ## Bugün nasıl işliyor?
 
@@ -16,26 +16,26 @@ Saha ekibi müşteriyi kendisi buluyor: kapı kapı ziyaret, stant gibi çalış
 
 ## Ne değişiyor?
 
-Görüşmek isteyen müşteri de süreci başlatabilecek. Web sitesinden veya uygulamadan temsilci isteyecek; talebi ilgili saha ekibine iletilecek ve uygun yer ve zamanda yüz yüze görüşmeye dönüşecek.
+Görüşmek isteyen müşteri de süreci başlatabilecek. Web sitesinden veya uygulamadan SPY çağıracak; çağrısı ilgili SPY'lere iletilecek ve uygun yer ve zamanda yüz yüze görüşmeye dönüşecek.
 
 Saha çalışması kaldırılmaz; saha gücü ikiye paylaştırılır:
 
-1. Talebe ayrılan çalışanlar gelen talepleri zamanında karşılar. Randevu olmayan saatlerde onlar da sahada çalışır.
+1. Aktif SPY'ler gelen çağrıları zamanında karşılar. Randevu olmayan saatlerde onlar da sahada çalışır.
 2. Diğer çalışanlar bugünkü gibi sahada çalışmaya devam eder.
-3. Talep arttıkça talebe ayrılan pay büyür, azaldıkça küçülür.
+3. Çağrı arttıkça çağrıya ayrılan pay büyür, azaldıkça küçülür.
 
 | Boyut | Bugün | Tasarruf Yanımda ile |
 |---|---|---|
 | İlk temas | Ekip müşteriyi bulur | Müşteri de ekibi çağırabilir |
-| Ekibin önceliği | Herkes sahada yeni müşteri bulur | Bir bölüm gelen talebi karşılar, diğerleri sahada çalışır |
+| Ekibin önceliği | Herkes sahada yeni müşteri bulur | Aktif SPY'ler gelen çağrıları karşılar, diğerleri sahada çalışır |
 | Görüşme | Anında veya randevuyla | Müşterinin seçtiği yer ve saatte |
-| Satış fırsatı | Saha çalışmasıyla oluşur | Saha çalışmasına müşteri talepleri eklenir |
+| Satış fırsatı | Saha çalışmasıyla oluşur | Saha çalışmasına müşteri çağrıları eklenir |
 
 ## Gerekçe
 
 Görüşmek isteyen müşteriye zamanında ulaşmak, ilgisi olmayan kişiyi ikna etmeye çalışmaktan daha verimlidir. Ekibimizin zamanı, sonuca dönüşme ihtimali yüksek görüşmelere öncelikle ayrılır.
 
-> Bu gerekçe şu aşamada bir **varsayımdır**; pilotta ölçülerek doğrulanacaktır.
+> Bu gerekçe şu aşamada bir **varsayımdır**; pilot bölge denemesinde ölçülerek doğrulanacaktır.
 
 ## Açıklayıcı örnek
 
@@ -47,11 +47,11 @@ Bu örnek yalnızca çalışma sırasını anlatır. Anında personel gönderme,
 
 | Unsur | Açıklama |
 |---|---|
-| **Bulunabilirlik** | Müşteri hizmetten haberdar olur ve temsilciyi nereden çağıracağını bilir. Bu, talep yaratmak değil; var olan talebin bize ulaşmasıdır. |
-| **Kolay talep** | Müşteri web sitesinden veya uygulamadan kısa sürede temsilci isteyebilir. |
-| **Zamanında dönüş** | Her talep sahiplenilir ve belirlenen süre içinde yanıtlanır. Geciken talep, yakalanmış fırsatı kaybettirir. |
-| **Kaynak yönetimi** | Talebe ne kadar çalışan ayrılacağı talebe göre ayarlanır; talepler bölgeye, saate ve temsilcinin uygunluğuna göre atanır. Karşılanamayan talep telefonla görüşmeye veya şubeye yönlendirilir. |
-| **Güven** | Müşteri kimin geleceğini önceden bilir, temsilciyi görüşmede doğrulayabilir ve görüşmeden sonra iletişimi sürdürür. |
+| **Bulunabilirlik** | Müşteri hizmetten haberdar olur ve SPY'yi nereden çağıracağını bilir. Bu, yeni müşteri aramak değil; görüşmek isteyen müşterinin bize ulaşmasıdır. |
+| **Kolay çağrı** | Müşteri web sitesinden veya uygulamadan kısa sürede SPY çağırabilir. |
+| **Zamanında dönüş** | Her çağrı sahiplenilir ve belirlenen süre içinde yanıtlanır. Geciken çağrı, yakalanmış fırsatı kaybettirir. |
+| **Kaynak yönetimi** | Çağrılara ne kadar SPY ayrılacağı gelen çağrılara göre ayarlanır. Atamada ilk ölçüt başarıdır; yöntemin geri kalanı sonra belirlenecek. Karşılanamayan çağrı telefonla görüşmeye veya şubeye yönlendirilir. |
+| **Güven** | Müşteri kimin geleceğini önceden bilir, SPY'yi görüşmede doğrulayabilir ve görüşmeden sonra iletişimi sürdürür. |
 
 Web sitesi ve uygulama bu unsurların araçlarıdır; dijitalleşme projenin amacı değildir.
 
@@ -59,10 +59,10 @@ Web sitesi ve uygulama bu unsurların araçlarıdır; dijitalleşme projenin ama
 
 | Ölçü | Ne gösterir? |
 |---|---|
-| **Temsilci saati başına görüşme ve satış** (ana ölçü) | Gelen taleplerle yapılan çalışmanın saha çalışmasından daha verimli olup olmadığı |
-| Talebe ilk dönüş süresi | Talebe zamanında yetişilip yetişilmediği |
-| Talep → görüşme → satış oranları | Taleplerin gerçek görüşmeye ve satışa dönüşüp dönüşmediği |
-| Karşılanamayan talep oranı | Ekip sayısı veya hizmet bölgesinin yetip yetmediği |
+| **SPY saati başına görüşme ve satış** (ana ölçü) | Gelen çağrılarla yapılan çalışmanın saha çalışmasından daha verimli olup olmadığı |
+| Çağrıya ilk dönüş süresi | Çağrıya zamanında yetişilip yetişilmediği |
+| Çağrı → görüşme → satış oranları | Çağrıların gerçek görüşmeye ve satışa dönüşüp dönüşmediği |
+| Karşılanamayan çağrı oranı | Ekip sayısı veya hizmet bölgesinin yetip yetmediği |
 | Bölgenin toplam satışı | Satışların gerçekten artması mı, yoksa başka kanaldan bu kanala geçmesi mi |
 
 Bugün saha görüşmelerinin satışa dönüşme oranı bilinmiyor. Karşılaştırma için önce bu başlangıç değeri ölçülmelidir.
@@ -71,13 +71,13 @@ Bugün saha görüşmelerinin satışa dönüşme oranı bilinmiyor. Karşılaş
 
 - **Yol süresi:** Müşterinin seçtiği yer ve saat, ekibin bölgede toplu çalışmasını bozabilir. Hizmet bölgesi ve saat kuralları bu nedenle başından tanımlanmalıdır.
 - **Satışın sahipliği:** Şubeye gidecek bir müşteri bu kanaldan gelirse satışın kime yazılacağı önceden belirlenmelidir.
-- **Anlatım:** Yönetime "ilave satış" değil, "ekibimizin zamanını daha verimli kullanma" anlatılır. Satış artışı söz verilmez, pilotta ölçülür.
+- **Anlatım:** Yönetime "ilave satış" değil, "ekibimizin zamanını daha verimli kullanma" anlatılır. Satış artışı söz verilmez, pilot bölge denemesinde ölçülür.
 - **Cumartesi yoğunluğu** ana amaç değildir. Hafta içi görüşmelerin artması olası bir yan kazanımdır.
 
 ## Taslak müşteri akışı
 
-Hizmeti öğren → temsilci iste → temsilci atansın → yer ve saat netleşsin → yüz yüze görüş → sonraki adımı takip et.
+Hizmeti öğren → SPY çağır → SPY atansın → yer ve saat netleşsin → yüz yüze görüş → sonraki adımı takip et.
 
 ## Mevcut prototiple ilişki
 
-Proje notlarında başvuru, randevu, mesajlaşma, temsilci bilgisi, takip, QR/kod ve görüşme sonrası özet akışlarının prototipi bulunuyor. Bu, canlı hizmetin çalıştığı anlamına gelmez. Gerçek SMS, sunucuda kimlik doğrulama, canlı konum ve varış tahmini, kalıcı kayıt ve cihazlar arası eşitleme gibi parçalar henüz yoktur.
+Proje notlarında başvuru, randevu, mesajlaşma, SPY bilgisi, takip, QR/kod ve görüşme sonrası özet akışlarının prototipi bulunuyor. Bu, canlı hizmetin çalıştığı anlamına gelmez. Gerçek SMS, sunucuda kimlik doğrulama, canlı konum ve varış tahmini, kalıcı kayıt ve cihazlar arası eşitleme gibi parçalar henüz yoktur.

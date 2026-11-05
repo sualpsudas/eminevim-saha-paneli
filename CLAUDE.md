@@ -90,8 +90,12 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
     `gorev-takip\baslangic.json`'ı üretir. Taslak 1 `kaynak\eski-taslak1\`. Plana giren iki öneri: 3.9a ekran notları geldikçe parça parça;
     3.8'e 3.9a sonrası son kontrol. Video güncellemesi plana eklenmedi (kullanıcı istemedi). Belgelerde "ASK" kısaltması yok, tam ad yazılır.
     Takip sayfası yayını ayrıca onay ister (`gorev-takip\CLAUDE.md`).
-- **"Talep" yerine "çağrı" (kullanıcı kararı 2026-11-03):** müşteri ve personel ekranlarındaki görünen yazılar, web formu ve
-  senaryo sayfası da "çağrı"ya geçecek (kod adları değişmez). Henüz uygulanmadı.
+- **Ortak dil (kullanıcı kararı 2026-11-03):** talep → çağrı, temsilci → SPY, talep ekibi → aktif SPY'ler, ödül → teşvik, pilot → pilot bölge denemesi.
+  **Belgelerde uygulandı (2026-11-05):** 00 (Docs, md, site, PDF, Taslak 0.7), 01, 02, 05, 06, 07, 08, README, benzer-uygulamalar (yalnız bize dönük ders ve fikirler).
+  Bilerek değişmedi: 03 (dış araştırma metni), 04 ve kaynaklar (kayıt), 09, PROJE_ILERLEME (tarihçe), 08'de seçilmeyen modeller.
+  **Sonra yapılacak (görünen yazılar; kod adları değişmez):** uygulama `Eminevim Saha Paneli.dc.html`, web formu `web-basvuru/form_bolumu.html` (sonra `olustur.py`),
+  `senaryo.html`, `rota.html`, `konum-sec.html`, `map.html`, `video/tanitim.html` ve 4 video altyazısı (videolarda ses de "temsilci" diyor; yeniden seslendirme ister),
+  `URUN_KURALLARI.md` (ASK kısaltması, temsilci). Prototip takvimi hâlâ yarından başlıyor, aynı gün çağrısı yok.
 - iPhone (TestFlight) derlemesi yapılmadı; web hâli güncel. Codemagic ile yeni derleme gerekiyor (`IOS_TESTFLIGHT.md`).
 - Finansmanlarım rakamları için Eminevim uyum/hukuk onayı.
 - Klasör/depo adı eski (eminevim-saas / eminevim-saha-paneli) — yeniden adlandırma kararı verilmedi (Pages adresi değişir).

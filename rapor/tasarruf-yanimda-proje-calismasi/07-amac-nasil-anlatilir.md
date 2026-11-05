@@ -1,14 +1,14 @@
 # Tasarruf Yanımda — Amaç sorulduğunda nasıl anlatılır?
 
-Tarih: 22 Ekim 2026. Durum: kullanıcıyla oturtulan amaç iskeletinin ([02](02-proje-amaci-ve-kurumsal-anlatim.md)) kurumsal anlatımı. Sayısal iddia içermez; “olabilir” denen yerler pilotta ölçülecek varsayımlardır.
+Tarih: 22 Ekim 2026. Durum: kullanıcıyla oturtulan amaç iskeletinin ([02](02-proje-amaci-ve-kurumsal-anlatim.md)) kurumsal anlatımı. Sayısal iddia içermez; “olabilir” denen yerler pilot bölge denemesinde ölçülecek varsayımlardır.
 
 ## Tek cümle
 
-**Tasarruf Yanımda, saha gücümüzün bir bölümünü bizi çağıran müşteriye ayıran, geri kalanının sahadaki çalışmalarını sürdürdüğü ve bu dağılımı gelen talebe göre ayarlayan bir talep kanalıdır.**
+**Tasarruf Yanımda, saha gücümüzün bir bölümünü bizi çağıran müşteriye ayıran, geri kalanının sahadaki çalışmalarını sürdürdüğü ve bu dağılımı gelen çağrılara göre ayarlayan bir çağrı kanalıdır.**
 
 ## Otuz saniyelik cevap
 
-> Saha ekibimiz bugün müşteriyi kendisi buluyor; kapı kapı ziyaretler ve stantlarla teması hep biz başlatıyoruz. Oysa görüşmek isteyen ama bize nasıl ulaşacağını bilmeyen müşteriler de var. Tasarruf Yanımda ile bu müşteri, web sitesinden ya da uygulamadan temsilci çağırabilecek. Saha gücümüzün bir bölümünü bu taleplere ayıracağız, diğer çalışanlarımız sahada çalışmaya devam edecek; talep arttıkça bu payı büyüteceğiz. Çünkü görüşmek isteyen müşteriye zamanında ulaşmak, ilgisi henüz olmayan kişiyi ikna etmeye çalışmaktan daha verimli. Bunu pilotta temsilci saati başına görüşme ve satışla ölçeceğiz.
+> Saha ekibimiz bugün müşteriyi kendisi buluyor; kapı kapı ziyaretler ve stantlarla teması hep biz başlatıyoruz. Oysa görüşmek isteyen ama bize nasıl ulaşacağını bilmeyen müşteriler de var. Tasarruf Yanımda ile bu müşteri, web sitesinden ya da uygulamadan SPY çağırabilecek. Saha gücümüzün bir bölümünü bu çağrılara ayıracağız, diğer çalışanlarımız sahada çalışmaya devam edecek; çağrı arttıkça bu payı büyüteceğiz. Çünkü görüşmek isteyen müşteriye zamanında ulaşmak, ilgisi henüz olmayan kişiyi ikna etmeye çalışmaktan daha verimli. Bunu pilot bölge denemesinde SPY saati başına görüşme ve satışla ölçeceğiz.
 
 ## Katmanlı anlatım
 
@@ -22,7 +22,7 @@ Saha ekibimiz müşteriyi kendisi buluyor: kapı kapı ziyaretler, stantlar ve b
 
 ### 3. İlk çıkış noktası: cumartesi
 
-Projenin ilk çıkış noktası bir gözlemdi: satışlarımız hem şubelerde hem sahada en çok cumartesi gerçekleşiyor. İlk fikrimiz, hafta içi çalışan müşterinin cumartesiye sıkıştığı ve temsilci ona hafta içi uygun bir saatte giderse bu yükün dağılacağıydı.
+Projenin ilk çıkış noktası bir gözlemdi: satışlarımız hem şubelerde hem sahada en çok cumartesi gerçekleşiyor. İlk fikrimiz, hafta içi çalışan müşterinin cumartesiye sıkıştığı ve SPY ona hafta içi uygun bir saatte giderse bu yükün dağılacağıydı.
 
 Fikri geliştirirken asıl meselenin gün olmadığını gördük. Asıl mesele, **temasın kimden başladığı**. Görüşmek isteyen müşterinin bize doğrudan ulaşabileceği bir yol yok: ya şubeye gitmek için uygun bir gün bekliyor ya da saha ekibiyle karşılaşmayı. Cumartesi yoğunluğu, bu durumun sonuçlarından biri **olabilir**; ama tek nedeni olduğunu henüz bilmiyoruz.
 
@@ -30,21 +30,21 @@ Bu yüzden cumartesi projenin hedefi değil, takip ettiğimiz bir göstergesi.
 
 ### 4. Tasarruf Yanımda ne getiriyor?
 
-Müşteriye **temsilci çağırma** imkânı. Görüşmek isteyen müşteri web sitesinden ya da uygulamadan temsilci ister, yer ve saati seçer. Talep ilgili ekibe iletilir, temsilci belirlenen yer ve saatte müşteriyle yüz yüze görüşür. Müşteri kimin geleceğini önceden bilir, görüşme günü temsilcinin yolda olduğunu görür ve temsilciyi görüşmede doğrulayabilir.
+Müşteriye **SPY çağırma** imkânı. Görüşmek isteyen müşteri web sitesinden ya da uygulamadan SPY çağırır, yer ve saati seçer. Çağrı ilgili ekibe iletilir, SPY belirlenen yer ve saatte müşteriyle yüz yüze görüşür. Müşteri kimin geleceğini önceden bilir, görüşme günü SPY'nin yolda olduğunu görür ve SPY'yi görüşmede doğrulayabilir.
 
 ### 5. Çalışma ilkesi
 
-**Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğer çalışanlarımız sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.**
+**Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğer çalışanlarımız sahadaki çalışmalarını sürdürür. Bu dağılım gelen çağrılara göre ayarlanır.**
 
-Bu bir kaynak yönetimi kararıdır. Herkesin çalışma düzeni değişmez. Ekibin ayrılmış bir bölümü (**talep ekibi**) gelen talepleri karşılar; aynı gün gelen talepler de bu ekibe yönlendirilir. Böylece saha ekibi işini bölmeden çalışmaya devam eder.
+Bu bir kaynak yönetimi kararıdır. Herkesin çalışma düzeni değişmez. Çağrıları Tasarruf Yanımda'da aktif SPY'ler karşılar; aynı gün gelen çağrılar da onlara yönlendirilir. Böylece diğer SPY'ler işlerini bölmeden çalışmaya devam eder.
 
-Talep az olursa ayrılan pay küçülür ve ekip bugünkü gibi çalışır. Bu yüzden proje, mevcut satış gücünü riske atmadan denenebilir. Ayrıntı: [08 — Kaynak yönetimi](08-kaynak-yonetimi.md).
+Çağrı az olursa ayrılan pay küçülür ve ekip bugünkü gibi çalışır. Bu yüzden proje sınırlı riskle denenebilir; saha çalışmasının zayıflamadığı da pilot bölge denemesinde ölçülür. Ayrıntı: [08 — Kaynak yönetimi](08-kaynak-yonetimi.md).
 
 ### 6. Neden bu ilke?
 
-Talep yaratmak, var olan talebe yetişmekten daha zahmetlidir. Kendisi temsilci isteyen müşterinin görüşmeye ve satışa dönme ihtimali daha yüksek **olabilir**. Bu doğruysa ekibimizin aynı zamanda daha çok sonuç alması beklenir.
+Yeni müşteri aramak, var olan çağrıya yetişmekten daha zahmetlidir. Kendisi SPY çağıran müşterinin görüşmeye ve satışa dönme ihtimali daha yüksek **olabilir**. Bu doğruysa ekibimizin aynı zamanda daha çok sonuç alması beklenir.
 
-Bu, projenin dayandığı ana varsayımdır ve pilotta ölçülecektir.
+Bu, projenin dayandığı ana varsayımdır ve pilot bölge denemesinde ölçülecektir.
 
 ### 7. Sahanın amacıyla ilişkisi
 
@@ -62,16 +62,16 @@ Müşteri görüşme saatini kendisi seçebildiğinde, görüşmelerin bir kısm
 
 ### 9. Başarıyı nasıl ölçeceğiz?
 
-- **Ana ölçü:** Temsilci saati başına görüşme ve satış. Gelen talepler ile saha çalışması karşılaştırılır.
-- Talebe ilk dönüş süresi
-- Talep → görüşme → satış oranları
-- Karşılanamayan talep oranı: ekip veya hizmet bölgesi yetiyor mu?
+- **Ana ölçü:** SPY saati başına görüşme ve satış. Gelen çağrılar ile saha çalışması karşılaştırılır.
+- Çağrıya ilk dönüş süresi
+- Çağrı → görüşme → satış oranları
+- Karşılanamayan çağrı oranı: ekip veya hizmet bölgesi yetiyor mu?
 - Bölgenin toplam satışı: satış gerçekten artıyor mu, yoksa başka kanaldan bu kanala mı geçiyor?
 - Görüşme ve satışların gün dağılımı (cumartesi göstergesi)
 
 ### 10. Ne söz vermiyoruz?
 
-- Satış artışı söz verilmez; pilotta ölçülür.
+- Satış artışı söz verilmez; pilot bölge denemesinde ölçülür.
 - Her bölgeye ya da her saate hizmet söz verilmez; hizmet bölgesi ve kapasiteyle sınırlıdır.
 - Saha çalışması kaldırılmaz.
 
@@ -84,19 +84,19 @@ Hayır. Bu, saha ekibimizin çalışma biçimiyle ilgili bir proje. Web sitesi v
 Hedefimiz bu değil. Başlangıç noktamız buydu ama asıl meseleyi müşterinin bize ulaşamaması olarak tanımladık. Cumartesi dağılımını takip edeceğiz; değişirse yan kazanım olur.
 
 **“Satışları artıracak mı?”**
-Beklentimiz, ekibimizin aynı zamanda daha çok sonuç alması. Bunu söz olarak değil, pilotta ölçerek göstereceğiz.
+Beklentimiz, ekibimizin aynı zamanda daha çok sonuç alması. Bunu söz olarak değil, pilot bölge denemesinde ölçerek göstereceğiz.
 
-**“Talep gelmezse ne olur?”**
-Talebe ayrılan pay küçültülür; ekip bugünkü gibi sahada çalışmaya devam eder. Kayıp olmaz, yalnızca öğrenmiş oluruz.
+**“Çağrı gelmezse ne olur?”**
+Çağrıya ayrılan pay küçültülür; ekip bugünkü gibi sahada çalışmaya devam eder. Kayıp olmaz, yalnızca öğrenmiş oluruz.
 
-**“Herkes talebe mi gidecek?”**
-Hayır. Ekibin ayrılmış bir bölümü talepleri karşılar, diğerleri sahada çalışır. Talep arttıkça bu ekip büyütülür.
+**“Herkes çağrıya mı gidecek?”**
+Hayır. Aktif SPY'ler çağrıları karşılar, diğerleri sahada çalışır. Çağrı arttıkça aktif SPY sayısı artırılır.
 
-**“Talep ekibine en iyi temsilciler mi seçilecek?”**
-Evet, ilk aşamada. Müşterinin kendisinin bizi çağırdığı, satışa daha yakın görüşmeler başarılı personellerimiz için bir ödüldür; aynı zamanda müşterinin ilk deneyimini güçlü kılar. Sistemin sonra kimlere açılacağı pilot sonuçlarıyla değerlendirilecek. Sonucu doğru ölçmek için talep ekibini benzer başarıdaki saha çalışanlarıyla karşılaştırırız.
+**“Aktif SPY'ler en başarılılar arasından mı seçilecek?”**
+Evet, ilk aşamada. Müşterinin kendisinin bizi çağırdığı, satışa daha yakın görüşmeler başarılı SPY'lerimiz için bir teşviktir; aynı zamanda müşterinin ilk deneyimini güçlü kılar. Sistemin sonra kimlere açılacağı pilot bölge denemesinin sonuçlarıyla değerlendirilecek. Sonucu doğru ölçmek için aktif SPY'leri benzer başarıdaki meslektaşlarıyla karşılaştırırız.
 
 **“Reklam yapacak mıyız?”**
-Amacımız talep yaratmak değil, var olan talebin bize ulaşması. Müşterinin bu hizmetten haberdar olması gerekir; bunun yolları ayrıca planlanacak.
+Amacımız yeni müşteri aramak değil, görüşmek isteyen müşterinin bize ulaşması. Müşterinin bu hizmetten haberdar olması gerekir; bunun yolları ayrıca planlanacak.
 
 ## Sunum için saklanan cümleler
 

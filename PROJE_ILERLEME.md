@@ -543,3 +543,4 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 
 ## 2026-11-05
 - Tanıtım videosunun ElevenLabs sesli iki sürümü yayında: kadın (Nazlı Yeni) ve erkek (Ahmet). Eski video ve pilot bölgesiz sürüm değişmedi. Ayrıntı `video/OKUBENI.md`.
+- Belgelerde ortak dil uygulandı: çağrı, SPY, aktif SPY'ler, teşvik, pilot bölge denemesi. 08'de seçilen yönle çelişen nöbet düzeni ve sıralı dağıtım çıkarıldı. Proje Çerçevesi Taslak 0.7. Uygulama, web formu, senaryo ve video sonraya bırakıldı (`CLAUDE.md` → Açık işler).

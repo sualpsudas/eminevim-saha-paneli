@@ -1,8 +1,8 @@
 # Tasarruf Yanımda — Proje Çerçevesi
 
-Sahip birim: Alternatif Satış Kanalı · Taslak 0.6 · 23 Ekim 2026 · Asıl belge (paylaşılan sayfa): https://claude.ai/artifact/WBKdRt8hzNXjTymiJzqG9p — bu dosya o sayfanın kopyasıdır.
+Sahip birim: Alternatif Satış Kanalı · Taslak 0.7 · 5 Kasım 2026 · Asıl belge (paylaşılan sayfa): https://claude.ai/artifact/WBKdRt8hzNXjTymiJzqG9p — bu dosya o sayfanın kopyasıdır.
 
-Bu belge, Alternatif Satış Kanalı'nın Tasarruf Yanımda projesinin neden yapıldığını, neyi hedeflediğini ve hangi aşamalarla ilerleyeceğini anlatır. Taslak 0.6'dır: **sayılar değil, yön içerir.** Sayıları pilot bölge denemeleri verecek.
+Bu belge, Alternatif Satış Kanalı'nın Tasarruf Yanımda projesinin neden yapıldığını, neyi hedeflediğini ve hangi aşamalarla ilerleyeceğini anlatır. Taslak 0.7'dır: **sayılar değil, yön içerir.** Sayıları pilot bölge denemeleri verecek.
 
 ## 1. Arka plan
 
@@ -14,7 +14,7 @@ Alternatif Satış Kanalı, Eminevim'in sahadaki yüzüdür. Saha Portföy Yöne
 
 Alternatif Satış Kanalı olarak satışlarımız en çok cumartesi günleri gerçekleşir. Buradan yola çıkarak şunu düşündük: Hafta içi yüz yüze görüşme fırsatı bulamayan aday müşteriye bu fırsatı biz yaratabiliriz.
 
-Bu düşünce bizi projenin ana fikrine taşıdı: **Bugün sahada temas tek yönlüdür.** Müşteriyi bulan her zaman biziz; talebi ya da aklında bir sorusu olan müşterinin ise bizi çağırabileceği bir yol yoktur.
+Bu düşünce bizi projenin ana fikrine taşıdı: **Bugün sahada temas tek yönlüdür.** Müşteriyi bulan her zaman biziz; görüşme isteği ya da aklında bir sorusu olan müşterinin ise bizi çağırabileceği bir yol yoktur.
 
 **Müşteri bizi çağırabilmeli; biz de ona dilediği yerde ve saatte ulaşabilmeliyiz.**
 
@@ -22,9 +22,9 @@ Bu düşünce bizi projenin ana fikrine taşıdı: **Bugün sahada temas tek yö
 
 **Genel amacımız:** Sahada temasın iki yönlü olmasını sağlamak ve saha gücümüzü en çok sonuç alacağı yerde kullanmak.
 
-**Proje amacımız:** Görüşmek isteyen müşterinin bizi bulunduğu yere çağırabilmesi ve bu talebin, aynı gün dahil, zamanında karşılanması.
+**Proje amacımız:** Görüşmek isteyen müşterinin bizi bulunduğu yere çağırabilmesi ve bu çağrının, aynı gün dahil, zamanında karşılanması.
 
-**Çalışma ilkemiz:** Bizi çağırana önce biz gideriz. Gelen talepleri, Tasarruf Yanımda'da aktif olan SPY'ler karşılar (bu belgede kısaca **aktif SPY'ler**); diğerleri sahadaki çalışmalarını sürdürür. Bu dağılım gelen talebe göre ayarlanır.
+**Çalışma ilkemiz:** Bizi çağırana önce biz gideriz. Gelen çağrıları, Tasarruf Yanımda'da aktif olan SPY'ler karşılar (bu belgede kısaca **aktif SPY'ler**); diğerleri sahadaki çalışmalarını sürdürür. Bu dağılım gelen çağrılara göre ayarlanır.
 
 **Başarıya teşvik:** Bizi çağıran müşteriye ilk aşamada en başarılı SPY'ler gider. Müşterinin kendisinin çağırdığı, satışa daha yakın bu görüşmeler başarının teşvikidir; Tasarruf Yanımda'da aktif olmak da sahadaki herkes için ulaşılacak bir hedef hâline gelir. Bu yaklaşım ilk aşama içindir; fizibilite çalışmalarına ve pilot bölge denemelerine göre kanalın ağırlığı artırılabilir.
 
@@ -32,13 +32,13 @@ Bu düşünce bizi projenin ana fikrine taşıdı: **Bugün sahada temas tek yö
 
 Vadeler aşamalara bağlıdır: **kısa vade** Hazırlık ve pilot bölge denemesi, **orta vade** deneme sonu ve ilk yeni bölgeler, **uzun vade** Yaygınlaştırma sonrasıdır. Sayısal hedef konmaz; pilot bölge denemesinin ilk haftaları başlangıç değerini verir.
 
-### Kısa vade: İlk talep, ilk görüşme, ilk ölçüm
+### Kısa vade: İlk çağrı, ilk görüşme, ilk ölçüm
 
 *Çağrıyı mümkün kılmak; zamanında ve hazırlıklı karşılamak.*
 
-**1. Ulaşılabilir olmak.** Hizmet bölgemizde görüşmek isteyen her müşteri, web sitemizden ya da uygulamamızdan birkaç adımda bizi çağırabilmeli. *İzleme: gelen talep sayısı.*
+**1. Ulaşılabilir olmak.** Hizmet bölgemizde görüşmek isteyen her müşteri, web sitemizden ya da uygulamamızdan birkaç adımda bizi çağırabilmeli. *İzleme: gelen çağrı sayısı.*
 
-**2. Zamanında yetişmek.** Her talep sahiplenilmeli; aynı gün talepleri dahil, müşterinin beklediği zamanda karşılanmalı. *İzleme: ilk dönüş süresi, karşılanamayan talepler.*
+**2. Zamanında yetişmek.** Her çağrı sahiplenilmeli; aynı gün çağrıları dahil, müşterinin beklediği zamanda karşılanmalı. *İzleme: ilk dönüş süresi, karşılanamayan çağrılar.*
 
 **3. Hazırlıklı gitmek.** Müşteri görüşme saatini beklerken Finansman Aracı ile tercihlerini netleştirebilmeli; SPY görüşmeye bu tercihleri ve isteğe bağlı paylaşılan bilgileri (meslek gibi) bilerek gitmeli. *İzleme: görüşme öncesi Finansman Aracı'nı kullanan müşteri oranı, ön bilgisi olan görüşmeler.*
 
@@ -48,17 +48,17 @@ Vadeler aşamalara bağlıdır: **kısa vade** Hazırlık ve pilot bölge deneme
 
 *Çağrının sonuç verdiğini ve gücümüzü doğru kullandığımızı göstermek.*
 
-**5. Talebi sonuca taşımak.** Gelen talepler yüz yüze görüşmeye, görüşmeler satışa dönüşmeli. *İzleme: talep → görüşme → satış.*
+**5. Çağrıyı sonuca taşımak.** Gelen çağrılar yüz yüze görüşmeye, görüşmeler satışa dönüşmeli. *İzleme: çağrı → görüşme → satış.*
 
-**6. Gücümüzü doğru yere koymak.** Talep ile saha çalışması arasındaki dağılım, saha gücümüzden en yüksek verimi alacak şekilde kurulmalı. *İzleme: saat başına görüşme ve satış; aktif SPY'ler, benzer başarıdaki meslektaşlarıyla aynı dönemde karşılaştırılır.*
+**6. Gücümüzü doğru yere koymak.** Çağrılar ile saha çalışması arasındaki dağılım, saha gücümüzden en yüksek verimi alacak şekilde kurulmalı. *İzleme: saat başına görüşme ve satış; aktif SPY'ler, benzer başarıdaki meslektaşlarıyla aynı dönemde karşılaştırılır.*
 
 ### Uzun vade: “Çağırınca gelen” Eminevim
 
 *Çağrıyı Alternatif Satış Kanalı'nın kalıcı çalışma biçimine dönüştürmek.*
 
-**7. Kalıcı bir düzen kurmak.** Talep ile saha çalışması arasındaki dağılım, tüm bölgelerde gelen talebe göre yönetilen kalıcı bir çalışma biçimine dönüşmeli. *İzleme: talebe göre yönetilen bölge sayısı, bölgeler arasında sonuçların tutarlılığı.*
+**7. Kalıcı bir düzen kurmak.** Çağrılar ile saha çalışması arasındaki dağılım, tüm bölgelerde gelen çağrılara göre yönetilen kalıcı bir çalışma biçimine dönüşmeli. *İzleme: çağrılara göre yönetilen bölge sayısı, bölgeler arasında sonuçların tutarlılığı.*
 
-**8. Akla ilk gelen olmak.** Eminevim, müşterisinin zihninde çağırdığında yanına gelen kurum olarak yer etmeli. *İzleme: tekrar eden talepler, tavsiyeyle gelen müşteriler.*
+**8. Akla ilk gelen olmak.** Eminevim, müşterisinin zihninde çağırdığında yanına gelen kurum olarak yer etmeli. *İzleme: tekrar eden çağrılar, tavsiyeyle gelen müşteriler.*
 
 ## 5. Beklentiler ve sınırlar
 
@@ -79,18 +79,18 @@ Vadeler aşamalara bağlıdır: **kısa vade** Hazırlık ve pilot bölge deneme
 | **Görüşme zamanı** | Karşılaştığımız an ya da randevuyla | Müşterinin seçtiği gün ve saatte, aynı gün dahil |
 | **Müşterinin bildiği** | Kimin geleceğini görüşmede öğrenir | Kimin, ne zaman geleceğini önceden bilir |
 | **SPY'nin bildiği** | Müşteriyi görüşmede tanır | Finansman tercihlerini ve paylaşılan bilgileri önceden bilir |
-| **Bizim gördüğümüz** | Saha sonuçları | Talepten satışa her adım |
+| **Bizim gördüğümüz** | Saha sonuçları | Çağrıdan satışa her adım |
 
 ## 7. Çıktılar
 
 **Projenin sonunda elimizde altı somut şey olacak:**
 
 1. **Çağrı kanalı:** Müşterinin web sitemizden ya da uygulamamızdan bizi çağırabildiği, yer ve saat seçebildiği akış.
-2. **Atama düzeni:** Hangi talebe kimin, ne kadar sürede gideceğini belirleyen yazılı kurallar.
+2. **Atama düzeni:** Hangi çağrıya kimin, ne kadar sürede gideceğini belirleyen yazılı kurallar.
 3. **Saha ekranları:** Aktif SPY'lerin kendi işlerini, takım liderlerinin de ekiplerini izlediği ekranlar.
 4. **Görüşme öncesi ön bilgi:** Müşterinin Finansman Aracı ile netleştirdiği tercihler ve isteğe bağlı paylaştığı bilgiler (meslek gibi); görüşmeden önce SPY'ye ulaşır.
 5. **Güven adımları:** Müşterinin kendisine gelecek kişiyi önceden tanıdığı, görüşme günü takip ettiği ve kapıda doğruladığı adımlar.
-6. **Ölçüm raporu:** Talepten satışa her adımı tek bakışta gösteren rapor.
+6. **Ölçüm raporu:** Çağrıdan satışa her adımı tek bakışta gösteren rapor.
 
 ## 8. Kapsam
 
@@ -104,7 +104,7 @@ Vadeler aşamalara bağlıdır: **kısa vade** Hazırlık ve pilot bölge deneme
 
 1. **Bizi bekleyen müşteri var.** Bizimle görüşmek isteyen ama bize ulaşamayan aday müşteriler vardır.
 2. **Çağıran müşteri karara daha yakındır.** Bizi kendisi çağıran müşterinin satışa dönme ihtimali daha yüksektir. Bu varsayımın doğru olduğunu düşünüyoruz; Tasarruf Yanımda'da aktif olmanın bir teşvik sayılması da buna dayanır. Pilot bölge denemesi bunu teyit edecek.
-3. **Saha çalışmamız zayıflamaz.** Saha gücümüzün bir bölümü taleplere ayrıldığında kapı kapı çalışmalarımızın sonuçları belirgin şekilde düşmez.
+3. **Saha çalışmamız zayıflamaz.** Saha gücümüzün bir bölümü çağrılara ayrıldığında kapı kapı çalışmalarımızın sonuçları belirgin şekilde düşmez.
 
 Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pilot bölge denemesinin görevi, doğru olup olmadıklarını göstermektir.
 
@@ -132,7 +132,7 @@ Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pil
 
 *Sınırlı bir bölgede, gerçek müşteriyle deniyor ve her adımı ölçüyoruz.*
 
-- **Ne yapılır?** Aktif SPY'ler gelen talepleri karşılar, diğerleri bugünkü gibi çalışır. Sonuçlar, benzer başarıdaki meslektaşların sonuçlarıyla aynı dönemde yan yana izlenir. İlk haftalar başlangıç değerlerini verir. Aktif kadro her hafta gelen talebe göre gözden geçirilir.
+- **Ne yapılır?** Aktif SPY'ler gelen çağrıları karşılar, diğerleri bugünkü gibi çalışır. Sonuçlar, benzer başarıdaki meslektaşların sonuçlarıyla aynı dönemde yan yana izlenir. İlk haftalar başlangıç değerlerini verir. Aktif kadro her hafta gelen çağrılara göre gözden geçirilir.
 - **Ne teslim edilir?** Pilot bölge değerlendirme raporu.
 - **Karar sorusu:** *Aktif kadro, benzer başarıdaki meslektaşlarına göre saat başına daha çok sonuç aldı mı?*
 - **Olası kararlar:**
@@ -144,7 +144,7 @@ Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pil
 
 *Öğrendiklerimizle bölge bölge büyüyoruz.*
 
-- **Ne yapılır?** Yeni bölgeler kademeli olarak açılır. Kimlerin Tasarruf Yanımda'da aktif olacağı, pilot bölge denemelerinden çıkan sonuçlarla birlikte değerlendirilir. Her bölgede aktif kadronun büyüklüğü o bölgenin talebine göre belirlenir. Deneme sırasında yazılan kurallar güncellenir.
+- **Ne yapılır?** Yeni bölgeler kademeli olarak açılır. Kimlerin Tasarruf Yanımda'da aktif olacağı, pilot bölge denemelerinden çıkan sonuçlarla birlikte değerlendirilir. Her bölgede aktif kadronun büyüklüğü o bölgenin çağrı sayısına göre belirlenir. Deneme sırasında yazılan kurallar güncellenir.
 - **Ne teslim edilir?** Alternatif Satış Kanalı'nın kalıcı çalışma düzeni.
 - **Karar sorusu:** *Her yeni bölgede, pilot bölgede aldığımız sonucu tekrar alabiliyor muyuz?*
 
@@ -154,8 +154,8 @@ Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pil
 
 | Risk | Cevabımız |
 | --- | --- |
-| Beklediğimiz kadar talep gelmez | Aktif kadroyu küçültürüz; ekip arkadaşlarımız kapı kapı çalışmaya döner. Kayıp değil, öğrenme olur. |
-| Talebe geç kalırız | Taşan talebi takım lideri, o an uygun olan başka bir SPY'ye atar. |
+| Beklediğimiz kadar çağrı gelmez | Aktif kadroyu küçültürüz; ekip arkadaşlarımız kapı kapı çalışmaya döner. Kayıp değil, öğrenme olur. |
+| Çağrıya geç kalırız | Taşan çağrıyı takım lideri, o an uygun olan başka bir SPY'ye atar. |
 | Yolda geçen süre kazancı yer | Hizmet bölgesini daraltır, randevuları bölgeye göre gruplarız. |
 | Aktif kadroya seçim adil bulunmaz | Seçim ölçütlerini açıkça paylaşırız; Tasarruf Yanımda'da aktif olmayı herkesin ulaşabileceği bir hedef olarak tanımlarız. |
 | Çağıran müşteri beklendiği kadar satışa yakın çıkmaz, teşvikin değeri düşer | Pilot bölge denemesinde ilk ölçtüğümüz şey budur (Varsayım 2); sonuca göre aktif kadronun rolü yeniden değerlendirilir. |
@@ -170,7 +170,7 @@ Bunlar bugün kanıtlanmış gerçekler değil, sınanacak varsayımlardır. Pil
 
 1. Kaç SPY ile başlanacak; başarı hangi ölçütle belirlenecek?
 2. Atama hangi yöntemle yapılacak (yakınlık, uygunluk, sıra, performans puanı)?
-3. Aynı gün gelen bir talebe en geç ne kadar sürede dönülecek?
+3. Aynı gün gelen bir çağrıya en geç ne kadar sürede dönülecek?
 4. Görüşme öncesinde müşteriden hangi bilgiler isteğe bağlı olarak istenecek?
 5. Bu kanaldan gelen satış nasıl sayılacak?
 6. Pilot bölge denemesi nerede yapılacak, ne kadar sürecek?
