@@ -540,3 +540,6 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 ## 2026-11-04 · İş planı ve görev dağılımı yenilendi
 - Kullanıcı onayladı: 4 aşama + isteğe bağlı Sunum, 43 iş. Genel plan ve 4 kişi için görev PDF'leri OneDrive'da; görev takip listesi güncel.
 - Takip sayfası yayına alındı; bağlantı ekibe WhatsApp'tan verilir.
+
+## 2026-11-05
+- Tanıtım videosunun ElevenLabs sesli iki sürümü yayında: kadın (Nazlı Yeni) ve erkek (Ahmet). Eski video ve pilot bölgesiz sürüm değişmedi. Ayrıntı `video/OKUBENI.md`.
