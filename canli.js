@@ -98,6 +98,7 @@
     return "";
   }
   function pushBagla(spy, sor) {
+    // spy: SPY kimliği ya da müşteri için { musteri: tel, jeton } (girişte merkezin verdiği jeton)
     // sor=true yalnız bir dokunuşla çağrılır (iPhone izni ancak dokunuşla sorar)
     var engel = pushDestek();
     if (engel) return Promise.resolve(engel);
@@ -113,13 +114,15 @@
           return ab || reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64(anahtar) });
         }).then(function (ab) {
           yaz("ty-push-uc", ab.endpoint);
-          return gonder("api/abone", { spy: spy, abonelik: ab.toJSON(), cihaz: navigator.userAgent.slice(0, 80) }).then(function () { return "acik"; });
+          var kim = typeof spy === "object" ? { musteri: spy.musteri, jeton: spy.jeton } : { spy: spy };
+          kim.abonelik = ab.toJSON(); kim.cihaz = navigator.userAgent.slice(0, 80);
+          return gonder("api/abone", kim).then(function () { return "acik"; });
         });
       });
     }).catch(function (e) { try { console.warn("Bildirim açılamadı:", e); } catch (_) {} return "kapali"; });
   }
   function pushBirak() {
-    // Çıkışta bu telefon artık o SPY'nin bildirimini almaz
+    // Çıkışta bu telefon artık o SPY'nin / müşterinin bildirimini almaz
     var uc = oku("ty-push-uc");
     if (!ayar || !uc) return Promise.resolve();
     return gonder("api/abone-sil", { endpoint: uc }).catch(function () {});

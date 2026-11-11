@@ -117,6 +117,10 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
   sunucuda (depoda yok; vapid.pem silinirse tüm abonelikler geçersiz olur). iPhone Safari'de yalnız Ana Ekrana Ekle ile.
   Kullanıcı notu: personel girişi ileride yalnız telefondan (ya da yerel uygulamadan) olacak; bilgisayar Chrome'unda bildirim denemesi
   Google'a bağlı ve kararsız, kalıcı teste konmadı (merkez mantığı `tests/merkez-akis.py` sahte bildirim sunucusuyla sınanır).
+- **Müşteri hesabı + müşteri bildirimi (2026-11-11):** hesap merkezde (`api/musteri`, `veri.json` → `musteriler`; parola PBKDF2 özeti).
+  Girişte merkez bir jeton verir; müşteri aboneliği (`api/abone` + `musteri`, `jeton`) yalnız onunla. Bildirim: SPY kabul ("Temsilciniz
+  belli oldu"), yola çıkış (tahmini varış), SPY mesajı (kabul/yola çıkış hazır mesajları `oto` ile ayrı bildirim üretmez).
+  Dokununca o randevu açılır (`?ac=` / servis çalışanı mesajı). Bir telefon tek kişiye bağlı (SPY ya da müşteri; sonuncusu geçerli).
 - Finansmanlarım rakamları için Eminevim uyum/hukuk onayı.
 - Klasör/depo adı eski (eminevim-saas / eminevim-saha-paneli) — yeniden adlandırma kararı verilmedi (Pages adresi değişir).
 - Öneri olarak bekliyor: cumartesi yığılmasını rakamla gösteren analiz (SPY raporları), yönetime kısa sunum.

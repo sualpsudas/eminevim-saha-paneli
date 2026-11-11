@@ -122,6 +122,20 @@ with sync_playwright() as p:
     musteri.get_by_role('button',name='Onaylıyorum',exact=True).click()
     bekle(musteri, 'app.state.girisYapildi')
     assert app(musteri, 'app.state.customerForm.name') == 'Deniz Test'
+    # Müşteri bildirimi: girişten sonra Randevularım'da "Bildirimleri açın" kartı; abonelik yalnız girişte verilen jetonla
+    musteri.get_by_text('Bildirimleri açın', exact=True).wait_for()
+    ab['/m1'] = abonelik('/m1')
+    try:
+        merkez('api/abone', {'musteri': '5551112233', 'jeton': 'uydurma', 'abonelik': ab['/m1']})
+        raise AssertionError('Jetonsuz müşteri aboneliği kabul edilmemeli')
+    except urllib.error.HTTPError as e:
+        assert e.code == 400
+    merkez('api/abone', {'musteri': '5551112233', 'jeton': app(musteri, 'app._musteriBildirim.jeton'), 'abonelik': ab['/m1'], 'cihaz': 'test'})
+    def musteriye(n):
+        son = time.time() + 8
+        while time.time() < son and sum(g['yol'] == '/m1' for g in GELEN) < n:
+            time.sleep(0.2)
+        return sum(g['yol'] == '/m1' for g in GELEN)
     # Hemen: Üsküdar sahiline yakın nokta → uygulaması açık, en yakın SPY Derya (s2)
     app(musteri, 'app.mTemsilciIste()')
     app(musteri, 'app.setState({yaKonum:{lat:41.0230,lng:29.0200,adres:"Mimar Sinan Mah., Üsküdar",bolge:"Üsküdar"},yaAdim:2,yaGun:"Bugün",yaGunISO:new Date().toLocaleDateString("en-CA"),yaSaat:"' + SIMDI + '"})')
@@ -153,6 +167,7 @@ with sync_playwright() as p:
     assert app(musteri, 'app.state.mTalep.repId') == 's2'
     assert 'Derya Aksoy' in app(musteri, 'app.state.chatMessages[0].text')
     assert merkez('api/durum?hepsi=1')['kayitlar'][0]['teklif']['bitis'] == 0, 'Kabulde süre durmalı'
+    assert musteriye(1) == 1, 'Kabulde tek müşteri bildirimi (temsilciniz belli oldu; hazır mesaj ayrı bildirim üretmez)'
 
     # Müşteri saati onaylar ve yazar; SPY görür ve yanıtlar
     app(musteri, 'app.mSaatOnayla()')
@@ -162,10 +177,17 @@ with sync_playwright() as p:
     spy.get_by_role('button', name='Gönder', exact=True).click()
     bekle(musteri, 'app.state.chatMessages.some(m=>m.text==="Tamam, birazdan oradayım.")')
     spy.screenshot(path=str(OUT / '3-spy-sohbet.png'))
+    assert musteriye(2) == 2, 'SPY mesajında müşteriye bildirim (müşterinin kendi mesajında değil)'
 
     # Yola çık → müşteri "yolda"; QR kodu müşteri ekranında, SPY kodu girer → görüşmede → bitir
     spy.get_by_role('button', name='Yola çık · müşteriye bildir', exact=True).click()
     bekle(musteri, 'app.state.mTalep.durum==="yolda"')
+    assert musteriye(3) == 3, 'Yola çıkışta müşteriye bildirim'
+    # Bildirime dokunma: ilgili randevu açılır; Ayarlar'da Bildirimler kartı
+    app(musteri, 'app.setState({customerNav:"ayarlar"})')
+    musteri.get_by_role('region', name='Bildirimler').wait_for()
+    app(musteri, 'app.randevuAc(app.state.mTalep.id)')
+    assert app(musteri, 'app.state.customerNav') == 'basvurum' and app(musteri, 'app.state.mSeciliRandevuId') == app(musteri, 'app.state.mTalep.id')
     app(musteri, 'app.setState({customerNav:"basvurum",mSeciliRandevuId:app.state.mTalep.id});app.mQrHazirla(false)')
     bekle(spy, 'Object.values(app.state.tpKayitlar)[0].dogrulama')
     kod = app(musteri, 'app.state.mTalep.dogrulama.kod')
@@ -352,6 +374,7 @@ with sync_playwright() as p:
     print('Merkez akışı: OK (7 SPY, hemen çağrı, bildirim tüm telefonlara + telefon değişimi + 410 temizliği, geri sayım + gerekçe, kabul, mesaj, yola çıkış, QR, özet, molada,'
           ' ileri tarih puanı, devret → kimse almadı, Saha Canlı haritası + süzgeç, kompakt performans,'
           ' web formu → SMS penceresi → merkez kodu → uygulama → görüşmeye hazırlık,'
-          ' merkezdeki hesapla başka telefonda parola girişi + yanlış parola + kilit, kayıtsız numara → SMS kodu)')
+          ' merkezdeki hesapla başka telefonda parola girişi + yanlış parola + kilit, kayıtsız numara → SMS kodu,'
+          ' müşteri bildirimi: kabul + SPY mesajı + yola çıkış, jetonsuz abonelik reddi, dokununca randevu)')
     print('Görseller:', OUT)
     browser.close()

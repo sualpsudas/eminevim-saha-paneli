@@ -164,6 +164,10 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   durumu gösterir, kapalıysa "Bildirimleri aç". **iPhone'da** Safari → Paylaş → **Ana Ekrana Ekle** ile açılan sayfada çalışır (iOS 16.4+).
   TestFlight uygulamasında kapalıyken bildirim için Apple bildirim anahtarı (APNs) gerekir (sonraki adım). Takip sayfasında SPY'ye
   dokununca bildirimi açık telefon sayısı görünür. Müşteri, SPY kabul edene kadar kimin geleceğini görmez.
+- **Müşteri bildirimi (2026-11-11, merkez sürümü):** girişten sonra Randevularım'da "Bildirimleri açın" kartı (Şimdi değil ile kapanır);
+  Ayarlar'da **Bildirimler** kartı. Giden haberler: "Temsilciniz belli oldu: Ad · saat", "Temsilciniz yola çıktı · tahmini varış SS:DD",
+  temsilcinin yazdığı mesaj. Dokununca o randevu açılır (giriş gerekiyorsa girişten sonra). Çıkış yapınca bildirim kalkar.
+  Yalnız web formunu kullanıp uygulamaya hiç girmeyen müşteriye bildirim gitmez (SMS işi ayrı). iPhone'da Ana Ekrana Ekle gerekir.
 - **Web formu** merkezden açılırsa (`<merkez>/web-basvuru/index.html`) "Temsilci çağırmak istiyorum" çağrısı merkeze gider; SMS önizlemesindeki
   6 haneli giriş kodunu merkez verir. Uygulamada telefon + bu kodla girince aynı çağrı açılır (merkezde `api/kod`). Pages kopyasında eski
   gösteri davranışı (kod tarayıcıda üretilir).

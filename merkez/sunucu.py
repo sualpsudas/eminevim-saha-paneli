@@ -288,6 +288,22 @@ def bildir(spy_id, govde):
         threading.Thread(target=bildir_gonder, args=(hedefler, govde), daemon=True).start()
 
 
+def bildir_musteri(k, baslik, govde):
+    """Müşteriye (hesabına giriş yapıp bildirim açtığı telefonlara) çağrıyla ilgili haber; dokununca o randevu açılır.
+    Yalnız web'den gelip uygulamaya hiç girmeyen müşterinin aboneliği yoktur: ona gitmez."""
+    tel = tel_temiz((k.get("musteri") or {}).get("tel"))
+    if not VAPID_NESNE or not tel:
+        return
+    hedefler = [x for x in abone_oku().values() if x.get("musteri") == tel]
+    if hedefler:
+        threading.Thread(target=bildir_gonder, args=(hedefler, {"baslik": baslik, "govde": govde, "etiket": "m-" + k["id"], "rid": k["id"]}),
+                         daemon=True).start()
+
+
+def saat_yaz(ms):
+    return time.strftime("%H:%M", time.localtime(ms / 1000)) if ms else ""
+
+
 def bildir_gonder(hedefler, govde):
     from pywebpush import webpush, WebPushException
     bitti = []
@@ -397,8 +413,16 @@ def uygula(veri, yol, istek):
         if k.get("repId") != eski.get("repId"):
             k["eskiRepler"] = sorted((set(eski.get("eskiRepler", [])) | {eski.get("repId")}) - {None})
             olay(veri, f"{eski.get('musteri', {}).get('ad') or 'Müşteri'} çağrısı devredildi → {veri['spyler'].get(k.get('repId'), {}).get('ad', '')}", k["id"])
+        onceki = eski.get("durum")
         eski.update(k)
         damga(veri, eski)
+        spy_ad = veri["spyler"].get(eski.get("repId"), {}).get("ad", "")
+        if onceki == "alindi" and eski.get("durum") == "atandi":
+            zaman = " ".join(x for x in (eski.get("gunYazi") if eski.get("tarih") != bugun() else "", eski.get("saat")) if x)
+            bildir_musteri(eski, f"Temsilciniz belli oldu: {spy_ad}" + (f" · {zaman}" if zaman else ""), "Randevunuzu görmek için dokunun.")
+        elif onceki != "yolda" and eski.get("durum") == "yolda":
+            varis = saat_yaz(eski.get("varisZamani"))
+            bildir_musteri(eski, "Temsilciniz yola çıktı" + (f" · tahmini varış {varis}" if varis else ""), f"{spy_ad} size doğru geliyor.")
         return eski
     if yol == "api/mesaj":
         k = kayitlar.get(str(istek.get("id") or ""))
@@ -411,6 +435,8 @@ def uygula(veri, yol, istek):
             k["mesajlar"].append({"mid": mid, "from": kimden, "t": simdi(), "text": yazi})
             k["mesajlar"] = k["mesajlar"][-300:]
             damga(veri, k)
+            if kimden == "temsilci" and not istek.get("oto"):  # kabul/yola çıkış mesajının bildirimi durumdan gider
+                bildir_musteri(k, "Temsilcinizden mesaj: " + veri["spyler"].get(k.get("repId"), {}).get("ad", ""), yazi[:120])
         return k
     if yol == "api/spy":
         s = veri["spyler"].get(str(istek.get("id") or ""))
@@ -483,9 +509,16 @@ def parola_gecerli(parola):
     return parola
 
 
+def jeton_ozet(jeton):
+    return hashlib.sha256(str(jeton or "").encode()).hexdigest()
+
+
 def oturum(veri, tel):
+    """Girişte dönen hesap + çağrılar. Jeton yalnız bu telefonun bildirim aboneliği için (müşteri adına abone olmayı kanıtlar)."""
     m = veri["musteriler"][tel]
-    return {"tel": tel, "ad": m["ad"], "kvkkTarih": m.get("kvkkTarih", 0), "kayitlar": musteri_kayitlari(veri, tel)}
+    jeton = secrets.token_urlsafe(24)
+    m["jetonlar"] = (m.get("jetonlar", []) + [jeton_ozet(jeton)])[-10:]
+    return {"tel": tel, "ad": m["ad"], "kvkkTarih": m.get("kvkkTarih", 0), "jeton": jeton, "kayitlar": musteri_kayitlari(veri, tel)}
 
 
 class YazilanHata(ValueError):
@@ -693,13 +726,21 @@ def abone_isle(yol, istek):
             return {}
         ab = istek.get("abonelik") or {}
         uc, anahtar = ab.get("endpoint"), ab.get("keys") or {}
-        if istek.get("spy") not in SPY_IDLER or not uygun_uc(uc) or not anahtar.get("p256dh") or not anahtar.get("auth"):
+        tel = tel_temiz(istek.get("musteri"))
+        if (istek.get("spy") not in SPY_IDLER and not tel) or not uygun_uc(uc) or not anahtar.get("p256dh") or not anahtar.get("auth"):
             raise ValueError("Abonelik eksik.")
-        # Telefon başka SPY seçtiyse eski bağ kalkar (aynı uç tek SPY'ye bağlı)
+        kim = {"spy": istek["spy"]} if istek.get("spy") in SPY_IDLER else {"musteri": tel}
+        if "musteri" in kim:  # müşteri bildirimi yalnız o hesaba giriş yapmış telefona (girişte verilen jeton)
+            with kilit:
+                m = oku()["musteriler"].get(tel) or {}
+            if jeton_ozet(istek.get("jeton")) not in m.get("jetonlar", []):
+                raise ValueError("Oturum doğrulanamadı. Yeniden giriş yapın.")
+        # Telefon başka SPY/müşteri seçtiyse eski bağ kalkar (aynı uç tek kişiye bağlı)
         a[uc] = {"endpoint": uc, "keys": {"p256dh": metin(anahtar["p256dh"], 200), "auth": metin(anahtar["auth"], 100)},
-                 "spy": istek["spy"], "cihaz": metin(istek.get("cihaz"), 80), "eklenme": simdi()}
+                 **kim, "cihaz": metin(istek.get("cihaz"), 80), "eklenme": simdi()}
         abone_yaz(a)
-        return {"spy": istek["spy"], "telefon": sum(1 for x in a.values() if x["spy"] == istek["spy"])}
+        anahtar_ad, deger = next(iter(kim.items()))
+        return {**kim, "telefon": sum(1 for x in a.values() if x.get(anahtar_ad) == deger)}
 
 
 def gizli_yol():

@@ -628,3 +628,8 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
   Aynı numara + parola her telefonda çalışıyor; başka telefonda girişte çağrılar Randevularım'a geliyor. 5 yanlış parola → 5 dk kilit.
 - SMS test kodunu artık merkez üretiyor ve doğruluyor (ekranda gösterilmesi aynı). Pages gösterisi eski davranışla kaldı.
 - `merkez-akis.py`: A telefonunda kayıt → B telefonunda parolayla giriş, yanlış parola, kilit, kayıtsız numara, web müşterisinin başka telefonda girişi.
+
+## 2026-11-11 (7) · Müşteriye bildirim
+- Uygulama kapalıyken müşteriye: temsilci belli oldu (ad · saat), temsilci yola çıktı (tahmini varış), temsilcinin mesajı. Dokununca o randevu açılır.
+- Girişten sonra Randevularım'da "Bildirimleri açın" kartı, Ayarlar'da Bildirimler kartı. Abonelik girişte merkezin verdiği jetonla (başkası adına abone olunamaz).
+- Kabul ve yola çıkışta giden hazır temsilci mesajı ikinci bir bildirim üretmiyor. Test: `merkez-akis.py` (sahte bildirim sunucusu).

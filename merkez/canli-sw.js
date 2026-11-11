@@ -19,15 +19,20 @@ self.addEventListener("push", (e) => {
     requireInteraction: true,
     icon: "assets/icon-192.png",
     badge: "assets/icon-192.png",
-    data: { url: new URL("Eminevim%20Saha%20Paneli.dc.html", self.registration.scope).href },
+    data: { rid: v.rid || "", url: new URL("Eminevim%20Saha%20Paneli.dc.html" + (v.rid ? "?ac=" + encodeURIComponent(v.rid) : ""), self.registration.scope).href },
   }));
 });
 
+// Dokununca uygulama açılır; müşteri bildiriminde ilgili randevu seçilir (açık uygulamaya mesajla, kapalıysa adresle)
 self.addEventListener("notificationclick", (e) => {
   e.notification.close();
+  const d = e.notification.data || {};
   e.waitUntil((async () => {
     const acik = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
-    for (const c of acik) if ("focus" in c) return c.focus();
-    return self.clients.openWindow(e.notification.data.url);
+    for (const c of acik) if ("focus" in c) {
+      if (d.rid) c.postMessage({ tip: "ty-randevu-ac", rid: d.rid });
+      return c.focus();
+    }
+    return self.clients.openWindow(d.url);
   })());
 });
