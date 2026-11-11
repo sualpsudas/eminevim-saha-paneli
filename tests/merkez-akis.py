@@ -370,6 +370,25 @@ with sync_playwright() as p:
     except urllib.error.HTTPError as e:
         assert 'Çok fazla hatalı deneme' in json.loads(e.read())['hata']
     assert '"tuz"' not in json.dumps(merkez('api/durum?hepsi=1')), 'Parola özeti dışarı çıkmamalı'
+
+    # Yeni sürüm yayınlanınca açık uygulamada "Yeni sürüm hazır · Yenile" şeridi
+    app(b, 'app._uygulamaSurum="eski"')
+    b.get_by_role('button', name='Yeni sürüm hazır · Yenile', exact=True).wait_for()
+
+    # Test verisi sıfırlanınca: açık telefonlarda eski kayıtlar silinir, müşteri girişe döner;
+    # o sırada kapalı olan telefon da açılınca temizlenir; müşteri bildirim abonelikleri silinir (SPY'ninkiler kalır)
+    b2_ctx = b2.context
+    assert b2.evaluate('localStorage.getItem("ty-randevu-v1")')
+    b2.close()
+    merkez('api/sifirla', {'onay': 'evet'})
+    bekle(b, '!app.state.girisYapildi && !app.state.mTalep', 10000)
+    b.get_by_role('alert').get_by_text('Test verisi sıfırlandı', exact=False).wait_for()
+    bekle(spy, 'Object.keys(app.state.tpKayitlar).length===0', 10000)
+    b2 = b2_ctx.new_page(); b2.goto(URL); b2.get_by_role('button', name='Devam et', exact=True).wait_for()
+    b2.wait_for_function('localStorage.getItem("ty-randevu-v1")===null', timeout=10000)
+    abone = json.loads((Path(tempfile.gettempdir()) / 'deneme_abonelik.json').read_text(encoding='utf-8'))
+    assert abone and not any(x.get('musteri') for x in abone.values()), abone
+    assert merkez('api/musteri', {'islem': 'sorgu', 'tel': '5551112233'})['sonuc']['kayitli'] is False
     assert not errors, errors
     print('Merkez akışı: OK (7 SPY, hemen çağrı, bildirim tüm telefonlara + telefon değişimi + 410 temizliği, geri sayım + gerekçe, kabul, mesaj, yola çıkış, QR, özet, molada,'
           ' ileri tarih puanı, devret → kimse almadı, Saha Canlı haritası + süzgeç, kompakt performans,'

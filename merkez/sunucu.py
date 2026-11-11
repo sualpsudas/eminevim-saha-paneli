@@ -477,7 +477,10 @@ def uygula(veri, yol, istek):
         veri.clear()
         veri.update(bos_veri())
         veri["surum"] = surum + 1
-        veri["sifirlama"] = veri["surum"]  # cihazlar eski kayıtları bırakır
+        veri["sifirlama"] = veri["surum"]  # cihazlar eski kayıtları bırakır, müşteri oturumları kapanır
+        with abone_kilit:  # müşteri hesapları silindi: bildirim abonelikleri de (SPY'ninkiler kalır)
+            a = abone_oku()
+            abone_yaz({uc: x for uc, x in a.items() if not x.get("musteri")})
         olay(veri, "Test verisi sıfırlandı")
         return {}
     raise KeyError(yol)
@@ -591,6 +594,14 @@ def musteri_islem(veri, istek):
     raise ValueError("İşlem bilinmiyor.")
 
 
+def uygulama_surumu():
+    """Uygulama dosyaları değişince (git pull) değişir; açık uygulamalar "Yeni sürüm hazır · Yenile" şeridi gösterir."""
+    try:
+        return str(max(int((KOK / ad).stat().st_mtime) for ad in (UYGULAMA, "canli.js", "appointment.js", "spyler.js")))
+    except OSError:
+        return ""
+
+
 def spy_ozet(veri, s):
     hal = "molada" if s.get("durum") == "molada" else "randevuda" if randevuda_mi(veri, s["id"]) else "bosta"
     bugunku = sum(1 for x in veri["kayitlar"].values() if x.get("repId") == s["id"] and x.get("tarih") == bugun() and x.get("durum") != "iptal")
@@ -670,7 +681,7 @@ class Isleyici(BaseHTTPRequestHandler):
                 if spy:
                     return k.get("repId") == spy or spy in k.get("eskiRepler", [])
                 return k["id"] in ids if ids else "hepsi" in q
-            return self._yanit(200, {"surum": veri["surum"], "simdi": simdi(), "sifirlama": veri.get("sifirlama", 0),
+            return self._yanit(200, {"surum": veri["surum"], "simdi": simdi(), "sifirlama": veri.get("sifirlama", 0), "uygulama": uygulama_surumu(),
                                      "spyler": [spy_ozet(veri, s) for s in veri["spyler"].values()],
                                      "bugun": bugun_sayilar(veri),
                                      "kayitlar": [k for k in veri["kayitlar"].values() if k.get("surum", 0) > surum and gorur(k)],
@@ -718,6 +729,14 @@ class Isleyici(BaseHTTPRequestHandler):
 
 
 def abone_isle(yol, istek):
+    # Kilit sırası her yerde: önce veri (kilit), sonra abonelik (abone_kilit)
+    tel = tel_temiz(istek.get("musteri"))
+    if yol == "api/abone" and istek.get("spy") not in SPY_IDLER and tel:
+        # müşteri bildirimi yalnız o hesaba giriş yapmış telefona (girişte verilen jeton)
+        with kilit:
+            m = oku()["musteriler"].get(tel) or {}
+        if jeton_ozet(istek.get("jeton")) not in m.get("jetonlar", []):
+            raise ValueError("Oturum doğrulanamadı. Yeniden giriş yapın.")
     with abone_kilit:
         a = abone_oku()
         if yol == "api/abone-sil":
@@ -726,15 +745,9 @@ def abone_isle(yol, istek):
             return {}
         ab = istek.get("abonelik") or {}
         uc, anahtar = ab.get("endpoint"), ab.get("keys") or {}
-        tel = tel_temiz(istek.get("musteri"))
         if (istek.get("spy") not in SPY_IDLER and not tel) or not uygun_uc(uc) or not anahtar.get("p256dh") or not anahtar.get("auth"):
             raise ValueError("Abonelik eksik.")
         kim = {"spy": istek["spy"]} if istek.get("spy") in SPY_IDLER else {"musteri": tel}
-        if "musteri" in kim:  # müşteri bildirimi yalnız o hesaba giriş yapmış telefona (girişte verilen jeton)
-            with kilit:
-                m = oku()["musteriler"].get(tel) or {}
-            if jeton_ozet(istek.get("jeton")) not in m.get("jetonlar", []):
-                raise ValueError("Oturum doğrulanamadı. Yeniden giriş yapın.")
         # Telefon başka SPY/müşteri seçtiyse eski bağ kalkar (aynı uç tek kişiye bağlı)
         a[uc] = {"endpoint": uc, "keys": {"p256dh": metin(anahtar["p256dh"], 200), "auth": metin(anahtar["auth"], 100)},
                  **kim, "cihaz": metin(istek.get("cihaz"), 80), "eklenme": simdi()}
