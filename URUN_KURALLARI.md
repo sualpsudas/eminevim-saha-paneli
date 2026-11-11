@@ -27,8 +27,12 @@ Proje amacı, kararlar ve açık işler `CLAUDE.md`'de. Bu dosya 2026-11-05'te o
   “Parolamı unuttum” → SMS kodu → yeni parola. Yeni numara → SMS kodu → ad soyad + parola → KVKK → Hoş geldiniz.
   **Yeni müşteri KVKK onayı olmadan hesabına giremez.** Örnek kayıtlı müşteri Ayşe Kaya (0532 145 67 89); test parolası hazır gelir.
 - **Web’den uygulamaya:** temsilci çağrısının SMS önizlemesindeki bağlantı → başvuruya ait 6 haneli kod → parola → aynı çağrı.
-  Web formundaki konum onayı yeniden sorulmaz. Test kodları gerçek SMS yerine ekranda gösterilir. Demo hesaplar mevcut tarayıcıda kalır;
-  sonradan oluşturulan parolanın özeti saklanır. Merkezi müşteri hesabı ve gerçek SMS ayrı işlerdir.
+  Web formundaki konum onayı yeniden sorulmaz. Test kodları gerçek SMS yerine ekranda gösterilir. Gerçek SMS ayrı iştir.
+- **Müşteri hesabı merkezde (2026-11-11, yalnız merkezden açılan sürüm):** telefon, ad soyad, KVKK onay tarihi, web'den geldiyse konum onay
+  tarihi. Parola düz metin tutulmaz (merkezde PBKDF2 özeti). Aynı numara + parola **her telefonda** çalışır; kayıtlı numaraya başka
+  telefonda da yalnız parola sorulur, çağrıları Randevularım'a gelir. Art arda 5 yanlış parola → 5 dk giriş kapalı ("Parolamı unuttum" açık).
+  Web'den gelen müşterinin hesabı parolayı oluşturunca açılır. Test sıfırlaması müşterileri de siler; Ayşe Kaya (parola test123) yeniden kurulur.
+  GitHub Pages gösterisi eski davranışla kalır (hesap o tarayıcıda).
 - Doğrulama: `npm test`; yerel 8799 sunucusunda `tests/browser-flows.py` ve `tests/web-flows.py` (Playwright + Chrome). Senaryo sayfası bu geliştirmeden sonra ayrıca ele alınacak.
 
 Bu bölüm `CLAUDE.md`'deki eski kararlarla çelişirse **bu bölüm geçerlidir**. Uygulama adım adım, kullanıcıyla konuşarak yapılır;

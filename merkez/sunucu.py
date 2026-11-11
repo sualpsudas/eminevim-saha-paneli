@@ -7,6 +7,8 @@ Uygulama dosyalarını depo kökünden sunar; uygulama sayfasına window.TY_CANL
 böylece GitHub Pages'teki kopya gösteri modunda kalır, buradaki kopya merkeze bağlanır.
 """
 import base64
+import hashlib
+import hmac
 import json
 import math
 import os
@@ -68,13 +70,36 @@ def simdi():
 
 
 def bos_veri():
-    return {"surum": 1, "spyler": {s["id"]: {**s, "durum": "musait", "sonGorulme": 0} for s in SPYLER}, "kayitlar": {}, "olaylar": []}
+    return {"surum": 1, "spyler": {s["id"]: {**s, "durum": "musait", "sonGorulme": 0} for s in SPYLER}, "kayitlar": {},
+            "musteriler": {AYSE_TEL: dict(AYSE)}, "olaylar": []}
+
+
+# ---- Müşteri hesabı: telefon + parola her telefonda aynı. Parolanın kendisi saklanmaz (PBKDF2 özeti). ----
+PAROLA_TUR = 100_000
+HATA_SINIR, KILIT_DK = 5, 5   # art arda 5 yanlış parola → 5 dk giriş kapalı
+KOD_DK = 10                   # SMS kodu (test: ekranda gösterilir) 10 dk geçerli
+KODLAR = {}                   # tel -> {"kod", "bitis", "hata"} (yalnız bellekte)
+
+
+def parola_ozet(parola, tuz=None):
+    tuz = tuz or secrets.token_hex(16)
+    return tuz, hashlib.pbkdf2_hmac("sha256", parola.encode("utf-8"), bytes.fromhex(tuz), PAROLA_TUR).hex()
+
+
+def tel_temiz(deger):
+    return "".join(c for c in str(deger or "") if c.isdigit())[-10:]
+
+
+AYSE_TEL = "5321456789"  # gösteri hesabı (Ayşe Kaya, parola test123); sıfırlamada yeniden kurulur
+_t, _o = parola_ozet("test123")
+AYSE = {"ad": "Ayşe Kaya", "tuz": _t, "ozet": _o, "kvkkTarih": 0, "olusma": 0}
 
 
 def oku():
     if not VERI.exists():
         yaz(bos_veri())
     veri = json.loads(VERI.read_text(encoding="utf-8"))
+    veri.setdefault("musteriler", {AYSE_TEL: dict(AYSE)})
     eski = veri["spyler"]
     veri["spyler"] = {s["id"]: {**eski.get(s["id"], {"durum": "musait", "sonGorulme": 0}), **s} for s in SPYLER}  # listeden çıkan SPY düşer
     return veri
@@ -413,7 +438,10 @@ def uygula(veri, yol, istek):
             if k.get("girisKodu") == kod and "".join(c for c in k.get("musteri", {}).get("tel", "") if c.isdigit())[-10:] == tel:
                 return k
         raise ValueError("Kod ya da telefon eşleşmedi.")
+    if yol == "api/musteri":
+        return musteri_islem(veri, istek)
     if yol == "api/sifirla":
+        KODLAR.clear()
         if istek.get("onay") != "evet":
             raise ValueError("Onay eksik.")
         yedek = KLASOR / "yedek"
@@ -427,6 +455,107 @@ def uygula(veri, yol, istek):
         olay(veri, "Test verisi sıfırlandı")
         return {}
     raise KeyError(yol)
+
+
+def musteri_kayitlari(veri, tel):
+    """Müşterinin merkezdeki çağrıları (en yenisi önde); giriş yapılan her telefonda Randevularım bunlarla dolar."""
+    liste = [k for k in veri["kayitlar"].values() if tel_temiz((k.get("musteri") or {}).get("tel")) == tel]
+    return [{a: d for a, d in k.items() if a not in ("girisKodu", "konumRizaTarih")} for k in sorted(liste, key=lambda x: -x.get("olusma", 0))]
+
+
+def kod_dogru(tel, kod, harca=False):
+    k = KODLAR.get(tel)
+    if not k or k["bitis"] < simdi():
+        raise ValueError("Kodun süresi doldu. “Kodu tekrar gönder”e dokunun.")
+    if not hmac.compare_digest(k["kod"], metin(kod, 6)):
+        k["hata"] += 1
+        if k["hata"] >= HATA_SINIR:
+            KODLAR.pop(tel, None)  # tahminle denemeye karşı: kod geçersiz olur
+        raise ValueError("Kod eşleşmedi. SMS'teki 6 haneli kodu girin.")
+    if harca:
+        KODLAR.pop(tel, None)
+
+
+def parola_gecerli(parola):
+    parola = str(parola or "")
+    if len(parola) < 6 or len(parola) > 128:
+        raise ValueError("Parola en az 6 karakter olmalı.")
+    return parola
+
+
+def oturum(veri, tel):
+    m = veri["musteriler"][tel]
+    return {"tel": tel, "ad": m["ad"], "kvkkTarih": m.get("kvkkTarih", 0), "kayitlar": musteri_kayitlari(veri, tel)}
+
+
+class YazilanHata(ValueError):
+    """Hata yanıtı döner ama veri yine kaydedilir (yanlış parola sayacı)."""
+
+
+def musteri_islem(veri, istek):
+    """islem: sorgu | kod | kodkontrol | kayit | giris | yenile | web. Hesap merkezde; her telefonda aynı parola."""
+    islem, tel = istek.get("islem"), tel_temiz(istek.get("tel"))
+    if len(tel) != 10:
+        raise ValueError("Telefon numaranızı 10 hane olarak yazın.")
+    hesaplar = veri["musteriler"]
+    m = hesaplar.get(tel)
+    if islem == "sorgu":
+        return {"kayitli": bool(m)}
+    if islem == "kod":  # gerçek SMS gelene kadar kod yanıtta döner ve ekranda gösterilir (test)
+        kod = f"{secrets.randbelow(900000) + 100000}"
+        KODLAR[tel] = {"kod": kod, "bitis": simdi() + KOD_DK * 60000, "hata": 0}
+        return {"kod": kod, "kayitli": bool(m)}
+    if islem == "kodkontrol":
+        kod_dogru(tel, istek.get("kod"))
+        return {"kayitli": bool(m)}
+    if islem == "giris":
+        if not m:
+            raise ValueError("Bu numarayla kayıt yok.")
+        if m.get("kilitBitis", 0) > simdi():
+            raise ValueError(f"Çok fazla hatalı deneme. {KILIT_DK} dakika sonra tekrar deneyin ya da “Parolamı unuttum”a dokunun.")
+        if not hmac.compare_digest(parola_ozet(str(istek.get("parola") or ""), m["tuz"])[1], m["ozet"]):
+            m["hata"] = m.get("hata", 0) + 1
+            if m["hata"] >= HATA_SINIR:
+                m.update({"hata": 0, "kilitBitis": simdi() + KILIT_DK * 60000})
+            raise YazilanHata("Parola eşleşmedi.")
+        m.update({"hata": 0, "kilitBitis": 0, "sonGiris": simdi()})
+        return oturum(veri, tel)
+    parola = parola_gecerli(istek.get("parola"))
+    if islem == "kayit":  # yeni müşteri: SMS kodu + ad soyad + parola + KVKK onayı
+        if m:
+            raise ValueError("Bu numara kayıtlı. Parolanızla giriş yapın.")
+        ad = metin(istek.get("ad"), 80)
+        if len(ad) < 3:
+            raise ValueError("Adınızı ve soyadınızı yazın.")
+        if istek.get("kvkk") is not True:
+            raise ValueError("Kişisel veri onayı eksik.")
+        kod_dogru(tel, istek.get("kod"), harca=True)
+        tuz, ozet = parola_ozet(parola)
+        hesaplar[tel] = {"ad": ad, "tuz": tuz, "ozet": ozet, "kvkkTarih": simdi(), "olusma": simdi()}
+        olay(veri, f"Yeni müşteri hesabı: {ad}")
+        return oturum(veri, tel)
+    if islem == "yenile":  # parolamı unuttum: SMS kodu + yeni parola
+        if not m:
+            raise ValueError("Bu numarayla kayıt yok.")
+        kod_dogru(tel, istek.get("kod"), harca=True)
+        m["tuz"], m["ozet"] = parola_ozet(parola)
+        m.update({"hata": 0, "kilitBitis": 0, "sonGiris": simdi()})
+        return oturum(veri, tel)
+    if islem == "web":  # web formundan gelen: kod çağrının giriş kodu; onaylar (KVKK + konum) formda verildi
+        rid, kod = str(istek.get("rid") or ""), metin(istek.get("kod"), 6)
+        k = veri["kayitlar"].get(rid)
+        if not k or not k.get("girisKodu") or not hmac.compare_digest(k["girisKodu"], kod) or tel_temiz(k["musteri"].get("tel")) != tel:
+            raise ValueError("Kod ya da telefon eşleşmedi.")
+        tuz, ozet = parola_ozet(parola)
+        if m:
+            m.update({"tuz": tuz, "ozet": ozet, "hata": 0, "kilitBitis": 0})
+        else:
+            hesaplar[tel] = {"ad": k["musteri"].get("ad") or "Müşteri", "tuz": tuz, "ozet": ozet, "kvkkTarih": k.get("konumRizaTarih", 0),
+                             "konumRizaTarih": k.get("konumRizaTarih", 0), "olusma": simdi(), "kaynak": "web"}
+            olay(veri, f"Yeni müşteri hesabı (web): {hesaplar[tel]['ad']}", rid)
+        hesaplar[tel]["sonGiris"] = simdi()
+        return oturum(veri, tel)
+    raise ValueError("İşlem bilinmiyor.")
 
 
 def spy_ozet(veri, s):
@@ -526,7 +655,7 @@ class Isleyici(BaseHTTPRequestHandler):
         yol = self._yol()
         if yol in ("api/abone", "api/abone-sil"):
             return self._abone(yol)
-        if yol not in ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/kod", "api/sifirla"):
+        if yol not in ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/kod", "api/musteri", "api/sifirla"):
             return self._yanit(404, {"hata": "Bulunamadı"})
         uzunluk = int(self.headers.get("Content-Length") or 0)
         if uzunluk > 50_000:
@@ -535,7 +664,11 @@ class Isleyici(BaseHTTPRequestHandler):
             istek = json.loads(self.rfile.read(uzunluk) or b"{}")
             with kilit:
                 veri = oku()
-                sonuc = uygula(veri, yol, istek)
+                try:
+                    sonuc = uygula(veri, yol, istek)
+                except YazilanHata:
+                    yaz(veri)
+                    raise
                 yaz(veri)
             self._yanit(200, {"surum": veri["surum"], "sonuc": sonuc})
         except (KeyError, ValueError, TypeError) as e:

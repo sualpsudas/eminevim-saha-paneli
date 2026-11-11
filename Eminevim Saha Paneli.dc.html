@@ -1364,6 +1364,12 @@ async function parolaOzeti(parola, tuz = Array.from(crypto.getRandomValues(new U
   const sonuc = await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:new Uint8Array(tuz),iterations:100000}, anahtar, 256);
   return {tuz, ozet:Array.from(new Uint8Array(sonuc), b => b.toString(16).padStart(2,"0")).join("")};
 }
+// Merkez sürümünde müşteri hesabı merkezde: aynı telefon + parola her telefonda çalışır (parolayı merkez özetler)
+function musteriMerkez(islem, govde) {
+  return Canli.gonder("api/musteri", { islem, ...govde }).then((v) => v.sonuc,
+    (e) => { throw e instanceof TypeError ? Error("Merkeze ulaşılamadı. İnternet bağlantınızı kontrol edip yeniden deneyin.") : e; });
+}
+function smsKodYaz(tel, kod) { const k = { tel: telAnahtar(tel), kod, son: Date.now() + 10 * 60000 }; try { localStorage.setItem("ty-sms-kod", JSON.stringify(k)); } catch (e) {} return k; }
 // TEST/DEVELOPMENT ONLY: production build must set this to false.
 const TEST_MODE_SKIP_FORM = true;
 const LOCATION_API = LIVE_CONFIG.locationEndpoint || "/api/live-locations";
@@ -1538,8 +1544,10 @@ class Component extends DCLogic {
     const q = new URLSearchParams(window.location.search);
     if (q.get("kaynak") === "web") {
       const t = telAnahtar(q.get("tel"));
-      const k = smsKodOku(t) || (t.length === 10 && !q.get("gun") ? smsKodUret(t) : null);
+      const merkezKodu = CANLI && t.length === 10 && !q.get("gun");  // canlıda kodu merkez üretir (aşağıda)
+      const k = merkezKodu ? null : smsKodOku(t) || (t.length === 10 && !q.get("gun") ? smsKodUret(t) : null);
       this.setState({ girisMod: "kod", kodAdim: t.length === 10 ? 2 : 1, kodTel: telYaz(t), kodWeb: q.toString(), kodGirdi: k?.kod || "", kodHata: "", kodParola: DEMO_PAROLA, kodParola2: DEMO_PAROLA, kodAd: (q.get("ad") || "").trim() });
+      if (merkezKodu) musteriMerkez("kod", { tel: t }).then((v) => { if (this.state.kodWeb === q.toString()) this.setState({ kodGirdi: smsKodYaz(t, v.kod).kod }); }, (e) => this.setState({ kodHata: e.message }));
     }
     const directRole = q.get("rol");
     if (["tl", "sgl", "ask", "spy"].indexOf(directRole) >= 0) this.loginRole(directRole, q.get("spy"));
@@ -2363,8 +2371,33 @@ class Component extends DCLogic {
     this.setState({ yaOpen: false, girisMod: "yeni", kayitOpen: true, kayitAd: s.yaAd.trim(), kayitTelefon: s.yaTel, kayitEmail: s.yaEposta.trim(), kayitSifre: "", kayitAdres: s.yaIlce.trim() });
   }
   kayitliMusteri(tel) { return tel === AYSE_TEL || !!(this._hesaplar || {})[tel]; }
+  musteriOturumu(v, yeni) {
+    // Merkez sürümü: hesap ve çağrılar merkezden gelir; bu cihazdaki ek bilgiler (başvurular, fotoğraf) varsa korunur
+    const tel = v.tel, yerel = (this._hesaplar || {})[tel] || (tel === AYSE_TEL ? AYSE_SEED() : {});
+    const liste = (v.kayitlar || []).map((k) => this.canliMusteriKaydi(k));
+    const aktif = liste.find((t) => !Appointment.terminal(t)) || liste[0] || null;
+    const ham = aktif && v.kayitlar.find((k) => k.id === aktif.id);
+    this.setState({
+      customerMeetings: [], appointments: [], degerlendirmeler: [], avatarUrl: "", musteriBasvurulari: [], aktifBasvuruId: null, talepSebebi: "",
+      ...yerel, customerMeetings: [],
+      mKonusmaAcik: false, mSeciliRandevuId: null, kvkkAsama: false, kvkkOnay: true, kvkkTarih: v.kvkkTarih || Date.now(), girisYapildi: true,
+      panel: "musteri", customerNav: "basvurum", girisMod: "", girisSifre: "", bekleyenKayit: null, kodHata: "",
+      yeniMusteri: !!yeni, hosgeldinAdim: yeni ? 1 : 0,
+      customerForm: { email: "", address: "", testMode: false, ...(yerel.customerForm || {}), name: v.ad, phone: telYaz(tel) },
+      mTalep: aktif, mGecmis: liste.filter((t) => t !== aktif),
+      chatMessages: (ham?.mesajlar || []).map((x) => ({ from: x.from, t: x.t, text: x.text, mid: x.mid })),
+      basvuruDuzenle: false, duzenlenenId: null, basvuruTuru: "", basvuruTutar: "",
+    }, () => this.canliHemen());
+  }
   async kayitliGiris() {
     const s = this.state, tel = telAnahtar(s.girisTelefon);
+    if (CANLI && s.girisMod === "kayitli") {
+      try {
+        const v = await musteriMerkez("giris", { tel, parola: s.girisSifre });
+        if (this.state.girisMod === "kayitli" && this.state.girisTelefon === s.girisTelefon) this.musteriOturumu(v, false);
+      } catch (e) { this.setState({ kodHata: (e && e.message) || "Giriş yapılamadı. Yeniden deneyin." }); }
+      return;
+    }
     if (s.girisMod !== "kayitli" || !this.kayitliMusteri(tel)) return;
     const kayit = parolaKaydi(tel);
     try {
@@ -2377,21 +2410,38 @@ class Component extends DCLogic {
       this.setState({kvkk1:true,yeniMusteri:false,panel:"musteri",girisSifre:""}, () => this.kvkkOnayla());
     } catch (_) { this.setState({kodHata:"Parola doğrulanamadı. Yeniden deneyin."}); }
   }
-  parolaYenilemeBaslat() {
+  async parolaYenilemeBaslat() {
     const s = this.state, tel = telAnahtar(s.girisTelefon);
-    if (s.girisMod !== "kayitli" || !this.kayitliMusteri(tel)) return;
-    const k = smsKodUret(tel);
+    if (s.girisMod !== "kayitli" || (!CANLI && !this.kayitliMusteri(tel))) return;
+    let k;
+    try { k = CANLI ? smsKodYaz(tel, (await musteriMerkez("kod", { tel })).kod) : smsKodUret(tel); }
+    catch (e) { this.setState({ kodHata: e.message }); return; }
+    if (this.state.girisMod !== "kayitli" || this.state.girisTelefon !== s.girisTelefon) return;
     this.setState({girisMod:"kod",kodAdim:2,kodTel:telYaz(tel),kodWeb:"",kodKayit:null,kodYenileme:true,kodGirdi:k.kod,kodHata:"",kodParola:"",kodParola2:""});
   }
   async kodIleri() {
     const s = this.state, tel = telAnahtar(s.kodTel);
     if (!s.girisMod || s.kodAdim === 1) {
       if (tel.length !== 10) { this.setState({ kodHata: "Telefon numaranızı 10 hane olarak yazın." }); return; }
+      const ziyaret = s.kodWeb && new URLSearchParams(s.kodWeb).get("gun");
+      if (CANLI && !ziyaret) {
+        // Kayıtlı mı merkeze sorulur (başka telefonda açılan hesap da tanınır); değilse SMS kodu merkezden
+        try {
+          const v = await musteriMerkez(s.kodWeb ? "kod" : "sorgu", { tel });
+          if (telAnahtar(this.state.kodTel) !== tel || this.state.kodWeb !== s.kodWeb) return;
+          if (!s.kodWeb && v.kayitli) {
+            this.setState({girisMod:"kayitli",girisTelefon:telYaz(tel),girisSifre:tel===AYSE_TEL ? DEMO_PAROLA : "",kodHata:""});
+            return;
+          }
+          const k = smsKodYaz(tel, v.kod || (await musteriMerkez("kod", { tel })).kod);
+          this.setState({girisMod:"kod",kodAdim:2,kodHata:"",kodGirdi:k.kod,kodTel:telYaz(tel),kodKayit:null,kodYenileme:false,kodAd:s.kodWeb ? s.kodAd : "",kodParola:"",kodParola2:""});
+        } catch (e) { this.setState({ kodHata: e.message }); }
+        return;
+      }
       if (!s.kodWeb && this.kayitliMusteri(tel)) {
         this.setState({girisMod:"kayitli",girisTelefon:telYaz(tel),girisSifre:tel===AYSE_TEL && !parolaKaydi(tel) ? DEMO_PAROLA : "",kodHata:""});
         return;
       }
-      const ziyaret = s.kodWeb && new URLSearchParams(s.kodWeb).get("gun");
       const k = ziyaret ? smsKodOku(tel) : smsKodUret(tel);
       this.setState({girisMod:"kod",kodAdim:2,kodHata:"",kodGirdi:k?.kod || "",kodTel:telYaz(tel),kodKayit:null,kodYenileme:false,kodAd:"",kodParola:"",kodParola2:""});
       return;
@@ -2412,6 +2462,13 @@ class Component extends DCLogic {
         }
         return;
       }
+      if (CANLI) {
+        try {
+          await musteriMerkez("kodkontrol", { tel, kod: girilen });
+          if (this.state.kodAdim === 2 && this.state.kodGirdi === s.kodGirdi) this.setState({kodAdim:3,kodHata:""});
+        } catch (e) { if (this.state.kodAdim === 2) this.setState({ kodHata: e.message }); }
+        return;
+      }
       const k = smsKodOku(tel);
       if (!k || (webZiyaret && k.rid !== q.get("rid"))) {
         this.setState({kodHata:webZiyaret ? "Başvurunuza ait geçerli kod bulunamadı." : "Kodun süresi doldu. “Kodu tekrar gönder”e dokunun."});
@@ -2426,15 +2483,24 @@ class Component extends DCLogic {
     if (adGerekli && (s.kodAd || "").trim().length < 3) { this.setState({ kodHata: "Adınızı ve soyadınızı yazın." }); return; }
     if ((s.kodParola || "").length < 6) { this.setState({ kodHata: "Parola en az 6 karakter olmalı." }); return; }
     if (s.kodParola !== s.kodParola2) { this.setState({ kodHata: "Parolalar aynı değil." }); return; }
-    let yeniParola;
+    let yeniParola, merkezHesap = null;
+    const smsKodu = String(s.kodGirdi || "").replace(/\D/g, "");
     try {
-      yeniParola = await parolaOzeti(s.kodParola);
+      // Merkez sürümü: parola merkezde saklanır (her telefonda aynı). Yeni müşterinin hesabı KVKK onayında açılır.
+      if (CANLI && s.kodKayit) merkezHesap = await musteriMerkez("web", { tel, kod: smsKodu, rid: s.kodKayit.id, parola: s.kodParola });
+      else if (CANLI && s.kodYenileme) merkezHesap = await musteriMerkez("yenile", { tel, kod: smsKodu, parola: s.kodParola });
+      else if (CANLI && s.kodWeb) merkezHesap = await musteriMerkez("kayit", { tel, kod: smsKodu, ad: (s.kodAd || "").trim(), parola: s.kodParola, kvkk: true });
+      else if (!CANLI) yeniParola = await parolaOzeti(s.kodParola);
       if (this.state.girisMod !== "kod" || this.state.kodAdim !== 3 || this.state.kodTel !== s.kodTel ||
           this.state.kodParola !== s.kodParola || this.state.kodParola2 !== s.kodParola2 || this.state.kodWeb !== s.kodWeb) return;
-      if (s.kodWeb || s.kodYenileme) parolaKaydet(tel,yeniParola);
-    } catch (_) { this.setState({kodHata:"Parola kaydedilemedi. Yeniden deneyin."}); return; }
+      if (!CANLI && (s.kodWeb || s.kodYenileme)) parolaKaydet(tel,yeniParola);
+    } catch (e) { this.setState({kodHata: CANLI && e && e.message ? e.message : "Parola kaydedilemedi. Yeniden deneyin."}); return; }
     smsKodSil();
     const temel = { girisMod: "", kodAdim: 1, kodHata: "", kodGirdi: "", kodParola: "", kodParola2: "", kodWeb: "", kodKayit: null, kodYenileme:false };
+    if (merkezHesap && s.kodYenileme) {
+      this.setState(temel, () => { this.musteriOturumu(merkezHesap, false); this.showBildirim({ ad: "Parolanız yenilendi", ilce: "Hoş geldiniz" }); });
+      return;
+    }
     if (s.kodKayit) {
       // Canlı: web formundaki çağrı merkezden gelir (SPY ataması, mesajlar ve durum merkezde)
       const k = s.kodKayit, m = k.musteri || {};
@@ -2456,12 +2522,19 @@ class Component extends DCLogic {
       return;
     }
     // Yeni müşteri: kişisel veri onayı → Hoş geldiniz
-    this.setState({ ...temel, bekleyenParola:yeniParola, kayitAd: s.kodAd.trim(), kayitTelefon: telYaz(tel), yeniMusteri: true, kvkkAsama: true, kvkk1: false, kvkk2: false, kvkk3: false, panel: "musteri" });
+    this.setState({ ...temel, bekleyenParola:yeniParola, bekleyenKayit: CANLI ? { tel, kod: smsKodu, parola: s.kodParola } : null,
+      kayitAd: s.kodAd.trim(), kayitTelefon: telYaz(tel), yeniMusteri: true, kvkkAsama: true, kvkk1: false, kvkk2: false, kvkk3: false, panel: "musteri" });
   }
   kodAdGerekli(s) { return !s.kodWeb && !s.kodYenileme; }
-  kvkkOnayla() {
+  async kvkkOnayla() {
     const s = this.state;
     if (!s.kvkk1) return;
+    if (CANLI && s.yeniMusteri && s.bekleyenKayit) {
+      // Hesap merkezde açılır (KVKK onay tarihiyle); bundan sonra her telefonda telefon + parolayla girilir
+      try { this.musteriOturumu(await musteriMerkez("kayit", { ...s.bekleyenKayit, ad: s.kayitAd.trim(), kvkk: true }), true); }
+      catch (e) { this.showBildirim({ ad: "Hesap açılamadı", ilce: (e && e.message) || "Yeniden deneyin" }); }
+      return;
+    }
     const ortak = { mKonusmaAcik:false,mSeciliRandevuId:null,kvkkAsama: false, kvkkOnay: true, kvkkTarih: Date.now(), girisYapildi: true, panel: "musteri", customerNav: "basvurum", girisMod: "" };
     if (s.yeniMusteri) {
       if (s.bekleyenParola) {
@@ -3689,7 +3762,11 @@ class Component extends DCLogic {
       kodDugme: s.girisMod === "kod" && s.kodAdim === 2 ? "Doğrula" : s.girisMod === "kod" && s.kodAdim === 3 ? "Parolayı kaydet ve devam et" : "Devam et",
       kodIleri: () => this.kodIleri(),
       kodTekrarVar: s.girisMod === "kod" && s.kodAdim === 2 && !(s.kodWeb && new URLSearchParams(s.kodWeb).get("gun")),
-      kodTekrar: () => { const k = smsKodUret(this.state.kodTel); this.setState({ kodGirdi: k.kod, kodHata: "" }); this.showBildirim({ ad: "Yeni test kodu hazır", ilce: "10 dakika geçerli" }); },
+      kodTekrar: () => {
+        const tel = telAnahtar(this.state.kodTel), hazir = (k) => { this.setState({ kodGirdi: k.kod, kodHata: "" }); this.showBildirim({ ad: "Yeni test kodu hazır", ilce: "10 dakika geçerli" }); };
+        if (!CANLI) return hazir(smsKodUret(tel));
+        musteriMerkez("kod", { tel }).then((v) => hazir(smsKodYaz(tel, v.kod)), (e) => this.setState({ kodHata: e.message }));
+      },
       parolaUnuttum: () => this.parolaYenilemeBaslat(),
       girisAltYazi: "Emin olmak, güven demek",
       girisGeri: () => this.setState((st) => st.girisMod === "kod" && st.kodAdim === 3 ? {kodAdim:2,kodKayit:null,kodHata:""} :
@@ -3706,7 +3783,7 @@ class Component extends DCLogic {
       kvkkEksik: !s.kvkk1,
       kvkkOpacity: s.kvkk1 ? "1" : ".45",
       kvkkOnayla: () => this.kvkkOnayla(),
-      kvkkVazgec: () => this.setState({ kvkkAsama: false, kvkk1:false, bekleyenParola:null, girisMod: "", kayitOpen: false }),
+      kvkkVazgec: () => this.setState({ kvkkAsama: false, kvkk1:false, bekleyenParola:null, bekleyenKayit:null, girisMod: "", kayitOpen: false }),
       kvkkTarihText: s.kvkkTarih ? new Date(s.kvkkTarih).toLocaleString("tr-TR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit" }) : "",
       kvkkPazarlamaText: s.kvkk3 ? "izinli" : "izin verilmedi",
       cikisYap: () => this.cikisYap(),

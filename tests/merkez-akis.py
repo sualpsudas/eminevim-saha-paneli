@@ -301,9 +301,57 @@ with sync_playwright() as p:
             break
         uyg.wait_for_timeout(300)
     assert (wk.get('ekBilgi') or {}).get('neIcin') == 'Konut', wk.get('ekBilgi')
+
+    # Hesap merkezde: A telefonunda açılan hesapla B telefonunda yalnız parolayla girilir; çağrılar da gelir
+    def telefon_b():
+        pg = browser.new_context(viewport={'width': 393, 'height': 852}).new_page()
+        pg.on('pageerror', lambda e: errors.append('b: ' + str(e)))
+        pg.goto(URL); pg.get_by_role('button', name='Devam et', exact=True).wait_for()
+        return pg
+    def numara(pg, tel):
+        pg.get_by_label('Telefon numaranız', exact=True).fill(tel)
+        pg.get_by_role('button', name='Devam et', exact=True).click()
+    b = telefon_b()
+    numara(b, '0555 111 22 33')
+    b.get_by_text('Parolanızı girin', exact=True).wait_for()
+    b.get_by_label('Parola', exact=True).fill('yanlis1')
+    b.get_by_role('button', name='Giriş Yap', exact=True).click()
+    b.get_by_role('alert').get_by_text('Parola eşleşmedi', exact=False).wait_for()
+    b.get_by_label('Parola', exact=True).fill('test123')
+    b.get_by_role('button', name='Giriş Yap', exact=True).click()
+    bekle(b, 'app.state.girisYapildi && app.state.mTalep')
+    assert app(b, 'app.state.customerForm.name') == 'Deniz Test' and app(b, 'app.state.kvkkAsama') is False
+    assert app(b, 'app.state.mTalep.durum') == 'tamamlandi' and app(b, 'app.state.chatMessages.length') >= 3
+    b.screenshot(path=str(OUT / '9-baska-telefon-giris.png'))
+    # Web'den gelen müşteri (Mehmet Demir) de başka telefonda parolayla girer, web çağrısı Randevularım'da
+    b2 = telefon_b()
+    numara(b2, parse_qs(urlparse(link).query)['tel'][0])
+    b2.get_by_label('Parola', exact=True).fill('abc123')
+    b2.get_by_role('button', name='Giriş Yap', exact=True).click()
+    bekle(b2, 'app.state.mTalep && app.state.mTalep.id===' + repr(rid))
+    # Kayıtlı olmayan numara: parola sorulmaz, SMS kodu → ad/parola → KVKK
+    b3 = telefon_b()
+    numara(b3, '0555 999 88 77')
+    b3.get_by_label('SMS ile gelen 6 haneli kod').wait_for()
+    b3.get_by_role('button', name='Doğrula', exact=True).click()
+    b3.get_by_label('Ad Soyad', exact=True).wait_for()
+    assert merkez('api/musteri', {'islem': 'sorgu', 'tel': '5559998877'})['sonuc']['kayitli'] is False
+    # 5 yanlış parola → kısa süreli kilit (doğru parola da geçmez)
+    for _ in range(5):
+        try:
+            merkez('api/musteri', {'islem': 'giris', 'tel': '5551112233', 'parola': 'yanlis'})
+        except urllib.error.HTTPError as e:
+            assert e.code == 400
+    try:
+        merkez('api/musteri', {'islem': 'giris', 'tel': '5551112233', 'parola': 'test123'})
+        raise AssertionError('Kilitliyken giriş olmamalı')
+    except urllib.error.HTTPError as e:
+        assert 'Çok fazla hatalı deneme' in json.loads(e.read())['hata']
+    assert '"tuz"' not in json.dumps(merkez('api/durum?hepsi=1')), 'Parola özeti dışarı çıkmamalı'
     assert not errors, errors
     print('Merkez akışı: OK (7 SPY, hemen çağrı, bildirim tüm telefonlara + telefon değişimi + 410 temizliği, geri sayım + gerekçe, kabul, mesaj, yola çıkış, QR, özet, molada,'
           ' ileri tarih puanı, devret → kimse almadı, Saha Canlı haritası + süzgeç, kompakt performans,'
-          ' web formu → SMS penceresi → merkez kodu → uygulama → görüşmeye hazırlık)')
+          ' web formu → SMS penceresi → merkez kodu → uygulama → görüşmeye hazırlık,'
+          ' merkezdeki hesapla başka telefonda parola girişi + yanlış parola + kilit, kayıtsız numara → SMS kodu)')
     print('Görseller:', OUT)
     browser.close()

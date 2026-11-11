@@ -622,3 +622,9 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Telefon numarasından sonra kayıtlı müşteriye parola, yeni müşteriye test kodu ve KVKK adımları açılıyor. Parola yenileme ve web çağrısına kodla geçiş korundu.
 - Senaryo ve uygulama taslağında yalnız giriş ekranı güncellendi. “Temsilciniz yolda” üst başlığı metin göründüğü sürece Randevularım’a dönüyor.
 - Web konum onayı cümlesi amacı kendi içinde söylüyor ("yukarıda belirtilen" web'de boşta kalıyordu). Merkez: Windows'ta dosya o an açıkken kaydetme "erişim engellendi" verebiliyordu (testte görüldü) → kısa aralıklarla yeniden dener.
+
+## 2026-11-11 (6) · Müşteri hesabı merkezde
+- Merkez müşteri hesaplarını tutuyor (telefon, ad soyad, KVKK onay tarihi, web'den geldiyse konum onay tarihi; parola yalnız özet olarak).
+  Aynı numara + parola her telefonda çalışıyor; başka telefonda girişte çağrılar Randevularım'a geliyor. 5 yanlış parola → 5 dk kilit.
+- SMS test kodunu artık merkez üretiyor ve doğruluyor (ekranda gösterilmesi aynı). Pages gösterisi eski davranışla kaldı.
+- `merkez-akis.py`: A telefonunda kayıt → B telefonunda parolayla giriş, yanlış parola, kilit, kayıtsız numara, web müşterisinin başka telefonda girişi.

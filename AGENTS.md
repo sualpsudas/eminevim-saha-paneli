@@ -94,10 +94,9 @@ Her biri ayrı onay ister. Planı yazarken aşağıdaki etkileri kullanıcıya h
   giriş bölümü; testler `web-flows.py`, `browser-flows.py`, `phone-layout.py`, `merkez-akis.py` (giriş adımları); `senaryo.html` ve
   taslaklardaki giriş ekranı metinleri kontrol edilir. `video/` değişmez (videodaki eski ekran bilerek kalır).
 
-**C. Müşterinin "kayıtlı" bilgisini merkezde tutmak**
-- Bugün: kayıt ve KVKK onayı yalnız o telefonun hafızasında; aynı numara başka telefonda yeni müşteri sayılır.
-- Yapılırsa: merkeze müşteri kaydı (telefon, ad, KVKK onay tarihi; parola **düz metin tutulmaz**, özetlenir) ve `api/musteri-*` uçları;
-  uygulama girişte merkeze sorar (yalnız merkezden açılınca; Pages gösterisi eski davranışla kalır). Merkez yeniden başlatılır. Test: `merkez-akis.py`.
+**C. Müşterinin "kayıtlı" bilgisini merkezde tutmak — YAPILDI (2026-11-11)**
+- `merkez/sunucu.py` `api/musteri` (islem: sorgu, kod, kodkontrol, kayit, giris, yenile, web); `veri.json` → `musteriler`.
+  Uygulamada `musteriMerkez`, `musteriOturumu`. Parola özeti (`tuz`, `ozet`) hiçbir yanıtta dışarı çıkmamalı.
 
 **D. TestFlight uygulamasına kapalıyken bildirim (APNs)**
 - Bugün: tarayıcı/ana ekran sürümünde Web Push çalışıyor; TestFlight uygulamasında (WKWebView) Web Push yok.
