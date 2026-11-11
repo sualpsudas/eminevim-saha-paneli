@@ -18,6 +18,7 @@ Bu klasör, kullanıcıyla yapılan görüşmede netleşen proje amacını, mevc
 | [07 — Amaç nasıl anlatılır?](07-amac-nasil-anlatilir.md) | Tek cümle, 30 saniye ve katmanlı kurumsal anlatım; cumartesinin yeri; sık sorular |
 | [08 — Kaynak yönetimi](08-kaynak-yonetimi.md) | Saha gücünün ne kadarının çağrıya ayrılacağı: modeller, seçilen yön, atama kuralları, kapasite ayarı |
 | [09 — Yöntem araştırması](09-yontem-arastirmasi.md) | Şirketler ve akademik projeler işe nasıl başlıyor: PMBOK, PRINCE2, Altı Sigma, Mantıksal Çerçeve, Değişim Kuramı, TÜBİTAK, Aşama-Kapı, Amazon |
+| [10 — Atama ve rota](10-atama-ve-rota.md) | Başlangıç kuralları (2026-11-11): aktif SPY şartı (randevu ve ciro H/G ≥ %100), eleme, puan, 2 dk kabul, rota |
 | [Perplexity ham metni](kaynaklar/perplexity-ham-metin.txt) | Kullanıcının sağladığı çıktının değiştirilmemiş kopyası |
 | [Perplexity kaynak listesi](kaynaklar/perplexity-kaynaklari.md) | Sonradan sağlanan kaynak bağlantıları, türüne göre (resmî / ikincil / ticari / kişisel) |
 
