@@ -28,6 +28,8 @@ Proje amacı, kararlar ve açık işler `CLAUDE.md`'de. Bu dosya 2026-11-05'te o
   aracı hizmetlerimizden faydalanabilirsiniz" + uygulama linki. Web → uygulama linki artık doğrudan giriş YAPMAZ: kod ekranı
   (telefon dolu) → kod → **parola oluştur** → randevu açılır (onaylar web'de alındı, KVKK sorulmaz). Giriş ekranında seçenekler
   **Giriş Yap / Kayıt Ol** (2026-10-22). "Kayıt Ol": telefon (başlıksız) → kod (10 dk) → ad soyad + parola → KVKK → Hoş geldiniz.
+  **Kayıtlı olmayan numara KVKK'sız giremez (2026-11-11):** "Giriş Yap"ta kayıtsız numara yazılırsa "Bu numarayla kayıt yok" denir ve
+  Kayıt Ol akışına geçilir (ad soyad + parola → KVKK). Kayıtlı sayılan: bu cihazda daha önce kayıt olan ya da örnek müşteri (Ayşe Kaya).
   **Test aşaması: telefon, kod, ad soyad ve parola (test123) hazır dolu gelir.** "Giriş Yap": telefon + parola; "Parolamı unuttum ·
   SMS koduyla gir" → kod → yeni parola. Demo: kod gerçek SMS yerine aynı sitedeki `localStorage` "ty-sms-kod"da; kod
   ekranında "Demo: … Kodunuz" görünür. Gerçek yayında kod sunucuda üretilip SMS'le gönderilmeli, parola sunucuda saklanmalı.

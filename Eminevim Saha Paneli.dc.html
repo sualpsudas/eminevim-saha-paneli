@@ -3582,7 +3582,16 @@ class Component extends DCLogic {
           spySeciliVar: !!x, spySeciliAd: x ? x.ad : "", spySeciliFoto: x ? x.foto : "", spySeciliYer: x ? x.mahalle + ", " + x.ilce : "", spySeciliEtiket: x ? x.ad + " olarak giriş yap" : "", spyGir: () => x && this.loginRole("spy", x.id) };
       })(),
       submitYoneticiGiris: () => this.loginRole("ask"),
-      submitGiris: () => this.setState({ kvkk1: true, yeniMusteri: false, panel: "musteri" }, () => this.kvkkOnayla()),   // kayıtlı müşteri onayı daha önce vermiş: KVKK sorulmaz
+      submitGiris: () => {
+        // Kayıtlı müşteri onayı daha önce vermiş: KVKK sorulmaz. Kayıtsız numara Kayıt Ol akışına geçer (ad soyad + parola → KVKK)
+        const tel = telAnahtar(s.girisTelefon);
+        if (tel !== "5321456789" && !(this._hesaplar || {})[tel]) {
+          this.setState({ girisMod: "kod", kodAdim: 1, kodTel: s.girisTelefon || "", kodWeb: "", kodHata: "", kodAd: "", kodParola: "test123", kodParola2: "test123" });
+          this.showBildirim({ ad: "Bu numarayla kayıt yok", ilce: "Kayıt olun · kişisel veri onayı istenecek" });
+          return;
+        }
+        this.setState({ kvkk1: true, yeniMusteri: false, panel: "musteri" }, () => this.kvkkOnayla());
+      },
       girisModYok: !s.girisMod,
       girisModKayitli: s.girisMod === "kayitli",
       girisModKod: s.girisMod === "kod", girisGeriVar: s.girisMod === "kayitli" || s.girisMod === "kod",
