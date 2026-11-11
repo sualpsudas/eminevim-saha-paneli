@@ -13,6 +13,7 @@ senaryoları birebir aynı olmak zorunda değil.
 - **Ekran, akış, metin, personel, senaryo veya taslak işine başlamadan önce `URUN_KURALLARI.md` dosyasını oku.** Ürün kuralları orada;
   bu dosyadaki Kararlar ile çelişirse orası geçerlidir.
 - Tanıtım videosu işi: `video/OKUBENI.md`.
+- Codex için çalışma rehberi (yapılmaması gerekenler, yayınlama, bekleyen işlerin etkileri): `AGENTS.md` (2026-11-11). Kural değişince onu da güncelle.
 
 ## Klasörler
 - `index.html`, `assignment.js`, `org-data.js`, `map.html`, `sw.js` — uygulama (web/PWA). Aynı kod Capacitor ile iPhone'a
