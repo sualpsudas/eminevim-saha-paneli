@@ -612,3 +612,7 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
   bağlı ve kararsız olduğundan kalıcı teste konmadı (personel girişi ileride yalnız telefondan olacak — kullanıcı). `merkez-akis.py` sahte bildirim
   sunucusuyla: iki telefona gönderim, telefon değişimi, 410 temizliği, imza/şifreleme başlıkları. Tüm testler geçti.
 - Funnel açıldı (kullanıcı isteğiyle). Telefonda sayfa yarım yükleniyordu (aynı anda ~20 dosya, merkezin bekleme sırası 5 → Funnel 502); sıra 128 yapıldı.
+
+## 2026-11-11 (4) · Paket 2: uygulama ekranlarında ortak görünüm
+- Müşteri ve personel ekranlarında düğme ölçüleri, başlık hiyerarşisi ve ilgili kartların iç boşlukları eşitlendi. Yönetici ad ve rolü aynıysa üst çubukta tek satır gösteriliyor.
+- Renkler, web formu ve senaryo değişmedi.

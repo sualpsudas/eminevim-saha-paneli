@@ -164,7 +164,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 .tp-ad > span{font-size:12px;color:var(--dim)}
 .tp-hap{font-size:11px;font-weight:800;border-radius:22px;padding:3px 9px;white-space:nowrap;flex:0 0 auto}
 .tp-kart{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
-.tp-btn{min-height:46px;border:0;border-radius:22px;background:#EA803F;color:#fff;font:800 14px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;padding:0 20px;cursor:pointer}
+.tp-btn{border:0;background:#EA803F;color:#fff;cursor:pointer}
 .tp-btn.o{background:var(--card);border:1.5px solid #00724C;color:#00724C}
 .tp-cip{display:flex;gap:6px;flex-wrap:wrap}
 .tp-cip button{border:0;background:var(--kutu);color:var(--dim);border-radius:22px;min-height:36px;padding:0 14px;font:700 12.5px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;cursor:pointer}
@@ -348,7 +348,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 .m-kart{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--card);display:flex;flex-direction:column;gap:10px;min-width:0;overflow-wrap:anywhere}
 .m-durum{background:#00724C;color:#fff;border:0}.m-durum h2{font-size:19px;margin:0;line-height:1.3}.m-durum p{margin:0;line-height:1.5;font-size:13px}
 .m-satir{display:flex;align-items:center;gap:10px;min-width:0}.m-satir>span{flex:1;min-width:0}.m-satir b{display:block}.m-satir small{display:block;font-size:12px;line-height:1.5;color:var(--dim)}
-.m-btn{border:0;border-radius:22px;min-height:44px;padding:11px 16px;font:700 13px GOTHIC,'Century Gothic','Segoe UI',sans-serif;cursor:pointer;background:#EA803F;color:#fff;line-height:1.35;white-space:normal;overflow-wrap:anywhere}
+.m-btn{border:0;cursor:pointer;background:#EA803F;color:#fff;white-space:normal;overflow-wrap:anywhere}
 .m-btn.o{background:var(--card);color:#00724C;border:1px solid var(--line)}.m-btn:disabled{opacity:.45;cursor:default}.m-actions{display:flex;gap:8px;flex-wrap:wrap}.m-actions>.m-btn{flex:1 1 110px}
 .m-not{background:var(--tintGreen);color:var(--ink);font-size:13px;line-height:1.5}.m-uyari{background:#FDF1E8;color:#8A4A1F}.m-kart h3{margin:0;font-size:15px}.m-kart p{margin:0;font-size:13px;line-height:1.5}
 .m-alan{display:flex;flex-direction:column;gap:6px;font-size:13px;min-width:0}.m-alan select,.m-alan textarea{box-sizing:border-box;width:100%;min-width:0;min-height:44px;border:1px solid var(--line);border-radius:12px;padding:11px;background:var(--bg);color:var(--ink);font:inherit}.m-alan textarea{min-height:80px;resize:vertical}
@@ -430,6 +430,14 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
   .py-oran{font-variant-numeric:tabular-nums;color:#00724C}
   .py-ort{background:var(--kutu);font-size:13px;color:var(--dim)}
   .py-not{font-size:12px;color:var(--dim);margin:8px 2px 0}
+  /* Müşteri ve personel ekranlarında ortak ölçüler */
+  .m-btn,.tp-btn{box-sizing:border-box;min-height:46px;border-radius:22px;padding:10px 16px;font:800 14px/1.3 GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif}
+  .m-page-title,.tp-bas h1,.m-durum h2{font-size:22px;line-height:1.25;font-weight:800}
+  .tp-bas h1 > small{margin-top:4px;font-size:13px;line-height:1.4}
+  .customer-appointments .m-kart,.tp-iki .tp-kart{border-radius:14px;padding:16px;gap:12px}
+  .customer-appointments .m-kart h3,.tp-detay-baslik{font-size:18px;line-height:1.25;font-weight:800}
+  .tp-iki .tp-satirlar > div{padding:6px 0}
+  .tp-dar .py-sat{padding-block:12px}
   .py-mobil-etiket,.tp-secim-dar{display:none}
   @media (max-width:899px){
     .tp-secim-genis{display:none}
@@ -626,7 +634,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
   <!-- Personel (SPY ve Yönetici): tablet düzeni -->
   <sc-if value="{{ isPersonel }}"><div class="tp">
     <sc-if value="{{ bildirim }}"><div class="tp-bildirim" role="status"><img src="assets/logo-green.png" alt=""><div><b>{{ bildirimBaslik }}</b><span>{{ bildirimAlt }}</span></div><button type="button" onClick="{{ dismissBildirim }}" aria-label="Bildirimi kapat">×</button></div></sc-if>
-    <nav class="tp-yan" aria-label="Personel menüsü"><img src="assets/logo-white.png" alt="Eminevim"><button type="button" class="tp-ust-kisi" onClick="{{ tpProfilGit }}" aria-label="Profil"><span><b>{{ tpAd }}</b><small>{{ tpUstDurum }}</small></span><span class="tp-av" style="background-image:{{ tpFotoCss }};color:{{ tpBasRenk }};">{{ tpBas }}</span></button>
+    <nav class="tp-yan" aria-label="Personel menüsü"><img src="assets/logo-white.png" alt="Eminevim"><button type="button" class="tp-ust-kisi" onClick="{{ tpProfilGit }}" aria-label="Profil"><span><b>{{ tpAd }}</b><sc-if value="{{ tpUstDurumVar }}"><small>{{ tpUstDurum }}</small></sc-if></span><span class="tp-av" style="background-image:{{ tpFotoCss }};color:{{ tpBasRenk }};">{{ tpBas }}</span></button>
       <div class="tp-men"><sc-for list="{{ tpMenu }}" as="m" hint-placeholder-count="3"><button type="button" aria-current="{{ m.aktif }}" onClick="{{ m.onSec }}">{{ m.ad }}</button></sc-for></div>
       <div class="tp-kisi">
         <div class="tp-kisi-ust"><span class="tp-av" style="background-image:{{ tpFotoCss }};color:{{ tpBasRenk }};">{{ tpBas }}</span><span><b>{{ tpAd }}</b>{{ tpRol }}</span></div>
@@ -647,7 +655,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
         <div class="tp-sutun">
           <sc-if value="{{ tpRotaAcik }}"><div class="tp-kart" style="padding:0;overflow:hidden;flex:1;min-height:420px;position:relative;"><iframe src="{{ tpRotaSrc }}" title="Bugünkü rota" style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe></div><div style="font-size:12.5px;color:var(--dim);">Numaralar bugünkü randevuların saat sırasıdır. Turuncu: bekleyen · yeşil: şu an · gri: gerçekleşti.</div></sc-if>
           <sc-if value="{{ tpDetayVar }}"><div class="tp-kart" style="display:flex;flex-direction:column;gap:12px;">
-            <div style="display:flex;align-items:center;gap:12px;"><span class="tp-av" style="background-color:var(--tintGreen);color:#00724C;width:48px;height:48px;">{{ tpDBas }}</span><span style="flex:1;min-width:0;"><b style="display:block;font-size:18px;color:var(--ink);">{{ tpDAd }}</b><span style="font-size:12.5px;color:var(--dim);">{{ tpDKaynak }}</span></span><span class="tp-hap" style="background:{{ tpDHapBg }};color:{{ tpDHapRenk }};">{{ tpDHap }}</span></div>
+            <div style="display:flex;align-items:center;gap:12px;"><span class="tp-av" style="background-color:var(--tintGreen);color:#00724C;width:48px;height:48px;">{{ tpDBas }}</span><span style="flex:1;min-width:0;"><b class="tp-detay-baslik" style="display:block;color:var(--ink);">{{ tpDAd }}</b><span style="font-size:12.5px;color:var(--dim);">{{ tpDKaynak }}</span></span><span class="tp-hap" style="background:{{ tpDHapBg }};color:{{ tpDHapRenk }};">{{ tpDHap }}</span></div>
             <div class="tp-satirlar"><sc-for list="{{ tpDSatirlar }}" as="x" hint-placeholder-count="4"><div><span>{{ x.k }}</span><b>{{ x.v }}</b></div></sc-for></div>
             <sc-if value="{{ tpDNotVar }}"><div style="background:var(--tintGreen);border-radius:12px;padding:9px 12px;font-size:13px;color:var(--ink);">{{ tpDNot }}</div></sc-if>
             <sc-if value="{{ tpDKabulVar }}"><div style="display:flex;gap:10px;"><button type="button" class="tp-btn" style="flex:2;" onClick="{{ tpKabulEt }}">Kabul et</button><button type="button" class="tp-btn o" style="flex:1;" onClick="{{ tpDevret }}">Devret</button></div></sc-if>
@@ -2708,6 +2716,7 @@ class Component extends DCLogic {
     const liste = gorusmeYapar ? this.tpGorusmeler(s) : [];
     const gorusmede = liste.some((g) => g.durum === "gorusmede");
     out.tpUstDurum = ROL_AD[rol] + (gorusmeYapar ? " · " + (gorusmede ? "Görüşmede" : s.tpDurum === "molada" ? "Molada" : "Müsait") : "");
+    out.tpUstDurumVar = out.tpUstDurum !== ad;
     Object.assign(out, {
       tpDurumElle: gorusmeYapar && !gorusmede,
       tpBildirimVar: CANLI && s.panel === "spy",
