@@ -611,3 +611,4 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Doğrulama: gerçek Chrome + Google bildirim servisiyle abonelik → çağrı → bildirim gösterildi (gönderim "ok"). Bu deneme Google'ın yanıt süresine
   bağlı ve kararsız olduğundan kalıcı teste konmadı (personel girişi ileride yalnız telefondan olacak — kullanıcı). `merkez-akis.py` sahte bildirim
   sunucusuyla: iki telefona gönderim, telefon değişimi, 410 temizliği, imza/şifreleme başlıkları. Tüm testler geçti.
+- Funnel açıldı (kullanıcı isteğiyle). Telefonda sayfa yarım yükleniyordu (aynı anda ~20 dosya, merkezin bekleme sırası 5 → Funnel 502); sıra 128 yapıldı.

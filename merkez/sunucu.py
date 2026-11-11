@@ -577,6 +577,8 @@ def main():
         oku()
     # Windows'ta adres yeniden kullanımı aynı porta ikinci sunucunun bağlanmasına izin veriyor: kapat
     ThreadingHTTPServer.allow_reuse_address = False
+    # Telefon sayfayı açarken ~20 dosyayı aynı anda ister; varsayılan 5'lik bekleme sırası taşınca Funnel 502 veriyordu
+    ThreadingHTTPServer.request_queue_size = 128
     try:
         sunucu = ThreadingHTTPServer(("127.0.0.1", PORT), Isleyici)
     except OSError:
