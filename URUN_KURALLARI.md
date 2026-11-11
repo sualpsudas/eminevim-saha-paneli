@@ -46,7 +46,7 @@ her adım bitince burada "Durum" güncellenir.
      2/2 gün ve saat → "Onayla". Pencere onaysız kapanırsa düğme kapanır. Formda tek satır özet + "Değiştir".
    - Harita sade ama **mekânlar görünür** olmalı. Uzaktan bakınca yalnız harita + **hizmet bölgeleri yeşil** alan
      (kompakt görünüm). Hizmet bölgeleri şimdilik: **İstanbul Ümraniye, Ataşehir, Üsküdar**.
-   - Temsilci seçilince ayrı konum açık rızası işaretsiz açılır. Metin uygulamadaki KVKK onay cümlesiyle aynıdır.
+   - Temsilci seçilince ayrı konum açık rızası işaretsiz açılır. Metin amacı kendi içinde söyler (uygulamadaki KVKK ekranında amaçlar cümlenin üstünde yazdığı için "yukarıda belirtilen" web'de kullanılmaz).
      Onaydan sonra harita açılır. Onay vermek istemeyen temsilci seçimini kapatıp normal başvuru yapabilir.
      Merkez web temsilci çağrısında onayı doğrular ve zamanını kaydeder.
    - Seçilen konum hizmet bölgesinin içindeyse ilerlenir.

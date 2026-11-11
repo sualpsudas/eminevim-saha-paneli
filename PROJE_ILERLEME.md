@@ -621,3 +621,4 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Web temsilci çağrısında uygulamayla aynı açık rıza cümlesi ayrı bir kutuda gösteriliyor; merkez onay tarihini kaydediyor.
 - Telefon numarasından sonra kayıtlı müşteriye parola, yeni müşteriye test kodu ve KVKK adımları açılıyor. Parola yenileme ve web çağrısına kodla geçiş korundu.
 - Senaryo ve uygulama taslağında yalnız giriş ekranı güncellendi. “Temsilciniz yolda” üst başlığı metin göründüğü sürece Randevularım’a dönüyor.
+- Web konum onayı cümlesi amacı kendi içinde söylüyor ("yukarıda belirtilen" web'de boşta kalıyordu). Merkez: Windows'ta dosya o an açıkken kaydetme "erişim engellendi" verebiliyordu (testte görüldü) → kısa aralıklarla yeniden dener.

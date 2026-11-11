@@ -80,10 +80,22 @@ def oku():
     return veri
 
 
+def degistir(gecici, hedef):
+    # Windows: hedefi o an başka bir program (virüs tarayıcısı, yedekleme, okuyan süreç) açık tutuyorsa
+    # yer değiştirme "erişim engellendi" verir; kısa aralıklarla yeniden dene
+    for deneme in range(20):
+        try:
+            return os.replace(gecici, hedef)
+        except PermissionError:
+            if deneme == 19:
+                raise
+            time.sleep(0.05)
+
+
 def yaz(veri):
     gecici = VERI.with_suffix(".tmp")
     gecici.write_text(json.dumps(veri, ensure_ascii=False), encoding="utf-8")
-    os.replace(gecici, VERI)
+    degistir(gecici, VERI)
 
 
 def km(a, b):
@@ -214,7 +226,7 @@ def abone_oku():
 def abone_yaz(a):
     gecici = ABONELIK.with_suffix(".tmp")
     gecici.write_text(json.dumps(a, ensure_ascii=False), encoding="utf-8")
-    os.replace(gecici, ABONELIK)
+    degistir(gecici, ABONELIK)
 
 
 def vapid():
