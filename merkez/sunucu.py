@@ -516,11 +516,13 @@ def jeton_ozet(jeton):
     return hashlib.sha256(str(jeton or "").encode()).hexdigest()
 
 
-def oturum(veri, tel):
-    """Girişte dönen hesap + çağrılar. Jeton yalnız bu telefonun bildirim aboneliği için (müşteri adına abone olmayı kanıtlar)."""
+def oturum(veri, tel, jeton=None):
+    """Girişte dönen hesap + çağrılar. Jeton bu telefonun oturumudur: uygulama kapanıp açılınca parolasız devam
+    (Çıkış yap'a kadar) ve bildirim aboneliği (müşteri adına abone olmayı kanıtlar). Telefonda parola saklanmaz."""
     m = veri["musteriler"][tel]
-    jeton = secrets.token_urlsafe(24)
-    m["jetonlar"] = (m.get("jetonlar", []) + [jeton_ozet(jeton)])[-10:]
+    if not jeton:
+        jeton = secrets.token_urlsafe(24)
+        m["jetonlar"] = (m.get("jetonlar", []) + [jeton_ozet(jeton)])[-10:]
     return {"tel": tel, "ad": m["ad"], "kvkkTarih": m.get("kvkkTarih", 0), "jeton": jeton, "kayitlar": musteri_kayitlari(veri, tel)}
 
 
@@ -544,6 +546,14 @@ def musteri_islem(veri, istek):
     if islem == "kodkontrol":
         kod_dogru(tel, istek.get("kod"))
         return {"kayitli": bool(m)}
+    if islem in ("oturum", "cikis"):  # uygulama yeniden açıldı / Çıkış yap
+        jeton = str(istek.get("jeton") or "")
+        if not m or jeton_ozet(jeton) not in m.get("jetonlar", []):
+            raise ValueError("Oturum doğrulanamadı. Yeniden giriş yapın.")
+        if islem == "cikis":
+            m["jetonlar"].remove(jeton_ozet(jeton))
+            return {}
+        return oturum(veri, tel, jeton)
     if islem == "giris":
         if not m:
             raise ValueError("Bu numarayla kayıt yok.")

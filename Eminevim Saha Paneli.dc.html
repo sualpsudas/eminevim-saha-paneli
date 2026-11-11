@@ -1557,6 +1557,7 @@ class Component extends DCLogic {
     const directRole = q.get("rol");
     if (["tl", "sgl", "ask", "spy"].indexOf(directRole) >= 0) this.loginRole(directRole, q.get("spy"));
     else if (CANLI && TEMSILCI_DETAY[Canli.oku("ty-spy")]) this.loginRole("spy", Canli.oku("ty-spy"), true);  // personel oturumu cihazda kalır
+    else if (CANLI && q.get("kaynak") !== "web") this.musteriOturumSurdur();  // müşteri oturumu da (Çıkış yap'a kadar)
     this.canliBasla();
     if (CANLI) this.cekYenileKur();
   }
@@ -2434,9 +2435,34 @@ class Component extends DCLogic {
     });
   }
   musteriBildirimBagla(v) {
+    // Oturum telefonda kalır (Çıkış yap'a kadar; parola değil, merkezin verdiği jeton)
+    if (v && v.jeton) Canli.yaz("ty-musteri-oturum", JSON.stringify({ tel: v.tel, jeton: v.jeton }));
     // Uygulama kapalıyken bildirim: izin önceden verildiyse sessizce bağlanır; verilmediyse Randevularım'da "Bildirimleri aç" kartı
     this._musteriBildirim = v && v.jeton ? { musteri: v.tel, jeton: v.jeton } : null;
     if (this._musteriBildirim) Canli.pushBagla(this._musteriBildirim, false).then((d) => { if (this.state.panel === "musteri") this.setState({ mBildirim: d }); });
+  }
+  musteriOturumKapat(merkezde) {
+    let o = null;
+    try { o = JSON.parse(Canli.oku("ty-musteri-oturum") || "null"); } catch (_) {}
+    Canli.yaz("ty-musteri-oturum", null);
+    if (merkezde && o) musteriMerkez("cikis", o).catch(() => {});
+  }
+  musteriOturumSurdur(deneme = 0) {
+    // Uygulama yeniden açıldı: kayıtlı oturum varsa parolasız devam (randevular merkezden yeniden gelir)
+    let o = null;
+    try { o = JSON.parse(Canli.oku("ty-musteri-oturum") || "null"); } catch (_) {}
+    if (!o || !o.tel || !o.jeton) return false;
+    if (!deneme) this.setState({ oturumAciliyor: true });  // giriş ekranı bir an görünüp kaybolmasın
+    const bitti = () => { if (this.state.oturumAciliyor) this.setState({ oturumAciliyor: false }); };
+    musteriMerkez("oturum", o).then((v) => {
+      bitti();
+      if (!this.state.girisYapildi) this.musteriOturumu(v, false);
+    }, (e) => {
+      if (/Merkeze ulaşılamadı/.test(e.message) && deneme < 4) { bitti(); return setTimeout(() => this.musteriOturumSurdur(deneme + 1), 2500); }
+      if (!/Merkeze ulaşılamadı/.test(e.message)) this.musteriOturumKapat(false);  // oturum geçersiz (sıfırlandı vb.)
+      bitti();
+    });
+    return true;
   }
   musteriBildirimAc() {
     if (!this._musteriBildirim) return;
@@ -2630,6 +2656,7 @@ class Component extends DCLogic {
     const key = telAnahtar(s.customerForm.phone);
     if (CANLI && s.panel === "spy") { Canli.yaz("ty-spy", null); Canli.pushBirak(); this.setState({ tpKayitlar: {}, tpSecim: null, tpBildirim: "" }); }
     if (CANLI && s.panel === "musteri" && this._musteriBildirim) { Canli.pushBirak(); this._musteriBildirim = null; this.setState({ mBildirim: "" }); }  // çıkış yapan telefona müşteri bildirimi gitmez
+    if (CANLI && s.panel === "musteri") this.musteriOturumKapat(true);
     this.mKaydetHesap();
     if (key && s.panel === "musteri") {   // personel çıkışı müşterinin kaydını ezmesin
       if (!this._hesaplar) this._hesaplar = {};
@@ -3812,7 +3839,7 @@ class Component extends DCLogic {
       yaEpostaTamam: s.yaEpostaKayit,
       yaEpostaKaydet: () => { if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s.yaEposta.trim())) this.setState({ yaEpostaKayit: true }); else this.showBildirim({ ad: "E-posta adresi eksik", ilce: "Örn. ad@ornek.com" }); },
       yaUyeOl: () => this.yaUyeOl(),
-      girisGosterilsin: !s.girisYapildi,
+      girisGosterilsin: !s.girisYapildi && !s.oturumAciliyor,
       girisEmail: s.girisEmail,
       girisSifre: s.girisSifre,
       setGirisEmail: (e) => this.setState({ girisEmail: e.target.value }),

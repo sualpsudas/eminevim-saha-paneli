@@ -345,12 +345,27 @@ with sync_playwright() as p:
     assert app(b, 'app.state.customerForm.name') == 'Deniz Test' and app(b, 'app.state.kvkkAsama') is False
     assert app(b, 'app.state.mTalep.durum') == 'tamamlandi' and app(b, 'app.state.chatMessages.length') >= 3
     b.screenshot(path=str(OUT / '9-baska-telefon-giris.png'))
+    # Uygulama kapanıp açılınca müşteri girişli kalır (parola sorulmaz), randevular merkezden gelir
+    b.reload()
+    bekle(b, 'app.state.girisYapildi && app.state.customerForm.name==="Deniz Test" && app.state.mTalep', 10000)
+    assert 'test123' not in b.evaluate('JSON.stringify(localStorage)'), 'Parola telefonda saklanmamalı'
     # Web'den gelen müşteri (Mehmet Demir) de başka telefonda parolayla girer, web çağrısı Randevularım'da
     b2 = telefon_b()
     numara(b2, parse_qs(urlparse(link).query)['tel'][0])
     b2.get_by_label('Parola', exact=True).fill('abc123')
     b2.get_by_role('button', name='Giriş Yap', exact=True).click()
     bekle(b2, 'app.state.mTalep && app.state.mTalep.id===' + repr(rid))
+    # Çıkış yap → oturum telefonda ve merkezde kapanır; yeniden açınca giriş ekranı
+    o = json.loads(b2.evaluate('localStorage.getItem("ty-musteri-oturum")'))
+    app(b2, 'app.cikisYap()')
+    b2.reload(); b2.get_by_role('button', name='Devam et', exact=True).wait_for()
+    b2.wait_for_timeout(1500)
+    assert app(b2, 'app.state.girisYapildi') is False and b2.evaluate('localStorage.getItem("ty-musteri-oturum")') is None
+    try:
+        merkez('api/musteri', {'islem': 'oturum', **o})
+        raise AssertionError('Çıkıştan sonra eski oturum geçerli olmamalı')
+    except urllib.error.HTTPError as e:
+        assert e.code == 400
     # Kayıtlı olmayan numara: parola sorulmaz, SMS kodu → ad/parola → KVKK
     b3 = telefon_b()
     numara(b3, '0555 999 88 77')
