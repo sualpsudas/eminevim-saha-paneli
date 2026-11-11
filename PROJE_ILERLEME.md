@@ -633,3 +633,11 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Uygulama kapalıyken müşteriye: temsilci belli oldu (ad · saat), temsilci yola çıktı (tahmini varış), temsilcinin mesajı. Dokununca o randevu açılır.
 - Girişten sonra Randevularım'da "Bildirimleri açın" kartı, Ayarlar'da Bildirimler kartı. Abonelik girişte merkezin verdiği jetonla (başkası adına abone olunamaz).
 - Kabul ve yola çıkışta giden hazır temsilci mesajı ikinci bir bildirim üretmiyor. Test: `merkez-akis.py` (sahte bildirim sunucusu).
+
+## 2026-11-11 (8) · Sıfırlama telefona yansır, oturum kalıcı, sade yazılar
+- Test verisini sıfırlama artık telefondaki uygulamayı da sıfırlıyor (o sırada kapalı olsa bile açılınca); müşteri giriş ekranına döner.
+- Yeni sürüm yüklenince "Yeni sürüm hazır · Yenile" şeridi; ana ekran uygulamasında aşağı çekip yenileme.
+- Müşteri oturumu "Çıkış yap"a kadar açık kalıyor (telefonda parola değil, merkezin oturum anahtarı).
+- Kaldırılan yazılar: "Emin olmak, güven demek", "Neden size geldi", SPY çağrısındaki açıklama notları (yalnız "Kabul için kalan süre" kaldı),
+  "Şirket ortalamasına göre", performans ve harita açıklamaları, Randevularım / Randevu al / kapanış alt açıklamaları.
+- Test: `merkez-akis.py` (sıfırlama, sürüm şeridi, yeniden açınca girişli kalma, çıkış sonrası eski oturum reddi) + diğer 7 test.

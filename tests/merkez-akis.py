@@ -153,11 +153,11 @@ with sync_playwright() as p:
     assert b['basliklar'].get('authorization', '').startswith('vapid t=') and b['basliklar'].get('content-encoding') == 'aes128gcm' and b['boy'] > 0, b
     assert b['basliklar'].get('ttl') == '120' and b['basliklar'].get('urgency') == 'high', b
 
-    # Derya'ya bildirim + 2 dk geri sayım + gerekçe; Onur'da görünmez
+    # Derya'ya bildirim + 2 dk geri sayım; Onur'da görünmez
     bekle(spy, 'Object.values(app.state.tpKayitlar).some(k=>k.musteri&&k.musteri.ad==="Deniz Test")')
     spy.get_by_text('Yeni çağrı: Deniz Test', exact=True).wait_for()
     spy.get_by_text('Kabul için kalan süre', exact=False).wait_for()
-    spy.get_by_text('Neden size geldi', exact=True).wait_for()
+    assert spy.get_by_text('Neden size geldi', exact=True).count() == 0, 'Gerekçe satırı kaldırıldı'
     spy.screenshot(path=str(OUT / '2-spy-yeni-cagri.png'))
     spy_diger.wait_for_timeout(3000)
     assert app(spy_diger, 'Object.keys(app.state.tpKayitlar).length') == 0, 'Başka SPY çağrıyı görmemeli'

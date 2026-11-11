@@ -40,7 +40,7 @@ Randevu H/G ile ciro H/G **eşit ağırlıkta**. Değer %100–130 arasında pua
 
 ## 5. Teklif ve kabul
 
-1. Çağrı en yüksek puanlı SPY'ye gider; telefonunda sesli uyarı. SPY çağrıyı neden aldığını görür (uzaklık, H/G, o günkü çağrı sayısı).
+1. Çağrı en yüksek puanlı SPY'ye gider; telefonunda sesli uyarı. SPY ekranında kabul için kalan süre görünür.
 2. **2 dakika** içinde kabul etmezse ya da **Devret** derse sıradaki SPY'ye geçer. Deneme sayısı sınırı yoktur.
 3. Uygun SPY kalmazsa çağrı **"kimse almadı"** olur, yöneticinin Saha Canlı haritasında **kırmızı** görünür; uygun bir SPY çıkınca
    (moladan döndü, görüşmesi bitti) kendiliğinden ona teklif edilir.

@@ -33,6 +33,11 @@ Proje amacı, kararlar ve açık işler `CLAUDE.md`'de. Bu dosya 2026-11-05'te o
   telefonda da yalnız parola sorulur, çağrıları Randevularım'a gelir. Art arda 5 yanlış parola → 5 dk giriş kapalı ("Parolamı unuttum" açık).
   Web'den gelen müşterinin hesabı parolayı oluşturunca açılır. Test sıfırlaması müşterileri de siler; Ayşe Kaya (parola test123) yeniden kurulur.
   GitHub Pages gösterisi eski davranışla kalır (hesap o tarayıcıda).
+- **Müşteri oturumu "Çıkış yap"a kadar açık kalır:** uygulama kapanıp açılınca parola sorulmaz. Telefonda parola değil, merkezin verdiği
+  oturum anahtarı saklanır. Çıkış yap ve test verisini sıfırlama oturumu telefonda ve merkezde kapatır.
+- **Test sıfırlaması telefonlara da yansır:** uygulama açılınca (o sırada kapalı olsa bile) yerel randevular silinir, müşteri giriş ekranına döner.
+  Yeni sürüm yüklenince üstte "Yeni sürüm hazır · Yenile" çıkar; ana ekrandan açılan uygulamada aşağı çekince sayfa yenilenir.
+- **Ekran yazıları sade:** slogan ("Emin olmak, güven demek") ve "nasıl hesaplanıyor / ne işe yarar" türü açıklamalar yok.
 - Doğrulama: `npm test`; yerel 8799 sunucusunda `tests/browser-flows.py` ve `tests/web-flows.py` (Playwright + Chrome). Senaryo sayfası bu geliştirmeden sonra ayrıca ele alınacak.
 
 Bu bölüm `CLAUDE.md`'deki eski kararlarla çelişirse **bu bölüm geçerlidir**. Uygulama adım adım, kullanıcıyla konuşarak yapılır;
@@ -147,8 +152,8 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   - Çağrı en yüksek puanlıya **teklif** edilir; **2 dakikada** kabul edilmezse ya da SPY **Devret** derse sıradakine. Deneme sınırı yok;
     uygun SPY kalmazsa çağrı **"kimse almadı"** olur ve Saha Canlı haritasında **kırmızı** görünür; uygun SPY çıkınca (moladan döndü,
     görüşmesi bitti) kendiliğinden ona teklif edilir. **Yöneticiye düşme, Ata ve Aktar yok.** Süresi dolmuş çağrıyı eski SPY kabul edemez.
-- **SPY ekranı:** yeni çağrıda ses + titreşim + "Yeni çağrı: Ad"; ayrıntıda **kabul için kalan süre** (geri sayım), **"Neden size geldi"**
-  (uzaklık, H/G, o günkü çağrı sayısı) ve müşterinin görüşmeye hazırlık bilgileri (ne için, çalışma durumu, yaş aralığı, not).
+- **SPY ekranı:** yeni çağrıda ses + titreşim + "Yeni çağrı: Ad"; ayrıntıda **kabul için kalan süre** (geri sayım; "Neden size geldi" satırı
+  2026-11-11'de kaldırıldı) ve müşterinin görüşmeye hazırlık bilgileri (ne için, çalışma durumu, yaş aralığı, not).
   Performans: son 3 ay randevu ve ciro H/G çubukları, ekipteki sıra (x/7), bugünkü çağrı (en fazla 4), kural özeti.
 - **Yönetici ekranı:** Saha Canlı ve Performans. **Destek bölümü yok** (yönetici, müşteri ve testlerden kaldırıldı, 2026-11-11).
   - **Saha Canlı** = merkezin takip sayfası (uygulamada ve bilgisayarda aynı düzen; Pages gösterisinde örnek veriyle). Yalnız **bugün**
