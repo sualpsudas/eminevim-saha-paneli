@@ -69,6 +69,35 @@ with sync_playwright() as p:
         page.locator('.customer-header').get_by_role('button',name='Geri',exact=True).click()
         assert app(page,'app.state.basvuruDuzenle') is False
         app(page,'app.setState({basvuruDuzenle:false})')
+    # Finansman kendiliğinden seçilmez: tutar/plan/peşinat/vade boş başlar, kaydedilen ✓ almaz
+    page.set_viewport_size({'width':393,'height':852})
+    page.get_by_role('button',name='Finansman',exact=True).click()
+    assert app(page,'app.state.aktifBasvuruId') is None
+    page.get_by_role('button',name='+ Yeni',exact=True).click()
+    page.get_by_role('button',name='Konut',exact=True).click()
+    assert app(page,'app.state.basvuruTutar')=='' and app(page,'app.state.basvuruPlan')==''
+    page.get_by_role('button',name='Devam ›',exact=True).click()
+    assert page.get_by_role('button',name='Devam ›',exact=True).is_disabled(), 'Plan seçilmeden devam edilmemeli'
+    page.get_by_role('button',name='Bireysel',exact=False).click()
+    page.get_by_role('button',name='Devam ›',exact=True).click()
+    kaydet=page.get_by_role('button',name='Kaydet',exact=True)
+    assert app(page,'app.state.basvuruPesinat') is None and app(page,'app.state.basvuruVade') is None
+    page.get_by_placeholder('Örn. 3.500.000').fill('2000000')
+    assert kaydet.is_disabled(), 'Peşinat ve vade seçilmeden kaydedilmemeli'
+    page.get_by_role('button',name='%20',exact=True).click()
+    page.get_by_label('Vade',exact=True).click()
+    assert app(page,'app.state.basvuruVade')>0
+    kaydet.click()
+    assert app(page,'app.state.aktifBasvuruId') is None and app(page,'app.state.musteriBasvurulari.length')==2
+    # Demo modu ve koyu tema düğmeleri yok
+    page.get_by_role('button',name='Ayarlar',exact=True).click()
+    assert page.get_by_text('Demo modu',exact=False).count()==0 and page.get_by_text('Koyu tema',exact=False).count()==0
+    # Telefonda Temsilci iste penceresinde masaüstü çerçevesinin lacivert şeridi görünmez
+    app(page,'app.mTemsilciIste()')
+    page.locator('.ya-akis').wait_for()
+    assert page.locator('.ya-ust').evaluate('e=>getComputedStyle(e).display')=='none'
+    page.screenshot(path=str(OUT/'fixed-393-temsilci-iste.png'),animations='disabled')
+    app(page,'app.setState({yaOpen:false})')
     # Klavye açıldığında daralan görünür alan: mesaj alanı ve menü görünür kalır.
     page.set_viewport_size({'width':393,'height':440})
     page.get_by_role('button',name='Sohbetler',exact=True).click()

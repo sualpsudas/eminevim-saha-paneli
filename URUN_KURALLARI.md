@@ -37,6 +37,11 @@ Proje amacı, kararlar ve açık işler `CLAUDE.md`'de. Bu dosya 2026-11-05'te o
   oturum anahtarı saklanır. Çıkış yap ve test verisini sıfırlama oturumu telefonda ve merkezde kapatır.
 - **Test sıfırlaması telefonlara da yansır:** uygulama açılınca (o sırada kapalı olsa bile) yerel randevular silinir, müşteri giriş ekranına döner.
   Yeni sürüm yüklenince üstte "Yeni sürüm hazır · Yenile" çıkar; ana ekrandan açılan uygulamada aşağı çekince sayfa yenilenir.
+- **Demo modu ve koyu tema yok (2026-11-12):** otomatik kabul/yola çıkış düğmesi kaldırıldı (deneme ekip içinde gerçek akışla);
+  uygulama telefon gece modunda da açık renk kalır.
+- **Telefonda dokunma hissi ve geçiş (2026-11-12):** düğmeye basınca hafif küçülme (0,15 sn); randevu/konuşma ayrıntısı sağdan,
+  Geri ile liste soldan kayar (0,24 sn); sekme değişiminde kayma yok; "hareketi azalt" açıksa kapalı. Temsilci iste penceresi
+  telefonda tam ekran (masaüstü telefon çerçevesinin lacivert üst şeridi yok). Kartlarda çok hafif gölge, rakamlar eşit genişlikte.
 - **Ekran yazıları sade:** slogan ("Emin olmak, güven demek") ve "nasıl hesaplanıyor / ne işe yarar" türü açıklamalar yok.
 - Doğrulama: `npm test`; yerel 8799 sunucusunda `tests/browser-flows.py` ve `tests/web-flows.py` (Playwright + Chrome). Senaryo sayfası bu geliştirmeden sonra ayrıca ele alınacak.
 
@@ -110,7 +115,9 @@ düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adı
   "Örnek: görüşme bitti" → durum `tamamlandi` → **puan penceresi** (1–5 yıldız) + Randevum'da **Görüşme özeti** (konu, tutar,
   peşinat, vade, aylık ödeme örnek, cayma hakkı 14 gün; "Bilgiler doğru" / "Bir sorun var" → SPY'den bağımsız müşteri
   ilişkileri arar) + "Yeni randevu iste". SPY "Bilgiler" penceresinde puan / deneyim / görüşme sayısı (`TEMSILCI_DETAY`).
-  Finansman kaydı SPY varsa sohbete otomatik not olarak düşer; ilk adım yazısı SPY yoksa söz vermez.
+  **Finansman kendiliğinden seçilmez (2026-11-12):** tutar, plan, peşinat ve vade boş başlar; kaydedilen finansman ✓ almaz,
+  müşteri dokunarak seçer. Yalnız seçili finansman SPY'ye gider; seçili olan düzenlenince SPY varsa sohbete not düşer.
+  İlk adım yazısı SPY yoksa söz vermez.
   Bölge dışı telefon talebi (`bolgeDisi`, web'den `&bolgeDisi=1`) → "Başka adres için temsilci iste".
 - **Hoş geldiniz:** 3 sayfalık alt pencere, her sayfada basit resim (satır içi SVG) + tek kısa cümle (yeni kayıt ve web'den gelen).
 - **Kayıtlı Müşteri (Ayşe Kaya):** KVKK sorulmaz (önceden onaylamış); **görüşme günü** senaryosu — bugün 18:00, SPY

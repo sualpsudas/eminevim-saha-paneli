@@ -641,3 +641,10 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Kaldırılan yazılar: "Emin olmak, güven demek", "Neden size geldi", SPY çağrısındaki açıklama notları (yalnız "Kabul için kalan süre" kaldı),
   "Şirket ortalamasına göre", performans ve harita açıklamaları, Randevularım / Randevu al / kapanış alt açıklamaları.
 - Test: `merkez-akis.py` (sıfırlama, sürüm şeridi, yeniden açınca girişli kalma, çıkış sonrası eski oturum reddi) + diğer 7 test.
+
+## 2026-11-12 · Finansman seçimi, demo/koyu mod kalktı, telefonda dokunma hissi
+- Finansman kendiliğinden seçilmiyor: tutar/plan/peşinat/vade boş başlar, kaydedilen ✓ almaz; müşteri dokunarak seçer.
+- Demo modu (otomatik kabul) ve koyu tema kaldırıldı. Temsilci iste penceresindeki lacivert üst şerit telefonda yok.
+- `improve-ui` incelemesi: Randevularım tablosu köşesi 14px'e çekildi (kart kuralı). Eklenenler: basma hissi, liste ↔ ayrıntı kayması,
+  hafif kart gölgesi, eşit genişlikte rakamlar.
+- Test: `phone-layout.py` (finansman seçimsiz başlar + kayıt ✓ almaz, demo/koyu düğmesi yok, şerit gizli) + diğer 7 test.
