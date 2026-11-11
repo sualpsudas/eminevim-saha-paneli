@@ -93,12 +93,14 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 - **Ortak dil (kullanıcı kararı 2026-11-03):** talep → çağrı, temsilci → SPY, talep ekibi → aktif SPY'ler, ödül → teşvik, pilot → pilot bölge denemesi.
   **Belgelerde uygulandı (2026-11-05):** 00 (Docs, md, site, PDF, Taslak 0.7), 01, 02, 05, 06, 07, 08, README, benzer-uygulamalar (yalnız bize dönük ders ve fikirler).
   Bilerek değişmedi: 03 (dış araştırma metni), 04 ve kaynaklar (kayıt), 09, PROJE_ILERLEME (tarihçe), 08'de seçilmeyen modeller.
-  **Uygulamada ve HTML'lerde uygulandı (2026-11-11):** uygulama, web formu (`olustur.py` ile üretildi), `senaryo.html`, `rota.html`,
-  `konum-sec.html`, taslaklar, `URUN_KURALLARI.md` (ASK → Alternatif Satış Kanalı Müdürü). "Talep" yalnız müşteri çağrısı anlamında
-  "çağrı" oldu; destek/düzeltme/randevu değişikliği talebi aynı. Kod adları (`temsilci`, `TEMSILCI_DETAY`, `assets/temsilci/`) değişmedi.
+  **Uygulamada ve HTML'lerde (2026-11-11, aşağıdaki kurala göre):** uygulama, web formu (`olustur.py` ile üretildi), `senaryo.html`, `rota.html`,
+  `konum-sec.html`, taslaklar, `URUN_KURALLARI.md` (ASK → Alternatif Satış Kanalı Müdürü); müşteri ekranları "temsilci", personel/yönetici "SPY".
+  "Talep" yalnız müşteri çağrısı anlamında "çağrı" oldu; destek/düzeltme/randevu değişikliği talebi aynı. Kod adları (`temsilci`, `TEMSILCI_DETAY`, `assets/temsilci/`) değişmedi.
   **Bilerek değişmedi:** `video/` (tanıtım sayfası, 4 video, altyazılar; ses de "temsilci" diyor — kullanıcı videoyu değiştirmiyor).
-  Açık soru: müşteri ekranlarında "SPY" kısaltması müşteriye ilk kez görünürken açıklama gerekir mi (ör. "Saha Portföy Yöneticisi (SPY)").
-- **Canlı test sürümü (2026-11-10):** `merkez/` — `sunucu.py` (8794, Başlangıç kısayolu "Tasarruf Yanimda Merkezi", conda base pythonw;
+  **Kural (kullanıcı, 2026-11-11):** müşterinin gördüğü her yerde (müşteri ekranları, web formu, SMS) **"temsilci"**; personel, yönetici,
+  takip sayfası ve iç belgelerde **"SPY"**; ikisinde de **"çağrı"**. Ayrıntı `URUN_KURALLARI.md` → Ortak dil. (Eski açık soru kapandı.)
+- **Canlı test sürümü (2026-11-10; 2026-11-11: 30 SPY `spyler.js`, puanlı atama, 2 dk kabul, 3 ret → yönetici, girişte yalnız SPY + Yönetici,
+  web formu merkeze bağlı):** `merkez/` — `sunucu.py` (8794, Başlangıç kısayolu "Tasarruf Yanimda Merkezi", conda base pythonw;
   durdurma `python sunucu.py --durdur`; deneme kopyası `TY_PORT=8795 TY_YOL=deneme TY_VERI=<geçici>`), `takip.html` (bilgisayar takip sayfası),
   kök `canli.js`. Gizli yol `merkez/gizli_yol.txt` (depoda yok, belgeye yazılmaz). Dışarıya Tailscale Funnel ayrı yolla:
   `/<gizli_yol>` → `http://127.0.0.1:8794/<gizli_yol>`. Kurallar `URUN_KURALLARI.md` → "Canlı test sürümü". Test `tests/merkez-akis.py`.

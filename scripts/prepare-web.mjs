@@ -17,7 +17,8 @@ const runtimeFiles = [
   "manifest.json",
   "sw.js",
   "eminevim-qr.png",
-  "canli.js"
+  "canli.js",
+  "spyler.js"
 ];
 
 await rm(output, { recursive: true, force: true });

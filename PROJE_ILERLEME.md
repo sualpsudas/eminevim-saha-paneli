@@ -558,3 +558,19 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - **Aynı gün çağrısı:** uygulama ve web formu takvimi bugünü de gösterir (saat 19'dan önce; geçmiş ve bir saat içindeki saatler kapalı).
 - iPhone: `scripts/merkez-adresi.mjs` Codemagic'teki `TY_MERKEZ_URL` değişkeniyle uygulamayı merkez sayfasına bağlar (adres depoya yazılmaz).
 - Testler: `tests/merkez-akis.py` (yeni, deneme merkezi 8795) + eski Playwright testleri ve node testleri geçti.
+
+## 2026-11-11 · 30 SPY, atama kuralları, ortak dil düzeltmesi, yönetici ve web formu merkeze bağlı
+- **30 SPY** (`spyler.js`; uygulama ve merkez ortak): pilot bölge Üsküdar / Ümraniye / Ataşehir, her biri farklı mahallede, sentetik fotoğraflı;
+  uydurma son 3 ay randevu ve ciro H/G → 22 aktif (ikisi de ≥ %100). s1-s4 video kişileri, bilgileri aynı.
+- **Atama** (rapor 10): eleme (aktif, molada değil, günlük 4, aynı gün uygulaması açık / ileri tarih ±90 dk boş) + puan (aynı gün yakınlık
+  ağırlıklı, ileri tarih H/G ağırlıklı); teklif 2 dk, süre dolunca ya da Devret'te sıradaki; 3 ret → yöneticiye düşer; yönetici atar.
+- **Ortak dil düzeltmesi (kullanıcı):** müşteri ekranları, web formu, SMS, senaryo ve taslaklardaki müşteri ekranları yeniden **"temsilci"**;
+  personel/yönetici/takip ve iç belgeler "SPY"; her yerde "çağrı".
+- **Giriş:** müşteri girişi aynı; Personel Girişi'nde SPY açılır listeden (fotoğraflı önizleme) + tek **Yönetici** (hepsini görür).
+  TL / SGL / Alternatif Satış Kanalı Müdürü ayrı girişleri kalktı.
+- **SPY ekranı:** kabul için kalan süre, "Neden size geldi"; Performans son 3 ay randevu + ciro H/G, aktiflik, sıra, bugünkü çağrı, kabul.
+- **Yönetici:** Saha Canlı = takip sayfası (uygulama içinde); Performans 30 SPY H/G sıralaması + süzgeç. Eski OrgData aylık ciro ekranları kapalı.
+- **Takip sayfası** yeniden: yöneticiye düşenler (SPY seç + Ata), kalan süre, puan, gerekçe, 30 SPY süzgeç/arama, telefona uyumlu.
+- **Web formu** merkezden açılınca çağrıyı merkeze gönderir; giriş kodunu merkez verir; uygulamada kodla aynı çağrı açılır.
+- Düzeltmeler: yöneticiye düşen çağrıyı atarken sunucu hatası; web formu kopyasındaki `<base>` etiketi yüzünden merkez adresi yanlış çözülüyordu.
+- Testler: `tests/merkez-akis.py` yeniden yazıldı (30 SPY, aynı gün, geri sayım, molada, ileri tarih, 3 ret, yönetici, web kodu) — tüm testler geçti.

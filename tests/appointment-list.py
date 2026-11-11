@@ -41,8 +41,8 @@ with sync_playwright() as p:
     frame.get_by_role('button',name='Geri',exact=True).wait_for()
     assert frame.locator('.m-header-back').inner_text()=='Geri'
     assert frame.get_by_text('Tüm randevular',exact=True).count()==0
-    assert frame.get_by_role('button',name='SPY\'ye yaz',exact=True).count()==0
-    assert frame.locator('.m-durum').inner_text().find('SPY\'niz: Onur Kaya')>=0
+    assert frame.get_by_role('button',name='Temsilciye yaz',exact=True).count()==0
+    assert frame.locator('.m-durum').inner_text().find('Temsilciniz: Onur Kaya')>=0
     assert frame.get_by_role('button',name='Ön tercihler',exact=True).count()==1
     page.screenshot(path=str(OUT/'iphone-randevu-detayi.png'))
     frame.get_by_role('button',name='Geri',exact=True).click()
@@ -67,7 +67,7 @@ with sync_playwright() as p:
     assert 'Kesinleşmesi bekleniyor' in rows.first.inner_text()
     rows.first.click()
     app(frame,'app.setState({mTalep:{...app.state.mTalep,durum:"netlesti"}})')
-    assert 'SPY\'niz yola çıktığında sizi bilgilendireceğiz.' not in frame.locator('.m-durum').inner_text()
+    assert 'Temsilciniz yola çıktığında sizi bilgilendireceğiz.' not in frame.locator('.m-durum').inner_text()
     frame.get_by_role('button',name='Geri',exact=True).click()
     assert frame.locator('.m-yeni').count()==0
     frame.get_by_role('button',name='Sohbetler',exact=True).click()

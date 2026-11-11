@@ -48,9 +48,11 @@ Randevu H/G ile ciro H/G **eşit ağırlıkta**. Değer %100–120 arasında pua
 
 ## 6. Test sürümü
 
-- 30 SPY, İstanbul'un farklı ilçelerinde (Anadolu ve Avrupa yakası); H/G değerleri **uydurmadır**, bir kısmı %100 altında (elenme görülsün diye).
-- Konumlar sabit (şube/ilçe merkezi); canlı konum sonraki adım.
-- Rol ayrımı: yalnız **Personel** (SPY) ve **Yönetici**. Takım liderinin ekibini izleme ekranı şimdilik yok.
+- 30 SPY, pilot bölgede (tanıtım videosundaki gibi **Üsküdar, Ümraniye, Ataşehir**), her biri farklı mahallede. H/G değerleri **uydurmadır**;
+  8 SPY'de biri ya da ikisi %100 altında (elenme görülsün diye) → 22 aktif SPY. Liste: `spyler.js`.
+- Konumlar sabit (mahalle noktası); canlı konum sonraki adım. Aynı gün için "müsait" = uygulaması açık ve molada değil.
+- Rol ayrımı: girişte yalnız **SPY** ve **Yönetici** (her yönetici hepsini görür). Takım liderinin ekibini izleme ekranı şimdilik yok.
+- Kabul süresi ve 3 ret kuralı test sürümünde çalışır; "Hız ve güvenilirlik" yalnız kabul süresi ve kabul oranıyla (uydurma) hesaplanır.
 
 ## Araştırmadan alınanlar
 

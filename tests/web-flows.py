@@ -43,7 +43,7 @@ with sync_playwright() as p:
         # SMS önizlemesi: 6 haneli giriş kodu + uygulama linki
         kod=result.locator('.ty-sms-balon b').inner_text().strip()
         assert len(kod)==6 and kod.isdigit(), kod
-        assert 'randevu takibi, SPY\'yle sohbet ve finansman aracı' in result.locator('.ty-sms-balon').inner_text()
+        assert 'randevu takibi, temsilciyle sohbet ve finansman aracı' in result.locator('.ty-sms-balon').inner_text()
         # Aynı tarayıcıda (aynı site deposu) bağlantıyı aç: önce SMS kodu, sonra parola oluşturma; bilgiler randevuyla gelmeli.
         app=ctx.new_page(); app.set_viewport_size({'width':393,'height':852})
         app.goto(link+'&native=1',wait_until='domcontentloaded')

@@ -4,7 +4,7 @@
 (function (global) {
   "use strict";
   var ayar = global.TY_CANLI || null;
-  var api = ayar ? ayar.api || "api/" : "";
+  var api = ayar ? new URL(ayar.api || "api/", global.location.href).href : "";  // sayfanın <base> etiketinden bağımsız
 
   function istek(yol, govde) {
     return fetch(api + yol, {
