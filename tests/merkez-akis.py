@@ -240,7 +240,15 @@ with sync_playwright() as p:
     web.goto(KOK + 'web-basvuru/index.html', wait_until='domcontentloaded')
     web.wait_for_function("document.querySelector('[data-ty-form] input[name=ad]').value.length>0")
     form = web.locator('.tk-desktopForm [data-ty-form]')
+    # Merkez de web çağrısını onaysız kabul etmez.
+    try:
+        merkez('api/cagri', {'kaynak':'web', 'kayit':{'id':'onaysiz-web','kaynak':'web','konum':{'lat':41.02,'lng':29.02}}})
+        raise AssertionError('Onaysız web çağrısı kabul edildi')
+    except urllib.error.HTTPError as err:
+        assert err.code == 400 and 'konum onayı' in json.loads(err.read())['hata']
     form.locator('[name=temsilci]').check()
+    assert web.locator('[data-pen=temsilci].acik').count() == 0
+    form.locator('[data-konum-riza] label').click()
     pencere = web.locator('[data-pen=temsilci].acik')
     pencere.locator('[data-ileri]').click(); pencere.locator('[data-ileri]').click()
     form.locator('[type=submit]').click()
@@ -259,6 +267,7 @@ with sync_playwright() as p:
     link = sonuc.locator('a[data-ty-dis]').first.get_attribute('href')
     rid = parse_qs(urlparse(link).query)['rid'][0]
     wk = next(x for x in merkez('api/durum?hepsi=1')['kayitlar'] if x['id'] == rid)
+    assert wk['konumRizaTarih'] == wk['olusma'] and wk['konumRizaTarih'] > 0
     assert wk['girisKodu'] == kod and wk['kaynak'] == 'web' and wk['musteri']['ad'] == 'Mehmet Demir', wk
     uyg = web_ctx.new_page(); uyg.set_viewport_size({'width': 393, 'height': 852})
     uyg.on('pageerror', lambda e: errors.append('uyg: ' + str(e)))

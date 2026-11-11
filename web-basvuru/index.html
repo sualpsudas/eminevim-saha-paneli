@@ -854,6 +854,13 @@
         <span class="ty-anahtar-yazi">Temsilci çağırmak istiyorum</span>
         <input type="checkbox" role="switch" name="temsilci" class="ty-anahtar">
       </label>
+      <div class="col-12 py-2" data-konum-riza hidden>
+        <label class="tk-checkboxContainer">
+          <span class="tk-inputGriLabel">Aydınlatma Metni'ni okudum; kişisel verilerimin ve konum bilgimin yukarıda belirtilen amaçlarla işlenmesine açık rıza veriyorum.</span>
+          <input type="checkbox" name="konumRiza">
+          <span class="tk-checkmark"></span>
+        </label>
+      </div>
       <button type="button" class="ty-talep-ozet" data-talep-ozet hidden><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span data-talep-yazi></span><em>Değiştir</em></button>
       <p class="ty-bolge-disi" data-bolge-disi hidden><i class="bi bi-info-circle-fill" aria-hidden="true"></i> Seçtiğiniz konumda henüz temsilci hizmetimiz yok; sizi telefonla arayacağız.</p>
     </div>
@@ -922,6 +929,13 @@
         <span class="ty-anahtar-yazi">Temsilci çağırmak istiyorum</span>
         <input type="checkbox" role="switch" name="temsilci" class="ty-anahtar">
       </label>
+      <div class="col-12 py-2" data-konum-riza hidden>
+        <label class="tk-checkboxContainer">
+          <span class="tk-inputGriLabelMobil">Aydınlatma Metni'ni okudum; kişisel verilerimin ve konum bilgimin yukarıda belirtilen amaçlarla işlenmesine açık rıza veriyorum.</span>
+          <input type="checkbox" name="konumRiza">
+          <span class="tk-checkmark"></span>
+        </label>
+      </div>
       <button type="button" class="ty-talep-ozet" data-talep-ozet hidden><i class="bi bi-check-circle-fill" aria-hidden="true"></i><span data-talep-yazi></span><em>Değiştir</em></button>
       <p class="ty-bolge-disi" data-bolge-disi hidden><i class="bi bi-info-circle-fill" aria-hidden="true"></i> Seçtiğiniz konumda henüz temsilci hizmetimiz yok; sizi telefonla arayacağız.</p>
     </div>
@@ -2377,6 +2391,7 @@ _utmx</strong></strong></p>
     function P(sel){ return pen.querySelector(sel); }
     var durumEl = P('[data-konum-durum]'), araEl = P('[data-ara]'), onerEl = P('[data-oneriler]'), ileriBtn = P('[data-ileri]'), bolgeBtn = P('[data-bolge-dugme]');
     var anahtar = f.temsilci, ozetBtn = form.querySelector('[data-talep-ozet]'), disNot = form.querySelector('[data-bolge-disi]');
+    var rizaSatir = form.querySelector('[data-konum-riza]'), riza = f.konumRiza;
     var plan = null;      // finansman planı (yedek: sitedeki kutularla bağlantısı kesik)
     var planSatir = form.querySelector('[data-plan-satir]');
     var talep = null;     // onaylanmış temsilci talebi {lat, lng, adres, bolge, gun:Date, saat}
@@ -2388,6 +2403,8 @@ _utmx</strong></strong></p>
     /* --- Formdaki satır: kaydırmalı düğme + kısa özet --- */
     function formGoster(){
       anahtar.checked = !!talep;
+      rizaSatir.hidden = !talep;
+      if(!talep) riza.checked = false;
       ozetBtn.hidden = !talep; disNot.hidden = !bolgeDisi || !!talep;
       if(talep) ozetBtn.querySelector('[data-talep-yazi]').textContent = kisaGun(talep.gun)+', '+talep.saat+' · '+talep.adres;
     }
@@ -2407,8 +2424,13 @@ _utmx</strong></strong></p>
       planAyarla(e.detail);
     });
     anahtar.addEventListener('change', function(){
-      if(anahtar.checked){ bolgeDisi=false; disNot.hidden=true; pencereAc(); }
-      else { talep=null; formGoster(); }
+      if(anahtar.checked){ bolgeDisi=false; disNot.hidden=true; rizaSatir.hidden=false; riza.focus(); }
+      else { talep=null; konum=null; temizle(riza.closest('label')); formGoster(); }
+    });
+    riza.addEventListener('change', function(){
+      temizle(riza.closest('label'));
+      if(riza.checked) pencereAc();
+      else { talep=null; konum=null; ozetBtn.hidden=true; }
     });
     ozetBtn.addEventListener('click', pencereAc);
 
@@ -2424,6 +2446,7 @@ _utmx</strong></strong></p>
       else { ileriBtn.textContent='Onayla'; ileriBtn.disabled=false; ayGos=new Date(taslak.gun.getFullYear(), taslak.gun.getMonth(), 1); takvimCiz(); saatCiz(); }
     }
     function pencereAc(){
+      if(!anahtar.checked || !riza.checked) return;
       konum = talep ? { lat:talep.lat, lng:talep.lng, adres:talep.adres, bolge:talep.bolge } : konum;
       taslak = talep ? { gun:talep.gun, saat:talep.saat } : { gun:ilkHaftaici(), saat:ORNEK.saat };
       ustte(kutu, true); pen.classList.add('acik'); adimGoster(1); haritaKur();
@@ -2643,6 +2666,7 @@ _utmx</strong></strong></p>
       if(!v.soyad) eksik.push([f.soyad,'Soyadınızı yazın.']);
       if(v.tel.length!==10) eksik.push([f.telefon,'Telefonu 10 hane yazın.']);
       if(!f.kanun.checked) eksik.push([f.kanun.closest('label'),'Devam etmek için onaylayın.']);
+      if(anahtar.checked && !riza.checked) eksik.push([riza.closest('label'),'Temsilci çağırmak için konum onayı verin.']);
       if(eksik.length){
         eksik.forEach(function(x){ isaretle(x[0], x[1]); });
         var ilk=eksik[0][0], odak=ilk.matches('input') ? ilk : ilk.querySelector('input');
@@ -2689,7 +2713,7 @@ _utmx</strong></strong></p>
       sonuc.innerHTML = h; form.hidden = true; sonuc.hidden = false;
       if(secim && canli){
         var d=talep.gun, iki=function(n){return (n<10?'0':'')+n;};
-        window.Canli.gonder('api/cagri', { kaynak:'web', musteri:{ ad:v.ad+' '+v.soyad, tel:t10 },
+        window.Canli.gonder('api/cagri', { kaynak:'web', konumRiza:riza.checked, musteri:{ ad:v.ad+' '+v.soyad, tel:t10 },
           kayit:{ id:requestId, tip:'ziyaret', durum:'alindi', kaynak:'web', tarih:d.getFullYear()+'-'+iki(d.getMonth()+1)+'-'+iki(d.getDate()), gunYazi:v.gun, saat:v.saat, yer:v.adres,
             konum:{ lat:talep.lat, lng:talep.lng, adres:talep.adres, bolge:talep.bolge } } })
           .then(function(c){ var k=(c.sonuc||{}).girisKodu||''; var el=sonuc.querySelector('[data-sms-kod]'); if(el) el.textContent=k;

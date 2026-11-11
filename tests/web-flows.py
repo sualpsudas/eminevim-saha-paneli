@@ -21,7 +21,16 @@ with sync_playwright() as p:
         else:
             scope=page.locator('.tk-desktopForm')
         form=scope.locator('[data-ty-form]')
+        riza=form.locator('[name=konumRiza]')
+        assert not form.locator('[data-konum-riza]').is_visible()
         form.locator('[name=temsilci]').check()
+        assert form.locator('[data-konum-riza]').is_visible() and not riza.is_checked()
+        assert page.locator('[data-pen=temsilci].acik').count()==0
+        form.locator('[type=submit]').click()
+        form.get_by_text('Temsilci çağırmak için konum onayı verin.',exact=True).wait_for()
+        if width==1440:
+            scope.screenshot(path=str(OUT/'web-konum-onayi.png'))
+        form.locator('[data-konum-riza] label').click()
         dialog=page.locator('[data-pen=temsilci].acik')
         dialog.locator('[data-ileri]').click()
         dialog.locator('[data-ileri]').click()
@@ -72,6 +81,16 @@ with sync_playwright() as p:
         app.get_by_role('button', name='Randevularım', exact=True).click(); app.locator('.m-randevu-row').first.click()
         app.get_by_text('Görüşmeye hazırlık · isteğe bağlı', exact=True).wait_for()
         app.close()
+        # Temsilci seçimini geri alıp konum onayı vermeden normal başvuru yapılabilir.
+        page.reload(wait_until='domcontentloaded')
+        page.wait_for_function("document.querySelector('[data-ty-form] input[name=ad]').value.length>0")
+        if width<500: page.locator('.tk-mobilFormYeniCover [data-bs-toggle]').click()
+        form.locator('[name=temsilci]').check()
+        form.locator('[name=temsilci]').uncheck()
+        assert not form.locator('[data-konum-riza]').is_visible()
+        form.locator('[type=submit]').click()
+        result.get_by_text('Sayın Mehmet Demir, çağrınız alındı!',exact=True).wait_for()
+        assert result.locator('[data-sms-pencere]').count()==0
         assert not errors,errors
         page.close()
     print('Web telefon/bilgisayar: sonuç ekranı, SMS penceresi, SMS kodu + parola ile uygulamaya randevu, görüşmeye hazırlık: OK')

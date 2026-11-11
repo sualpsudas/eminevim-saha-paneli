@@ -322,13 +322,19 @@ def uygula(veri, yol, istek):
     kayitlar = veri["kayitlar"]
     if yol == "api/cagri":
         k = temiz_kayit(istek.get("kayit"))
+        web = istek.get("kaynak") == "web" or k.get("kaynak") == "web"
+        if web and istek.get("konumRiza") is not True:
+            raise ValueError("Temsilci çağırmak için konum onayı verin.")
+        k.pop("konumRizaTarih", None)
         konum = k.get("konum") or {}
         if not isinstance(konum.get("lat"), (int, float)) or not isinstance(konum.get("lng"), (int, float)):
             raise ValueError("Konum eksik.")
         m = istek.get("musteri") or {}
         k["musteri"] = {"ad": metin(m.get("ad"), 80), "tel": metin(m.get("tel"), 20), "ekBilgi": m.get("ekBilgi") if isinstance(m.get("ekBilgi"), dict) else None}
         k.update({"mesajlar": [], "olusma": simdi(), "repId": None, "teklif": {"denenen": []}})
-        if istek.get("kaynak") == "web":
+        if web:
+            k["kaynak"] = "web"
+            k["konumRizaTarih"] = k["olusma"]
             k["girisKodu"] = f"{secrets.randbelow(900000) + 100000}"  # SMS yerine ekranda gösterilir (test)
         kayitlar[k["id"]] = k
         olay(veri, f"Yeni çağrı: {k['musteri']['ad'] or 'Müşteri'} ({k.get('yer') or ''}), {k.get('gunYazi') or k.get('tarih') or ''} {k.get('saat') or ''}", k["id"])
@@ -337,7 +343,7 @@ def uygula(veri, yol, istek):
         return k
     if yol == "api/kayit":
         k = temiz_kayit(istek.get("kayit"))
-        for alan in ("teklif", "sahipsiz", "atamaPuan", "gerekce", "girisKodu"):
+        for alan in ("teklif", "sahipsiz", "atamaPuan", "gerekce", "girisKodu", "konumRizaTarih"):
             k.pop(alan, None)  # bunları yalnız merkez yazar
         eski = kayitlar.get(k["id"])
         if not eski:
