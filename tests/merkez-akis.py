@@ -89,7 +89,7 @@ with sync_playwright() as p:
     for pg in (musteri, spy, spy_diger):
         pg.on('pageerror', lambda e: errors.append(str(e)))
         pg.goto(URL)
-        pg.get_by_text('Giriş Yap', exact=True).first.wait_for()
+        pg.get_by_role('button', name='Devam et', exact=True).wait_for()
     assert musteri.evaluate('window.Canli.aktif') is True
 
     # Personel girişi: açılır listede 7 SPY; Derya (tablet) ve Onur (telefon) girer → uygulamaları açık
@@ -109,12 +109,18 @@ with sync_playwright() as p:
     except urllib.error.HTTPError as e:
         assert e.code == 400
 
-    # Yeni müşteri: telefon → SMS kodu (testte ekranda dolu) → ad + parola → onaylar
-    app(musteri, 'app.setState({girisMod:"kod",kodAdim:1,kodTel:"0555 111 22 33",kodAd:"Deniz Test",kodParola:"test123",kodParola2:"test123"})')
-    app(musteri, 'app.kodIleri()'); app(musteri, 'app.kodIleri()')
-    bekle(musteri, 'app.state.kodAdim===3')  # merkezde kod yok → uygulamanın kodu
-    app(musteri, 'app.kodIleri()')
-    app(musteri, 'app.setState({kvkk1:true,kvkk2:true,kvkk3:true})'); app(musteri, 'app.kvkkOnayla()')
+    # Yeni müşteri: gerçek ekran adımlarıyla kod, ad/parola ve KVKK.
+    musteri.get_by_label('Telefon numaranız',exact=True).fill('0555 111 22 33')
+    musteri.get_by_role('button',name='Devam et',exact=True).click()
+    musteri.get_by_label('SMS ile gelen 6 haneli kod').wait_for()
+    musteri.get_by_role('button',name='Doğrula',exact=True).click()
+    musteri.get_by_label('Ad Soyad',exact=True).fill('Deniz Test')
+    musteri.get_by_label('Parola',exact=True).fill('test123')
+    musteri.get_by_label('Parola tekrar',exact=True).fill('test123')
+    musteri.get_by_role('button',name='Parolayı kaydet ve devam et',exact=True).click()
+    musteri.get_by_role('checkbox',name='Aydınlatma Metni',exact=False).check()
+    musteri.get_by_role('button',name='Onaylıyorum',exact=True).click()
+    bekle(musteri, 'app.state.girisYapildi')
     assert app(musteri, 'app.state.customerForm.name') == 'Deniz Test'
     # Hemen: Üsküdar sahiline yakın nokta → uygulaması açık, en yakın SPY Derya (s2)
     app(musteri, 'app.mTemsilciIste()')
@@ -215,7 +221,7 @@ with sync_playwright() as p:
     # Yönetici: Saha Canlı = takip haritası (Gelen Çağrı, Görüşme Sayısı, süzgeçler, kimse almadı); performans kompakt liste
     yonetici = browser.new_context(viewport={'width': 1024, 'height': 1366}).new_page()
     yonetici.on('pageerror', lambda e: errors.append(str(e)))
-    yonetici.goto(URL); yonetici.get_by_text('Giriş Yap', exact=True).first.wait_for()
+    yonetici.goto(URL); yonetici.get_by_role('button', name='Devam et', exact=True).wait_for()
     personel(yonetici)
     cerceve = yonetici.frame_locator('iframe[src^="takip"]')
     cerceve.get_by_text('Gelen Çağrı · bugün', exact=True).wait_for(timeout=10000)
@@ -272,6 +278,10 @@ with sync_playwright() as p:
     uyg = web_ctx.new_page(); uyg.set_viewport_size({'width': 393, 'height': 852})
     uyg.on('pageerror', lambda e: errors.append('uyg: ' + str(e)))
     uyg.goto(link + '&native=1', wait_until='domcontentloaded')
+    bekle(uyg, 'app.state.kodAdim===2')
+    uyg.get_by_label('SMS ile gelen 6 haneli kod').fill('000000')
+    uyg.get_by_role('button', name='Doğrula', exact=True).click()
+    uyg.get_by_role('alert').get_by_text('Kod eşleşmedi', exact=False).wait_for()
     uyg.get_by_label('SMS ile gelen 6 haneli kod').fill(kod); uyg.get_by_role('button', name='Doğrula').click()
     uyg.get_by_label('Parola', exact=True).fill('abc123'); uyg.get_by_label('Parola tekrar').fill('abc123')
     uyg.get_by_role('button', name='Parolayı kaydet ve devam et').click()

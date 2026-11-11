@@ -63,9 +63,10 @@ with sync_playwright() as p:
         # Aynı tarayıcıda (aynı site deposu) bağlantıyı aç: önce SMS kodu, sonra parola oluşturma; bilgiler randevuyla gelmeli.
         app=ctx.new_page(); app.set_viewport_size({'width':393,'height':852})
         app.goto(link+'&native=1',wait_until='domcontentloaded')
-        app.get_by_label('SMS ile gelen 6 haneli kod').fill('000000'); app.get_by_role('button',name='Doğrula').click()
+        app.wait_for_function('document.querySelector(".login-box [autocomplete=one-time-code]")?.hasAttribute("data-dc-tpl") || !!document.querySelector("[data-dc-tpl][autocomplete=one-time-code]")')
+        app.get_by_label('SMS ile gelen 6 haneli kod').fill('000000'); app.get_by_role('button',name='Doğrula',exact=True).click()
         assert app.get_by_text('Kod eşleşmedi').count()==1
-        app.get_by_label('SMS ile gelen 6 haneli kod').fill(kod); app.get_by_role('button',name='Doğrula').click()
+        app.get_by_label('SMS ile gelen 6 haneli kod').fill(kod); app.get_by_role('button',name='Doğrula',exact=True).click()
         app.get_by_label('Parola',exact=True).fill('abc123'); app.get_by_label('Parola tekrar').fill('abc123')
         app.get_by_role('button',name='Parolayı kaydet ve devam et').click()
         app.wait_for_function("JSON.parse(sessionStorage.getItem('ty-randevu-v1')||'null')?.mTalep")

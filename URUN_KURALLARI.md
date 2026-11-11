@@ -23,16 +23,12 @@ Proje amacı, kararlar ve açık işler `CLAUDE.md`'de. Bu dosya 2026-11-05'te o
 - Çalışma durumu ve yaş aralığı **ilk başvuruda zorunlu değildir**. Başvurudan sonra isteğe bağlı, atlanabilir; sonra düzenlenebilir. Kesin yaş/doğum tarihi istenmez. 2026-11-11: bu sorular **yalnız uygulamada** (web sonuç ekranında yok), bkz. Canlı test sürümü → Görüşmeye hazırlık.
 - Randevu ve hesaplar bu tarayıcı sekmesinin `sessionStorage` alanında saklanır. Gerçek hesap güvenliği, cihazlar arası eşitleme ve kalıcı sunucu kaydı henüz yoktur.
 - Web kaynak formu değişince `python web-basvuru/olustur.py`; native paket için `npm run web:sync`. Yeni `appointment.js`, konum seçimi, rota ve QR kitaplığı native/PWA paketlerine dahil edilmiştir.
-- **SMS kodu ve telefonla giriş (2026-10-22):** Web'de SPY çağırma seçiliyse başarı ekranında telefona giden SMS
-  önizlenir: 6 haneli **uygulama giriş kodu** (24 saat) + "Uygulamayı indirip randevu takibi, temsilciyle sohbet ve finansman
-  aracı hizmetlerimizden faydalanabilirsiniz" + uygulama linki. Web → uygulama linki artık doğrudan giriş YAPMAZ: kod ekranı
-  (telefon dolu) → kod → **parola oluştur** → randevu açılır (onaylar web'de alındı, KVKK sorulmaz). Giriş ekranında seçenekler
-  **Giriş Yap / Kayıt Ol** (2026-10-22). "Kayıt Ol": telefon (başlıksız) → kod (10 dk) → ad soyad + parola → KVKK → Hoş geldiniz.
-  **Kayıtlı olmayan numara KVKK'sız giremez (2026-11-11):** "Giriş Yap"ta kayıtsız numara yazılırsa "Bu numarayla kayıt yok" denir ve
-  Kayıt Ol akışına geçilir (ad soyad + parola → KVKK). Kayıtlı sayılan: bu cihazda daha önce kayıt olan ya da örnek müşteri (Ayşe Kaya).
-  **Test aşaması: telefon, kod, ad soyad ve parola (test123) hazır dolu gelir.** "Giriş Yap": telefon + parola; "Parolamı unuttum ·
-  SMS koduyla gir" → kod → yeni parola. Demo: kod gerçek SMS yerine aynı sitedeki `localStorage` "ty-sms-kod"da; kod
-  ekranında "Demo: … Kodunuz" görünür. Gerçek yayında kod sunucuda üretilip SMS'le gönderilmeli, parola sunucuda saklanmalı.
+- **Tek müşteri girişi (2026-11-11):** “Telefon numaranızla devam edin”. Kayıtlı numara → yalnız mevcut parola;
+  “Parolamı unuttum” → SMS kodu → yeni parola. Yeni numara → SMS kodu → ad soyad + parola → KVKK → Hoş geldiniz.
+  **Yeni müşteri KVKK onayı olmadan hesabına giremez.** Örnek kayıtlı müşteri Ayşe Kaya (0532 145 67 89); test parolası hazır gelir.
+- **Web’den uygulamaya:** temsilci çağrısının SMS önizlemesindeki bağlantı → başvuruya ait 6 haneli kod → parola → aynı çağrı.
+  Web formundaki konum onayı yeniden sorulmaz. Test kodları gerçek SMS yerine ekranda gösterilir. Demo hesaplar mevcut tarayıcıda kalır;
+  sonradan oluşturulan parolanın özeti saklanır. Merkezi müşteri hesabı ve gerçek SMS ayrı işlerdir.
 - Doğrulama: `npm test`; yerel 8799 sunucusunda `tests/browser-flows.py` ve `tests/web-flows.py` (Playwright + Chrome). Senaryo sayfası bu geliştirmeden sonra ayrıca ele alınacak.
 
 Bu bölüm `CLAUDE.md`'deki eski kararlarla çelişirse **bu bölüm geçerlidir**. Uygulama adım adım, kullanıcıyla konuşarak yapılır;
@@ -50,6 +46,9 @@ her adım bitince burada "Durum" güncellenir.
      2/2 gün ve saat → "Onayla". Pencere onaysız kapanırsa düğme kapanır. Formda tek satır özet + "Değiştir".
    - Harita sade ama **mekânlar görünür** olmalı. Uzaktan bakınca yalnız harita + **hizmet bölgeleri yeşil** alan
      (kompakt görünüm). Hizmet bölgeleri şimdilik: **İstanbul Ümraniye, Ataşehir, Üsküdar**.
+   - Temsilci seçilince ayrı konum açık rızası işaretsiz açılır. Metin uygulamadaki KVKK onay cümlesiyle aynıdır.
+     Onaydan sonra harita açılır. Onay vermek istemeyen temsilci seçimini kapatıp normal başvuru yapabilir.
+     Merkez web temsilci çağrısında onayı doğrular ve zamanını kaydeder.
    - Seçilen konum hizmet bölgesinin içindeyse ilerlenir.
    - **2026-11-11 (geçerli):** sonuç ekranı başlığı "Sayın Ad Soyad, temsilci çağrınız alındı!" + gün/saat/yer özeti + "… numarasına SMS
      gönderdik" (SMS önizlemesi kendiliğinden açılan, **Kapat'a kadar duran** pencere; "SMS'i göster" yeniden açar) + uygulama kartı
@@ -133,7 +132,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Fotoğraflar sentetik (`assets/temsilci/OKUBENI.md`). s1-s4 video ve senaryodaki kişilerdir. Randevu H/G ve ciro H/G (son 3 ay) **uydurmadır**.
 - **"Aktif değil" diye bir şey yok** (kullanıcı, 2026-11-11): uygulamada yalnız iki H/G'si de ≥ %100 olan SPY'ler bulunur. "Molada" ayrı
   bir durumdur (SPY kendisi seçer).
-- **Giriş:** Müşteri girişi (Giriş Yap / Kayıt) aynen durur. **Personel Girişi** yalnız iki seçenek: **SPY** (açılır listeden kişi, fotoğraflı
+- **Giriş:** Müşteri tek telefon numarası ekranından devam eder. **Personel Girişi** yalnız iki seçenek: **SPY** (açılır listeden kişi, fotoğraflı
   önizleme + "Giriş yap") ve **Yönetici** (tek düğme; her yönetici hepsini görür). Cihaz SPY'nin son girişini hatırlar.
 - **Atama** (ayrıntı `rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md`). Günlük sınır 4 çağrı.
   - **Hemen çağrı** (bugün, saati en geç 2 saat sonra): molada, yolda/görüşmede ve

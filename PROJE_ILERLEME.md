@@ -616,3 +616,8 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 ## 2026-11-11 (4) · Paket 2: uygulama ekranlarında ortak görünüm
 - Müşteri ve personel ekranlarında düğme ölçüleri, başlık hiyerarşisi ve ilgili kartların iç boşlukları eşitlendi. Yönetici ad ve rolü aynıysa üst çubukta tek satır gösteriliyor.
 - Renkler, web formu ve senaryo değişmedi.
+
+## 2026-11-11 (5) · Web konum onayı ve tek müşteri girişi
+- Web temsilci çağrısında uygulamayla aynı açık rıza cümlesi ayrı bir kutuda gösteriliyor; merkez onay tarihini kaydediyor.
+- Telefon numarasından sonra kayıtlı müşteriye parola, yeni müşteriye test kodu ve KVKK adımları açılıyor. Parola yenileme ve web çağrısına kodla geçiş korundu.
+- Senaryo ve uygulama taslağında yalnız giriş ekranı güncellendi. “Temsilciniz yolda” üst başlığı metin göründüğü sürece Randevularım’a dönüyor.

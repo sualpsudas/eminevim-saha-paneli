@@ -16,8 +16,15 @@ with sync_playwright() as p:
     errors=[]
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto(URL)
-    page.get_by_text('Giriş Yap',exact=True).wait_for()
-    page.get_by_text('Giriş Yap',exact=True).click()
+    page.get_by_role('button',name='Devam et',exact=True).wait_for()
+    page.get_by_role('button',name='Devam et',exact=True).click()
+    assert page.get_by_label('SMS ile gelen 6 haneli kod').count()==0
+    assert page.evaluate("localStorage.getItem('ty-sms-kod')") is None
+    parola=page.get_by_label('Parola',exact=True)
+    parola.fill('yanlis-parola')
+    page.get_by_role('button',name='Giriş Yap',exact=True).click()
+    page.get_by_role('alert').get_by_text('Parola eşleşmedi.',exact=True).wait_for()
+    parola.fill('test123')
     page.get_by_role('button',name='Giriş Yap',exact=True).click()
     page.locator('.m-randevu-row').first.click()
     page.get_by_text('Temsilciniz yolda',exact=True).first.wait_for()
@@ -74,8 +81,69 @@ with sync_playwright() as p:
     page.get_by_role('button',name='Randevuyu iptal et',exact=True).click()
     assert app(page,'app.state.mTalep.durum')=='iptal'
     page.reload()
-    page.get_by_text('Giriş Yap',exact=True).wait_for()
+    page.get_by_role('button',name='Devam et',exact=True).wait_for()
     assert app(page,'app.state.mTalep.durum')=='iptal','Yenilemede iptal kaydı korunmalı'
+    # Yeni numara: kod hatası, ardından KVKK reddi ve onayla kayıt.
+    yeni=browser.new_page(viewport={'width':393,'height':852})
+    yeni.on('pageerror',lambda e:errors.append(str(e)))
+    yeni.goto(URL)
+    def buton(ad): return yeni.get_by_role('button',name=ad,exact=True)
+    def yeni_kayit():
+        yeni.get_by_label('Telefon numaranız',exact=True).fill('0532 001 02 03')
+        buton('Devam et').click()
+        kod=yeni.get_by_label('SMS ile gelen 6 haneli kod')
+        gecerli=kod.input_value()
+        assert len(gecerli)==6
+        kod.fill('000000'); buton('Doğrula').click()
+        yeni.get_by_role('alert').get_by_text('Kod eşleşmedi',exact=False).wait_for()
+        kod.fill(gecerli); buton('Doğrula').click()
+        yeni.get_by_label('Ad Soyad',exact=True).fill('Deneme Müşteri')
+        yeni.get_by_label('Parola',exact=True).fill('ornek-2026')
+        yeni.get_by_label('Parola tekrar',exact=True).fill('ornek-2026')
+        buton('Parolayı kaydet ve devam et').click()
+        buton('Onaylıyorum').wait_for()
+        assert buton('Onaylıyorum').is_disabled()
+        assert not app(yeni,'app.state.girisYapildi')
+        assert yeni.evaluate("sessionStorage.getItem('ty-demo-parola:5320010203')") is None
+    yeni_kayit()
+    buton('Vazgeç').click()
+    buton('Devam et').wait_for()
+    assert not app(yeni,'app.state.girisYapildi')
+    yeni_kayit()
+    yeni.get_by_role('checkbox',name='Aydınlatma Metni',exact=False).check()
+    buton('Onaylıyorum').click()
+    buton('Atla').click()
+    buton('Ayarlar').click()
+    assert yeni.get_by_text('Deneme Müşteri',exact=True).is_visible()
+    buton('Çıkış yap').click()
+    buton('Devam et').click()
+    assert yeni.get_by_label('SMS ile gelen 6 haneli kod').count()==0
+    buton('Parolamı unuttum').click()
+    yeni.get_by_label('SMS ile gelen 6 haneli kod').wait_for()
+    buton('Doğrula').click()
+    assert yeni.get_by_label('Ad Soyad',exact=True).count()==0
+    yeni.get_by_label('Parola',exact=True).fill('yeni-ornek-2026')
+    yeni.get_by_label('Parola tekrar',exact=True).fill('yeni-ornek-2026')
+    buton('Parolayı kaydet ve devam et').click()
+    buton('Ayarlar').click()
+    buton('Çıkış yap').click()
+    buton('Devam et').click()
+    yeni.get_by_label('Parola',exact=True).fill('yeni-ornek-2026')
+    buton('Giriş Yap').click()
+    buton('Randevularım').wait_for()
+    assert app(yeni,'app.state.customerForm.name')=='Deneme Müşteri'
+    print('Tek giriş: Ayşe SMS’siz, yanlış parola, yeni müşteri için zorunlu KVKK ve parola yenileme: OK')
+
+    # Kapıda da üst başlıktaki aynı metin Randevularım'a döner.
+    kapi=browser.new_page(viewport={'width':393,'height':852})
+    kapi.goto(URL)
+    kapi.get_by_role('button',name='Devam et',exact=True).click()
+    kapi.get_by_role('button',name='Giriş Yap',exact=True).click()
+    kapi.get_by_role('button',name='Ayarlar',exact=True).click()
+    app(kapi,'app.setState({mTalep:{...app.state.mTalep,durum:"gorusme"}})')
+    kapi.locator('.m-header-status-link').get_by_text('Temsilciniz yolda',exact=True).click()
+    kapi.get_by_role('heading',name='Randevularım',exact=True).wait_for()
+    print('Kapıda görünen başlık Randevularım’a dönüyor: OK')
     assert not errors,errors
     print('Müşteri/personel/QR/özet akışı: OK (destek yok)')
     print('Görseller:',OUT)
