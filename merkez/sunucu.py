@@ -2,9 +2,11 @@
 
 Çalıştır:  python sunucu.py          (127.0.0.1:8794/<gizli_yol.txt>/)
 Durdur:    python sunucu.py --durdur
-Ek kütüphane yok. Uygulama dosyalarını depo kökünden sunar; uygulama sayfasına window.TY_CANLI eklenir,
+Ek kütüphane: pywebpush (uygulaması kapalı SPY'ye bildirim; yoksa bildirim gitmez, gerisi çalışır).
+Uygulama dosyalarını depo kökünden sunar; uygulama sayfasına window.TY_CANLI eklenir,
 böylece GitHub Pages'teki kopya gösteri modunda kalır, buradaki kopya merkeze bağlanır.
 """
+import base64
 import json
 import math
 import os
@@ -25,6 +27,11 @@ ANAHTAR = KLASOR / "gizli_yol.txt"
 UYGULAMA = "Eminevim Saha Paneli.dc.html"
 kilit = threading.Lock()
 GORULME = {}  # SPY id -> son yoklama zamanı (yalnız bellekte)
+# Bildirim (Web Push): telefon başına abonelik; bir telefon tek SPY'ye bağlı, bir SPY'nin birden çok telefonu olabilir.
+# Sıfırlamada silinmez (ayrı dosya). Anahtar yalnız sunucuda (depoda yok).
+ABONELIK = VERI.with_name(VERI.stem + "_abonelik.json")
+VAPID = KLASOR / "vapid.pem"
+VAPID_SUB = "mailto:sualpsudas@users.noreply.github.com"  # bildirim servislerine iletişim (depodaki açık git kimliği)
 
 # Test SPY'leri depo kökündeki spyler.js'ten (uygulama da aynı dosyayı okur); konumlar sabit, H/G uydurma.
 # Listede yalnız randevu H/G ve ciro H/G ikisi de >= %100 olan SPY'ler bulunur (şartı sağlamayan uygulamada yer almaz).
@@ -42,7 +49,7 @@ KABUL_SN = 120          # SPY bu sürede kabul etmezse çağrı sıradakine geç
 GUNLUK_SINIR = 4        # bir SPY'ye bir günde en fazla çağrı
 ARALIK_DK = 90          # ileri saatte aynı gün iki randevu arası en az
 HEMEN_DK = 120          # bugün ve saati en geç 2 saat sonra olan çağrı "hemen" sayılır (en erken seçilebilen saatler)
-ACIK_SN = 30            # hemen çağrısı için uygulaması açık sayılma süresi
+BILDIRIM_TTL = 120      # telefon kapalı/çevrimdışıysa bildirim bu süre bekler (teklif süresi kadar)
 AGIRLIK = {"hemen": {"yakinlik": 50, "randevu": 15, "ciro": 15, "yuk": 20},
            "ileri": {"randevu": 25, "ciro": 25, "yakinlik": 30, "yuk": 20}}
 KAPALI_DURUMLAR = {"tamamlandi", "iptal"}
@@ -132,7 +139,7 @@ def anlik_konum(veri, s):
 
 def adaylar(veri, k, haric=()):
     """Eleme + puan. Döner: puana göre sıralı [(puan, spy, gerekçe, km)].
-    Hemen: molada, uygulaması kapalı, yolda/görüşmede, günlük sınırı dolan elenir; puan yakınlık 50, H/G 30, bugünkü çağrı 20.
+    Hemen: molada, yolda/görüşmede, günlük sınırı dolan elenir (uygulaması kapalı olabilir: bildirim gider); puan yakınlık 50, H/G 30, bugünkü çağrı 20.
     İleri saat/gün: o gün sınırı dolan, o saatin ±90 dk'sında randevusu olan elenir; puan H/G 50, yakınlık 30, o günkü çağrı 20."""
     konum = k.get("konum") or {}
     tarih = k.get("tarih") or bugun()
@@ -147,7 +154,7 @@ def adaylar(veri, k, haric=()):
         if len(benim) >= GUNLUK_SINIR:
             continue
         if hemen:
-            if s.get("durum") == "molada" or simdi() - GORULME.get(s["id"], 0) > ACIK_SN * 1000 or randevuda_mi(veri, s["id"]):
+            if s.get("durum") == "molada" or randevuda_mi(veri, s["id"]):
                 continue
             uzak = km(anlik_konum(veri, s), konum)
         else:
@@ -187,7 +194,92 @@ def teklif_et(veri, k, neden=""):
     t["bitis"] = simdi() + KABUL_SN * 1000
     k.update({"repId": spy["id"], "sahipsiz": False, "durum": "alindi", "atanma": simdi(), "uzaklikKm": uzak, "atamaPuan": puan, "gerekce": gerekce})
     olay(veri, f"{ad} ({k.get('yer') or ''}) → {spy['ad']} · puan {str(puan).replace('.', ',')} · {gerekce}{neden}", k["id"])
+    zaman = " ".join(x for x in (k.get("gunYazi") or k.get("tarih") or "", k.get("saat") or "") if x)
+    bildir(spy["id"], {"baslik": f"Yeni çağrı: {ad}", "govde": " · ".join(x for x in (k.get("yer"), zaman, "2 dk içinde kabul edin") if x),
+                       "etiket": k["id"]})
     return k
+
+
+# ---- Bildirim (Web Push) ----
+abone_kilit = threading.Lock()
+
+
+def abone_oku():
+    try:
+        return json.loads(ABONELIK.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return {}
+
+
+def abone_yaz(a):
+    gecici = ABONELIK.with_suffix(".tmp")
+    gecici.write_text(json.dumps(a, ensure_ascii=False), encoding="utf-8")
+    os.replace(gecici, ABONELIK)
+
+
+def vapid():
+    """Sunucunun bildirim anahtarı (ilk açılışta üretilir). Döner: (Vapid nesnesi, tarayıcıya verilen açık anahtar) ya da (None, "")."""
+    try:
+        from py_vapid import Vapid02 as Vapid  # RFC 8292 "vapid t=,k=" (Apple bunu ister)
+        from cryptography.hazmat.primitives import serialization
+    except ImportError:
+        return None, ""
+    if not VAPID.exists():
+        v = Vapid()
+        v.generate_keys()
+        v.save_key(str(VAPID))
+    v = Vapid.from_file(str(VAPID))
+    acik = v.public_key.public_bytes(serialization.Encoding.X962, serialization.PublicFormat.UncompressedPoint)
+    return v, base64.urlsafe_b64encode(acik).decode().rstrip("=")
+
+
+VAPID_NESNE, VAPID_ACIK = None, ""
+
+
+def uygun_uc(uc):
+    from urllib.parse import urlparse
+    u = urlparse(str(uc or ""))
+    return u.scheme == "https" or (u.scheme == "http" and u.hostname == "127.0.0.1")  # yerel olan yalnız test için
+
+
+def bildir(spy_id, govde):
+    """SPY'nin bildirim açtığı tüm telefonlara gönderir (arka planda; çağrı akışını bekletmez)."""
+    if not VAPID_NESNE:
+        return
+    hedefler = [x for x in abone_oku().values() if x.get("spy") == spy_id]
+    if hedefler:
+        threading.Thread(target=bildir_gonder, args=(hedefler, govde), daemon=True).start()
+
+
+def bildir_gonder(hedefler, govde):
+    from pywebpush import webpush, WebPushException
+    bitti = []
+    for h in hedefler:
+        try:
+            webpush({"endpoint": h["endpoint"], "keys": h["keys"]}, json.dumps(govde, ensure_ascii=False),
+                     vapid_private_key=VAPID_NESNE, vapid_claims={"sub": VAPID_SUB}, ttl=BILDIRIM_TTL,
+                     headers={"Urgency": "high"}, timeout=10)
+            sonuc = "ok"
+        except WebPushException as e:
+            kod = getattr(e.response, "status_code", 0)
+            sonuc = "silindi" if kod in (404, 410) else f"hata {kod}"
+        except Exception as e:  # ağ hatası vb.: bir sonraki çağrıda yeniden denenir
+            sonuc = "hata " + type(e).__name__
+        bitti.append((h["endpoint"], sonuc))
+    with abone_kilit:
+        a = abone_oku()
+        for uc, sonuc in bitti:
+            if uc not in a:
+                continue
+            if sonuc == "silindi":
+                del a[uc]  # telefon aboneliği bırakmış (uygulama silindi / izin kaldırıldı)
+            else:
+                a[uc].update({"son": simdi(), "sonuc": sonuc})
+        abone_yaz(a)
+
+
+def bildirim_sayisi(spy_id):
+    return sum(1 for x in abone_oku().values() if x.get("spy") == spy_id)
 
 
 def sureleri_denetle(veri):
@@ -322,7 +414,8 @@ def uygula(veri, yol, istek):
 def spy_ozet(veri, s):
     hal = "molada" if s.get("durum") == "molada" else "randevuda" if randevuda_mi(veri, s["id"]) else "bosta"
     bugunku = sum(1 for x in veri["kayitlar"].values() if x.get("repId") == s["id"] and x.get("tarih") == bugun() and x.get("durum") != "iptal")
-    return {**s, "hal": hal, "konumAn": anlik_konum(veri, s), "bugunCagri": bugunku, "sonGorulme": GORULME.get(s["id"], 0)}
+    return {**s, "hal": hal, "konumAn": anlik_konum(veri, s), "bugunCagri": bugunku, "sonGorulme": GORULME.get(s["id"], 0),
+            "bildirim": bildirim_sayisi(s["id"])}
 
 
 def bugun_sayilar(veri):
@@ -373,6 +466,10 @@ class Isleyici(BaseHTTPRequestHandler):
             self.send_header("Location", "/" + self.server.gizli + "/" + UYGULAMA.replace(" ", "%20"))
             self.end_headers()
             return
+        if yol == "api/anahtar":
+            return self._yanit(200, {"anahtar": VAPID_ACIK})
+        if yol == "sw.js":  # merkezde önbelleksiz, yalnız bildirim gösteren servis çalışanı (Pages'teki sw.js değil)
+            return self._yanit(200, (KLASOR / "canli-sw.js").read_bytes(), "text/javascript; charset=utf-8")
         if yol == "api/durum":
             from urllib.parse import parse_qs
             q = parse_qs(self.path.partition("?")[2])
@@ -409,6 +506,8 @@ class Isleyici(BaseHTTPRequestHandler):
 
     def do_POST(self):
         yol = self._yol()
+        if yol in ("api/abone", "api/abone-sil"):
+            return self._abone(yol)
         if yol not in ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/kod", "api/sifirla"):
             return self._yanit(404, {"hata": "Bulunamadı"})
         uzunluk = int(self.headers.get("Content-Length") or 0)
@@ -423,6 +522,33 @@ class Isleyici(BaseHTTPRequestHandler):
             self._yanit(200, {"surum": veri["surum"], "sonuc": sonuc})
         except (KeyError, ValueError, TypeError) as e:
             self._yanit(400, {"hata": str(e).strip("'\"")})
+
+    def _abone(self, yol):
+        uzunluk = int(self.headers.get("Content-Length") or 0)
+        if uzunluk > 5_000:
+            return self._yanit(413, {"hata": "İstek çok büyük"})
+        try:
+            self._yanit(200, {"sonuc": abone_isle(yol, json.loads(self.rfile.read(uzunluk) or b"{}"))})
+        except (KeyError, ValueError, TypeError, AttributeError) as e:
+            self._yanit(400, {"hata": str(e).strip("'\"")})
+
+
+def abone_isle(yol, istek):
+    with abone_kilit:
+        a = abone_oku()
+        if yol == "api/abone-sil":
+            a.pop(str(istek.get("endpoint") or ""), None)
+            abone_yaz(a)
+            return {}
+        ab = istek.get("abonelik") or {}
+        uc, anahtar = ab.get("endpoint"), ab.get("keys") or {}
+        if istek.get("spy") not in SPY_IDLER or not uygun_uc(uc) or not anahtar.get("p256dh") or not anahtar.get("auth"):
+            raise ValueError("Abonelik eksik.")
+        # Telefon başka SPY seçtiyse eski bağ kalkar (aynı uç tek SPY'ye bağlı)
+        a[uc] = {"endpoint": uc, "keys": {"p256dh": metin(anahtar["p256dh"], 200), "auth": metin(anahtar["auth"], 100)},
+                 "spy": istek["spy"], "cihaz": metin(istek.get("cihaz"), 80), "eklenme": simdi()}
+        abone_yaz(a)
+        return {"spy": istek["spy"], "telefon": sum(1 for x in a.values() if x["spy"] == istek["spy"])}
 
 
 def gizli_yol():
@@ -457,6 +583,8 @@ def main():
         print(f"Port {PORT} kullanımda: merkez zaten çalışıyor olabilir.", flush=True)
         return 1
     sunucu.gizli = os.environ.get("TY_YOL") or gizli_yol()
+    global VAPID_NESNE, VAPID_ACIK
+    VAPID_NESNE, VAPID_ACIK = vapid()
 
     def bekci():
         while True:

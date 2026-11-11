@@ -6,3 +6,6 @@ yedek/
 deneme*.json
 deneme*.tmp
 __pycache__/
+vapid.pem
+*_abonelik.json
+*_abonelik.tmp

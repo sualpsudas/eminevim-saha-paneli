@@ -600,3 +600,14 @@ Kullanıcıyla konuşulup onaylanan plan ("onaylandı").
 - Testler: `merkez-akis.py` yeni kurallara göre yeniden yazıldı (7 SPY, hemen/ileri, devret → kimse almadı, harita + süzgeç, kompakt performans,
   SMS penceresi, hazırlık); `web-flows`, `browser-flows`, `preparation-popup`, `appointment.test.js` güncellendi. Tümü geçti.
 
+
+## 2026-11-11 (3) · Uygulama kapalıyken bildirim (Web Push)
+Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı kalktı; yeni çağrı bildirim olarak gider.
+- Bir telefon tek SPY'ye bağlı (başka SPY seçilince bağ geçer, Çıkış yapınca kalkar); aynı SPY birden çok telefonda seçilebilir, bildirim hepsine gider.
+- Merkez: `api/anahtar`, `api/abone`, `api/abone-sil`; Google/Apple servisi "artık yok" (404/410) derse abonelik silinir. Bağımlılık `pywebpush` (conda base).
+  Anahtar `merkez/vapid.pem` ve abonelikler yalnız sunucuda. Servis çalışanı `merkez/canli-sw.js`.
+- Uygulama: girişte izin (dokununca), Profil'de "Bildirimler" kartı ve "Bildirimleri aç". Takip sayfasında SPY başına bildirimi açık telefon sayısı.
+- iPhone: Safari'de Ana Ekrana Ekle ile çalışır; TestFlight uygulaması (Build 1, 2026-10-05 var) için APNs ayrı adım.
+- Doğrulama: gerçek Chrome + Google bildirim servisiyle abonelik → çağrı → bildirim gösterildi (gönderim "ok"). Bu deneme Google'ın yanıt süresine
+  bağlı ve kararsız olduğundan kalıcı teste konmadı (personel girişi ileride yalnız telefondan olacak — kullanıcı). `merkez-akis.py` sahte bildirim
+  sunucusuyla: iki telefona gönderim, telefon değişimi, 410 temizliği, imza/şifreleme başlıkları. Tüm testler geçti.

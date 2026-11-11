@@ -78,8 +78,56 @@
     return Promise.resolve();
   }
 
+  // Uygulama kapalıyken bildirim (Web Push). Bir telefon tek SPY'ye bağlıdır; aynı SPY birden çok telefonda açılabilir,
+  // yeni çağrı o SPY'yi seçmiş tüm telefonlara gider. Döner: "acik" | "kapali" | "reddedildi" | "ana-ekran" | "destek-yok" | "native"
+  function iosTarayici() {
+    var ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    var anaEkran = navigator.standalone === true || (global.matchMedia && matchMedia("(display-mode: standalone)").matches);
+    return ios && !anaEkran;
+  }
+  function b64(s) {
+    var p = "=".repeat((4 - s.length % 4) % 4), h = atob((s + p).replace(/-/g, "+").replace(/_/g, "/")), d = new Uint8Array(h.length);
+    for (var i = 0; i < h.length; i++) d[i] = h.charCodeAt(i);
+    return d;
+  }
+  function pushDestek() {
+    if (global.EMINEVIM_NATIVE) return "native";  // iPhone uygulaması (TestFlight): Apple bildirimi ayrı adım
+    if (!ayar) return "destek-yok";
+    if (iosTarayici() && !global.PushManager) return "ana-ekran";
+    if (!("serviceWorker" in navigator) || !global.PushManager || !global.Notification) return "destek-yok";
+    return "";
+  }
+  function pushBagla(spy, sor) {
+    // sor=true yalnız bir dokunuşla çağrılır (iPhone izni ancak dokunuşla sorar)
+    var engel = pushDestek();
+    if (engel) return Promise.resolve(engel);
+    var izin = Notification.permission === "default" && sor ? Notification.requestPermission() : Promise.resolve(Notification.permission);
+    return izin.then(function (p) {
+      if (p === "denied") return "reddedildi";
+      if (p !== "granted") return "kapali";
+      var hazir = navigator.serviceWorker.register("sw.js").then(function () { return navigator.serviceWorker.ready; });  // sayfanın tam yüklenmesini beklemeden
+      return Promise.all([hazir, istek("anahtar")]).then(function (x) {
+        var reg = x[0], anahtar = x[1].anahtar;
+        if (!anahtar) return "destek-yok";
+        return reg.pushManager.getSubscription().then(function (ab) {
+          return ab || reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64(anahtar) });
+        }).then(function (ab) {
+          yaz("ty-push-uc", ab.endpoint);
+          return gonder("api/abone", { spy: spy, abonelik: ab.toJSON(), cihaz: navigator.userAgent.slice(0, 80) }).then(function () { return "acik"; });
+        });
+      });
+    }).catch(function (e) { try { console.warn("Bildirim açılamadı:", e); } catch (_) {} return "kapali"; });
+  }
+  function pushBirak() {
+    // Çıkışta bu telefon artık o SPY'nin bildirimini almaz
+    var uc = oku("ty-push-uc");
+    if (!ayar || !uc) return Promise.resolve();
+    return gonder("api/abone-sil", { endpoint: uc }).catch(function () {});
+  }
+
   function oku(ad) { try { return localStorage.getItem(ad); } catch (e) { return null; } }
   function yaz(ad, deger) { try { if (deger == null) localStorage.removeItem(ad); else localStorage.setItem(ad, deger); } catch (e) {} }
 
-  global.Canli = { aktif: !!ayar, durum: durum, gonder: gonder, mid: mid, uyar: uyar, bildirimIzni: bildirimIzni, oku: oku, yaz: yaz };
+  global.Canli = { aktif: !!ayar, durum: durum, gonder: gonder, mid: mid, uyar: uyar, bildirimIzni: bildirimIzni, oku: oku, yaz: yaz,
+                   pushBagla: pushBagla, pushBirak: pushBirak };
 })(window);

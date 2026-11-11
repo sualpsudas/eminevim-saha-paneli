@@ -20,7 +20,6 @@ durum yoktur: listede yalnız şarta uyanlar bulunur. "Molada" ayrı bir durumdu
 | Kural | Hemen çağrı | İleri saat/gün |
 |---|---|---|
 | Molada değil | ✓ | — |
-| Uygulaması açık | ✓ | — |
 | Yolda ya da görüşmede değil | ✓ | — |
 | Saat çakışması | — | O gün, istenen saatin 1,5 saat öncesi ve sonrasında başka randevusu yok |
 | Günlük üst sınır | Bugün en fazla **4** çağrı | O gün en fazla **4** çağrı |
@@ -44,7 +43,7 @@ Randevu H/G ile ciro H/G **eşit ağırlıkta**. Değer %100–130 arasında pua
 1. Çağrı en yüksek puanlı SPY'ye gider; telefonunda sesli uyarı. SPY çağrıyı neden aldığını görür (uzaklık, H/G, o günkü çağrı sayısı).
 2. **2 dakika** içinde kabul etmezse ya da **Devret** derse sıradaki SPY'ye geçer. Deneme sayısı sınırı yoktur.
 3. Uygun SPY kalmazsa çağrı **"kimse almadı"** olur, yöneticinin Saha Canlı haritasında **kırmızı** görünür; uygun bir SPY çıkınca
-   (moladan döndü, uygulamayı açtı) kendiliğinden ona teklif edilir.
+   (moladan döndü, görüşmesi bitti) kendiliğinden ona teklif edilir.
 4. **Yöneticiye düşme, yöneticinin elle ataması (Ata) ve aktarması yoktur** (kullanıcı kararı, 2026-11-11).
 
 ## 6. Rota (başlangıç)
@@ -57,7 +56,8 @@ Randevu H/G ile ciro H/G **eşit ağırlıkta**. Değer %100–130 arasında pua
 
 - **7 SPY**, pilot bölgede (tanıtım videosundaki gibi **Üsküdar, Ümraniye, Ataşehir**), her biri farklı mahallede; hepsinin iki H/G'si
   ≥ %100 (değerler **uydurmadır**). Liste: `spyler.js`.
-- Konumlar sabit (mahalle noktası); canlı konum sonraki adım. "Uygulaması açık" = son 30 saniyede merkeze bağlanmış.
+- Konumlar sabit (mahalle noktası); canlı konum sonraki adım. Uygulamanın açık olması gerekmez: yeni çağrı,
+  o SPY'yi seçmiş tüm telefonlara bildirim olarak gider (bir telefon tek SPY'ye bağlı; aynı SPY birden çok telefonda seçilebilir).
 - Rol ayrımı: girişte yalnız **SPY** ve **Yönetici** (her yönetici hepsini görür). Yönetici: Saha Canlı haritası (boşta yeşil, randevuda
   turuncu, molada gri; kimse almadı kırmızı) ve kompakt performans listesi.
 - Kabul süresi, Devret ve "kimse almadı" test sürümünde çalışır. "Hız ve güvenilirlik" ölçütü test sürümünde kullanılmıyor.

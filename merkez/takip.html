@@ -102,7 +102,7 @@
   function spyBilgi(s){
     var h=HAL[s.hal]||HAL.bosta, r=randevusu(s);
     return '<b>'+e(s.ad)+'</b><br><span class="renk r-'+e(s.hal)+'"></span> '+h[0]+(r?' · '+(r.musteri&&r.musteri.ad||"Müşteri")+' ('+DURUM[r.durum]+')':'')+
-      '<br>Bugün '+(s.bugunCagri||0)+' / 4 çağrı<br><span style="color:#666">'+e(s.mahalle)+', '+e(s.ilce)+'</span>';
+      '<br>Bugün '+(s.bugunCagri||0)+' / 4 çağrı<br>'+(s.bildirim?'Bildirim: '+s.bildirim+' telefon':'Bildirim kapalı')+'<br><span style="color:#666">'+e(s.mahalle)+', '+e(s.ilce)+'</span>';
   }
   function sahipsizler(){return Object.values(veri.kayitlar).filter(function(k){return k.sahipsiz&&!k.repId&&!KAPALI[k.durum]&&k.konum;});}
   function ciz(){
@@ -143,7 +143,7 @@
   if(DEMO){  // gösteri: merkez yok; örnek durumlarla (canlı sürümde merkezden gelir)
     document.getElementById("sifirla").style.display="none";
     var ornek={s1:"randevuda",s4:"molada",s15:"randevuda"}, bugunOrnek={s1:2,s2:1,s3:1,s15:2,s21:1};
-    veri.spyler=(window.TY_SPYLER||[]).map(function(s){return Object.assign({},s,{hal:ornek[s.id]||"bosta",bugunCagri:bugunOrnek[s.id]||0,konumAn:{lat:s.lat,lng:s.lng}});});
+    veri.spyler=(window.TY_SPYLER||[]).map(function(s){return Object.assign({},s,{hal:ornek[s.id]||"bosta",bugunCagri:bugunOrnek[s.id]||0,bildirim:s.id==="s4"?0:1,konumAn:{lat:s.lat,lng:s.lng}});});
     veri.bugun={gelen:9,gorusme:4};
     document.getElementById("bag").textContent="Gösteri · örnek veri";
     ciz();

@@ -134,14 +134,14 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 - **Giriş:** Müşteri girişi (Giriş Yap / Kayıt) aynen durur. **Personel Girişi** yalnız iki seçenek: **SPY** (açılır listeden kişi, fotoğraflı
   önizleme + "Giriş yap") ve **Yönetici** (tek düğme; her yönetici hepsini görür). Cihaz SPY'nin son girişini hatırlar.
 - **Atama** (ayrıntı `rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md`). Günlük sınır 4 çağrı.
-  - **Hemen çağrı** (bugün, saati en geç 2 saat sonra): molada, uygulaması kapalı (son 30 sn merkeze bağlanmamış), yolda/görüşmede ve
+  - **Hemen çağrı** (bugün, saati en geç 2 saat sonra): molada, yolda/görüşmede ve
     günlük sınırı dolan elenir. Puan: **yakınlık 50** (o anki yer: bugünkü son randevusu, yoksa kendi mahallesi), **H/G 30** (randevu 15 +
     ciro 15), **bugünkü çağrı 20** (az olan önde).
   - **İleri saat/gün:** o saatin ±90 dk'sında randevusu olan ve o gün sınırı dolan elenir. Puan: **H/G 50** (randevu 25 + ciro 25),
     **yakınlık 30** (kendi bölgesine ya da o günkü randevularına), **o günkü çağrı 20**.
   - Çağrı en yüksek puanlıya **teklif** edilir; **2 dakikada** kabul edilmezse ya da SPY **Devret** derse sıradakine. Deneme sınırı yok;
     uygun SPY kalmazsa çağrı **"kimse almadı"** olur ve Saha Canlı haritasında **kırmızı** görünür; uygun SPY çıkınca (moladan döndü,
-    uygulamayı açtı) kendiliğinden ona teklif edilir. **Yöneticiye düşme, Ata ve Aktar yok.** Süresi dolmuş çağrıyı eski SPY kabul edemez.
+    görüşmesi bitti) kendiliğinden ona teklif edilir. **Yöneticiye düşme, Ata ve Aktar yok.** Süresi dolmuş çağrıyı eski SPY kabul edemez.
 - **SPY ekranı:** yeni çağrıda ses + titreşim + "Yeni çağrı: Ad"; ayrıntıda **kabul için kalan süre** (geri sayım), **"Neden size geldi"**
   (uzaklık, H/G, o günkü çağrı sayısı) ve müşterinin görüşmeye hazırlık bilgileri (ne için, çalışma durumu, yaş aralığı, not).
   Performans: son 3 ay randevu ve ciro H/G çubukları, ekipteki sıra (x/7), bugünkü çağrı (en fazla 4), kural özeti.
@@ -153,7 +153,12 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
     Kimsenin almadığı çağrılar **kırmızı nokta**. Haritanın altında kısa SPY listesi (dokununca haritada gösterir). Eski çağrı kartları,
     olaylar ve uzun liste kalktı. Sınırlar `assets/pilot-sinirlar.js` (OpenStreetMap, sadeleştirilmiş).
   - **Performans:** kompakt liste — sıra, ad, ort. randevu H/G, ort. ciro H/G; iki oranın ortalamasına göre yukarıdan aşağı; altta ekip ortalaması.
-- Müşteri, SPY kabul edene kadar kimin geleceğini görmez. Uygulama kapalıyken bildirim (push) yok; Apple bildirim anahtarı (APNs) gerekir.
+- **Bildirim (2026-11-11):** uygulamanın açık olması gerekmez. Yeni çağrı, o SPY'yi seçmiş **tüm telefonlara** bildirim olarak gider
+  ("Yeni çağrı: Ad" · yer · saat · "2 dk içinde kabul edin"). Bir telefon tek SPY'ye bağlıdır: başka SPY seçilince bağ ona geçer,
+  Çıkış yapınca kalkar; aynı SPY birden çok telefonda seçilebilir. İzin girişte (dokununca) sorulur; Profil'de **Bildirimler** kartı
+  durumu gösterir, kapalıysa "Bildirimleri aç". **iPhone'da** Safari → Paylaş → **Ana Ekrana Ekle** ile açılan sayfada çalışır (iOS 16.4+).
+  TestFlight uygulamasında kapalıyken bildirim için Apple bildirim anahtarı (APNs) gerekir (sonraki adım). Takip sayfasında SPY'ye
+  dokununca bildirimi açık telefon sayısı görünür. Müşteri, SPY kabul edene kadar kimin geleceğini görmez.
 - **Web formu** merkezden açılırsa (`<merkez>/web-basvuru/index.html`) "Temsilci çağırmak istiyorum" çağrısı merkeze gider; SMS önizlemesindeki
   6 haneli giriş kodunu merkez verir. Uygulamada telefon + bu kodla girince aynı çağrı açılır (merkezde `api/kod`). Pages kopyasında eski
   gösteri davranışı (kod tarayıcıda üretilir).

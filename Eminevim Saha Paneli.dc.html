@@ -40,7 +40,8 @@
     });
   }).catch(() => {});
   let reloaded = false;
-  navigator.serviceWorker.addEventListener('controllerchange', () => { if (reloaded) return; reloaded = true; location.reload(); });
+  navigator.serviceWorker.addEventListener('controllerchange', () => { if (reloaded || window.TY_CANLI) return;  // merkezde servis çalışanı önbellek tutmaz: yenilemeye gerek yok
+    reloaded = true; location.reload(); });
 });</script>
 <script src="./vendor/react.production.min.js"></script>
 <script src="./vendor/react-dom.production.min.js"></script>
@@ -664,6 +665,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
         <div style="display:flex;align-items:center;gap:12px;"><span class="tp-av" style="width:56px;height:56px;font-size:18px;background-image:{{ tpFotoCss }};color:{{ tpBasRenk }};">{{ tpBas }}</span><span><b style="display:block;font-size:18px;color:var(--ink);">{{ tpAd }}</b><span style="font-size:13px;color:var(--dim);">{{ tpRol }}</span></span></div>
         <sc-if value="{{ tpDurumElle }}"><div><div style="font-size:11px;font-weight:800;color:var(--dim);letter-spacing:.4px;margin-bottom:6px;">MÜSAİTLİK</div><div class="tp-cip" role="group" aria-label="Müsaitlik"><button type="button" aria-pressed="{{ tpMusait }}" onClick="{{ tpMusaitSec }}">Müsait</button><button type="button" aria-pressed="{{ tpMolada }}" onClick="{{ tpMoladaSec }}">Molada</button></div></div></sc-if>
         <sc-if value="{{ tpDurumOto }}"><div style="background:var(--tintGreen);border-radius:12px;padding:9px 12px;font-size:13px;">Görüşmede · görüşme bitince Müsait olursunuz</div></sc-if>
+        <sc-if value="{{ tpBildirimVar }}"><div><div style="font-size:11px;font-weight:800;color:var(--dim);letter-spacing:.4px;margin-bottom:6px;">BİLDİRİMLER</div><p style="margin:0 0 8px;font-size:13px;color:var(--ink);">{{ tpBildirimMetin }}</p><sc-if value="{{ tpBildirimDugme }}"><button type="button" class="tp-btn" onClick="{{ tpBildirimAc }}">Bildirimleri aç</button></sc-if></div></sc-if>
         <button type="button" class="tp-btn o" onClick="{{ cikisYap }}">Çıkış yap</button>
       </div></div></sc-if>
     </main>
@@ -1336,7 +1338,7 @@ class Component extends DCLogic {
     girisEmail: "ayse.kaya@ornek.com",
     girisSifre: "test123",
     girisTelefon: "0532 145 67 89",
-    mKonusmaAcik:false, mSeciliRandevuId:null, mOkunanRandevular:{}, mGecmis: [], tpKayitlar: {}, personelRepId:"s1", ekBilgiAcik: false, ekCalisma: "", ekYas: "", ekNeIcin: "", ekNot: "", mSorunAcik: false, mSorunNot: "", mSorunKonu: "Randevu", tpOzetNot: "", tpSonraki: "Müşterinin değerlendirmesi bekleniyor",
+    mKonusmaAcik:false, mSeciliRandevuId:null, mOkunanRandevular:{}, mGecmis: [], tpKayitlar: {}, tpBildirim: "", personelRepId:"s1", ekBilgiAcik: false, ekCalisma: "", ekYas: "", ekNeIcin: "", ekNot: "", mSorunAcik: false, mSorunNot: "", mSorunKonu: "Randevu", tpOzetNot: "", tpSonraki: "Müşterinin değerlendirmesi bekleniyor",
     mTalep: null,          // müşterinin temsilci talebi {tip:"ziyaret"|"telefon", gunYazi, saat, yer, durum:"alindi"|"atandi"|"netlesti"|"degisti"|"gorusme"|"tamamlandi", konum, gecikme, ozet, ozetCevap, puan, bolgeDisi, repId}
     hosgeldinAdim: 0,      // 1-3: yeni gelen müşteriye tanıtım penceresi
     sohbetTaslak: "",
@@ -1496,7 +1498,7 @@ class Component extends DCLogic {
     }
     const directRole = q.get("rol");
     if (["tl", "sgl", "ask", "spy"].indexOf(directRole) >= 0) this.loginRole(directRole, q.get("spy"));
-    else if (CANLI && TEMSILCI_DETAY[Canli.oku("ty-spy")]) this.loginRole("spy", Canli.oku("ty-spy"));  // personel oturumu cihazda kalır
+    else if (CANLI && TEMSILCI_DETAY[Canli.oku("ty-spy")]) this.loginRole("spy", Canli.oku("ty-spy"), true);  // personel oturumu cihazda kalır
     this.canliBasla();
   }
 
@@ -1794,11 +1796,15 @@ class Component extends DCLogic {
     this.setState((s) => ({ chatMessages: [...s.chatMessages, { from: "musteri", t: Date.now(), text }], sohbetTaslak: "" }));
     if (!CANLI) this.demoSpyCevap();
   }
-  loginRole(role, repId) {
+  loginRole(role, repId, otomatik) {
     const user = OrgData.demoUser(role);
     if (role === "spy") {
       const id = TEMSILCI_DETAY[repId] ? repId : this.state.mTalep?.repId || "s1";
-      if (CANLI) { Canli.yaz("ty-spy", id); Canli.bildirimIzni(); this._canliUyarilan = new Set(); setTimeout(() => this.canliHemen(), 0); }
+      if (CANLI) { Canli.yaz("ty-spy", id); this._canliUyarilan = new Set(); setTimeout(() => this.canliHemen(), 0);
+        // Uygulama kapalıyken bildirim: bu telefon bu SPY'ye bağlanır (izin girişteki dokunuşla sorulur)
+        if (window.EMINEVIM_NATIVE) Canli.bildirimIzni();
+        Canli.pushBagla(id, !otomatik).then((d) => { this.setState({ tpBildirim: d });
+          if (!otomatik && d !== "acik" && d !== "native") this.showBildirim({ ad: "Bildirimler kapalı", ilce: "Uygulama kapalıyken çağrı gelmez · Profil'den açın" }); }); }
       this.setState({ tpKayitlar: CANLI ? {} : this.state.tpKayitlar, tpDurum: "musait", personelRepId:id,personelLoginOpen: false, girisYapildi: true, panel: "spy", spyTab: "performans", spyPerformanceView: "ozet", managerUser: user, tpSekme: "gorusmeler", tpSecim: null, tpRota: false });
       return;
     }
@@ -2396,7 +2402,7 @@ class Component extends DCLogic {
     // Hesabın oturum verisini sakla (tekrar giriş yapınca geri gelsin)
     const s = this.state;
     const key = telAnahtar(s.customerForm.phone);
-    if (CANLI && s.panel === "spy") { Canli.yaz("ty-spy", null); this.setState({ tpKayitlar: {}, tpSecim: null }); }
+    if (CANLI && s.panel === "spy") { Canli.yaz("ty-spy", null); Canli.pushBirak(); this.setState({ tpKayitlar: {}, tpSecim: null, tpBildirim: "" }); }
     this.mKaydetHesap();
     if (key && s.panel === "musteri") {   // personel çıkışı müşterinin kaydını ezmesin
       if (!this._hesaplar) this._hesaplar = {};
@@ -2685,7 +2691,16 @@ class Component extends DCLogic {
     const gorusmede = liste.some((g) => g.durum === "gorusmede");
     out.tpUstDurum = ROL_AD[rol] + (gorusmeYapar ? " · " + (gorusmede ? "Görüşmede" : s.tpDurum === "molada" ? "Molada" : "Müsait") : "");
     Object.assign(out, {
-      tpDurumElle: gorusmeYapar && !gorusmede, tpDurumOto: gorusmeYapar && gorusmede,
+      tpDurumElle: gorusmeYapar && !gorusmede,
+      tpBildirimVar: CANLI && s.panel === "spy",
+      tpBildirimMetin: ({ acik: "Açık · uygulama kapalıyken de yeni çağrı bu telefona gelir.",
+        reddedildi: "İzin verilmemiş · telefonun ayarlarından bu uygulamaya bildirim izni verin.",
+        "ana-ekran": "iPhone'da önce Safari'de Paylaş → Ana Ekrana Ekle; uygulamayı ana ekrandan açıp buradan bildirimleri açın.",
+        "destek-yok": "Bu tarayıcı uygulama kapalıyken bildirim göstermiyor (Chrome ya da Safari kullanın).",
+        native: "Uygulama açıkken uyarı gelir; kapalıyken bildirim sonraki adımda (Apple bildirim anahtarı)." })[s.tpBildirim]
+        || "Kapalı · açarsanız uygulama kapalıyken de yeni çağrı bu telefona gelir.",
+      tpBildirimDugme: !s.tpBildirim || s.tpBildirim === "kapali",
+      tpBildirimAc: () => Canli.pushBagla(s.personelRepId, true).then((d) => this.setState({ tpBildirim: d })), tpDurumOto: gorusmeYapar && gorusmede,
       tpMusait: (s.tpDurum || "musait") === "musait" ? "true" : "false", tpMolada: s.tpDurum === "molada" ? "true" : "false",
       tpMusaitSec: () => this.tpDurumSec("musait"), tpMoladaSec: () => this.tpDurumSec("molada"),
     });

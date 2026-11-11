@@ -1,5 +1,6 @@
 """Merkez (canlı) akışı: müşteri, SPY'ler ve yönetici ayrı tarayıcılarda.
-Hemen çağrı (bugün, 2 saat içinde) uygulaması açık, boşta en yüksek puanlı SPY'ye düşer; ileri tarih puanla atanır;
+Hemen çağrı (bugün, 2 saat içinde) boşta en yüksek puanlı SPY'ye düşer (uygulaması kapalı da olabilir: bildirim gider);
+bildirim o SPY'yi seçmiş tüm telefonlara gider (sahte bildirim sunucusuyla); ileri tarih puanla atanır;
 devredildikçe sıradakine geçer, kimse kalmayınca "kimse almadı" (haritada kırmızı); yönetici Saha Canlı haritasını ve
 kompakt performans listesini görür; web formu çağrısı merkeze gider, SMS penceresi açılır, giriş koduyla uygulamada açılır
 ve görüşmeye hazırlık penceresi çıkar.
@@ -8,7 +9,10 @@ Deneme sunucusu (kullanıcının baktığı kopya değil):
 Playwright + Chrome gerektirir."""
 from pathlib import Path
 from urllib.parse import urlparse, parse_qs
-import datetime, json, re, tempfile, urllib.error, urllib.request
+import base64, datetime, json, os, re, tempfile, threading, time, urllib.error, urllib.request
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives import serialization
 from playwright.sync_api import sync_playwright
 
 KOK = 'http://127.0.0.1:8795/deneme/'
@@ -35,6 +39,33 @@ def bekle(page, kosul, sure=8000):
     page.wait_for_function('''(code)=>{const el=document.getElementById('dc-root');const root=el[Object.keys(el).find(k=>k.startsWith('__reactContainer$'))];const queue=[root],seen=new Set();while(queue.length){const f=queue.shift();if(!f||seen.has(f))continue;seen.add(f);if(f.stateNode?.logic){const app=f.stateNode.logic;return !!eval(code);}queue.push(f.child,f.sibling,f.alternate);}return false;}''', arg=kosul, timeout=sure)
 
 
+# Sahte bildirim servisi (Google/Apple yerine): merkezin gönderdiği şifreli bildirimleri yakalar; /gone → 410 (telefon aboneliği bırakmış)
+GELEN = []
+class SahtePush(BaseHTTPRequestHandler):
+    def log_message(self, *a):
+        pass
+    def do_POST(self):
+        govde = self.rfile.read(int(self.headers.get('Content-Length') or 0))
+        GELEN.append({'yol': self.path, 'basliklar': {k.lower(): v for k, v in self.headers.items()}, 'boy': len(govde)})
+        self.send_response(410 if self.path == '/gone' else 201); self.end_headers()
+push_sunucu = ThreadingHTTPServer(('127.0.0.1', 0), SahtePush)
+threading.Thread(target=push_sunucu.serve_forever, daemon=True).start()
+PUSH = f'http://127.0.0.1:{push_sunucu.server_address[1]}'
+
+
+def abonelik(yol):
+    acik = ec.generate_private_key(ec.SECP256R1()).public_key().public_bytes(serialization.Encoding.X962, serialization.PublicFormat.UncompressedPoint)
+    b = lambda x: base64.urlsafe_b64encode(x).decode().rstrip('=')
+    return {'endpoint': PUSH + yol, 'keys': {'p256dh': b(acik), 'auth': b(os.urandom(16))}}
+
+
+def gelen_bekle(yollar, sure=8):
+    son = time.time() + sure
+    while time.time() < son and not set(yollar) <= {g['yol'] for g in GELEN}:
+        time.sleep(0.2)
+    return {g['yol'] for g in GELEN}
+
+
 def personel(pg, sid=None):
     pg.get_by_role('button', name='Personel Girişi', exact=True).click()
     if sid is None:
@@ -48,6 +79,7 @@ def personel(pg, sid=None):
 
 assert len(SPYLER) == 7 and all(s['randevuHG'] >= 100 and s['ciroHG'] >= 100 for s in SPYLER), len(SPYLER)
 merkez('api/sifirla', {'onay': 'evet'})
+(Path(tempfile.gettempdir()) / 'deneme_abonelik.json').unlink(missing_ok=True)  # bildirim abonelikleri sıfırlamada silinmez; testte temiz başla
 with sync_playwright() as p:
     browser = p.chromium.launch(channel='chrome', headless=True)
     errors = []
@@ -66,6 +98,16 @@ with sync_playwright() as p:
     spy.get_by_role('button', name='Geri', exact=True).click()
     personel(spy, 's2'); personel(spy_diger, 's1')
     spy.screenshot(path=str(OUT / '1-spy-giris.png'))
+    # Bildirim abonelikleri: Derya iki telefonda (t1, t2), Selin bir telefonda (t3) + aboneliği bırakmış bir telefon (/gone)
+    assert merkez('api/anahtar')['anahtar'], 'Merkez bildirim anahtarı yok (pywebpush kurulu mu?)'
+    ab = {y: abonelik(y) for y in ('/t1', '/t2', '/t3', '/gone')}
+    for y, sid in (('/t1', 's2'), ('/t2', 's2'), ('/t3', 's4'), ('/gone', 's4')):
+        merkez('api/abone', {'spy': sid, 'abonelik': ab[y], 'cihaz': 'test'})
+    try:
+        merkez('api/abone', {'spy': 's2', 'abonelik': {**ab['/t1'], 'endpoint': 'http://ornek.com/x'}})
+        raise AssertionError('Yalnız https bildirim adresi kabul edilmeli')
+    except urllib.error.HTTPError as e:
+        assert e.code == 400
 
     # Yeni müşteri: telefon → SMS kodu (testte ekranda dolu) → ad + parola → onaylar
     app(musteri, 'app.setState({girisMod:"kod",kodAdim:1,kodTel:"0555 111 22 33",kodAd:"Deniz Test",kodParola:"test123",kodParola2:"test123"})')
@@ -84,6 +126,12 @@ with sync_playwright() as p:
     assert kayit['teklif']['bitis'] > 0 and kayit['atamaPuan'] and 'km' in kayit['gerekce'], kayit
     assert app(musteri, 'app.state.mTalep.repId') is None, 'Müşteri kabulden önce SPY görmez'
     assert 'SPY' not in musteri.locator('body').inner_text(), 'Müşteri ekranında SPY yazmamalı'
+    # Bildirim Derya'nın iki telefonuna gitti, Selin'inkine gitmedi; Web Push biçiminde (VAPID imzalı, şifreli)
+    gelen = gelen_bekle(['/t1', '/t2'])
+    assert {'/t1', '/t2'} <= gelen and '/t3' not in gelen, gelen
+    b = next(g for g in GELEN if g['yol'] == '/t1')
+    assert b['basliklar'].get('authorization', '').startswith('vapid t=') and b['basliklar'].get('content-encoding') == 'aes128gcm' and b['boy'] > 0, b
+    assert b['basliklar'].get('ttl') == '120' and b['basliklar'].get('urgency') == 'high', b
 
     # Derya'ya bildirim + 2 dk geri sayım + gerekçe; Onur'da görünmez
     bekle(spy, 'Object.values(app.state.tpKayitlar).some(k=>k.musteri&&k.musteri.ad==="Deniz Test")')
@@ -123,12 +171,21 @@ with sync_playwright() as p:
     bekle(musteri, 'app.state.mTalep.durum==="tamamlandi"')
     musteri.screenshot(path=str(OUT / '4-musteri-ozet.png'))
 
-    # Molada olan SPY'ye hemen çağrı gitmez: Derya molada → uygulaması açık tek SPY Onur (s1)
+    # Molada olan SPY'ye hemen çağrı gitmez: Derya molada → en yakın boştaki Selin (s4); uygulaması kapalı ama bildirim gider.
+    # t2 telefonu Selin'i seçti (aynı telefon tek SPY'ye bağlı), t1 çıkış yaptı.
+    merkez('api/abone', {'spy': 's4', 'abonelik': ab['/t2'], 'cihaz': 'test'})
+    merkez('api/abone-sil', {'endpoint': ab['/t1']['endpoint']})
+    GELEN.clear()
     app(spy, 'app.tpDurumSec("molada")')
     musteri.wait_for_timeout(500)
     sonuc = merkez('api/cagri', {'kayit': {'id': 'deneme-2', 'tip': 'ziyaret', 'konum': {'lat': 41.0230, 'lng': 29.0200}, 'yer': 'Üsküdar', 'saat': SIMDI},
                                  'musteri': {'ad': 'İkinci Test'}})['sonuc']
-    assert sonuc['repId'] == 's1', sonuc['repId']
+    assert sonuc['repId'] == 's4', sonuc['repId']
+    gelen = gelen_bekle(['/t2', '/t3', '/gone'])
+    assert {'/t2', '/t3', '/gone'} <= gelen and '/t1' not in gelen, gelen
+    time.sleep(0.5)
+    bil = {s['id']: s['bildirim'] for s in merkez('api/durum?hepsi=1')['spyler']}
+    assert bil['s2'] == 0 and bil['s4'] == 2, bil  # /gone (410) silindi
 
     # İleri tarih: uygulaması kapalı SPY'ler de aday. Devret → sıradaki; 7 SPY de denenince "kimse almadı".
     # Eski SPY artık kabul edemez; Ata/Aktar yok.
@@ -153,7 +210,7 @@ with sync_playwright() as p:
     durum = merkez('api/durum?hepsi=1')
     assert durum['bugun']['gelen'] == 3 and durum['bugun']['gorusme'] == 1, durum['bugun']
     hal = {s['id']: s['hal'] for s in durum['spyler']}
-    assert len(hal) == 7 and hal['s2'] == 'molada' and hal['s1'] == 'bosta', hal
+    assert len(hal) == 7 and hal['s2'] == 'molada' and hal['s4'] == 'bosta', hal
 
     # Yönetici: Saha Canlı = takip haritası (Gelen Çağrı, Görüşme Sayısı, süzgeçler, kimse almadı); performans kompakt liste
     yonetici = browser.new_context(viewport={'width': 1024, 'height': 1366}).new_page()
@@ -226,7 +283,7 @@ with sync_playwright() as p:
         uyg.wait_for_timeout(300)
     assert (wk.get('ekBilgi') or {}).get('neIcin') == 'Konut', wk.get('ekBilgi')
     assert not errors, errors
-    print('Merkez akışı: OK (7 SPY, hemen çağrı açık SPY, geri sayım + gerekçe, kabul, mesaj, yola çıkış, QR, özet, molada,'
+    print('Merkez akışı: OK (7 SPY, hemen çağrı, bildirim tüm telefonlara + telefon değişimi + 410 temizliği, geri sayım + gerekçe, kabul, mesaj, yola çıkış, QR, özet, molada,'
           ' ileri tarih puanı, devret → kimse almadı, Saha Canlı haritası + süzgeç, kompakt performans,'
           ' web formu → SMS penceresi → merkez kodu → uygulama → görüşmeye hazırlık)')
     print('Görseller:', OUT)

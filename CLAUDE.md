@@ -108,7 +108,14 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
   Aynı porta ikinci kopya bağlanmaz (Windows'ta adres yeniden kullanımı kapatıldı).
 - iPhone (TestFlight): `scripts/merkez-adresi.mjs` Codemagic'te `TY_MERKEZ_URL` (merkezin tam https adresi + gizli yol) varsa uygulamayı
   merkez sayfasına bağlar → uygulama değişikliği yeni derleme istemeden telefona gelir. Değişken yoksa paketteki gösteri sürümü açılır.
-  Derleme henüz yapılmadı (`IOS_TESTFLIGHT.md`). Kapalı uygulamaya bildirim (push) için APNs anahtarı + eklenti gerekir (yapılmadı).
+  TestFlight'ta derleme var (Build 1, 2026-10-05; `IOS_TESTFLIGHT.md`). Bu uygulamada kapalıyken bildirim için APNs anahtarı (.p8) +
+  Capacitor bildirim eklentisi + yeni Codemagic derlemesi gerekir (yapılmadı, sonraki adım).
+- **Bildirim (2026-11-11):** hemen çağrıda uygulamanın açık olması gerekmez; merkez Web Push ile o SPY'yi seçmiş tüm telefonlara gönderir
+  (bir telefon = bir SPY; aynı SPY birden çok telefonda). `merkez/sunucu.py` `api/anahtar`, `api/abone`, `api/abone-sil`; servis çalışanı
+  `merkez/canli-sw.js` (merkezde `sw.js` adıyla). Bağımlılık: conda base'de `pywebpush`. `merkez/vapid.pem` ve `*_abonelik.json` yalnız
+  sunucuda (depoda yok; vapid.pem silinirse tüm abonelikler geçersiz olur). iPhone Safari'de yalnız Ana Ekrana Ekle ile.
+  Kullanıcı notu: personel girişi ileride yalnız telefondan (ya da yerel uygulamadan) olacak; bilgisayar Chrome'unda bildirim denemesi
+  Google'a bağlı ve kararsız, kalıcı teste konmadı (merkez mantığı `tests/merkez-akis.py` sahte bildirim sunucusuyla sınanır).
 - Finansmanlarım rakamları için Eminevim uyum/hukuk onayı.
 - Klasör/depo adı eski (eminevim-saas / eminevim-saha-paneli) — yeniden adlandırma kararı verilmedi (Pages adresi değişir).
 - Öneri olarak bekliyor: cumartesi yığılmasını rakamla gösteren analiz (SPY raporları), yönetime kısa sunum.
