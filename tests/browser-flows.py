@@ -20,7 +20,7 @@ with sync_playwright() as p:
     page.get_by_text('Giriş Yap',exact=True).click()
     page.get_by_role('button',name='Giriş Yap',exact=True).click()
     page.locator('.m-randevu-row').first.click()
-    page.get_by_text('Temsilciniz yolda',exact=True).first.wait_for()
+    page.get_by_text('SPY\'niz yolda',exact=True).first.wait_for()
     page.wait_for_timeout(400)
     page.screenshot(path=str(OUT/'musteri-telefon.png'),animations='disabled')
     page.get_by_role('button',name='Kapıda kimliğini doğrula',exact=True).click()
@@ -45,7 +45,7 @@ with sync_playwright() as p:
     page.get_by_placeholder('Düzeltilmesini istediğiniz bilgiyi veya sorununuzu yazın.').fill('Görüşme konusu eksik.')
     page.get_by_role('button',name='Bildirimi gönder',exact=True).click()
     assert app(page,'app.state.mTalep.sorun.durum')=='Alındı'
-    app(page,'app.loginRole("ask");app.setState({destekYaniti:"Kaydınız incelendi, temsilciniz düzeltilmiş özeti paylaşacak."})')
+    app(page,'app.loginRole("ask");app.setState({destekYaniti:"Kaydınız incelendi, SPY\'niz düzeltilmiş özeti paylaşacak."})')
     page.set_viewport_size({'width':1180,'height':820})
     page.get_by_role('button',name='İncelemeye al',exact=True).click()
     page.get_by_role('button',name='Yanıtı müşteriye gönder',exact=True).click()

@@ -1,7 +1,7 @@
 # Tasarruf Yanımda
 
 Tek proje: **Tasarruf Yanımda** (klasör adı `eminevim-saas`, depo `sualpsudas/eminevim-saha-paneli` eski adlardır).
-**Amaç (2026-10-22, kullanıcı onaylı; eski "cumartesi yığılmasını hafta içine yaymak" tanımının yerine):** İlke (kaynak yönetimi) "Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğerleri sahada çalışır; dağılım talebe göre ayarlanır" (2026-10-23: saha personeli = **SPY** (Saha Portföy Yöneticisi), "SPY'ler" diye yazılır; ayrı ekip adı YOK, talepleri "Tasarruf Yanımda'da aktif SPY'ler" karşılar; ilk aşamada en başarılı SPY'ler, "teşvik" olarak (ödül değil); sonra kimlerin aktif olacağı belirsiz; atamada ilk ölçüt başarı, yöntem sonra (anlık hizmet/çağrı uygulamaları referans, marka adı yazma); "pilot" değil "pilot bölge denemesi"; "ayağına gitmek" yerine "dilediği yerde ve saatte ulaşmak"; Finansman Aracı + isteğe bağlı bilgiler (meslek) = SPY için görüşme öncesi ön bilgi; aynı gün talepleri de; taşmada takım lideri atar. Düzenleme claude.ai belgesinde (https://claude.ai/artifact/WBKdRt8hzNXjTymiJzqG9p, oturum ister); paylaşım için sitede rapor/proje-cercevesi.html (linkler.html alt satırı) — belge değişince bu sayfa ve md kopyası da güncellenir; md kopyası rapor/tasarruf-yanimda-proje-calismasi/00-proje-cercevesi.md; prototip takvimi henüz yarından başlıyor) (var olan talebe yetişmek talep yaratmaktan verimli — varsayım; ana ölçü temsilci saati başına görüşme/satış). Yani mevcut saha
+**Amaç (2026-10-22, kullanıcı onaylı; eski "cumartesi yığılmasını hafta içine yaymak" tanımının yerine):** İlke (kaynak yönetimi) "Saha gücümüzün bir bölümü bizi çağıran müşteriye ayrılır; diğerleri sahada çalışır; dağılım talebe göre ayarlanır" (2026-10-23: saha personeli = **SPY** (Saha Portföy Yöneticisi), "SPY'ler" diye yazılır; ayrı ekip adı YOK, talepleri "Tasarruf Yanımda'da aktif SPY'ler" karşılar; ilk aşamada en başarılı SPY'ler, "teşvik" olarak (ödül değil); sonra kimlerin aktif olacağı belirsiz; atamada ilk ölçüt başarı, yöntem sonra (anlık hizmet/çağrı uygulamaları referans, marka adı yazma); "pilot" değil "pilot bölge denemesi"; "ayağına gitmek" yerine "dilediği yerde ve saatte ulaşmak"; Finansman Aracı + isteğe bağlı bilgiler (meslek) = SPY için görüşme öncesi ön bilgi; aynı gün talepleri de; taşmada takım lideri atar. Düzenleme claude.ai belgesinde (https://claude.ai/artifact/WBKdRt8hzNXjTymiJzqG9p, oturum ister); paylaşım için sitede rapor/proje-cercevesi.html (linkler.html alt satırı) — belge değişince bu sayfa ve md kopyası da güncellenir; md kopyası rapor/tasarruf-yanimda-proje-calismasi/00-proje-cercevesi.md; aynı gün çağrısı prototipte de var (2026-11-11)) (var olan talebe yetişmek talep yaratmaktan verimli — varsayım; ana ölçü temsilci saati başına görüşme/satış). Yani mevcut saha
 satış gücüne **müşteriden doğrudan gelen talep kanalı** eklemek — ekip müşteriyi bulmaya devam eder, görüşmek isteyen müşteri
 de temsilci (SPY) çağırabilir; temsilci uygun yer/saatte gider, müşteri kimin geleceğini önceden görür, görüşme günü takip eder.
 "Talebe ulaşan saha gücümüzü, talebin bize ulaştığı bir kanalla tamamlıyoruz." Cumartesi yoğunluğu ana amaç değil; satış
@@ -93,10 +93,19 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
 - **Ortak dil (kullanıcı kararı 2026-11-03):** talep → çağrı, temsilci → SPY, talep ekibi → aktif SPY'ler, ödül → teşvik, pilot → pilot bölge denemesi.
   **Belgelerde uygulandı (2026-11-05):** 00 (Docs, md, site, PDF, Taslak 0.7), 01, 02, 05, 06, 07, 08, README, benzer-uygulamalar (yalnız bize dönük ders ve fikirler).
   Bilerek değişmedi: 03 (dış araştırma metni), 04 ve kaynaklar (kayıt), 09, PROJE_ILERLEME (tarihçe), 08'de seçilmeyen modeller.
-  **Sonra yapılacak (görünen yazılar; kod adları değişmez):** uygulama `Eminevim Saha Paneli.dc.html`, web formu `web-basvuru/form_bolumu.html` (sonra `olustur.py`),
-  `senaryo.html`, `rota.html`, `konum-sec.html`, `map.html`, `video/tanitim.html` ve 4 video altyazısı (videolarda ses de "temsilci" diyor; yeniden seslendirme ister),
-  `URUN_KURALLARI.md` (ASK kısaltması, temsilci). Prototip takvimi hâlâ yarından başlıyor, aynı gün çağrısı yok.
-- iPhone (TestFlight) derlemesi yapılmadı; web hâli güncel. Codemagic ile yeni derleme gerekiyor (`IOS_TESTFLIGHT.md`).
+  **Uygulamada ve HTML'lerde uygulandı (2026-11-11):** uygulama, web formu (`olustur.py` ile üretildi), `senaryo.html`, `rota.html`,
+  `konum-sec.html`, taslaklar, `URUN_KURALLARI.md` (ASK → Alternatif Satış Kanalı Müdürü). "Talep" yalnız müşteri çağrısı anlamında
+  "çağrı" oldu; destek/düzeltme/randevu değişikliği talebi aynı. Kod adları (`temsilci`, `TEMSILCI_DETAY`, `assets/temsilci/`) değişmedi.
+  **Bilerek değişmedi:** `video/` (tanıtım sayfası, 4 video, altyazılar; ses de "temsilci" diyor — kullanıcı videoyu değiştirmiyor).
+  Açık soru: müşteri ekranlarında "SPY" kısaltması müşteriye ilk kez görünürken açıklama gerekir mi (ör. "Saha Portföy Yöneticisi (SPY)").
+- **Canlı test sürümü (2026-11-10):** `merkez/` — `sunucu.py` (8794, Başlangıç kısayolu "Tasarruf Yanimda Merkezi", conda base pythonw;
+  durdurma `python sunucu.py --durdur`; deneme kopyası `TY_PORT=8795 TY_YOL=deneme TY_VERI=<geçici>`), `takip.html` (bilgisayar takip sayfası),
+  kök `canli.js`. Gizli yol `merkez/gizli_yol.txt` (depoda yok, belgeye yazılmaz). Dışarıya Tailscale Funnel ayrı yolla:
+  `/<gizli_yol>` → `http://127.0.0.1:8794/<gizli_yol>`. Kurallar `URUN_KURALLARI.md` → "Canlı test sürümü". Test `tests/merkez-akis.py`.
+  Aynı porta ikinci kopya bağlanmaz (Windows'ta adres yeniden kullanımı kapatıldı).
+- iPhone (TestFlight): `scripts/merkez-adresi.mjs` Codemagic'te `TY_MERKEZ_URL` (merkezin tam https adresi + gizli yol) varsa uygulamayı
+  merkez sayfasına bağlar → uygulama değişikliği yeni derleme istemeden telefona gelir. Değişken yoksa paketteki gösteri sürümü açılır.
+  Derleme henüz yapılmadı (`IOS_TESTFLIGHT.md`). Kapalı uygulamaya bildirim (push) için APNs anahtarı + eklenti gerekir (yapılmadı).
 - Finansmanlarım rakamları için Eminevim uyum/hukuk onayı.
 - Klasör/depo adı eski (eminevim-saas / eminevim-saha-paneli) — yeniden adlandırma kararı verilmedi (Pages adresi değişir).
 - Öneri olarak bekliyor: cumartesi yığılmasını rakamla gösteren analiz (SPY raporları), yönetime kısa sunum.

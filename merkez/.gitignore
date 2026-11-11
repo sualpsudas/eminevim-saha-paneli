@@ -1,0 +1,8 @@
+veri.json
+veri.tmp
+*.pid
+gizli_yol.txt
+yedek/
+deneme*.json
+deneme*.tmp
+__pycache__/

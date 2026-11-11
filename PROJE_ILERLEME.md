@@ -544,3 +544,17 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 ## 2026-11-05
 - Tanıtım videosunun ElevenLabs sesli iki sürümü yayında: kadın (Nazlı Yeni) ve erkek (Ahmet). Eski video ve pilot bölgesiz sürüm değişmedi. Ayrıntı `video/OKUBENI.md`.
 - Belgelerde ortak dil uygulandı: çağrı, SPY, aktif SPY'ler, teşvik, pilot bölge denemesi. 08'de seçilen yönle çelişen nöbet düzeni ve sıralı dağıtım çıkarıldı. Proje Çerçevesi Taslak 0.7. Uygulama, web formu, senaryo ve video sonraya bırakıldı (`CLAUDE.md` → Açık işler).
+
+## 2026-11-10 / 11 · Test sürümü: canlı merkez, 4 SPY, ortak dil
+- **Merkez sunucusu** (`merkez/sunucu.py`, sunucuda 8794, Başlangıç kısayolu "Tasarruf Yanimda Merkezi"): müşteri çağrısı, SPY kayıtları ve
+  mesajlar tek yerde; cihazlar 2,5 sn'de bir yalnız değişenleri alır. Merkezden açılan uygulama "canlı", GitHub Pages kopyası gösteri olarak kalır.
+- **4 SPY** (sentetik fotoğraflı, sabit test konumlu): Onur Kaya (Ataşehir), Derya Aksoy (Üsküdar), Berk Cengiz (Ümraniye), Selin Arslan (Üsküdar).
+  Personel girişinde isimle seçilir; telefon ve tablet düzeni ikisi de çalışır.
+- **Geçici atama:** haritada seçilen konuma en yakın, molada olmayan SPY (eşitlikte açık çağrısı az olan). Bildirim uygulama açıkken sesli +
+  titreşimli + ekranda; kapalıyken bildirim (push) sonraki adım. Takip sayfasından elle aktarılabilir. Rota/atama yöntemi sonra konuşulacak.
+- **Canlı takip sayfası** (`<merkez>/takip`): SPY kartları, harita, çağrı tablosu (aktar), mesajlar, son olaylar, test verisini sıfırla.
+- **Ortak dil uygulamada ve HTML'lerde:** temsilci → SPY, talep → çağrı (müşteri çağrısı anlamında; destek/düzeltme/randevu talebi aynı kaldı),
+  ASK → Alternatif Satış Kanalı Müdürü. Uygulama, senaryo, web formu, rota/konum/harita, taslaklar, URUN_KURALLARI. Video ve altyazılar değişmedi.
+- **Aynı gün çağrısı:** uygulama ve web formu takvimi bugünü de gösterir (saat 19'dan önce; geçmiş ve bir saat içindeki saatler kapalı).
+- iPhone: `scripts/merkez-adresi.mjs` Codemagic'teki `TY_MERKEZ_URL` değişkeniyle uygulamayı merkez sayfasına bağlar (adres depoya yazılmaz).
+- Testler: `tests/merkez-akis.py` (yeni, deneme merkezi 8795) + eski Playwright testleri ve node testleri geçti.

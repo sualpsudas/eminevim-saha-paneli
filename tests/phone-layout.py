@@ -82,8 +82,8 @@ with sync_playwright() as p:
     page.get_by_role('button',name='Randevularım',exact=True).click()
     page.locator('.m-randevu-row').first.click()
     page.get_by_role('button',name='Kapıda kimliğini doğrula',exact=True).click()
-    sheet=page.get_by_role('dialog',name='Temsilcinizi doğrulayın',exact=True)
-    sheet.get_by_role('button',name='Örnek: temsilci okuttu',exact=True).scroll_into_view_if_needed()
+    sheet=page.get_by_role('dialog',name='SPY\'nizi doğrulayın',exact=True)
+    sheet.get_by_role('button',name='Örnek: SPY okuttu',exact=True).scroll_into_view_if_needed()
     bounds=sheet.bounding_box()
     assert bounds['y']>=0 and bounds['y']+bounds['height']<=568
     page.screenshot(path=str(OUT/'fixed-320-qr.png'),animations='disabled')

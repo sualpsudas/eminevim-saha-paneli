@@ -41,6 +41,10 @@ Codemagic'e yalnızca `codemagic_certificate_key` dosyasının içeriğini Secre
 ### `ios_config`
 
 - `APP_APPLE_ID`: `6819198783`
+- `TY_MERKEZ_URL` (**Secret** işaretleyin; ekip testi için): merkez sunucusunun tam adresi, gizli yol dahil, sonu `/` ile
+  (ör. `https://<sunucu>.ts.net/<gizli yol>/`). Varsa uygulama açılınca canlı merkez sayfasını yükler: çağrılar, SPY bildirimleri
+  ve mesajlar gerçek olur; uygulamadaki değişiklikler yeni derleme istemeden telefona gelir. Yoksa paketteki gösteri sürümü açılır.
+  Adres depoya yazılmaz (`scripts/merkez-adresi.mjs` derleme anında `capacitor.config.json`'a ekler).
 
 ## 4. Codemagic bağlantısı ve ilk derleme
 

@@ -9,14 +9,14 @@ Proje amacı, kararlar ve açık işler `CLAUDE.md`'de. Bu dosya 2026-11-05'te o
 - Web başvurusu ve uygulamadan yeni kayıt aynı randevu modeline bağlanır. Randevum'da saat doğrudan onaylanır; sonuç sohbete düşer.
 - Randevu durumları: `alindi → atandi → netlesti → yolda → gorusmede → tamamlandi`; iptal `iptal` olarak saklanır. Yeni randevuda önceki kayıt müşteri geçmişine taşınır. Puan vermek yeni randevu şartı değildir.
 - Değişiklik `degisiklik` alanında bekler; eski kesin saat korunur. Personel yeni öneriyi onaylayınca gün/saat/konum güncellenir. Yoldayken de değişiklik/iptal erişimi vardır.
-- Personelin Yola çık / gecikme / QR / bitir işlemleri seçili randevuya bağlıdır. Kod randevu, temsilci ve revizyonla eşleşir, 10 dakika geçerlidir ve kullanıldığında tüketilir. Gerçek kamera ve sunucuda kimlik doğrulama henüz yoktur; demo tarama düğmesi ve kod girişi korunmuştur.
-- Takipte son bilinen temsilci ve görüşme noktası, tahmini varış ve eski konum uyarısı görünür. Haritadaki çizgi yol ağına göre hesaplanmış navigasyon rotası değildir. Gerçek GPS/ETA için canlı servis gerekir.
-- Personel görüşmeyi bitirince aynı müşteriye özet/not/sonraki adım gider. Puan penceresi kendiliğinden açılmaz. Müşteri düzeltme açıklaması yazabilir; destek talebi ASK panelinde incelenip yanıtlanır, durum müşteride görünür.
+- Personelin Yola çık / gecikme / QR / bitir işlemleri seçili randevuya bağlıdır. Kod randevu, SPY ve revizyonla eşleşir, 10 dakika geçerlidir ve kullanıldığında tüketilir. Gerçek kamera ve sunucuda kimlik doğrulama henüz yoktur; demo tarama düğmesi ve kod girişi korunmuştur.
+- Takipte son bilinen SPY ve görüşme noktası, tahmini varış ve eski konum uyarısı görünür. Haritadaki çizgi yol ağına göre hesaplanmış navigasyon rotası değildir. Gerçek GPS/ETA için canlı servis gerekir.
+- Personel görüşmeyi bitirince aynı müşteriye özet/not/sonraki adım gider. Puan penceresi kendiliğinden açılmaz. Müşteri düzeltme açıklaması yazabilir; destek talebi Alternatif Satış Kanalı Müdürü panelinde incelenip yanıtlanır, durum müşteride görünür.
 - Çalışma durumu ve yaş aralığı **ilk başvuruda zorunlu değildir**. Başvurudan sonra isteğe bağlı, atlanabilir; sonra düzenlenebilir. Webde başarı ekranında seçilen bilgiler uygulama bağlantısıyla aktarılır. Kesin yaş/doğum tarihi istenmez.
 - Randevu ve hesaplar bu tarayıcı sekmesinin `sessionStorage` alanında saklanır. Gerçek hesap güvenliği, cihazlar arası eşitleme ve kalıcı sunucu kaydı henüz yoktur.
 - Web kaynak formu değişince `python web-basvuru/olustur.py`; native paket için `npm run web:sync`. Yeni `appointment.js`, konum seçimi, rota ve QR kitaplığı native/PWA paketlerine dahil edilmiştir.
-- **SMS kodu ve telefonla giriş (2026-10-22):** Web'de temsilci çağırma seçiliyse başarı ekranında telefona giden SMS
-  önizlenir: 6 haneli **uygulama giriş kodu** (24 saat) + "Uygulamayı indirip randevu takibi, temsilciyle sohbet ve finansman
+- **SMS kodu ve telefonla giriş (2026-10-22):** Web'de SPY çağırma seçiliyse başarı ekranında telefona giden SMS
+  önizlenir: 6 haneli **uygulama giriş kodu** (24 saat) + "Uygulamayı indirip randevu takibi, SPY'yle sohbet ve finansman
   aracı hizmetlerimizden faydalanabilirsiniz" + uygulama linki. Web → uygulama linki artık doğrudan giriş YAPMAZ: kod ekranı
   (telefon dolu) → kod → **parola oluştur** → randevu açılır (onaylar web'de alındı, KVKK sorulmaz). Giriş ekranında seçenekler
   **Giriş Yap / Kayıt Ol** (2026-10-22). "Kayıt Ol": telefon (başlıksız) → kod (10 dk) → ad soyad + parola → KVKK → Hoş geldiniz.
@@ -34,31 +34,31 @@ her adım bitince burada "Durum" güncellenir.
    renkler, logolar, görseller, yazı tipi, düğme/kutu biçimi siteyle aynı. Kaynak her zaman eminevim.com (değerler
    "Kararlar"daki "Görünüm kaynağı" maddesinde).
 3. **Web formu akışı.**
-   - Formda yalnız **"Temsilci çağırmak istiyorum" için sağa-sola kaydırmalı düğme** (telefonla seçeneği yok; 2026-10-21 değişikliği).
+   - Formda yalnız **"SPY çağırmak istiyorum" için sağa-sola kaydırmalı düğme** (telefonla seçeneği yok; 2026-10-21 değişikliği).
    - Düğme açılınca **ayrı pencere** açılır: 1/2 harita (konum izni istenir, üstte WhatsApp'taki gibi adres/mekân arama,
      sağ altta **"Hizmet bölgesini göster"** → bölgeler görünürken düğme **"Konumuma dön"** olur ve seçili konuma odaklar),
      2/2 gün ve saat → "Onayla". Pencere onaysız kapanırsa düğme kapanır. Formda tek satır özet + "Değiştir".
    - Harita sade ama **mekânlar görünür** olmalı. Uzaktan bakınca yalnız harita + **hizmet bölgeleri yeşil** alan
      (kompakt görünüm). Hizmet bölgeleri şimdilik: **İstanbul Ümraniye, Ataşehir, Üsküdar**.
    - Seçilen konum hizmet bölgesinin içindeyse ilerlenir.
-   - Gönderince **yeni ekran: "Başarılı"** — kurumsal ama samimi dil: talebin alındığı, temsilcinin iletişime geçeceği,
+   - Gönderince **yeni ekran: "Başarılı"** — kurumsal ama samimi dil: talebin alındığı, SPY'nin iletişime geçeceği,
      belirlenen saatte belirtilen konumda olacağı. Ardından: "Kampanyalarımıza, Finansman Aracımıza ve size atanan
-     temsilci hakkında detaylara ulaşmak için Eminevim uygulamasını kullanabilirsiniz." + uygulamaya geçiş.
+     SPY hakkında detaylara ulaşmak için Eminevim uygulamasını kullanabilirsiniz." + uygulamaya geçiş.
 4. **Web'den uygulamaya geçiş.** Uygulama, formdaki **telefon numarasıyla kayıtlı müşteri** gibi açılır; içinde **henüz
    kayıtlı finansman yoktur**. Bölümler: **Başvuru takibi, Sohbet, Ayarlar, Finansman aracı**.
 5. **Hoş geldiniz penceresi.** Uygulamaya yeni gelen herkese (uygulamadan telefonla kayıt olan ya da web formundan gelen):
    küçük, **3 sayfalık**, "Hoş geldiniz" ile başlayan, uygulamayı **çok basit** anlatan pencere.
-6. **Giriş ekranındaki "Kayıtlı Müşteri" (demo senaryosu).** Daha önce kayıt olmuş, **finansmanını belirlemiş**, temsilciyle
-   **sohbet ederek randevusunu netleştirmiş** ve **temsilciyi beklediğini** bildiğimiz müşteri.
-7. **Uygulamadan telefonla kayıt olan yeni müşteri** için de web'deki gibi **"Temsilci iste"** seçeneği olur.
+6. **Giriş ekranındaki "Kayıtlı Müşteri" (demo senaryosu).** Daha önce kayıt olmuş, **finansmanını belirlemiş**, SPY'yle
+   **sohbet ederek randevusunu netleştirmiş** ve **SPY'yi beklediğini** bildiğimiz müşteri.
+7. **Uygulamadan telefonla kayıt olan yeni müşteri** için de web'deki gibi **"SPY iste"** seçeneği olur.
 
 8. **Kullanıcı cevapları (2026-10-21):**
    - Gün ve saat seçimi **kalır**, **haritadan sonra** gelir.
    - **Bölge dışı konum:** "Bu bölgede henüz hizmet yok, sizi telefonla arayalım" denir ve normal (telefonla) başvuruya dönülür.
    - **Web'deki finansman penceresi yedekte:** kod durur, sitedeki Konut/Araç/İşyeri kutularıyla **bağlantısı kesildi**
      (ileride dönülebilir).
-   - "Temsilci çağırmak istiyorum" seçimi **onay kutularından sonra** durur.
-   - Temsilci bilgisi **SMS olarak da gider** ve uygulamada da görünür. Temsilciler için **sentetik (yapay) fotoğraflar**
+   - "SPY çağırmak istiyorum" seçimi **onay kutularından sonra** durur.
+   - SPY bilgisi **SMS olarak da gider** ve uygulamada da görünür. SPY'ler için **sentetik (yapay) fotoğraflar**
      üretilip SMS önizlemesinde ve uygulamada kullanılır (gerçek kişi fotoğrafı kullanılmaz).
 
 **Durum:** Adım 1 bitti (2026-10-21, sonra pencereye taşındı): kaydırmalı düğme → pencere (Leaflet + OSM; uzaktayken soluk
@@ -66,41 +66,41 @@ gri + yeşil bölgeler ve adları, yakında renkli ve mekânlı; konum izni yoks
 Nominatim araması İstanbul sınırlı) → gün/saat. Bölge dışı: pencerede "Telefonla görüşmeyle devam et" → formda turuncu not,
 başvuru telefonla. Bölge sınırları `form_bolumu.html` içinde `BOLGELER`. CARTO sade harita anahtar istiyor — kullanılmaz.
 Önizleme iframe'inde `allow="geolocation"` gerekli (linkler.html'de var).
-Adım 2 bitti: "Başarılı!" ekranı (ad soyad, gün/saat/yer özeti, "Size atanan temsilcinin adını,
+Adım 2 bitti: "Başarılı!" ekranı (ad soyad, gün/saat/yer özeti, "Size atanan SPY'nin adını,
 fotoğrafını ve sicil numarasını Eminevim uygulamasından kontrol edebilirsiniz.", yeşil kartta uygulama yazısı + turuncu
 "Uygulamayı aç"; link `?kaynak=web&ad=&tel=&gun=&saat=&yer=` taşır — adım 3'te uygulama bunu okuyacak). Mesaj önizleme
 düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adım 3–6 yapıldı (2026-10-21, kullanıcı "uygulama senaryolarını kontrol et" dedi):
 - **Giriş ve kayıt telefonla** (e-posta yok). "Kayıtlı Müşteri" = telefon + şifre. "Yeni Müşteri" = telefonla kayıt
-  (ad soyad, telefon, şifre; adres de sorulmaz) → KVKK → Hoş geldiniz. Eski üyeliksiz "Temsilcimiz size gelsin" akışı
-  girişte yok; aynı ekranlar yalnız uygulama içi "Temsilci iste" ve "Görüşme günü (örnek)" için kullanılır (`yaKaynak:"uygulama"`).
+  (ad soyad, telefon, şifre; adres de sorulmaz) → KVKK → Hoş geldiniz. Eski üyeliksiz "SPY'miz size gelsin" akışı
+  girişte yok; aynı ekranlar yalnız uygulama içi "SPY iste" ve "Görüşme günü (örnek)" için kullanılır (`yaKaynak:"uygulama"`).
 - **Web'den gelen:** `?kaynak=web&ad=&tel=&gun=&saat=&yer=` → giriş ekranı atlanır, telefonla kayıtlı, finansman yok,
-  talep Başvurum'da, temsilci atanmış (bölgeye göre: Üsküdar→Derya Aksoy, Ümraniye→Berk Cengiz, diğer→Onur Kaya) ve
-  Sohbet'te ilk mesajı var. Telefonla başvuruda "Sizi arayacağız" + "Temsilci iste".
+  talep Başvurum'da, SPY atanmış (bölgeye göre: Üsküdar→Derya Aksoy, Ümraniye→Berk Cengiz, diğer→Onur Kaya) ve
+  Sohbet'te ilk mesajı var. Telefonla başvuruda "Sizi arayacağız" + "SPY iste".
 - **Müşteri sekmeleri (2026-10-21 gece güncel):** **Randevum** (eski Başvurum; yeşil durum kartında gün/saat/yer, kısa adım
-  listesi, temsilci tek satır + **"Bilgiler"** tuşu → alt pencerede fotoğraf/şube/sicil, Mesaj gönder; görüşme günü
-  "Temsilcinizi takip edin") · Sohbet (başlıkta da "Bilgiler"; temsilci ilk mesajda saati önerir, müşteri **"Saati onayla"**
+  listesi, SPY tek satır + **"Bilgiler"** tuşu → alt pencerede fotoğraf/şube/sicil, Mesaj gönder; görüşme günü
+  "SPY'nizi takip edin") · Sohbet (başlıkta da "Bilgiler"; SPY ilk mesajda saati önerir, müşteri **"Saati onayla"**
   düğmesiyle onaylar → durum `netlesti`) · Finansman ("+ Yeni", "Değiştir") · Ayarlar. Durumlar: alindi → atandi → netlesti → gorusme.
   Gereksiz/tekrarlı yazılar ayıklandı (Gün/Saat/Yer tablosu, adım alt yazıları, "Örnek görünüm" notu).
-- **Randevum ek özellikler (2026-10-21 gece):** "Gün / saati değiştir" (yeni öneri sohbete düşer, temsilci onaylayınca netleşir;
+- **Randevum ek özellikler (2026-10-21 gece):** "Gün / saati değiştir" (yeni öneri sohbete düşer, SPY onaylayınca netleşir;
   durum `degisti`) ve "İptal et" (onay penceresi); gecikme uyarısı (Ayşe: 10 dk, yeni varış 18:10); takip ekranında
   "Örnek: görüşme bitti" → durum `tamamlandi` → **puan penceresi** (1–5 yıldız) + Randevum'da **Görüşme özeti** (konu, tutar,
-  peşinat, vade, aylık ödeme örnek, cayma hakkı 14 gün; "Bilgiler doğru" / "Bir sorun var" → temsilciden bağımsız müşteri
-  ilişkileri arar) + "Yeni randevu iste". Temsilci "Bilgiler" penceresinde puan / deneyim / görüşme sayısı (`TEMSILCI_DETAY`).
-  Finansman kaydı temsilci varsa sohbete otomatik not olarak düşer; ilk adım yazısı temsilci yoksa söz vermez.
-  Bölge dışı telefon talebi (`bolgeDisi`, web'den `&bolgeDisi=1`) → "Başka adres için temsilci iste".
+  peşinat, vade, aylık ödeme örnek, cayma hakkı 14 gün; "Bilgiler doğru" / "Bir sorun var" → SPY'den bağımsız müşteri
+  ilişkileri arar) + "Yeni randevu iste". SPY "Bilgiler" penceresinde puan / deneyim / görüşme sayısı (`TEMSILCI_DETAY`).
+  Finansman kaydı SPY varsa sohbete otomatik not olarak düşer; ilk adım yazısı SPY yoksa söz vermez.
+  Bölge dışı telefon talebi (`bolgeDisi`, web'den `&bolgeDisi=1`) → "Başka adres için SPY iste".
 - **Hoş geldiniz:** 3 sayfalık alt pencere, her sayfada basit resim (satır içi SVG) + tek kısa cümle (yeni kayıt ve web'den gelen).
-- **Kayıtlı Müşteri (Ayşe Kaya):** KVKK sorulmaz (önceden onaylamış); **görüşme günü** senaryosu — bugün 18:00, temsilci
+- **Kayıtlı Müşteri (Ayşe Kaya):** KVKK sorulmaz (önceden onaylamış); **görüşme günü** senaryosu — bugün 18:00, SPY
   Onur Kaya yolda (~12 dk), konut finansmanı var, sohbette randevu dünden netleşmiş.
-- Uygulama içi "Temsilci iste" (2026-10-21 gece): web penceresiyle aynı akış — 1/2 harita (`konum-sec.html`, iframe;
+- Uygulama içi "SPY iste" (2026-10-21 gece): web penceresiyle aynı akış — 1/2 harita (`konum-sec.html`, iframe;
   seçimi `postMessage {tip:"ty-konum"}` ile yollar; `BOLGELER` form_bolumu.html'den kopya, bölge değişirse ikisini de
   güncelle) → 2/2 gün + saat (10:00–20:00, web'deki gibi) → "Talebiniz alındı" → Başvurumu gör. Bölge dışı → telefonla talep.
-  Yalnız talebi olmayan müşteride Başvurum'da görünür. **Finansman sekmesinde temsilci bulma/iletişim yok**; eski
-  "Temsilci Bul" eşleştirme ekranı (customerNav "tasarruf") kaldırıldı. Temsilci fotoğrafı yerine baş harfler.
+  Yalnız talebi olmayan müşteride Başvurum'da görünür. **Finansman sekmesinde SPY bulma/iletişim yok**; eski
+  "SPY Bul" eşleştirme ekranı (customerNav "tasarruf") kaldırıldı. SPY fotoğrafı yerine baş harfler.
 - Önizleme telefonda `dvh` + visualViewport ile görünür alana oturur (iOS Safari alt çubuğu düğmeleri kapatıyordu).
 - **Kapıda QR doğrulama (2026-10-21):** Görüşme günü Randevum'da "Kapıda kimliğini doğrula" → QR (vendor/qrcode.min.js,
   internetsiz) + 4 haneli yedek kod (`DOGRULAMA_KODU` 4821, SMS ile de gider). Personel (SPY) Görüşmeler'in üstünde
   "Bugünkü randevu · Ayşe K." kartı → "Kapıda: müşterinin QR'ını okut" (tarayıcı ekranı, "Örnek: QR okundu" ya da kod gir)
-  → müşterinin ekranı yeşil: "Temsilciniz yanınızda · Kimliği 18:10'da doğrulandı"; varış kaydı. Durum `demoDogrulama`
+  → müşterinin ekranı yeşil: "SPY'niz yanınızda · Kimliği 18:10'da doğrulandı"; varış kaydı. Durum `demoDogrulama`
   (oturumlar arası kalır; görüşme bitince sıfırlanır). Güvenlik mantığı: onay MÜŞTERİNİN ekranında görünür, sahte biri
   okutsa da ekran değişmez; ekran yeşile dönmezse bilgi verme, 444 36 46.
 - **Personel ekranları marka birliği (2026-10-21):** kartlar düz (beyaz, #DDD çizgi, 14 px köşe; degrade/cam gölge yok),
@@ -109,11 +109,27 @@ düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adı
 Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 
 
+## Canlı test sürümü (merkez, 2026-11-10)
+- Uygulama iki biçimde çalışır: **merkezden açılırsa canlı** (`merkez/sunucu.py` sayfaya `window.TY_CANLI` ve `canli.js` ekler; çağrı,
+  durum ve mesajlar cihazlar arasında gerçek), **GitHub Pages'te gösteri** (eski örnek verilerle, sunucusuz). Pages kopyası bozulmamalı.
+- **4 SPY** sabit: Onur Kaya (Ataşehir), Derya Aksoy (Üsküdar), Berk Cengiz (Ümraniye), Selin Arslan (Üsküdar); sentetik fotoğraflar
+  `assets/temsilci/`. Konumlar uygulamada (`spylerList`) ve merkezde (`SPYLER`) aynı tutulur. Personel girişinde SPY isimle seçilir;
+  cihaz son girişi hatırlar (Çıkış yap ile silinir).
+- **Atama (geçici):** müşterinin haritada seçtiği yere en yakın, molada olmayan SPY; eşitlikte açık çağrısı az olan. Rota ve kalıcı atama
+  yöntemi ayrıca konuşulacak. Takip sayfasından elle aktarılır; SPY "Devret" derse sıradaki en yakına geçer.
+- Müşteri, SPY kabul edene kadar kimin geleceğini görmez. SPY'ye yeni çağrı gelince ses + titreşim + ekranda "Yeni çağrı: Ad" (uygulama
+  açıkken). Uygulama kapalıyken bildirim (push) yok; Apple bildirim anahtarı (APNs) gerekir.
+- Canlıda uydurma otomatik yanıtlar kapalıdır (SPY yerine cevap yazılmaz). SMS kodu test sürümünde ekranda gösterilir.
+- **Takip sayfası** (`<merkez>/takip`, bilgisayar): sayılar, SPY kartları (uygulama açık mı), harita, çağrılar + mesajlar, aktar, son olaylar,
+  test verisini sıfırla (yedek alır).
+- **Aynı gün çağrısı:** takvim bugünü de gösterir (saat 19'a kadar); bugün için geçmiş ve bir saat içindeki saatler seçilemez.
+
+
 ## Personel ve Senaryo ekranları
-- **Personel (2026-10-22): tablet düzeni.** Personel girişi (SPY, Takım Lideri, SGL, ASK) `isPersonel` → yeni `.tp` düzeni:
+- **Personel (2026-10-22): tablet düzeni.** Personel girişi (SPY, Takım Lideri, SGL, Alternatif Satış Kanalı Müdürü) `isPersonel` → yeni `.tp` düzeni:
   üstte yeşil bant (logo; sağda kişi: ad, rol · durum, fotoğraf ya da baş harf → Profil), **sekmeler her cihazda ALTTA,
   müşteri uygulamasındaki gibi** (kullanıcı isteği): Görüşmeler / Performans / Saha Canlı / Profil (SPY'da Saha Canlı yok,
-  SGL-ASK'ta Görüşmeler yok). Profil: Müsait/Molada (görüşmede iken otomatik "Görüşmede"), Çıkış yap. Senaryo'daki tablet de aynı. Önizleme (linkler.html) uygulamadan
+  SGL ve Alternatif Satış Kanalı Müdürü ekranında Görüşmeler yok). Profil: Müsait/Molada (görüşmede iken otomatik "Görüşmede"), Çıkış yap. Senaryo'daki tablet de aynı. Önizleme (linkler.html) uygulamadan
   `postMessage {tip:"ty-cihaz", cihaz:"tablet"}` alınca çerçeveyi yatay tablete (1180×820) çevirir, çıkışta telefona döner.
   Dar ekranda (<900 px) tek sütun; seçilen görüşmenin ayrıntısı listenin üstünde açılır.
   - **Görüşmeler** (SPY ve TL; takım liderleri de görüşme yapar): tarih sırası, gruplar Yeni talepler · Bugün · Yarın ·
@@ -123,7 +139,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
     uygulamadan gelen talepler `tpEkGorusmeler`. Ayşe K. satırı müşteri uygulamasıyla bağlı (`demoDogrulama`,
     `gorusmeBittiDemo`, `demoPuan`).
   - **Bugünkü rota**: `rota.html?b=şube&n=lat,lng,etiket,durum|…` (Leaflet; numaralı iğneler, saat sırası). Ayrı Harita sekmesi yok.
-  - **Saha Canlı** (TL/SGL/ASK): 3 sayı (Şu an görüşmede · Yolda · Bugün gerçekleşen) + personel listesi (durum, şube,
+  - **Saha Canlı** (TL/SGL/Alternatif Satış Kanalı Müdürü): 3 sayı (Şu an görüşmede · Yolda · Bugün gerçekleşen) + personel listesi (durum, şube,
     sıradaki randevu, süzgeç). Mesai dışında örnek olarak son iş gününün 15:30 durumu gösterilir (başlıkta yazar).
   - **Performans** eski ekranlardan aynen taşındı.
   - Eski telefon personel ekranları (`isSpy`/`isManager`: geri arama sayaçlı liste, eski harita akışı Kabul/Geliyorum/Ulaştım,
@@ -138,7 +154,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   uygulama değil): kullanıcıyla konuşarak senaryo geliştirmek için; onaylanan ekranlar sonra uygulamaya taşınır.
   Üstte senaryo seçimi (kullanıcı isteği 2026-10-22: ana akış UYGULAMADAN):
   **Senaryo 1 · Uygulamadan** (19 adım, müşteri hep telefon): uygulamayı açar → telefon → SMS kodu → ad soyad + parola →
-  Hoş geldiniz → Randevularım'dan "Temsilci iste" → harita → gün/saat → talep tablete düşer → temsilci kabul eder →
+  Hoş geldiniz → Randevularım'dan "SPY iste" → harita → gün/saat → talep tablete düşer → SPY kabul eder →
   müşteri Randevularım'da "Saati onayla" → isteğe bağlı hazırlık bilgileri → Finansman Aracı tercihi SPY tabletinde
   "ÖN BİLGİ" kartı (2026-10-23; değerler uygulamadaki örnekle aynı: Konut · ~3.500.000 ₺ · %10 · 72 ay · ~43.750 ₺)
   → bir gün önce bilgilendirme formu (ÖNERİ, uygulamada
@@ -157,27 +173,27 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 - Masaüstü linkler önizlemesi `iphonePreview=1` ile iframe içinde iPhone 15 sistem alanını canlandırır (59 px üst, 34 px alt); gerçek cihazda `env(safe-area-inset-*)` kullanılır, sahte kamera çizilmez. `tests/appointment-list.py` liste, okunma, gezinme ve güvenli alan regresyonlarını doğrular.
 
 - Saat onayı bekleyen (atandi) randevu kartında başlık/yönerge yazısı yok ("Randevu saatinizi onaylayın" vb. kaldırıldı, 2026-10-22): yalnız tarih, yer,
-  temsilci ve "Saati onayla"; üst başlıkta "Temsilciniz atandı". Finansman ön tercihi saat onaylandıktan sonra (netlesti/yolda)
+  SPY ve "Saati onayla"; üst başlıkta "SPY'niz atandı". Finansman ön tercihi saat onaylandıktan sonra (netlesti/yolda)
   randevu kartının altında tek satır: "Beklerken finansman ön tercihlerinizi oluşturun." + "Ön tercihler"; ayrı kart yok.
-- Randevu ayrıntısında ileri/geri çubuğu veya Tüm randevular metni yoktur. Başlıktaki logo yerine Geri gelir; listeye döner. Temsilci adı aktif randevu kartında tarih/adres altındadır; ayrı temsilci kartı yoktur. Bekleyen randevu okunmuş olsa da ünlem taşır.
-- Sohbetler → Konuşmalar → temsilci satırı → konuşma; `mKonusmaAcik` bu ayrımı tutar. Sekmeye basmak konuşma listesini açar; üst Geri aynı listeye döner.
+- Randevu ayrıntısında ileri/geri çubuğu veya Tüm randevular metni yoktur. Başlıktaki logo yerine Geri gelir; listeye döner. SPY adı aktif randevu kartında tarih/adres altındadır; ayrı SPY kartı yoktur. Bekleyen randevu okunmuş olsa da ünlem taşır.
+- Sohbetler → Konuşmalar → SPY satırı → konuşma; `mKonusmaAcik` bu ayrımı tutar. Sekmeye basmak konuşma listesini açar; üst Geri aynı listeye döner.
 
 - Müşteri üst başlığı: solda logo yok, sağda fotoğraf/baş harf yok; başlık simetrik hizalanır. Dönüş gereken ekranda sol üstte yalnız Geri metni; ok/chevron yok. İçerikte/kartta ve finansman formunun altında tekrar dönüş düğmesi kullanma; finansman adım dönüşü de üst Geri üzerinden yapılır.
 
 ## Müşteri ekranı ilkeleri
 - Olabildiğince basit; gereksiz yazı yok, her ekranda tek soru grubu ve tek ana buton.
-- İlk temasta üyelik, şifre, konum izni, sohbet yok. Alanlar: ad, soyad, telefon; temsilci istenirse gün, saat, haritadan yer (İş yeri/Ev). E-posta yok.
+- İlk temasta üyelik, şifre, konum izni, sohbet yok. Alanlar: ad, soyad, telefon; SPY istenirse gün, saat, haritadan yer (İş yeri/Ev). E-posta yok.
 - **Ödeme / ücret güvencesi cümleleri ASLA kullanılmaz** ("Görüşmede ödeme alınmaz", "hiçbir ödeme alınmaz", "Ücretsiz" vb.;
-  kullanıcı kuralı 2026-10-21). Dil kurumsal ama samimi: "Temsilcimiz görüşmeden önce sizinle iletişime geçecek", "Sicil numarası aynıdır".
-  "Takip" müşteriyi değil temsilciyi anlatır ("Temsilcinizin nerede olduğunu görürsünüz").
+  kullanıcı kuralı 2026-10-21). Dil kurumsal ama samimi: "SPY'miz görüşmeden önce sizinle iletişime geçecek", "Sicil numarası aynıdır".
+  "Takip" müşteriyi değil SPY'yi anlatır ("SPY'nizin nerede olduğunu görürsünüz").
 - Cumartesi engellenmez; hafta içi günler önce gelir, cumartesi "yoğun" etiketiyle durur.
-- Temsilci bilgileri ve takip linki telefona **mesajla** gider (e-posta istenmez; 2026-10-21 kararıyla değişti).
+- SPY bilgileri ve takip linki telefona **mesajla** gider (e-posta istenmez; 2026-10-21 kararıyla değişti).
 - Yeni müşteri üye olmadan sade akışla ilerler (uygulamada giriş ekranı → "Yeni Müşteri", `ya*` durumları).
   Finansman/bütçe hesabı yalnız **üyelere**, "Finansmanlarım" sekmesinde; web formu bunun için uygulama linki verir.
 - **Web formu gerçek sitedeki gibi görünmeli** (kullanıcı isteği, 2026-10-21): sitenin başlığı, gri kutucukları
   (`tk-inputGri` / mobilde `tk-inputMobilGri`), onay kutuları ve turuncu "Gönder". Formda "Tasarruf Yanımda" adı, açıklama
   simgeleri, adım çubuğu ya da "bilgiler gönderilmez" gibi önizleme yazısı YOK; sayfa sitenin kendi başlığıyla en üstten açılır.
-  Sıra: Ad, Soyad, Telefon → iki onay kutusu → (seçildiyse tek satır finansman planı) → **"Temsilcimiz size gelsin" düğmesi** (yalnız konum simgesi + yazı) → Gönder.
+  Sıra: Ad, Soyad, Telefon → iki onay kutusu → (seçildiyse tek satır finansman planı) → **"SPY'miz size gelsin" düğmesi** (yalnız konum simgesi + yazı) → Gönder.
   Formun altında açılan uzun alan YOK. Düğmeye basınca **takvim penceresi** (yarından 3 hafta, pazar kapalı, cumartesi turuncu
   nokta "yoğun", saat 10:00–20:00) → "Onayla" → **harita penceresi** (Leaflet + OpenStreetMap, ortadaki iğne; adres Nominatim'den;
   yer türü sorulmaz) → "Onayla" → düğme seçimi gösterir ("Pzt 26 Eki, 14:00 · Kadıköy", × ile kaldırılır).

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Tasarruf Yanımda · Canlı takip</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  :root{--yesil:#00724c;--turuncu:#ea803f;--yazi:#666;--koyu:#333;--cizgi:#ddd;--kutu:#eee;--acik:#e9f0ed;--zemin:#f4f5f3}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:GOTHIC,"Century Gothic","Segoe UI",Arial,sans-serif;background:var(--zemin);color:var(--koyu)}
+  header{background:var(--yesil);color:#fff;padding:12px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  header h1{margin:0;font-size:18px;flex:1}
+  header small{opacity:.85;font-size:12px}
+  .bag{font-size:12px;border-radius:22px;padding:4px 10px;background:rgba(255,255,255,.16)}
+  .bag.kopuk{background:#b25e30}
+  main{padding:16px 20px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,1fr);gap:16px;max-width:1500px;margin:0 auto}
+  @media (max-width:980px){main{grid-template-columns:1fr}}
+  section{background:#fff;border:1px solid var(--cizgi);border-radius:14px;padding:14px}
+  h2{margin:0 0 10px;font-size:14px;color:var(--yesil)}
+  .spyler{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+  @media (max-width:700px){.spyler{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .spy{border:1px solid var(--cizgi);border-radius:14px;padding:10px;display:flex;gap:10px;align-items:center}
+  .spy img{width:46px;height:46px;border-radius:50%;object-fit:cover;flex:none}
+  .spy b{display:block;font-size:13px}.spy small{display:block;font-size:11.5px;color:var(--yazi);margin-top:2px}
+  .hap{display:inline-block;border-radius:22px;padding:2px 8px;font-size:11px;font-weight:700;margin-top:4px}
+  .h-musait{background:var(--acik);color:var(--yesil)}.h-molada{background:var(--kutu);color:var(--yazi)}
+  .h-yolda{background:#fdf1e8;color:#b25e30}.h-gorusmede{background:var(--yesil);color:#fff}
+  .nokta{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle;background:#bbb}
+  .nokta.acik{background:#1fae6b}
+  #harita{height:420px;border-radius:12px}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;color:var(--yazi);font-weight:700;padding:6px;border-bottom:1px solid var(--cizgi);white-space:nowrap}
+  td{padding:7px 6px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+  tr.secili td{background:#fdf6f0}
+  select{font:inherit;font-size:12px;border:1px solid var(--cizgi);border-radius:10px;padding:3px 6px;background:#fff}
+  .d-alindi{background:#fce0d4;color:#b25e30}.d-atandi,.d-netlesti{background:var(--kutu);color:var(--yazi)}
+  .d-yolda,.d-gorusme{background:#fdf1e8;color:#b25e30}.d-gorusmede{background:var(--yesil);color:#fff}
+  .d-tamamlandi{background:var(--acik);color:var(--yesil)}.d-iptal{background:var(--kutu);color:#999}
+  .olaylar{list-style:none;margin:0;padding:0;max-height:330px;overflow-y:auto;font-size:12.5px}
+  .olaylar li{padding:6px 0;border-bottom:1px solid #f0f0f0}.olaylar time{color:var(--yazi);margin-right:6px}
+  .mesajlar{margin-top:8px;max-height:220px;overflow-y:auto;font-size:12.5px;background:var(--zemin);border-radius:10px;padding:8px}
+  .mesajlar p{margin:0 0 5px}.mesajlar b{color:var(--yesil)}
+  .bos{color:var(--yazi);font-size:12.5px}
+  .sayilar{display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .sayilar div{background:#fff;border:1px solid var(--cizgi);border-radius:14px;padding:8px 14px;min-width:110px}
+  .sayilar b{display:block;font-size:22px;color:var(--yesil)}.sayilar span{font-size:12px;color:var(--yazi)}
+  button.sifirla{font:inherit;font-size:12px;border:1px solid #fff;background:transparent;color:#fff;border-radius:22px;padding:5px 12px;cursor:pointer}
+</style>
+</head>
+<body>
+<header>
+  <h1>Tasarruf Yanımda · Canlı takip <small>test sürümü</small></h1>
+  <span class="bag" id="bag">Bağlanıyor…</span>
+  <button class="sifirla" id="sifirla" type="button">Test verisini sıfırla</button>
+</header>
+<main>
+  <div>
+    <div class="sayilar" id="sayilar"></div>
+    <section><h2>SPY'ler</h2><div class="spyler" id="spyler"></div></section>
+    <section style="margin-top:16px"><h2>Harita</h2><div id="harita"></div></section>
+    <section style="margin-top:16px"><h2>Çağrılar</h2><div id="cagrilar"></div><div id="ayrinti"></div></section>
+  </div>
+  <section><h2>Son olaylar</h2><ul class="olaylar" id="olaylar"></ul></section>
+</main>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+(function(){
+  var FOTO={s1:"assets/temsilci/onur-kaya.jpg",s2:"assets/temsilci/derya-aksoy.jpg",s3:"assets/temsilci/berk-cengiz.jpg",s4:"assets/temsilci/selin-arslan.jpg"};
+  var RENK={s1:"#00724c",s2:"#ea803f",s3:"#273755",s4:"#8a5cb8"};
+  var DURUM={alindi:"Yeni · kabul bekliyor",atandi:"Kabul edildi · müşteri onayı bekleniyor",netlesti:"Randevu kesinleşti",yolda:"SPY yolda",gorusme:"SPY yolda",gorusmede:"Görüşmede",tamamlandi:"Tamamlandı",iptal:"İptal"};
+  var KAPALI={tamamlandi:1,iptal:1};
+  var veri={spyler:[],kayitlar:{},olaylar:[]}, surum=0, secili=null, sifirlama=-1;
+  var harita=L.map("harita").setView([41.005,29.08],12);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(harita);
+  var katman=L.layerGroup().addTo(harita);
+  function e(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function saat(t){return t?new Date(t).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):"";}
+  function once(t){if(!t)return "";var dk=Math.round((Date.now()-t)/60000);return dk<1?"az önce":dk<60?dk+" dk önce":Math.floor(dk/60)+" sa "+(dk%60)+" dk önce";}
+  function spyAd(id){var s=veri.spyler.filter(function(x){return x.id===id;})[0];return s?s.ad:"-";}
+  function spyDurum(s){
+    var k=Object.values(veri.kayitlar).filter(function(x){return x.repId===s.id;});
+    if(k.some(function(x){return x.durum==="gorusmede";}))return "gorusmede";
+    if(k.some(function(x){return x.durum==="yolda"||x.durum==="gorusme";}))return "yolda";
+    return s.durum;
+  }
+  function ciz(){
+    var kayitlar=Object.values(veri.kayitlar).sort(function(a,b){return (KAPALI[a.durum]?1:0)-(KAPALI[b.durum]?1:0)||(b.olusma||0)-(a.olusma||0);});
+    var acik=kayitlar.filter(function(k){return !KAPALI[k.durum];});
+    document.getElementById("sayilar").innerHTML=[["Açık çağrı",acik.length],["Kabul bekleyen",acik.filter(function(k){return k.durum==="alindi";}).length],["Yolda / görüşmede",acik.filter(function(k){return ["yolda","gorusme","gorusmede"].indexOf(k.durum)>=0;}).length],["Bugün tamamlanan",kayitlar.filter(function(k){return k.durum==="tamamlandi"&&new Date(k.guncelleme).toDateString()===new Date().toDateString();}).length]]
+      .map(function(x){return "<div><b>"+x[1]+"</b><span>"+x[0]+"</span></div>";}).join("");
+    var ETIKET={musait:"Müsait",molada:"Molada",yolda:"Yolda",gorusmede:"Görüşmede"};
+    document.getElementById("spyler").innerHTML=veri.spyler.map(function(s){
+      var d=spyDurum(s), n=acik.filter(function(k){return k.repId===s.id;}).length, cevrim=Date.now()-(s.sonGorulme||0)<20000;
+      return '<div class="spy"><img src="'+FOTO[s.id]+'" alt=""><div><b>'+e(s.ad)+'</b><small>'+e(s.sube)+' · '+n+' açık çağrı</small><small><span class="nokta'+(cevrim?" acik":"")+'"></span>'+(cevrim?"Uygulama açık":s.sonGorulme?"Son görülme "+once(s.sonGorulme):"Henüz girmedi")+'</small><span class="hap h-'+d+'">'+ETIKET[d]+'</span></div></div>';
+    }).join("");
+    katman.clearLayers();
+    veri.spyler.forEach(function(s){
+      L.marker([s.lat,s.lng],{icon:L.divIcon({className:"",html:'<img src="'+FOTO[s.id]+'" style="width:34px;height:34px;border-radius:50%;border:3px solid '+RENK[s.id]+';box-shadow:0 2px 6px rgba(0,0,0,.3)">',iconSize:[34,34],iconAnchor:[17,17]})}).bindTooltip(s.ad).addTo(katman);
+    });
+    acik.forEach(function(k){
+      if(!k.konum)return;
+      L.circleMarker([k.konum.lat,k.konum.lng],{radius:9,color:"#fff",weight:2,fillColor:RENK[k.repId]||"#999",fillOpacity:1}).bindTooltip((k.musteri&&k.musteri.ad||"Müşteri")+" → "+spyAd(k.repId)).addTo(katman);
+      var s=veri.spyler.filter(function(x){return x.id===k.repId;})[0];
+      if(s)L.polyline([[s.lat,s.lng],[k.konum.lat,k.konum.lng]],{color:RENK[k.repId],weight:2,dashArray:"5 6",opacity:.8}).addTo(katman);
+    });
+    document.getElementById("cagrilar").innerHTML=kayitlar.length?'<table><thead><tr><th>Müşteri</th><th>Yer</th><th>Gün · saat</th><th>SPY</th><th>Durum</th><th>Çağrı</th><th>Aktar</th></tr></thead><tbody>'+kayitlar.map(function(k){
+      var m=k.musteri||{};
+      return '<tr data-id="'+e(k.id)+'" class="'+(secili===k.id?"secili":"")+'" style="cursor:pointer"><td><b>'+e(m.ad||"Müşteri")+'</b><br><small>'+e(m.tel)+'</small></td><td>'+e(k.yer)+(k.uzaklikKm!=null?'<br><small>'+String(k.uzaklikKm).replace(".",",")+' km</small>':"")+'</td><td>'+e(k.gunYazi)+' · '+e(k.saat)+'</td><td>'+e(spyAd(k.repId))+'</td><td><span class="hap d-'+e(k.durum)+'">'+e(DURUM[k.durum]||k.durum)+'</span></td><td>'+saat(k.olusma)+'<br><small>'+once(k.olusma)+'</small></td><td>'+(KAPALI[k.durum]?"":'<select data-aktar="'+e(k.id)+'" aria-label="Başka SPY\'ye aktar">'+veri.spyler.map(function(s){return '<option value="'+s.id+'"'+(s.id===k.repId?" selected":"")+'>'+e(s.ad)+'</option>';}).join("")+'</select>')+'</td></tr>';
+    }).join("")+'</tbody></table>':'<p class="bos">Henüz çağrı yok. Müşteri uygulamadan SPY isteyince burada görünür.</p>';
+    var k=secili&&veri.kayitlar[secili];
+    document.getElementById("ayrinti").innerHTML=k?'<div class="mesajlar"><p><b>'+e((k.musteri||{}).ad||"Müşteri")+' · mesajlar</b></p>'+((k.mesajlar||[]).map(function(m){return '<p><time>'+saat(m.t)+'</time> <b>'+(m.from==="temsilci"?e(spyAd(k.repId)):"Müşteri")+':</b> '+e(m.text)+'</p>';}).join("")||'<p class="bos">Mesaj yok.</p>')+'</div>':"";
+    document.getElementById("olaylar").innerHTML=veri.olaylar.length?veri.olaylar.map(function(o){return '<li><time>'+saat(o.t)+'</time>'+e(o.metin)+'</li>';}).join(""):'<li class="bos">Olay yok.</li>';
+  }
+  document.getElementById("cagrilar").addEventListener("click",function(ev){
+    if(ev.target.closest("select"))return;
+    var tr=ev.target.closest("tr[data-id]"); if(!tr)return;
+    secili=secili===tr.dataset.id?null:tr.dataset.id; ciz();
+  });
+  document.getElementById("cagrilar").addEventListener("change",function(ev){
+    var id=ev.target.dataset.aktar; if(!id)return;
+    if(!confirm(spyAd(ev.target.value)+" kişisine aktarılsın mı? Yeni SPY kabul edene kadar çağrı 'Yeni' görünür.")){ciz();return;}
+    gonder("aktar",{id:id,repId:ev.target.value});
+  });
+  document.getElementById("sifirla").addEventListener("click",function(){
+    if(!confirm("Tüm test çağrıları ve mesajlar silinsin mi? (Sunucuda yedeği alınır.)"))return;
+    gonder("sifirla",{onay:"evet"}).then(function(){veri.kayitlar={};surum=0;secili=null;});
+  });
+  function gonder(yol,govde){
+    return fetch("api/"+yol,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(govde)})
+      .then(function(r){return r.json().then(function(v){if(!r.ok)throw new Error(v.hata||r.status);return v;});})
+      .then(function(v){tur(true);return v;}).catch(function(err){alert("İşlem yapılamadı: "+err.message);});
+  }
+  var zaman=null;
+  function tur(hemen){
+    clearTimeout(zaman);
+    fetch("api/durum?hepsi=1&surum="+surum,{cache:"no-store"}).then(function(r){return r.json();}).then(function(v){
+      if(v.sifirlama>sifirlama){if(sifirlama>=0)veri.kayitlar={};sifirlama=v.sifirlama;}
+      surum=v.surum; veri.spyler=v.spyler; veri.olaylar=v.olaylar;
+      v.kayitlar.forEach(function(k){veri.kayitlar[k.id]=k;});
+      var b=document.getElementById("bag"); b.textContent="Canlı · "+saat(Date.now()); b.className="bag";
+      ciz();
+    }).catch(function(){var b=document.getElementById("bag");b.textContent="Bağlantı yok";b.className="bag kopuk";})
+      .then(function(){zaman=setTimeout(tur,3000);});
+  }
+  tur();
+})();
+</script>
+</body>
+</html>

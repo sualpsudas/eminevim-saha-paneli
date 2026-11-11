@@ -22,6 +22,8 @@ workflows:
         script: npm ci
       - name: Web paketini hazırla
         script: npm run web:sync
+      - name: Merkez adresini yaz (TY_MERKEZ_URL varsa uygulama canlı merkezi açar)
+        script: node scripts/merkez-adresi.mjs
       - name: Native ayarları senkronize et
         script: npx cap sync ios
       - name: Kod imzalama anahtar zincirini hazırla
