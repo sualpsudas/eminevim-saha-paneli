@@ -1,4 +1,4 @@
-const CACHE = 'eminevim-v17';
+const CACHE = 'eminevim-v18';
 const ASSETS = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const ASSETS = [
   './konum-sec.html',
   './rota.html',
   './vendor/qrcode.min.js',
+  './spyler.js?v=1',
   './org-data.js?v=7',
   './support.js',
   './vendor/react.production.min.js',

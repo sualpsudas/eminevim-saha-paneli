@@ -574,3 +574,5 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - **Web formu** merkezden açılınca çağrıyı merkeze gönderir; giriş kodunu merkez verir; uygulamada kodla aynı çağrı açılır.
 - Düzeltmeler: yöneticiye düşen çağrıyı atarken sunucu hatası; web formu kopyasındaki `<base>` etiketi yüzünden merkez adresi yanlış çözülüyordu.
 - Testler: `tests/merkez-akis.py` yeniden yazıldı (30 SPY, aynı gün, geri sayım, molada, ileri tarih, 3 ret, yönetici, web kodu) — tüm testler geçti.
+- Ek (aynı gün): yönetici destek talepleri ayrı **Destek** sekmesine taşındı (her sekmenin üstünde duruyordu); SPY çağrı kartında kaynak
+  doğru yazıyor (uygulamadan gelen çağrı "Uygulama", web formu "Web formu"); kapalı eski performans şablonu silindi; `sw.js` önbelleğine `spyler.js`.

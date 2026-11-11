@@ -137,7 +137,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   (uzaklık, H/G, o günkü çağrı sayısı). Performans: son 3 ay randevu ve ciro H/G çubukları, aktif/aktif değil, ekipteki sıra, bugünkü çağrı
   (en fazla 4), kabul süresi ve oranı, kural özeti.
 - **Yönetici ekranı:** Saha Canlı = merkezin takip sayfası (uygulama içinde, tablet ve telefon uyumlu). Performans: 30 SPY H/G sıralaması,
-  aktif/aktif değil ve ilçe süzgeci, ortalamalar, kurallar. Destek talepleri yanıtı üstte.
+  aktif/aktif değil ve ilçe süzgeci, ortalamalar, kurallar. Destek talepleri ayrı **Destek** sekmesinde.
 - Müşteri, SPY kabul edene kadar kimin geleceğini görmez. Uygulama kapalıyken bildirim (push) yok; Apple bildirim anahtarı (APNs) gerekir.
 - **Web formu** merkezden açılırsa (`<merkez>/web-basvuru/index.html`) "Temsilci çağırmak istiyorum" çağrısı merkeze gider; SMS önizlemesindeki
   6 haneli giriş kodunu merkez verir. Uygulamada telefon + bu kodla girince aynı çağrı açılır (merkezde `api/kod`). Pages kopyasında eski
