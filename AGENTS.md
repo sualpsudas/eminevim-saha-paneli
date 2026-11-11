@@ -104,6 +104,20 @@ Her biri ayrı onay ister. Planı yazarken aşağıdaki etkileri kullanıcıya h
   (Apple .p8 anahtarı, Key ID, Team ID — kullanıcı sağlar, depoya girmez), Codemagic'te yeni derleme (kullanıcı başlatır).
   Web Push yolu bozulmamalı: `merkez-akis.py` bildirim adımları geçmeye devam etmeli.
 
+**E. SPY Performans'taki "Çağrı size nasıl gelir?" kartını kaldırmak (kullanıcı istedi, 2026-11-12; sonra yapılacak)**
+- Bugün: SPY Performans sekmesinde, ekip sıralamasının altında "Çağrı size nasıl gelir?" kartı + `pfKural` metni (atama kuralı özeti).
+- Yapılırsa: o kart ve `pfKural` değeri kaldırılır; `URUN_KURALLARI.md` SPY ekranı maddesindeki "kural özeti" çıkarılır.
+  Değişen testler: bu metni bekleyen test varsa (`merkez-akis.py`, `phone-layout.py` personel sekmeleri) güncellenir.
+
+**F. SPY Görüşmeler: kart dokununca ayrı pencere (kullanıcı istedi, 2026-11-12; sonra yapılacak)**
+- Bugün: Görüşmeler sekmesinde solda liste, sağda seçili görüşmenin ayrıntısı aynı sayfada (telefonda alt alta).
+- Yapılırsa: görüşme kartına dokununca **yeni bir pencere gibi** açılır (telefonda tam ekran, bilgisayarda ortada pencere):
+  müşteri bilgileri, o duruma uygun seçenekler (Kabul et / Devret, Yola çık, gecikme, QR okut, mesajlar, kapanış/özet)
+  ve **kapat düğmesi** (sağ üst ✕ + boşluğa dokununca/Geri ile kapanma). Liste ekranı yalnız kartlardan oluşur.
+  Yeni çağrı bildirimine dokununca da bu pencere açılır. Değişen: `Eminevim Saha Paneli.dc.html` SPY Görüşmeler bölümü (`tpD*` değerleri),
+  testler `merkez-akis.py` (kabul/mesaj/yola çıkış/QR adımları pencereden yapılır), `browser-flows.py`, `phone-layout.py` personel sekmeleri;
+  `senaryo.html` SPY ekranları ve `URUN_KURALLARI.md` SPY ekranı maddesi güncellenir.
+
 ## 8. Bitirirken
 1. Tüm testler geçti (çıktının son satırlarını göster).
 2. `PROJE_ILERLEME.md`'ye tarihli kısa not; kural değiştiyse `URUN_KURALLARI.md` / `CLAUDE.md` güncel.
