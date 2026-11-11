@@ -576,3 +576,27 @@ Bu dosya, uygulamadaki önemli geliştirmelerin kısa kaydını tutar. Yeni bir 
 - Testler: `tests/merkez-akis.py` yeniden yazıldı (30 SPY, aynı gün, geri sayım, molada, ileri tarih, 3 ret, yönetici, web kodu) — tüm testler geçti.
 - Ek (aynı gün): yönetici destek talepleri ayrı **Destek** sekmesine taşındı (her sekmenin üstünde duruyordu); SPY çağrı kartında kaynak
   doğru yazıyor (uygulamadan gelen çağrı "Uygulama", web formu "Web formu"); kapalı eski performans şablonu silindi; `sw.js` önbelleğine `spyler.js`.
+
+## 2026-11-11 (2) · 7 SPY, yeni atama puanı, Saha Canlı haritası, kompakt performans, destek kalktı, hazırlık uygulamada, web sonuç ekranı
+Kullanıcıyla konuşulup onaylanan plan ("onaylandı").
+- **7 SPY** (Onur Kaya, Derya Aksoy, Berk Cengiz, Selin Arslan, Ece Yalçın, Burcu Avcı, Barış Çelik); "aktif değil" kavramı yok — uygulamada
+  yalnız iki H/G'si ≥ %100 olanlar. Kullanılmayan 23 sentetik fotoğraf `assets/temsilci`'de duruyor.
+- **Atama:** hemen çağrı (bugün, en geç 2 saat sonrası) → elenir: molada, uygulaması kapalı, yolda/görüşmede, günlük 4 dolu; puan yakınlık 50,
+  H/G 30, bugünkü çağrı 20. İleri saat/gün → elenir: ±90 dk çakışma, gün dolu; puan H/G 50, yakınlık 30, o günkü çağrı 20. 2 dk kabul
+  edilmezse ya da Devret'te sıradakine; kimse kalmazsa "kimse almadı" (haritada kırmızı), uygun SPY çıkınca kendiliğinden teklif.
+  Yöneticiye düşme, Ata ve Aktar kalktı.
+- **Saha Canlı** (uygulama + bilgisayar takip sayfası aynı): bugün Gelen Çağrı / Görüşme Sayısı, süzgeç Tümü/Boşta/Randevuda/Molada,
+  pilot ilçe + mahalle sınırları ve adları (`assets/pilot-sinirlar.js`, OpenStreetMap), küçük renkli simgeler, kırmızı sahipsiz çağrı.
+  Altlık CARTO → OpenStreetMap (CARTO anahtar istiyordu, "API KEY REQUIRED" yazıyordu). Pages gösterisi örnek veriyle (`takip.html?demo=1`).
+- **Performans (yönetici):** kompakt liste — sıra, ad, ort. randevu H/G, ort. ciro H/G; iki oranın ortalamasına göre.
+- **Destek** yönetici, müşteri ve testlerden kaldırıldı.
+- **Görüşmeye hazırlık** yalnız uygulamada: çalışma durumu, yaş aralığı, "Ne için düşünüyorsunuz?", kısa not; web'den gelen müşterinin ilk
+  girişinde (tanıtım bitince) ve saat onayında; "Şimdi değil" → Randevum'da kart. SPY çağrı ayrıntısında görür.
+- **Web sonuç ekranı:** "Sayın Ad Soyad, temsilci çağrınız alındı!", özet, SMS satırı + Kapat'a kadar duran SMS penceresi, kısa uygulama
+  kartı; bölge dışı "Sayın Ad Soyad, çağrınız alındı!" + turuncu not. "Başarılı!", uzun cümleler, hazırlık bölümü, "Yeni başvuru" kalktı.
+  Senaryo (yalnız destek ve hazırlık) ve web akışı taslağı da güncellendi; video değişmedi.
+- **Düzeltmeler:** merkezin atama puanı müşteri yıldız puanıyla aynı alandaydı (`puan`) → web'den gelen müşteride uygulama hata veriyordu ve
+  müşteri puanı merkeze kaydedilmiyordu; alan `atamaPuan` oldu. Tanıtım penceresi ile hazırlık penceresi üst üste açılıyordu → hazırlık tanıtımdan sonra.
+- Testler: `merkez-akis.py` yeni kurallara göre yeniden yazıldı (7 SPY, hemen/ileri, devret → kimse almadı, harita + süzgeç, kompakt performans,
+  SMS penceresi, hazırlık); `web-flows`, `browser-flows`, `preparation-popup`, `appointment.test.js` güncellendi. Tümü geçti.
+

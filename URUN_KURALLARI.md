@@ -19,8 +19,8 @@ Proje amacı, kararlar ve açık işler `CLAUDE.md`'de. Bu dosya 2026-11-05'te o
 - Değişiklik `degisiklik` alanında bekler; eski kesin saat korunur. Personel yeni öneriyi onaylayınca gün/saat/konum güncellenir. Yoldayken de değişiklik/iptal erişimi vardır.
 - Personelin Yola çık / gecikme / QR / bitir işlemleri seçili randevuya bağlıdır. Kod randevu, SPY ve revizyonla eşleşir, 10 dakika geçerlidir ve kullanıldığında tüketilir. Gerçek kamera ve sunucuda kimlik doğrulama henüz yoktur; demo tarama düğmesi ve kod girişi korunmuştur.
 - Takipte son bilinen SPY ve görüşme noktası, tahmini varış ve eski konum uyarısı görünür. Haritadaki çizgi yol ağına göre hesaplanmış navigasyon rotası değildir. Gerçek GPS/ETA için canlı servis gerekir.
-- Personel görüşmeyi bitirince aynı müşteriye özet/not/sonraki adım gider. Puan penceresi kendiliğinden açılmaz. Müşteri düzeltme açıklaması yazabilir; destek talebi Alternatif Satış Kanalı Müdürü panelinde incelenip yanıtlanır, durum müşteride görünür.
-- Çalışma durumu ve yaş aralığı **ilk başvuruda zorunlu değildir**. Başvurudan sonra isteğe bağlı, atlanabilir; sonra düzenlenebilir. Webde başarı ekranında seçilen bilgiler uygulama bağlantısıyla aktarılır. Kesin yaş/doğum tarihi istenmez.
+- Personel görüşmeyi bitirince aynı müşteriye özet/not/sonraki adım gider. Puan penceresi kendiliğinden açılmaz. Sorusu olursa müşteri temsilcisine sohbetten yazar (düzeltme/destek bölümü 2026-11-11 kaldırıldı).
+- Çalışma durumu ve yaş aralığı **ilk başvuruda zorunlu değildir**. Başvurudan sonra isteğe bağlı, atlanabilir; sonra düzenlenebilir. Kesin yaş/doğum tarihi istenmez. 2026-11-11: bu sorular **yalnız uygulamada** (web sonuç ekranında yok), bkz. Canlı test sürümü → Görüşmeye hazırlık.
 - Randevu ve hesaplar bu tarayıcı sekmesinin `sessionStorage` alanında saklanır. Gerçek hesap güvenliği, cihazlar arası eşitleme ve kalıcı sunucu kaydı henüz yoktur.
 - Web kaynak formu değişince `python web-basvuru/olustur.py`; native paket için `npm run web:sync`. Yeni `appointment.js`, konum seçimi, rota ve QR kitaplığı native/PWA paketlerine dahil edilmiştir.
 - **SMS kodu ve telefonla giriş (2026-10-22):** Web'de SPY çağırma seçiliyse başarı ekranında telefona giden SMS
@@ -49,7 +49,13 @@ her adım bitince burada "Durum" güncellenir.
    - Harita sade ama **mekânlar görünür** olmalı. Uzaktan bakınca yalnız harita + **hizmet bölgeleri yeşil** alan
      (kompakt görünüm). Hizmet bölgeleri şimdilik: **İstanbul Ümraniye, Ataşehir, Üsküdar**.
    - Seçilen konum hizmet bölgesinin içindeyse ilerlenir.
-   - Gönderince **yeni ekran: "Başarılı"** — kurumsal ama samimi dil: talebin alındığı, SPY'nin iletişime geçeceği,
+   - **2026-11-11 (geçerli):** sonuç ekranı başlığı "Sayın Ad Soyad, temsilci çağrınız alındı!" + gün/saat/yer özeti + "… numarasına SMS
+     gönderdik" (SMS önizlemesi kendiliğinden açılan, **Kapat'a kadar duran** pencere; "SMS'i göster" yeniden açar) + uygulama kartı
+     ("Temsilcinizi ve randevunuzu uygulamadan takip edin, görüşmeye hazırlık bilgilerinizi ekleyin."). Bölge dışı ya da telefonla:
+     "Sayın Ad Soyad, çağrınız alındı!" + turuncu not ("Seçtiğiniz konumda henüz temsilci hizmetimiz yok. 444 36 46 numaralı telefonumuzdan
+     sizi arayacağız.") + uygulama kartı ("Çağrınızı ve Finansman Aracımızı uygulamadan takip edin."). "Başarılı!", uzun açıklamalar,
+     hazırlık bölümü ve "Yeni başvuru" kalktı. Aşağıdaki eski tarif tarihçedir.
+   - (eski) Gönderince **yeni ekran: "Başarılı"** — kurumsal ama samimi dil: talebin alındığı, SPY'nin iletişime geçeceği,
      belirlenen saatte belirtilen konumda olacağı. Ardından: "Kampanyalarımıza, Finansman Aracımıza ve size atanan
      SPY hakkında detaylara ulaşmak için Eminevim uygulamasını kullanabilirsiniz." + uygulamaya geçiş.
 4. **Web'den uygulamaya geçiş.** Uygulama, formdaki **telefon numarasıyla kayıtlı müşteri** gibi açılır; içinde **henüz
@@ -117,35 +123,45 @@ düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adı
 Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 
 
-## Canlı test sürümü (merkez, 2026-11-10; 30 SPY ve atama 2026-11-11)
+## Canlı test sürümü (merkez, 2026-11-10; 7 SPY, atama, Saha Canlı haritası 2026-11-11)
 - Uygulama iki biçimde çalışır: **merkezden açılırsa canlı** (`merkez/sunucu.py` sayfaya `window.TY_CANLI` ve `canli.js` ekler; çağrı,
   durum ve mesajlar cihazlar arasında gerçek), **GitHub Pages'te gösteri** (örnek verilerle, sunucusuz). Pages kopyası bozulmamalı.
-- **30 SPY** tek dosyada: `spyler.js` (uygulama ve merkez aynı dosyayı okur; değişince merkez yeniden başlatılır). Pilot bölge videodaki gibi
-  **Üsküdar, Ümraniye, Ataşehir**; her SPY farklı mahallede (konumlar `konum-sec.html` hizmet bölgesi içinde). Fotoğraflar sentetik
-  (`assets/temsilci/OKUBENI.md`). s1-s4 (Onur Kaya, Derya Aksoy, Berk Cengiz, Selin Arslan) video ve senaryodaki kişilerdir, bilgileri aynı.
-  Randevu H/G ve ciro H/G (son 3 ay) **uydurmadır**; 8 SPY'de biri ya da ikisi %100 altında → 22 aktif SPY.
+- **7 SPY** tek dosyada: `spyler.js` (uygulama ve merkez aynı dosyayı okur; değişince merkez yeniden başlatılır): Onur Kaya, Derya Aksoy,
+  Berk Cengiz, Selin Arslan, Ece Yalçın, Burcu Avcı, Barış Çelik. Pilot bölge **Üsküdar, Ümraniye, Ataşehir**; her SPY farklı mahallede.
+  Fotoğraflar sentetik (`assets/temsilci/OKUBENI.md`). s1-s4 video ve senaryodaki kişilerdir. Randevu H/G ve ciro H/G (son 3 ay) **uydurmadır**.
+- **"Aktif değil" diye bir şey yok** (kullanıcı, 2026-11-11): uygulamada yalnız iki H/G'si de ≥ %100 olan SPY'ler bulunur. "Molada" ayrı
+  bir durumdur (SPY kendisi seçer).
 - **Giriş:** Müşteri girişi (Giriş Yap / Kayıt) aynen durur. **Personel Girişi** yalnız iki seçenek: **SPY** (açılır listeden kişi, fotoğraflı
-  önizleme + "Giriş yap") ve **Yönetici** (tek düğme; her yönetici hepsini görür, eski Alternatif Satış Kanalı Müdürü görünümü). Takım Lideri
-  ve Saha Grup Lideri ayrı girişleri kalktı; takım liderinin ekibini izleme ekranı yok. Cihaz SPY'nin son girişini hatırlar.
-- **Atama** (ayrıntı `rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md`): aktif SPY = iki H/G de ≥ %100; molada olan, günlük
-  sınırı (4) dolan elenir. **Aynı gün:** yalnız uygulaması açık (son 30 sn içinde merkeze bağlanmış), yolda/görüşmede olmayan SPY; puan:
-  yakınlık 50, randevu H/G 15, ciro H/G 15, yük 10, hız 10. **İleri tarih:** o gün ±90 dk çakışması olmayan; uzaklık şubeye ya da o günkü
-  randevulara; puan: randevu 25, ciro 25, yakınlık 20, yük 20, hız 10. Çağrı en yüksek puanlıya **teklif** edilir; **2 dakikada** kabul
-  edilmezse ya da SPY "Devret" derse sıradakine; **3 SPY** kabul etmezse ya da uygun SPY yoksa **yöneticiye düşer**. Yönetici her çağrıyı
-  istediği SPY'ye atar (süre işlemez, "Yönetici atadı"). Süresi dolmuş çağrıyı eski SPY kabul edemez.
-- **SPY ekranı:** yeni çağrıda ses + titreşim + "Yeni çağrı: Ad"; ayrıntıda **kabul için kalan süre** (geri sayım) ve **"Neden size geldi"**
-  (uzaklık, H/G, o günkü çağrı sayısı). Performans: son 3 ay randevu ve ciro H/G çubukları, aktif/aktif değil, ekipteki sıra, bugünkü çağrı
-  (en fazla 4), kabul süresi ve oranı, kural özeti.
-- **Yönetici ekranı:** Saha Canlı = merkezin takip sayfası (uygulama içinde, tablet ve telefon uyumlu). Performans: 30 SPY H/G sıralaması,
-  aktif/aktif değil ve ilçe süzgeci, ortalamalar, kurallar. Destek talepleri ayrı **Destek** sekmesinde.
+  önizleme + "Giriş yap") ve **Yönetici** (tek düğme; her yönetici hepsini görür). Cihaz SPY'nin son girişini hatırlar.
+- **Atama** (ayrıntı `rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md`). Günlük sınır 4 çağrı.
+  - **Hemen çağrı** (bugün, saati en geç 2 saat sonra): molada, uygulaması kapalı (son 30 sn merkeze bağlanmamış), yolda/görüşmede ve
+    günlük sınırı dolan elenir. Puan: **yakınlık 50** (o anki yer: bugünkü son randevusu, yoksa kendi mahallesi), **H/G 30** (randevu 15 +
+    ciro 15), **bugünkü çağrı 20** (az olan önde).
+  - **İleri saat/gün:** o saatin ±90 dk'sında randevusu olan ve o gün sınırı dolan elenir. Puan: **H/G 50** (randevu 25 + ciro 25),
+    **yakınlık 30** (kendi bölgesine ya da o günkü randevularına), **o günkü çağrı 20**.
+  - Çağrı en yüksek puanlıya **teklif** edilir; **2 dakikada** kabul edilmezse ya da SPY **Devret** derse sıradakine. Deneme sınırı yok;
+    uygun SPY kalmazsa çağrı **"kimse almadı"** olur ve Saha Canlı haritasında **kırmızı** görünür; uygun SPY çıkınca (moladan döndü,
+    uygulamayı açtı) kendiliğinden ona teklif edilir. **Yöneticiye düşme, Ata ve Aktar yok.** Süresi dolmuş çağrıyı eski SPY kabul edemez.
+- **SPY ekranı:** yeni çağrıda ses + titreşim + "Yeni çağrı: Ad"; ayrıntıda **kabul için kalan süre** (geri sayım), **"Neden size geldi"**
+  (uzaklık, H/G, o günkü çağrı sayısı) ve müşterinin görüşmeye hazırlık bilgileri (ne için, çalışma durumu, yaş aralığı, not).
+  Performans: son 3 ay randevu ve ciro H/G çubukları, ekipteki sıra (x/7), bugünkü çağrı (en fazla 4), kural özeti.
+- **Yönetici ekranı:** Saha Canlı ve Performans. **Destek bölümü yok** (yönetici, müşteri ve testlerden kaldırıldı, 2026-11-11).
+  - **Saha Canlı** = merkezin takip sayfası (uygulamada ve bilgisayarda aynı düzen; Pages gösterisinde örnek veriyle). Yalnız **bugün**
+    (tarih seçimi yok): **Gelen Çağrı** ve **Görüşme Sayısı** (kapıda doğrulanan). Süzgeç: **Tümü / Boşta / Randevuda / Molada**.
+    Harita: pilot ilçe sınırları (kalın yeşil) + mahalle sınırları ve adları (yakınlaşınca); altlık OpenStreetMap, soluk.
+    SPY'ler **küçük simge, fotoğraf yok**: yeşil boşta, turuncu randevuda (yolda + görüşmede), gri molada; dokununca kısa bilgi.
+    Kimsenin almadığı çağrılar **kırmızı nokta**. Haritanın altında kısa SPY listesi (dokununca haritada gösterir). Eski çağrı kartları,
+    olaylar ve uzun liste kalktı. Sınırlar `assets/pilot-sinirlar.js` (OpenStreetMap, sadeleştirilmiş).
+  - **Performans:** kompakt liste — sıra, ad, ort. randevu H/G, ort. ciro H/G; iki oranın ortalamasına göre yukarıdan aşağı; altta ekip ortalaması.
 - Müşteri, SPY kabul edene kadar kimin geleceğini görmez. Uygulama kapalıyken bildirim (push) yok; Apple bildirim anahtarı (APNs) gerekir.
 - **Web formu** merkezden açılırsa (`<merkez>/web-basvuru/index.html`) "Temsilci çağırmak istiyorum" çağrısı merkeze gider; SMS önizlemesindeki
   6 haneli giriş kodunu merkez verir. Uygulamada telefon + bu kodla girince aynı çağrı açılır (merkezde `api/kod`). Pages kopyasında eski
   gösteri davranışı (kod tarayıcıda üretilir).
+- **Görüşmeye hazırlık yalnız uygulamada** (web'de yok): çalışma durumu, yaş aralığı, "Ne için düşünüyorsunuz?" (Konut / Araç / İşyeri /
+  Henüz karar vermedim), kısa not (en çok 300 harf). Web'den gelen müşteri uygulamaya ilk girdiğinde (tanıtım penceresi kapanınca) ve saat
+  onaylanınca sorulur; "Şimdi değil" → Randevum ayrıntısında "Görüşmeye hazırlık · isteğe bağlı" kartı kalır. Telefonla görüşme çağrısında sorulmaz.
 - Canlıda uydurma otomatik yanıtlar kapalıdır. SMS kodu test sürümünde ekranda gösterilir.
-- **Takip sayfası** (`<merkez>/takip`, bilgisayar; uygulamada yönetici Saha Canlı): sayılar (açık, kabul bekleyen, yöneticiye düşen, yolda,
-  aktif SPY, uygulaması açık), **yöneticiye düşen çağrılar** (SPY seç + Ata), çağrı kartları (SPY, puan, teklif sırası, kalan süre, gerekçe,
-  aktar, mesajlar), harita, 30 SPY (süzgeç + arama; aktif olmayanlar soluk), son olaylar, test verisini sıfırla (yedek alır).
+- Merkezde atama puanı `atamaPuan` alanındadır (müşteri yıldız puanı `puan` ile karışmasın).
 - **Aynı gün çağrısı:** takvim bugünü de gösterir (saat 19'a kadar); bugün için geçmiş ve bir saat içindeki saatler seçilemez.
 
 

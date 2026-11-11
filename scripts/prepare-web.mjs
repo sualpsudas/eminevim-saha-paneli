@@ -18,7 +18,8 @@ const runtimeFiles = [
   "sw.js",
   "eminevim-qr.png",
   "canli.js",
-  "spyler.js"
+  "spyler.js",
+  "merkez/takip.html"
 ];
 
 await rm(output, { recursive: true, force: true });

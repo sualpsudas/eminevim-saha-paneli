@@ -28,6 +28,7 @@ with sync_playwright() as p:
         assert app(page,'app.state.mTalep.durum')=='netlesti'
         box=dialog.bounding_box()
         assert box['y']>=0 and box['x']>=0 and box['x']+box['width']<=width+1
+        assert dialog.get_by_label('Ne için düşünüyorsunuz').count()==1 and dialog.get_by_label('Temsilcinizin bilmesini istediğiniz not').count()==1
         dialog.get_by_role('button',name='Şimdi değil',exact=True).scroll_into_view_if_needed()
         page.screenshot(path=str(OUT/f'hazirlik-popup-{width}.png'))
         dialog.get_by_role('button',name='Şimdi değil',exact=True).click()

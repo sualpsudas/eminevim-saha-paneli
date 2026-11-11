@@ -1,6 +1,8 @@
 """Merkez (canlı) akışı: müşteri, SPY'ler ve yönetici ayrı tarayıcılarda.
-Aynı gün çağrısı uygulaması açık en uygun SPY'ye düşer; ileri tarih puanla atanır; 3 ret yöneticiye düşer;
-yönetici atar; web formu çağrısı merkeze gider ve giriş koduyla uygulamada açılır.
+Hemen çağrı (bugün, 2 saat içinde) uygulaması açık, boşta en yüksek puanlı SPY'ye düşer; ileri tarih puanla atanır;
+devredildikçe sıradakine geçer, kimse kalmayınca "kimse almadı" (haritada kırmızı); yönetici Saha Canlı haritasını ve
+kompakt performans listesini görür; web formu çağrısı merkeze gider, SMS penceresi açılır, giriş koduyla uygulamada açılır
+ve görüşmeye hazırlık penceresi çıkar.
 Deneme sunucusu (kullanıcının baktığı kopya değil):
   set TY_PORT=8795 & set TY_YOL=deneme & set TY_VERI=<geçici>\\deneme.json & python merkez\\sunucu.py
 Playwright + Chrome gerektirir."""
@@ -14,7 +16,8 @@ URL = KOK + 'Eminevim%20Saha%20Paneli.dc.html'
 OUT = Path(tempfile.gettempdir()) / 'ty-merkez'
 OUT.mkdir(exist_ok=True)
 SPYLER = json.loads(re.search(r'window\.TY_SPYLER = (\[.*\]);', (Path(__file__).parent.parent / 'spyler.js').read_text(encoding='utf-8'), re.S).group(1))
-AKTIF = {s['id'] for s in SPYLER if s['randevuHG'] >= 100 and s['ciroHG'] >= 100}
+IDLER = {s['id'] for s in SPYLER}
+SIMDI = datetime.datetime.now().strftime('%H:%M')  # hemen çağrı
 YARIN = (datetime.date.today() + datetime.timedelta(days=1)).isoformat()
 
 
@@ -43,7 +46,7 @@ def personel(pg, sid=None):
     bekle(pg, 'app.state.panel==="spy" && app.state.personelRepId===' + repr(sid))
 
 
-assert len(SPYLER) == 30 and len(AKTIF) == 22, (len(SPYLER), len(AKTIF))
+assert len(SPYLER) == 7 and all(s['randevuHG'] >= 100 and s['ciroHG'] >= 100 for s in SPYLER), len(SPYLER)
 merkez('api/sifirla', {'onay': 'evet'})
 with sync_playwright() as p:
     browser = p.chromium.launch(channel='chrome', headless=True)
@@ -57,9 +60,9 @@ with sync_playwright() as p:
         pg.get_by_text('Giriş Yap', exact=True).first.wait_for()
     assert musteri.evaluate('window.Canli.aktif') is True
 
-    # Personel girişi: açılır listede 30 SPY; Derya (tablet) ve Onur (telefon) girer → uygulamaları açık
+    # Personel girişi: açılır listede 7 SPY; Derya (tablet) ve Onur (telefon) girer → uygulamaları açık
     spy.get_by_role('button', name='Personel Girişi', exact=True).click()
-    assert spy.get_by_label('SPY seçin').locator('option').count() == 31
+    assert spy.get_by_label('SPY seçin').locator('option').count() == 8
     spy.get_by_role('button', name='Geri', exact=True).click()
     personel(spy, 's2'); personel(spy_diger, 's1')
     spy.screenshot(path=str(OUT / '1-spy-giris.png'))
@@ -71,14 +74,14 @@ with sync_playwright() as p:
     app(musteri, 'app.kodIleri()')
     app(musteri, 'app.setState({kvkk1:true,kvkk2:true,kvkk3:true})'); app(musteri, 'app.kvkkOnayla()')
     assert app(musteri, 'app.state.customerForm.name') == 'Deniz Test'
-    # Aynı gün: Üsküdar sahiline yakın nokta → uygulaması açık en yakın aktif SPY Derya (s2)
+    # Hemen: Üsküdar sahiline yakın nokta → uygulaması açık, en yakın SPY Derya (s2)
     app(musteri, 'app.mTemsilciIste()')
-    app(musteri, 'app.setState({yaKonum:{lat:41.0230,lng:29.0200,adres:"Mimar Sinan Mah., Üsküdar",bolge:"Üsküdar"},yaAdim:2,yaGun:"Bugün",yaGunISO:new Date().toLocaleDateString("en-CA"),yaSaat:"23:00"})')
+    app(musteri, 'app.setState({yaKonum:{lat:41.0230,lng:29.0200,adres:"Mimar Sinan Mah., Üsküdar",bolge:"Üsküdar"},yaAdim:2,yaGun:"Bugün",yaGunISO:new Date().toLocaleDateString("en-CA"),yaSaat:"' + SIMDI + '"})')
     app(musteri, 'app.yaGonder()')
     bekle(musteri, 'app._canliBilinen && app.state.mTalep && app._canliBilinen[app.state.mTalep.id]')
     kayit = merkez('api/durum?hepsi=1')['kayitlar'][0]
     assert kayit['repId'] == 's2' and kayit['musteri']['ad'] == 'Deniz Test', kayit
-    assert kayit['teklif']['bitis'] > 0 and kayit['puan'] and 'km' in kayit['gerekce'], kayit
+    assert kayit['teklif']['bitis'] > 0 and kayit['atamaPuan'] and 'km' in kayit['gerekce'], kayit
     assert app(musteri, 'app.state.mTalep.repId') is None, 'Müşteri kabulden önce SPY görmez'
     assert 'SPY' not in musteri.locator('body').inner_text(), 'Müşteri ekranında SPY yazmamalı'
 
@@ -101,9 +104,9 @@ with sync_playwright() as p:
     app(musteri, 'app.mSaatOnayla()')
     app(musteri, 'app.setState({sohbetTaslak:"Kapı kodu 12, bekliyorum."});app.mSohbetGonder()')
     bekle(spy, 'Object.values(app.state.tpKayitlar)[0].durum==="netlesti" && Object.values(app.state.tpKayitlar)[0].mesajlar.length>=3')
-    spy.get_by_placeholder('Müşteriye mesaj yazın', exact=True).fill('Tamam, 23:00 gibi oradayım.')
+    spy.get_by_placeholder('Müşteriye mesaj yazın', exact=True).fill('Tamam, birazdan oradayım.')
     spy.get_by_role('button', name='Gönder', exact=True).click()
-    bekle(musteri, 'app.state.chatMessages.some(m=>m.text==="Tamam, 23:00 gibi oradayım.")')
+    bekle(musteri, 'app.state.chatMessages.some(m=>m.text==="Tamam, birazdan oradayım.")')
     spy.screenshot(path=str(OUT / '3-spy-sohbet.png'))
 
     # Yola çık → müşteri "yolda"; QR kodu müşteri ekranında, SPY kodu girer → görüşmede → bitir
@@ -120,45 +123,59 @@ with sync_playwright() as p:
     bekle(musteri, 'app.state.mTalep.durum==="tamamlandi"')
     musteri.screenshot(path=str(OUT / '4-musteri-ozet.png'))
 
-    # Molada olan SPY'ye çağrı gitmez: Derya molada → aynı gün, uygulaması açık tek aktif SPY Onur (s1)
+    # Molada olan SPY'ye hemen çağrı gitmez: Derya molada → uygulaması açık tek SPY Onur (s1)
     app(spy, 'app.tpDurumSec("molada")')
     musteri.wait_for_timeout(500)
-    sonuc = merkez('api/cagri', {'kayit': {'id': 'deneme-2', 'tip': 'ziyaret', 'konum': {'lat': 41.0230, 'lng': 29.0200}, 'yer': 'Üsküdar', 'saat': '23:00'},
+    sonuc = merkez('api/cagri', {'kayit': {'id': 'deneme-2', 'tip': 'ziyaret', 'konum': {'lat': 41.0230, 'lng': 29.0200}, 'yer': 'Üsküdar', 'saat': SIMDI},
                                  'musteri': {'ad': 'İkinci Test'}})['sonuc']
     assert sonuc['repId'] == 's1', sonuc['repId']
 
-    # İleri tarih: uygulaması kapalı SPY'ler de aday; yalnız aktif (iki H/G ≥ %100) SPY seçilir.
-    # 3 kez devret → yöneticiye düşer; eski SPY artık kabul edemez; yönetici atar (süre işlemez)
+    # İleri tarih: uygulaması kapalı SPY'ler de aday. Devret → sıradaki; 7 SPY de denenince "kimse almadı".
+    # Eski SPY artık kabul edemez; Ata/Aktar yok.
     k = merkez('api/cagri', {'kayit': {'id': 'deneme-3', 'tip': 'ziyaret', 'tarih': YARIN, 'saat': '14:00', 'konum': {'lat': 41.0300, 'lng': 29.1500}, 'yer': 'Esenşehir, Ümraniye'},
                              'musteri': {'ad': 'Yarın Test'}})['sonuc']
     ilk = k['repId']
-    assert ilk in AKTIF and ilk != 's2', k
+    assert ilk in IDLER and k['atamaPuan'] and 'km' in k['gerekce'] and not k['sahipsiz'], k
     denenen = [ilk]
-    for _ in range(3):
+    for _ in range(10):
         k = merkez('api/aktar', {'id': 'deneme-3', 'repId': ''})['sonuc']
-        if k['repId']:
-            assert k['repId'] in AKTIF and k['repId'] not in denenen, k
-            denenen.append(k['repId'])
-    assert k['repId'] is None and k['yonetici'] is True, k
+        if not k['repId']:
+            break
+        assert k['repId'] in IDLER and k['repId'] not in denenen, k
+        denenen.append(k['repId'])
+    assert k['repId'] is None and k['sahipsiz'] is True and len(denenen) == 7, (k, denenen)
+    assert 'yonetici' not in k
     try:
         merkez('api/kayit', {'kayit': {'id': 'deneme-3', 'durum': 'atandi', 'repId': ilk}})
         raise AssertionError('Devredilen çağrıyı eski SPY kabul edememeli')
     except urllib.error.HTTPError as e:
         assert e.code == 400
-    k = merkez('api/aktar', {'id': 'deneme-3', 'repId': 's3'})['sonuc']
-    assert k['repId'] == 's3' and not k['yonetici'] and k['gerekce'] == 'Yönetici atadı' and k['teklif']['bitis'] == 0, k
+    durum = merkez('api/durum?hepsi=1')
+    assert durum['bugun']['gelen'] == 3 and durum['bugun']['gorusme'] == 1, durum['bugun']
+    hal = {s['id']: s['hal'] for s in durum['spyler']}
+    assert len(hal) == 7 and hal['s2'] == 'molada' and hal['s1'] == 'bosta', hal
 
-    # Yönetici: tek giriş, Saha Canlı sekmesinde merkezin takip sayfası; yöneticiye düşen bölümü ve 30 SPY
+    # Yönetici: Saha Canlı = takip haritası (Gelen Çağrı, Görüşme Sayısı, süzgeçler, kimse almadı); performans kompakt liste
     yonetici = browser.new_context(viewport={'width': 1024, 'height': 1366}).new_page()
     yonetici.on('pageerror', lambda e: errors.append(str(e)))
     yonetici.goto(URL); yonetici.get_by_text('Giriş Yap', exact=True).first.wait_for()
     personel(yonetici)
     cerceve = yonetici.frame_locator('iframe[src^="takip"]')
-    cerceve.get_by_text('Yarın Test', exact=True).first.wait_for(timeout=10000)
-    cerceve.get_by_text('22 / 30', exact=True).wait_for()
+    cerceve.get_by_text('Gelen Çağrı · bugün', exact=True).wait_for(timeout=10000)
+    cerceve.get_by_text('Görüşme Sayısı · bugün', exact=True).wait_for()
+    cerceve.get_by_role('button', name='Molada (1)').wait_for()
+    cerceve.locator('.cagri-ik').first.wait_for()
+    assert cerceve.locator('.spy-ik').count() == 7
+    cerceve.get_by_role('button', name='Molada (1)').click()
+    yonetici.wait_for_timeout(400)
+    assert cerceve.locator('.spy-ik').count() == 1
+    assert yonetici.get_by_text('Destek', exact=True).count() == 0
     yonetici.screenshot(path=str(OUT / '5-yonetici-canli.png'))
     yonetici.get_by_role('button', name='Performans').first.click()
-    yonetici.get_by_text('Aktif değil', exact=True).first.wait_for()
+    yonetici.get_by_text('Ort. randevu H/G', exact=True).first.wait_for()
+    assert yonetici.locator('.py-sat:not(.py-bas)').count() >= 7
+    assert yonetici.get_by_text('Aktif değil', exact=True).count() == 0
+    yonetici.screenshot(path=str(OUT / '6-yonetici-performans.png'))
 
     # Web formu (merkezdeki kopya): çağrı merkeze gider, giriş kodunu merkez verir; uygulamada kodla açılır
     web_ctx = browser.new_context(viewport={'width': 1440, 'height': 1000})
@@ -172,7 +189,16 @@ with sync_playwright() as p:
     form.locator('[type=submit]').click()
     sonuc = web.locator('.tk-desktopForm [data-sonuc]')
     web.wait_for_function("/^\\d{6}$/.test((document.querySelector('.tk-desktopForm [data-sms-kod]')||{}).textContent||'')")
+    smsp = web.locator('.tk-desktopForm [data-sms-pencere]')
+    assert 'acik' in smsp.get_attribute('class'), 'SMS penceresi kendiliğinden açılmalı'
+    sonuc.get_by_text('Sayın Mehmet Demir, temsilci çağrınız alındı!', exact=True).wait_for()
+    assert sonuc.get_by_text('Yeni başvuru').count() == 0 and sonuc.get_by_text('Başarılı!').count() == 0
+    web.screenshot(path=str(OUT / '7-web-sms.png'))
     kod = sonuc.locator('[data-sms-kod]').inner_text().strip()
+    smsp.locator('[data-sms-kapat]').click()
+    assert 'acik' not in smsp.get_attribute('class')
+    sonuc.locator('[data-sms-ac]').click()
+    assert 'acik' in smsp.get_attribute('class')
     link = sonuc.locator('a[data-ty-dis]').first.get_attribute('href')
     rid = parse_qs(urlparse(link).query)['rid'][0]
     wk = next(x for x in merkez('api/durum?hepsi=1')['kayitlar'] if x['id'] == rid)
@@ -185,9 +211,23 @@ with sync_playwright() as p:
     uyg.get_by_role('button', name='Parolayı kaydet ve devam et').click()
     bekle(uyg, 'app.state.mTalep && app.state.mTalep.id===' + repr(rid))
     assert app(uyg, 'app.state.customerForm.name') == 'Mehmet Demir'
-    uyg.screenshot(path=str(OUT / '6-web-uygulama.png'))
+    # Web'den gelen müşteri: tanıtım geçilince görüşmeye hazırlık penceresi; kaydedilen bilgi merkeze gider
+    bekle(uyg, 'app.state.ekBilgiAcik || app.state.hosgeldinAdim>0')
+    if app(uyg, 'app.state.hosgeldinAdim') > 0:
+        uyg.get_by_role('button', name='Atla', exact=True).click()
+    uyg.get_by_text('Görüşmeye hazırlanmamıza yardımcı olun', exact=True).wait_for()
+    uyg.screenshot(path=str(OUT / '8-hazirlik.png'))
+    uyg.get_by_label('Ne için düşünüyorsunuz').select_option('Konut')
+    uyg.get_by_role('button', name='Kaydet', exact=True).click()
+    for _ in range(20):
+        wk = next(x for x in merkez('api/durum?hepsi=1')['kayitlar'] if x['id'] == rid)
+        if (wk.get('ekBilgi') or {}).get('neIcin') == 'Konut':
+            break
+        uyg.wait_for_timeout(300)
+    assert (wk.get('ekBilgi') or {}).get('neIcin') == 'Konut', wk.get('ekBilgi')
     assert not errors, errors
-    print('Merkez akışı: OK (30 SPY, aynı gün açık SPY, geri sayım + gerekçe, kabul, mesaj, yola çıkış, QR, özet, molada,'
-          ' ileri tarih puanı, 3 ret → yönetici, yönetici ataması, yönetici ekranı, web formu → merkez kodu → uygulama)')
+    print('Merkez akışı: OK (7 SPY, hemen çağrı açık SPY, geri sayım + gerekçe, kabul, mesaj, yola çıkış, QR, özet, molada,'
+          ' ileri tarih puanı, devret → kimse almadı, Saha Canlı haritası + süzgeç, kompakt performans,'
+          ' web formu → SMS penceresi → merkez kodu → uygulama → görüşmeye hazırlık)')
     print('Görseller:', OUT)
     browser.close()

@@ -41,15 +41,7 @@ with sync_playwright() as p:
     page.set_viewport_size({'width':393,'height':852})
     page.get_by_role('heading',name='Görüşme özeti',exact=True).wait_for()
     assert page.get_by_role('button',name='Yeni randevu iste',exact=True).count()==1
-    page.get_by_role('button',name='Düzeltme iste',exact=True).click()
-    page.get_by_placeholder('Düzeltilmesini istediğiniz bilgiyi veya sorununuzu yazın.').fill('Görüşme konusu eksik.')
-    page.get_by_role('button',name='Bildirimi gönder',exact=True).click()
-    assert app(page,'app.state.mTalep.sorun.durum')=='Alındı'
-    app(page,'app.loginRole("ask");app.setState({tpSekme:"destek",destekYaniti:"Kaydınız incelendi, temsilciniz düzeltilmiş özeti paylaşacak."})')
-    page.set_viewport_size({'width':1180,'height':820})
-    page.get_by_role('button',name='İncelemeye al',exact=True).click()
-    page.get_by_role('button',name='Yanıtı müşteriye gönder',exact=True).click()
-    assert app(page,'app.state.mTalep.sorun.durum')=='Yanıtlandı'
+    assert page.get_by_role('button',name='Düzeltme iste').count()==0 and page.get_by_text('Destek',exact=True).count()==0  # destek kalktı (2026-11-11)
     app(page,'app.setState({panel:"musteri",customerNav:"basvurum"})')
     page.set_viewport_size({'width':320,'height':740})
     page.screenshot(path=str(OUT/'ozet-dar-telefon.png'))
@@ -85,6 +77,6 @@ with sync_playwright() as p:
     page.get_by_text('Giriş Yap',exact=True).wait_for()
     assert app(page,'app.state.mTalep.durum')=='iptal','Yenilemede iptal kaydı korunmalı'
     assert not errors,errors
-    print('Müşteri/personel/QR/özet/destek akışı: OK')
+    print('Müşteri/personel/QR/özet akışı: OK (destek yok)')
     print('Görseller:',OUT)
     browser.close()

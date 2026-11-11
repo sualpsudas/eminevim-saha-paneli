@@ -418,6 +418,17 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 .tp-bildirim img{width:22px;flex:none}.tp-bildirim div{flex:1;min-width:0}.tp-bildirim b{display:block;font-size:13px;color:var(--ink)}.tp-bildirim span{display:block;font-size:12px;color:var(--dim);margin-top:1px}
 .tp-bildirim button{width:44px;height:44px;border:0;border-radius:50%;background:transparent;color:#A7B3AC;font-size:18px;cursor:pointer;flex:none}
 .login-back{position:absolute;top:max(10px,env(safe-area-inset-top));left:16px;z-index:2;min-height:44px;border:0;background:transparent;color:#00724C;font:700 13px GOTHIC,'Century Gothic','Segoe UI',sans-serif;cursor:pointer}
+  /* Yönetici performans: kompakt liste */
+  .py-tablo{padding:0;overflow:hidden}
+  .py-sat{display:grid;grid-template-columns:26px minmax(0,1fr) 84px 84px;gap:8px;align-items:center;padding:9px 14px;border-top:1px solid var(--line);font-size:14px;color:var(--ink)}
+  .py-sat:first-child{border-top:0}
+  .py-bas{font-size:11px;font-weight:700;color:var(--dim);text-transform:uppercase;letter-spacing:.02em;padding:8px 14px}
+  .py-bas span:nth-child(n+3),.py-oran{text-align:right}
+  .py-sira{color:var(--dim);font-weight:700}
+  .py-ad{min-width:0}.py-ad b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.py-ad small{display:block;font-size:11.5px;color:var(--dim)}
+  .py-oran{font-variant-numeric:tabular-nums;color:#00724C}
+  .py-ort{background:var(--kutu);font-size:13px;color:var(--dim)}
+  .py-not{font-size:12px;color:var(--dim);margin:8px 2px 0}
 </style>
 </helmet>
 
@@ -557,12 +568,9 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 <sc-if value="{{ mYaninizdaVar }}"><div class="m-kart m-not"><h3>✓ Temsilciniz doğrulandı</h3><p>{{ mRepAd }} · Sicil {{ mRepSicil }}<br>Görüşme başlangıcı {{ mDogrulamaSaat }}</p></div></sc-if>
 <sc-if value="{{ mDegistirVar }}"><div class="m-actions"><button class="m-btn o" onClick="{{ mDegistir }}">Gün / saati değiştir</button><button class="m-btn o" onClick="{{ mIptalAc }}">İptal et</button></div></sc-if>
 
-<sc-if value="{{ mEkBilgiSonra }}"><button class="m-btn o" onClick="{{ mEkBilgiAc }}">{{ mEkBilgiDugme }}</button></sc-if>
-<sc-if value="{{ mOzetVar }}"><div class="m-kart"><h3>Görüşme özeti</h3><sc-for list="{{ mOzetSatirlar }}" as="o"><div class="m-ozet"><span>{{ o.k }}</span><b>{{ o.v }}</b></div></sc-for><p>{{ mOzetNot }}</p><div class="m-not m-kart"><b>Sonraki adım</b><p>{{ mSonrakiAdim }}</p></div><sc-if value="{{ mOzetSorulsun }}"><div class="m-actions"><button class="m-btn" onClick="{{ mOzetDogru }}">Bilgiler doğru</button><button class="m-btn o" onClick="{{ mOzetSorun }}">Düzeltme iste</button></div></sc-if><sc-if value="{{ mOzetCevapVar }}"><p>{{ mOzetCevap }}</p></sc-if></div></sc-if>
+<sc-if value="{{ mEkBilgiSonra }}"><div class="m-kart"><h3>Görüşmeye hazırlık · isteğe bağlı</h3><p>{{ mEkBilgiOzet }}</p><button class="m-btn o" onClick="{{ mEkBilgiAc }}">{{ mEkBilgiDugme }}</button></div></sc-if>
+<sc-if value="{{ mOzetVar }}"><div class="m-kart"><h3>Görüşme özeti</h3><sc-for list="{{ mOzetSatirlar }}" as="o"><div class="m-ozet"><span>{{ o.k }}</span><b>{{ o.v }}</b></div></sc-for><p>{{ mOzetNot }}</p><div class="m-not m-kart"><b>Sonraki adım</b><p>{{ mSonrakiAdim }}</p></div></div></sc-if>
 <sc-if value="{{ mPuanSorulsun }}"><button class="m-btn o" onClick="{{ mPuanAc }}">Görüşmeyi puanlayın · isteğe bağlı</button></sc-if><sc-if value="{{ mPuanVar }}"><p class="m-ek">Puanınız {{ mPuanYildiz }} · Teşekkürler</p></sc-if>
-<sc-if value="{{ mSorunVar }}"><div class="m-kart m-not"><h3>Destek talebiniz · {{ mSorunDurum }}</h3><p>{{ mSorunMetin }}</p><p>{{ mSorunYanit }}</p></div></sc-if>
-<button class="m-btn o" onClick="{{ mDestekAc }}">Destek / sorun bildir</button>
-<sc-if value="{{ mSorunAcik }}"><form class="m-kart" onSubmit="{{ mSorunGonder }}"><h3>Nasıl yardımcı olabiliriz?</h3><label class="m-alan">Konu<select aria-label="Destek konusu" value="{{ mSorunKonu }}" onChange="{{ setMSorunKonu }}"><option>Randevu</option><option>Temsilci</option><option>Görüşme özeti</option><option>Diğer</option></select></label><label class="m-alan">Açıklamanız<textarea required maxlength="1000" value="{{ mSorunNot }}" onChange="{{ setMSorunNot }}" placeholder="Düzeltilmesini istediğiniz bilgiyi veya sorununuzu yazın."></textarea></label><p class="m-ek">Talebiniz müşteri ilişkilerine iletilir; temsilcinizden bağımsız değerlendirilir.</p><div class="m-actions"><button class="m-btn" type="submit">Bildirimi gönder</button><button class="m-btn o" type="button" onClick="{{ mDestekKapat }}">Vazgeç</button></div></form></sc-if>
 <sc-if value="{{ mYeniRandevuVar }}"><button class="m-btn" onClick="{{ mTemsilciIste }}">Yeni randevu iste</button></sc-if>
 <sc-if value="{{ mTelefonla }}"><button class="m-btn o" onClick="{{ mTemsilciIste }}">{{ mTelefonDugme }}</button></sc-if>
 </sc-if>
@@ -581,7 +589,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
         <sc-if value="{{ mQrBekliyor }}"><b style="font:800 19px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);">Temsilcinizi doğrulayın</b><span style="font-size:13px;color:var(--dim);line-height:1.45;">Temsilcinizden bu kodu <b style="color:var(--ink);">Eminevim personel uygulamasıyla</b> okutmasını isteyin. Doğrulanınca ekranınız yeşile döner.</span><div style="padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff;margin-top:6px;line-height:0;"><sc-if value="{{ mQrResimVar }}"><img src="{{ mQrSrc }}" alt="Doğrulama kodu (QR)" style="width:188px;height:188px;image-rendering:pixelated;"></sc-if></div><span style="font-size:12.5px;color:var(--dim);">Okutamazsa kod: <b style="font-size:18px;letter-spacing:6px;color:var(--ink);">{{ mQrKod }}</b></span><span style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#00724C;font-weight:700;margin-top:2px;"><span style="width:14px;height:14px;border-radius:50%;border:2px solid #00724C;border-top-color:transparent;animation:spin 1s linear infinite;"></span>Okutulması bekleniyor…</span><span style="font-size:12px;color:#B25E30;line-height:1.45;background:var(--tintRed);border-radius:14px;padding:8px 12px;margin-top:4px;">Ekranınız yeşile dönmezse kişisel bilgi vermeyin ve 444 36 46'yı arayın.</span><button class="m-btn o" onClick="{{ mQrAc }}">Kodu yenile / kontrol et</button><button onClick="{{ mQrOrnek }}" style="min-height:34px;border:none;background:transparent;color:var(--dim);font-size:12px;font-weight:700;text-decoration:underline;cursor:pointer;">Örnek: temsilci okuttu</button></sc-if>
         <sc-if value="{{ mQrTamam }}"><span style="width:76px;height:76px;border-radius:50%;background:#00724C;display:flex;align-items:center;justify-content:center;animation:popIn .3s ease-out;"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><b style="font:800 20px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:#00724C;margin-top:6px;">Kimlik doğrulandı</b><span style="display:flex;align-items:center;gap:10px;background:var(--tintGreen);border-radius:14px;padding:10px 14px;margin-top:4px;"><span style="width:40px;height:40px;border-radius:50%;background-color:#1E3856;background-image:{{ mRepFotoCss }};background-size:cover;background-position:center;color:{{ mRepBasRenk }};font:800 14px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;display:flex;align-items:center;justify-content:center;">{{ mRepBas }}</span><span style="text-align:left;"><b style="display:block;font-size:15px;color:var(--ink);">{{ mRepAd }}</b><span style="font-size:12px;color:#00724C;font-weight:700;">✓ Eminevim temsilcisi · Sicil {{ mRepSicil }}</span></span></span><span style="font-size:13px;color:var(--dim);line-height:1.45;margin-top:4px;">Görüşmeniz {{ mDogrulamaSaat }}'da başladı. İyi görüşmeler!</span><button onClick="{{ mQrKapat }}" style="width:100%;min-height:46px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:14px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;margin-top:8px;">Tamam</button></sc-if>
       </div></div></sc-if>
-      <sc-if value="{{ ekBilgiAcik }}"><div onClick="{{ mEkBilgiKapat }}" style="position:absolute;inset:0;z-index:70;background:rgba(22,31,43,.5);display:flex;align-items:flex-end;"><form class="m-kart customer-sheet" role="dialog" aria-modal="true" aria-label="Görüşmeye hazırlanmamıza yardımcı olun" onClick="{{ stopProp }}" style="width:100%;border:0;border-radius:22px 22px 0 0;padding:24px 22px;gap:14px" onSubmit="{{ mEkBilgiKaydet }}"><h3>Görüşmeye hazırlanmamıza yardımcı olun</h3><p>Randevu saatiniz onaylandı. Çalışma durumu ve yaş aralığınızı isterseniz paylaşabilirsiniz. Bu adımı atlayabilirsiniz; randevunuz devam eder.</p><label class="m-alan">Çalışma durumu<select aria-label="Çalışma durumu" value="{{ ekCalisma }}" onChange="{{ setEkCalisma }}"><option value="">Paylaşmak istemiyorum</option><option>Ücretli çalışan</option><option>Serbest çalışan / işletme sahibi</option><option>Emekli</option><option>Öğrenci</option><option>Çalışmıyor</option><option>Diğer</option></select></label><label class="m-alan">Yaş aralığı<select aria-label="Yaş aralığı" value="{{ ekYas }}" onChange="{{ setEkYas }}"><option value="">Paylaşmak istemiyorum</option><option>18 yaş altı</option><option>18–24</option><option>25–34</option><option>35–44</option><option>45–54</option><option>55–64</option><option>65 ve üzeri</option></select></label><div class="m-actions"><button class="m-btn" type="submit">Kaydet</button><button class="m-btn o" type="button" onClick="{{ mEkBilgiKapat }}">Şimdi değil</button></div></form></div></sc-if>
+      <sc-if value="{{ ekBilgiAcik }}"><div onClick="{{ mEkBilgiKapat }}" style="position:absolute;inset:0;z-index:70;background:rgba(22,31,43,.5);display:flex;align-items:flex-end;"><form class="m-kart customer-sheet" role="dialog" aria-modal="true" aria-label="Görüşmeye hazırlanmamıza yardımcı olun" onClick="{{ stopProp }}" style="width:100%;border:0;border-radius:22px 22px 0 0;padding:24px 22px;gap:14px" onSubmit="{{ mEkBilgiKaydet }}"><h3>Görüşmeye hazırlanmamıza yardımcı olun</h3><p>İsterseniz paylaşın; temsilciniz görüşmeye hazırlıklı gelir. Bu adımı atlayabilirsiniz, randevunuz devam eder.</p><label class="m-alan">Ne için düşünüyorsunuz?<select aria-label="Ne için düşünüyorsunuz" value="{{ ekNeIcin }}" onChange="{{ setEkNeIcin }}"><option value="">Paylaşmak istemiyorum</option><option>Konut</option><option>Araç</option><option>İşyeri</option><option>Henüz karar vermedim</option></select></label><label class="m-alan">Çalışma durumu<select aria-label="Çalışma durumu" value="{{ ekCalisma }}" onChange="{{ setEkCalisma }}"><option value="">Paylaşmak istemiyorum</option><option>Ücretli çalışan</option><option>Serbest çalışan / işletme sahibi</option><option>Emekli</option><option>Öğrenci</option><option>Çalışmıyor</option><option>Diğer</option></select></label><label class="m-alan">Yaş aralığı<select aria-label="Yaş aralığı" value="{{ ekYas }}" onChange="{{ setEkYas }}"><option value="">Paylaşmak istemiyorum</option><option>18 yaş altı</option><option>18–24</option><option>25–34</option><option>35–44</option><option>45–54</option><option>55–64</option><option>65 ve üzeri</option></select></label><label class="m-alan">Temsilcinizin bilmesini istediğiniz not<textarea maxlength="300" value="{{ ekNot }}" onChange="{{ setEkNot }}" placeholder="Örn. akşam 19'dan sonra uygunum, eşim de katılacak"></textarea></label><div class="m-actions"><button class="m-btn" type="submit">Kaydet</button><button class="m-btn o" type="button" onClick="{{ mEkBilgiKapat }}">Şimdi değil</button></div></form></div></sc-if>
       <sc-if value="{{ mIptalAcik }}"><div onClick="{{ mIptalKapat }}" style="position:absolute;inset:0;z-index:70;background:rgba(22,31,43,.5);display:flex;align-items:flex-end;animation:backdropIn .2s ease-out;"><div onClick="{{ stopProp }}" class="customer-sheet" role="dialog" aria-modal="true" aria-label="Randevuyu iptal et" style="width:100%;background:var(--card);border-radius:22px 22px 0 0;padding:22px 22px 26px;display:flex;flex-direction:column;gap:10px;animation:sheetUp .32s cubic-bezier(.2,.8,.25,1);"><b style="font:800 19px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);">Randevunuz iptal edilsin mi?</b><span style="font-size:13px;color:var(--dim);line-height:1.45;">{{ mGun }}, {{ mSaat }} randevunuz iptal edilir ve temsilcinize bildirilir.</span><button onClick="{{ mIptalEt }}" style="min-height:42px;border:1.5px solid #00724C;background:var(--card);color:#00724C;border-radius:22px;font-size:13px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;border-color:#B25E30;color:#B25E30;margin-top:6px;">Randevuyu iptal et</button><button onClick="{{ mIptalKapat }}" style="min-height:46px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:14px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Vazgeç</button></div></div></sc-if>
       <sc-if value="{{ mPuanAcik }}"><div onClick="{{ mPuanKapat }}" style="position:absolute;inset:0;z-index:70;background:rgba(22,31,43,.5);display:flex;align-items:flex-end;animation:backdropIn .2s ease-out;"><div onClick="{{ stopProp }}" class="customer-sheet" role="dialog" aria-modal="true" aria-label="Görüşmeyi puanlayın" style="width:100%;background:var(--card);border-radius:22px 22px 0 0;padding:22px 22px 26px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;animation:sheetUp .32s cubic-bezier(.2,.8,.25,1);"><b style="font:800 19px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);">Görüşmeniz nasıldı?</b><span style="font-size:13px;color:var(--dim);">{{ mRepAd }} ile görüşmenizi puanlayın.</span><div style="display:flex;gap:6px;margin:6px 0;"><sc-for list="{{ mYildizlar }}" as="y" hint-placeholder-count="5"><button onClick="{{ y.onSec }}" aria-label="{{ y.n }} yıldız" style="width:46px;height:46px;border:none;background:transparent;font-size:34px;line-height:1;color:{{ y.renk }};cursor:pointer;">★</button></sc-for></div><button onClick="{{ mPuanGonder }}" disabled="{{ mPuanSecimYok }}" style="width:100%;min-height:46px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:14px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;opacity:{{ mPuanOpacity }};">Gönder</button><button onClick="{{ mPuanKapat }}" style="width:100%;min-height:38px;border:none;background:transparent;color:var(--dim);font-size:13px;font-weight:700;cursor:pointer;">Şimdi değil</button></div></div></sc-if>
       <sc-if value="{{ temsilciBilgiAcik }}"><div onClick="{{ temsilciBilgiKapat }}" style="position:absolute;inset:0;z-index:70;background:rgba(22,31,43,.5);display:flex;align-items:flex-end;animation:backdropIn .2s ease-out;"><div onClick="{{ stopProp }}" class="customer-sheet" role="dialog" aria-modal="true" aria-label="Temsilci bilgileri" style="width:100%;background:var(--card);border-radius:22px 22px 0 0;padding:24px 22px 26px;display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;animation:sheetUp .32s cubic-bezier(.2,.8,.25,1);"><span style="width:84px;height:84px;border-radius:50%;background-color:#1E3856;background-image:{{ mRepFotoCss }};background-size:cover;background-position:center;color:{{ mRepBasRenk }};font:800 26px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;display:flex;align-items:center;justify-content:center;">{{ mRepBas }}</span><b style="font:800 19px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);margin-top:6px;">{{ mRepAd }}</b><span style="font-size:13px;color:var(--dim);">Müşteri Temsilcisi · {{ mRepSube }}</span><span style="background:var(--tintGreen);color:#00724C;font-size:12px;font-weight:800;border-radius:22px;padding:4px 12px;margin-top:4px;">✓ Eminevim onaylı · Sicil {{ mRepSicil }}</span><span style="display:flex;width:100%;gap:6px;margin-top:12px;padding:10px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);"><span style="flex:1;"><b style="display:block;font-size:16px;color:var(--ink);">{{ mRepPuanY }}</b><span style="font-size:11px;color:var(--dim);">Puan</span></span><span style="flex:1;"><b style="display:block;font-size:16px;color:var(--ink);">{{ mRepDeneyimY }}</b><span style="font-size:11px;color:var(--dim);">Deneyim</span></span><span style="flex:1;"><b style="display:block;font-size:16px;color:var(--ink);">{{ mRepGorusmeY }}</b><span style="font-size:11px;color:var(--dim);">Görüşme</span></span></span><span style="font-size:12.5px;color:var(--dim);line-height:1.45;margin-top:8px;">Görüşmede temsilcinizin kimlik kartındaki sicil numarası buradakiyle aynıdır.</span><button onClick="{{ temsilciBilgiKapat }}" style="width:100%;min-height:46px;margin-top:12px;border:1.5px solid #00724C;background:var(--card);color:#00724C;border-radius:22px;font-size:14px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Kapat</button></div></div></sc-if>
@@ -611,7 +619,6 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
     <main class="tp-ana">
       <div class="tp-bas"><h1>{{ tpBaslik }}<small>{{ tpAltBaslik }}</small></h1><sc-if value="{{ tpGorusmelerAcik }}"><button type="button" class="tp-btn o" aria-pressed="{{ tpRotaAcik }}" onClick="{{ tpRotaDegistir }}">{{ tpRotaDugme }}</button></sc-if></div>
 
-      <sc-if value="{{ tpDestekAcik }}"><section class="m-kart" style="margin-bottom:16px"><h3>Müşteri ilişkileri · destek talepleri</h3><p>Randevuya bağlı bildirimler ve müşteri yanıtları.</p><sc-for list="{{ tpDestekListe }}" as="d"><div class="m-kart"><b>{{ d.konu }} · {{ d.durum }}</b><p>{{ d.metin }}</p><p>{{ d.yanit }}</p><div class="m-actions"><button class="m-btn o" onClick="{{ d.incele }}">İncelemeye al</button><button class="m-btn" onClick="{{ d.yanitla }}">Yanıtı müşteriye gönder</button></div></div></sc-for><label class="m-alan">Müşteriye yanıt<textarea value="{{ destekYaniti }}" onChange="{{ setDestekYaniti }}" placeholder="Yanıtınızı yazıp ilgili çağrının gönder düğmesine basın."></textarea></label></section></sc-if>
       <sc-if value="{{ tpGorusmelerAcik }}"><div class="tp-iki">
         <div class="tp-sutun">
           <div class="tp-cip" role="group" aria-label="Süz"><sc-for list="{{ tpFiltreler }}" as="f" hint-placeholder-count="4"><button type="button" aria-pressed="{{ f.secili }}" onClick="{{ f.onSec }}">{{ f.ad }}</button></sc-for></div>
@@ -636,18 +643,12 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
         </div>
       </div></sc-if>
 
-      <sc-if value="{{ tpCanliMerkez }}"><div class="tp-govde" style="padding:0;"><iframe src="takip?gomulu=1" title="Canlı takip: SPY'ler, çağrılar, yöneticiye düşenler" style="display:block;width:100%;height:calc(100vh - 130px);min-height:520px;border:0;"></iframe></div></sc-if>
-      <sc-if value="{{ tpCanliAcik }}"><div class="tp-govde">
-        <div class="tp-sayi"><div class="tp-kart"><b style="display:block;font-size:34px;line-height:1.1;color:#00724C;">{{ tcGorusmede }}</b><span>Şu an görüşmede</span></div><div class="tp-kart"><b style="display:block;font-size:34px;line-height:1.1;color:#B25E30;">{{ tcYolda }}</b><span>Yolda</span></div><div class="tp-kart"><b style="display:block;font-size:34px;line-height:1.1;color:var(--ink);">{{ tcTamam }}</b><span>Bugün gerçekleşen</span></div></div>
-        <div class="tp-cip" role="group" aria-label="Duruma göre süz" style="margin-top:14px;"><sc-for list="{{ tcFiltreler }}" as="f" hint-placeholder-count="5"><button type="button" aria-pressed="{{ f.secili }}" onClick="{{ f.onSec }}">{{ f.ad }}</button></sc-for></div>
-        <div class="tp-pl"><sc-for list="{{ tcListe }}" as="k" hint-placeholder-count="6"><div class="tp-pk"><span class="tp-av" style="background-color:{{ k.renk }};">{{ k.bas }}</span><span class="tp-ad"><b>{{ k.ad }}</b><span>{{ k.alt }}</span></span><span class="tp-hap" style="background:{{ k.hapBg }};color:{{ k.hapRenk }};">{{ k.hap }}</span></div></sc-for></div>
-        <sc-if value="{{ tcFazlaVar }}"><div style="font-size:13px;color:var(--dim);margin-top:10px;">{{ tcFazla }}</div></sc-if>
-      </div></sc-if>
+      <sc-if value="{{ tpCanliMerkez }}"><div class="tp-govde" style="padding:0;"><iframe src="{{ tpCanliSrc }}" title="Saha Canlı: pilot bölge haritası ve SPY'ler" style="display:block;width:100%;height:calc(100vh - 130px);min-height:520px;border:0;"></iframe></div></sc-if>
 
       <sc-if value="{{ tpPerfAcik }}"><div class="tp-govde"><div class="tp-dar">
 <sc-if value="{{ pfSpyAcik }}"><div class="tp-govde">
         <div class="tp-kart" style="display:flex;flex-direction:column;gap:12px;">
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><b style="font-size:16px;color:var(--ink);">Son 3 ay ortalaması</b><span class="tp-hap" style="margin-left:auto;background:{{ pfDurumBg }};color:{{ pfDurumRenk }};">{{ pfDurum }}</span></div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><b style="font-size:16px;color:var(--ink);">Son 3 ay ortalaması</b></div>
           <sc-for list="{{ pfCubuklar }}" as="c" hint-placeholder-count="2"><div><div style="display:flex;font-size:13px;color:var(--ink);"><span>{{ c.ad }}</span><b style="margin-left:auto;color:{{ c.renk }};">{{ c.deger }}</b></div><div style="height:10px;background:var(--track);border-radius:99px;margin-top:5px;overflow:hidden;"><div style="width:{{ c.genislik }};height:100%;background:{{ c.renk }};border-radius:99px;"></div></div></div></sc-for>
           <div style="font-size:12.5px;color:var(--dim);">{{ pfAciklama }}</div>
         </div>
@@ -655,10 +656,8 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
         <div class="tp-kart" style="margin-top:12px;font-size:13px;line-height:1.55;color:var(--ink);"><b style="display:block;margin-bottom:4px;">Çağrı size nasıl gelir?</b>{{ pfKural }}</div>
       </div></sc-if>
       <sc-if value="{{ pfYonAcik }}"><div class="tp-govde">
-        <div class="tp-sayi" style="grid-template-columns:repeat(auto-fill,minmax(130px,1fr));"><sc-for list="{{ pyKpi }}" as="k" hint-placeholder-count="4"><div class="tp-kart"><b>{{ k.deger }}</b><span>{{ k.ad }}</span></div></sc-for></div>
-        <div class="tp-kart" style="margin-top:12px;font-size:13px;line-height:1.55;color:var(--ink);"><b style="display:block;margin-bottom:4px;">Kurallar</b>{{ pyKural }}</div>
-        <div class="tp-cip" role="group" aria-label="SPY süz" style="margin-top:14px;"><sc-for list="{{ pyFiltre }}" as="f" hint-placeholder-count="5"><button type="button" aria-pressed="{{ f.secili }}" onClick="{{ f.onSec }}">{{ f.ad }}</button></sc-for></div>
-        <div class="tp-pl"><sc-for list="{{ pyListe }}" as="k" hint-placeholder-count="8"><div class="tp-pk" style="opacity:{{ k.saydam }};"><span class="tp-av" style="background-image:{{ k.fotoCss }};background-size:cover;background-position:center;color:transparent;">{{ k.bas }}</span><span class="tp-ad"><b>{{ k.sira }}. {{ k.ad }}</b><span>{{ k.alt }}</span></span><span class="tp-hap" style="background:{{ k.hapBg }};color:{{ k.hapRenk }};">{{ k.hap }}</span></div></sc-for></div>
+        <div class="tp-kart py-tablo"><div class="py-sat py-bas"><span>#</span><span>SPY</span><span>Ort. randevu H/G</span><span>Ort. ciro H/G</span></div><sc-for list="{{ pyListe }}" as="k" hint-placeholder-count="7"><div class="py-sat"><span class="py-sira">{{ k.sira }}</span><span class="py-ad"><b>{{ k.ad }}</b><small>{{ k.alt }}</small></span><b class="py-oran">{{ k.randevu }}</b><b class="py-oran">{{ k.ciro }}</b></div></sc-for><div class="py-sat py-ort"><span></span><span>Ekip ortalaması</span><b class="py-oran">{{ pyOrtRandevu }}</b><b class="py-oran">{{ pyOrtCiro }}</b></div></div>
+        <p class="py-not">{{ pyNot }}</p>
       </div></sc-if>
       </div></div></sc-if>
       <sc-if value="{{ tpProfilAcik }}"><div class="tp-govde tp-profil"><div class="tp-kart" style="display:flex;flex-direction:column;gap:14px;">
@@ -1203,7 +1202,7 @@ function yarinYazi() {
   return d.getDate() + " " + aylar[d.getMonth()] + " " + gunler[d.getDay()];
 }
 /* Müşterinin gördüğü temsilci bilgileri (panelde kısa ad kullanılır) */
-// 30 test SPY'si: spyler.js (merkez/sunucu.py da aynı dosyayı okur). foto: sentetik portre, assets/temsilci/OKUBENI.md
+// 7 test SPY'si: spyler.js (merkez/sunucu.py da aynı dosyayı okur). foto: sentetik portre, assets/temsilci/OKUBENI.md
 const TEMSILCI_DETAY = (window.TY_SPYLER || []).reduce((o, x) => { o[x.id] = x; return o; }, {});
 const HIZMET_ILCELERI = ["Ümraniye", "Ataşehir", "Üsküdar"];
 const EV_IKON_TASIT = "assets/eminevim/header_araba.svg";
@@ -1337,7 +1336,7 @@ class Component extends DCLogic {
     girisEmail: "ayse.kaya@ornek.com",
     girisSifre: "test123",
     girisTelefon: "0532 145 67 89",
-    mKonusmaAcik:false, mSeciliRandevuId:null, mOkunanRandevular:{}, mGecmis: [], tpKayitlar: {}, personelRepId:"s1", ekBilgiAcik: false, ekCalisma: "", ekYas: "", mSorunAcik: false, mSorunNot: "", mSorunKonu: "Randevu", tpOzetNot: "", tpSonraki: "Müşterinin değerlendirmesi bekleniyor",
+    mKonusmaAcik:false, mSeciliRandevuId:null, mOkunanRandevular:{}, mGecmis: [], tpKayitlar: {}, personelRepId:"s1", ekBilgiAcik: false, ekCalisma: "", ekYas: "", ekNeIcin: "", ekNot: "", mSorunAcik: false, mSorunNot: "", mSorunKonu: "Randevu", tpOzetNot: "", tpSonraki: "Müşterinin değerlendirmesi bekleniyor",
     mTalep: null,          // müşterinin temsilci talebi {tip:"ziyaret"|"telefon", gunYazi, saat, yer, durum:"alindi"|"atandi"|"netlesti"|"degisti"|"gorusme"|"tamamlandi", konum, gecikme, ozet, ozetCevap, puan, bolgeDisi, repId}
     hosgeldinAdim: 0,      // 1-3: yeni gelen müşteriye tanıtım penceresi
     sohbetTaslak: "",
@@ -1686,13 +1685,6 @@ class Component extends DCLogic {
     this.setState({yaOpen:false,mPuanAcik:false,mQrAcik:false,tpOzetNot:"",gorusmeBittiDemo:true});
     this.showBildirim({ad:"Görüşme özeti gönderildi",ilce:"Müşterinin incelemesi bekleniyor"});
   }
-  mSorunGonder(e) {
-    e.preventDefault();
-    const not = this.state.mSorunNot.trim(), t = this.state.mTalep;
-    if (!t || !not) return;
-    this.mKayitYaz({...t,ozetCevap:this.state.mSorunKonu==="Görüşme özeti"?"sorun":t.ozetCevap,sorun:{id:Appointment.create({}).id,konu:this.state.mSorunKonu,not,durum:"Alındı",zaman:Date.now(),yanit:""}});
-    this.setState({mSorunAcik:false,mSorunNot:""});
-  }
   mRandevuListeDegerleri(s) {
     const durum={alindi:"Randevu bekliyor",atandi:"Kesinleşmesi bekleniyor",netlesti:"Randevu onaylandı",yolda:"Temsilciniz yolda",gorusme:"Temsilciniz yolda",gorusmede:"Görüşme sürüyor",tamamlandi:"Tamamlandı",iptal:"İptal edildi"};
     const kayitlar=[...(s.mTalep?[s.mTalep]:[]),...(s.mGecmis||[]).filter(t=>t.id!==s.mTalep?.id)];
@@ -1724,21 +1716,16 @@ class Component extends DCLogic {
       mDegisiklikVazgec:()=>this.mKayitYaz({...t,degisiklik:null}),
       mGecikmeVar:moving&&!!t?.gecikme,mGecikmeYazi:"Yaklaşık "+(t?.gecikme||0)+" dakika gecikme. Randevunuz "+(t?.saat||"")+"; güncel tahmini varış "+(eta?.saat||"bekleniyor")+".",
       mYeniRandevuVar:done||canceled,mOzetVar:done&&!!t?.ozet,mOzetNot:t?.ozetNot||"",mOzetCevap:t?.ozetCevap==="sorun"?"Düzeltme talebinizi aşağıdan takip edebilirsiniz.":"✓ Bilgileri onayladınız.",mSonrakiAdim:t?.sonrakiAdim||"Temsilcinizle sonraki adımı belirleyebilirsiniz.",
-      mOzetSorun:()=>this.setState({mSorunAcik:true,mSorunKonu:"Görüşme özeti",mSorunNot:""}),
-      mSorunAcik:!!s.mSorunAcik,mSorunKonu:s.mSorunKonu,mSorunNot:s.mSorunNot,
-      setMSorunKonu:(e)=>this.setState({mSorunKonu:e.target.value}),setMSorunNot:(e)=>this.setState({mSorunNot:e.target.value}),
-      mDestekAc:()=>this.setState({mSorunAcik:true,mSorunNot:""}),mDestekKapat:()=>this.setState({mSorunAcik:false}),mSorunGonder:(e)=>this.mSorunGonder(e),
-      mSorunVar:!!t?.sorun,mSorunDurum:t?.sorun?.durum||"",mSorunMetin:t?.sorun?t.sorun.konu+": "+t.sorun.not:"",mSorunYanit:t?.sorun?.yanit||"Müşteri ilişkilerinin yanıtı burada görünecek.",
       mTakipHarita:rota,mVarisMetin:eta?"Tahmini varış "+eta.saat+" · yaklaşık "+eta.dakika+" dakika":"Tahmini varış bilgisi bekleniyor",
       mKonumGuncel:eta?.eski?"Son konum güncellemesi "+Math.floor((Date.now()-t.sonKonum)/60000)+" dakika önce. Varış tahmini değişebilir.":"Son bilinen konum ve tahmini rota.",
       mTakipMesaj:()=>this.setState({yaOpen:false,yaKaynak:"",customerNav:"sohbet",mKonusmaAcik:true}),
-      mEkBilgiSonra:!!t&&["netlesti","yolda","gorusmede"].includes(t.durum)&&!s.ekBilgiAcik,
+      mEkBilgiSonra:!!t&&t.tip!=="telefon"&&["alindi","atandi","netlesti","yolda"].includes(t.durum)&&!s.ekBilgiAcik,mEkBilgiOzet:(()=>{const b=s.customerForm.ekBilgi;const x=b?[b.neIcin,b.calisma,b.yas].filter(Boolean).join(" · ")+(b.not?" · Not: "+b.not:""):"";return x||"Ne için düşündüğünüzü, çalışma durumunuzu ve yaş aralığınızı paylaşırsanız temsilciniz görüşmeye hazırlıklı gelir.";})(),
       mEkBilgiDugme:s.customerForm.ekBilgi?"Bilgileri düzenle":s.customerForm.ekBilgiAtlandi?"İsterseniz bilgi ekleyin":"Bilgi ekle",
-      ekBilgiAcik:s.ekBilgiAcik,ekCalisma:s.ekCalisma,ekYas:s.ekYas,
+      ekBilgiAcik:s.ekBilgiAcik&&!(s.hosgeldinAdim>0),ekCalisma:s.ekCalisma,ekYas:s.ekYas,ekNeIcin:s.ekNeIcin,ekNot:s.ekNot,setEkNeIcin:(e)=>this.setState({ekNeIcin:e.target.value}),setEkNot:(e)=>this.setState({ekNot:e.target.value}),
       mFinansmanTercihGit:()=>this.setState({customerNav:"basvuru"}),
-      mEkBilgiAc:()=>this.setState({ekBilgiAcik:true,ekCalisma:s.customerForm.ekBilgi?.calisma||"",ekYas:s.customerForm.ekBilgi?.yas||""}),
+      mEkBilgiAc:()=>this.setState({ekBilgiAcik:true,ekCalisma:s.customerForm.ekBilgi?.calisma||"",ekYas:s.customerForm.ekBilgi?.yas||"",ekNeIcin:s.customerForm.ekBilgi?.neIcin||"",ekNot:s.customerForm.ekBilgi?.not||""}),
       mEkBilgiKapat:()=>this.setState({ekBilgiAcik:false,customerForm:{...this.state.customerForm,ekBilgiAtlandi:true}}),setEkCalisma:(e)=>this.setState({ekCalisma:e.target.value}),setEkYas:(e)=>this.setState({ekYas:e.target.value}),
-      mEkBilgiKaydet:(e)=>{e.preventDefault();this.setState({ekBilgiAcik:false,customerForm:{...s.customerForm,ekBilgi:{calisma:this.state.ekCalisma,yas:this.state.ekYas},ekBilgiAtlandi:true}});},
+      mEkBilgiKaydet:(e)=>{e.preventDefault();const st=this.state,b={calisma:st.ekCalisma,yas:st.ekYas,neIcin:st.ekNeIcin,not:st.ekNot.trim()};this.setState({ekBilgiAcik:false,customerForm:{...st.customerForm,ekBilgi:Object.values(b).some(Boolean)?b:null,ekBilgiAtlandi:true}},()=>{if(this.state.mTalep)this.mKayitYaz(this.state.mTalep);});},
       mGecmisVar:!!s.mGecmis?.length,mGecmisListe:(s.mGecmis||[]).map((g)=>({baslik:g.gunYazi+" · "+g.saat+" · "+(g.durum==="iptal"?"İptal edildi":"Tamamlandı"),yer:g.yer,ozet:(g.ozet||[]).map((o)=>o.k+": "+o.v).join(" · "),destek:g.sorun?"Destek: "+g.sorun.durum:""})),
     };
   }
@@ -1759,8 +1746,15 @@ class Component extends DCLogic {
       customerForm: { name: ad, phone: telYazi, email: "", address: yer, testMode: false, ekBilgi:q.get("calisma")||q.get("yas")?{calisma:q.get("calisma")||"",yas:q.get("yas")||""}:null },
       musteriBasvurulari: [], aktifBasvuruId: null, customerMeetings: [], appointments: [], degerlendirmeler: [],
       basvuruDuzenle: false, basvuruTuru: "", basvuruTutar: "", talepSebebi: "",
+      ekBilgiAcik: !!gun, ekCalisma: "", ekYas: "", ekNeIcin: "", ekNot: "",
       mTalep: Appointment.create({...talep, id:q.get("rid")||undefined,tarih:q.get("tarih")||"",konum:gun?{lat:Number(q.get("lat"))||40.9923,lng:Number(q.get("lng"))||29.1244,adres:yer,bolge:q.get("bolge")||(/üsküdar/i.test(yer)?"Üsküdar":/ümraniye/i.test(yer)?"Ümraniye":"Ataşehir")}:null}), chatMessages: mesaj, hosgeldinAdim: 1, customerNav: "basvurum",
     });
+  }
+  hazirlikSor() {
+    // Görüşmeye hazırlık penceresi: açık ziyaret çağrısı var, bilgi yok ve müşteri daha önce "Şimdi değil" demedi
+    const s = this.state, t = s.mTalep, f = s.customerForm || {};
+    const sor = !!t && t.tip !== "telefon" && ["alindi", "atandi", "netlesti", "yolda"].includes(t.durum) && !f.ekBilgi && !f.ekBilgiAtlandi;
+    return sor ? { ekBilgiAcik: true, ekCalisma: "", ekYas: "", ekNeIcin: "", ekNot: "" } : {};
   }
   mTemsilciIste() {
     // Uygulamadan temsilci isteği: kayıtlı müşterinin adı/telefonu hazır, gün-saat-ilçe seçilir
@@ -1789,7 +1783,7 @@ class Component extends DCLogic {
     const t = this.state.mTalep;
     if (!t || t.durum !== "atandi") return;
     this.mKayitYaz({...t,durum:"netlesti"});
-    this.setState((st) => ({ ekBilgiAcik:!st.customerForm.ekBilgi,ekCalisma:"",ekYas:"",chatMessages: [...st.chatMessages, { from: "musteri", t: Date.now(), text: t.gunYazi + " " + t.saat + " uygun, onaylıyorum." }] }));
+    this.setState((st) => ({ ekBilgiAcik:!st.customerForm.ekBilgi&&!st.customerForm.ekBilgiAtlandi,ekCalisma:"",ekYas:"",ekNeIcin:"",ekNot:"",chatMessages: [...st.chatMessages, { from: "musteri", t: Date.now(), text: t.gunYazi + " " + t.saat + " uygun, onaylıyorum." }] }));
     clearTimeout(this._onayTimer);
     if (!CANLI) this._onayTimer = setTimeout(() => this.setState((st) => ({ chatMessages: [...st.chatMessages, { from: "temsilci", t: Date.now(), text: "Teşekkürler, görüşmek üzere. Görüşme günü yola çıktığımda Randevularım'dan takip edebilirsiniz." }] })), 1200);
   }
@@ -2624,31 +2618,25 @@ class Component extends DCLogic {
     if (CANLI && this.state.panel === "spy") this.canliGonder("api/spy", { id: this.state.personelRepId, durum }).catch(() => {});
   }
   performansDegerleri(s, rol) {
-    // Performans: son 3 ay randevu H/G + ciro H/G (eşit ağırlık); ikisi de %100 ve üstüyse Tasarruf Yanımda'da aktif SPY (rapor 10-atama-ve-rota)
+    // Performans: son 3 ay randevu H/G + ciro H/G (eşit ağırlık); listede yalnız ikisi de %100 ve üstü olan SPY'ler var (rapor 10-atama-ve-rota)
     if (rol !== "spy" && rol !== "ask") return { pfSpyAcik: false, pfYonAcik: false };
-    const L = Object.values(TEMSILCI_DETAY), aktif = (x) => x.randevuHG >= 100 && x.ciroHG >= 100, ort = (x) => (x.randevuHG + x.ciroHG) / 2;
-    const sirali = L.slice().sort((a, b) => (aktif(b) - aktif(a)) || ort(b) - ort(a));
+    const L = Object.values(TEMSILCI_DETAY), ort = (x) => (x.randevuHG + x.ciroHG) / 2;
+    const sirali = L.slice().sort((a, b) => ort(b) - ort(a));
     const yuzde = (v) => "%" + v, renk = (v) => v >= 100 ? "#00724C" : "#B25E30";
-    const KURAL = "Aktif SPY: son 3 ayda randevu H/G ve ciro H/G ikisi de %100 veya üstü. Aynı gün çağrısı uygulaması açık, müsait SPY'ler arasında en yakın ve başarılı olana gider (yakınlık 50, H/G 30, yük 10, hız 10 puan). İleri tarihli çağrıda H/G 50, yakınlık 20, yük dengesi 20, hız 10 puan. Günde en fazla 4 çağrı; kabul süresi 2 dakika; 3 SPY kabul etmezse çağrı yöneticiye düşer.";
     if (rol === "spy") {
-      const x = TEMSILCI_DETAY[s.personelRepId] || L[0], a = aktif(x), sira = sirali.indexOf(x) + 1;
+      const x = TEMSILCI_DETAY[s.personelRepId] || L[0], sira = sirali.indexOf(x) + 1;
       const bugun = new Date().toLocaleDateString("en-CA"), bugunSay = Object.values(s.tpKayitlar || {}).filter((k) => k.repId === x.id && k.tarih === bugun && k.durum !== "iptal").length;
       return { pfSpyAcik: true, pfYonAcik: false,
-        pfDurum: a ? "Tasarruf Yanımda'da aktif" : "Aktif değil", pfDurumBg: a ? "var(--tintGreen)" : "var(--kutu)", pfDurumRenk: a ? "#00724C" : "var(--dim)",
         pfCubuklar: [["Randevu H/G", x.randevuHG], ["Ciro H/G", x.ciroHG]].map(([ad, v]) => ({ ad, deger: yuzde(v), renk: renk(v), genislik: Math.min(100, v / 1.5) + "%" })),
-        pfAciklama: a ? "İki oran da %100'ün üstünde: size Tasarruf Yanımda çağrısı gelir. Çubuk %150'ye kadar ölçeklidir." : "Çağrı alabilmek için iki oranın da %100 veya üstünde olması gerekir. " + [x.randevuHG < 100 ? "Randevu H/G'niz %" + x.randevuHG : "", x.ciroHG < 100 ? "Ciro H/G'niz %" + x.ciroHG : ""].filter(Boolean).join(", ") + ".",
-        pfKpi: [{ ad: "Ekipte H/G sıranız", deger: sira + " / " + L.length }, { ad: "Bugünkü çağrı (en fazla 4)", deger: bugunSay + " / 4" }, { ad: "Ortalama kabul süresi", deger: x.kabulSn + " sn" }, { ad: "Kabul oranı", deger: "%" + x.kabulOrani }],
-        pfKural: KURAL + " Değerler test için uydurmadır." };
+        pfAciklama: "Tasarruf Yanımda çağrısı almak için iki oranın da %100 veya üstünde kalması gerekir. Çubuk %150'ye kadar ölçeklidir.",
+        pfKpi: [{ ad: "Ekipte H/G sıranız", deger: sira + " / " + L.length }, { ad: "Bugünkü çağrı (en fazla 4)", deger: bugunSay + " / 4" }],
+        pfKural: "Hemen istenen çağrı (bugün, en geç 2 saat sonrası) uygulaması açık, müsait ve randevuda olmayan SPY'ler arasında puanla gider: yakınlık 50, H/G 30, bugünkü çağrı sayısı 20. İleri saat ya da gün için o saatte randevusu olmayan SPY'ler arasında: H/G 50, kendi bölgenize ya da o günkü randevularınıza yakınlık 30, o günkü çağrı sayısı 20. Günde en fazla 4 çağrı; 2 dakikada kabul edilmezse sıradaki SPY'ye geçer. Değerler test için uydurmadır." };
     }
-    const f = s.pyFiltre || "tumu", aktifler = L.filter(aktif), o = (k) => Math.round(L.reduce((t, x) => t + x[k], 0) / L.length);
-    const gorunen = sirali.filter((x) => f === "tumu" || (f === "aktif" ? aktif(x) : f === "pasif" ? !aktif(x) : x.ilce === f));
+    const o = (k) => Math.round(L.reduce((t, x) => t + x[k], 0) / L.length);
     return { pfSpyAcik: false, pfYonAcik: true,
-      pyKpi: [{ ad: "Aktif SPY", deger: aktifler.length + " / " + L.length }, { ad: "Ort. randevu H/G", deger: "%" + o("randevuHG") }, { ad: "Ort. ciro H/G", deger: "%" + o("ciroHG") }, { ad: "Ort. kabul süresi", deger: o("kabulSn") + " sn" }],
-      pyKural: KURAL + " Değerler test için uydurmadır (son 3 ay ortalaması).",
-      pyFiltre: [["tumu", "Tümü"], ["aktif", "Aktif"], ["pasif", "Aktif değil"], ["Üsküdar", "Üsküdar"], ["Ümraniye", "Ümraniye"], ["Ataşehir", "Ataşehir"]].map(([k, ad]) => ({ ad, secili: String(f === k), onSec: () => this.setState({ pyFiltre: k }) })),
-      pyListe: gorunen.map((x) => { const a = aktif(x); return { sira: sirali.indexOf(x) + 1, ad: x.ad, bas: x.ad.split(" ").map((y) => y[0]).join("").slice(0, 2), fotoCss: "url(" + x.foto + ")", saydam: a ? "1" : ".6",
-        alt: x.mahalle.replace(/ Mah\.$/, "") + ", " + x.ilce + " · Randevu %" + x.randevuHG + " · Ciro %" + x.ciroHG + " · Kabul " + x.kabulSn + " sn, %" + x.kabulOrani,
-        hap: a ? "Aktif" : "Aktif değil", hapBg: a ? "var(--tintGreen)" : "var(--kutu)", hapRenk: a ? "#00724C" : "var(--dim)" }; }) };
+      pyListe: sirali.map((x, i) => ({ sira: i + 1, ad: x.ad, alt: x.mahalle.replace(/ Mah\.$/, "") + ", " + x.ilce, randevu: yuzde(x.randevuHG), ciro: yuzde(x.ciroHG) })),
+      pyOrtRandevu: yuzde(o("randevuHG")), pyOrtCiro: yuzde(o("ciroHG")),
+      pyNot: "Son 3 ay ortalaması; sıralama iki oranın ortalamasına göre. Değerler test için uydurmadır." };
   }
   tpGorusmeler(s) {
     const rol=s.panel==="tl"?"tl":"spy";
@@ -2673,7 +2661,7 @@ class Component extends DCLogic {
     const rol = s.panel, user = s.managerUser || {};
     const gorusmeYapar = rol === "spy" || rol === "tl";
     const sekme = s.tpSekme || (gorusmeYapar ? "gorusmeler" : "canli");
-    const menu = (gorusmeYapar ? [["gorusmeler", "Görüşmeler"]] : []).concat([["performans", "Performans"]], rol === "spy" ? [] : [["canli", "Saha Canlı"]], rol === "ask" ? [["destek", "Destek"]] : []);
+    const menu = (gorusmeYapar ? [["gorusmeler", "Görüşmeler"]] : []).concat([["performans", "Performans"]], rol === "spy" ? [] : [["canli", "Saha Canlı"]]);
     const ROL_AD = { spy: "SPY", tl: "Takım Lideri", sgl: "Saha Grup Lideri", ask: "Yönetici" };
     const ad = rol === "spy" ? TEMSILCI_DETAY[s.personelRepId||"s1"].ad : "Yönetici";
     const bas = ad.split(/\s+/).map((x) => x[0] || "").join("").slice(0, 2).toLocaleUpperCase("tr");
@@ -2682,16 +2670,14 @@ class Component extends DCLogic {
     const HAP = { yeni: ["Yeni çağrı", "#FCE0D4", "#B25E30"], bekleyen: ["Bekleyen", "var(--kutu)", "var(--dim)"], yolda: ["Bekleyen · yoldasınız", "#FDF1E8", "#B25E30"], gorusmede: ["Şu an görüşülüyor", "#00724C", "#fff"], iptal: ["İptal edildi", "var(--kutu)", "var(--dim)"], gerceklesti: ["Gerçekleşti", "var(--tintGreen)", "#00724C"] };
     const out = {
       isPersonel: true,
-      tpDestekAcik:rol==="ask"&&sekme==="destek",destekYaniti:s.destekYaniti||"",setDestekYaniti:(e)=>this.setState({destekYaniti:e.target.value}),
-      tpDestekListe:(()=>{const seen=new Set();return [s.mTalep,...(s.mGecmis||[]),...Object.values(s.tpKayitlar||{}),...Object.values(this._hesaplar||{}).map((a)=>a.mTalep)].filter((t)=>{if(!t?.sorun||seen.has(t.id))return false;seen.add(t.id);return true;}).map((t)=>({id:t.id,konu:t.sorun.konu,metin:t.sorun.not,durum:t.sorun.durum,yanit:t.sorun.yanit||"",incele:()=>this.mKayitYaz({...t,sorun:{...t.sorun,durum:"İnceleniyor"}}),yanitla:()=>{const yanit=this.state.destekYaniti?.trim();if(!yanit)return;this.mKayitYaz({...t,sorun:{...t.sorun,durum:"Yanıtlandı",yanit}});this.setState({destekYaniti:""});}}));})(),
       tpMenu: menu.map(([k, a]) => ({ ad: a, aktif: k === sekme ? "page" : "false", onSec: () => this.setState({ tpSekme: k, tpSecim: null, tpRota: false }) })),
       tpAd: ad, tpBas: bas, tpRol: ROL_AD[rol], tpFotoCss: foto ? "url(" + foto + ")" : "none", tpBasRenk: foto ? "transparent" : "#fff",
       tpMenuAlt: menu.concat([["profil", "Profil"]]).map(([k, a]) => ({ ad: a, aktif: k === sekme ? "page" : "false", ikTakvim: k === "gorusmeler", ikGrafik: k === "performans", ikCanli: k === "canli", ikKisi: k === "profil", ikDestek: k === "destek", onSec: () => this.setState({ tpSekme: k, tpSecim: null, tpRota: false }) })),
       tpProfilAcik: sekme === "profil",
       tpProfilGit: () => this.setState({ tpSekme: "profil", tpSecim: null, tpRota: false }),
-      tpGorusmelerAcik: sekme === "gorusmeler", tpCanliAcik: sekme === "canli" && !CANLI, tpCanliMerkez: sekme === "canli" && CANLI, tpPerfAcik: sekme === "performans",
+      tpGorusmelerAcik: sekme === "gorusmeler", tpCanliAcik: false, tpCanliMerkez: sekme === "canli", tpCanliSrc: CANLI ? "takip?gomulu=1" : "merkez/takip.html?gomulu=1&demo=1", tpPerfAcik: sekme === "performans",
       ...this.performansDegerleri(s, sekme === "performans" ? rol : ""),
-      tpBaslik: sekme === "gorusmeler" ? "Görüşmeler" : sekme === "canli" ? "Saha Canlı" : sekme === "profil" ? "Profil" : sekme === "destek" ? "Destek talepleri" : "Performans",
+      tpBaslik: sekme === "gorusmeler" ? "Görüşmeler" : sekme === "canli" ? "Saha Canlı" : sekme === "profil" ? "Profil" : "Performans",
       tpAltBaslik: sekme === "gorusmeler" ? gunAd(0) : rol === "spy" ? (TEMSILCI_DETAY[s.personelRepId] || {}).ilce + " · " + (TEMSILCI_DETAY[s.personelRepId] || {}).mahalle : "Tüm SPY'ler · pilot bölge",
     };
     // Müsaitlik: görüşmede iken otomatik; değilse Müsait / Molada elle
@@ -2744,14 +2730,13 @@ class Component extends DCLogic {
         if(sec.durum==="gerceklesti") sat.push(["Müşteri puanı",sec.puan?"★".repeat(sec.puan):"Henüz puanlanmadı"],["Sonraki adım",sec.talep?.sonrakiAdim||"Belirlenmedi"]);
         if(CANLI&&sec.talep?.musteri){const m=sec.talep.musteri,b=sec.talep.onBilgi;if(m.tel)sat.unshift(["Telefon",m.tel]);if(sec.talep.uzaklikKm!=null)sat.push(["Size uzaklık","~"+String(sec.talep.uzaklikKm).replace(".",",")+" km"]);
           if(b)sat.push(["Finansman tercihi",b.tur+" · "+b.plan+(b.tutar?" · ~"+Number(b.tutar).toLocaleString("tr-TR")+" ₺":"")+" · %"+b.pesinatPct+" · "+b.vade+" ay"+(b.aylik?" · aylık ~"+Number(b.aylik).toLocaleString("tr-TR")+" ₺":"")]);}
-        if(sec.ekBilgi){if(sec.ekBilgi.calisma)sat.push(["Çalışma durumu",sec.ekBilgi.calisma]);if(sec.ekBilgi.yas)sat.push(["Yaş aralığı",sec.ekBilgi.yas]);}
+        if(sec.ekBilgi){if(sec.ekBilgi.neIcin)sat.push(["Ne için",sec.ekBilgi.neIcin]);if(sec.ekBilgi.calisma)sat.push(["Çalışma durumu",sec.ekBilgi.calisma]);if(sec.ekBilgi.yas)sat.push(["Yaş aralığı",sec.ekBilgi.yas]);if(sec.ekBilgi.not)sat.push(["Müşteri notu",sec.ekBilgi.not]);}
         let not = "";
         if (sec.durum === "yeni") not = "Müşteri bu gün ve saati seçti. Kabulünüzden sonra müşteri saatini onaylayacak.";
         if (CANLI && sec.durum === "yeni" && sec.talep) {
           const bitis = sec.talep.teklif?.bitis, kalan = bitis ? Math.max(0, Math.round((bitis - Date.now() - (this._canliFark || 0)) / 1000)) : null;
           if (sec.talep.gerekce) sat.push(["Neden size geldi", sec.talep.gerekce]);
           if (kalan != null) not = "Kabul için kalan süre: " + Math.floor(kalan / 60) + ":" + String(kalan % 60).padStart(2, "0") + ". Süre dolarsa çağrı sıradaki SPY'ye geçer. " + not;
-          else if (sec.talep.gerekce === "Yönetici atadı") not = "Yönetici bu çağrıyı size atadı. " + not;
         }
         else if(sec.talep?.durum==="atandi") not="Müşterinin saat onayı bekleniyor.";
         else if (sec.durum === "bekleyen" && sec.gun === 0) not = "Yola çıkınca müşteriye varış süresi bildirilir.";
@@ -2765,7 +2750,7 @@ class Component extends DCLogic {
           tpDKabulVar: sec.durum === "yeni", tpDYolaVar: sec.talep?.durum === "netlesti" && !sec.talep?.degisiklik && sec.gun === 0, tpDQrVar: sec.durum === "yolda", tpDBitirVar: sec.durum === "gorusmede",
           tpKabulEt: () => this.tpRandevuIslem(sec.id,"kabul"),
           tpDevret: () => {
-            if (CANLI) { this.canliGonder("api/aktar", { id: sec.id, repId: "" }).then((k) => { this.setState({ tpSecim: null }); this.showBildirim({ ad: "Çağrı devredildi", ilce: k?.repId ? "Sıradaki SPY'ye teklif edildi" : "Yöneticiye iletildi" }); }).catch(() => {}); return; }
+            if (CANLI) { this.canliGonder("api/aktar", { id: sec.id, repId: "" }).then((k) => { this.setState({ tpSecim: null }); this.showBildirim({ ad: "Çağrı devredildi", ilce: k?.repId ? "Sıradaki SPY'ye teklif edildi" : "Uygun SPY kalmadı, haritada kırmızı görünür" }); }).catch(() => {}); return; }
             this.setState((st) => ({ tpDevredilen: { ...(st.tpDevredilen || {}), [sec.id]: true }, tpSecim: null })); this.showBildirim({ ad: "Çağrı devredildi", ilce: "Bölgedeki müsait SPY'ye" }); },
           tpDMesajVar: CANLI && !!sec.talep?.musteri,
           tpDMesajlar: (sec.talep?.mesajlar || []).slice().reverse().map((m) => ({ text: m.text, sinif: m.from === "temsilci" ? "ben" : "o", saat: new Date(m.t).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }) })),
@@ -2899,8 +2884,8 @@ class Component extends DCLogic {
       hgBaslik: hg[0], hgMetin: hg[1],
       hgNoktalar: [1, 2, 3].map((n) => ({ bg: n === s.hosgeldinAdim ? "#00724C" : "var(--line)", w: n === s.hosgeldinAdim ? "18px" : "7px" })),
       hgIleriText: s.hosgeldinAdim >= 3 ? "Başla" : "İleri",
-      hgIleri: () => this.setState({ hosgeldinAdim: s.hosgeldinAdim >= 3 ? 0 : s.hosgeldinAdim + 1 }),
-      hgAtla: () => this.setState({ hosgeldinAdim: 0 }),
+      hgIleri: () => this.setState({ hosgeldinAdim: s.hosgeldinAdim >= 3 ? 0 : s.hosgeldinAdim + 1, ...(s.hosgeldinAdim >= 3 ? this.hazirlikSor() : {}) }),
+      hgAtla: () => this.setState({ hosgeldinAdim: 0, ...this.hazirlikSor() }),
       profilAd: s.customerForm.name || "",
       profilTel: s.customerForm.phone || "",
       ...this.mAkisDegerleri(s),

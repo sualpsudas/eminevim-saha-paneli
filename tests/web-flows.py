@@ -1,4 +1,4 @@
-"""Web başvurusu ve isteğe bağlı bilgilerin uygulamaya aktarımını kontrol eder."""
+"""Web başvurusu sonuç ekranı (SMS penceresi) ve uygulamaya geçiş (kod + parola, görüşmeye hazırlık) kontrolü."""
 from pathlib import Path
 from urllib.parse import urlparse,parse_qs
 import tempfile
@@ -27,23 +27,30 @@ with sync_playwright() as p:
         dialog.locator('[data-ileri]').click()
         form.locator('[type=submit]').click()
         result=scope.locator('[data-sonuc]')
-        result.locator('.ty-ek summary').click()
-        result.locator('[data-ek-calisma]').select_option(label='Ücretli çalışan')
-        result.locator('[data-ek-yas]').select_option(label='25–34')
-        result.locator('[data-ek-kaydet]').click()
+        # Sonuç: "Sayın Ad Soyad, temsilci çağrınız alındı!", özet, SMS satırı; SMS önizlemesi Kapat'a kadar duran pencere
+        result.get_by_text('Sayın Mehmet Demir, temsilci çağrınız alındı!', exact=True).wait_for()
+        for yok in ('Başarılı!', 'Yeni başvuru', 'Görüşmeye hazırlanmamıza'):
+            assert result.get_by_text(yok).count() == 0, yok
+        sms = result.locator('[data-sms-pencere]')
+        assert 'acik' in sms.get_attribute('class')
+        page.screenshot(path=str(OUT/f'web-sms-{width}.png'))
+        kod=sms.locator('[data-sms-kod]').inner_text().strip()
+        assert len(kod)==6 and kod.isdigit(), kod
+        assert 'randevu takibi, temsilciyle sohbet ve finansman aracı' in sms.locator('.ty-sms-balon').inner_text()
+        box=sms.locator('.ty-sms-kutu').bounding_box()
+        assert box['x']>=0 and box['x']+box['width']<=width+1
+        page.wait_for_timeout(1500)
+        assert 'acik' in sms.get_attribute('class'), 'Kapat denmeden kapanmamalı'
+        sms.locator('[data-sms-kapat]').click()
+        assert 'acik' not in sms.get_attribute('class')
+        result.locator('[data-sms-ac]').click()
+        assert 'acik' in sms.get_attribute('class')
+        sms.locator('[data-sms-kapat]').click()
+        page.screenshot(path=str(OUT/f'web-sonuc-{width}.png'))
         link=result.locator('a[data-ty-dis]').first.get_attribute('href')
         q=parse_qs(urlparse(link).query)
-        assert q['calisma']==['Ücretli çalışan'] and q['yas']==['25–34']
         assert q['rid'] and q['lat'] and q['lng'] and q['tarih']
         assert urlparse(link).hostname=='127.0.0.1'
-        result.locator('.ty-ek').scroll_into_view_if_needed()
-        page.screenshot(path=str(OUT/f'web-ek-bilgi-{width}.png'))
-        box=result.locator('.ty-ek').bounding_box()
-        assert box['x']>=0 and box['x']+box['width']<=width+1
-        # SMS önizlemesi: 6 haneli giriş kodu + uygulama linki
-        kod=result.locator('.ty-sms-balon b').inner_text().strip()
-        assert len(kod)==6 and kod.isdigit(), kod
-        assert 'randevu takibi, temsilciyle sohbet ve finansman aracı' in result.locator('.ty-sms-balon').inner_text()
         # Aynı tarayıcıda (aynı site deposu) bağlantıyı aç: önce SMS kodu, sonra parola oluşturma; bilgiler randevuyla gelmeli.
         app=ctx.new_page(); app.set_viewport_size({'width':393,'height':852})
         app.goto(link+'&native=1',wait_until='domcontentloaded')
@@ -55,9 +62,17 @@ with sync_playwright() as p:
         app.wait_for_function("JSON.parse(sessionStorage.getItem('ty-randevu-v1')||'null')?.mTalep")
         saved=app.evaluate("JSON.parse(sessionStorage.getItem('ty-randevu-v1'))")
         assert saved['mTalep']['id']==q['rid'][0]
-        assert saved['customerForm']['ekBilgi']['yas']=='25–34'
+        # Görüşmeye hazırlık yalnız uygulamada: girişte açılır; "Şimdi değil" → Randevum'da kart kalır
+        app.wait_for_timeout(800)
+        if app.get_by_role('button', name='Atla', exact=True).count():  # önce tanıtım, sonra hazırlık
+            assert app.get_by_text('Görüşmeye hazırlanmamıza yardımcı olun').count() == 0
+            app.get_by_role('button', name='Atla', exact=True).click()
+        app.get_by_text('Görüşmeye hazırlanmamıza yardımcı olun', exact=True).wait_for()
+        app.get_by_role('button', name='Şimdi değil', exact=True).click()
+        app.get_by_role('button', name='Randevularım', exact=True).click(); app.locator('.m-randevu-row').first.click()
+        app.get_by_text('Görüşmeye hazırlık · isteğe bağlı', exact=True).wait_for()
         app.close()
         assert not errors,errors
         page.close()
-    print('Web telefon/bilgisayar, SMS kodu + parola ile uygulamaya randevu+ek bilgi aktarımı: OK')
+    print('Web telefon/bilgisayar: sonuç ekranı, SMS penceresi, SMS kodu + parola ile uygulamaya randevu, görüşmeye hazırlık: OK')
     browser.close()

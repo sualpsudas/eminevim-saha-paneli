@@ -99,8 +99,9 @@ Paylaşım için tek sayfa: `linkler.html` → https://sualpsudas.github.io/emin
   **Bilerek değişmedi:** `video/` (tanıtım sayfası, 4 video, altyazılar; ses de "temsilci" diyor — kullanıcı videoyu değiştirmiyor).
   **Kural (kullanıcı, 2026-11-11):** müşterinin gördüğü her yerde (müşteri ekranları, web formu, SMS) **"temsilci"**; personel, yönetici,
   takip sayfası ve iç belgelerde **"SPY"**; ikisinde de **"çağrı"**. Ayrıntı `URUN_KURALLARI.md` → Ortak dil. (Eski açık soru kapandı.)
-- **Canlı test sürümü (2026-11-10; 2026-11-11: 30 SPY `spyler.js`, puanlı atama, 2 dk kabul, 3 ret → yönetici, girişte yalnız SPY + Yönetici,
-  web formu merkeze bağlı):** `merkez/` — `sunucu.py` (8794, Başlangıç kısayolu "Tasarruf Yanimda Merkezi", conda base pythonw;
+- **Canlı test sürümü (2026-11-10; 2026-11-11: 7 SPY `spyler.js` (yalnız iki H/G'si ≥ %100 olanlar, "aktif değil" yok), hemen/ileri puanlı
+  atama, 2 dk kabul, Devret → sıradaki, kimse kalmazsa "kimse almadı" (haritada kırmızı; yönetici ataması yok), Saha Canlı haritası,
+  kompakt performans, Destek bölümü yok, görüşmeye hazırlık yalnız uygulamada, girişte yalnız SPY + Yönetici, web formu merkeze bağlı):** `merkez/` — `sunucu.py` (8794, Başlangıç kısayolu "Tasarruf Yanimda Merkezi", conda base pythonw;
   durdurma `python sunucu.py --durdur`; deneme kopyası `TY_PORT=8795 TY_YOL=deneme TY_VERI=<geçici>`), `takip.html` (bilgisayar takip sayfası),
   kök `canli.js`. Gizli yol `merkez/gizli_yol.txt` (depoda yok, belgeye yazılmaz). Dışarıya Tailscale Funnel ayrı yolla:
   `/<gizli_yol>` → `http://127.0.0.1:8794/<gizli_yol>`. Kurallar `URUN_KURALLARI.md` → "Canlı test sürümü". Test `tests/merkez-akis.py`.

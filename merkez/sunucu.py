@@ -26,7 +26,8 @@ UYGULAMA = "Eminevim Saha Paneli.dc.html"
 kilit = threading.Lock()
 GORULME = {}  # SPY id -> son yoklama zamanı (yalnız bellekte)
 
-# Test SPY'leri depo kökündeki spyler.js'ten (uygulama da aynı dosyayı okur); konumlar sabit, H/G uydurma
+# Test SPY'leri depo kökündeki spyler.js'ten (uygulama da aynı dosyayı okur); konumlar sabit, H/G uydurma.
+# Listede yalnız randevu H/G ve ciro H/G ikisi de >= %100 olan SPY'ler bulunur (şartı sağlamayan uygulamada yer almaz).
 def spyleri_oku():
     metin = (KOK / "spyler.js").read_text(encoding="utf-8")
     liste = json.loads(metin[metin.index("["):metin.rindex("]") + 1])
@@ -37,13 +38,13 @@ SPYLER = spyleri_oku()
 SPY_IDLER = {s["id"] for s in SPYLER}
 
 # Atama kuralları (rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md)
-KABUL_SN = 120          # SPY bu sürede kabul etmezse çağrı sıradakine geçer
-EN_FAZLA_DENEME = 3     # üç SPY kabul etmezse çağrı yöneticiye düşer
+KABUL_SN = 120          # SPY bu sürede kabul etmezse çağrı sıradakine geçer (sınır yok; herkes reddederse "kimse almadı")
 GUNLUK_SINIR = 4        # bir SPY'ye bir günde en fazla çağrı
-ARALIK_DK = 90          # ileri tarihte aynı gün iki randevu arası en az
-ACIK_SN = 30            # aynı gün çağrısı için uygulaması açık sayılma süresi
-AGIRLIK = {"ayni": {"randevu": 15, "ciro": 15, "yakinlik": 50, "yuk": 10, "hiz": 10},
-           "ileri": {"randevu": 25, "ciro": 25, "yakinlik": 20, "yuk": 20, "hiz": 10}}
+ARALIK_DK = 90          # ileri saatte aynı gün iki randevu arası en az
+HEMEN_DK = 120          # bugün ve saati en geç 2 saat sonra olan çağrı "hemen" sayılır (en erken seçilebilen saatler)
+ACIK_SN = 30            # hemen çağrısı için uygulaması açık sayılma süresi
+AGIRLIK = {"hemen": {"yakinlik": 50, "randevu": 15, "ciro": 15, "yuk": 20},
+           "ileri": {"randevu": 25, "ciro": 25, "yakinlik": 30, "yuk": 20}}
 KAPALI_DURUMLAR = {"tamamlandi", "iptal"}
 DURUM_AD = {"alindi": "yeni çağrı", "atandi": "SPY kabul etti", "netlesti": "müşteri saati onayladı", "yolda": "SPY yola çıktı",
             "gorusme": "SPY yolda", "gorusmede": "kapıda doğrulandı, görüşmede", "tamamlandi": "görüşme tamamlandı", "iptal": "iptal edildi"}
@@ -67,8 +68,8 @@ def oku():
     if not VERI.exists():
         yaz(bos_veri())
     veri = json.loads(VERI.read_text(encoding="utf-8"))
-    for s in SPYLER:  # sabit bilgiler kod değişince güncellenir, durum korunur
-        veri["spyler"][s["id"]] = {**veri["spyler"].get(s["id"], {"durum": "musait", "sonGorulme": 0}), **s}
+    eski = veri["spyler"]
+    veri["spyler"] = {s["id"]: {**eski.get(s["id"], {"durum": "musait", "sonGorulme": 0}), **s} for s in SPYLER}  # listeden çıkan SPY düşer
     return veri
 
 
@@ -104,79 +105,103 @@ def dakika(saat):
         return None
 
 
-def aktif_mi(s):
-    """Tasarruf Yanımda'da aktif SPY: son 3 ay randevu H/G ve ciro H/G ikisi de en az %100."""
-    return s.get("randevuHG", 0) >= 100 and s.get("ciroHG", 0) >= 100
+def hemen_mi(k):
+    """Bugün ve saati en geç 2 saat sonra olan çağrı: o an hazırda olan SPY'ye gider."""
+    if (k.get("tarih") or bugun()) < bugun():
+        return True
+    if (k.get("tarih") or bugun()) > bugun():
+        return False
+    d = dakika(k.get("saat"))
+    an = time.localtime()
+    return d is None or d - (an.tm_hour * 60 + an.tm_min) <= HEMEN_DK
+
+
+def randevuda_mi(veri, spy_id):
+    return any(x.get("repId") == spy_id and x.get("durum") in ("yolda", "gorusmede") for x in veri["kayitlar"].values())
+
+
+def anlik_konum(veri, s):
+    """Canlı GPS yok: bugünkü son randevusunun yeri (yolda/görüşmede/tamamlandı), yoksa kendi mahallesi."""
+    son = [x for x in veri["kayitlar"].values() if x.get("repId") == s["id"] and x.get("tarih") == bugun()
+           and x.get("durum") in ("yolda", "gorusmede", "tamamlandi") and isinstance(x.get("konum"), dict) and "lat" in x["konum"]]
+    if son:
+        x = max(son, key=lambda y: y.get("guncelleme", 0))["konum"]
+        return {"lat": x["lat"], "lng": x["lng"]}
+    return {"lat": s["lat"], "lng": s["lng"]}
 
 
 def adaylar(veri, k, haric=()):
-    """Eleme + puan. Döner: puana göre sıralı [(puan, spy, gerekçe)]."""
+    """Eleme + puan. Döner: puana göre sıralı [(puan, spy, gerekçe, km)].
+    Hemen: molada, uygulaması kapalı, yolda/görüşmede, günlük sınırı dolan elenir; puan yakınlık 50, H/G 30, bugünkü çağrı 20.
+    İleri saat/gün: o gün sınırı dolan, o saatin ±90 dk'sında randevusu olan elenir; puan H/G 50, yakınlık 30, o günkü çağrı 20."""
     konum = k.get("konum") or {}
     tarih = k.get("tarih") or bugun()
-    ayni_gun = tarih <= bugun()
-    a = AGIRLIK["ayni" if ayni_gun else "ileri"]
+    hemen = hemen_mi(k)
+    a = AGIRLIK["hemen" if hemen else "ileri"]
     gun_kayit = [x for x in veri["kayitlar"].values() if x.get("tarih") == tarih and x.get("durum") != "iptal" and x["id"] != k.get("id")]
-    hafta = {time.strftime("%Y-%m-%d", time.localtime(time.time() + g * 86400)) for g in range(-3, 4)}
     sonuc = []
     for s in veri["spyler"].values():
-        if s["id"] in haric or not aktif_mi(s) or s.get("durum") == "molada":
+        if s["id"] in haric:
             continue
         benim = [x for x in gun_kayit if x.get("repId") == s["id"]]
         if len(benim) >= GUNLUK_SINIR:
             continue
-        if ayni_gun:
-            if simdi() - GORULME.get(s["id"], 0) > ACIK_SN * 1000:
-                continue  # aynı gün: hazırda olan (uygulaması açık) SPY
-            if any(x.get("repId") == s["id"] and x.get("durum") in ("yolda", "gorusmede") for x in veri["kayitlar"].values()):
+        if hemen:
+            if s.get("durum") == "molada" or simdi() - GORULME.get(s["id"], 0) > ACIK_SN * 1000 or randevuda_mi(veri, s["id"]):
                 continue
-            uzak = km(s, konum)
+            uzak = km(anlik_konum(veri, s), konum)
         else:
             d = dakika(k.get("saat"))
             if d is not None and any(dakika(x.get("saat")) is not None and abs(dakika(x.get("saat")) - d) < ARALIK_DK for x in benim):
                 continue
             noktalar = [s] + [x["konum"] for x in benim if isinstance(x.get("konum"), dict) and "lat" in x["konum"]]
-            uzak = min(km(n, konum) for n in noktalar)  # o günkü rotasına ya da şubesine en yakın nokta
-        haftalik = sum(1 for x in veri["kayitlar"].values() if x.get("repId") == s["id"] and x.get("tarih") in hafta and x.get("durum") != "iptal")
-        p = {"randevu": min(max((s.get("randevuHG", 100) - 100) / 20, 0), 1),
-             "ciro": min(max((s.get("ciroHG", 100) - 100) / 20, 0), 1),
+            uzak = min(km(n, konum) for n in noktalar)  # kendi bölgesine ya da o günkü randevularına en yakın nokta
+        p = {"randevu": min(max((s.get("randevuHG", 100) - 100) / 30, 0), 1),
+             "ciro": min(max((s.get("ciroHG", 100) - 100) / 30, 0), 1),
              "yakinlik": max(0.0, 1 - uzak / 10),
-             "yuk": (1 - len(benim) / GUNLUK_SINIR) if ayni_gun else 0.5 * (1 - len(benim) / GUNLUK_SINIR) + 0.5 * max(0.0, 1 - haftalik / 12),
-             "hiz": 0.5 * min(max(1 - (s.get("kabulSn", 60) - 20) / 100, 0), 1) + 0.5 * min(max((s.get("kabulOrani", 90) - 80) / 20, 0), 1)}
+             "yuk": 1 - len(benim) / GUNLUK_SINIR}
         puan = round(sum(a[x] * p[x] for x in a), 1)
-        gerekce = f"{str(round(uzak, 1)).replace('.', ',')} km · H/G %{s.get('randevuHG')}/%{s.get('ciroHG')} · {'bugün' if ayni_gun else 'o gün'} {len(benim)} çağrı"
+        gerekce = f"{str(round(uzak, 1)).replace('.', ',')} km · H/G %{s.get('randevuHG')}/%{s.get('ciroHG')} · {'bugün' if tarih == bugun() else 'o gün'} {len(benim)} çağrı"
         sonuc.append((puan, s, gerekce, round(uzak, 1)))
     return sorted(sonuc, key=lambda x: -x[0])
 
 
 def teklif_et(veri, k, neden=""):
-    """Çağrıyı sıradaki en yüksek puanlı SPY'ye teklif eder; kalmadıysa yöneticiye düşer."""
+    """Çağrıyı sıradaki en yüksek puanlı SPY'ye teklif eder; uygun kimse kalmadıysa "kimse almadı" (haritada kırmızı)."""
     t = k.setdefault("teklif", {"denenen": []})
     liste = adaylar(veri, k, set(t["denenen"]) | set(k.get("eskiRepler", [])))
     ad = (k.get("musteri") or {}).get("ad") or "Müşteri"
-    if len(t["denenen"]) >= EN_FAZLA_DENEME or not liste:
+    if not liste:
         if k.get("repId"):
             k["eskiRepler"] = sorted(set(k.get("eskiRepler", [])) | {k["repId"]})
-        k.update({"repId": None, "yonetici": True, "durum": "alindi", "gerekce": ""})
+        ilk = not k.get("sahipsiz")
+        k.update({"repId": None, "sahipsiz": True, "durum": "alindi", "gerekce": ""})
         t["bitis"] = 0
-        olay(veri, f"{ad}: {'uygun SPY yok' if not liste else str(EN_FAZLA_DENEME) + ' SPY kabul etmedi'} → yöneticiye düştü{neden}", k["id"])
+        if ilk:
+            olay(veri, f"{ad}: uygun SPY kalmadı → kimse almadı{neden}", k["id"])
         return k
     puan, spy, gerekce, uzak = liste[0]
     if k.get("repId") and k["repId"] != spy["id"]:
         k["eskiRepler"] = sorted(set(k.get("eskiRepler", [])) | {k["repId"]})
     t["denenen"].append(spy["id"])
     t["bitis"] = simdi() + KABUL_SN * 1000
-    k.update({"repId": spy["id"], "yonetici": False, "durum": "alindi", "atanma": simdi(), "uzaklikKm": uzak, "puan": puan, "gerekce": gerekce})
+    k.update({"repId": spy["id"], "sahipsiz": False, "durum": "alindi", "atanma": simdi(), "uzaklikKm": uzak, "atamaPuan": puan, "gerekce": gerekce})
     olay(veri, f"{ad} ({k.get('yer') or ''}) → {spy['ad']} · puan {str(puan).replace('.', ',')} · {gerekce}{neden}", k["id"])
     return k
 
 
 def sureleri_denetle(veri):
-    """2 dakikada kabul edilmeyen teklifleri sıradaki SPY'ye geçirir. Değişiklik olduysa True."""
+    """2 dakikada kabul edilmeyen teklifleri sıradaki SPY'ye geçirir; kimsenin almadığı çağrıya yeni uygun SPY
+    çıktıysa (moladan döndü, uygulamayı açtı) ona teklif eder. Değişiklik olduysa True."""
     degisti = False
     for k in veri["kayitlar"].values():
         t = k.get("teklif") or {}
         if k.get("durum") == "alindi" and k.get("repId") and t.get("bitis") and t["bitis"] < simdi():
             teklif_et(veri, k, " (önceki 2 dk içinde kabul etmedi)")
+            damga(veri, k)
+            degisti = True
+        elif k.get("durum") == "alindi" and k.get("sahipsiz") and adaylar(veri, k, set(t.get("denenen", [])) | set(k.get("eskiRepler", []))):
+            teklif_et(veri, k, " (yeni uygun SPY)")
             damga(veri, k)
             degisti = True
     return degisti
@@ -220,7 +245,7 @@ def uygula(veri, yol, istek):
         return k
     if yol == "api/kayit":
         k = temiz_kayit(istek.get("kayit"))
-        for alan in ("teklif", "yonetici", "puan", "gerekce", "girisKodu"):
+        for alan in ("teklif", "sahipsiz", "atamaPuan", "gerekce", "girisKodu"):
             k.pop(alan, None)  # bunları yalnız merkez yazar
         eski = kayitlar.get(k["id"])
         if not eski:
@@ -262,26 +287,13 @@ def uygula(veri, yol, istek):
             veri["surum"] += 1
         s["sonGorulme"] = simdi()
         return s
-    if yol == "api/aktar":
+    if yol == "api/aktar":  # SPY "Devret" dedi: sıradaki SPY'ye teklif (yönetici ataması yok)
         k = kayitlar.get(str(istek.get("id") or ""))
-        rep = str(istek.get("repId") or "")
-        if k and not rep:  # SPY "Devret" dedi: sıradaki SPY'ye teklif (yöneticiye düşebilir)
-            if k.get("durum") not in KAPALI_DURUMLAR:
-                k["durum"] = "alindi"
-                teklif_et(veri, k, f" ({veri['spyler'].get(k.get('repId'), {}).get('ad', 'SPY')} devretti)")
-                damga(veri, k)
-            return k
-        if not k or rep not in SPY_IDLER:
-            raise ValueError("Aktarım eksik.")
-        if k.get("repId") != rep:
-            k["eskiRepler"] = sorted((set(k.get("eskiRepler", [])) | {k.get("repId")}) - {None})
-            k["repId"] = rep
-            k["yonetici"] = False
-            k["gerekce"] = "Yönetici atadı"
-            (k.get("teklif") or {})["bitis"] = 0  # yöneticinin atamasında süre işlemez
-            if k.get("durum") not in KAPALI_DURUMLAR and k.get("durum") != "alindi":
-                k["durum"] = "alindi"  # yeni SPY kabul edene kadar yeni çağrı
-            olay(veri, f"Yönetici aktardı: {k.get('musteri', {}).get('ad') or 'Müşteri'} → {veri['spyler'][rep]['ad']}", k["id"])
+        if not k:
+            raise ValueError("Çağrı bulunamadı.")
+        if k.get("durum") not in KAPALI_DURUMLAR:
+            k["durum"] = "alindi"
+            teklif_et(veri, k, f" ({veri['spyler'].get(k.get('repId'), {}).get('ad', 'SPY')} devretti)")
             damga(veri, k)
         return k
     if yol == "api/kod":
@@ -305,6 +317,20 @@ def uygula(veri, yol, istek):
         olay(veri, "Test verisi sıfırlandı")
         return {}
     raise KeyError(yol)
+
+
+def spy_ozet(veri, s):
+    hal = "molada" if s.get("durum") == "molada" else "randevuda" if randevuda_mi(veri, s["id"]) else "bosta"
+    bugunku = sum(1 for x in veri["kayitlar"].values() if x.get("repId") == s["id"] and x.get("tarih") == bugun() and x.get("durum") != "iptal")
+    return {**s, "hal": hal, "konumAn": anlik_konum(veri, s), "bugunCagri": bugunku, "sonGorulme": GORULME.get(s["id"], 0)}
+
+
+def bugun_sayilar(veri):
+    """Gelen Çağrı: bugün merkeze gelen çağrı. Görüşme Sayısı: bugün kapıda doğrulanan (görüşmede ya da tamamlandı)."""
+    gun = bugun()
+    gelen = sum(1 for k in veri["kayitlar"].values() if time.strftime("%Y-%m-%d", time.localtime(k.get("olusma", 0) / 1000)) == gun)
+    gorusme = sum(1 for k in veri["kayitlar"].values() if k.get("tarih") == gun and k.get("durum") in ("gorusmede", "tamamlandi"))
+    return {"gelen": gelen, "gorusme": gorusme}
 
 
 class Isleyici(BaseHTTPRequestHandler):
@@ -368,7 +394,8 @@ class Isleyici(BaseHTTPRequestHandler):
                     return k.get("repId") == spy or spy in k.get("eskiRepler", [])
                 return k["id"] in ids if ids else "hepsi" in q
             return self._yanit(200, {"surum": veri["surum"], "simdi": simdi(), "sifirlama": veri.get("sifirlama", 0),
-                                     "spyler": [{**s, "aktif": aktif_mi(s), "sonGorulme": GORULME.get(s["id"], 0)} for s in veri["spyler"].values()],
+                                     "spyler": [spy_ozet(veri, s) for s in veri["spyler"].values()],
+                                     "bugun": bugun_sayilar(veri),
                                      "kayitlar": [k for k in veri["kayitlar"].values() if k.get("surum", 0) > surum and gorur(k)],
                                      "olaylar": veri["olaylar"][:80] if "hepsi" in q else []})
         dosya = self._statik(yol)
