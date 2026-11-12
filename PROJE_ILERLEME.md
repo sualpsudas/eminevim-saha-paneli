@@ -648,3 +648,16 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - `improve-ui` incelemesi: Randevularım tablosu köşesi 14px'e çekildi (kart kuralı). Eklenenler: basma hissi, liste ↔ ayrıntı kayması,
   hafif kart gölgesi, eşit genişlikte rakamlar.
 - Test: `phone-layout.py` (finansman seçimsiz başlar + kayıt ✓ almaz, demo/koyu düğmesi yok, şerit gizli) + diğer 7 test.
+
+## 2026-11-12 · Personel paneli kozmetik düzen (AGENTS.md G)
+- Kaynak: `design-plans/personel-panel-inceleme-2026-11-12.md`; yalnız boyut, ton, hiza, seçili görünüm (akış/veri aynı).
+- SPY Performans: H/G yüzdeleri büyük (28/24 px), çubukta %100 hedef çizgisi + "%100 hedef" etiketi, sıra/çağrı rakamları koyu nötr (payda soluk).
+  İçerik başlıkla aynı hizada (iç içe boşluk kalktı), en fazla 880 px.
+- Yönetici Performans: sütunlar geniş, başlık kırılmıyor, yüzde 15 px; %100'ün üstü yeşil, tam %100 koyu nötr; Ekip ortalaması satırı belirgin.
+- Personel alt menü: etiketler daha koyu (#767676, 12 px), seçili sekmede üstte yeşil çizgi.
+- Saha Canlı (`merkez/takip.html` + başlık): sayaçlar koyu, "Mesai dışında: örnek olarak … durumu" açık kehribar etiket,
+  seçili süzgeç açık yeşil + yeşil çerçeve, uygulama içinde harita kısa (masaüstü ≤460 px, telefon 300 px) → kişi kartları ilk ekranda.
+- Görüşmeler/Profil: süzgeç ve Müsait/Molada seçili görünümü ortak (açık yeşil + yeşil çerçeve; Müsaitlik'te ✓), telefonda 44 px;
+  sayaçlar nötr; "Rotayı kapat" açıkken açık yeşil; Çıkış yap gri çerçeve, koyu yazı.
+- Yapılmadı: E/F (onay bekliyor), harita altlığı, Inter/yeni palet, Personel Girişi çerçevesi (linkler önizlemesi), animasyon.
+- Test: 6 tarayıcı testi (`merkez-akis.py` 8795 deneme sunucusunda) + 2 node testi geçti.

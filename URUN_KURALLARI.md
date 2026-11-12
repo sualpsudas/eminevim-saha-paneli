@@ -198,6 +198,11 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   SGL ve Alternatif Satış Kanalı Müdürü ekranında Görüşmeler yok). Profil: Müsait/Molada (görüşmede iken otomatik "Görüşmede"), Çıkış yap. Senaryo'daki tablet de aynı. Önizleme (linkler.html) uygulamadan
   `postMessage {tip:"ty-cihaz", cihaz:"tablet"}` alınca çerçeveyi yatay tablete (1180×820) çevirir, çıkışta telefona döner.
   Dar ekranda (<900 px) tek sütun; seçilen görüşmenin ayrıntısı listenin üstünde açılır.
+  - **Görünüm ayrıntıları (2026-11-12, kozmetik):** seçili süzgeç / Müsait-Molada / Saha Canlı süzgeci aynı: açık yeşil dolgu +
+    yeşil çerçeve (Müsaitlik'te ✓), telefonda 44 px. Alt menü etiketi #767676 12 px, seçili sekmede üstte 2 px yeşil çizgi.
+    Sayaçlar (Görüşmeler, Saha Canlı, Performans sıra/çağrı) koyu nötr; yeşil yalnız durum ve H/G için. SPY Performans'ta
+    H/G yüzdesi büyük (28/24 px), çubukta %100 hedef çizgisi (ölçek %150). Yönetici tablosunda %100 üstü yeşil, tam %100 koyu nötr.
+    Saha Canlı mesai dışı örnek zamanı açık kehribar etiket; uygulama içinde harita kısa (kişi kartları ilk ekranda). Çıkış yap gri çerçeveli.
   - **Görüşmeler** (SPY ve TL; takım liderleri de görüşme yapar): tarih sırası, gruplar Yeni talepler · Bugün · Yarın ·
     Sonraki günler · Geçmiş; durumlar **Bekleyen** (yeni talep / yoldasınız alt hâlleri) → **Şu an görüşülüyor** (QR ile
     doğrulanınca, görüşme bitene kadar) → **Gerçekleşti**; süzgeç Tümü/Bekleyen/Şu an/Gerçekleşti. Sağda ayrıntı ve

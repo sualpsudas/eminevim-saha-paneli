@@ -118,7 +118,7 @@ Her biri ayrı onay ister. Planı yazarken aşağıdaki etkileri kullanıcıya h
   testler `merkez-akis.py` (kabul/mesaj/yola çıkış/QR adımları pencereden yapılır), `browser-flows.py`, `phone-layout.py` personel sekmeleri;
   `senaryo.html` SPY ekranları ve `URUN_KURALLARI.md` SPY ekranı maddesi güncellenir.
 
-**G. Personel paneli kozmetik iyileştirmeleri (kullanıcı onayladı, 2026-11-12; sorulmadan yapılır)**
+**G. Personel paneli kozmetik iyileştirmeleri — YAPILDI (2026-11-12; ayrıntı `PROJE_ILERLEME.md`, kural `URUN_KURALLARI.md` → Personel)**
 - Kaynak: `design-plans/personel-panel-inceleme-2026-11-12.md` (dış inceleme metni). Yalnız **kozmetik** (boyut, ağırlık, renk tonu,
   hiza, boşluk, seçili görünüm, kontrast); akış, veri, düğme sayısı ve ekran yapısı değişmez.
 - Filtre (incelemedeki öneri bu kurallarla çelişirse kural kazanır):
