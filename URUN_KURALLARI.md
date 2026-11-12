@@ -293,3 +293,5 @@ Kullanıcı "taslak göster" dediğinde çalışan kod değil, **sunuma eklenebi
 3. Örnek kişi/veri kullan (ör. Ayşe Yılmaz, Sicil 48213); Eminevim logosu taslakta yok, "Tasarruf Yanımda" yazısı var.
 4. Chrome ile ekran görüntüsü alıp kontrol et (390 px'te yatay taşma olmasın), `master`'a commit + push, Pages linkini ver.
 5. `taslak/README.md` ve `linkler.html` listelerine ekle.
+
+- **Görüşmeler sayfa akışı (2026-11-12):** dar ekranda liste ve görüşme ayrıntısı ayrı sayfa gibidir; ayrıntıda başlıkta "Geri" listeye döner. Bildirime (yeni çağrı, yeni mesaj) dokununca ilgili görüşmenin sayfası açılır. Yeni çağrı ayrıntıyı kendiliğinden açmaz.

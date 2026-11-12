@@ -238,7 +238,7 @@ def teklif_et(veri, k, neden=""):
     olay(veri, f"{ad} ({k.get('yer') or ''}) → {spy['ad']} · puan {str(puan).replace('.', ',')} · {gerekce}{neden}", k["id"])
     zaman = " ".join(x for x in (k.get("gunYazi") or k.get("tarih") or "", k.get("saat") or "") if x)
     bildir(spy["id"], {"baslik": f"Yeni çağrı: {ad}", "govde": " · ".join(x for x in (k.get("yer"), zaman, "2 dk içinde kabul edin") if x),
-                       "etiket": k["id"]})
+                       "etiket": k["id"], "rid": k["id"]})
     return k
 
 

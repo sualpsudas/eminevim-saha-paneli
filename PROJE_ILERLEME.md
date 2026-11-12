@@ -695,3 +695,8 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Neden: merkez sürümünde (CANLI) hesaplar merkezde tutulur; yalnız Ayşe merkezde kayıtlıydı, diğer örnek müşteriler "kayıtlı değil" sayılıp kayıt ekranına düşüyordu.
 - Çözüm: `merkez/sunucu.py` açılışta/okumada 5 örnek müşteriyi (parola test123) ekler (`ORNEK_MUSTERILER`); uygulamadaki liste ile aynı olmalı. Servis yeniden başlatıldı.
 - Burak Şahin'in numarası 0543 650 78 90 oldu (önceki numara merkezde gerçek bir test hesabına — Emre Güneş — aitti).
+
+## 2026-11-12 (gece) — Görüşmeler: sayfa akışı ve bildirimden görüşmeye gitme
+- Dar ekranda (<900 px) Görüşmeler iki sayfa gibi: liste → bir görüşmeye dokununca yalnız ayrıntı açılır, başlıkta "Geri" listeye döner. Tablet/geniş ekranda liste solda, ayrıntı sağda aynen kaldı (Geri görünmez).
+- Yeni çağrı gelince ayrıntı kendiliğinden açılmaz (liste "Yeni çağrılar" grubunda, tarih sırasıyla görünür).
+- SPY bildirimi (uygulama içi, yeni çağrı ve yeni mesaj) dokununca o görüşmenin sayfasını açar. Tarayıcı/telefon bildirimi de: `merkez/sunucu.py` SPY bildirimine `rid` ekledi; uygulama kapalıysa `?ac=<id>` ile açılır, açıksa servis işçisi mesajla görüşmeyi seçer; SPY girişi yoksa girişten sonra açılır.

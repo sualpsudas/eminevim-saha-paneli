@@ -514,6 +514,13 @@ html{-webkit-tap-highlight-color:transparent}
 .customer-nav > button{min-height:52px!important;gap:3px!important;color:var(--dim)!important;box-shadow:inset 0 2px 0 transparent;transition:color .12s,box-shadow .12s}
 .customer-nav > button[aria-current="page"]{color:var(--navActive)!important;box-shadow:inset 0 2px 0 var(--navActive)}
 .customer-bas{flex:0 0 auto}
+.tp-geri{display:none;min-height:44px;min-width:44px;padding:0 8px 0 0;border:0;background:transparent;color:#00724C;font:700 13px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;cursor:pointer}
+.tp-geri:focus-visible,.tp-bildirim-git:focus-visible{outline:2px solid #00724C;outline-offset:2px;border-radius:8px}
+.tp-bildirim-git{cursor:pointer}
+@media (max-width:899px){
+  .tp-geri{display:block}
+  .tp-iki[data-detay="true"] > .tp-sutun:first-child{display:none}
+}
 .ornek-secim{margin-top:0}
 .customer-nav > button span{font-size:12px!important;font-weight:700!important}
 .tp-cip button{border:1.5px solid transparent;transition:background-color .12s,border-color .12s,color .12s}
@@ -710,7 +717,7 @@ html{-webkit-tap-highlight-color:transparent}
 
   <!-- Personel (SPY ve Yönetici): tablet düzeni -->
   <sc-if value="{{ isPersonel }}"><div class="tp">
-    <sc-if value="{{ bildirim }}"><div class="tp-bildirim" role="status"><img src="assets/logo-green.png" alt=""><div><b>{{ bildirimBaslik }}</b><span>{{ bildirimAlt }}</span></div><button type="button" onClick="{{ dismissBildirim }}" aria-label="Bildirimi kapat">×</button></div></sc-if>
+    <sc-if value="{{ bildirim }}"><div class="tp-bildirim" role="status"><img src="assets/logo-green.png" alt=""><sc-if value="{{ bildirimGitVar }}"><div class="tp-bildirim-git" role="button" tabindex="0" aria-label="{{ bildirimGitEtiket }}" onClick="{{ bildirimGit }}" onKeyDown="{{ bildirimGitTus }}"><b>{{ bildirimBaslik }}</b><span>{{ bildirimAlt }}</span></div></sc-if><sc-if value="{{ bildirimGitYok }}"><div><b>{{ bildirimBaslik }}</b><span>{{ bildirimAlt }}</span></div></sc-if><button type="button" onClick="{{ dismissBildirim }}" aria-label="Bildirimi kapat">×</button></div></sc-if>
     <nav class="tp-yan" aria-label="Personel menüsü"><img src="assets/logo-white.png" alt="Eminevim"><button type="button" class="tp-ust-kisi" onClick="{{ tpProfilGit }}" aria-label="Profil"><span><b>{{ tpAd }}</b><sc-if value="{{ tpUstDurumVar }}"><small>{{ tpUstDurum }}</small></sc-if></span><span class="tp-av" style="background-image:{{ tpFotoCss }};color:{{ tpBasRenk }};">{{ tpBas }}</span></button>
       <div class="tp-men"><sc-for list="{{ tpMenu }}" as="m" hint-placeholder-count="3"><button type="button" aria-current="{{ m.aktif }}" onClick="{{ m.onSec }}">{{ m.ad }}</button></sc-for></div>
       <div class="tp-kisi">
@@ -721,9 +728,9 @@ html{-webkit-tap-highlight-color:transparent}
       </div>
     </nav>
     <main class="tp-ana">
-      <div class="tp-bas"><h1>{{ tpBaslik }}</h1><sc-if value="{{ tpOrnekVar }}"><span class="tp-ornek">{{ tpOrnekZaman }}</span></sc-if><sc-if value="{{ tpGorusmelerAcik }}"><button type="button" class="tp-btn o" aria-pressed="{{ tpRotaAcik }}" onClick="{{ tpRotaDegistir }}">{{ tpRotaDugme }}</button></sc-if></div>
+      <div class="tp-bas"><sc-if value="{{ tpGeriVar }}"><button type="button" class="tp-geri" onClick="{{ tpGeri }}" aria-label="Görüşme listesine dön">Geri</button></sc-if><h1>{{ tpBaslik }}</h1><sc-if value="{{ tpOrnekVar }}"><span class="tp-ornek">{{ tpOrnekZaman }}</span></sc-if><sc-if value="{{ tpGorusmelerAcik }}"><button type="button" class="tp-btn o" aria-pressed="{{ tpRotaAcik }}" onClick="{{ tpRotaDegistir }}">{{ tpRotaDugme }}</button></sc-if></div>
 
-      <sc-if value="{{ tpGorusmelerAcik }}"><div class="tp-iki">
+      <sc-if value="{{ tpGorusmelerAcik }}"><div class="tp-iki" data-detay="{{ tpDetayAttr }}">
         <div class="tp-sutun">
           <div class="tp-cip" role="group" aria-label="Süz"><sc-for list="{{ tpFiltreler }}" as="f" hint-placeholder-count="4"><button type="button" aria-pressed="{{ f.secili }}" onClick="{{ f.onSec }}">{{ f.ad }}</button></sc-for></div>
           <sc-for list="{{ tpListe }}" as="r" hint-placeholder-count="6"><sc-if value="{{ r.baslikMi }}"><div class="tp-grup">{{ r.baslik }}</div></sc-if><sc-if value="{{ r.satirMi }}"><button type="button" class="tp-satir" aria-pressed="{{ r.secili }}" onClick="{{ r.onSec }}"><span class="tp-saat">{{ r.saat }}</span><span class="tp-ad"><b>{{ r.ad }}</b><span>{{ r.yer }}</span></span><span class="tp-hap" style="background:{{ r.hapBg }};color:{{ r.hapRenk }};">{{ r.hap }}</span></button></sc-if></sc-for>
@@ -1626,6 +1633,7 @@ class Component extends DCLogic {
     const q = new URLSearchParams(window.location.search);
     // Müşteri bildirimine dokunuldu: uygulama kapalıysa ?ac=<randevu>, açıksa servis çalışanından mesaj
     if (CANLI && q.get("ac")) this._acilacak = q.get("ac");
+    if (CANLI && this._acilacak && this.state.girisYapildi && this.state.panel === "spy") { const rid = this._acilacak; this._acilacak = null; this.gorusmeAc(rid); }  // SPY bildirimiyle açıldı: oturum zaten açıksa görüşmeye git
     if (CANLI && navigator.serviceWorker) navigator.serviceWorker.addEventListener("message", (e) => { if (e.data?.tip === "ty-randevu-ac" && e.data.rid) this.randevuAc(e.data.rid); });
     if (q.get("kaynak") === "web") {
       const t = telAnahtar(q.get("tel"));
@@ -1718,13 +1726,12 @@ class Component extends DCLogic {
           this._canliUyarilan.add(anahtar);
           const ad = k.musteri?.ad || "Müşteri";
           Canli.uyar("Yeni çağrı · Tasarruf Yanımda", ad + " · " + (k.gunYazi || "") + " " + (k.saat || "") + " · " + (k.yer || ""));
-          this.setState({ tpSekme: "gorusmeler", tpRota: false, tpSecim: this.state.tpSecim || k.id });
-          this.showBildirim({ sure: 15000, ad: "Yeni çağrı: " + ad, ilce: (k.yer || "") + (k.uzaklikKm != null ? " · " + k.uzaklikKm + " km" : "") });
+          this.showBildirim({ sure: 15000, gorusmeId: k.id, ad: "Yeni çağrı: " + ad, ilce: (k.yer || "") + (k.uzaklikKm != null ? " · " + k.uzaklikKm + " km" : "") });
         }
         const once = s.tpKayitlar?.[k.id], son = (k.mesajlar || []).slice(-1)[0];
         if (once && son && son.from === "musteri" && k.mesajlar.length > (once.mesajlar || []).length) {
           Canli.uyar("Yeni mesaj · " + (k.musteri?.ad || "Müşteri"), son.text);
-          if (s.tpSecim !== k.id) this.showBildirim({ ad: "Yeni mesaj: " + (k.musteri?.ad || "Müşteri"), ilce: son.text.slice(0, 60) });
+          if (s.tpSecim !== k.id) this.showBildirim({ gorusmeId: k.id, ad: "Yeni mesaj: " + (k.musteri?.ad || "Müşteri"), ilce: son.text.slice(0, 60) });
         }
       });
     }
@@ -1979,7 +1986,8 @@ class Component extends DCLogic {
         if (window.EMINEVIM_NATIVE) Canli.bildirimIzni();
         Canli.pushBagla(id, !otomatik).then((d) => { this.setState({ tpBildirim: d });
           if (!otomatik && d !== "acik" && d !== "native") this.showBildirim({ ad: "Bildirimler kapalı", ilce: "Uygulama kapalıyken çağrı gelmez · Profil'den açın" }); }); }
-      this.setState({ tpKayitlar: CANLI ? {} : this.state.tpKayitlar, tpDurum: "musait", personelRepId:id,personelLoginOpen: false, girisYapildi: true, panel: "spy", spyTab: "performans", spyPerformanceView: "ozet", managerUser: user, tpSekme: "gorusmeler", tpSecim: null, tpRota: false });
+      this.setState({ tpKayitlar: CANLI ? {} : this.state.tpKayitlar, tpDurum: "musait", personelRepId:id,personelLoginOpen: false, girisYapildi: true, panel: "spy", spyTab: "performans", spyPerformanceView: "ozet", managerUser: user, tpSekme: "gorusmeler", tpSecim: this._acilacak || null, tpRota: false });
+      this._acilacak = null;  // bildirimle açıldıysa o görüşmenin sayfası açılır
       return;
     }
     const rootNode = OrgData.findNode(user.scope, user.scopeId);
@@ -2550,7 +2558,14 @@ class Component extends DCLogic {
       if (d === "acik") this.showBildirim({ ad: "Bildirimler açık", ilce: "Uygulama kapalıyken de haber vereceğiz" });
     });
   }
+  gorusmeAc(id) {
+    // SPY bildirimine dokununca: Görüşmeler sekmesinde o görüşmenin sayfası açılır (Geri listeye döner)
+    if (!id) return;
+    if (this._bildirimHide) clearTimeout(this._bildirimHide);
+    this.setState({ bildirim: null, tpSekme: "gorusmeler", tpRota: false, tpSecim: id });
+  }
   randevuAc(rid) {
+    if (this.state.girisYapildi && this.state.panel !== "musteri" && this.state.panel !== "") { this._acilacak = null; this.gorusmeAc(rid); return; }
     // Bildirime dokununca: giriş yapılmışsa o randevu açılır, yapılmamışsa girişten sonra
     const s = this.state;
     if (s.girisYapildi && s.panel === "musteri" && (s.mTalep?.id === rid || (s.mGecmis || []).some((x) => x.id === rid))) {
@@ -3058,6 +3073,8 @@ class Component extends DCLogic {
         tpRotaSrc: "rota.html?b=40.9840,29.1270&n=" + rotaN,
         tpBugunVar: !s.tpRota && !sec, tpBugunToplam: bugun.length, tpBugunBekleyen: bugun.filter((g) => ["bekleyen", "yolda", "yeni"].indexOf(g.durum) >= 0).length, tpBugunGercek: bugun.filter((g) => g.durum === "gerceklesti").length,
         tpDetayVar: !s.tpRota && !!sec,
+        tpDetayAttr: !s.tpRota && !!sec ? "true" : "false", tpGeriVar: !s.tpRota && !!sec,
+        tpGeri: () => this.setState({ tpSecim: null, tpRota: false }),
       });
       if (sec) {
         const h = HAP[sec.durum];
@@ -3996,6 +4013,10 @@ class Component extends DCLogic {
       assignmentNotification: !!(s.bildirim && s.bildirim.assignment),
       regularNotification: !!(s.bildirim && !s.bildirim.assignment),
       dismissBildirim: () => this.setState({ bildirim: null }),
+      bildirimGitVar: !!(s.bildirim && s.bildirim.gorusmeId), bildirimGitYok: !(s.bildirim && s.bildirim.gorusmeId),
+      bildirimGitEtiket: "Görüşmeyi aç: " + ((s.bildirim && s.bildirim.ad) || ""),
+      bildirimGit: () => this.gorusmeAc(s.bildirim && s.bildirim.gorusmeId),
+      bildirimGitTus: (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); this.gorusmeAc(s.bildirim && s.bildirim.gorusmeId); } },
       acceptAssignment: () => this.acceptAssignment(),
       rejectAssignment: () => this.rejectAssignment("rejected"),
       triggerBildirimDemo: () => this.demoBildirim(),
