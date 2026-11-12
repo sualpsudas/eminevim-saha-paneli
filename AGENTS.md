@@ -134,6 +134,13 @@ Her biri ayrı onay ister. Planı yazarken aşağıdaki etkileri kullanıcıya h
 - Testler: tüm `tests/*.py` + node testleri; önce/sonra ekran görüntüsü (masaüstü 1363×936, telefon 390). Bitince `URUN_KURALLARI.md`
   personel maddesi + `PROJE_ILERLEME.md`; commit + push; merkez tek seferde yeniden başlatılır ve canlıda doğrulanır.
 
+**H. Ekip kalabalıklaşınca yönetici ekranları (kullanıcı onayladı, 2026-11-12; sırası gelince yapılır)**
+- Bugün 7 SPY. 30-50 SPY'de sorunlar: haritada simgeler üst üste, liste uzun, performans listesi uzun, herkes "Tümü"nü görüyor.
+- Yapılacaklar: (1) haritada yakın simgeleri sayılı yuvarlakta toplama (uzaktan bakınca), (2) Saha Canlı listesinde ad arama kutusu,
+  (3) kapsam seçimi: takım lideri kendi takımını, müdür hepsini görür (OrgData kapsamı), (4) Performans'ta takım/ilçe seçimi ve
+  "en iyi 5 / en zayıf 5" kısa görünümü, (5) "kimse almadı" olunca yöneticiye bildirim (bugün yalnız SPY ve müşteriye gidiyor).
+- Telefon kuralı korunur: Harita | Liste ayrı, sayfa kaymaz (`URUN_KURALLARI.md` → Saha Canlı). Test: `merkez-akis.py`, `phone-layout.py`.
+
 ## 8. Bitirirken
 1. Tüm testler geçti (çıktının son satırlarını göster).
 2. `PROJE_ILERLEME.md`'ye tarihli kısa not; kural değiştiyse `URUN_KURALLARI.md` / `CLAUDE.md` güncel.

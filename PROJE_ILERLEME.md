@@ -663,3 +663,11 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Test: 6 tarayıcı testi (`merkez-akis.py` 8795 deneme sunucusunda) + 2 node testi geçti.
 - Ek (aynı gün, kullanıcı): "Çağrı size nasıl gelir?" kartı kaldırıldı (AGENTS E). Sekme başlıkları dar tek satır, alt yazılar
   ("Tüm SPY'ler · pilot bölge", bölge, tarih) kalktı; Saha Canlı'da mesai dışında yalnız "Örnek: 11 Kasım 15:30" etiketi. Testler yine geçti.
+
+## 2026-11-12 · Saha Canlı telefonda Harita | Liste
+- Telefonda sayfa artık kaymıyor (iç içe kaydırma kalktı): süzgeçlerin altında Harita | Liste seçimi; harita kalan ekranı doldurur,
+  liste yalnız kendi içinde kayar. Simgeler 32 px; dokununca alttan kişi kartı (✕). Listeden kişi → haritada açılır.
+- Liste sırası: kimse almayan çağrılar (kırmızı, Tümü'nde) → Randevuda → Molada → Boşta. Süzgeçler telefonda tek satır.
+- Uygulamadaki Saha Canlı çerçevesi her ekranda tam oturuyor (bilgisayarda da dış kaydırma kalktı).
+- Kalabalık ekip için yapılacaklar AGENTS.md H'ye yazıldı (simge toplama, arama, takım kapsamı, performans süzgeci, yöneticiye bildirim).
+- Test: `phone-layout.py`'ye Saha Canlı telefon kontrolü eklendi; tüm testler geçti.

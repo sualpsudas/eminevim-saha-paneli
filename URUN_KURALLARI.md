@@ -167,6 +167,10 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
     (tarih seçimi yok): **Gelen Çağrı** ve **Görüşme Sayısı** (kapıda doğrulanan). Süzgeç: **Tümü / Boşta / Randevuda / Molada**.
     Harita: pilot ilçe sınırları (kalın yeşil) + mahalle sınırları ve adları (yakınlaşınca); altlık OpenStreetMap, soluk.
     SPY'ler **küçük simge, fotoğraf yok**: yeşil boşta, turuncu randevuda (yolda + görüşmede), gri molada; dokununca kısa bilgi.
+    **Telefonda (≤640 px, 2026-11-12):** sayfa kaymaz; süzgeçlerin altında **Harita | Liste** seçimi — harita kalan ekranı doldurur
+    (yalnız harita hareket eder), liste yalnız kendi içinde kayar. Simgeler büyük (32 px); dokununca balon yerine alttan kart (✕ ile kapanır).
+    Listeden kişiye dokununca Harita'ya geçer ve o kişinin kartı açılır. Liste sırası: kimse almayan çağrılar (Tümü'nde), Randevuda,
+    Molada, Boşta. Bilgisayarda harita üstte, liste altta (aynı sıra).
     Kimsenin almadığı çağrılar **kırmızı nokta**. Haritanın altında kısa SPY listesi (dokununca haritada gösterir). Eski çağrı kartları,
     olaylar ve uzun liste kalktı. Sınırlar `assets/pilot-sinirlar.js` (OpenStreetMap, sadeleştirilmiş).
   - **Performans:** kompakt liste — sıra, ad, ort. randevu H/G, ort. ciro H/G; iki oranın ortalamasına göre yukarıdan aşağı; altta ekip ortalaması.

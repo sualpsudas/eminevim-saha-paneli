@@ -510,6 +510,8 @@ html{-webkit-tap-highlight-color:transparent}
 .tp-bugun .tp-sayi .tp-kart b{color:var(--ink)!important}
 .tp-ornek{display:inline-block;background:#FFF1DD;color:#8A4B12;font-size:12px;font-weight:700;border-radius:8px;padding:2px 8px}
 .tp-bas{padding:8px 22px;min-height:52px;gap:10px}
+.tp-canli{display:flex;flex-direction:column;overflow:hidden}
+.tp-canli > iframe{flex:1;height:auto!important;min-height:0!important}
 .tp-bas h1{flex:0 1 auto;min-width:0;font-size:18px;line-height:1.3}
 .tp-bas .tp-btn{min-height:40px;padding:6px 14px;font-size:13px;margin-left:auto}
 @media (max-width:640px),(display-mode:standalone),(display-mode:fullscreen){
@@ -729,7 +731,7 @@ html{-webkit-tap-highlight-color:transparent}
         </div>
       </div></sc-if>
 
-      <sc-if value="{{ tpCanliMerkez }}"><div class="tp-govde" style="padding:0;"><iframe src="{{ tpCanliSrc }}" title="Saha Canlı: pilot bölge haritası ve SPY'ler" style="display:block;width:100%;height:calc(100vh - 130px);min-height:520px;border:0;"></iframe></div></sc-if>
+      <sc-if value="{{ tpCanliMerkez }}"><div class="tp-govde tp-canli" style="padding:0;"><iframe src="{{ tpCanliSrc }}" title="Saha Canlı: pilot bölge haritası ve SPY'ler" style="display:block;width:100%;height:calc(100vh - 130px);min-height:520px;border:0;"></iframe></div></sc-if>
 
       <sc-if value="{{ tpPerfAcik }}"><div class="tp-govde"><div class="tp-dar">
 <sc-if value="{{ pfSpyAcik }}"><div class="tp-govde">
