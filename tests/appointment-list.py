@@ -23,6 +23,7 @@ with sync_playwright() as p:
     rows.first.wait_for()
     assert frame.evaluate('window.EMINEVIM_NATIVE') is True
     assert frame.locator('.customer-header img').count()==1  # personel düzeniyle aynı üst bant (2026-11-12)
+    logo_x=frame.locator('.customer-ust-logo').bounding_box()['x']
     assert frame.locator('.customer-header').get_by_text('AK',exact=True).count()==1
     assert frame.locator('.customer-screen .login-return-button').count()==0
     assert frame.locator('.m-yeni').count()==1
@@ -39,7 +40,8 @@ with sync_playwright() as p:
     page.screenshot(path=str(OUT/'iphone-randevular-listesi.png'))
     rows.first.click()
     frame.get_by_role('button',name='Geri',exact=True).wait_for()
-    assert frame.locator('.m-header-back').inner_text()=='Geri'
+    assert frame.locator('.customer-bas .m-band-geri').inner_text()=='Geri'
+    assert abs(frame.locator('.customer-ust-logo').bounding_box()['x']-logo_x)<1  # Geri gelince logo kaymaz
     assert frame.get_by_text('Tüm randevular',exact=True).count()==0
     assert frame.get_by_role('button',name='Temsilciye yaz',exact=True).count()==0
     assert frame.locator('.m-durum').inner_text().find('Temsilciniz: Onur Kaya')>=0

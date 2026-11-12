@@ -706,3 +706,9 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Yönetici Performans: sabit başlık (İsim, Şube, Rand H/G, Ciro H/G), ince satırlı tablo, yalnız satırlar kayar, altta Ekip ortalaması.
 - Saha Canlı: liste ve Harita/Liste düğmesi kalktı; sayı kartları küçüldü; SPY ve "kimse almadı" işaretleri insan simgesiz küçük nokta; altlık OpenStreetMap, gri tonlu (CARTO anahtar istediği için başka sade altlık eklenmedi).
 - Testler: `phone-layout` (liste yerine nokta kontrolü), `merkez-akis` (bildirime dokunarak görüşme açma, yeni tablo) güncellendi.
+
+## 2026-11-12 (gece) — Geri konumu, giriş ekranları standardı, yönetici test sıfırlama
+- Müşteri sayfalarında Geri üst yeşil banttan başlık bandına (personeldeki gibi) taşındı; Geri çıkınca/gelince EMİNEVİM logosu kaymaz. Bant, Geri olan sayfalarda da görünür (başlıklar: Randevu, Sohbet, Finansman).
+- Müşteri ve personel girişinde sol üst Geri kalktı. Müşteri girişinde adımlar arası dönüş formun altında "Geri dön" bağlantısı; personelde sağ üstte "Müşteri Girişi".
+- İki giriş ekranı aynı ölçüde: logo 150 px, başlık 18 px, yan boşluk 30 px, sağ üst bağlantı aynı yükseklik (personel ekranı müşteri girişinin çerçeve kurallarına bağlandı).
+- Yönetici Profil sayfasına "Test verisini sıfırla" (canlıda merkeze api/sifirla, gösteride yerel temizlik; onay sorar).

@@ -64,11 +64,11 @@ with sync_playwright() as p:
             else:
                 page.screenshot(path=str(OUT/f'fixed-{width}-finansman-hesap.png'),animations='disabled')
         assert page.locator('.customer-finance-actions').get_by_role('button',name='Geri',exact=False).count()==0
-        page.locator('.customer-header').get_by_role('button',name='Geri',exact=True).click()
+        page.locator('.customer-bas').get_by_role('button',name='Geri',exact=True).click()
         assert app(page,'app.state.basvuruAdim')==2
-        page.locator('.customer-header').get_by_role('button',name='Geri',exact=True).click()
+        page.locator('.customer-bas').get_by_role('button',name='Geri',exact=True).click()
         assert app(page,'app.state.basvuruAdim')==1
-        page.locator('.customer-header').get_by_role('button',name='Geri',exact=True).click()
+        page.locator('.customer-bas').get_by_role('button',name='Geri',exact=True).click()
         assert app(page,'app.state.basvuruDuzenle') is False
         app(page,'app.setState({basvuruDuzenle:false})')
     # Finansman kendiliğinden seçilmez: tutar/plan/peşinat/vade boş başlar, kaydedilen ✓ almaz
