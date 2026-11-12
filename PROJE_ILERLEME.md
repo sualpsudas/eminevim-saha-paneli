@@ -671,3 +671,11 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Uygulamadaki Saha Canlı çerçevesi her ekranda tam oturuyor (bilgisayarda da dış kaydırma kalktı).
 - Kalabalık ekip için yapılacaklar AGENTS.md H'ye yazıldı (simge toplama, arama, takım kapsamı, performans süzgeci, yöneticiye bildirim).
 - Test: `phone-layout.py`'ye Saha Canlı telefon kontrolü eklendi; tüm testler geçti.
+
+## 2026-11-12 — Tema standardı (müşteri = personel düzeni)
+- Müşteri üst bandı personelinki gibi: düz yeşil bant, solda logo (Geri varsa önünde), sağda durum yazısı + baş harf düğmesi (Ayarlar'a gider). Eski yuvarlak köşeli "Tasarruf Yanımda" başlığı kalktı.
+- Müşteri alt menüsü: 52 px, 12 px etiket, #767676 pasif, seçili sekmede üstte 2 px yeşil çizgi (`aria-current`).
+- Kök sekmelerde (Randevularım, Sohbetler, Finansmanlarım, Ayarlar) personeldeki gibi beyaz sayfa başlığı bandı (`.tp-bas`); gövdedeki eski başlıklar kaldırıldı. Ayrıntı ekranlarında bant yok.
+- Yönetici/SPY zaten personel düzeninde. Sırada: örnek müşteriler, Görüşmeler sayfa akışı + bildirim, tablo/harita/rota.
+- Bilinen: Finansman kök listesinde "Geri" görünüyor (eski davranış, değişmedi).
+- Test: phone-layout.py ve browser-flows.py geçti.
