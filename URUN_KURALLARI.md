@@ -148,8 +148,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Fotoğraflar sentetik (`assets/temsilci/OKUBENI.md`). s1-s4 video ve senaryodaki kişilerdir. Randevu H/G ve ciro H/G (son 3 ay) **uydurmadır**.
 - **"Aktif değil" diye bir şey yok** (kullanıcı, 2026-11-11): uygulamada yalnız iki H/G'si de ≥ %100 olan SPY'ler bulunur. "Molada" ayrı
   bir durumdur (SPY kendisi seçer).
-- **Giriş:** Müşteri tek telefon numarası ekranından devam eder. **Personel Girişi** yalnız iki seçenek: **SPY** (açılır listeden kişi, fotoğraflı
-  önizleme + "Giriş yap") ve **Yönetici** (tek düğme; her yönetici hepsini görür). Cihaz SPY'nin son girişini hatırlar.
+- **Giriş (2026-11-12):** Müşteri tek telefon numarası ekranından devam eder; kayıtlı örnek müşteriler açılır kutudan seçilir. **Personel Girişi** sırası: EMİNEVİM, "Personel Girişi", fotoğraf (kartsız), tek açılır kutu (7 SPY + son seçenek **Yönetici**, seçilince kutu soft sarı, fotoğraf yerinde "Y"), her zaman görünen "Giriş yap" (seçim yokken soluk). "SPY"/"YÖNETİCİ" etiketi ve ayrı Yönetici düğmesi yok. İki giriş ekranında sol üstte Geri yok; sağ üstte karşı girişe geçiş ("Personel Girişi" / "Müşteri Girişi"); müşteride adımlar arası dönüş formun altında "Geri dön". İki ekran aynı ölçü ve hizada: logo 150 px, başlık 18 px, yan boşluk 30 px, içerik üstten sabit, telefon çerçevesi aynı konumda (üstten 48 px); personel penceresi açıkken arkadaki sayfa kaymaz (tek kaydırma çubuğu). Cihaz SPY'nin son girişini hatırlar.
 - **Atama** (ayrıntı `rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md`). Günlük sınır 4 çağrı.
   - **Hemen çağrı** (bugün, saati en geç 2 saat sonra): molada, yolda/görüşmede ve
     günlük sınırı dolan elenir. Puan: **yakınlık 50** (o anki yer: bugünkü son randevusu, yoksa kendi mahallesi), **H/G 30** (randevu 15 +
@@ -254,7 +253,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 - Randevu ayrıntısında ileri/geri çubuğu veya Tüm randevular metni yoktur. Başlıkta Geri logonun önünde görünür; listeye döner. SPY adı aktif randevu kartında tarih/adres altındadır; ayrı SPY kartı yoktur. Bekleyen randevu okunmuş olsa da ünlem taşır.
 - Sohbetler → Konuşmalar → SPY satırı → konuşma; `mKonusmaAcik` bu ayrımı tutar. Sekmeye basmak konuşma listesini açar; üst Geri aynı listeye döner.
 
-- Müşteri üst bandı personelinkiyle aynı (kullanıcı kararı 2026-11-12, eski "logo yok, simetrik" kuralının yerine): düz yeşil bant, solda logo, sağda durum yazısı + baş harf düğmesi (Ayarlar'a gider). Alt menü 52 px, 12 px etiket, seçili sekmede üstte 2 px yeşil çizgi. Kök sekmelerde (Randevularım, Sohbetler, Finansmanlarım, Ayarlar) altında personeldeki gibi beyaz başlık bandı. Dönüş gereken ekranda sol üstte logonun önünde yalnız Geri metni; ok/chevron yok; Finansman kök listesinde Geri yok. İçerikte/kartta ve finansman formunun altında tekrar dönüş düğmesi kullanma; finansman adım dönüşü de üst Geri üzerinden yapılır.
+- Müşteri üst bandı personelinkiyle aynı (kullanıcı kararı 2026-11-12, eski "logo yok, simetrik" kuralının yerine): düz yeşil bant, solda logo, sağda durum yazısı + baş harf düğmesi (Ayarlar'a gider). Alt menü 52 px, 12 px etiket, seçili sekmede üstte 2 px yeşil çizgi. Kök sekmelerde (Randevularım, Sohbetler, Finansmanlarım, Ayarlar) altında personeldeki gibi beyaz başlık bandı. Dönüş gereken ekranda Geri **başlık bandında** (personeldeki gibi "Geri · Başlık"; Geri olan sayfalara Randevu/Sohbet/Finansman başlığı verilir), logo hiç kaymaz; ok/chevron yok; Finansman kök listesinde Geri yok. İçerikte/kartta ve finansman formunun altında tekrar dönüş düğmesi kullanma; finansman adım dönüşü de üst Geri üzerinden yapılır.
 
 ## Müşteri ekranı ilkeleri
 - Olabildiğince basit; gereksiz yazı yok, her ekranda tek soru grubu ve tek ana buton.
@@ -295,3 +294,4 @@ Kullanıcı "taslak göster" dediğinde çalışan kod değil, **sunuma eklenebi
 5. `taslak/README.md` ve `linkler.html` listelerine ekle.
 
 - **Görüşmeler sayfa akışı (2026-11-12):** dar ekranda liste ve görüşme ayrıntısı ayrı sayfa gibidir; ayrıntıda başlıkta "Geri" listeye döner. Bildirime (yeni çağrı, yeni mesaj) dokununca ilgili görüşmenin sayfası açılır. Yeni çağrı ayrıntıyı kendiliğinden açmaz.
+- **Yönetici ve rota (2026-11-12):** Yönetici Performans = sabit başlıklı tablo (İsim, Şube, Rand H/G, Ciro H/G; H/G = hedef gerçekleştirme yüzdesi), yalnız satırlar kayar. Saha Canlı'da liste yok; SPY'ler ve "kimse almadı" çağrıları küçük nokta, altlık gri tonlu OpenStreetMap. Yönetici Profil'inde "Test verisini sıfırla" (onay ister). "Yola çık" → SPY görüşme sayfasında ve müşterinin takip ekranında gerçek yol rotası + "N dk · X km" (OSRM genel sunucusu, prototip; müşteride "Temsilciniz"); tahmini varış yol süresiyle güncellenir.
