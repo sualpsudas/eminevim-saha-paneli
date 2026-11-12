@@ -661,3 +661,5 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
   sayaçlar nötr; "Rotayı kapat" açıkken açık yeşil; Çıkış yap gri çerçeve, koyu yazı.
 - Yapılmadı: E/F (onay bekliyor), harita altlığı, Inter/yeni palet, Personel Girişi çerçevesi (linkler önizlemesi), animasyon.
 - Test: 6 tarayıcı testi (`merkez-akis.py` 8795 deneme sunucusunda) + 2 node testi geçti.
+- Ek (aynı gün, kullanıcı): "Çağrı size nasıl gelir?" kartı kaldırıldı (AGENTS E). Sekme başlıkları dar tek satır, alt yazılar
+  ("Tüm SPY'ler · pilot bölge", bölge, tarih) kalktı; Saha Canlı'da mesai dışında yalnız "Örnek: 11 Kasım 15:30" etiketi. Testler yine geçti.

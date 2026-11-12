@@ -508,8 +508,12 @@ html{-webkit-tap-highlight-color:transparent}
 .tp-btn.o[aria-pressed="true"]{background:var(--tintGreen)}
 .tp-btn.tp-cikis{border:1px solid var(--line);color:var(--ink);min-height:44px}
 .tp-bugun .tp-sayi .tp-kart b{color:var(--ink)!important}
-.tp-ornek{display:inline-block;margin-top:4px;background:#FFF1DD;color:#8A4B12;font-size:12px;font-weight:700;border-radius:8px;padding:2px 8px}
+.tp-ornek{display:inline-block;background:#FFF1DD;color:#8A4B12;font-size:12px;font-weight:700;border-radius:8px;padding:2px 8px}
+.tp-bas{padding:8px 22px;min-height:52px;gap:10px}
+.tp-bas h1{flex:0 1 auto;min-width:0;font-size:18px;line-height:1.3}
+.tp-bas .tp-btn{min-height:40px;padding:6px 14px;font-size:13px;margin-left:auto}
 @media (max-width:640px),(display-mode:standalone),(display-mode:fullscreen){
+  .tp-bas{padding:8px 12px}
   .pf-sat > b{font-size:24px}
   .tp-cip button{min-height:44px}
 }
@@ -699,7 +703,7 @@ html{-webkit-tap-highlight-color:transparent}
       </div>
     </nav>
     <main class="tp-ana">
-      <div class="tp-bas"><h1>{{ tpBaslik }}<small>{{ tpAltBaslik }}</small><sc-if value="{{ tpOrnekVar }}"><span class="tp-ornek">{{ tpOrnekZaman }}</span></sc-if></h1><sc-if value="{{ tpGorusmelerAcik }}"><button type="button" class="tp-btn o" aria-pressed="{{ tpRotaAcik }}" onClick="{{ tpRotaDegistir }}">{{ tpRotaDugme }}</button></sc-if></div>
+      <div class="tp-bas"><h1>{{ tpBaslik }}</h1><sc-if value="{{ tpOrnekVar }}"><span class="tp-ornek">{{ tpOrnekZaman }}</span></sc-if><sc-if value="{{ tpGorusmelerAcik }}"><button type="button" class="tp-btn o" aria-pressed="{{ tpRotaAcik }}" onClick="{{ tpRotaDegistir }}">{{ tpRotaDugme }}</button></sc-if></div>
 
       <sc-if value="{{ tpGorusmelerAcik }}"><div class="tp-iki">
         <div class="tp-sutun">
@@ -734,9 +738,7 @@ html{-webkit-tap-highlight-color:transparent}
           <sc-for list="{{ pfCubuklar }}" as="c" hint-placeholder-count="2"><div><div class="pf-sat"><span>{{ c.ad }}</span><b style="color:{{ c.renk }};">{{ c.deger }}</b></div><sc-if value="{{ c.hedefVar }}"><div class="pf-hedef" aria-hidden="true"><span>%100 hedef</span></div></sc-if><div class="pf-ray"><i style="width:{{ c.genislik }};background:{{ c.renk }};"></i><s title="%100 hedef"></s></div></div></sc-for>
           <div style="font-size:12.5px;color:var(--dim);">{{ pfAciklama }}</div>
         </div>
-        <div class="tp-sayi" style="margin-top:12px;grid-template-columns:repeat(2,minmax(0,1fr));"><sc-for list="{{ pfKpi }}" as="k" hint-placeholder-count="4"><div class="tp-kart"><b class="pf-kpi">{{ k.pay }}<small> / {{ k.payda }}</small></b><span>{{ k.ad }}</span></div></sc-for></div>
-        <div class="tp-kart" style="margin-top:12px;font-size:13px;line-height:1.55;color:var(--ink);"><b style="display:block;margin-bottom:4px;">Çağrı size nasıl gelir?</b>{{ pfKural }}</div>
-      </div></sc-if>
+        <div class="tp-sayi" style="margin-top:12px;grid-template-columns:repeat(2,minmax(0,1fr));"><sc-for list="{{ pfKpi }}" as="k" hint-placeholder-count="4"><div class="tp-kart"><b class="pf-kpi">{{ k.pay }}<small> / {{ k.payda }}</small></b><span>{{ k.ad }}</span></div></sc-for></div>      </div></sc-if>
       <sc-if value="{{ pfYonAcik }}"><div class="tp-govde">
         <div class="tp-kart py-tablo"><div class="py-sat py-bas"><span>#</span><span>SPY</span><span>Ort. randevu H/G</span><span>Ort. ciro H/G</span></div><sc-for list="{{ pyListe }}" as="k" hint-placeholder-count="7"><div class="py-sat"><span class="py-sira">{{ k.sira }}</span><span class="py-ad"><b>{{ k.ad }}</b><small>{{ k.alt }}</small></span><b class="py-oran" style="color:{{ k.randevuRenk }};"><span class="py-mobil-etiket">Ort. randevu H/G</span>{{ k.randevu }}</b><b class="py-oran" style="color:{{ k.ciroRenk }};"><span class="py-mobil-etiket">Ort. ciro H/G</span>{{ k.ciro }}</b></div></sc-for><div class="py-sat py-ort"><span></span><span>Ekip ortalaması</span><b class="py-oran" style="color:{{ pyOrtRandevuRenk }};"><span class="py-mobil-etiket">Ort. randevu H/G</span>{{ pyOrtRandevu }}</b><b class="py-oran" style="color:{{ pyOrtCiroRenk }};"><span class="py-mobil-etiket">Ort. ciro H/G</span>{{ pyOrtCiro }}</b></div></div>
       </div></sc-if>
@@ -2914,8 +2916,7 @@ class Component extends DCLogic {
       return { pfSpyAcik: true, pfYonAcik: false,
         pfCubuklar: [["Randevu H/G", x.randevuHG], ["Ciro H/G", x.ciroHG]].map(([ad, v], i) => ({ ad, deger: yuzde(v), renk: renk(v), genislik: Math.min(100, v / 1.5) + "%", hedefVar: i === 0 })),
         pfAciklama: "Tasarruf Yanımda çağrısı almak için iki oranın da %100 veya üstünde kalması gerekir. Çubuk %150'ye kadar ölçeklidir.",
-        pfKpi: [{ ad: "Ekipte H/G sıranız", pay: sira, payda: L.length }, { ad: "Bugünkü çağrı (en fazla 4)", pay: bugunSay, payda: 4 }],
-        pfKural: "Hemen istenen çağrı (bugün, en geç 2 saat sonrası) uygulaması açık, müsait ve randevuda olmayan SPY'ler arasında puanla gider: yakınlık 50, H/G 30, bugünkü çağrı sayısı 20. İleri saat ya da gün için o saatte randevusu olmayan SPY'ler arasında: H/G 50, kendi bölgenize ya da o günkü randevularınıza yakınlık 30, o günkü çağrı sayısı 20. Günde en fazla 4 çağrı; 2 dakikada kabul edilmezse sıradaki SPY'ye geçer. Değerler test için uydurmadır." };
+        pfKpi: [{ ad: "Ekipte H/G sıranız", pay: sira, payda: L.length }, { ad: "Bugünkü çağrı (en fazla 4)", pay: bugunSay, payda: 4 }] };
     }
     const o = (k) => Math.round(L.reduce((t, x) => t + x[k], 0) / L.length);
     return { pfSpyAcik: false, pfYonAcik: true,
@@ -2963,8 +2964,7 @@ class Component extends DCLogic {
       tpGorusmelerAcik: sekme === "gorusmeler", tpCanliAcik: false, tpCanliMerkez: sekme === "canli", tpCanliSrc: CANLI ? "takip?gomulu=1" : "merkez/takip.html?gomulu=1&demo=1", tpPerfAcik: sekme === "performans",
       ...this.performansDegerleri(s, sekme === "performans" ? rol : ""),
       tpBaslik: sekme === "gorusmeler" ? "Görüşmeler" : sekme === "canli" ? "Saha Canlı" : sekme === "profil" ? "Profil" : "Performans",
-      tpAltBaslik: sekme === "gorusmeler" ? gunAd(0) : rol === "spy" ? (TEMSILCI_DETAY[s.personelRepId] || {}).ilce + " · " + (TEMSILCI_DETAY[s.personelRepId] || {}).mahalle : "Tüm SPY'ler · pilot bölge",
-    };
+   };
     // Müsaitlik: görüşmede iken otomatik; değilse Müsait / Molada elle
     const liste = gorusmeYapar ? this.tpGorusmeler(s) : [];
     const gorusmede = liste.some((g) => g.durum === "gorusmede");
@@ -3058,9 +3058,8 @@ class Component extends DCLogic {
       const simdi = new Date(), mesai = simdi.getDay() > 0 && simdi.getDay() < 6 && simdi.getHours() >= 9 && simdi.getHours() < 19;
       let an = simdi.getTime();
       if (!mesai) { const d = new Date(simdi); d.setHours(15, 30, 0, 0); while (d.getDay() === 0 || d.getDay() === 6 || d > simdi) d.setDate(d.getDate() - 1); an = d.getTime(); }
-      out.tpAltBaslik = (user.birimAd || "") + (mesai ? " · şu an" : "");
-      out.tpOrnekVar = !mesai;
-      out.tpOrnekZaman = "Mesai dışında: örnek olarak " + new Date(an).toLocaleDateString("tr-TR", { day: "numeric", month: "long" }) + " 15:30 durumu";
+     out.tpOrnekVar = !mesai;
+      out.tpOrnekZaman = "Örnek: " + new Date(an).toLocaleDateString("tr-TR", { day: "numeric", month: "long" }) + " 15:30";
       const oz = OrgData.canliOzet(ids, an);
       const f = s.tcFiltre || "tumu";
       const DUR = { musait: ["Müsait", "var(--tintGreen)", "#00724C"], yolda: ["Yolda", "#FDF1E8", "#B25E30"], gorusmede: ["Görüşmede", "#00724C", "#fff"], molada: ["Molada", "var(--kutu)", "var(--dim)"], mesaiDisi: ["Mesai dışı", "var(--kutu)", "var(--dim)"] };
