@@ -71,7 +71,7 @@ def simdi():
 
 def bos_veri():
     return {"surum": 1, "spyler": {s["id"]: {**s, "durum": "musait", "sonGorulme": 0} for s in SPYLER}, "kayitlar": {},
-            "musteriler": {AYSE_TEL: dict(AYSE)}, "olaylar": []}
+            "musteriler": {t: dict(m) for t, m in ORNEK_MUSTERILER.items()}, "olaylar": []}
 
 
 # ---- Müşteri hesabı: telefon + parola her telefonda aynı. Parolanın kendisi saklanmaz (PBKDF2 özeti). ----
@@ -93,13 +93,18 @@ def tel_temiz(deger):
 AYSE_TEL = "5321456789"  # gösteri hesabı (Ayşe Kaya, parola test123); sıfırlamada yeniden kurulur
 _t, _o = parola_ozet("test123")
 AYSE = {"ad": "Ayşe Kaya", "tuz": _t, "ozet": _o, "kvkkTarih": 0, "olusma": 0}
+# Örnek müşteriler (uygulamadaki ORNEK_MUSTERILER ile aynı; hepsi parola test123). Eksikse her okumada eklenir.
+ORNEK_MUSTERILER = {AYSE_TEL: AYSE, **{tel: {**AYSE, "ad": ad} for tel, ad in [
+    ("5332103456", "Zeynep Arslan"), ("5353204567", "Can Öztürk"), ("5414305678", "Elif Yıldız"), ("5436507890", "Burak Şahin")]}}
 
 
 def oku():
     if not VERI.exists():
         yaz(bos_veri())
     veri = json.loads(VERI.read_text(encoding="utf-8"))
-    veri.setdefault("musteriler", {AYSE_TEL: dict(AYSE)})
+    musteriler = veri.setdefault("musteriler", {})
+    for tel, m in ORNEK_MUSTERILER.items():
+        musteriler.setdefault(tel, dict(m))
     eski = veri["spyler"]
     veri["spyler"] = {s["id"]: {**eski.get(s["id"], {"durum": "musait", "sonGorulme": 0}), **s} for s in SPYLER}  # listeden çıkan SPY düşer
     return veri

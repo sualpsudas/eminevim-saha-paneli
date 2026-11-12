@@ -690,3 +690,8 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 ## 2026-11-12 (akşam) — Örnek müşteri açılır kutusu, personel girişinde Müşteri Girişi
 - Giriş ekranında örnek müşteriler çip yerine açılır kutu (Ayşe, Zeynep, Can, Elif, Burak + "Yeni üye (örnek bilgilerle)"). Tek seçim: örnek müşteri seçiliyken parola ekranına gider, kayıt ekranına değil; "Yeni üye" seçilince rastgele kayıtsız numara gelir. Telefon elle değişirse seçim ona göre güncellenir.
 - Personel Girişi ekranında sağ üstte "Müşteri Girişi" (sol üstte Geri); ikisi telefon çerçevesinin içinde.
+
+## 2026-11-12 (gece) — "Hesabınızı oluşturun" sorunu (canlı merkez)
+- Neden: merkez sürümünde (CANLI) hesaplar merkezde tutulur; yalnız Ayşe merkezde kayıtlıydı, diğer örnek müşteriler "kayıtlı değil" sayılıp kayıt ekranına düşüyordu.
+- Çözüm: `merkez/sunucu.py` açılışta/okumada 5 örnek müşteriyi (parola test123) ekler (`ORNEK_MUSTERILER`); uygulamadaki liste ile aynı olmalı. Servis yeniden başlatıldı.
+- Burak Şahin'in numarası 0543 650 78 90 oldu (önceki numara merkezde gerçek bir test hesabına — Emre Güneş — aitti).
