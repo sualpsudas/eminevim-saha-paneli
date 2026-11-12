@@ -69,9 +69,10 @@ def gelen_bekle(yollar, sure=8):
 def personel(pg, sid=None):
     pg.get_by_role('button', name='Personel Girişi', exact=True).click()
     if sid is None:
-        pg.get_by_role('button', name='Yönetici', exact=True).click()
+        pg.get_by_label('Personel seçin').select_option('yonetici')
+        pg.get_by_role('button', name='Yönetici olarak giriş yap', exact=True).click()
         return bekle(pg, 'app.state.panel==="ask"')
-    pg.get_by_label('SPY seçin').select_option(sid)
+    pg.get_by_label('Personel seçin').select_option(sid)
     ad = next(s['ad'] for s in SPYLER if s['id'] == sid)
     pg.get_by_role('button', name=ad + ' olarak giriş yap', exact=True).click()
     bekle(pg, 'app.state.panel==="spy" && app.state.personelRepId===' + repr(sid))
@@ -94,8 +95,8 @@ with sync_playwright() as p:
 
     # Personel girişi: açılır listede 7 SPY; Derya (tablet) ve Onur (telefon) girer → uygulamaları açık
     spy.get_by_role('button', name='Personel Girişi', exact=True).click()
-    assert spy.get_by_label('SPY seçin').locator('option').count() == 8
-    spy.get_by_role('button', name='Geri', exact=True).click()
+    assert spy.get_by_label('Personel seçin').locator('option').count() == 9  # boş + 7 SPY + Yönetici
+    spy.get_by_role('button', name='Müşteri Girişi', exact=True).click()
     personel(spy, 's2'); personel(spy_diger, 's1')
     spy.screenshot(path=str(OUT / '1-spy-giris.png'))
     # Bildirim abonelikleri: Derya iki telefonda (t1, t2), Selin bir telefonda (t3) + aboneliği bırakmış bir telefon (/gone)

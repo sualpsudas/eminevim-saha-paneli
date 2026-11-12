@@ -712,3 +712,7 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Müşteri ve personel girişinde sol üst Geri kalktı. Müşteri girişinde adımlar arası dönüş formun altında "Geri dön" bağlantısı; personelde sağ üstte "Müşteri Girişi".
 - İki giriş ekranı aynı ölçüde: logo 150 px, başlık 18 px, yan boşluk 30 px, sağ üst bağlantı aynı yükseklik (personel ekranı müşteri girişinin çerçeve kurallarına bağlandı).
 - Yönetici Profil sayfasına "Test verisini sıfırla" (canlıda merkeze api/sifirla, gösteride yerel temizlik; onay sorar).
+
+## 2026-11-12 (gece) — Personel girişi yeniden düzenlendi
+- Sıra: EMİNEVİM, Personel Girişi, fotoğraf (kartsız, 132 px), açılır kutu, Giriş yap. "SPY" ve "YÖNETİCİ" etiketleri ve Yönetici düğmesi kalktı; Yönetici açılır kutunun son seçeneği (seçilince kutu soft sarı, fotoğraf yerinde "Y" dairesi).
+- Müşteri ve personel giriş ekranlarında içerik üstten sabit (logo/başlık aynı yükseklikte).
