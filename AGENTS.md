@@ -104,7 +104,7 @@ Her biri ayrı onay ister. Planı yazarken aşağıdaki etkileri kullanıcıya h
   (Apple .p8 anahtarı, Key ID, Team ID — kullanıcı sağlar, depoya girmez), Codemagic'te yeni derleme (kullanıcı başlatır).
   Web Push yolu bozulmamalı: `merkez-akis.py` bildirim adımları geçmeye devam etmeli.
 
-**E. SPY Performans'taki "Çağrı size nasıl gelir?" kartını kaldırmak (kullanıcı istedi, 2026-11-12; sonra yapılacak)**
+**E. SPY Performans'taki "Çağrı size nasıl gelir?" kartını kaldırmak — YAPILDI (2026-11-12)**
 - Bugün: SPY Performans sekmesinde, ekip sıralamasının altında "Çağrı size nasıl gelir?" kartı + `pfKural` metni (atama kuralı özeti).
 - Yapılırsa: o kart ve `pfKural` değeri kaldırılır; `URUN_KURALLARI.md` SPY ekranı maddesindeki "kural özeti" çıkarılır.
   Değişen testler: bu metni bekleyen test varsa (`merkez-akis.py`, `phone-layout.py` personel sekmeleri) güncellenir.

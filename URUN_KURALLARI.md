@@ -161,7 +161,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
     görüşmesi bitti) kendiliğinden ona teklif edilir. **Yöneticiye düşme, Ata ve Aktar yok.** Süresi dolmuş çağrıyı eski SPY kabul edemez.
 - **SPY ekranı:** yeni çağrıda ses + titreşim + "Yeni çağrı: Ad"; ayrıntıda **kabul için kalan süre** (geri sayım; "Neden size geldi" satırı
   2026-11-11'de kaldırıldı) ve müşterinin görüşmeye hazırlık bilgileri (ne için, çalışma durumu, yaş aralığı, not).
-  Performans: son 3 ay randevu ve ciro H/G çubukları, ekipteki sıra (x/7), bugünkü çağrı (en fazla 4), kural özeti.
+  Performans: son 3 ay randevu ve ciro H/G çubukları, ekipteki sıra (x/7), bugünkü çağrı (en fazla 4). ("Çağrı size nasıl gelir?" kartı 2026-11-12 kaldırıldı.)
 - **Yönetici ekranı:** Saha Canlı ve Performans. **Destek bölümü yok** (yönetici, müşteri ve testlerden kaldırıldı, 2026-11-11).
   - **Saha Canlı** = merkezin takip sayfası (uygulamada ve bilgisayarda aynı düzen; Pages gösterisinde örnek veriyle). Yalnız **bugün**
     (tarih seçimi yok): **Gelen Çağrı** ve **Görüşme Sayısı** (kapıda doğrulanan). Süzgeç: **Tümü / Boşta / Randevuda / Molada**.
@@ -202,7 +202,8 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
     yeşil çerçeve (Müsaitlik'te ✓), telefonda 44 px. Alt menü etiketi #767676 12 px, seçili sekmede üstte 2 px yeşil çizgi.
     Sayaçlar (Görüşmeler, Saha Canlı, Performans sıra/çağrı) koyu nötr; yeşil yalnız durum ve H/G için. SPY Performans'ta
     H/G yüzdesi büyük (28/24 px), çubukta %100 hedef çizgisi (ölçek %150). Yönetici tablosunda %100 üstü yeşil, tam %100 koyu nötr.
-    Saha Canlı mesai dışı örnek zamanı açık kehribar etiket; uygulama içinde harita kısa (kişi kartları ilk ekranda). Çıkış yap gri çerçeveli.
+    Sekme başlığı dar tek satır, alt yazı yok ("Tüm SPY'ler · pilot bölge", bölge, tarih kalktı; kullanıcı 2026-11-12).
+    Saha Canlı mesai dışında başlığın yanında açık kehribar "Örnek: 11 Kasım 15:30" etiketi; uygulama içinde harita kısa (kişi kartları ilk ekranda). Çıkış yap gri çerçeveli.
   - **Görüşmeler** (SPY ve TL; takım liderleri de görüşme yapar): tarih sırası, gruplar Yeni talepler · Bugün · Yarın ·
     Sonraki günler · Geçmiş; durumlar **Bekleyen** (yeni talep / yoldasınız alt hâlleri) → **Şu an görüşülüyor** (QR ile
     doğrulanınca, görüşme bitene kadar) → **Gerçekleşti**; süzgeç Tümü/Bekleyen/Şu an/Gerçekleşti. Sağda ayrıntı ve
