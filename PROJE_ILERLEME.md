@@ -686,3 +686,7 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Finansman kök listesinde ve 1. adımda Geri yok; yalnız adım içinde/düzenlemede.
 - URUN_KURALLARI'ndaki eski "müşteri başlığında logo yok, simetrik" kuralı güncellendi. `senaryo.html` müşteri ekranını taklit ediyor, henüz güncellenmedi (açık iş).
 - Testler: appointment-list, phone-layout (liste için kayıt ekler), browser-flows, web-flows, preparation-popup geçti.
+
+## 2026-11-12 (akşam) — Örnek müşteri açılır kutusu, personel girişinde Müşteri Girişi
+- Giriş ekranında örnek müşteriler çip yerine açılır kutu (Ayşe, Zeynep, Can, Elif, Burak + "Yeni üye (örnek bilgilerle)"). Tek seçim: örnek müşteri seçiliyken parola ekranına gider, kayıt ekranına değil; "Yeni üye" seçilince rastgele kayıtsız numara gelir. Telefon elle değişirse seçim ona göre güncellenir.
+- Personel Girişi ekranında sağ üstte "Müşteri Girişi" (sol üstte Geri); ikisi telefon çerçevesinin içinde.
