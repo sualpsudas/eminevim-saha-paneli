@@ -716,3 +716,9 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 ## 2026-11-12 (gece) — Personel girişi yeniden düzenlendi
 - Sıra: EMİNEVİM, Personel Girişi, fotoğraf (kartsız, 132 px), açılır kutu, Giriş yap. "SPY" ve "YÖNETİCİ" etiketleri ve Yönetici düğmesi kalktı; Yönetici açılır kutunun son seçeneği (seçilince kutu soft sarı, fotoğraf yerinde "Y" dairesi).
 - Müşteri ve personel giriş ekranlarında içerik üstten sabit (logo/başlık aynı yükseklikte).
+
+## 2026-11-12 (gece) — Yola çık: gerçek yol rotası
+- `rota.html` `yol=1` ile OSRM genel sunucusundan gerçek yol rotasını çizer (yeşil, kalın) ve altta "N dk · X km" rozeti gösterir; alınamazsa eski kesikli düz çizgi kalır. `e=` ile etiket (müşteride "Temsilciniz", SPY'de "Siz").
+- SPY "Yola çık" deyince görüşme sayfasında rota kartı açılır. Müşterinin "Temsilcinizi takip edin" haritası aynı rotayı gösterir.
+- Tahmini varış gerçek yol süresiyle güncellenir (`yolSuresiGuncelle`; müşteri ekranındaki "Tahmini varış" da buna uyar).
+- Sınır (prototip): OSRM genel sunucusu ticari kullanıma uygun değil, kullanım sınırı var; gerçek yayında ücretli/kendi yönlendirme servisi gerekir. SPY'nin canlı GPS'i yok: rota SPY'nin kayıtlı konumundan çizilir, hareket etmez.

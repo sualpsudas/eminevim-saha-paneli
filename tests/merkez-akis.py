@@ -185,6 +185,10 @@ with sync_playwright() as p:
     spy.get_by_role('button', name='Yola çık · müşteriye bildir', exact=True).click()
     bekle(musteri, 'app.state.mTalep.durum==="yolda"')
     assert musteriye(3) == 3, 'Yola çıkışta müşteriye bildirim'
+    # Yol rotası (2026-11-12): SPY detayında rota kartı, müşteri takip haritası 'Temsilciniz' diliyle
+    rota = spy.frame_locator('iframe[title="Görüşme noktasına rota"]'); rota.locator('.chip').wait_for(timeout=20000)
+    assert 'dk' in rota.locator('.chip').inner_text()
+    assert 'e=Temsilciniz' in app(musteri, 'app.mAkisDegerleri(app.state).mTakipHarita') and 'yol=1' in app(musteri, 'app.mAkisDegerleri(app.state).mTakipHarita')
     # Bildirime dokunma: ilgili randevu açılır; Ayarlar'da Bildirimler kartı
     app(musteri, 'app.setState({customerNav:"ayarlar"})')
     musteri.get_by_role('region', name='Bildirimler').wait_for()

@@ -761,6 +761,7 @@ html{-webkit-tap-highlight-color:transparent}
             <sc-if value="{{ tpDNotVar }}"><div style="background:var(--tintGreen);border-radius:12px;padding:9px 12px;font-size:13px;color:var(--ink);">{{ tpDNot }}</div></sc-if>
             <sc-if value="{{ tpDKabulVar }}"><div style="display:flex;gap:10px;"><button type="button" class="tp-btn" style="flex:2;" onClick="{{ tpKabulEt }}">Kabul et</button><button type="button" class="tp-btn o" style="flex:1;" onClick="{{ tpDevret }}">Devret</button></div></sc-if>
             <sc-if value="{{ tpDYolaVar }}"><button type="button" class="tp-btn" onClick="{{ tpYolaCik }}">Yola çık · müşteriye bildir</button></sc-if>
+            <sc-if value="{{ tpDRotaVar }}"><div class="tp-kart" style="padding:0;overflow:hidden;height:300px;position:relative;"><iframe src="{{ tpDRotaSrc }}" title="Görüşme noktasına rota" style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe></div></sc-if>
             <sc-if value="{{ tpDegisiklikVar }}"><div class="m-kart m-not"><b>Yeni zaman önerisi</b><p>{{ tpDegisiklikYazi }}</p><button class="m-btn" onClick="{{ tpDegisiklikOnayla }}">Yeni zamanı onayla</button></div></sc-if>
 <sc-if value="{{ tpDQrVar }}"><button class="m-btn o" onClick="{{ tpGecikmeBildir }}">10 dk gecikme bildir</button></sc-if>
 <sc-if value="{{ tpDQrVar }}"><button type="button" class="tp-btn" onClick="{{ spyQrAc }}">Vardım: müşterinin QR'ını okut</button></sc-if>
@@ -1860,6 +1861,7 @@ class Component extends DCLogic {
     }
     if (islem === "gecikme" && t.durum === "yolda") t = {...t,gecikme:(t.gecikme||0)+10,varisZamani:(t.varisZamani||Date.now())+10*60000};
     this.mKayitYaz(t);
+    if (islem === "yol") this.yolSuresiGuncelle(id);
     if (CANLI) {
       const ilkAd = String(t.musteri?.ad || "").split(/\s+/)[0];
       const yazi = islem === "kabul" ? atamaMesaji(ilkAd, t.repId, t).text.replace("aşağıdan onaylayabilirsiniz", "Randevularım'dan onaylayabilirsiniz")
@@ -1868,6 +1870,17 @@ class Component extends DCLogic {
       return;
     }
     if (this.state.mTalep?.id === id) this.setState((st)=>({chatMessages:[...st.chatMessages,{from:"temsilci",t:Date.now(),text:islem==="yol"?"Yola çıktım. Tahmini varışımı Randevularım'dan takip edebilirsiniz.":islem==="onay"?"Yeni randevu zamanınızı onayladım.":islem==="gecikme"?"Yaklaşık 10 dakika gecikiyorum. Güncel tahmini varış Randevularım'da.":"Çağrınızı kabul ettim. Randevu saatini Randevularım'dan onaylayabilirsiniz."}]}));
+  }
+  yolSuresiGuncelle(id) {
+    // Gerçek yol süresi (OSRM genel sunucusu, prototip): tahmini varışı kuş uçuşu hesabın yerine koyar; alınamazsa ilk tahmin kalır
+    const t = this.mKayit(id), rep = this.state.spylerList.find((r) => r.id === t?.repId), k = t?.konum;
+    if (!t || !rep || !k || typeof fetch !== "function") return;
+    fetch("https://router.project-osrm.org/route/v1/driving/" + rep.lng + "," + rep.lat + ";" + k.lng + "," + k.lat + "?overview=false")
+      .then((r) => r.json()).then((v) => {
+        const sn = v && v.routes && v.routes[0] && v.routes[0].duration, g = this.mKayit(id);
+        if (!sn || !g || g.durum !== "yolda") return;
+        this.mKayitYaz({ ...g, varisZamani: (g.yolaCikis || Date.now()) + Math.max(1, Math.ceil(sn / 60)) * 60000 + (g.gecikme || 0) * 60000 });
+      }).catch(() => {});
   }
   mIptalEt() {
     this.mKayitYaz(Appointment.cancel(this.state.mTalep));
@@ -1904,7 +1917,7 @@ class Component extends DCLogic {
     const durum = {alindi:"Çağrınız alındı",atandi:"Randevu saatinizi onaylayın",netlesti:"Randevunuz kesinleşti",yolda:"Temsilciniz yolda",gorusme:"Temsilciniz yolda",gorusmede:"Temsilciniz yanınızda",tamamlandi:"Görüşmeniz tamamlandı",iptal:"Randevunuz iptal edildi"};
     const saat = t?.dogrulandi ? new Date(t.dogrulandi.zaman).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}) : "";
     const point=t?.konum || DISTRICT_COORDS["Ataşehir"], r=s.spylerList.find((x)=>x.id===t?.repId);
-    const rota = r ? "rota.html?takip=1&b="+r.lat+","+r.lng+"&n="+point.lat+","+point.lng+","+encodeURIComponent("Görüşme noktası")+",b" : "";
+    const rota = r ? "rota.html?takip=1&yol=1&e=Temsilciniz&b="+r.lat+","+r.lng+"&n="+point.lat+","+point.lng+","+encodeURIComponent("Görüşme noktası")+",b" : "";
     return {
       mDurumAltVar:d!=="netlesti"&&d!=="atandi",mDurumBaslikVar:d!=="atandi",
       mDurumBaslik:t?.tip==="telefon"?"Sizi arayacağız":durum[d]||"",
@@ -3128,6 +3141,8 @@ class Component extends DCLogic {
           tpDMesajBos: !(sec.talep?.mesajlar || []).length,
           tpMesajTaslak: s.tpMesajTaslak || "", setTpMesajTaslak: (e) => this.setState({ tpMesajTaslak: e.target.value }),
           tpMesajGonder: (e) => { if (e && e.preventDefault) e.preventDefault(); const text = (this.state.tpMesajTaslak || "").trim(); if (!text) return; this.setState({ tpMesajTaslak: "" }); this.canliMesaj(sec.id, "temsilci", text); },
+          tpDRotaVar: sec.durum === "yolda" && !!sec.talep?.konum,
+          tpDRotaSrc: (() => { const r = s.spylerList.find((x) => x.id === (sec.talep?.repId || s.personelRepId)), k = sec.talep?.konum; return r && k ? "rota.html?takip=1&yol=1&e=Siz&b=" + r.lat + "," + r.lng + "&n=" + k.lat + "," + k.lng + "," + encodeURIComponent("Görüşme noktası") + ",b" : ""; })(),
           tpYolaCik: () => this.tpRandevuIslem(sec.id,"yol"),
           tpGecikmeBildir:()=>this.tpRandevuIslem(sec.id,"gecikme"),tpDegisiklikVar:!!sec.talep?.degisiklik&&!["gorusmede","gerceklesti","iptal"].includes(sec.durum),tpDegisiklikYazi:sec.talep?.degisiklik?sec.talep.degisiklik.gunYazi+" · "+sec.talep.degisiklik.saat+" · "+sec.talep.degisiklik.yer:"",tpDegisiklikOnayla:()=>this.tpRandevuIslem(sec.id,"onay"),
           tpOzetNot:s.tpOzetNot||"",setTpOzetNot:(e)=>this.setState({tpOzetNot:e.target.value}),tpSonraki:s.tpSonraki,setTpSonraki:(e)=>this.setState({tpSonraki:e.target.value}),

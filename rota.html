@@ -16,6 +16,7 @@
   .no{width:30px;height:30px;border-radius:50%;color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
   .no.b{background:#ea803f}.no.a{background:#00724c}.no.g{background:#9aa5a0}
   .bas{width:18px;height:18px;border-radius:50%;background:#1e3856;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+  .chip{position:absolute;left:50%;bottom:12px;transform:translateX(-50%);z-index:1000;background:#fff;color:#00724c;font:800 13px "Century Gothic","Segoe UI",Arial,sans-serif;border-radius:22px;padding:7px 14px;box-shadow:0 2px 8px rgba(0,0,0,.25);white-space:nowrap}
   .leaflet-tooltip.etiket{font:700 12px "Century Gothic","Segoe UI",Arial,sans-serif;color:#333;border-radius:10px;padding:3px 8px}
 </style>
 </head>
@@ -29,7 +30,7 @@
   var noktalar = [];
   var bas = (q.get("b") || "").split(",").map(Number);
   if (bas.length === 2 && !isNaN(bas[0])) {
-    L.marker(bas, { icon: L.divIcon({ className: "", html: '<div class="bas"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }) }).addTo(harita).bindTooltip(q.get("takip") === "1" ? "Temsilci · son bilinen konum" : "Şube", { className: "etiket", direction: "top" });
+    L.marker(bas, { icon: L.divIcon({ className: "", html: '<div class="bas"></div>', iconSize: [18, 18], iconAnchor: [9, 9] }) }).addTo(harita).bindTooltip(q.get("takip") === "1" ? (q.get("e") || "Temsilci") + " · son bilinen konum" : "Şube", { className: "etiket", direction: "top" });
     noktalar.push(bas);
   }
   (q.get("n") || "").split("|").filter(Boolean).forEach(function (p, i) {
@@ -38,8 +39,25 @@
       .addTo(harita).bindTooltip(L.Util.escapeHTML ? L.Util.escapeHTML(x[2] || "") : (x[2] || "").replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}), { permanent: true, direction: "right", offset: [14, 0], className: "etiket" });
     noktalar.push(ll);
   });
-  if (noktalar.length > 1) L.polyline(noktalar, { color: "#ea803f", weight: 4, dashArray: "8 7", opacity: .85 }).addTo(harita);
-  if (noktalar.length) harita.fitBounds(noktalar, { padding: [50, 50], maxZoom: 15 }); else harita.setView([40.99, 29.12], 13);
+  var sinir = function () { if (noktalar.length) harita.fitBounds(noktalar, { padding: [50, 50], maxZoom: 15 }); else harita.setView([40.99, 29.12], 13); };
+  var duz = noktalar.length > 1 ? L.polyline(noktalar, { color: "#ea803f", weight: 4, dashArray: "8 7", opacity: .85 }).addTo(harita) : null;
+  sinir();
+  // yol=1: ilk iki nokta arasında gerçek yol rotası (OSRM genel sunucusu; prototip). Alınamazsa kesikli düz çizgi kalır.
+  if (q.get("yol") === "1" && noktalar.length > 1) {
+    var u = "https://router.project-osrm.org/route/v1/driving/" + noktalar[0][1] + "," + noktalar[0][0] + ";" + noktalar[1][1] + "," + noktalar[1][0] + "?overview=full&geometries=geojson";
+    fetch(u).then(function (r) { return r.json(); }).then(function (v) {
+      var y = v && v.routes && v.routes[0]; if (!y) return;
+      var cizgi = y.geometry.coordinates.map(function (c) { return [c[1], c[0]]; });
+      if (duz) harita.removeLayer(duz);
+      var yol = L.polyline(cizgi, { color: "#00724c", weight: 5, opacity: .9, lineJoin: "round" }).addTo(harita);
+      harita.invalidateSize(); harita.fitBounds(yol.getBounds(), { padding: [40, 40], maxZoom: 16 });
+      var dk = Math.max(1, Math.round(y.duration / 60)), km = (y.distance / 1000).toFixed(1).replace(".", ",");
+      var chip = document.createElement("div");
+      chip.className = "chip"; chip.textContent = (q.get("e") || "Rota") + " · yaklaşık " + dk + " dk · " + km + " km";
+      document.body.appendChild(chip);
+      try { parent.postMessage({ tip: "ty-rota", dakika: dk, km: +(y.distance / 1000).toFixed(1) }, "*"); } catch (_) {}
+    }).catch(function () {});
+  }
 })();
 </script>
 </body>
