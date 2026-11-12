@@ -128,7 +128,7 @@ with sync_playwright() as p:
             nav=page.locator('.tp-alt').bounding_box()
             assert nav['y']+nav['height']<=568
             page.screenshot(path=str(OUT/f'personel-{role}-{tab}.png'),animations='disabled')
-    # Saha Canlı telefonda: sayfa kaymaz; Harita | Liste ayrı, işarete dokununca alttan kart, listeden kişi haritada açılır.
+    # Saha Canlı telefonda: sayfa kaymaz; liste yok, nokta işarete dokununca alttan kart açılır.
     page.locator('.tp-alt').get_by_role('button',name='Saha Canlı',exact=True).click()
     canli=page.frame_locator('iframe[src*="takip"]')
     canli.locator('.spy-ik').first.wait_for()
@@ -136,11 +136,7 @@ with sync_playwright() as p:
     assert canli.locator('body').evaluate('()=>document.documentElement.scrollHeight<=innerHeight+1')
     canli.locator('.spy-ik').first.click(); assert canli.locator('#kisiKart').is_visible()
     canli.locator('#kisiKapat').click(); assert not canli.locator('#kisiKart').is_visible()
-    canli.get_by_role('button',name='Liste',exact=True).click()
-    assert canli.locator('.liste').is_visible() and not canli.locator('.harita-kap').is_visible()
-    assert 'Randevuda' in canli.locator('.liste button').first.inner_text()
-    canli.locator('.liste button').first.click()
-    assert canli.locator('.harita-kap').is_visible() and canli.locator('#kisiKart').is_visible()
+    assert canli.locator(".liste, #gorunum").count()==0 and canli.locator(".spy-ik svg").count()==0
     # Kullanıcının açtığı linkler.html içindeki 393x852 telefon çerçevesi.
     preview=browser.new_page(viewport={'width':1440,'height':1000})
     preview.emulate_media(reduced_motion='reduce')

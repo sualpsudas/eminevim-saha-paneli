@@ -700,3 +700,9 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Dar ekranda (<900 px) Görüşmeler iki sayfa gibi: liste → bir görüşmeye dokununca yalnız ayrıntı açılır, başlıkta "Geri" listeye döner. Tablet/geniş ekranda liste solda, ayrıntı sağda aynen kaldı (Geri görünmez).
 - Yeni çağrı gelince ayrıntı kendiliğinden açılmaz (liste "Yeni çağrılar" grubunda, tarih sırasıyla görünür).
 - SPY bildirimi (uygulama içi, yeni çağrı ve yeni mesaj) dokununca o görüşmenin sayfasını açar. Tarayıcı/telefon bildirimi de: `merkez/sunucu.py` SPY bildirimine `rid` ekledi; uygulama kapalıysa `?ac=<id>` ile açılır, açıksa servis işçisi mesajla görüşmeyi seçer; SPY girişi yoksa girişten sonra açılır.
+
+## 2026-11-12 (gece) — Personel girişi, yönetici Performans tablosu, sade Saha Canlı
+- Personel girişinde "Hesabınızı seçerek giriş yapın" satırı kalktı; seçilen SPY büyük fotoğraflı (132 px) ortalı kartla görünür.
+- Yönetici Performans: sabit başlık (İsim, Şube, Rand H/G, Ciro H/G), ince satırlı tablo, yalnız satırlar kayar, altta Ekip ortalaması.
+- Saha Canlı: liste ve Harita/Liste düğmesi kalktı; sayı kartları küçüldü; SPY ve "kimse almadı" işaretleri insan simgesiz küçük nokta; altlık OpenStreetMap, gri tonlu (CARTO anahtar istediği için başka sade altlık eklenmedi).
+- Testler: `phone-layout` (liste yerine nokta kontrolü), `merkez-akis` (bildirime dokunarak görüşme açma, yeni tablo) güncellendi.

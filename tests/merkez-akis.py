@@ -156,6 +156,7 @@ with sync_playwright() as p:
     # Derya'ya bildirim + 2 dk geri sayım; Onur'da görünmez
     bekle(spy, 'Object.values(app.state.tpKayitlar).some(k=>k.musteri&&k.musteri.ad==="Deniz Test")')
     spy.get_by_text('Yeni çağrı: Deniz Test', exact=True).wait_for()
+    spy.locator('.tp-bildirim-git').click()  # bildirime dokununca görüşme sayfası açılır (2026-11-12)
     spy.get_by_text('Kabul için kalan süre', exact=False).wait_for()
     assert spy.get_by_text('Neden size geldi', exact=True).count() == 0, 'Gerekçe satırı kaldırıldı'
     spy.screenshot(path=str(OUT / '2-spy-yeni-cagri.png'))
@@ -257,8 +258,8 @@ with sync_playwright() as p:
     assert yonetici.get_by_text('Destek', exact=True).count() == 0
     yonetici.screenshot(path=str(OUT / '5-yonetici-canli.png'))
     yonetici.get_by_role('button', name='Performans').first.click()
-    yonetici.get_by_text('Ort. randevu H/G', exact=True).first.wait_for()
-    assert yonetici.locator('.py-sat:not(.py-bas)').count() >= 7
+    yonetici.locator('.pt-bas').get_by_text('Rand H/G').wait_for()
+    assert yonetici.locator('.pt-liste .pt-sat').count() >= 7
     assert yonetici.get_by_text('Aktif değil', exact=True).count() == 0
     yonetici.screenshot(path=str(OUT / '6-yonetici-performans.png'))
 

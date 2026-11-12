@@ -22,9 +22,9 @@
   main{flex:1;display:flex;flex-direction:column;gap:10px;padding:12px 16px;max-width:1500px;width:100%;margin:0 auto;min-height:0}
   body.gomulu main{padding:10px}
   .ust{display:flex;gap:10px;flex-wrap:wrap;align-items:stretch}
-  .sayi{background:#fff;border:1px solid var(--cizgi);border-radius:14px;padding:8px 14px;min-width:130px;flex:1}
-  .sayi b{display:block;font-size:28px;line-height:1.1;color:var(--koyu);font-variant-numeric:tabular-nums}
-  .sayi span{font-size:13px;color:var(--yazi)}
+  .sayi{background:#fff;border:1px solid var(--cizgi);border-radius:12px;padding:4px 10px;min-width:0;flex:1;display:flex;align-items:baseline;gap:6px}
+  .sayi b{display:block;font-size:18px;line-height:1.1;color:var(--koyu);font-variant-numeric:tabular-nums}
+  .sayi span{font-size:12px;color:var(--yazi)}
   .sayi.uyari b{color:var(--kirmizi)}
   .cipler{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
   .cipler button{font-size:13px;border:1.5px solid var(--cizgi);transition:background-color .12s,border-color .12s;background:#fff;border-radius:22px;padding:7px 12px;min-height:36px;display:inline-flex;align-items:center;gap:6px;color:var(--koyu)}
@@ -34,42 +34,29 @@
   .r-bosta{background:var(--yesil)}.r-randevuda{background:var(--turuncu)}.r-molada{background:var(--gri)}.r-sahipsiz{background:var(--kirmizi)}
   .harita-kap{flex:1;min-height:380px;position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--cizgi);background:#fff}
   #harita{position:absolute;inset:0}
-  #harita .leaflet-tile-pane{filter:saturate(.3) brightness(1.05)}
-  .liste{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px}
-  .liste button{display:flex;align-items:center;gap:8px;text-align:left;background:#fff;border:1px solid var(--cizgi);border-radius:12px;padding:7px 10px;font-size:13px;color:var(--koyu);min-height:40px}
-  .liste small{color:var(--yazi);font-size:11.5px;margin-left:auto;white-space:nowrap}
+  #harita .leaflet-tile-pane{filter:grayscale(1) brightness(1.08) contrast(.9)}
   .bos{color:var(--yazi);font-size:14px;margin:0;padding:16px;background:#fff;border:1px solid var(--cizgi);border-radius:12px}
   /* Uygulamanın içinde (Saha Canlı sekmesi): harita kısa, kişi kartları ilk ekranda */
-  body.gomulu .harita-kap{flex:0 0 auto;height:min(460px,52vh);min-height:280px}
-  .liste .r-sahipsiz + b{color:var(--kirmizi)}
-  /* Telefonda: Harita | Liste ayrı ekran; sayfa kaymaz, yalnız harita ya da liste hareket eder */
-  .gorunum,.kisi-kart{display:none}
+  body.gomulu .harita-kap{flex:1;min-height:280px}
+  /* Telefonda: sayfa kaymaz, yalnız harita hareket eder */
+  .kisi-kart{display:none}
   @media (max-width:640px){
     html,body{overflow:hidden}
     main{overflow:hidden;gap:8px}
-    .sayi{padding:6px 12px;min-width:0}
-    .sayi b{font-size:22px}
+    .sayi{padding:4px 10px}
     .cipler{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:4px}
     .cipler button{min-height:44px;padding:6px 6px;flex:0 0 auto;font-size:12px;gap:3px}
     .cipler .bilgi{flex:0 0 auto}
-    .gorunum{display:flex;background:#eee;border-radius:22px;padding:3px;gap:3px}
-    .gorunum button{flex:1;min-height:40px;border:0;border-radius:20px;background:transparent;color:var(--yazi);font-size:14px;font-weight:700}
-    .gorunum button[aria-pressed=true]{background:#fff;color:var(--yesil);box-shadow:0 1px 2px rgba(0,0,0,.12)}
     body.gomulu .harita-kap,.harita-kap{flex:1;height:auto;min-height:0}
-    .liste{flex:1;min-height:0;overflow-y:auto;grid-template-columns:1fr;align-content:start;-webkit-overflow-scrolling:touch}
-    .liste button{min-height:48px;font-size:14px}
-    body[data-g=harita] .liste,body[data-g=liste] .harita-kap{display:none}
     .kisi-kart{position:fixed;left:8px;right:8px;bottom:8px;z-index:1000;background:#fff;border:1px solid var(--cizgi);border-radius:14px;padding:12px 14px;box-shadow:0 4px 16px rgba(0,0,0,.14);font-size:14px;line-height:1.5;gap:10px;align-items:flex-start}
     .kisi-kart:not([hidden]){display:flex}
     .kisi-kart > div{flex:1;min-width:0}
     .kisi-kart b{font-size:16px}
-    .spy-ik svg{width:18px;height:18px}
     .kisi-kart button{flex:0 0 44px;height:44px;border:0;border-radius:50%;background:#eee;color:var(--koyu);font-size:18px}
   }
   /* Harita simgeleri ve yazıları */
-  .spy-ik{width:22px;height:22px;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center}
-  .spy-ik svg{width:13px;height:13px}
-  .cagri-ik{width:16px;height:16px;border-radius:50%;background:var(--kirmizi);border:2px solid #fff;box-shadow:0 0 0 3px rgba(198,40,40,.35)}
+  .spy-ik{border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+  .cagri-ik{width:12px;height:12px;border-radius:50%;background:var(--kirmizi);border:2px solid #fff;box-shadow:0 0 0 3px rgba(198,40,40,.35)}
   .leaflet-tooltip.mah-ad{background:transparent;border:0;box-shadow:none;color:#4d5a55;font-size:10.5px;font-weight:600;text-shadow:0 0 3px #fff,0 0 3px #fff;padding:0}
   .leaflet-tooltip.mah-ad::before{display:none}
   .leaflet-tooltip.ilce-ad{background:rgba(255,255,255,.85);border:0;box-shadow:none;color:var(--yesil);font-size:13px;font-weight:800;padding:2px 8px;border-radius:10px}
@@ -88,9 +75,7 @@
 <main>
   <div class="ust" id="sayilar"></div>
   <div class="cipler" role="group" aria-label="SPY'leri süz" id="cipler"></div>
-  <div class="gorunum" id="gorunum" role="group" aria-label="Görünüm"><button type="button" data-g="harita" aria-pressed="true">Harita</button><button type="button" data-g="liste" aria-pressed="false">Liste</button></div>
   <div class="harita-kap"><div id="harita" aria-label="Pilot bölge haritası"></div></div>
-  <div class="liste" id="liste"></div>
 </main>
 <div class="kisi-kart" id="kisiKart" hidden role="dialog" aria-label="Ayrıntı"><div id="kisiIc"></div><button type="button" id="kisiKapat" aria-label="Kapat">✕</button></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -105,7 +90,6 @@
   var HAL={bosta:["Boşta","#00724c"],randevuda:["Randevuda","#ea803f"],molada:["Molada","#8a8f94"]};
   var DURUM={yolda:"yolda",gorusme:"yolda",gorusmede:"görüşmede"};
   var KAPALI={tamamlandi:1,iptal:1};
-  var KISI='<svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><circle cx="12" cy="8" r="4.2"/><path d="M3.5 21c1.2-4.6 4.4-7 8.5-7s7.3 2.4 8.5 7z"/></svg>';
   var veri={spyler:[],kayitlar:{},bugun:{gelen:0,gorusme:0}}, surum=0, sifirlama=-1, filtre="tumu", ilkSinir=null;
   var harita=L.map("harita",{zoomSnap:.5}).setView([41.01,29.09],12);
   // Altlık: OpenStreetMap (CARTO artık anahtar istiyor); renkleri soluk, simgeler ve sınırlar öne çıksın
@@ -127,8 +111,7 @@
   var spyKatman=L.layerGroup().addTo(harita), isaretler={}, cagriIsaret={};
   // Telefonda (dar ekran) ayrıntı balon yerine alttan kart olarak açılır; işaretler parmak için büyük
   var DAR=matchMedia("(max-width:640px)"), kisiKart=document.getElementById("kisiKart");
-  document.body.dataset.g="harita";
-  function kartAc(html){document.getElementById("kisiIc").innerHTML=html;kisiKart.hidden=false;}
+    function kartAc(html){document.getElementById("kisiIc").innerHTML=html;kisiKart.hidden=false;}
   function kartKapat(){kisiKart.hidden=true;}
   function bagla(m,html){if(DAR.matches)m.on("click",function(){kartAc(html);});else m.bindPopup(html);return m;}
   function ac(m,html){harita.setView(m.getLatLng(),Math.max(harita.getZoom(),14));if(DAR.matches)kartAc(html);else m.openPopup();}
@@ -152,38 +135,18 @@
       return '<button type="button" data-filtre="'+x[0]+'" aria-pressed="'+(filtre===x[0])+'">'+(x[0]==="tumu"?"":'<span class="renk r-'+x[0]+'"></span>')+x[1]+' ('+(sayac[x[0]]||0)+')</button>';
     }).join("")+(sah.length?'<span class="bilgi"><span class="renk r-sahipsiz"></span> Kimse almadı</span>':"");
     var gorunen=veri.spyler.filter(function(s){return filtre==="tumu"||s.hal===filtre;});
-    spyKatman.clearLayers(); isaretler={}; cagriIsaret={}; var boy=DAR.matches?32:22;
+    spyKatman.clearLayers(); isaretler={}; cagriIsaret={}; var boy=DAR.matches?16:12;
     gorunen.forEach(function(s){
       var k=s.konumAn||s, renk=(HAL[s.hal]||HAL.bosta)[1];
-      isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,icon:L.divIcon({className:"",html:'<div class="spy-ik" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px">'+KISI+'</div>',iconSize:[boy,boy],iconAnchor:[boy/2,boy/2]})});
+      isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,icon:L.divIcon({className:"",html:'<div class="spy-ik" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px"></div>',iconSize:[boy,boy],iconAnchor:[boy/2,boy/2]})});
       bagla(isaretler[s.id],spyBilgi(s)).addTo(spyKatman);
     });
     sah.forEach(function(k){
-      cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:"Kimse almadı",icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[16,16],iconAnchor:[8,8]})});
+      cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:"Kimse almadı",icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[12,12],iconAnchor:[6,6]})});
       bagla(cagriIsaret[k.id],cagriBilgi(k)).addTo(spyKatman);
     });
-    // Liste: önce kimse almayan çağrılar, sonra randevuda, molada, boşta
-    var SIRA={randevuda:0,molada:1,bosta:2};
-    var ust=filtre==="tumu"?sah.map(function(k){return '<button type="button" data-cagri="'+e(k.id)+'"><span class="renk r-sahipsiz"></span><b>Kimse almadı</b>&nbsp;· '+e(k.musteri&&k.musteri.ad||"Müşteri")+'<small>'+e(k.saat||"")+'</small></button>';}).join(""):"";
-    document.getElementById("liste").innerHTML=ust+(gorunen.length?gorunen.slice().sort(function(a,b){return (SIRA[a.hal]==null?3:SIRA[a.hal])-(SIRA[b.hal]==null?3:SIRA[b.hal]);}).map(function(s){
-      return '<button type="button" data-spy="'+e(s.id)+'"><span class="renk r-'+e(s.hal)+'"></span>'+e(s.ad)+'<small>'+(HAL[s.hal]||HAL.bosta)[0]+' · '+(s.bugunCagri||0)+'/4</small></button>';
-    }).join(""):'<p class="bos">Bu durumda SPY yok.</p>');
   }
   document.getElementById("cipler").addEventListener("click",function(ev){var b=ev.target.closest("button[data-filtre]");if(b){filtre=b.dataset.filtre;ciz();}});
-  document.getElementById("liste").addEventListener("click",function(ev){
-    var b=ev.target.closest("button[data-spy],button[data-cagri]");
-    if(!b)return;
-    var m=b.dataset.spy?isaretler[b.dataset.spy]:cagriIsaret[b.dataset.cagri];
-    var s=b.dataset.spy&&veri.spyler.filter(function(x){return x.id===b.dataset.spy;})[0], k=b.dataset.cagri&&veri.kayitlar[b.dataset.cagri];
-    if(DAR.matches)gorunumSec("harita");
-    if(m)ac(m,s?spyBilgi(s):cagriBilgi(k));
-  });
-  function gorunumSec(g){
-    document.body.dataset.g=g;
-    [].forEach.call(document.querySelectorAll("#gorunum button"),function(b){b.setAttribute("aria-pressed",b.dataset.g===g);});
-    if(g==="harita")harita.invalidateSize(); else kartKapat();
-  }
-  document.getElementById("gorunum").addEventListener("click",function(ev){var b=ev.target.closest("button[data-g]");if(b)gorunumSec(b.dataset.g);});
   document.getElementById("kisiKapat").addEventListener("click",kartKapat);
   document.getElementById("sifirla").addEventListener("click",function(){
     if(!confirm("Tüm test çağrıları ve mesajlar silinsin mi? (Sunucuda yedeği alınır.)"))return;
