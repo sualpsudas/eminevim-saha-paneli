@@ -25,6 +25,8 @@ def login(page):
     page.get_by_role('button',name='Devam et',exact=True).click()
     page.get_by_role('button',name='Giriş Yap',exact=True).click()
     page.get_by_role('button',name='Randevularım',exact=True).wait_for()
+    # Örnek müşterilerde finansman yok (2026-11-12); test liste akışı için bir kayıt ekler
+    app(page,'app.setState({musteriBasvurulari:[{id:"b1",tur:"Konut Finansmanı",plan:"Bireysel",tutar:3500000,pesinatPct:10,vade:80,tarih:"12.09.2026"}]})')
 
 with sync_playwright() as p:
     browser=p.chromium.launch(channel='chrome',headless=True)

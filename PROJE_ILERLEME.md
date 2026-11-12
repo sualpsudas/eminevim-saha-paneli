@@ -679,3 +679,10 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Yönetici/SPY zaten personel düzeninde. Sırada: örnek müşteriler, Görüşmeler sayfa akışı + bildirim, tablo/harita/rota.
 - Bilinen: Finansman kök listesinde "Geri" görünüyor (eski davranış, değişmedi).
 - Test: phone-layout.py ve browser-flows.py geçti.
+
+## 2026-11-12 — Örnek müşteriler, rastgele yeni üye, Finansman'da Geri
+- 5 örnek müşteri kayıtlı (Ayşe Kaya, Zeynep Arslan, Can Öztürk, Elif Yıldız, Burak Şahin); parola `test123`; hiçbirinde finansman yok (Ayşe'nin eski Konut Finansmanı kaydı ve metinleri silindi). Ayşe'nin "yolda" randevusu duruyor, diğerleri boş başlar.
+- Giriş ekranında "Örnek müşteriler" düğmeleri ve "Yeni üye: örnek numara getir". Yeni üye adımında ad ve parola rastgele dolu gelir (parola ekranda gösterilir); SMS kodu zaten otomatik.
+- Finansman kök listesinde ve 1. adımda Geri yok; yalnız adım içinde/düzenlemede.
+- URUN_KURALLARI'ndaki eski "müşteri başlığında logo yok, simetrik" kuralı güncellendi. `senaryo.html` müşteri ekranını taklit ediyor, henüz güncellenmedi (açık iş).
+- Testler: appointment-list, phone-layout (liste için kayıt ekler), browser-flows, web-flows, preparation-popup geçti.

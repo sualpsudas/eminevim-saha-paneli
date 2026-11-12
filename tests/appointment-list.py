@@ -22,8 +22,8 @@ with sync_playwright() as p:
     rows=frame.locator('.m-randevu-row')
     rows.first.wait_for()
     assert frame.evaluate('window.EMINEVIM_NATIVE') is True
-    assert frame.locator('.customer-header img').count()==0
-    assert frame.locator('.customer-header').get_by_text('AK',exact=True).count()==0
+    assert frame.locator('.customer-header img').count()==1  # personel düzeniyle aynı üst bant (2026-11-12)
+    assert frame.locator('.customer-header').get_by_text('AK',exact=True).count()==1
     assert frame.locator('.customer-screen .login-return-button').count()==0
     assert frame.locator('.m-yeni').count()==1
     # Geçmiş kayıtlar gerçek randevu yapısını kullanır; aktif kayıt en üstte kalır.

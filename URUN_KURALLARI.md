@@ -237,7 +237,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   yok) → yola çıkar → kapıda QR → yeşil → tablette plan + özet → müşteri özeti inceler (puan isteğe bağlı).
   **Senaryo 2 · Web'den** (12 adım, eski akış; müşteri Telefon/Bilgisayar seçilir, bilgisayarda uygulamasız takip sayfası).
   Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
-  taklit eder (başlıkta logo yok, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
+  taklit eder (personel düzeniyle aynı üst bant ve alt menü, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
   Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
 
 ## Müşteri uygulaması yerleşimi ve gezinme (2026-10-22)
@@ -251,10 +251,10 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 - Saat onayı bekleyen (atandi) randevu kartında başlık/yönerge yazısı yok ("Randevu saatinizi onaylayın" vb. kaldırıldı, 2026-10-22): yalnız tarih, yer,
   SPY ve "Saati onayla"; üst başlıkta "SPY'niz atandı". Finansman ön tercihi saat onaylandıktan sonra (netlesti/yolda)
   randevu kartının altında tek satır: "Beklerken finansman ön tercihlerinizi oluşturun." + "Ön tercihler"; ayrı kart yok.
-- Randevu ayrıntısında ileri/geri çubuğu veya Tüm randevular metni yoktur. Başlıktaki logo yerine Geri gelir; listeye döner. SPY adı aktif randevu kartında tarih/adres altındadır; ayrı SPY kartı yoktur. Bekleyen randevu okunmuş olsa da ünlem taşır.
+- Randevu ayrıntısında ileri/geri çubuğu veya Tüm randevular metni yoktur. Başlıkta Geri logonun önünde görünür; listeye döner. SPY adı aktif randevu kartında tarih/adres altındadır; ayrı SPY kartı yoktur. Bekleyen randevu okunmuş olsa da ünlem taşır.
 - Sohbetler → Konuşmalar → SPY satırı → konuşma; `mKonusmaAcik` bu ayrımı tutar. Sekmeye basmak konuşma listesini açar; üst Geri aynı listeye döner.
 
-- Müşteri üst başlığı: solda logo yok, sağda fotoğraf/baş harf yok; başlık simetrik hizalanır. Dönüş gereken ekranda sol üstte yalnız Geri metni; ok/chevron yok. İçerikte/kartta ve finansman formunun altında tekrar dönüş düğmesi kullanma; finansman adım dönüşü de üst Geri üzerinden yapılır.
+- Müşteri üst bandı personelinkiyle aynı (kullanıcı kararı 2026-11-12, eski "logo yok, simetrik" kuralının yerine): düz yeşil bant, solda logo, sağda durum yazısı + baş harf düğmesi (Ayarlar'a gider). Alt menü 52 px, 12 px etiket, seçili sekmede üstte 2 px yeşil çizgi. Kök sekmelerde (Randevularım, Sohbetler, Finansmanlarım, Ayarlar) altında personeldeki gibi beyaz başlık bandı. Dönüş gereken ekranda sol üstte logonun önünde yalnız Geri metni; ok/chevron yok; Finansman kök listesinde Geri yok. İçerikte/kartta ve finansman formunun altında tekrar dönüş düğmesi kullanma; finansman adım dönüşü de üst Geri üzerinden yapılır.
 
 ## Müşteri ekranı ilkeleri
 - Olabildiğince basit; gereksiz yazı yok, her ekranda tek soru grubu ve tek ana buton.

@@ -510,9 +510,16 @@ html{-webkit-tap-highlight-color:transparent}
 .customer-ust .m-header-back{min-width:0;min-height:34px;padding-right:4px}
 .customer-ust .tp-av{width:34px;height:34px;font-size:12px;border:0;cursor:pointer;font-family:inherit}
 .app-bottom-nav.customer-nav{padding:4px 0 max(6px,env(safe-area-inset-bottom))!important}
+.preview-iphone .app-bottom-nav.customer-nav{padding-bottom:var(--ios-preview-bottom)!important}
 .customer-nav > button{min-height:52px!important;gap:3px!important;color:var(--dim)!important;box-shadow:inset 0 2px 0 transparent;transition:color .12s,box-shadow .12s}
 .customer-nav > button[aria-current="page"]{color:var(--navActive)!important;box-shadow:inset 0 2px 0 var(--navActive)}
 .customer-bas{flex:0 0 auto}
+.ornek-uye{display:flex;flex-direction:column;gap:6px;text-align:left}
+.ornek-uye > span{font-size:11.5px;font-weight:700;color:var(--dim)}
+.ornek-uye-liste{display:flex;flex-wrap:wrap;gap:6px}
+.ornek-uye button{min-height:36px;padding:0 12px;border-radius:18px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);font:700 12px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;cursor:pointer}
+.ornek-uye button:focus-visible{outline:2px solid #00724C;outline-offset:2px}
+.ornek-uye .ornek-uye-yeni{border-style:dashed;border-color:#00724C;color:#00724C;align-self:flex-start}
 .customer-nav > button span{font-size:12px!important;font-weight:700!important}
 .tp-cip button{border:1.5px solid transparent;transition:background-color .12s,border-color .12s,color .12s}
 .tp-cip button[aria-pressed="true"]{background:var(--tintGreen);border-color:#00724C;color:#00724C}
@@ -558,8 +565,10 @@ html{-webkit-tap-highlight-color:transparent}
         <sc-if value="{{ girisModKod }}"><div style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
           <sc-if value="{{ kodBaslikVar }}"><div style="text-align:left;"><b style="display:block;font-size:16px;color:var(--ink);">{{ kodBaslik }}</b><span style="font-size:12px;color:var(--dim);line-height:1.45;">{{ kodAlt }}</span></div></sc-if>
           <sc-if value="{{ kodAdim1 }}"><input value="{{ kodTel }}" onChange="{{ setKodTel }}" inputmode="tel" autocomplete="tel" placeholder="Telefon numaranız" aria-label="Telefon numaranız" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>
+          <sc-if value="{{ kodAdim1 }}"><div class="ornek-uye"><span>Örnek müşteriler</span><div class="ornek-uye-liste"><sc-for list="{{ ornekMusteriler }}" as="o" hint-placeholder-count="5"><button type="button" onClick="{{ o.onSec }}">{{ o.ad }}</button></sc-for></div><button type="button" class="ornek-uye-yeni" onClick="{{ yeniUyeDoldur }}">Yeni üye: örnek numara getir</button></div></sc-if>
           <sc-if value="{{ kodAdim2 }}"><input value="{{ kodGirdi }}" onChange="{{ setKodGirdi }}" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="• • • • • •" aria-label="SMS ile gelen 6 haneli kod" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700;text-align:center;font-size:22px;letter-spacing:10px;"><sc-if value="{{ kodDemoVar }}"><div style="font-size:11.5px;color:var(--dim);background:var(--tintGreen);border-radius:12px;padding:7px 10px;text-align:left;">Test: SMS gönderilmez, kod otomatik dolduruldu (<b style="color:#00724C;letter-spacing:2px;">{{ kodDemo }}</b>).</div></sc-if></sc-if>
           <sc-if value="{{ kodAdim3 }}"><sc-if value="{{ kodAdGerekli }}"><input value="{{ kodAd }}" onChange="{{ setKodAd }}" autocomplete="name" placeholder="Ad Soyad" aria-label="Ad Soyad" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if><input value="{{ kodParola }}" onChange="{{ setKodParola }}" type="password" autocomplete="new-password" placeholder="Parola (en az 6 karakter)" aria-label="Parola" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"><input value="{{ kodParola2 }}" onChange="{{ setKodParola2 }}" type="password" autocomplete="new-password" placeholder="Parola tekrar" aria-label="Parola tekrar" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>
+          <sc-if value="{{ kodParolaOneri }}"><div style="font-size:11.5px;color:var(--dim);background:var(--tintGreen);border-radius:12px;padding:7px 10px;text-align:left;">Test: ad ve parola örnek olarak dolduruldu (parola: <b style="color:#00724C;letter-spacing:1px;">{{ kodParola }}</b>). İsterseniz değiştirin.</div></sc-if>
           <sc-if value="{{ kodHataVar }}"><div role="alert" style="font-size:12px;font-weight:700;color:#B25E30;text-align:left;">{{ kodHata }}</div></sc-if>
           <button onClick="{{ kodIleri }}" style-active="transform:scale(.97);" style="width:100%; min-height:46px; background:#00724C; color:#fff; border:none; border-radius:22px; font-size:14px; font-weight:700; cursor:pointer; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">{{ kodDugme }}</button>
           <sc-if value="{{ kodTekrarVar }}"><button onClick="{{ kodTekrar }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;">Kodu tekrar gönder</button></sc-if>
@@ -1256,19 +1265,42 @@ function AYSE_SEED() {
       { name: "Buse Demir", branch: "Ataşehir Şubesi", date: "18.09.2026" },
       { name: "Cem Kaya", branch: "Üsküdar Şubesi", date: "24.09.2026" },
     ],
-    musteriBasvurulari: [{ id: "b1", tur: "Konut Finansmanı", plan: "Bireysel", tutar: 3500000, pesinatPct: 10, vade: 80, tarih: "12.09.2026" }],
+    musteriBasvurulari: [],
     aktifBasvuruId: null,
-    talepSebebi: "Konut Finansmanı · Bireysel · ~3.500.000 ₺ · 80 ay · aylık ~39.380 ₺",
-    // Finansmanı belli, randevusunu sohbette netleştirmiş; bugün görüşme günü, temsilcisi yolda
+    talepSebebi: "",
+    // Randevusunu sohbette netleştirmiş; bugün görüşme günü, temsilcisi yolda
     mTalep: Appointment.create({ id: "ayse", tip: "ziyaret", kaynak: "Uygulama · kayıtlı müşteri", gunYazi: bugunYazi(), tarih: new Date().toLocaleDateString("en-CA"), saat: "18:00", yer: "Barbaros Mah., Ataşehir", konum: { lat: 40.9905, lng: 29.1050, adres: "Barbaros Mah., Ataşehir", bolge: "Ataşehir" }, durum: "yolda", repId: "s1", gecikme: 10, yolaCikis: Date.now(), sonKonum: Date.now(), demoZaman:{baslangic:Date.now(),simdi:new Date().setHours(17,58,0,0)}, varisZamani: new Date().setHours(18,10,0,0) }),
     chatMessages: [
-      { from: "temsilci", t: Date.now() - 86400000, text: "Merhaba Ayşe Hanım, ben Onur Kaya, Eminevim müşteri temsilcinizim. Konut finansmanı başvurunuz için sizinle görüşmek isterim." },
+      { from: "temsilci", t: Date.now() - 86400000, text: "Merhaba Ayşe Hanım, ben Onur Kaya, Eminevim müşteri temsilcinizim. Eminevim çözümlerimiz hakkında sizinle görüşmek isterim." },
       { from: "musteri", t: Date.now() - 86000000, text: "Merhaba Onur Bey, yarın akşam 18:00 uygun olur mu?" },
       { from: "temsilci", t: Date.now() - 85800000, text: "Elbette. Yarın 18:00'de Barbaros Mahallesi'ndeki adresinizde olacağım; ödeme planınızı da yanımda getireceğim." },
       { from: "musteri", t: Date.now() - 85600000, text: "Tamam, bekliyorum. Teşekkürler." },
       { from: "temsilci", t: Date.now() - 900000, text: "İyi akşamlar Ayşe Hanım, yola çıktım. Trafik nedeniyle yaklaşık 10 dakika gecikeceğim, kusura bakmayın; 18:10 gibi yanınızdayım." },
     ],
   };
+}
+// Örnek müşteriler (2026-11-12): hepsi kayıtlı, parola DEMO_PAROLA; hiçbirinde finansman yok. Ayşe'nin randevusu hazır, diğerleri boş başlar.
+const ORNEK_MUSTERILER = [
+  { tel: "5321456789", ad: "Ayşe Kaya", adres: "Barbaros Mah. Begonya Sk. No:12, Ataşehir / İstanbul" },
+  { tel: "5332103456", ad: "Zeynep Arslan", adres: "Caferağa Mah. Moda Cd. No:48, Kadıköy / İstanbul" },
+  { tel: "5353204567", ad: "Can Öztürk", adres: "Altunizade Mah. Kuşbakışı Sk. No:7, Üsküdar / İstanbul" },
+  { tel: "5414305678", ad: "Elif Yıldız", adres: "Cevizli Mah. Bağdat Cd. No:215, Maltepe / İstanbul" },
+  { tel: "5425406789", ad: "Burak Şahin", adres: "Atatürk Mah. Ihlamur Sk. No:3, Ataşehir / İstanbul" },
+];
+function ornekMu(tel) { return ORNEK_MUSTERILER.some((m) => m.tel === tel); }
+function ornekSeed(tel) {
+  if (tel === AYSE_TEL || !ornekMu(tel)) return AYSE_SEED();
+  const m = ORNEK_MUSTERILER.find((x) => x.tel === tel);
+  return { yeniMusteri: false, avatarUrl: "", degerlendirmeler: [], appointments: [], customerForm: { name: m.ad, phone: telYaz(m.tel), email: "", address: m.adres, testMode: false },
+    customerMeetings: [], musteriBasvurulari: [], aktifBasvuruId: null, talepSebebi: "", mTalep: null, mGecmis: [], chatMessages: [] };
+}
+// Yeni üye kaydı için rastgele örnek bilgi: ad, kayıtlı olmayan telefon ve parola (yazmakla uğraşılmasın)
+function rastgeleUye() {
+  const ad = ["Selin", "Mert", "Derya", "Kerem", "Naz", "Emre", "Pelin", "Tolga", "Defne", "Barış"], soyad = ["Aydın", "Çelik", "Koç", "Polat", "Güneş", "Erdem", "Aksoy", "Kaplan", "Tekin", "Yavuz"];
+  const r = (n) => Math.floor(Math.random() * n), d = (n) => Array.from({ length: n }, () => r(10)).join("");
+  let tel; do { tel = ["530", "531", "536", "537", "538", "539"][r(6)] + d(7); } while (ornekMu(tel));
+  const parola = "Ty" + d(4) + "k";
+  return { ad: ad[r(ad.length)] + " " + soyad[r(soyad.length)], tel: telYaz(tel), parola };
 }
 function atamaMesaji(ilkAd, repId, t) {
   // Temsilci atanınca ilk mesaj: kendini tanıtır ve saati önerir (müşteri Sohbet'te "Saati onayla" ile onaylar)
@@ -1478,7 +1510,7 @@ class Component extends DCLogic {
     customerNav: "basvurum",
     basvuruTuru: "",
     basvuruTutar: "",
-    musteriBasvurulari: [{ id: "b1", tur: "Konut Finansmanı", plan: "Bireysel", tutar: 3500000, pesinatPct: 10, vade: 80, tarih: "12.09.2026" }],
+    musteriBasvurulari: [],
     aktifBasvuruId: null,
     basvuruDuzenle: false,
     duzenlenenId: null,
@@ -1548,7 +1580,7 @@ class Component extends DCLogic {
     devretBasvuruId: null,
 
     reqStatus: "idle",
-    talepSebebi: "Konut Finansmanı · ~3.500.000 ₺",
+    talepSebebi: "",
     tercihRepId: null,
     spyYaziyor: false,
     spyDurum: "musait",
@@ -2461,10 +2493,11 @@ class Component extends DCLogic {
     if (this._yaTimer) clearTimeout(this._yaTimer);
     this.setState({ yaOpen: false, girisMod: "yeni", kayitOpen: true, kayitAd: s.yaAd.trim(), kayitTelefon: s.yaTel, kayitEmail: s.yaEposta.trim(), kayitSifre: "", kayitAdres: s.yaIlce.trim() });
   }
-  kayitliMusteri(tel) { return tel === AYSE_TEL || !!(this._hesaplar || {})[tel]; }
+  uyeOneri() { const u = rastgeleUye(); return { kodAd: u.ad, kodParola: u.parola, kodParola2: u.parola }; }
+  kayitliMusteri(tel) { return ornekMu(tel) || !!(this._hesaplar || {})[tel]; }
   musteriOturumu(v, yeni) {
     // Merkez sürümü: hesap ve çağrılar merkezden gelir; bu cihazdaki ek bilgiler (başvurular, fotoğraf) varsa korunur
-    const tel = v.tel, yerel = (this._hesaplar || {})[tel] || (tel === AYSE_TEL ? AYSE_SEED() : {});
+    const tel = v.tel, yerel = (this._hesaplar || {})[tel] || (ornekMu(tel) ? ornekSeed(tel) : {});
     const liste = (v.kayitlar || []).map((k) => this.canliMusteriKaydi(k));
     const aktif = liste.find((t) => !Appointment.terminal(t)) || liste[0] || null;
     const ham = aktif && v.kayitlar.find((k) => k.id === aktif.id);
@@ -2542,10 +2575,10 @@ class Component extends DCLogic {
     if (s.girisMod !== "kayitli" || !this.kayitliMusteri(tel)) return;
     const kayit = parolaKaydi(tel);
     try {
-      const gecerli = kayit ? (await parolaOzeti(s.girisSifre, kayit.tuz)).ozet === kayit.ozet : tel === AYSE_TEL && s.girisSifre === DEMO_PAROLA;
+      const gecerli = kayit ? (await parolaOzeti(s.girisSifre, kayit.tuz)).ozet === kayit.ozet : ornekMu(tel) && s.girisSifre === DEMO_PAROLA;
       if (this.state.girisMod !== "kayitli" || this.state.girisSifre !== s.girisSifre || this.state.girisTelefon !== s.girisTelefon) return;
       if (!gecerli) {
-        this.setState({kodHata: !kayit && tel !== AYSE_TEL ? "Bu cihazda kayıtlı parola yok. “Parolamı unuttum” ile parola oluşturun." : "Parola eşleşmedi."});
+        this.setState({kodHata: !kayit && !ornekMu(tel) ? "Bu cihazda kayıtlı parola yok. “Parolamı unuttum” ile parola oluşturun." : "Parola eşleşmedi."});
         return;
       }
       this.setState({kvkk1:true,yeniMusteri:false,panel:"musteri",girisSifre:""}, () => this.kvkkOnayla());
@@ -2571,20 +2604,20 @@ class Component extends DCLogic {
           const v = await musteriMerkez(s.kodWeb ? "kod" : "sorgu", { tel });
           if (telAnahtar(this.state.kodTel) !== tel || this.state.kodWeb !== s.kodWeb) return;
           if (!s.kodWeb && v.kayitli) {
-            this.setState({girisMod:"kayitli",girisTelefon:telYaz(tel),girisSifre:tel===AYSE_TEL ? DEMO_PAROLA : "",kodHata:""});
+            this.setState({girisMod:"kayitli",girisTelefon:telYaz(tel),girisSifre:ornekMu(tel) ? DEMO_PAROLA : "",kodHata:""});
             return;
           }
           const k = smsKodYaz(tel, v.kod || (await musteriMerkez("kod", { tel })).kod);
-          this.setState({girisMod:"kod",kodAdim:2,kodHata:"",kodGirdi:k.kod,kodTel:telYaz(tel),kodKayit:null,kodYenileme:false,kodAd:s.kodWeb ? s.kodAd : "",kodParola:"",kodParola2:""});
+          this.setState({girisMod:"kod",kodAdim:2,kodHata:"",kodGirdi:k.kod,kodTel:telYaz(tel),kodKayit:null,kodYenileme:false,...(s.kodWeb ? {kodAd:s.kodAd,kodParola:"",kodParola2:""} : this.uyeOneri())});
         } catch (e) { this.setState({ kodHata: e.message }); }
         return;
       }
       if (!s.kodWeb && this.kayitliMusteri(tel)) {
-        this.setState({girisMod:"kayitli",girisTelefon:telYaz(tel),girisSifre:tel===AYSE_TEL && !parolaKaydi(tel) ? DEMO_PAROLA : "",kodHata:""});
+        this.setState({girisMod:"kayitli",girisTelefon:telYaz(tel),girisSifre:ornekMu(tel) && !parolaKaydi(tel) ? DEMO_PAROLA : "",kodHata:""});
         return;
       }
       const k = ziyaret ? smsKodOku(tel) : smsKodUret(tel);
-      this.setState({girisMod:"kod",kodAdim:2,kodHata:"",kodGirdi:k?.kod || "",kodTel:telYaz(tel),kodKayit:null,kodYenileme:false,kodAd:"",kodParola:"",kodParola2:""});
+      this.setState({girisMod:"kod",kodAdim:2,kodHata:"",kodGirdi:k?.kod || "",kodTel:telYaz(tel),kodKayit:null,kodYenileme:false,...this.uyeOneri()});
       return;
     }
     if (s.kodAdim === 2) {
@@ -2693,7 +2726,7 @@ class Component extends DCLogic {
     } else {
       // Kayıtlı müşteri: oturum içinde kaydedilmiş hesap varsa onu, yoksa demo (Ayşe Kaya) verisini yükle
       const hesaplar = this._hesaplar || {};
-      const snap = s.mTalep && telAnahtar(s.customerForm.phone)===telAnahtar(s.girisTelefon) ? {...(hesaplar[telAnahtar(s.girisTelefon)]||{}),mTalep:s.mTalep,customerForm:s.customerForm,chatMessages:s.chatMessages,mGecmis:s.mGecmis} : hesaplar[telAnahtar(s.girisTelefon)] || (CANLI ? { ...AYSE_SEED(), mTalep: null, chatMessages: [], customerMeetings: [] } : AYSE_SEED());  // merkez sürümünde uydurma randevu yok
+      const snap = s.mTalep && telAnahtar(s.customerForm.phone)===telAnahtar(s.girisTelefon) ? {...(hesaplar[telAnahtar(s.girisTelefon)]||{}),mTalep:s.mTalep,customerForm:s.customerForm,chatMessages:s.chatMessages,mGecmis:s.mGecmis} : hesaplar[telAnahtar(s.girisTelefon)] || (CANLI ? { ...ornekSeed(telAnahtar(s.girisTelefon)), mTalep: null, chatMessages: [], customerMeetings: [] } : ornekSeed(telAnahtar(s.girisTelefon)));  // merkez sürümünde uydurma randevu yok
       this.setState({ ...ortak, ...snap, basvuruDuzenle: false, duzenlenenId: null, basvuruTuru: "", basvuruTutar: "" }, () => {
         // Personel tabletten "görüşmeyi bitir" dediyse müşteri girişte özeti ve puan penceresini görür
         if (this.state.gorusmeBittiDemo && this.state.mTalep && this.state.mTalep.durum === "gorusme") this.mGorusmeBitti();
@@ -3124,7 +3157,7 @@ class Component extends DCLogic {
       customerNavBasvurum: s.customerNav === "basvurum",
       customerNavSohbet: s.customerNav === "sohbet",
       mKonusmaListeAcik:!s.mKonusmaAcik,mKonusmaDetayAcik:!!s.mKonusmaAcik,mKonusmaAc:()=>{this.gecis("m-ileri");this.setState({mKonusmaAcik:true});},mKonusmaEtiket:"Konuşmayı aç: "+(rep?.ad||"Temsilciniz"),
-      mHeaderGeriVar:s.customerNav==="basvuru"||(s.customerNav==="basvurum"&&!!s.mSeciliRandevuId)||(s.customerNav==="sohbet"&&!!s.mKonusmaAcik),
+      mHeaderGeriVar:(s.customerNav==="basvuru"&&((s.musteriBasvurulari.length===0||!!s.basvuruDuzenle)&&s.basvuruAdim>1||(!!s.basvuruDuzenle&&s.musteriBasvurulari.length>0)))||(s.customerNav==="basvurum"&&!!s.mSeciliRandevuId)||(s.customerNav==="sohbet"&&!!s.mKonusmaAcik),
       mHeaderGeri:()=>{if(s.customerNav==="sohbet"&&s.mKonusmaAcik||s.customerNav==="basvurum"&&s.mSeciliRandevuId)this.gecis("m-geri");if(s.customerNav==="sohbet")this.setState({mKonusmaAcik:false});else if(s.customerNav==="basvuru"){if((s.musteriBasvurulari.length===0||s.basvuruDuzenle)&&s.basvuruAdim>1)this.setState({basvuruAdim:s.basvuruAdim-1});else if(s.basvuruDuzenle&&s.musteriBasvurulari.length)this.setState({basvuruDuzenle:false,duzenlenenId:null});else this.setState({customerNav:"basvurum"});}else this.setState({mSeciliRandevuId:null,mSorunAcik:false});},
       setCustomerNavBasvurum: () => this.setState({ customerNav: "basvurum",mSeciliRandevuId:null }),
       setCustomerNavSohbet: () => this.setState({ customerNav: "sohbet",mKonusmaAcik:false }),
@@ -3898,6 +3931,9 @@ class Component extends DCLogic {
       girisModKayitli: s.girisMod === "kayitli",
       girisModKod: !s.girisMod || s.girisMod === "kod", girisGeriVar: s.girisMod === "kayitli" || s.girisMod === "kod",
       kodAdim1: !s.girisMod || s.kodAdim === 1, kodAdim2: s.girisMod === "kod" && s.kodAdim === 2, kodAdim3: s.girisMod === "kod" && s.kodAdim === 3,
+      ornekMusteriler: ORNEK_MUSTERILER.map((m) => ({ ad: m.ad, onSec: () => this.setState({ kodTel: telYaz(m.tel), kodHata: "" }) })),
+      yeniUyeDoldur: () => this.setState({ kodTel: rastgeleUye().tel, kodHata: "" }),
+      kodParolaOneri: s.girisMod === "kod" && s.kodAdim === 3 && !s.kodWeb && !s.kodYenileme && !!s.kodParola,
       kodTel: s.kodTel || "", kodGirdi: s.kodGirdi || "", kodAd: s.kodAd || "", kodParola: s.kodParola || "", kodParola2: s.kodParola2 || "",
       setKodTel: (e) => this.setState({ kodTel: e.target.value, kodHata: "" }), setKodGirdi: (e) => this.setState({ kodGirdi: e.target.value.replace(/\D/g, "").slice(0, 6), kodHata: "" }),
       setKodAd: (e) => this.setState({ kodAd: e.target.value, kodHata: "" }), setKodParola: (e) => this.setState({ kodParola: e.target.value, kodHata: "" }), setKodParola2: (e) => this.setState({ kodParola2: e.target.value, kodHata: "" }),
