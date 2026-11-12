@@ -118,6 +118,22 @@ Her biri ayrı onay ister. Planı yazarken aşağıdaki etkileri kullanıcıya h
   testler `merkez-akis.py` (kabul/mesaj/yola çıkış/QR adımları pencereden yapılır), `browser-flows.py`, `phone-layout.py` personel sekmeleri;
   `senaryo.html` SPY ekranları ve `URUN_KURALLARI.md` SPY ekranı maddesi güncellenir.
 
+**G. Personel paneli kozmetik iyileştirmeleri (kullanıcı onayladı, 2026-11-12; sorulmadan yapılır)**
+- Kaynak: `design-plans/personel-panel-inceleme-2026-11-12.md` (dış inceleme metni). Yalnız **kozmetik** (boyut, ağırlık, renk tonu,
+  hiza, boşluk, seçili görünüm, kontrast); akış, veri, düğme sayısı ve ekran yapısı değişmez.
+- Filtre (incelemedeki öneri bu kurallarla çelişirse kural kazanır):
+  - Görünüm kaynağı eminevim.com: yeşil #00724c, turuncu ana düğme #ea803f, kart köşesi 14px, hap 22px, yazı tipi GOTHIC/Century Gothic.
+    **Inter'e geçilmez, yeni renk paleti toplu getirilmez** (yalnız gerekli tek tük nötr/kehribar ton).
+  - Personel kartları düz (beyaz, #DDD çizgi, degrade/cam gölge yok). Mobil yerleşim kuralları (`URUN_KURALLARI.md` "Müşteri uygulaması
+    yerleşimi") bozulmaz; masaüstü telefon çerçevesi `linkler.html` önizlemesi için kalır (yalnız sadeleştirilebilir).
+  - Yapılmaz: E (Çağrı size nasıl gelir kartı — ayrı karar), F (görüşme penceresi), harita altlığı/doygunluk değişimi, saydırma/zıplama animasyonu.
+- Uygun görülenler (sıra): SPY Performans H/G yüzdeleri büyük + %100 hedef çizgisi + sıra/çağrı rakamları nötr; personel alt menü
+  etiket kontrastı + aktif sekme vurgusu; Yönetici Performans tablo hizası/başlık kırılması/yüzde tonu/Ekip ortalaması satırı;
+  Saha Canlı sayaçlar nötr, örnek zaman etiketi, ortak seçili filtre stili, harita yüksekliği (kişi kartları ilk ekranda);
+  Görüşmeler filtre/sayaç/rota düğmesi seçili görünümü; Profil Müsait/Molada seçili görünümü, Çıkış yap nötr.
+- Testler: tüm `tests/*.py` + node testleri; önce/sonra ekran görüntüsü (masaüstü 1363×936, telefon 390). Bitince `URUN_KURALLARI.md`
+  personel maddesi + `PROJE_ILERLEME.md`; commit + push; merkez tek seferde yeniden başlatılır ve canlıda doğrulanır.
+
 ## 8. Bitirirken
 1. Tüm testler geçti (çıktının son satırlarını göster).
 2. `PROJE_ILERLEME.md`'ye tarihli kısa not; kural değiştiyse `URUN_KURALLARI.md` / `CLAUDE.md` güncel.
