@@ -1664,6 +1664,7 @@ class Component extends DCLogic {
     const directRole = q.get("rol");
     if (["tl", "sgl", "ask", "spy"].indexOf(directRole) >= 0) this.loginRole(directRole, q.get("spy"));
     else if (CANLI && TEMSILCI_DETAY[Canli.oku("ty-spy")]) this.loginRole("spy", Canli.oku("ty-spy"), true);  // personel oturumu cihazda kalır
+    else if (CANLI && Canli.oku("ty-yonetici")) this.loginRole("ask");
     else if (CANLI && q.get("kaynak") !== "web") this.musteriOturumSurdur();  // müşteri oturumu da (Çıkış yap'a kadar)
     this.canliBasla();
     if (CANLI) this.cekYenileKur();
@@ -2021,6 +2022,7 @@ class Component extends DCLogic {
       this._acilacak = null;  // bildirimle açıldıysa o görüşmenin sayfası açılır
       return;
     }
+    if (CANLI && role === "ask") Canli.yaz("ty-yonetici", "1");  // yönetici oturumu da cihazda kalır (Çıkış yap'a kadar)
     const rootNode = OrgData.findNode(user.scope, user.scopeId);
     const comparisonMode = role === "ask" ? "saha" : role === "sgl" ? "takim" : "personel";
     this.setState({ tpSekme: role === "tl" ? "gorusmeler" : "canli", tpSecim: null, tpRota: false, personelLoginOpen: false, girisYapildi: true, panel: role, managerUser: user, managerPath: [{ scope: user.scope, id: user.scopeId, ad: (rootNode && rootNode.ad) || user.birimAd || user.ad }], managerComparisonMode: comparisonMode, managerPerformanceView: "ozet", managerTab: "performans", managerSettingsOpen: false, managerScopePickerOpen: false });
@@ -2778,6 +2780,7 @@ class Component extends DCLogic {
     // Hesabın oturum verisini sakla (tekrar giriş yapınca geri gelsin)
     const s = this.state;
     const key = telAnahtar(s.customerForm.phone);
+    if (CANLI) Canli.yaz("ty-yonetici", null);
     if (CANLI && s.panel === "spy") { Canli.yaz("ty-spy", null); Canli.pushBirak(); this.setState({ tpKayitlar: {}, tpSecim: null, tpBildirim: "" }); }
     if (CANLI && s.panel === "musteri" && this._musteriBildirim) { Canli.pushBirak(); this._musteriBildirim = null; this.setState({ mBildirim: "" }); }  // çıkış yapan telefona müşteri bildirimi gitmez
     if (CANLI && s.panel === "musteri") this.musteriOturumKapat(true);

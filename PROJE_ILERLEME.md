@@ -722,3 +722,6 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - SPY "Yola çık" deyince görüşme sayfasında rota kartı açılır. Müşterinin "Temsilcinizi takip edin" haritası aynı rotayı gösterir.
 - Tahmini varış gerçek yol süresiyle güncellenir (`yolSuresiGuncelle`; müşteri ekranındaki "Tahmini varış" da buna uyar).
 - Sınır (prototip): OSRM genel sunucusu ticari kullanıma uygun değil, kullanım sınırı var; gerçek yayında ücretli/kendi yönlendirme servisi gerekir. SPY'nin canlı GPS'i yok: rota SPY'nin kayıtlı konumundan çizilir, hareket etmez.
+
+## 2026-11-13 — Yönetici oturumu cihazda kalır
+- Merkez (canlı) sürümde yönetici girişi de SPY ve müşteri gibi cihazda kalır (`ty-yonetici`); Çıkış yap'a kadar uygulama yeniden açılınca giriş sorulmaz. GitHub Pages gösterisi (merkezsiz) oturum tutmaz.
