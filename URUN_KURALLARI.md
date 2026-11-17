@@ -1,6 +1,6 @@
 # Tasarruf Yanımda — ürün ve ekran kuralları
 
-Proje amacı, kararlar ve açık işler `CLAUDE.md`'de. Bu dosya 2026-11-05'te oradan aynen taşındı; ekran ve akış işlerinden önce okunur.
+Kurallar ve açık işler `CLAUDE.md`'de, teknik ayrıntı `TEKNIK.md`'de, gerekçe ve tarihçe `KARARLAR.md`'de. Bu dosya 2026-11-05'te oradan aynen taşındı; ekran ve akış işlerinden önce okunur.
 
 ## Ortak dil (kullanıcı kuralı, 2026-11-11 — proje çerçevesi ve videodaki gibi)
 - **Müşterinin gördüğü her yerde "temsilci"** (uygulamanın müşteri ekranları, web formu, SMS, müşteri bildirimleri, senaryo ve taslaklardaki

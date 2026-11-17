@@ -5,7 +5,8 @@ test et, kanıt göster.** Emin olmadığın her şeyde dur ve kullanıcıya sor
 
 ## 1. Başlamadan önce (her seferinde)
 1. `git pull origin master` ve `git status`. Çalışma alanında senin olmayan değişiklik varsa **dokunma**, kullanıcıya söyle.
-2. Şu dosyaları oku: `CLAUDE.md` (proje kararları), `URUN_KURALLARI.md` (ekran, akış, metin kuralları — çelişkide bu geçerli),
+2. Şu dosyaları oku: `CLAUDE.md` (kurallar, dosya haritası, çalıştırma), `URUN_KURALLARI.md` (ekran, akış, metin kuralları — çelişkide bu geçerli),
+   kod/merkez işinde `TEKNIK.md`, plan veya gerekçe gerekirse `KARARLAR.md`,
    işin ilgilendirdiği bölümde `rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md` (atama kuralları).
 3. Değiştireceğin kodu oku; aynı işi yapan başka yer var mı ara (`grep`). Tahminle değiştirme.
 4. Kullanıcıya 3-5 maddelik plan yaz: **ne değişecek, hangi dosyalar, ekranda/akışta kullanıcı neyi farklı görecek, ne değişmeyecek.**
