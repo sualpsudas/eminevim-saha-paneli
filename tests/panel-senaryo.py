@@ -9,7 +9,7 @@ OUT = Path(tempfile.gettempdir()) / 'ty-randevu-qa'
 OUT.mkdir(exist_ok=True)
 with sync_playwright() as p:
     browser = p.chromium.launch(channel='chrome', headless=True)
-    for w, h in [(1440, 900), (393, 852)]:
+    for w, h in [(1440, 900), (1280, 640), (393, 852), (390, 664)]:
         page = browser.new_page(viewport={'width': w, 'height': h})
         errors = []
         page.on('pageerror', lambda e: errors.append(str(e)))
@@ -26,6 +26,11 @@ with sync_playwright() as p:
                 gorunen = kok.locator('.bolme.gorunur' if w < 900 else '.bolme')
                 assert gorunen.count() == (1 if w < 900 else 2), (ad, i)
                 assert kok.locator('.bolme.etkin').count() >= 1
+                # Taşma yok: görünen cihazlar sahnenin içinde, alttaki Geri/İleri bandına binmiyor
+                tasma = page.evaluate('''()=>{const k=document.querySelector('.bolum.acik [data-senaryo]'),s=k.querySelector('.sahne').getBoundingClientRect(),
+                  alt=k.querySelector('.sen-alt').getBoundingClientRect();return [...k.querySelectorAll('.bolme')].filter(b=>b.offsetParent).map(b=>b.getBoundingClientRect())
+                  .filter(r=>r.top<s.top-1||r.bottom>s.bottom+1||r.left<s.left-1||r.right>s.right+1||r.bottom>alt.top).length}''')
+                assert tasma == 0, (ad, w, i, 'taşma')
                 if i in (0, toplam // 2):
                     page.screenshot(path=str(OUT / f'panel-{ad}-{w}-{i + 1}.png'))
                 if i < toplam - 1:
@@ -37,9 +42,9 @@ with sync_playwright() as p:
             page.keyboard.press('ArrowLeft')
             assert kok.locator('.sira').inner_text().startswith(f'{toplam - 1} /')
         page.goto(URL + '#video')
-        page.get_by_role('button', name='Kadın sesli', exact=True).click()
-        assert 'kadin' in page.locator('#b-video video').get_attribute('src')
+        page.locator('#b-video video').wait_for()
+        assert 'kadin' in page.locator('#b-video video').get_attribute('src') and page.locator('[data-video]').count() == 0
         assert not errors, errors
         page.close()
-    print('Panel senaryoları (iki bölme, adım adım, görüntüler yüklü, dar ekranda tek taraf) ve video sürümleri: OK')
+    print('Panel senaryoları (iki bölme, adım adım, görüntüler yüklü, dar ekranda tek taraf) , taşma yok, video kadın sesli: OK')
     browser.close()

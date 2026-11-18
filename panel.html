@@ -51,30 +51,42 @@
   .bolum .not{margin:0 0 18px;color:var(--soluk);font-size:14.5px}
   video{width:100%;max-height:72vh;border-radius:14px;background:#000;display:block}
 
-  /* Video sürüm seçimi */
-  .secim{display:inline-flex;gap:4px;padding:4px;border-radius:12px;background:#e8ebe9;margin:0 0 12px}
+  .secim{display:inline-flex;gap:4px;padding:4px;border-radius:12px;background:#e8ebe9}
   .secim button{border:0;background:none;padding:7px 14px;border-radius:9px;cursor:pointer;font-size:14px}
   .secim button[aria-pressed="true"]{background:#fff;color:var(--yesil);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.12)}
 
   /* Senaryo: solda müşteri (telefon), sağda SPY (tablet); adım adım ilerler. Görüntüler gerçek uygulamadan
-     (araclar/senaryo_goruntu.py üretir). */
+     (araclar/senaryo_goruntu.py üretir). Cihaz boyu --d: JS, sahneye sığacak şekilde ayarlar (taşma yok). */
   .sen{flex:1;min-height:0;display:flex;flex-direction:column;padding:max(14px,env(safe-area-inset-top)) 18px 14px;gap:10px}
-  .sen-ust{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .sen-ust{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
   .sen-ust h2{margin:0}
-  .sen-ust .not{margin:0}
-  .sahne{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
-  .bolmeler{display:grid;grid-template-columns:1fr 3.12fr;gap:18px;align-items:end;width:100%;max-width:calc((100dvh - 250px) * 1.95)}
-  .bolme{min-width:0;transition:opacity .25s}
-  .bolme .etiket{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;margin:0 0 6px;color:var(--soluk)}
+  .sahne{flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center}
+  .bolmeler{--d:400px;display:flex;align-items:flex-end;justify-content:center;gap:clamp(12px,2.2vw,28px)}
+  .bolme{margin:0;flex:0 0 auto;transition:opacity .25s}
+  .bolme .etiket{display:flex;align-items:center;gap:6px;height:22px;font-size:13px;font-weight:700;margin:0 0 6px;color:var(--soluk)}
   .bolme .etiket i{width:9px;height:9px;border-radius:50%;background:var(--cizgi)}
-  .bolme .ekran{display:block;width:100%;height:auto;border-radius:14px;border:3px solid #cfd5d2;background:#fff}
-  .bolme.tel .ekran{border-radius:22px;aspect-ratio:393/852}
-  .bolme.tab .ekran{aspect-ratio:1180/820}
-  .bolme.etkin .ekran{border-color:var(--yesil);box-shadow:0 6px 22px rgba(0,114,76,.18)}
   .bolme.etkin .etiket{color:var(--yesil)}
   .bolme.etkin .etiket i{background:var(--turuncu)}
-  .bolme:not(.etkin){opacity:.6}
-  .sen-alt{display:flex;align-items:center;gap:12px;background:var(--kart);border:1px solid var(--cizgi);border-radius:14px;padding:10px 12px}
+  .bolme:not(.etkin){opacity:.55}
+  .buyut{display:block;text-decoration:none;color:inherit}
+  .ekran{display:block}
+
+  /* iPhone: siyah kasa, üstte durum çubuğu (saat, ada, sinyal/wifi/pil), altta ev çizgisi; renkler ekranın üst/alt rengi */
+  .tel .kasa{--ic:calc(var(--d) - 2 * var(--k));--k:calc(var(--d) * .016);height:var(--d);padding:var(--k);background:#111;border-radius:calc(var(--d) * .075);box-shadow:0 0 0 1.5px #3a3a3a,0 10px 28px rgba(0,0,0,.22)}
+  .tel .ic{height:var(--ic);border-radius:calc(var(--d) * .062);overflow:hidden;display:flex;flex-direction:column;background:#fff}
+  .tel .durum{flex:0 0 calc(var(--ic) * .058);display:flex;align-items:center;justify-content:space-between;padding:0 calc(var(--ic) * .03) 0 calc(var(--ic) * .045);font:600 calc(var(--ic) * .021)/1 -apple-system,"SF Pro Text","Segoe UI",Arial,sans-serif;position:relative}
+  .tel .durum .ada{position:absolute;left:50%;top:22%;transform:translateX(-50%);width:28%;height:52%;border-radius:99px;background:#000}
+  .tel .durum svg{height:calc(var(--ic) * .015);width:auto;display:block}
+  .tel .durum .sag{display:flex;align-items:center;gap:calc(var(--ic) * .007)}
+  .tel .ekran{height:calc(var(--ic) * .912);width:auto;aspect-ratio:393/852;object-fit:cover;object-position:top}
+  .tel .ev{flex:1;display:flex;align-items:center;justify-content:center}
+  .tel .ev i{width:36%;height:calc(var(--ic) * .006);min-height:3px;border-radius:99px;background:#111}
+  .tel .koyu .ev i{background:#fff}
+  /* Tablet: ince koyu kasa */
+  .tab .kasa{--k:calc(var(--d) * .028);height:var(--d);padding:var(--k);background:#1d1f21;border-radius:calc(var(--d) * .05);box-shadow:0 0 0 1.5px #3a3a3a,0 10px 28px rgba(0,0,0,.2)}
+  .tab .ekran{height:calc(var(--d) - 2 * var(--k));width:auto;aspect-ratio:1180/820;border-radius:calc(var(--d) * .022)}
+
+  .sen-alt{display:flex;align-items:center;gap:12px;background:var(--kart);border:1px solid var(--cizgi);border-radius:14px;padding:10px 12px;flex:0 0 auto}
   .sen-alt .yazi{flex:1;min-width:0}
   .sen-alt .sira{font-size:12.5px;color:var(--soluk)}
   .sen-alt b{display:block;font-size:16px;line-height:1.3}
@@ -82,27 +94,21 @@
   .dugme{flex:0 0 auto;min-width:48px;min-height:44px;border-radius:12px;border:1.5px solid var(--yesil);background:#fff;color:var(--yesil);font-weight:700;cursor:pointer;padding:0 14px}
   .dugme.ileri{background:var(--turuncu);border-color:var(--turuncu);color:#fff}
   .dugme:disabled{opacity:.35;cursor:default}
-  .noktalar{display:flex;flex-wrap:wrap;justify-content:center;gap:2px}
+  .noktalar{display:flex;flex-wrap:wrap;justify-content:center;gap:2px;flex:0 0 auto}
   .noktalar button{width:22px;height:22px;border:0;background:none;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
   .noktalar button::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cizgi)}
   .noktalar button[aria-current="step"]::before{background:var(--yesil);width:10px;height:10px}
   .yan-sec{display:none}
-  .buyut{display:block}
-  .ipucu{display:none;font-size:12px;color:var(--soluk);text-align:center;margin-top:4px}
-  .bilgi{margin:0;padding:8px 12px;border-radius:10px;background:var(--acikYesil);font-size:13px;color:#24493b}
 
-  /* Dar ekran: iki bölme sığmaz → adımın etkin tarafı görünür, üstteki düğmeyle diğerine geçilir */
+  /* Dar ekran: iki cihaz sığmaz → adımın etkin tarafı görünür, üstteki düğmeyle diğerine geçilir */
   @media (max-width:899px){
-    .yan-sec{display:inline-flex;margin:0}
-    .bolmeler{display:block;max-width:none}
+    .yan-sec{display:inline-flex}
     .bolme{display:none;opacity:1 !important}
     .bolme.gorunur{display:block}
-    .bolme.tel.gorunur{max-width:min(100%,calc((100dvh - 300px) * .461));margin:0 auto}
-    .bolme.tab.gorunur{max-width:calc((100dvh - 300px) * 1.44);margin:0 auto}
-    .ipucu{display:block}
-    .sen-alt{flex-wrap:wrap}
+    .sen-alt{flex-wrap:wrap;gap:8px}
     .sen-alt .yazi{flex-basis:100%;order:-1}
     .sen-alt .dugme{flex:1}
+    .noktalar button{width:18px}
   }
 
   /* Telefon: menü dar ray olur (simge + kısa ad) */
@@ -157,13 +163,8 @@
 
     <section class="bolum" id="b-video" aria-labelledby="h-video">
       <div class="kaydir"><div class="icerik">
-        <h2 id="h-video">Tanıtım Videosu</h2>
-        <p class="not">Sesi açarak izleyin.</p>
-        <div class="secim" role="group" aria-label="Seslendirme">
-          <button type="button" aria-pressed="true" data-video="video/tasarruf-yanimda-tanitim.mp4?v=12">Ana sürüm</button>
-          <button type="button" aria-pressed="false" data-video="video/tasarruf-yanimda-tanitim-kadin.mp4?v=1">Kadın sesli</button>
-        </div>
-        <video controls playsinline preload="metadata" data-src="video/tasarruf-yanimda-tanitim.mp4?v=12"></video>
+        <h2 id="h-video" style="margin-bottom:14px">Tanıtım Videosu</h2>
+        <video controls playsinline preload="metadata" data-src="video/tasarruf-yanimda-tanitim-kadin.mp4?v=1"></video>
       </div></div>
     </section>
 
@@ -177,8 +178,8 @@
         </div>
         <div class="sahne">
           <div class="bolmeler">
-            <figure class="bolme tel" data-bolme="m" style="margin:0"><figcaption class="etiket"><i></i>Müşteri · telefon</figcaption><a class="buyut" target="_blank" rel="noopener"><img class="ekran" alt=""></a><span class="ipucu">Büyütmek için dokunun</span></figure>
-            <figure class="bolme tab" data-bolme="p" style="margin:0"><figcaption class="etiket"><i></i>SPY · tablet</figcaption><a class="buyut" target="_blank" rel="noopener"><img class="ekran" alt=""></a><span class="ipucu">Büyütmek için dokunun</span></figure>
+            <figure class="bolme tel" data-bolme="m"><figcaption class="etiket"><i></i>Müşteri · telefon</figcaption><a class="buyut" target="_blank" rel="noopener"><div class="kasa"><div class="ic"><div class="durum"><span>9:41</span><span class="ada"></span><span class="sag"><svg viewBox="0 0 18 12" aria-hidden="true"><g fill="currentColor"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></g></svg><svg viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M8 12 5.6 9.4a3.4 3.4 0 0 1 4.8 0zM3.4 7.2a6.5 6.5 0 0 1 9.2 0l1.5-1.6a8.7 8.7 0 0 0-12.2 0zM0 3.7l1.5 1.6a9.6 9.6 0 0 1 13 0L16 3.7a11.8 11.8 0 0 0-16 0z"/></svg><svg viewBox="0 0 27 12" aria-hidden="true"><rect x=".5" y=".5" width="23" height="11" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="17" height="8" rx="1.8" fill="currentColor"/><rect x="24.6" y="4" width="1.8" height="4" rx=".9" fill="currentColor" opacity=".45"/></svg></span></div><img class="ekran" alt=""><div class="ev"><i></i></div></div></div></a></figure>
+            <figure class="bolme tab" data-bolme="p"><figcaption class="etiket"><i></i>SPY · tablet</figcaption><a class="buyut" target="_blank" rel="noopener"><div class="kasa"><img class="ekran" alt=""></div></a></figure>
           </div>
         </div>
         <div class="sen-alt">
@@ -187,7 +188,6 @@
           <button type="button" class="dugme ileri" data-ileri aria-label="Sonraki adım">İleri ›</button>
         </div>
         <div class="noktalar" role="group" aria-label="Adımlar"></div>
-        <p class="bilgi">Ekranlar gerçek web formundan ve uygulamadan alındı. Çağrı en uygun SPY'ye düşer; SPY 2 dakikada almazsa sıradakine geçer, kimse almazsa takım lideri atar. Görüşme sonunda randevu ve aday müşteri kartı şirket sistemine aktarılır.</p>
       </div>
     </section>
 
@@ -201,8 +201,8 @@
         </div>
         <div class="sahne">
           <div class="bolmeler">
-            <figure class="bolme tel" data-bolme="m" style="margin:0"><figcaption class="etiket"><i></i>Müşteri · telefon</figcaption><a class="buyut" target="_blank" rel="noopener"><img class="ekran" alt=""></a><span class="ipucu">Büyütmek için dokunun</span></figure>
-            <figure class="bolme tab" data-bolme="p" style="margin:0"><figcaption class="etiket"><i></i>SPY · tablet</figcaption><a class="buyut" target="_blank" rel="noopener"><img class="ekran" alt=""></a><span class="ipucu">Büyütmek için dokunun</span></figure>
+            <figure class="bolme tel" data-bolme="m"><figcaption class="etiket"><i></i>Müşteri · telefon</figcaption><a class="buyut" target="_blank" rel="noopener"><div class="kasa"><div class="ic"><div class="durum"><span>9:41</span><span class="ada"></span><span class="sag"><svg viewBox="0 0 18 12" aria-hidden="true"><g fill="currentColor"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></g></svg><svg viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M8 12 5.6 9.4a3.4 3.4 0 0 1 4.8 0zM3.4 7.2a6.5 6.5 0 0 1 9.2 0l1.5-1.6a8.7 8.7 0 0 0-12.2 0zM0 3.7l1.5 1.6a9.6 9.6 0 0 1 13 0L16 3.7a11.8 11.8 0 0 0-16 0z"/></svg><svg viewBox="0 0 27 12" aria-hidden="true"><rect x=".5" y=".5" width="23" height="11" rx="3" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="17" height="8" rx="1.8" fill="currentColor"/><rect x="24.6" y="4" width="1.8" height="4" rx=".9" fill="currentColor" opacity=".45"/></svg></span></div><img class="ekran" alt=""><div class="ev"><i></i></div></div></div></a></figure>
+            <figure class="bolme tab" data-bolme="p"><figcaption class="etiket"><i></i>SPY · tablet</figcaption><a class="buyut" target="_blank" rel="noopener"><div class="kasa"><img class="ekran" alt=""></div></a></figure>
           </div>
         </div>
         <div class="sen-alt">
@@ -211,13 +211,12 @@
           <button type="button" class="dugme ileri" data-ileri aria-label="Sonraki adım">İleri ›</button>
         </div>
         <div class="noktalar" role="group" aria-label="Adımlar"></div>
-        <p class="bilgi">Ekranlar gerçek uygulamadan alındı. Atama Senaryo 1'deki gibidir. Üye müşteri bekleme sırasında Finansman Aracı'ndan ön tercihlerini de paylaşabilir.</p>
       </div>
     </section>
   </main>
 </div>
 
-<script src="senaryo/adimlar.js?v=202611181316"></script>
+<script src="senaryo/adimlar.js?v=202611181332"></script>
 <script>
 (function(){
   var bolumler = ["cerceve","video","senaryo-1","senaryo-2"];
@@ -237,15 +236,6 @@
     });
     if (ic) { var k = document.querySelector(".bolum.acik .kaydir"); if (k) k.scrollTop = 0; }
   }
-  // Video sürümü
-  var video = document.querySelector("#b-video video");
-  document.querySelectorAll("[data-video]").forEach(function(b){
-    b.addEventListener("click", function(){
-      document.querySelectorAll("[data-video]").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
-      video.pause(); video.setAttribute("src", b.getAttribute("data-video")); video.load();
-    });
-  });
-
   // Senaryolar: iki bölmeli, adım adım
   var KLASOR = "senaryo/goruntu/", SURUM = window.SENARYO_SURUM || "1";
   document.querySelectorAll("[data-senaryo]").forEach(function(kok){
@@ -257,6 +247,21 @@
       b.addEventListener("click", function(){ git(i); }); nokta.appendChild(b);
     });
     function yol(ad){ return KLASOR + ad + "?v=" + SURUM; }
+    var sahne = kok.querySelector(".sahne"), bolmeler = kok.querySelector(".bolmeler");
+    function sigdir(){
+      // Cihazlar sahneye sığsın: önce yüksekliğe göre, genişlik taşarsa oranla küçült (alttaki bant ekranın üstüne binmez)
+      if (!sahne.clientHeight) return;
+      var d = sahne.clientHeight - 28;
+      for (var k = 0; k < 3; k++) {
+        bolmeler.style.setProperty("--d", Math.max(120, d) + "px");
+        var w = bolmeler.scrollWidth, cw = sahne.clientWidth - 4;
+        if (w <= cw) break;
+        d = d * cw / w - 2;
+      }
+    }
+    kok.sigdir = sigdir;
+    if (window.ResizeObserver) new ResizeObserver(function(){ sigdir(); }).observe(sahne);
+    function koyuMu(hex){ var n = parseInt(String(hex || "#ffffff").slice(1), 16); return (0.299 * (n >> 16) + 0.587 * (n >> 8 & 255) + 0.114 * (n & 255)) < 140; }
     function yanGoster(yan){
       ["m","p"].forEach(function(y){ kok.querySelector("[data-bolme=" + y + "]").classList.toggle("gorunur", y === yan); });
       kok.querySelectorAll("[data-yan]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.getAttribute("data-yan") === yan)); });
@@ -270,22 +275,30 @@
       img.m.alt = "Müşteri ekranı: " + a.baslik; img.p.alt = "SPY ekranı: " + a.baslik;
       ["m","p"].forEach(function(y){ kok.querySelector("[data-bolme=" + y + "]").classList.toggle("etkin", a.kim === y || a.kim === "y"); });
       yanGoster(a.kim === "p" ? "p" : "m");
+      var ic = kok.querySelector(".tel .ic"), durum = kok.querySelector(".tel .durum"), ev = kok.querySelector(".tel .ev");
+      durum.style.background = a.ust || "#fff"; durum.style.color = koyuMu(a.ust) ? "#fff" : "#000";
+      ev.style.background = a.alt || "#fff"; ic.classList.toggle("koyu", koyuMu(a.alt));
       kok.querySelector(".sira").textContent = (n + 1) + " / " + adimlar.length + " · " + (a.kim === "m" ? "Müşteri" : a.kim === "p" ? "SPY" : "Müşteri ve SPY");
       kok.querySelector(".yazi b").textContent = a.baslik;
       kok.querySelector(".yazi p").textContent = a.metin;
       kok.querySelector("[data-geri]").disabled = n === 0;
       kok.querySelector("[data-ileri]").disabled = n === adimlar.length - 1;
       nokta.querySelectorAll("button").forEach(function(b, k){ if (k === n) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
+      sigdir();
       var s = adimlar[n + 1]; if (s) { new Image().src = yol(s.m); new Image().src = yol(s.p); }  // sonraki adım hazır olsun
     }
     kok.querySelector("[data-geri]").addEventListener("click", function(){ git(n - 1); });
     kok.querySelector("[data-ileri]").addEventListener("click", function(){ git(n + 1); });
-    kok.querySelectorAll("[data-yan]").forEach(function(x){ x.addEventListener("click", function(){ yanGoster(x.getAttribute("data-yan")); }); });
+    kok.querySelectorAll("[data-yan]").forEach(function(x){ x.addEventListener("click", function(){ yanGoster(x.getAttribute("data-yan")); sigdir(); }); });
     kok.addEventListener("keydown", function(e){ if (e.key === "ArrowRight") git(n + 1); if (e.key === "ArrowLeft") git(n - 1); });
     kok.tabIndex = -1;
     kok.git = git;
     git(0);
   });
+  function hepsiniSigdir(){ document.querySelectorAll("[data-senaryo]").forEach(function(k){ if (k.sigdir) k.sigdir(); }); }
+  window.addEventListener("resize", hepsiniSigdir);
+  window.addEventListener("hashchange", function(){ setTimeout(hepsiniSigdir, 0); });
+  window.addEventListener("load", hepsiniSigdir);
   document.addEventListener("keydown", function(e){
     var k = document.querySelector(".bolum.acik [data-senaryo]");
     if (!k || /INPUT|TEXTAREA|SELECT|VIDEO/.test(e.target.tagName) || e.target.closest("[data-senaryo]")) return;

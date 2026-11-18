@@ -227,16 +227,18 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
     kullanıcı üretip gönderecek (gerçek kişi fotoğrafı yok; açık lisanslı uygun hazır görsel bulunamadı).
 - **Senaryolar panelde (`panel.html#senaryo-1`, `#senaryo-2`; 2026-11-18, kullanıcı: "ekranlar birebir uygulamalardaki gibi olmalı").**
   Ekran ikiye bölünür: solda müşteri (telefon), sağda SPY (**tablet**, yatay). Alt bantta adım no + kim (Müşteri / SPY / ikisi),
-  başlık, kısa açıklama, Geri / İleri, adım noktaları, ok tuşları. Etkin taraf yeşil çerçeve, diğeri soluk. 900 px altında tek taraf
+  başlık, kısa açıklama, Geri / İleri, adım noktaları, ok tuşları. Etkin taraf vurgulu, diğeri soluk. Telefon gerçekçi iPhone kasası
+  (durum çubuğu 9:41 + ada + sinyal/pil, altta ev çizgisi; renkleri ekranın üst/alt renginden), tablet ince koyu kasa. Cihazlar sahneye
+  JS ile sığdırılır (alttaki bant ekranın üstüne binmez). Senaryo altında ek bilgi yazısı yok (kullanıcı istemedi). 900 px altında tek taraf
   görünür (adımın etkin tarafı; üstte Müşteri / SPY düğmesi), görüntüye dokununca tam boyut açılır.
   **Görüntüler çizim değil, gerçek ekran:** `python araclar/senaryo_goruntu.py` gerçek web formunu ve uygulamayı (gösteri kipi) açıp
   her adımı yapar, `senaryo/goruntu/*.jpg` + `senaryo/adimlar.js` üretir (elle düzenlenmez). Bir adım yapılamazsa betik hata verir.
   **Uygulama veya web formu ekranı/akışı değişince betik yeniden çalıştırılır** (yerel 8799 sunucusu açıkken); adım ekleme/çıkarma betikte.
   Gösteri kipinden ayrılan iki yer (canlı akış gibi görünsün diye): çağrı SPY'ye "yeni çağrı" düşer ve SPY elle kabul eder
   (gösteri kendisi atıyor); web senaryosunda görüşme günü "Bugün"e çekilir (SPY yalnız o gün yola çıkabilir).
-  Senaryo 1 · Web formundan (15 adım): form → temsilci penceresi (harita, gün/saat) → teşekkür + SMS, çağrı SPY'ye → SPY kabul →
+  Senaryo 1 · Web formundan (16 adım): form → KVKK Aydınlatma Metni penceresi → temsilci penceresi (harita, gün/saat) → teşekkür + SMS, çağrı SPY'ye → SPY kabul →
   SMS bağlantısı + kod → Hoş geldiniz → hazırlık → Randevularım "Saati onayla" → kesinleşti → ortak son.
-  Senaryo 2 · Uygulamadan (16 adım): telefon → SMS kodu → Ad + Soyad → Hoş geldiniz → "Temsilci iste" → harita → gün/saat →
+  Senaryo 2 · Uygulamadan (17 adım): telefon → SMS kodu → Ad + Soyad → KVKK Aydınlatma Metni penceresi → Hoş geldiniz → "Temsilci iste" → harita → gün/saat →
   çağrı SPY'ye → kabul → saati onayla + hazırlık → kesinleşti → ortak son. Ortak son: görüşme günü → yola çık → kapıda QR →
   görüşme → özet.
 - `senaryo.html` — eski el çizimi senaryo tahtası (2026-10-22). linkler.html'deki "Senaryo" sekmesi kaldırıldı (eski `#senaryo-…`

@@ -758,3 +758,12 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - linkler.html: "Senaryo" sekmesi kaldırıldı, eski `#senaryo-…` panele yönlenir. senaryo.html silinmedi (güncellenmez).
 - Testler: yeni `tests/panel-senaryo.py` (1440 ve 393 genişlik) OK; appointment-list, phone-layout OK. Uygulama kodu değişmedi.
 
+
+## 2026-11-18 (5) — Panel düzeltmeleri (kullanıcı geri bildirimi)
+- Tanıtım Videosu: yalnız kadın sesli sürüm, sürüm seçimi ve "Sesi açarak izleyin" kalktı; başlık sadece "Tanıtım Videosu".
+- Senaryo altındaki bilgi yazıları kaldırıldı.
+- Telefon gerçekçi iPhone kasası: durum çubuğu (9:41, ada, sinyal/wifi/pil) ve ev çizgisi; renkleri görüntünün üst/alt satırından
+  (`adimlar.js` ust/alt). Tablet koyu kasa. Cihaz boyu sahneye JS ile sığdırılır (ResizeObserver) → Geri/İleri bandı ekranı örtmez.
+- KVKK adımları eklendi: Senaryo 1'de web formunun Aydınlatma Metni penceresi, Senaryo 2'de uygulamanınki (onay kutusu yok,
+  ticari ileti izni isteğe bağlı/işaretsiz; betik bunu da denetler). Senaryo 1: 16, Senaryo 2: 17 adım.
+- Test `tests/panel-senaryo.py`: 1440x900, 1280x640, 393x852, 390x664'te her adımda taşma denetimi OK.

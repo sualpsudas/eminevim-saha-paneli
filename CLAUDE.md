@@ -38,7 +38,7 @@ Pages adresi değişir). **Tasarım kararı henüz verilmedi:** mevcut prototip 
 - Canlı test merkezi: `merkez/` (`sunucu.py` giriş, kod `merkez/ty/` parçaları, `takip.html`, `canli-sw.js`), bağlantı `uygulama/canli.js`.
 - iPhone: Capacitor + Codemagic (`IOS_TESTFLIGHT.md`). Taslaklar `taslak/`, proje belgeleri `rapor/`. `senaryo.html` eski çizim tahtası (güncellenmez).
 - **Panel `panel.html`** (2026-11-18): ana sayfa kutuları → solda dar dikey menü: Proje Çerçevesi, Tanıtım Videosu, Senaryo 1 (web formundan),
-  Senaryo 2 (uygulamadan). Web formu ve uygulama panelden açılmaz (ayrı linkler). Video: ana sürüm + kadın sesli.
+  Senaryo 2 (uygulamadan). Web formu ve uygulama panelden açılmaz (ayrı linkler). Video: yalnız kadın sesli sürüm (başlık sadece "Tanıtım Videosu").
   Senaryolar iki bölmeli (müşteri telefon | SPY tablet) ve **gerçek ekran görüntüleri**: `python araclar/senaryo_goruntu.py`
   (yerel 8799 açıkken) üretir → `senaryo/`. **Uygulama veya web formu ekranı/akışı değişince yeniden çalıştır.** Test `tests/panel-senaryo.py`.
 

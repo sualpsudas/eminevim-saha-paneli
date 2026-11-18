@@ -137,6 +137,16 @@ def senaryo_web(browser, hatalar):
     s.goruntu(web, "m", TELEFON)
     s.adim("m", "Müşteri web formunu doldurur", "Eminevim sitesindeki başvuru formu: ad, soyad, telefon. E-posta istenmez.")
 
+    # KVKK: aydınlatma yalnız gösterilir (onay kutusu yok); ticari ileti izni isteğe bağlı, işaretsiz gelir
+    assert not form.locator("[name=kampanya]").is_checked()
+    form.get_by_role("button", name="Aydınlatma Metni", exact=True).click()
+    ayd = web.locator("#ty-aydinlatma.acik")
+    ayd.get_by_role("button", name="Kapat", exact=True).wait_for()
+    s.goruntu(web, "m", TELEFON)
+    s.adim("m", "KVKK: Aydınlatma Metni", "Formun altında kısa bilgi ve \"Aydınlatma Metni\" bağlantısı var; onay kutusu yok. "
+           "Kampanya iletisi izni isteğe bağlıdır, işaretsiz gelir.")
+    ayd.get_by_role("button", name="Kapat", exact=True).click()
+
     form.locator("[name=temsilci]").check()
     pen = web.locator("[data-pen=temsilci].acik")
     pen.wait_for()
@@ -239,7 +249,17 @@ def senaryo_uygulama(browser, hatalar):
     page.get_by_label("Ad", exact=True).fill("Zeynep")
     page.get_by_label("Soyad", exact=True).fill("Arslan")
     s.goruntu(page, "m", TELEFON)
-    s.adim("m", "İlk kez gelen müşteri: ad ve soyad", "Kayıtlı değilse yalnız adı ve soyadı sorulur. Aydınlatma metni gösterilir; ticari ileti izni isteğe bağlıdır.")
+    s.adim("m", "İlk kez gelen müşteri: ad ve soyad", "Kayıtlı değilse yalnız adı ve soyadı sorulur. Altında kısa aydınlatma bilgisi; onay kutusu yok.")
+
+    # KVKK: aydınlatma metni penceresi, ticari ileti izni isteğe bağlı (işaretsiz)
+    izin = page.get_by_role("checkbox", name="Ticari elektronik ileti izni (isteğe bağlı)", exact=True)
+    assert not izin.is_checked()
+    page.get_by_role("button", name="Aydınlatma Metni", exact=True).click()
+    pen = page.get_by_role("dialog", name="Aydınlatma Metni", exact=True)
+    pen.wait_for()
+    s.goruntu(page, "m", TELEFON)
+    s.adim("m", "KVKK: Aydınlatma Metni", "\"Aydınlatma Metni\"ne dokununca metnin tamamı açılır. Kampanya iletisi izni isteğe bağlıdır, işaretsiz gelir.")
+    pen.get_by_role("button", name="Kapat", exact=True).click()
 
     page.get_by_role("button", name="Hesabımı oluştur", exact=True).click()
     page.get_by_role("button", name="Atla", exact=True).wait_for()
@@ -314,6 +334,15 @@ def main():
         browser.close()
     assert not hatalar, hatalar
     veri = {k: v.adimlar for k, v in senaryolar.items()}
+    from PIL import Image
+    renk = {}
+    for adimlar in veri.values():
+        for a in adimlar:
+            if a["m"] not in renk:
+                with Image.open(CIKTI / a["m"]) as im:
+                    w, h = im.size
+                    renk[a["m"]] = ["#%02x%02x%02x" % im.convert("RGB").getpixel((w // 2, y)) for y in (2, h - 3)]
+            a["ust"], a["alt"] = renk[a["m"]]
     (KOK / "senaryo" / "adimlar.js").write_text(
         "// araclar/senaryo_goruntu.py üretir; elle düzenlenmez\nwindow.SENARYO_SURUM = \"" + datetime.now().strftime("%Y%m%d%H%M")
         + "\";\nwindow.SENARYO = " + json.dumps(veri, ensure_ascii=False, indent=1) + ";\n",
