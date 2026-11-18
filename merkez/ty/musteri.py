@@ -83,7 +83,7 @@ def hesap_ac(veri, tel, adi, soyadi, kampanya, kaynak="uygulama", rid=None, aydi
 
 
 def musteri_islem(veri, istek):
-    """islem: kod | dogrula | kayit | web | oturum | cikis. Hesap merkezde; her telefonda aynı numara + SMS kodu."""
+    """islem: kod | dogrula | kayit | web | oturum | cikis | izin. Hesap merkezde; her telefonda aynı numara + SMS kodu."""
     islem, tel = istek.get("islem"), tel_temiz(istek.get("tel"))
     if len(tel) != 10:
         raise ValueError("Telefon numaranızı 10 hane olarak yazın.")
@@ -91,13 +91,17 @@ def musteri_islem(veri, istek):
     m = hesaplar.get(tel)
     if islem == "kod":  # gerçek SMS gelene kadar kod yanıtta döner ve ekranda gösterilir (test)
         return {"kod": kod_gonder(tel)}
-    if islem in ("oturum", "cikis"):  # uygulama yeniden açıldı / Çıkış yap
+    if islem in ("oturum", "cikis", "izin"):  # uygulama yeniden açıldı / Çıkış yap / Ayarlar'da ticari ileti izni
         jeton = str(istek.get("jeton") or "")
         if not m or jeton_ozet(jeton) not in m.get("jetonlar", []):
             raise ValueError("Oturum doğrulanamadı. Yeniden giriş yapın.")
         if islem == "cikis":
             m["jetonlar"].remove(jeton_ozet(jeton))
             return {}
+        if islem == "izin":  # izin verildiği kadar kolay geri alınır; tarihiyle kaydedilir (İYS bildirimi şirket sürecinde)
+            m["kampanya"], m["kampanyaTarih"] = istek.get("kampanya") is True, simdi()
+            olay(veri, f"Ticari ileti izni {'verildi' if m['kampanya'] else 'geri alındı'}: {m.get('ad', '')}")
+            return {"kampanya": m["kampanya"]}
         return oturum(veri, tel, jeton)
     if islem == "dogrula":  # kayıtlı müşteri: kod doğruysa içeri; yeni müşteri: kod geçerli kalır (kayıtta harcanır)
         kod_dogru(tel, istek.get("kod"), harca=bool(m))

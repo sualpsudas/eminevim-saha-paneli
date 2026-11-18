@@ -101,7 +101,7 @@ with sync_playwright() as p:
     assert not izin.is_checked(), 'Ticari ileti izni kendiliğinden işaretli olmamalı'
     buton('Aydınlatma Metni').click()
     yeni.get_by_role('dialog',name='Aydınlatma Metni',exact=True).get_by_text('hukuk onayı',exact=False).wait_for()
-    assert yeni.get_by_text('üçüncü kişi',exact=False).count()==0
+    assert yeni.get_by_text('üçüncü kişilerle paylaşılmaz',exact=False).count()==0
     yeni.get_by_role('dialog',name='Aydınlatma Metni',exact=True).get_by_role('button',name='Kapat',exact=True).click()
     soyad.fill(''); buton('Hesabımı oluştur').click()
     yeni.get_by_role('alert').get_by_text('Soyadınızı yazın.',exact=True).wait_for()

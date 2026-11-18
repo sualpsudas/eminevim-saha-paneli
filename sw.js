@@ -1,4 +1,4 @@
-const CACHE = 'eminevim-v20';
+const CACHE = 'eminevim-v21';
 const ASSETS = [
   './',
   './index.html',
@@ -11,6 +11,7 @@ const ASSETS = [
   './uygulama/finansman.js',
   './uygulama/personel.js',
   './uygulama/hesap.js',
+  './uygulama/aydinlatma.js',
   './uygulama/ornek-veri.js',
   './uygulama/support.js',
   './harita/konum-sec.html',

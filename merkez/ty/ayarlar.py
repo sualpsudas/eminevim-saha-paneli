@@ -52,4 +52,4 @@ STATIK_KOK = {UYGULAMA, "index.html", "manifest.json", "eminevim-qr.png", "veri/
 STATIK_KLASOR = ("assets/", "vendor/", "web-basvuru/", "uygulama/", "harita/")
 # Bunlar değişince açık uygulamalar "Yeni sürüm hazır · Yenile" şeridi gösterir
 SURUM_DOSYALARI = (UYGULAMA, "veri/spyler.js", "uygulama/canli.js", "uygulama/appointment.js", "uygulama/ayarlar.js",
-                   "uygulama/bicim.js", "uygulama/finansman.js", "uygulama/personel.js", "uygulama/hesap.js", "uygulama/ornek-veri.js")
+                   "uygulama/bicim.js", "uygulama/finansman.js", "uygulama/personel.js", "uygulama/hesap.js", "uygulama/aydinlatma.js", "uygulama/ornek-veri.js")

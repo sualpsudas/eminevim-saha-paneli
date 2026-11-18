@@ -774,3 +774,16 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
   girilenleri kaydeder, Finansman sekmesini açar (tür/tutar/vade orada; SPY'ye ön bilgi olarak gider). SPY detayında "Ne için" satırı da kalktı.
 - Testler: preparation-popup (düğme → kaydet + Finansman), merkez-akis (çalışma durumu ile), browser-flows, appointment-list, phone-layout,
   web-flows, panel-senaryo OK. Senaryo görüntüleri yeniden üretildi.
+
+### 2026-11-18 (7) KVKK Aydınlatma Metni yenilendi, izin geri alma, 18 yaş altı kalktı
+- Eminevim'in kendi KVKK metni (eminevim.com/kvkk) ve Aydınlatma Yükümlülüğü Tebliği m.5 ile karşılaştırıldı. Eski örnek metinde eksik:
+  Mersis/KEP/adres, veri kategorileri, amaç ↔ hukuki sebep eşleşmesi, toplama yöntemi, yurt dışı aktarım, Holding şirketlerine (ticari ileti)
+  aktarım, saklama süresi, m.11'in tam listesi, başvuru yolları. Eminevim'in sitedeki metninden alınmayanlar: "izin vermeniz hâlinde
+  paylaşırız" (hizmet sağlayıcı aktarımı rızaya bağlanmaz) ve "üçüncü kişinin ihlallerinden sorumlu değiliz" beyanı.
+- Tek kaynak `uygulama/aydinlatma.js`; uygulama (giriş, Ayarlar → Kişisel verileriniz, hazırlık penceresi) ve web formu aynı metni gösterir.
+  Web formunda `<base>` canlı siteyi gösterdiği için `olustur.py` dosyayı sayfaya gömer.
+- Ayarlar: Aydınlatma Metni düğmesi + ticari ileti izni aç/kapat; merkezde `musteri_islem(izin)` (jetonla, tarihiyle, olay kaydı).
+- Hazırlık penceresinde "18 yaş altı" seçeneği kalktı; altına aydınlatma bağlantısı eklendi.
+- Testler: browser-flows, web-flows (Tebliğ başlıkları), preparation-popup, appointment-list, phone-layout, merkez-akis (izin geri alma,
+  diğer telefonda da kapalı), panel-senaryo OK. Senaryo görüntüleri yeniden üretildi. Merkez yeniden başlatıldı.
+- Açık (hukuk/uyum): saklama süreleri örnek; yurt dışı aktarım için standart sözleşme; İYS bağlantısı; "Hesabımı sil" kararı.

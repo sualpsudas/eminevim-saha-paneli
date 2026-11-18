@@ -27,7 +27,12 @@ Kurallar ve açık işler `CLAUDE.md`'de, teknik ayrıntı `TEKNIK.md`'de, gerek
   Yeni numara → **Ad** ve **Soyad** (ayrı kutular) → “Hesabımı oluştur” → Hoş geldiniz. E-posta ve TC kimlik sorulmaz.
   **KVKK:** aydınlatma metni veri alınan yerde gösterilir (bilgi cümlesi + “Aydınlatma Metni” penceresi), **onay kutusu yok** (hizmet için
   gerekli veri, KVKK m.5/2-c). Açık rıza yalnız isteğe bağlı iş için, ayrı ve işaretsiz kutu: ticari elektronik ileti izni. Metinler örnektir,
-  yayından önce Eminevim uyum/hukuk onayı gerekir. Örnek kayıtlı müşteri Ayşe Kaya (0532 145 67 89); test kodu ekranda hazır gelir.
+  yayından önce Eminevim uyum/hukuk onayı gerekir.
+  **Aydınlatma Metni tek kaynak (2026-11-18): `uygulama/aydinlatma.js`** (uygulama ve web formu aynı metni gösterir; web formuna `olustur.py` gömer).
+  Tebliğ m.5 başlıkları: veri sorumlusu (unvan, adres, Mersis, KEP), veri kategorileri, amaç ↔ hukuki sebep eşleşmesi, toplama yöntemi,
+  alıcı grupları + amaç (yurt dışı dahil), saklama süresi, m.11 hakları, başvuru yolları. Açılır: girişte, Ayarlar → Kişisel verileriniz,
+  hazırlık penceresinde. Ayarlar'da ticari ileti izni açılıp kapatılır (merkezde `izin` işlemi, tarihiyle). Yaş aralığında "18 yaş altı" yok.
+  Örnek kayıtlı müşteri Ayşe Kaya (0532 145 67 89); test kodu ekranda hazır gelir.
 - **Web’den uygulamaya:** temsilci çağrısının SMS önizlemesindeki bağlantı → başvuruya ait 6 haneli kod → aynı çağrı (ad, soyad ve izin
   formdan gelir; uygulamada yeniden sorulmaz). Test kodları gerçek SMS yerine ekranda gösterilir. Gerçek SMS ayrı iştir.
 - **Müşteri hesabı merkezde (yalnız merkezden açılan sürüm):** telefon, ad, soyad, aydınlatma gösterim tarihi, ticari ileti izni (+ tarihi).

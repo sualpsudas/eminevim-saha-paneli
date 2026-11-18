@@ -142,6 +142,7 @@
   .ty-aydinlatma-metin{max-height:60vh;overflow-y:auto;font-size:9.5pt;line-height:1.55;color:#555;display:flex;flex-direction:column;gap:7px;margin:8px 0 12px}
   .ty-aydinlatma-metin b{color:#333}
   .ty-aydinlatma-metin em{font-style:normal;font-weight:700;color:#B25E30;font-size:8.5pt}
+  .ty-aydinlatma-metin section{margin:0}.ty-aydinlatma-metin p{margin:0}.ty-aydinlatma-metin ul{margin:0;padding-left:16px}.ty-aydinlatma-metin .ayd-b{display:block;color:#333}.ty-aydinlatma-metin small{font-size:8pt;color:#888}
   /* Temsilci penceresi: büyük harita, üstte arama, sağ altta bölge düğmesi */
   .ty-pen-temsilci .ty-adim-harita{padding:0;position:relative;overflow:hidden}
   .ty-pen-temsilci .ty-harita{position:absolute;inset:0;background:#e8ece9}
@@ -379,6 +380,7 @@
 <!-- /TY_TAKIP -->
 
 <!-- TY_JS -->
+<script src="../uygulama/aydinlatma.js?v=1"></script>
 <script>
 (function(){
   // Bilgisayardan (fare ile) doğrudan açıldıysa pencere dar olsa da uygulama düğmesi yerine mağaza simgeleri
@@ -479,13 +481,7 @@
       if(!pen){
         pen = document.createElement('div'); pen.id='ty-aydinlatma'; pen.className='ty-sms-pencere'; pen.setAttribute('role','dialog'); pen.setAttribute('aria-modal','true'); pen.setAttribute('aria-label','Aydınlatma Metni');
         pen.innerHTML = '<div class="ty-sms-kutu"><b style="font-size:12pt;color:#333">Aydınlatma Metni</b><div class="ty-aydinlatma-metin">'+
-          '<em>Örnek metindir · yayından önce Eminevim uyum/hukuk onayı gerekir.</em>'+
-          '<div><b>Veri sorumlusu:</b> Eminevim (Emin Evim Tasarruf Finansman A.Ş.).</div>'+
-          '<div><b>İşlenen veriler:</b> ad, soyad, telefon; temsilci çağırırsanız görüşme için seçtiğiniz yer ve zaman.</div>'+
-          '<div><b>Amaç:</b> başvurunuzun değerlendirilmesi, sizinle iletişim kurulması; temsilci çağırırsanız size en uygun temsilcinin yönlendirilmesi ve görüşmenin planlanması.</div>'+
-          '<div><b>Hukuki sebep:</b> talep ettiğiniz hizmetin kurulması ve yürütülmesi için gerekli olması (KVKK m.5/2-c). Ticari elektronik ileti yalnız ayrıca izin verirseniz gönderilir.</div>'+
-          '<div><b>Aktarım:</b> yalnız hizmetin yürütülmesi için çalışılan hizmet sağlayıcılara (SMS, bildirim, harita) ve yasal zorunlulukta yetkili kurumlara.</div>'+
-          '<div><b>Haklarınız:</b> KVKK m.11 kapsamında verilerinize erişme, düzeltme, silme ve itiraz haklarınızı Eminevim\'e başvurarak kullanabilirsiniz.</div>'+
+          (window.Aydinlatma ? window.Aydinlatma.govde() : '<p>Aydınlatma Metni yüklenemedi; eminevim.com/kvkk adresinden okuyabilirsiniz.</p>')+
           '</div><button type="button" class="tk-turuncuButon ty-sms-kapat" data-kapat-ayd>Kapat</button></div>';
         document.body.appendChild(pen);
         var kapat = function(){ pen.classList.remove('acik'); if(pen._geri) pen._geri.focus(); };

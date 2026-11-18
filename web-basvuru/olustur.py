@@ -28,6 +28,10 @@ def main():
     html = html.replace("\r\n", "\n").replace("\r", "")
     bilesen = (KLASOR / "form_bolumu.html").read_text(encoding="utf-8")
     css, form, takip, js = (parca(bilesen, a) for a in ("TY_CSS", "TY_FORM", "TY_TAKIP", "TY_JS"))
+    # Aydınlatma Metni tek kaynak (uygulama da aynısını gösterir); <base> canlı siteyi gösterdiği için sayfaya gömülür
+    ayd = '<script src="../uygulama/aydinlatma.js?v=1"></script>'
+    assert ayd in js
+    js = js.replace(ayd, "<script>\n" + (KLASOR.parent / "uygulama" / "aydinlatma.js").read_text(encoding="utf-8") + "</script>")
 
     # İzleme kodları, Messenger sohbeti ve reCAPTCHA (önizlemede gereksiz, ziyaretleri saymasın)
     html = re.sub(r"<script>\(function\(w,d,s,l,i\).*?</script>", "", html, count=1, flags=re.S)

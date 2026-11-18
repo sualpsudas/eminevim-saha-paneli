@@ -27,7 +27,10 @@ with sync_playwright() as p:
         form.get_by_role('button',name='Aydınlatma Metni',exact=True).click()
         ayd=page.locator('#ty-aydinlatma.acik')
         ayd.get_by_text('hukuk onayı',exact=False).wait_for()
-        assert 'üçüncü kişi' not in ayd.inner_text()
+        # Aydınlatma Yükümlülüğü Tebliği m.5 başlıkları + başvuru yolu; uygulamayla aynı metin (uygulama/aydinlatma.js)
+        for bas in ('Veri sorumlusu', 'İşleme amaçları ve hukuki sebepler', 'Toplama yöntemi', 'Kimlere, hangi amaçla aktarılır', 'Saklama süresi', 'KVKK m.11', 'Başvuru'):
+            assert bas in ayd.inner_text(), bas
+        assert 'üçüncü kişilerle paylaşılmaz' not in ayd.inner_text()
         ayd.get_by_role('button',name='Kapat',exact=True).click()
         assert page.locator('#ty-aydinlatma.acik').count()==0
         assert not form.locator('[data-konum-riza]').is_visible()

@@ -133,6 +133,20 @@ with sync_playwright() as p:
     except urllib.error.HTTPError as e:
         assert e.code == 400
     merkez('api/abone', {'musteri': '5551112233', 'jeton': app(musteri, 'app._musteriBildirim.jeton'), 'abonelik': ab['/m1'], 'cihaz': 'test'})
+    # Ticari ileti izni Ayarlar'dan geri alınır; merkezde tarihiyle yazılır
+    app(musteri, 'app.setState({hosgeldinAdim:0})')
+    musteri.get_by_role('button', name='Ayarlar', exact=True).click()
+    musteri.get_by_role('button', name='Aydınlatma Metni', exact=True).click()
+    musteri.get_by_role('dialog', name='Aydınlatma Metni').get_by_text('Saklama süresi', exact=True).wait_for()
+    musteri.get_by_role('dialog', name='Aydınlatma Metni').get_by_role('button', name='Kapat', exact=True).click()
+    musteri.get_by_role('checkbox', name='Ticari elektronik ileti izni', exact=True).uncheck()
+    for _ in range(20):
+        hs = json.loads((Path(tempfile.gettempdir()) / 'deneme.json').read_text(encoding='utf-8'))['musteriler']['5551112233']
+        if hs['kampanya'] is False:
+            break
+        musteri.wait_for_timeout(300)
+    assert hs['kampanya'] is False and hs['kampanyaTarih'] > 0, hs
+    musteri.get_by_role('button', name='Randevularım', exact=True).click()
     def musteriye(n):
         son = time.time() + 8
         while time.time() < son and sum(g['yol'] == '/m1' for g in GELEN) < n:
@@ -350,7 +364,7 @@ with sync_playwright() as p:
     b.get_by_label('SMS ile gelen 6 haneli kod').fill(dogru)
     b.get_by_role('button', name='Doğrula', exact=True).click()
     bekle(b, 'app.state.girisYapildi && app.state.mTalep')
-    assert app(b, 'app.state.customerForm.name') == 'Deniz Test' and app(b, 'app.state.kampanyaIzni') is True
+    assert app(b, 'app.state.customerForm.name') == 'Deniz Test' and app(b, 'app.state.kampanyaIzni') is False  # Ayarlar'da geri alındı
     assert app(b, 'app.state.mTalep.durum') == 'tamamlandi' and app(b, 'app.state.chatMessages.length') >= 3
     b.screenshot(path=str(OUT / '9-baska-telefon-giris.png'))
     # Uygulama kapanıp açılınca müşteri girişli kalır (kod sorulmaz), randevular merkezden gelir

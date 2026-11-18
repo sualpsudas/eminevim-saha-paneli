@@ -69,7 +69,8 @@ eminevim-saas/
   Eminevim üye sistemine yönlendirir (islem: kod, dogrula, kayit, web, oturum, cikis).
 - **KVKK:** aydınlatma metni gösterilir (onay kutusu yok); açık rıza yalnız isteğe bağlı ticari elektronik ileti için (ayrı kutu, `kampanya`).
   Uygulamadaki ve web formundaki metinler örnektir: yayından önce Eminevim uyum/hukuk onayı gerekir. Hukuki sebep, saklama süresi ve
-  İYS (ileti izin sistemi) kaydı şirket sürecine göre netleşir.
+  İYS (ileti izin sistemi) kaydı şirket sürecine göre netleşir. Metin tek dosyada: `uygulama/aydinlatma.js` (saklama süreleri
+  örnek: 2 yıl / 10 yıl / izin için 3 yıl). İzin değişikliği `musteri_islem(islem="izin")` → İYS'ye bu noktadan bildirilir.
   Uygulama tarafı: `uygulama/hesap.js` (yalnız gösteri modunda kullanılır).
 
 ### 2.6 Bildirim

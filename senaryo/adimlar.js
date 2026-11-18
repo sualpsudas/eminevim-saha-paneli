@@ -1,5 +1,5 @@
 // araclar/senaryo_goruntu.py üretir; elle düzenlenmez
-window.SENARYO_SURUM = "202611181450";
+window.SENARYO_SURUM = "202611181528";
 window.SENARYO = {
  "web": [
   {
@@ -182,7 +182,7 @@ window.SENARYO = {
    "m": "s2-05-m.jpg",
    "p": "s2-01-p.jpg",
    "ust": "#858a90",
-   "alt": "#858a90"
+   "alt": "#84898f"
   },
   {
    "kim": "m",

@@ -38,7 +38,7 @@ test et, kanıt göster.** Emin olmadığın her şeyde dur ve kullanıcıya sor
 - Web formunda e-posta istenmez; sayfadaki tüm linkler etkisizdir (`data-ty-dis` hariç) — bu kural korunur.
 - Gerçek kişi fotoğrafı kullanılmaz (yalnız sentetik görseller).
 - Müşteri girişi parolasız (2026-11-18): telefon + SMS kodu; yeni müşteri Ad + Soyad (ayrı kutular). E-posta/TC kimlik sorulmaz.
-- KVKK: aydınlatma metni gösterilir, onay kutusu YOK; açık rıza yalnız isteğe bağlı ticari elektronik ileti için (ayrı, işaretsiz kutu).
+- KVKK: Aydınlatma Metni tek kaynak `uygulama/aydinlatma.js` (web formuna `olustur.py` gömer; elle iki yere yazma). Aydınlatma metni gösterilir, onay kutusu YOK; açık rıza yalnız isteğe bağlı ticari elektronik ileti için (ayrı, işaretsiz kutu).
   "Üçüncü kişilerle paylaşılmaz" gibi yanlış söz yazılmaz. Metinler örnektir, hukuk onayı gerekir.
 - İstenen işin dışına taşan "iyileştirme", yeniden adlandırma, biçim düzeltme, bağımlılık güncellemesi **yapma**. Gördüğün sorunu
   rapor et, kendiliğinden düzeltme.
