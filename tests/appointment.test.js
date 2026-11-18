@@ -1,7 +1,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
-const A = require('../appointment.js');
+const A = require('../uygulama/appointment.js');
 
 let t = A.create({tip:'ziyaret',repId:'s2',durum:'netlesti',gunYazi:'Cuma',saat:'18:00',yer:'Üsküdar'});
 const proposal = A.propose(t,{gunYazi:'Cumartesi',saat:'19:00',yer:'Yeni adres',repId:'s3'});
@@ -27,8 +27,11 @@ assert.equal(A.depart({...t,durum:'netlesti',degisiklik:null,demoZaman:{simdi:0,
 // Müşteri ve personel aynı randevu üzerinde çalışmalı; başka görüşmeye sızmamalı.
 const html = fs.readFileSync(require.resolve('../Eminevim Saha Paneli.dc.html'),'utf8');
 const logic = html.match(/<script type="text\/x-dc"[^>]*>([\s\S]*?)<\/script>/)[1];
-const context = {window:{Appointment:A},OrgData:require('../org-data.js'),DCLogic:class{},Date,Math,URLSearchParams,console,setTimeout:()=>0,clearTimeout:()=>{},sessionStorage:{setItem:()=>{}}};
-const C = vm.runInNewContext(logic+';Component',context);
+const context = vm.createContext({window:{Appointment:A},OrgData:require('../veri/org-data.js'),DCLogic:class{},Date,Math,URLSearchParams,console,setTimeout:()=>0,clearTimeout:()=>{},sessionStorage:{setItem:()=>{}}});
+// Uygulama sayfasının yüklediği modüller (sayfadaki sırayla)
+for (const m of ['veri/spyler.js','uygulama/servisler.js','uygulama/ayarlar.js','uygulama/bicim.js','uygulama/finansman.js','uygulama/personel.js','uygulama/hesap.js','uygulama/ornek-veri.js'])
+  vm.runInContext(fs.readFileSync(require.resolve('../'+m),'utf8'),context,{filename:m});
+const C = vm.runInContext(logic+';Component',context);
 const c = new C();
 c.setState=(patch,cb)=>{c.state={...c.state,...(typeof patch==='function'?patch(c.state):patch)};if(cb)cb();};
 c.showBildirim=()=>{};

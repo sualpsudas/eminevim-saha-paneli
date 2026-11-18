@@ -46,12 +46,20 @@
 });</script>
 <script src="./vendor/react.production.min.js"></script>
 <script src="./vendor/react-dom.production.min.js"></script>
-<script src="./assignment.js"></script>
-<script src="./appointment.js"></script>
+<!-- Modüller (ayrıntı IT_DEVIR.md): veri/ şirket verisinden üretilen listeler, uygulama/ kapılar ve yardımcılar, harita/ harita sayfaları -->
+<script src="./uygulama/assignment.js"></script>
+<script src="./uygulama/appointment.js"></script>
 <script src="./vendor/qrcode.min.js"></script>
-<script src="./spyler.js?v=1"></script>
-<script src="./org-data.js?v=7"></script>
-<script src="./support.js"></script>
+<script src="./veri/spyler.js?v=2"></script>
+<script src="./veri/org-data.js?v=7"></script>
+<script src="./uygulama/servisler.js"></script>
+<script src="./uygulama/ayarlar.js"></script>
+<script src="./uygulama/bicim.js"></script>
+<script src="./uygulama/finansman.js"></script>
+<script src="./uygulama/personel.js"></script>
+<script src="./uygulama/hesap.js"></script>
+<script src="./uygulama/ornek-veri.js"></script>
+<script src="./uygulama/support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -726,8 +734,8 @@ html{-webkit-tap-highlight-color:transparent}
       <sc-if value="{{ customerNavAyarlar }}"><div class="customer-panel customer-settings" style="flex:1;min-height:0;padding:20px 20px 62px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;"><div style="background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px 16px;display:flex;gap:12px;align-items:center;"><span style="width:48px;height:48px;border-radius:50%;background:#00724C;color:#fff;font:800 16px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{ userInitials }}</span><span style="flex:1;min-width:0;"><b style="display:block;font-size:15px;color:var(--ink);">{{ profilAd }}</b><span style="display:block;font-size:12.5px;color:var(--dim);">{{ profilTel }}</span><span style="display:block;font-size:11px;color:var(--dim);margin-top:2px;">Telefon numaranızla kayıtlısınız</span></span></div><sc-if value="{{ mBildirimKart }}"><div style="background:var(--card);border:1px solid var(--line);border-radius:22px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;" role="region" aria-label="Bildirimler"><b style="font-size:14px;color:var(--ink);">Bildirimler</b><span style="font-size:12.5px;color:var(--dim);line-height:1.45;">{{ mBildirimMetin }}</span><sc-if value="{{ mBildirimDugme }}"><button class="m-btn" onClick="{{ mBildirimAc }}">Bildirimleri aç</button></sc-if></div></sc-if><button onClick="{{ cikisYap }}" style="min-height:44px;border:1.5px solid #00724C;background:var(--card);color:#00724C;border-radius:22px;font-size:13px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Çıkış yap</button></div></sc-if>
       <sc-if value="{{ randevuOpen }}"><div onClick="{{ closeRandevu }}" style="position:absolute;inset:0;z-index:45;background:rgba(18,27,36,.54);display:flex;align-items:flex-end;animation:backdropIn .2s ease-out;"><div onClick="{{ stopProp }}" role="dialog" aria-modal="true" class="bottom-sheet" aria-label="Randevu al" style="width:100%;background:var(--card);border-radius:24px 24px 0 0;padding:12px 18px 22px;animation:sheetUp .32s cubic-bezier(.2,.8,.25,1);box-shadow:0 -18px 40px rgba(0,0,0,.18);"><div style="width:42px;height:4px;border-radius:4px;background:var(--line);margin:0 auto 14px;"></div><div style="font:800 17px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);">Randevu al</div><div style="font-size:10.5px;font-weight:800;color:var(--dim);letter-spacing:.3px;margin-top:14px;">TARİH</div><input type="date" value="{{ randevuTarih }}" min="{{ randevuMin }}" onChange="{{ setRandevuTarih }}" style="width:100%;margin-top:6px;min-height:44px;border:0;border-radius:22px;padding:0 12px;background:var(--bg);color:var(--ink);font-size:13px;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;box-sizing:border-box;font-weight:700"><div style="font-size:10.5px;font-weight:800;color:var(--dim);letter-spacing:.3px;margin-top:12px;">SAAT</div><div style="display:flex;gap:6px;margin-top:6px;"><sc-for list="{{ randevuSaatler }}" as="r" hint-placeholder-count="4"><button onClick="{{ r.onSec }}" style="flex:1;min-height:38px;border:1px solid {{ r.border }};background:{{ r.bg }};color:{{ r.color }};border-radius:22px;font-size:12px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">{{ r.label }}</button></sc-for></div><button class="btn-turuncu-yazi" onClick="{{ randevuIste }}" style="width:100%;min-height:50px;margin-top:16px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:15px;font-weight:900;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Randevu İste</button><button onClick="{{ closeRandevu }}" style="width:100%;min-height:38px;border:none;background:transparent;color:var(--dim);font-size:12px;font-weight:700;cursor:pointer;">Vazgeç</button></div></div></sc-if>
       <div class="app-bottom-nav customer-nav" style="position:absolute;bottom:0;left:0;right:0;z-index:40;display:flex;border-top:1px solid var(--line);background:var(--card);padding:6px 0;"><button onClick="{{ setCustomerNavBasvurum }}" aria-label="Randevularım" aria-current="{{ navBasvurumCur }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navBasvurumColor }};cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3h8l1 3h2v15H5V6h2z"/><path d="M9 13l2 2 4-4"/></svg><span style="font-size:10px;font-weight:{{ navBasvurumWeight }};">Randevularım</span></button><button onClick="{{ setCustomerNavSohbet }}" aria-label="Sohbetler" aria-current="{{ navSohbetCur }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navSohbetColor }};cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4V5Z"/><path d="M8 9h8M8 12h5"/></svg><span style="font-size:10px;font-weight:{{ navSohbetWeight }};">Sohbetler</span></button><button onClick="{{ setCustomerNavBasvuru }}" aria-label="Finansman" aria-current="{{ navBasvuruCur }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navBasvuruColor }};cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M12 11h2M8 15h2M12 15h4"/></svg><span style="font-size:10px;font-weight:{{ navBasvuruWeight }};">Finansman</span></button><button onClick="{{ setCustomerNavAyarlar }}" aria-label="Ayarlar" aria-current="{{ navAyarlarCur }}" style-active="transform:scale(.93);" style="flex:1;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border:none;background:transparent;color:{{ navAyarlarColor }};cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/></svg><span style="font-size:10px;font-weight:{{ navAyarlarWeight }};">Ayarlar</span></button></div>
-      <sc-if value="{{ mapExpandedOpen }}"><div style="position:absolute;inset:0;z-index:46;background:var(--bg);display:flex;flex-direction:column;animation:slideInRight .3s ease-out;"><div style="padding:max(10px, env(safe-area-inset-top)) 12px 10px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;"><button onClick="{{ closeMapExpanded }}" aria-label="Geri" style="min-width:44px;min-height:44px;border:0;background:transparent;color:#00724C;font:700 13px GOTHIC,'Segoe UI',sans-serif;cursor:pointer;">Geri</button><div><div style="font-size:15px;font-weight:800;color:var(--ink);">Konumunuz</div><div style="font-size:10.5px;color:var(--dim);">Yakınlaştırıp kaydırabilirsiniz</div></div></div><div style="flex:1;position:relative;"><iframe ref="{{ expandedMapRef }}" src="map.html?v=4" onLoad="{{ onExpandedMapLoad }}" title="Konum haritası" style="width:100%;height:100%;border:none;"></iframe></div></div></sc-if>
-      <sc-if value="{{ pointPickerOpen }}"><div style="position:absolute;inset:0;z-index:45;background:var(--bg);display:flex;flex-direction:column;animation:slideInRight .3s ease-out;"><div class="safe-top" style="padding:12px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;"><button onClick="{{ closePointPicker }}" aria-label="Geri" style="min-width:44px;min-height:44px;border:0;background:transparent;color:#00724C;font:700 13px GOTHIC,'Segoe UI',sans-serif;cursor:pointer;">Geri</button><div><div style="font-size:15px;font-weight:800;color:var(--ink);">Bir nokta belirt</div><div style="font-size:10.5px;color:var(--dim);">Haritada istediğiniz noktaya dokunun</div></div></div><div style="flex:1;position:relative;"><iframe ref="{{ pointPickerMapRef }}" src="map.html?v=4&selectable=1" onLoad="{{ onPointPickerMapLoad }}" title="Konum seçme haritası" style="width:100%;height:100%;border:none;"></iframe><div class="safe-bottom-float" style="position:absolute;left:14px;right:14px;bottom:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 12px 30px rgba(30,56,86,.18);"><div style="font-size:11.5px;color:var(--dim);">{{ selectedPointText }}</div><button onClick="{{ confirmSelectedPoint }}" disabled="{{ selectedPointMissing }}" style="width:100%;min-height:46px;margin-top:9px;border:none;background:#00724C;color:#fff;border-radius:22px;font-size:13px;font-weight:800;cursor:pointer;opacity:{{ selectedPointOpacity }};">Bu Konumu Gönder</button></div></div></div></sc-if>
+      <sc-if value="{{ mapExpandedOpen }}"><div style="position:absolute;inset:0;z-index:46;background:var(--bg);display:flex;flex-direction:column;animation:slideInRight .3s ease-out;"><div style="padding:max(10px, env(safe-area-inset-top)) 12px 10px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px;"><button onClick="{{ closeMapExpanded }}" aria-label="Geri" style="min-width:44px;min-height:44px;border:0;background:transparent;color:#00724C;font:700 13px GOTHIC,'Segoe UI',sans-serif;cursor:pointer;">Geri</button><div><div style="font-size:15px;font-weight:800;color:var(--ink);">Konumunuz</div><div style="font-size:10.5px;color:var(--dim);">Yakınlaştırıp kaydırabilirsiniz</div></div></div><div style="flex:1;position:relative;"><iframe ref="{{ expandedMapRef }}" src="harita/map.html?v=4" onLoad="{{ onExpandedMapLoad }}" title="Konum haritası" style="width:100%;height:100%;border:none;"></iframe></div></div></sc-if>
+      <sc-if value="{{ pointPickerOpen }}"><div style="position:absolute;inset:0;z-index:45;background:var(--bg);display:flex;flex-direction:column;animation:slideInRight .3s ease-out;"><div class="safe-top" style="padding:12px;background:var(--card);border-bottom:1px solid var(--line);display:flex;align-items:center;"><button onClick="{{ closePointPicker }}" aria-label="Geri" style="min-width:44px;min-height:44px;border:0;background:transparent;color:#00724C;font:700 13px GOTHIC,'Segoe UI',sans-serif;cursor:pointer;">Geri</button><div><div style="font-size:15px;font-weight:800;color:var(--ink);">Bir nokta belirt</div><div style="font-size:10.5px;color:var(--dim);">Haritada istediğiniz noktaya dokunun</div></div></div><div style="flex:1;position:relative;"><iframe ref="{{ pointPickerMapRef }}" src="harita/map.html?v=4&selectable=1" onLoad="{{ onPointPickerMapLoad }}" title="Konum seçme haritası" style="width:100%;height:100%;border:none;"></iframe><div class="safe-bottom-float" style="position:absolute;left:14px;right:14px;bottom:14px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px;box-shadow:0 12px 30px rgba(30,56,86,.18);"><div style="font-size:11.5px;color:var(--dim);">{{ selectedPointText }}</div><button onClick="{{ confirmSelectedPoint }}" disabled="{{ selectedPointMissing }}" style="width:100%;min-height:46px;margin-top:9px;border:none;background:#00724C;color:#fff;border-radius:22px;font-size:13px;font-weight:800;cursor:pointer;opacity:{{ selectedPointOpacity }};">Bu Konumu Gönder</button></div></div></div></sc-if>
     </div>
   </div>
   </sc-if>
@@ -885,7 +893,7 @@ html{-webkit-tap-highlight-color:transparent}
           <sc-if value="{{ spyTabIsHarita }}">
           <div class="spy-map-tab" style="animation:tabIn .3s ease-out; display:flex; flex-direction:column;">
             <div class="spy-map-frame">
-              <iframe ref="{{ spyLiveMapRef }}" src="map.html?v=4" onLoad="{{ onSpyLiveMapLoad }}" title="Müşteri konumları haritası" style="position:absolute; inset:0; width:100%; height:100%; border:none; display:block;"></iframe>
+              <iframe ref="{{ spyLiveMapRef }}" src="harita/map.html?v=4" onLoad="{{ onSpyLiveMapLoad }}" title="Müşteri konumları haritası" style="position:absolute; inset:0; width:100%; height:100%; border:none; display:block;"></iframe>
               <button class="spy-map-gps" onClick="{{ requestLocation }}" aria-label="SPY canlı konumunu güncelle" title="İşaretçiye dokununca müşteri detayı açılır · ⤢ ile tümünü gösterin"><span style="width:7px;height:7px;border-radius:50%;background:{{ locationDotColor }};flex-shrink:0;"></span><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ locationMessage }}</span><span style="margin-left:auto;color:#00724C;font-weight:800;flex-shrink:0;">Yenile</span></button>
             </div>
             <div class="spy-map-actions">
@@ -1228,7 +1236,7 @@ html{-webkit-tap-highlight-color:transparent}
           <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; gap:10px; height:100%;">
             <div style="display:flex;gap:8px;align-items:center;"><button onClick="{{ toggleHaritaSpy }}" style="min-height:34px;padding:0 13px;border:1px solid {{ haritaSpyBorder }};background:{{ haritaSpyBg }};color:{{ haritaSpyText }};border-radius:99px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:{{ haritaSpyDot }};"></span>SPY · {{ spylerCount }}</button><button onClick="{{ toggleHaritaMusteri }}" style="min-height:34px;padding:0 13px;border:1px solid {{ haritaMusteriBorder }};background:{{ haritaMusteriBg }};color:{{ haritaMusteriText }};border-radius:99px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:{{ haritaMusteriDot }};"></span>Müşteri · {{ toplamBasvuru }}</button></div>
             <div style="flex:1; min-height:280px; background:var(--card); border-radius:15px; border:1px solid var(--line); overflow:hidden;">
-              <iframe ref="{{ canliMapRef }}" src="map.html?v=4" onLoad="{{ onCanliMapLoad }}" title="Saha haritası" style="width:100%; height:100%; border:none; display:block;"></iframe>
+              <iframe ref="{{ canliMapRef }}" src="harita/map.html?v=4" onLoad="{{ onCanliMapLoad }}" title="Saha haritası" style="width:100%; height:100%; border:none; display:block;"></iframe>
             </div>
           </div>
           </sc-if>
@@ -1277,222 +1285,9 @@ html{-webkit-tap-highlight-color:transparent}
 
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900,&quot;height&quot;:900}}">
-function AYSE_SEED() {
-  return {
-    yeniMusteri: false, avatarUrl: "", degerlendirmeler: [], appointments: [],
-    customerForm: { name: "Ayşe Kaya", phone: "0532 145 67 89", email: "ayse.kaya@ornek.com", address: "Barbaros Mah. Begonya Sk. No:12, Ataşehir / İstanbul", testMode: false },
-    customerMeetings: [
-      { name: "Ahmet Yılmaz", branch: "Kadıköy Şubesi", date: "12.09.2026" },
-      { name: "Buse Demir", branch: "Ataşehir Şubesi", date: "18.09.2026" },
-      { name: "Cem Kaya", branch: "Üsküdar Şubesi", date: "24.09.2026" },
-    ],
-    musteriBasvurulari: [],
-    aktifBasvuruId: null,
-    talepSebebi: "",
-    // Randevusunu sohbette netleştirmiş; bugün görüşme günü, temsilcisi yolda
-    mTalep: Appointment.create({ id: "ayse", tip: "ziyaret", kaynak: "Uygulama · kayıtlı müşteri", gunYazi: bugunYazi(), tarih: new Date().toLocaleDateString("en-CA"), saat: "18:00", yer: "Barbaros Mah., Ataşehir", konum: { lat: 40.9905, lng: 29.1050, adres: "Barbaros Mah., Ataşehir", bolge: "Ataşehir" }, durum: "yolda", repId: "s1", gecikme: 10, yolaCikis: Date.now(), sonKonum: Date.now(), demoZaman:{baslangic:Date.now(),simdi:new Date().setHours(17,58,0,0)}, varisZamani: new Date().setHours(18,10,0,0) }),
-    chatMessages: [
-      { from: "temsilci", t: Date.now() - 86400000, text: "Merhaba Ayşe Hanım, ben Onur Kaya, Eminevim müşteri temsilcinizim. Eminevim çözümlerimiz hakkında sizinle görüşmek isterim." },
-      { from: "musteri", t: Date.now() - 86000000, text: "Merhaba Onur Bey, yarın akşam 18:00 uygun olur mu?" },
-      { from: "temsilci", t: Date.now() - 85800000, text: "Elbette. Yarın 18:00'de Barbaros Mahallesi'ndeki adresinizde olacağım; ödeme planınızı da yanımda getireceğim." },
-      { from: "musteri", t: Date.now() - 85600000, text: "Tamam, bekliyorum. Teşekkürler." },
-      { from: "temsilci", t: Date.now() - 900000, text: "İyi akşamlar Ayşe Hanım, yola çıktım. Trafik nedeniyle yaklaşık 10 dakika gecikeceğim, kusura bakmayın; 18:10 gibi yanınızdayım." },
-    ],
-  };
-}
-// Örnek müşteriler (2026-11-12): hepsi kayıtlı, parola DEMO_PAROLA; hiçbirinde finansman yok. Ayşe'nin randevusu hazır, diğerleri boş başlar.
-const ORNEK_MUSTERILER = [
-  { tel: "5321456789", ad: "Ayşe Kaya", adres: "Barbaros Mah. Begonya Sk. No:12, Ataşehir / İstanbul" },
-  { tel: "5332103456", ad: "Zeynep Arslan", adres: "Caferağa Mah. Moda Cd. No:48, Kadıköy / İstanbul" },
-  { tel: "5353204567", ad: "Can Öztürk", adres: "Altunizade Mah. Kuşbakışı Sk. No:7, Üsküdar / İstanbul" },
-  { tel: "5414305678", ad: "Elif Yıldız", adres: "Cevizli Mah. Bağdat Cd. No:215, Maltepe / İstanbul" },
-  { tel: "5436507890", ad: "Burak Şahin", adres: "Atatürk Mah. Ihlamur Sk. No:3, Ataşehir / İstanbul" },
-];
-function ornekMu(tel) { return ORNEK_MUSTERILER.some((m) => m.tel === tel); }
-function ornekSeed(tel) {
-  if (tel === AYSE_TEL || !ornekMu(tel)) return AYSE_SEED();
-  const m = ORNEK_MUSTERILER.find((x) => x.tel === tel);
-  return { yeniMusteri: false, avatarUrl: "", degerlendirmeler: [], appointments: [], customerForm: { name: m.ad, phone: telYaz(m.tel), email: "", address: m.adres, testMode: false },
-    customerMeetings: [], musteriBasvurulari: [], aktifBasvuruId: null, talepSebebi: "", mTalep: null, mGecmis: [], chatMessages: [] };
-}
-// Yeni üye kaydı için rastgele örnek bilgi: ad, kayıtlı olmayan telefon ve parola (yazmakla uğraşılmasın)
-function rastgeleUye() {
-  const ad = ["Selin", "Mert", "Derya", "Kerem", "Naz", "Emre", "Pelin", "Tolga", "Defne", "Barış"], soyad = ["Aydın", "Çelik", "Koç", "Polat", "Güneş", "Erdem", "Aksoy", "Kaplan", "Tekin", "Yavuz"];
-  const r = (n) => Math.floor(Math.random() * n), d = (n) => Array.from({ length: n }, () => r(10)).join("");
-  let tel; do { tel = ["530", "531", "536", "537", "538", "539"][r(6)] + d(7); } while (ornekMu(tel));
-  const parola = "Ty" + d(4) + "k";
-  return { ad: ad[r(ad.length)] + " " + soyad[r(soyad.length)], tel: telYaz(tel), parola };
-}
-function atamaMesaji(ilkAd, repId, t) {
-  // Temsilci atanınca ilk mesaj: kendini tanıtır ve saati önerir (müşteri Sohbet'te "Saati onayla" ile onaylar)
-  return { from: "temsilci", t: Date.now(), text: "Merhaba " + ilkAd + ", ben " + TEMSILCI_DETAY[repId].ad + ", Eminevim müşteri temsilcinizim. " + (t ? "Görüşmemizi " + t.gunYazi + " " + t.saat + ", " + t.yer + " olarak planladım. Uygunsa aşağıdan onaylayabilirsiniz." : "") };
-}
 const Appointment = window.Appointment;
-function qrResim(metin) {
-  // vendor/qrcode.min.js ile QR görüntüsü (internet gerekmez); kütüphane yoksa boş
-  try { const q = window.qrcode(0, "M"); q.addData(metin); q.make(); return q.createDataURL(6, 2); } catch (e) { return ""; }
-}
-function telYaz(t) { t = telAnahtar(t); return t.length === 10 ? "0" + t.slice(0, 3) + " " + t.slice(3, 6) + " " + t.slice(6, 8) + " " + t.slice(8) : t; }
-/* SMS giriş kodu (demo): gerçek SMS yerine aynı sitedeki tarayıcı deposunda tutulur. Web başvurusu 24 saat geçerli kod yazar,
-   uygulama "Kodu gönder" ile 10 dakika geçerli yeni kod üretir. Gerçek yayında kod sunucuda üretilir ve SMS ile gider. */
-function smsKodOku(tel) { try { const k = JSON.parse(localStorage.getItem("ty-sms-kod") || "null"); return k && k.tel === telAnahtar(tel) && k.son > Date.now() ? k : null; } catch (e) { return null; } }
-function smsKodUret(tel) { const v = new Uint32Array(1); (window.crypto && crypto.getRandomValues) ? crypto.getRandomValues(v) : (v[0] = Math.floor(Math.random() * 1e9)); const k = { tel: telAnahtar(tel), kod: String(100000 + v[0] % 900000), son: Date.now() + 10 * 60000 }; try { localStorage.setItem("ty-sms-kod", JSON.stringify(k)); } catch (e) {} return k; }
-function smsKodSil() { try { localStorage.removeItem("ty-sms-kod"); } catch (e) {} }
-function telAnahtar(t) { return String(t || "").replace(/\D/g, "").replace(/^0/, ""); }
-function bugunYazi() {
-  const gunler = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"], aylar = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-  const d = new Date();
-  return d.getDate() + " " + aylar[d.getMonth()] + " " + gunler[d.getDay()];
-}
-function yarinYazi() {
-  const gunler = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"], aylar = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
-  const d = new Date(); d.setDate(d.getDate() + 1); if (d.getDay() === 0) d.setDate(d.getDate() + 1);
-  return d.getDate() + " " + aylar[d.getMonth()] + " " + gunler[d.getDay()];
-}
-/* Müşterinin gördüğü temsilci bilgileri (panelde kısa ad kullanılır) */
-// 7 test SPY'si: spyler.js (merkez/sunucu.py da aynı dosyayı okur). foto: sentetik portre, assets/temsilci/OKUBENI.md
-const TEMSILCI_DETAY = (window.TY_SPYLER || []).reduce((o, x) => { o[x.id] = x; return o; }, {});
-const HIZMET_ILCELERI = ["Ümraniye", "Ataşehir", "Üsküdar"];
-const EV_IKON_TASIT = "assets/eminevim/header_araba.svg";
-const EV_IKON_KONUT = "assets/eminevim/header_ev.svg";
-const EV_IKON_ISYERI = "assets/eminevim/header_isYeri.svg";
-/* eminevim.com/finansal-cozumler sayfalarından: her üründe Bireysel (kendi tahsisat tarihini belirle) ve Çekilişli (grup çekilişi) plan var. */
-const FINANSMAN_TURLERI = {
-  "Konut Finansmanı": { ikon: EV_IKON_KONUT, alt: "", nesne: "ev", ciper: [2000000, 3500000, 5000000, 8000000], aciklama: "Konut için bütçenize uygun ödeme planı. Temsilciniz aylık ödeme seçeneklerini sizinle netleştirir.", grup: "40–240 kişi" },
-  "Taşıt Finansmanı": { ikon: EV_IKON_TASIT, alt: "", nesne: "araba", ciper: [500000, 1000000, 1500000, 2500000], aciklama: "Sıfır veya ikinci el araç için bütçenize uygun ödeme planı. Temsilciniz seçenekleri yanınızda getirir.", grup: "18–100 kişi" },
-  "İşyeri Finansmanı": { ikon: EV_IKON_ISYERI, alt: "", nesne: "iş yeri", ciper: [1500000, 3000000, 5000000, 10000000], aciklama: "İşyeri için bütçenize uygun ödeme planı. Temsilciniz aylık ödeme seçeneklerini sizinle netleştirir.", grup: "40–240 kişi" },
-};
-const PLAN_TURLERI = {
-  "Bireysel": "Peşinat ve taksitinizle tahsisat tarihinizi siz belirlersiniz.",
-  "Çekilişli": "Alım gücünüze uygun bir grupta noter huzurunda çekiliş; daha erken teslim şansı.",
-};
-function turBilgi(tur) { return FINANSMAN_TURLERI[tur] || FINANSMAN_TURLERI["Konut Finansmanı"]; }
-/* Eminevim sitesindeki bireysel finansman örneklerine (200.000 ₺ → 2.500 ₺ × 72 ay, teslim 30. ay, org. 16.800 ₺) ve
-   BDDK tasarruf finansmanı kurallarına (teslim için birikim ≈ bedelin yarısı, en erken 6. ay; org. ücreti yarısı başvuruda,
-   kalanı 4 taksit) dayanan KABA senaryo. Kesin plan temsilci görüşmesinde netleşir. */
-function senaryoHesapla(tur, tutar, pesinatPct, vade) {
-  tutar = Number(tutar) || 0; vade = Number(vade) || 0; pesinatPct = Number(pesinatPct) || 0;
-  if (!tutar || !vade) return null;
-  const pesinat = Math.round(tutar * pesinatPct / 100);
-  const kalan = tutar - pesinat;
-  const taksit = Math.max(100, Math.round(kalan / vade / 10) * 10);
-  const teslimAy = Math.min(vade, Math.max(6, Math.ceil((tutar * 0.5 - pesinat) / taksit)));
-  const org = Math.round(tutar * 0.085);
-  return { pesinat, kalan, taksit, teslimAy, org, orgPesin: Math.round(org / 2), orgTaksit: Math.round(org / 8), toplam: tutar + org };
-}
-const VADE_SECENEKLERI = { "Taşıt Finansmanı": [12, 18, 24, 30, 36, 48, 60], "Konut Finansmanı": [24, 36, 48, 60, 72, 80, 96, 108, 120], "İşyeri Finansmanı": [24, 36, 48, 60, 72, 80, 96, 108, 120] };
-const PESINAT_SECENEKLERI = [0, 10, 20, 30, 40];
-const NAVY = "#273755";
-const GREEN = "#00724C";
-const GOLD = "#EA803F";
-const CORAL = "#EA803F";
-const GOLD_TEXT = "#B25E30";
-const CORAL_TEXT = "#B25E30";
-const LINE = "#E4E1D8";
-const INK = "#666666";
-const PALETTE = [GREEN, GOLD, NAVY];
-
-const DISTRICT_COORDS = {
-  "Beylikdüzü": { lat: 41.0035, lng: 28.6412 }, "Bakırköy": { lat: 40.9829, lng: 28.8770 },
-  "Fatih": { lat: 41.0186, lng: 28.9497 }, "Beşiktaş": { lat: 41.0422, lng: 29.0061 },
-  "Şişli": { lat: 41.0602, lng: 28.9877 }, "Üsküdar": { lat: 41.0227, lng: 29.0122 },
-  "Kadıköy": { lat: 40.9927, lng: 29.0274 }, "Ataşehir": { lat: 40.9923, lng: 29.1244 },
-  "Maltepe": { lat: 40.9354, lng: 29.1500 }, "Pendik": { lat: 40.8778, lng: 29.2358 }
-};
-const INITIAL_BASVURU = [
-  { id: 1, ad: "Murat Y.", ilce: "Kadıköy", ...DISTRICT_COORDS["Kadıköy"], kalan: 218, telefonSon: "12" },
-  { id: 2, ad: "Elif S.", ilce: "Kadıköy", lat: 40.9991, lng: 29.0418, kalan: 640, telefonSon: "47" },
-  { id: 3, ad: "Kerem T.", ilce: "Üsküdar", ...DISTRICT_COORDS["Üsküdar"], kalan: 1180, telefonSon: "83" },
-  { id: 4, ad: "Aylin D.", ilce: "Ataşehir", ...DISTRICT_COORDS["Ataşehir"], kalan: 55, telefonSon: "05" },
-];
-
-const DISTRICT_NAMES = ["Beylikdüzü", "Bakırköy", "Fatih", "Beşiktaş", "Şişli", "Üsküdar", "Kadıköy", "Ataşehir", "Maltepe", "Pendik"];
-
-const DEMO_BASVURULAR = [
-  { ad: "Zeynep K.", ilce: "Şişli" },
-  { ad: "Tolga B.", ilce: "Maltepe" },
-  { ad: "Sena Y.", ilce: "Beşiktaş" },
-];
-
 const TOPLAM_SURE = 900;
 const ROW_H = 108;
-
-function fmtSure(sn) {
-  const m = Math.floor(sn / 60);
-  const s = sn % 60;
-  return m + ":" + String(s).padStart(2, "0");
-}
-function readableSure(sn) {
-  const m = Math.floor(sn / 60);
-  const s = sn % 60;
-  if (m <= 0) return s + " sn";
-  if (s === 0) return m + " dk";
-  return m + " dk " + s + " sn";
-}
-function ringColor(kalan) {
-  if (kalan <= 60) return CORAL;
-  if (kalan <= 300) return GOLD;
-  return GREEN;
-}
-function ringTextColor(kalan, dark) {
-  if (kalan <= 60) return dark ? CORAL : CORAL_TEXT;
-  if (kalan <= 300) return dark ? GOLD : GOLD_TEXT;
-  return GREEN;
-}
-function fmtSaat(t) {
-  if (!t) return "";
-  const d = new Date(t);
-  return String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
-}
-function fmtKm(km) {
-  return Number(km || 0).toFixed(1).replace(".", ",");
-}
-function fmtCompact(value, currency) {
-  // Intl "B" (bin) kısaltması finansta milyar sanılabildiği için açıkça "bin" yazılır.
-  const text = new Intl.NumberFormat("tr-TR", { notation: "compact", maximumFractionDigits: 1 }).format(Number(value || 0)).replace(/\s?B$/, " bin");
-  return text + (currency ? " ₺" : "");
-}
-function fmtPct(value) { return "%" + Math.round(Number(value || 0)).toLocaleString("tr-TR"); }
-function hgColor(value) { return value >= 100 ? "#00724C" : value >= 80 ? "#B25E30" : "#B25E30"; }
-function hgBg(value) { return value >= 100 ? "var(--tintGreen)" : value >= 80 ? "var(--tintGold)" : "var(--tintRed)"; }
-function haversineKm(a, b) {
-  if (!a || !b || !Number.isFinite(a.lat) || !Number.isFinite(a.lng) || !Number.isFinite(b.lat) || !Number.isFinite(b.lng)) return null;
-  const rad = (v) => v * Math.PI / 180;
-  const dLat = rad(b.lat - a.lat), dLng = rad(b.lng - a.lng);
-  const h = Math.sin(dLat / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(dLng / 2) ** 2;
-  return 6371 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
-}
-function coordForDistrict(ilce) { return DISTRICT_COORDS[ilce] || DISTRICT_COORDS["Ataşehir"]; }
-const LIVE_CONFIG = window.EMINEVIM_CONFIG || {};
-// Merkez (merkez/sunucu.py) sürümü: çağrı, mesaj ve durumlar sunucudan; GitHub Pages kopyasında Canli.aktif=false (gösteri)
-const CANLI = !!(window.Canli && window.Canli.aktif);
-function KAYIT_DEPO() { return CANLI ? localStorage : sessionStorage; }
-// Prototip hesabı yalnız bu tarayıcıda. Parolanın kendisi diske yazılmaz.
-const AYSE_TEL = "5321456789";
-const DEMO_PAROLA = "test123";
-function parolaKaydi(tel) {
-  try { return JSON.parse(KAYIT_DEPO().getItem("ty-demo-parola:" + tel) || "null"); } catch (_) { return null; }
-}
-function parolaKaydet(tel, kayit) { KAYIT_DEPO().setItem("ty-demo-parola:" + tel, JSON.stringify(kayit)); }
-async function parolaOzeti(parola, tuz = Array.from(crypto.getRandomValues(new Uint8Array(16)))) {
-  const anahtar = await crypto.subtle.importKey("raw", new TextEncoder().encode(parola), "PBKDF2", false, ["deriveBits"]);
-  const sonuc = await crypto.subtle.deriveBits({name:"PBKDF2",hash:"SHA-256",salt:new Uint8Array(tuz),iterations:100000}, anahtar, 256);
-  return {tuz, ozet:Array.from(new Uint8Array(sonuc), b => b.toString(16).padStart(2,"0")).join("")};
-}
-// Merkez sürümünde müşteri hesabı merkezde: aynı telefon + parola her telefonda çalışır (parolayı merkez özetler)
-function musteriMerkez(islem, govde) {
-  return Canli.gonder("api/musteri", { islem, ...govde }).then((v) => v.sonuc,
-    (e) => { throw e instanceof TypeError ? Error("Merkeze ulaşılamadı. İnternet bağlantınızı kontrol edip yeniden deneyin.") : e; });
-}
-function smsKodYaz(tel, kod) { const k = { tel: telAnahtar(tel), kod, son: Date.now() + 10 * 60000 }; try { localStorage.setItem("ty-sms-kod", JSON.stringify(k)); } catch (e) {} return k; }
-// TEST/DEVELOPMENT ONLY: production build must set this to false.
-const TEST_MODE_SKIP_FORM = true;
-const LOCATION_API = LIVE_CONFIG.locationEndpoint || "/api/live-locations";
-const LOCATION_POLL_MS = Math.max(5000, LIVE_CONFIG.locationPollMs || 10000);
-
-const CUSTOMER_ILCE = "Ataşehir";
-function lerp(a, b, t) { return a + (b - a) * t; }
-function ilkIlce(bolge) { return bolge.split("/")[0].trim(); }
 
 let SPY_ID_SEQ = 100;
 
@@ -1510,7 +1305,7 @@ class Component extends DCLogic {
     yaKaynak: "",
     yaKonum: null,         // uygulamadaki haritada seçilen yer {lat, lng, adres, bolge, not}
     yaKonumDurum: "",
-    yaHaritaSrc: "konum-sec.html",
+    yaHaritaSrc: "harita/konum-sec.html",
     kayitOpen: false,
     personelLoginOpen: false,
     kayitAd: "Mert Demir",
@@ -1918,7 +1713,7 @@ class Component extends DCLogic {
     const durum = {alindi:"Çağrınız alındı",atandi:"Randevu saatinizi onaylayın",netlesti:"Randevunuz kesinleşti",yolda:"Temsilciniz yolda",gorusme:"Temsilciniz yolda",gorusmede:"Temsilciniz yanınızda",tamamlandi:"Görüşmeniz tamamlandı",iptal:"Randevunuz iptal edildi"};
     const saat = t?.dogrulandi ? new Date(t.dogrulandi.zaman).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}) : "";
     const point=t?.konum || DISTRICT_COORDS["Ataşehir"], r=s.spylerList.find((x)=>x.id===t?.repId);
-    const rota = r ? "rota.html?takip=1&yol=1&e=Temsilciniz&b="+r.lat+","+r.lng+"&n="+point.lat+","+point.lng+","+encodeURIComponent("Görüşme noktası")+",b" : "";
+    const rota = r ? "harita/rota.html?takip=1&yol=1&e=Temsilciniz&b="+r.lat+","+r.lng+"&n="+point.lat+","+point.lng+","+encodeURIComponent("Görüşme noktası")+",b" : "";
     return {
       mDurumAltVar:d!=="netlesti"&&d!=="atandi",mDurumBaslikVar:d!=="atandi",
       mDurumBaslik:t?.tip==="telefon"?"Sizi arayacağız":durum[d]||"",
@@ -1977,7 +1772,7 @@ class Component extends DCLogic {
     if (this._yaTimer) clearTimeout(this._yaTimer);
     // Web formundaki gibi: 1/2 harita (hizmet bölgesi) → 2/2 gün ve saat → Başarılı
     this.setState({ yaDegistir: false, yaOpen: true, yaAdim: 5, yaAd: f.name || "", yaTel: f.phone || "", yaGun: "", yaGunISO:"", yaSaat: "", yaYer: "", yaIlce: "", yaHata: "", yaRepId: null, yaKaynak: "uygulama",
-      yaTelefonla: false, yaKonum: null, yaKonumDurum: "", yaHaritaSrc: "konum-sec.html?t=" + Date.now() });
+      yaTelefonla: false, yaKonum: null, yaKonumDurum: "", yaHaritaSrc: "harita/konum-sec.html?t=" + Date.now() });
   }
   yaKonumDevam() {
     const s = this.state, k = s.yaKonum;
@@ -1992,7 +1787,7 @@ class Component extends DCLogic {
     if (!t) return;
     if (this._yaTimer) clearTimeout(this._yaTimer);
     this.setState({ yaOpen: true, yaKaynak: "uygulama", yaDegistir: true, yaGun: "", yaSaat: "", yaHata: "", yaTelefonla: false,
-      yaGun:t.gunYazi,yaGunISO:t.tarih||"",yaSaat:t.saat,yaKonum: t.konum || null, yaIlce: t.yer || "", yaAdim: t.konum ? 2 : 5, yaHaritaSrc: "konum-sec.html?t=" + Date.now() });
+      yaGun:t.gunYazi,yaGunISO:t.tarih||"",yaSaat:t.saat,yaKonum: t.konum || null, yaIlce: t.yer || "", yaAdim: t.konum ? 2 : 5, yaHaritaSrc: "harita/konum-sec.html?t=" + Date.now() });
   }
   mSaatOnayla() {
     const t = this.state.mTalep;
@@ -3110,7 +2905,7 @@ class Component extends DCLogic {
         tpListe: satirlar, tpListeBos: !satirlar.length,
         tpRotaAcik: !!s.tpRota, tpRotaDugme: s.tpRota ? "Rotayı kapat" : "Bugünkü rota",
         tpRotaDegistir: () => this.setState({ tpRota: !this.state.tpRota, tpSecim: null }),
-        tpRotaSrc: "rota.html?b=40.9840,29.1270&n=" + rotaN,
+        tpRotaSrc: "harita/rota.html?b=40.9840,29.1270&n=" + rotaN,
         tpBugunVar: !s.tpRota && !sec, tpBugunToplam: bugun.length, tpBugunBekleyen: bugun.filter((g) => ["bekleyen", "yolda", "yeni"].indexOf(g.durum) >= 0).length, tpBugunGercek: bugun.filter((g) => g.durum === "gerceklesti").length,
         tpDetayVar: !s.tpRota && !!sec,
         tpDetayAttr: !s.tpRota && !!sec ? "true" : "false", tpGeriVar: !s.tpRota && !!sec,
@@ -3145,7 +2940,7 @@ class Component extends DCLogic {
           tpMesajTaslak: s.tpMesajTaslak || "", setTpMesajTaslak: (e) => this.setState({ tpMesajTaslak: e.target.value }),
           tpMesajGonder: (e) => { if (e && e.preventDefault) e.preventDefault(); const text = (this.state.tpMesajTaslak || "").trim(); if (!text) return; this.setState({ tpMesajTaslak: "" }); this.canliMesaj(sec.id, "temsilci", text); },
           tpDRotaVar: sec.durum === "yolda" && !!sec.talep?.konum,
-          tpDRotaSrc: (() => { const r = s.spylerList.find((x) => x.id === (sec.talep?.repId || s.personelRepId)), k = sec.talep?.konum; return r && k ? "rota.html?takip=1&yol=1&e=Siz&b=" + r.lat + "," + r.lng + "&n=" + k.lat + "," + k.lng + "," + encodeURIComponent("Görüşme noktası") + ",b" : ""; })(),
+          tpDRotaSrc: (() => { const r = s.spylerList.find((x) => x.id === (sec.talep?.repId || s.personelRepId)), k = sec.talep?.konum; return r && k ? "harita/rota.html?takip=1&yol=1&e=Siz&b=" + r.lat + "," + r.lng + "&n=" + k.lat + "," + k.lng + "," + encodeURIComponent("Görüşme noktası") + ",b" : ""; })(),
           tpYolaCik: () => this.tpRandevuIslem(sec.id,"yol"),
           tpGecikmeBildir:()=>this.tpRandevuIslem(sec.id,"gecikme"),tpDegisiklikVar:!!sec.talep?.degisiklik&&!["gorusmede","gerceklesti","iptal"].includes(sec.durum),tpDegisiklikYazi:sec.talep?.degisiklik?sec.talep.degisiklik.gunYazi+" · "+sec.talep.degisiklik.saat+" · "+sec.talep.degisiklik.yer:"",tpDegisiklikOnayla:()=>this.tpRandevuIslem(sec.id,"onay"),
           tpOzetNot:s.tpOzetNot||"",setTpOzetNot:(e)=>this.setState({tpOzetNot:e.target.value}),tpSonraki:s.tpSonraki,setTpSonraki:(e)=>this.setState({tpSonraki:e.target.value}),
@@ -3915,7 +3710,7 @@ class Component extends DCLogic {
       setYaIlce: (e) => this.setState({ yaIlce: e.target.value, yaHata: "" }),
       setYaEposta: (e) => this.setState({ yaEposta: e.target.value }),
       yaHata: s.yaHata, yaHataVar: !!s.yaHata,
-      yaGeri: () => { if (s.yaKaynak === "uygulama" && s.yaAdim === 2) { const k = s.yaKonum; this.setState({ yaAdim: 5, yaHata: "", yaHaritaSrc: k ? "konum-sec.html?lat=" + k.lat + "&lng=" + k.lng + "&adres=" + encodeURIComponent(k.adres) : s.yaHaritaSrc }); } else if (s.yaKaynak === "uygulama") this.setState({ yaOpen: false, yaKaynak: "" }); else if (s.yaAdim === 2) this.setState({ yaAdim: 1, yaHata: "" }); else if (s.yaAdim === 4) this.setState({ yaAdim: 3 }); else this.yaKapat(); },
+      yaGeri: () => { if (s.yaKaynak === "uygulama" && s.yaAdim === 2) { const k = s.yaKonum; this.setState({ yaAdim: 5, yaHata: "", yaHaritaSrc: k ? "harita/konum-sec.html?lat=" + k.lat + "&lng=" + k.lng + "&adres=" + encodeURIComponent(k.adres) : s.yaHaritaSrc }); } else if (s.yaKaynak === "uygulama") this.setState({ yaOpen: false, yaKaynak: "" }); else if (s.yaAdim === 2) this.setState({ yaAdim: 1, yaHata: "" }); else if (s.yaAdim === 4) this.setState({ yaAdim: 3 }); else this.yaKapat(); },
       yaDevam: () => this.yaDevam(false),
       yaTelefonla: () => this.yaDevam(true),
       yaGonder: () => this.yaGonder(),

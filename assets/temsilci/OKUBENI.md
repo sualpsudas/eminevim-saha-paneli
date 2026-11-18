@@ -1,7 +1,7 @@
 # SPY fotoğrafları (sentetik)
 
 Kural: gerçek kişi fotoğrafı kullanılmaz. Buradaki 30 portre yapay olarak üretilmiş, var olmayan kişilerdir
-(thispersondoesnotexist.com, 512×512 JPG). Kişi bilgileri `spyler.js`'te (uygulama `TEMSILCI_DETAY` ve merkez `merkez/sunucu.py` aynı dosyayı okur).
+(thispersondoesnotexist.com, 512×512 JPG). Kişi bilgileri `veri/spyler.js`'te (üretilir: `veri/OKUBENI.md`; fotoğraf adı `veri/kaynak/spy_ek.csv` → Fotoğraf; uygulama `TEMSILCI_DETAY` ve merkez `merkez/ty/personel.py` aynı dosyayı okur).
 Klasör adı (`temsilci/`) kod yolu olduğu için değişmedi. Pilot bölge: Üsküdar, Ümraniye, Ataşehir. H/G değerleri uydurmadır (son 3 ay).
 Onur Kaya, Derya Aksoy, Berk Cengiz, Selin Arslan (s1-s4) tanıtım videosu ve senaryodaki kişilerdir.
 **2026-11-11:** uygulamada **7 SPY** var ("Kullanılıyor" = evet; hepsinin iki H/G'si ≥ %100). Diğer 23 portre klasörde duruyor, gerekirse yeniden eklenir.

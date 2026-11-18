@@ -1,0 +1,649 @@
+{
+ "hesapTarihi": "2026-11-18",
+ "aylar": [
+  "2026-08",
+  "2026-09",
+  "2026-10"
+ ],
+ "kisiler": [
+  {
+   "sicil": "48213",
+   "ad": "Onur Kaya",
+   "sube": "Ataşehir Şb.",
+   "gorev": "SPY1",
+   "iseGiris": "2020-09-01",
+   "bolge": "İstanbul Anadolu Bölge 1",
+   "saha": "İstanbul Saha",
+   "klasman": 2,
+   "subeAdi": "Ataşehir Şb.",
+   "randevuHG": 115,
+   "ciroHG": 129,
+   "listede": true,
+   "neden": "",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 72,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 291,
+     "ciroH": 22000000.0,
+     "ciroG": 27720000.0,
+     "randevuHG": 111.9,
+     "ciroHG": 126.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 73,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 304,
+     "ciroH": 22000000.0,
+     "ciroG": 28820000.0,
+     "randevuHG": 116.9,
+     "ciroHG": 131.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 74,
+     "hesapGorevi": "SPY1",
+     "randevuH": 270,
+     "randevuG": 313,
+     "ciroH": 22000000.0,
+     "ciroG": 28600000.0,
+     "randevuHG": 115.9,
+     "ciroHG": 130.0
+    }
+   ]
+  },
+  {
+   "sicil": "48350",
+   "ad": "Derya Aksoy",
+   "sube": "Üsküdar Şb.",
+   "gorev": "SPY1",
+   "iseGiris": "2022-06-01",
+   "bolge": "İstanbul Anadolu Bölge 1",
+   "saha": "İstanbul Saha",
+   "klasman": 3,
+   "subeAdi": "Üsküdar Şb.",
+   "randevuHG": 126,
+   "ciroHG": 130,
+   "listede": true,
+   "neden": "",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 51,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 320,
+     "ciroH": 22000000.0,
+     "ciroG": 27940000.0,
+     "randevuHG": 123.1,
+     "ciroHG": 127.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 52,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 333,
+     "ciroH": 22000000.0,
+     "ciroG": 29040000.0,
+     "randevuHG": 128.1,
+     "ciroHG": 132.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 53,
+     "hesapGorevi": "SPY1",
+     "randevuH": 270,
+     "randevuG": 343,
+     "ciroH": 22000000.0,
+     "ciroG": 28820000.0,
+     "randevuHG": 127.0,
+     "ciroHG": 131.0
+    }
+   ]
+  },
+  {
+   "sicil": "48487",
+   "ad": "Berk Cengiz",
+   "sube": "Ümraniye Şb.",
+   "gorev": "SPY2",
+   "iseGiris": "2018-03-01",
+   "bolge": "İstanbul Anadolu Bölge 3",
+   "saha": "İstanbul Saha",
+   "klasman": 4,
+   "subeAdi": "Ümraniye Şb.",
+   "randevuHG": 105,
+   "ciroHG": 105,
+   "listede": true,
+   "neden": "",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 102,
+     "hesapGorevi": "SPY2",
+     "randevuH": 260,
+     "randevuG": 265,
+     "ciroH": 26000000.0,
+     "ciroG": 26520000.0,
+     "randevuHG": 101.9,
+     "ciroHG": 102.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 103,
+     "hesapGorevi": "SPY2",
+     "randevuH": 260,
+     "randevuG": 278,
+     "ciroH": 26000000.0,
+     "ciroG": 27820000.0,
+     "randevuHG": 106.9,
+     "ciroHG": 107.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 104,
+     "hesapGorevi": "SPY2",
+     "randevuH": 270,
+     "randevuG": 286,
+     "ciroH": 26000000.0,
+     "ciroG": 27560000.0,
+     "randevuHG": 105.9,
+     "ciroHG": 106.0
+    }
+   ]
+  },
+  {
+   "sicil": "48562",
+   "ad": "Selin Arslan",
+   "sube": "Üsküdar Şb.",
+   "gorev": "SPY1",
+   "iseGiris": "2021-05-01",
+   "bolge": "İstanbul Anadolu Bölge 1",
+   "saha": "İstanbul Saha",
+   "klasman": 3,
+   "subeAdi": "Üsküdar Şb.",
+   "randevuHG": 120,
+   "ciroHG": 100,
+   "listede": true,
+   "neden": "",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 64,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 304,
+     "ciroH": 22000000.0,
+     "ciroG": 21340000.0,
+     "randevuHG": 116.9,
+     "ciroHG": 97.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 65,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 317,
+     "ciroH": 22000000.0,
+     "ciroG": 22440000.0,
+     "randevuHG": 121.9,
+     "ciroHG": 102.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 66,
+     "hesapGorevi": "SPY1",
+     "randevuH": 270,
+     "randevuG": 327,
+     "ciroH": 22000000.0,
+     "ciroG": 22220000.0,
+     "randevuHG": 121.1,
+     "ciroHG": 101.0
+    }
+   ]
+  },
+  {
+   "sicil": "48655",
+   "ad": "Ece Yalçın",
+   "sube": "Ümraniye Şb.",
+   "gorev": "SPY1",
+   "iseGiris": "2024-08-01",
+   "bolge": "İstanbul Anadolu Bölge 3",
+   "saha": "İstanbul Saha",
+   "klasman": 4,
+   "subeAdi": "Ümraniye Şb.",
+   "randevuHG": 114,
+   "ciroHG": 113,
+   "listede": true,
+   "neden": "",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 25,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 289,
+     "ciroH": 22000000.0,
+     "ciroG": 24200000.0,
+     "randevuHG": 111.2,
+     "ciroHG": 110.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 26,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 302,
+     "ciroH": 22000000.0,
+     "ciroG": 25300000.0,
+     "randevuHG": 116.2,
+     "ciroHG": 115.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 27,
+     "hesapGorevi": "SPY1",
+     "randevuH": 270,
+     "randevuG": 310,
+     "ciroH": 22000000.0,
+     "ciroG": 25080000.0,
+     "randevuHG": 114.8,
+     "ciroHG": 114.0
+    }
+   ]
+  },
+  {
+   "sicil": "48877",
+   "ad": "Burcu Avcı",
+   "sube": "Ümraniye Şb.",
+   "gorev": "SPY1",
+   "iseGiris": "2021-02-01",
+   "bolge": "İstanbul Anadolu Bölge 3",
+   "saha": "İstanbul Saha",
+   "klasman": 4,
+   "subeAdi": "Ümraniye Şb.",
+   "randevuHG": 127,
+   "ciroHG": 115,
+   "listede": true,
+   "neden": "",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 67,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 322,
+     "ciroH": 22000000.0,
+     "ciroG": 24640000.0,
+     "randevuHG": 123.8,
+     "ciroHG": 112.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 68,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 335,
+     "ciroH": 22000000.0,
+     "ciroG": 25740000.0,
+     "randevuHG": 128.8,
+     "ciroHG": 117.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 69,
+     "hesapGorevi": "SPY1",
+     "randevuH": 270,
+     "randevuG": 346,
+     "ciroH": 22000000.0,
+     "ciroG": 25520000.0,
+     "randevuHG": 128.1,
+     "ciroHG": 116.0
+    }
+   ]
+  },
+  {
+   "sicil": "48951",
+   "ad": "Barış Çelik",
+   "sube": "Ataşehir Şb.",
+   "gorev": "SPY1",
+   "iseGiris": "2021-07-01",
+   "bolge": "İstanbul Anadolu Bölge 1",
+   "saha": "İstanbul Saha",
+   "klasman": 2,
+   "subeAdi": "Ataşehir Şb.",
+   "randevuHG": 117,
+   "ciroHG": 116,
+   "listede": true,
+   "neden": "",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 62,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 296,
+     "ciroH": 22000000.0,
+     "ciroG": 24860000.0,
+     "randevuHG": 113.8,
+     "ciroHG": 113.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 63,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 309,
+     "ciroH": 22000000.0,
+     "ciroG": 25960000.0,
+     "randevuHG": 118.8,
+     "ciroHG": 118.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 64,
+     "hesapGorevi": "SPY1",
+     "randevuH": 270,
+     "randevuG": 319,
+     "ciroH": 22000000.0,
+     "ciroG": 25740000.0,
+     "randevuHG": 118.1,
+     "ciroHG": 117.0
+    }
+   ]
+  },
+  {
+   "sicil": "48359",
+   "ad": "Murat Şahin",
+   "sube": "Üsküdar Şb.",
+   "gorev": "SPY2",
+   "iseGiris": "2018-04-01",
+   "bolge": "İstanbul Anadolu Bölge 1",
+   "saha": "İstanbul Saha",
+   "klasman": 3,
+   "subeAdi": "Üsküdar Şb.",
+   "randevuHG": 94,
+   "ciroHG": 103,
+   "listede": false,
+   "neden": "H/G eşiği %100 altında",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 101,
+     "hesapGorevi": "SPY2",
+     "randevuH": 260,
+     "randevuG": 237,
+     "ciroH": 26000000.0,
+     "ciroG": 26000000.0,
+     "randevuHG": 91.2,
+     "ciroHG": 100.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 102,
+     "hesapGorevi": "SPY2",
+     "randevuH": 260,
+     "randevuG": 250,
+     "ciroH": 26000000.0,
+     "ciroG": 27300000.0,
+     "randevuHG": 96.2,
+     "ciroHG": 105.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 103,
+     "hesapGorevi": "SPY2",
+     "randevuH": 270,
+     "randevuG": 256,
+     "ciroH": 26000000.0,
+     "ciroG": 27040000.0,
+     "randevuHG": 94.8,
+     "ciroHG": 104.0
+    }
+   ]
+  },
+  {
+   "sicil": "48470",
+   "ad": "Merve Tunç",
+   "sube": "Üsküdar Şb.",
+   "gorev": "SPY1",
+   "iseGiris": "2024-06-01",
+   "bolge": "İstanbul Anadolu Bölge 1",
+   "saha": "İstanbul Saha",
+   "klasman": 3,
+   "subeAdi": "Üsküdar Şb.",
+   "randevuHG": 101,
+   "ciroHG": 91,
+   "listede": false,
+   "neden": "H/G eşiği %100 altında",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 27,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 255,
+     "ciroH": 22000000.0,
+     "ciroG": 19360000.0,
+     "randevuHG": 98.1,
+     "ciroHG": 88.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 28,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 268,
+     "ciroH": 22000000.0,
+     "ciroG": 20460000.0,
+     "randevuHG": 103.1,
+     "ciroHG": 93.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 29,
+     "hesapGorevi": "SPY1",
+     "randevuH": 270,
+     "randevuG": 275,
+     "ciroH": 22000000.0,
+     "ciroG": 20240000.0,
+     "randevuHG": 101.9,
+     "ciroHG": 92.0
+    }
+   ]
+  },
+  {
+   "sicil": "48618",
+   "ad": "Serkan Öztürk",
+   "sube": "Ümraniye Şb.",
+   "gorev": "SPY1",
+   "iseGiris": "2022-10-01",
+   "bolge": "İstanbul Anadolu Bölge 3",
+   "saha": "İstanbul Saha",
+   "klasman": 4,
+   "subeAdi": "Ümraniye Şb.",
+   "randevuHG": 104,
+   "ciroHG": 92,
+   "listede": false,
+   "neden": "H/G eşiği %100 altında",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 47,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 263,
+     "ciroH": 22000000.0,
+     "ciroG": 19580000.0,
+     "randevuHG": 101.2,
+     "ciroHG": 89.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 48,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 276,
+     "ciroH": 22000000.0,
+     "ciroG": 20680000.0,
+     "randevuHG": 106.2,
+     "ciroHG": 94.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 49,
+     "hesapGorevi": "SPY1",
+     "randevuH": 270,
+     "randevuG": 284,
+     "ciroH": 22000000.0,
+     "ciroG": 20460000.0,
+     "randevuHG": 105.2,
+     "ciroHG": 93.0
+    }
+   ]
+  },
+  {
+   "sicil": "48729",
+   "ad": "Pınar Çakır",
+   "sube": "Ümraniye Şb.",
+   "gorev": "SPY1",
+   "iseGiris": "2020-11-01",
+   "bolge": "İstanbul Anadolu Bölge 3",
+   "saha": "İstanbul Saha",
+   "klasman": 4,
+   "subeAdi": "Ümraniye Şb.",
+   "randevuHG": 88,
+   "ciroHG": 95,
+   "listede": false,
+   "neden": "H/G eşiği %100 altında",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 70,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 221,
+     "ciroH": 22000000.0,
+     "ciroG": 20240000.0,
+     "randevuHG": 85.0,
+     "ciroHG": 92.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 71,
+     "hesapGorevi": "SPY1",
+     "randevuH": 260,
+     "randevuG": 234,
+     "ciroH": 22000000.0,
+     "ciroG": 21340000.0,
+     "randevuHG": 90.0,
+     "ciroHG": 97.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 72,
+     "hesapGorevi": "SPY1",
+     "randevuH": 270,
+     "randevuG": 240,
+     "ciroH": 22000000.0,
+     "ciroG": 21120000.0,
+     "randevuHG": 88.9,
+     "ciroHG": 96.0
+    }
+   ]
+  },
+  {
+   "sicil": "49099",
+   "ad": "Can Erdem",
+   "sube": "Ataşehir Şb.",
+   "gorev": "SPY2",
+   "iseGiris": "2016-05-01",
+   "bolge": "İstanbul Anadolu Bölge 1",
+   "saha": "İstanbul Saha",
+   "klasman": 2,
+   "subeAdi": "Ataşehir Şb.",
+   "randevuHG": 90,
+   "ciroHG": 104,
+   "listede": false,
+   "neden": "H/G eşiği %100 altında",
+   "aylar": [
+    {
+     "ay": "2026-08",
+     "kidemAy": 124,
+     "hesapGorevi": "SPY2",
+     "randevuH": 260,
+     "randevuG": 226,
+     "ciroH": 26000000.0,
+     "ciroG": 26260000.0,
+     "randevuHG": 86.9,
+     "ciroHG": 101.0
+    },
+    {
+     "ay": "2026-09",
+     "kidemAy": 125,
+     "hesapGorevi": "SPY2",
+     "randevuH": 260,
+     "randevuG": 239,
+     "ciroH": 26000000.0,
+     "ciroG": 27560000.0,
+     "randevuHG": 91.9,
+     "ciroHG": 106.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 126,
+     "hesapGorevi": "SPY2",
+     "randevuH": 270,
+     "randevuG": 246,
+     "ciroH": 26000000.0,
+     "ciroG": 27300000.0,
+     "randevuHG": 91.1,
+     "ciroHG": 105.0
+    }
+   ]
+  },
+  {
+   "sicil": "49173",
+   "ad": "Okan Polat",
+   "sube": "Ataşehir Şb.",
+   "gorev": "SPY1",
+   "iseGiris": "2026-09-01",
+   "bolge": "İstanbul Anadolu Bölge 1",
+   "saha": "İstanbul Saha",
+   "klasman": 2,
+   "subeAdi": "Ataşehir Şb.",
+   "randevuHG": 99,
+   "ciroHG": 99,
+   "listede": false,
+   "neden": "H/G eşiği %100 altında",
+   "aylar": [
+    {
+     "ay": "2026-09",
+     "kidemAy": 1,
+     "hesapGorevi": "YSPY1",
+     "randevuH": 260,
+     "randevuG": 255,
+     "ciroH": 12000000.0,
+     "ciroG": 11760000.0,
+     "randevuHG": 98.1,
+     "ciroHG": 98.0
+    },
+    {
+     "ay": "2026-10",
+     "kidemAy": 2,
+     "hesapGorevi": "YSPY1",
+     "randevuH": 270,
+     "randevuG": 270,
+     "ciroH": 12000000.0,
+     "ciroG": 12000000.0,
+     "randevuHG": 100.0,
+     "ciroHG": 100.0
+    }
+   ]
+  }
+ ]
+}

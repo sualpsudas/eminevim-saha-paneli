@@ -31,15 +31,17 @@ Pages adresi değişir). **Tasarım kararı henüz verilmedi:** mevcut prototip 
 - Gizli dosyalar depoya ve belgelere girmez: `merkez/gizli_yol.txt`, `merkez/vapid.pem` (silinirse tüm bildirim abonelikleri gider), `*_abonelik.json`.
 
 ## Dosyalar
-- Uygulama: `Eminevim Saha Paneli.dc.html` (+ `support.js`, `index.html`, `assignment.js`, `org-data.js`, `map.html`, `sw.js`); SPY listesi `spyler.js`.
+- **Modüler yapı ve IT'ye devir: `IT_DEVIR.md`** (her dış kaynak tek "kapı" dosyasının arkasında; yeni kod bu düzene uyar).
+- Uygulama: `Eminevim Saha Paneli.dc.html` (ekranlar) + `uygulama/` (modüller, `support.js`, `canli.js`), `harita/` (map, rota, konum-sec), `index.html`, `sw.js`.
+- SPY listesi `veri/spyler.js` **üretilir**: `veri/kaynak/*.csv` + `veri/ayarlar.json` → `python araclar/veri_hazirla.py` (`veri/OKUBENI.md`).
 - Web formu: `web-basvuru/form_bolumu.html` düzenlenir → `python olustur.py` ile **mutlaka yeniden üret**.
-- Canlı test merkezi: `merkez/` (`sunucu.py`, `takip.html`, `canli-sw.js`), kök `canli.js`.
+- Canlı test merkezi: `merkez/` (`sunucu.py` giriş, kod `merkez/ty/` parçaları, `takip.html`, `canli-sw.js`), bağlantı `uygulama/canli.js`.
 - iPhone: Capacitor + Codemagic (`IOS_TESTFLIGHT.md`). Taslaklar `taslak/`, senaryo `senaryo.html`, proje belgeleri `rapor/`.
 
 ## Çalıştırma ve yayın
 - **Merkez (7/24, port 8794):** durdurmak için `python sunucu.py --durdur` (taskkill değil); başlatma Başlangıç kısayolu
   "Tasarruf Yanimda Merkezi" (conda base pythonw). Aynı porta ikinci kopya bağlanmaz; deneme kopyası `TY_PORT=8795 TY_YOL=deneme TY_VERI=<geçici>`.
-  `spyler.js` değişince merkez yeniden başlatılır. Dışarıya Tailscale Funnel ayrı yolla.
+  `veri/spyler.js` değişince merkez yeniden başlatılır. Dışarıya Tailscale Funnel ayrı yolla.
 - **Yayın:** `master` → GitHub Pages https://sualpsudas.github.io/eminevim-saha-paneli/ (~1 dk; `curl ...?t=$RANDOM` ile kontrol).
   Tek paylaşım sayfası `linkler.html`: yeni sayfa eklenince güncelle. Ekibin "Çalışma sayfası": https://sualpsudas.github.io/eminevim-saha-paneli/linkler.html#web-bilgisayar
 - **Test:** conda `scrapling` Python + Playwright `channel="chrome"`; yerel `python -m http.server 8799`; merkez akışı `tests/merkez-akis.py`.

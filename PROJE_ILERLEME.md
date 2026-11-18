@@ -725,3 +725,10 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 
 ## 2026-11-13 — Yönetici oturumu cihazda kalır
 - Merkez (canlı) sürümde yönetici girişi de SPY ve müşteri gibi cihazda kalır (`ty-yonetici`); Çıkış yap'a kadar uygulama yeniden açılınca giriş sorulmaz. GitHub Pages gösterisi (merkezsiz) oturum tutmaz.
+
+## 2026-11-18 — Modüler yapı (IT'ye devir öncesi)
+- Uygulama yardımcıları `Eminevim Saha Paneli.dc.html`'den `uygulama/` modüllerine çıkarıldı (servisler, ayarlar, bicim, finansman, personel, hesap, ornek-veri); `support.js`, `canli.js`, `appointment.js`, `assignment.js` da `uygulama/`ya; harita sayfaları `harita/`ya; `org-data.js` ve `spyler.js` `veri/`ye.
+- SPY listesi artık üretiliyor: `veri/kaynak/*.csv` (şirket sütun adları, uydurma değerler) + `veri/ayarlar.json` → `araclar/veri_hazirla.py` → `veri/spyler.js` + `hg_ozet.json`. Eski 7 SPY aynen çıktı, 6 kişi H/G < %100 nedeniyle dışarıda.
+- Merkez `merkez/ty/` paketine bölündü (ayarlar, yardim, personel, depo, konum, atama, bildirim, musteri, aktarim, islemler, api); `sunucu.py` ince giriş, komutlar aynı. Yeni: `api/konum` (canlı konum girişi), şirkete aktarım `merkez/aktarim/*.jsonl` (randevu + aday müşteri kartı, şirket sütun adlarıyla).
+- Belgeler: `IT_DEVIR.md` (yeni), `veri/OKUBENI.md` (yeni), CLAUDE.md, AGENTS.md, TEKNIK.md, KARARLAR.md, assets/temsilci/OKUBENI.md.
+- Testler: `npm test` OK; `tests/merkez-akis.py` (deneme merkezi 8795) OK; Playwright browser-flows, phone-layout, web-flows, appointment-list, preparation-popup OK; `npm run web:sync` → `www/` hatasız açılıyor.

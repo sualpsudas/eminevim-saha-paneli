@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<script src="../uygulama/servisler.js"></script>
 <style>
 html, body { margin: 0; height: 100%; font-family: 'Inter', -apple-system, sans-serif; }
 #map { width: 100%; height: 100%; background: #E9EEF1; }
@@ -83,15 +84,8 @@ var compactMode = params.get('compact') === '1'; // küçük, etkileşimsiz öni
 if (compactMode) document.body.classList.add('compact');
 var selectedMarker = null;
 
-// Harita sağlayıcısı tek yerde: App Store yayınından önce OSM yerine anahtarlı bir sağlayıcı
-// (MapKit JS, Mapbox, Stadia vb.) için yalnızca bu nesne değiştirilir. OSM genel tile sunucusu
-// yoğun mobil uygulama trafiğine izin vermez; şimdilik test sürümleri için kullanılıyor.
-var MAP_TILE_PROVIDER = (window.parent && window.parent.EMINEVIM_CONFIG && window.parent.EMINEVIM_CONFIG.mapTiles) || {
-  url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-  subdomains: 'abc',
-  maxZoom: 19
-};
+// Harita sağlayıcısı tek yerde: uygulama/servisler.js (haritaAltlik). OSM genel sunucusu yalnız test için.
+var MAP_TILE_PROVIDER = (window.parent && window.parent.EMINEVIM_CONFIG && window.parent.EMINEVIM_CONFIG.mapTiles) || window.TY_SERVISLER.haritaAltlik;
 L.tileLayer(MAP_TILE_PROVIDER.url, {
   attribution: MAP_TILE_PROVIDER.attribution,
   subdomains: MAP_TILE_PROVIDER.subdomains || 'abc',

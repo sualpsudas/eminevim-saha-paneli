@@ -1,0 +1,31 @@
+{
+  "_aciklama": "Tasarruf Yanımda iş kuralları. Kodu değiştirmeden buradan ayarlanır; değişince: python araclar/veri_hazirla.py (merkez çalışıyorsa yeniden başlat).",
+  "personel": {
+    "departman": "Alternatif Satış Ekibi",
+    "gorev_eslesme": {
+      "Saha Portföy Yöneticisi (1)": "SPY1",
+      "Saha Portföy Yöneticisi (2)": "SPY2"
+    }
+  },
+  "hg": {
+    "_aciklama": "H/G = gerçekleşen / hedef (%). Son N TAMAMLANMIŞ ayın ortalaması; içinde bulunulan ay sayılmaz.",
+    "donem_ay": 3,
+    "liste_esik": 100,
+    "_liste": "Uygulamada yalnız randevu H/G ve ciro H/G ikisi de liste_esik ve üzeri olan SPY görünür."
+  },
+  "randevu": {
+    "gunluk_hedef": 10,
+    "is_gunleri": ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"],
+    "sayilan_durumlar": ["Randevu Gerçekleşti"],
+    "tarih_sutunu": "Planl. Tarih",
+    "kisi_sutunu": "Sorumlu Personel",
+    "_kisi": "Şirket dosyasında ad soyad yazıyor; personel listesindeki ad soyadla eşleştirilir (büyük/küçük harf ve Türkçe harf farkı önemsiz)."
+  },
+  "ciro": {
+    "tutar_sutunu": "Org Tutar",
+    "tarih_sutunu": "Kayıt \nTarihi",
+    "sicil_sutunu": "UyeSatisTemsilciSicilNo",
+    "sayilan_kayit_turleri": [],
+    "_kayit_turleri": "Boş liste = bütün kayıt türleri sayılır."
+  }
+}

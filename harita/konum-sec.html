@@ -7,6 +7,7 @@
 <title>Görüşme Yeri</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<script src="../uygulama/servisler.js"></script>
 <style>
   /* Uygulamanın "Temsilci iste" adımındaki harita: web formundaki pencerenin 1/2 adımıyla aynı davranış.
      Seçim üst pencereye postMessage ile gider: {tip:"ty-konum", konum:{lat,lng,adres,bolge,not}} */
@@ -75,7 +76,8 @@
 
   var harita = L.map('harita', { zoomControl:false, attributionControl:true });
   L.control.zoom({ position:'topright' }).addTo(harita);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:19, attribution:'© OpenStreetMap' }).addTo(harita);
+  var S = window.TY_SERVISLER;  // dış servis adresleri: uygulama/servisler.js
+  L.tileLayer(S.haritaAltlik.url, { maxZoom:S.haritaAltlik.maxZoom, attribution:S.haritaAltlik.attribution }).addTo(harita);
   var tumBolge = L.featureGroup();
   Object.keys(BOLGELER).forEach(function(ad){
     L.polygon(BOLGELER[ad], { color:'#00724c', weight:1.5, fillColor:'#00724c', fillOpacity:.22, interactive:false })
@@ -91,7 +93,7 @@
   function bolgeDugme(mod){ bolgeModu = mod; bolgeBtn.querySelector('span').textContent = mod ? 'Konumuma dön' : 'Hizmet bölgesini göster'; }
   function adresBul(lat, lng){
     var no = ++adresNo;
-    fetch('https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=17&accept-language=tr&lat='+lat.toFixed(5)+'&lon='+lng.toFixed(5))
+    fetch(S.adresArama+'reverse?format=jsonv2&zoom=17&accept-language=tr&lat='+lat.toFixed(5)+'&lon='+lng.toFixed(5))
       .then(function(r){ return r.json(); })
       .then(function(j){
         if(no !== adresNo || !konum) return;
@@ -132,7 +134,7 @@
     if(q.length < 3){ onerEl.hidden = true; return; }
     araZaman = setTimeout(function(){
       var no = ++araNo;
-      fetch('https://nominatim.openstreetmap.org/search?format=jsonv2&limit=5&accept-language=tr&countrycodes=tr&bounded=1&viewbox='+ISTANBUL+'&q='+encodeURIComponent(q))
+      fetch(S.adresArama+'search?format=jsonv2&limit=5&accept-language=tr&countrycodes=tr&bounded=1&viewbox='+ISTANBUL+'&q='+encodeURIComponent(q))
         .then(function(r){ return r.json(); })
         .then(function(js){
           if(no !== araNo) return;

@@ -43,6 +43,16 @@ Yalnız gerektiğinde okunur (amaç/ilke, plan, belge işi, "bu neden böyle" so
   "Talep" yalnız müşteri çağrısı anlamında "çağrı" oldu; destek/düzeltme/randevu değişikliği talebi aynı.
   Bilerek değişmedi: `video/` (tanıtım sayfası, 4 video, altyazılar; ses de "temsilci" diyor, kullanıcı videoyu değiştirmiyor).
 
+## Modüler yapı ve IT'ye devir (2026-11-18, kullanıcı kararı)
+- Uygulama IT'ye devredilecek: iPhone'da yenilemeden önce son büyük yapı değişikliği (kozmetik dışı). Her dış kaynak (personel, H/G, satış,
+  randevu, canlı konum, bildirim, SMS, müşteri hesabı, harita) tek "kapı" dosyasının arkasında; şirket sistemi bağlanırken yalnız kapı değişir.
+  Rehber `IT_DEVIR.md`.
+- SPY listesi elle yazılmaz, H/G'ye göre **otomatik** oluşur (şirket dosyalarıyla aynı sütun adları; depoda uydurma değerler).
+- H/G kuralları (kullanıcı, `tf_orn.xlsx` örneği üzerinden): klasman **şubenin** klasmanı, personel şubesinden alır;
+  "Saha Portföy Yöneticisi (1)" = SPY1 ("(2)" = SPY2 varsayıldı, doğrulanacak); satış dosyasındaki bütün kayıt türleri sayılır;
+  ciro ayı **Kayıt Tarihi**; randevu hedefi günlük 10 (genel); H/G **son 3 ay** ortalaması; randevu dosyasında kişi ad soyadla yazılı.
+- Açık: gerçek şube–klasman tablosu; yeni personelde ciro hedefinde kıst (orantılama) yok; ad soyad eşleşmesi kırılgan (sicil sütunu önerilir).
+
 ## Tarihçe
 - 2026-10-20/21: proje adı Tasarruf Yanımda; müşteriye uygulama indirtilmez, önce web. Web formunda e-posta istenmez (10-21 akşam).
   Bütçe hesabı kullanıcı kararıyla web sitesine de eklendi. Görünüm kaynağı eminevim.com oldu.

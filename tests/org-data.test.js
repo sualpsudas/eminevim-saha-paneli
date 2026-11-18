@@ -1,5 +1,5 @@
 const assert = require("node:assert/strict");
-const OrgData = require("../org-data.js");
+const OrgData = require("../veri/org-data.js");
 
 assert.equal(OrgData.sahalar.length, 4, "4 saha olmalı");
 assert.equal(OrgData.bolgeler.length, 22, "22 bölge olmalı");

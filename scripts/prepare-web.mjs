@@ -7,20 +7,14 @@ const output = resolve(root, "www");
 const runtimeFiles = [
   "index.html",
   "Eminevim Saha Paneli.dc.html",
-  "assignment.js",
-  "appointment.js",
-  "konum-sec.html",
-  "rota.html",
-  "org-data.js",
-  "support.js",
-  "map.html",
   "manifest.json",
   "sw.js",
   "eminevim-qr.png",
-  "canli.js",
-  "spyler.js",
   "merkez/takip.html"
 ];
+// Klasörler bütünüyle kopyalanır: uygulama/ (kapılar ve yardımcılar), harita/, assets/, vendor/ ve veri/'nin uygulamaya giden dosyaları
+const runtimeDirs = ["uygulama", "harita", "assets", "vendor"];
+const veriFiles = ["veri/spyler.js", "veri/org-data.js"];
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
@@ -31,6 +25,7 @@ for (const file of runtimeFiles) {
   await cp(source, resolve(output, file));
 }
 
-await cp(resolve(root, "assets"), resolve(output, "assets"), { recursive: true });
-await cp(resolve(root, "vendor"), resolve(output, "vendor"), { recursive: true });
+for (const dir of runtimeDirs) await cp(resolve(root, dir), resolve(output, dir), { recursive: true });
+await mkdir(resolve(output, "veri"), { recursive: true });
+for (const file of veriFiles) await cp(resolve(root, file), resolve(output, file));
 console.log(`Native web paketi hazır: ${output}`);

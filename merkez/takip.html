@@ -80,9 +80,9 @@
 <div class="kisi-kart" id="kisiKart" hidden role="dialog" aria-label="Ayrıntı"><div id="kisiIc"></div><button type="button" id="kisiKapat" aria-label="Kapat">✕</button></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-  // Merkezde: <gizli>/takip → assets/…; GitHub Pages gösterisinde: merkez/takip.html?demo=1 → ../assets/…, ../spyler.js
+  // Merkezde: <gizli>/takip → assets/…; GitHub Pages gösterisinde: merkez/takip.html?demo=1 → ../assets/…, ../veri/spyler.js
   var DEMO=/[?&]demo=1/.test(location.search), KOK=DEMO?"../":"";
-  document.write('<script src="'+KOK+'assets/pilot-sinirlar.js"><\/script>'+(DEMO?'<script src="../spyler.js"><\/script>':''));
+  document.write('<script src="'+KOK+'assets/pilot-sinirlar.js"><\/script>'+(DEMO?'<script src="../veri/spyler.js"><\/script>':''));
 </script>
 <script>
 (function(){

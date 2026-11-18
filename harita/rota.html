@@ -7,6 +7,7 @@
 <title>Bugünkü Rota</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<script src="../uygulama/servisler.js"></script>
 <style>
   /* Personel tabletindeki "Bugünkü rota": günün randevuları saat sırasıyla numaralı iğneler ve rota.
      Adres: rota.html?b=lat,lng&n=lat,lng,etiket,durum|lat,lng,etiket,durum  (durum: g=gerçekleşti, a=şu an, b=bekleyen) */
@@ -26,7 +27,8 @@
 (function () {
   var q = new URLSearchParams(location.search);
   var harita = L.map("harita", { zoomControl: true, attributionControl: true });
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 19, attribution: "© OpenStreetMap" }).addTo(harita);
+  var S = window.TY_SERVISLER;  // dış servis adresleri: uygulama/servisler.js
+  L.tileLayer(S.haritaAltlik.url, { maxZoom: S.haritaAltlik.maxZoom, attribution: S.haritaAltlik.attribution }).addTo(harita);
   var noktalar = [];
   var bas = (q.get("b") || "").split(",").map(Number);
   if (bas.length === 2 && !isNaN(bas[0])) {
@@ -44,7 +46,7 @@
   sinir();
   // yol=1: ilk iki nokta arasında gerçek yol rotası (OSRM genel sunucusu; prototip). Alınamazsa kesikli düz çizgi kalır.
   if (q.get("yol") === "1" && noktalar.length > 1) {
-    var u = "https://router.project-osrm.org/route/v1/driving/" + noktalar[0][1] + "," + noktalar[0][0] + ";" + noktalar[1][1] + "," + noktalar[1][0] + "?overview=full&geometries=geojson";
+    var u = S.rota + noktalar[0][1] + "," + noktalar[0][0] + ";" + noktalar[1][1] + "," + noktalar[1][0] + "?overview=full&geometries=geojson";
     fetch(u).then(function (r) { return r.json(); }).then(function (v) {
       var y = v && v.routes && v.routes[0]; if (!y) return;
       var cizgi = y.geometry.coordinates.map(function (c) { return [c[1], c[0]]; });

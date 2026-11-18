@@ -19,7 +19,7 @@ KOK = 'http://127.0.0.1:8795/deneme/'
 URL = KOK + 'Eminevim%20Saha%20Paneli.dc.html'
 OUT = Path(tempfile.gettempdir()) / 'ty-merkez'
 OUT.mkdir(exist_ok=True)
-SPYLER = json.loads(re.search(r'window\.TY_SPYLER = (\[.*\]);', (Path(__file__).parent.parent / 'spyler.js').read_text(encoding='utf-8'), re.S).group(1))
+SPYLER = json.loads(re.search(r'window\.TY_SPYLER = (\[.*\]);', (Path(__file__).parent.parent / 'veri' / 'spyler.js').read_text(encoding='utf-8'), re.S).group(1))
 IDLER = {s['id'] for s in SPYLER}
 SIMDI = datetime.datetime.now().strftime('%H:%M')  # hemen çağrı
 YARIN = (datetime.date.today() + datetime.timedelta(days=1)).isoformat()

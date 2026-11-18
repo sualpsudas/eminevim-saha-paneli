@@ -4,9 +4,13 @@ Kod ve altyapı işinde ilgili başlığı oku. Kurallar `CLAUDE.md`'de, ürün/
 
 ## Uygulama
 - Tek dosya `Eminevim Saha Paneli.dc.html`: şablon `{{ }}`, `<sc-if>`, `<sc-for>`; durum `state`, görüntü değerleri `renderVals()`;
-  çalışma zamanı `support.js`. `?native=1` telefon düzeni ve service worker kapalı.
-- `index.html`, `assignment.js`, `org-data.js`, `map.html`, `sw.js` — uygulama (web/PWA). Aynı kod Capacitor ile iPhone'a paketlenir
-  (`scripts/prepare-web.mjs`, `IOS_TESTFLIGHT.md`, Codemagic).
+  çalışma zamanı `uygulama/support.js`. `?native=1` telefon düzeni ve service worker kapalı.
+- **Modüller** (`IT_DEVIR.md`): sayfa yalnız ekranları ve `Component` sınıfını tutar; yardımcılar `uygulama/*.js` klasik betikler
+  (üst düzey `const`/`function` global olur, sınıf içinden doğrudan kullanılır). Sıra `<head>`'de: veri → servisler → ayarlar → bicim →
+  finansman → personel → hesap → ornek-veri → support. Yeni modül eklenince: `<head>`, `sw.js` listesi + CACHE sürümü,
+  `merkez/ty/ayarlar.py → SURUM_DOSYALARI`, `tests/appointment.test.js` modül listesi.
+- `index.html`, `harita/`, `veri/`, `sw.js` — uygulama (web/PWA). Aynı kod Capacitor ile iPhone'a paketlenir
+  (`scripts/prepare-web.mjs` → `www/`: `uygulama/`, `harita/`, `assets/`, `vendor/`, `veri/*.js`; `IOS_TESTFLIGHT.md`, Codemagic).
 - Eski uygulama (sade akıştan önceki): `backup/2026-10-21-eski-uygulama/` (açılır hâlde), git etiketi `eski-uygulama-2026-10-21`.
   Geri dönmek gerekirse: `git checkout eski-uygulama-2026-10-21 -- "Eminevim Saha Paneli.dc.html"`.
 - Bu depoda git kimliği yerel ayarlı: `sualpsudas <sualpsudas@users.noreply.github.com>`.
@@ -31,7 +35,8 @@ yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyo
 
 ## Canlı test merkezi (`merkez/`)
 - Ürün davranışı (7 SPY, atama, 2 dk kabul, Devret, "kimse almadı", Saha Canlı, giriş): `URUN_KURALLARI.md` → "Canlı test sürümü".
-- `sunucu.py` (8794), `takip.html` (bilgisayar takip sayfası), kök `canli.js`. Gizli yol `merkez/gizli_yol.txt` (depoda yok, belgeye yazılmaz).
+- `sunucu.py` (8794; yalnız giriş, kod `merkez/ty/` — parça listesi `ty/__init__.py`), `takip.html` (bilgisayar takip sayfası), `uygulama/canli.js`.
+  Canlı konum girişi `api/konum` (`ty/konum.py`), şirkete aktarım `merkez/aktarim/*.jsonl` (`ty/aktarim.py`, depoda yok). Gizli yol `merkez/gizli_yol.txt` (depoda yok, belgeye yazılmaz).
   Tailscale Funnel: `/<gizli_yol>` → `http://127.0.0.1:8794/<gizli_yol>`. Windows'ta adres yeniden kullanımı kapatıldı (ikinci kopya bağlanamaz).
 - **Bildirim (Web Push):** merkez, hemen çağrıyı o SPY'yi seçmiş tüm telefonlara gönderir (bir telefon = bir kişi; aynı SPY birden çok telefonda).
   API: `api/anahtar`, `api/abone`, `api/abone-sil`; servis çalışanı `merkez/canli-sw.js` (merkezde `sw.js` adıyla; kökteki `sw.js` Pages için ayrı).

@@ -1,0 +1,2 @@
+# Şirket dışa aktarım biçimi: sütun adlarında satır sonu var, dönüştürülmez
+veri/kaynak/*.csv -text

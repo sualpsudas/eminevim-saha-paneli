@@ -1,0 +1,690 @@
+﻿Sıra No;Üye No;Şube ;Üye Satış Temsilcisi;"Kayıt 
+Tarihi";Org Türü;Org Sistemi;"Taksit 
+Sayısı";Kayıt Türü;Org Tutar;UyeSatisTemsilciSicilNo
+1;2000000;Ataşehir Şb.;ONUR KAYA;46263;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1050000;48213
+2;2000001;Ataşehir Şb.;ONUR KAYA;46261;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1100000;48213
+3;2000002;Ataşehir Şb.;ONUR KAYA;46235;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;900000;48213
+4;2000003;Ataşehir Şb.;ONUR KAYA;46242;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2100000;48213
+5;2000004;Ataşehir Şb.;ONUR KAYA;46254;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1500000;48213
+6;2000005;Ataşehir Şb.;ONUR KAYA;46244;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1600000;48213
+7;2000006;Ataşehir Şb.;ONUR KAYA;46252;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1950000;48213
+8;2000007;Ataşehir Şb.;ONUR KAYA;46240;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2150000;48213
+9;2000008;Ataşehir Şb.;ONUR KAYA;46238;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1600000;48213
+10;2000009;Ataşehir Şb.;ONUR KAYA;46258;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1450000;48213
+11;2000010;Ataşehir Şb.;ONUR KAYA;46260;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;850000;48213
+12;2000011;Ataşehir Şb.;ONUR KAYA;46265;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2400000;48213
+13;2000012;Ataşehir Şb.;ONUR KAYA;46259;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1250000;48213
+14;2000013;Ataşehir Şb.;ONUR KAYA;46262;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;2150000;48213
+15;2000014;Ataşehir Şb.;ONUR KAYA;46255;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1150000;48213
+16;2000015;Ataşehir Şb.;ONUR KAYA;46242;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1250000;48213
+17;2000016;Ataşehir Şb.;ONUR KAYA;46253;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1500000;48213
+18;2000017;Ataşehir Şb.;ONUR KAYA;46262;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1770000;48213
+19;2000018;Ataşehir Şb.;ONUR KAYA;46283;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1150000;48213
+20;2000019;Ataşehir Şb.;ONUR KAYA;46281;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1300000;48213
+21;2000020;Ataşehir Şb.;ONUR KAYA;46266;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1550000;48213
+22;2000021;Ataşehir Şb.;ONUR KAYA;46283;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1050000;48213
+23;2000022;Ataşehir Şb.;ONUR KAYA;46273;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1350000;48213
+24;2000023;Ataşehir Şb.;ONUR KAYA;46277;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1850000;48213
+25;2000024;Ataşehir Şb.;ONUR KAYA;46288;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1500000;48213
+26;2000025;Ataşehir Şb.;ONUR KAYA;46282;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;450000;48213
+27;2000026;Ataşehir Şb.;ONUR KAYA;46286;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1300000;48213
+28;2000027;Ataşehir Şb.;ONUR KAYA;46270;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1900000;48213
+29;2000028;Ataşehir Şb.;ONUR KAYA;46267;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2250000;48213
+30;2000029;Ataşehir Şb.;ONUR KAYA;46293;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;800000;48213
+31;2000030;Ataşehir Şb.;ONUR KAYA;46293;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;450000;48213
+32;2000031;Ataşehir Şb.;ONUR KAYA;46269;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1900000;48213
+33;2000032;Ataşehir Şb.;ONUR KAYA;46295;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1800000;48213
+34;2000033;Ataşehir Şb.;ONUR KAYA;46270;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;850000;48213
+35;2000034;Ataşehir Şb.;ONUR KAYA;46290;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2100000;48213
+36;2000035;Ataşehir Şb.;ONUR KAYA;46266;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1800000;48213
+37;2000036;Ataşehir Şb.;ONUR KAYA;46268;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;700000;48213
+38;2000037;Ataşehir Şb.;ONUR KAYA;46276;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;850000;48213
+39;2000038;Ataşehir Şb.;ONUR KAYA;46282;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1400000;48213
+40;2000039;Ataşehir Şb.;ONUR KAYA;46274;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;520000;48213
+41;2000040;Ataşehir Şb.;ONUR KAYA;46321;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;700000;48213
+42;2000041;Ataşehir Şb.;ONUR KAYA;46314;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1950000;48213
+43;2000042;Ataşehir Şb.;ONUR KAYA;46296;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1400000;48213
+44;2000043;Ataşehir Şb.;ONUR KAYA;46315;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2350000;48213
+45;2000044;Ataşehir Şb.;ONUR KAYA;46319;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;400000;48213
+46;2000045;Ataşehir Şb.;ONUR KAYA;46319;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2050000;48213
+47;2000046;Ataşehir Şb.;ONUR KAYA;46317;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2300000;48213
+48;2000047;Ataşehir Şb.;ONUR KAYA;46315;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;950000;48213
+49;2000048;Ataşehir Şb.;ONUR KAYA;46305;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1650000;48213
+50;2000049;Ataşehir Şb.;ONUR KAYA;46312;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;850000;48213
+51;2000050;Ataşehir Şb.;ONUR KAYA;46298;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;700000;48213
+52;2000051;Ataşehir Şb.;ONUR KAYA;46307;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1300000;48213
+53;2000052;Ataşehir Şb.;ONUR KAYA;46324;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;950000;48213
+54;2000053;Ataşehir Şb.;ONUR KAYA;46325;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2350000;48213
+55;2000054;Ataşehir Şb.;ONUR KAYA;46321;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2250000;48213
+56;2000055;Ataşehir Şb.;ONUR KAYA;46314;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1200000;48213
+57;2000056;Ataşehir Şb.;ONUR KAYA;46326;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1450000;48213
+58;2000057;Ataşehir Şb.;ONUR KAYA;46307;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;2150000;48213
+59;2000058;Ataşehir Şb.;ONUR KAYA;46323;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;850000;48213
+60;2000059;Ataşehir Şb.;ONUR KAYA;46317;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;800000;48213
+61;2000060;Üsküdar Şb.;DERYA AKSOY;46260;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1000000;48350
+62;2000061;Üsküdar Şb.;DERYA AKSOY;46249;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;550000;48350
+63;2000062;Üsküdar Şb.;DERYA AKSOY;46261;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;950000;48350
+64;2000063;Üsküdar Şb.;DERYA AKSOY;46263;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1200000;48350
+65;2000064;Üsküdar Şb.;DERYA AKSOY;46262;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2200000;48350
+66;2000065;Üsküdar Şb.;DERYA AKSOY;46246;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;950000;48350
+67;2000066;Üsküdar Şb.;DERYA AKSOY;46252;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;850000;48350
+68;2000067;Üsküdar Şb.;DERYA AKSOY;46239;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;2000000;48350
+69;2000068;Üsküdar Şb.;DERYA AKSOY;46238;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1550000;48350
+70;2000069;Üsküdar Şb.;DERYA AKSOY;46235;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;600000;48350
+71;2000070;Üsküdar Şb.;DERYA AKSOY;46259;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2100000;48350
+72;2000071;Üsküdar Şb.;DERYA AKSOY;46244;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1950000;48350
+73;2000072;Üsküdar Şb.;DERYA AKSOY;46245;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1650000;48350
+74;2000073;Üsküdar Şb.;DERYA AKSOY;46244;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;600000;48350
+75;2000074;Üsküdar Şb.;DERYA AKSOY;46245;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1900000;48350
+76;2000075;Üsküdar Şb.;DERYA AKSOY;46260;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1650000;48350
+77;2000076;Üsküdar Şb.;DERYA AKSOY;46247;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1900000;48350
+78;2000077;Üsküdar Şb.;DERYA AKSOY;46244;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1000000;48350
+79;2000078;Üsküdar Şb.;DERYA AKSOY;46239;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2400000;48350
+80;2000079;Üsküdar Şb.;DERYA AKSOY;46235;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;940000;48350
+81;2000080;Üsküdar Şb.;DERYA AKSOY;46288;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1300000;48350
+82;2000081;Üsküdar Şb.;DERYA AKSOY;46287;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1800000;48350
+83;2000082;Üsküdar Şb.;DERYA AKSOY;46272;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1050000;48350
+84;2000083;Üsküdar Şb.;DERYA AKSOY;46272;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;500000;48350
+85;2000084;Üsküdar Şb.;DERYA AKSOY;46272;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;800000;48350
+86;2000085;Üsküdar Şb.;DERYA AKSOY;46268;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1250000;48350
+87;2000086;Üsküdar Şb.;DERYA AKSOY;46294;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;2150000;48350
+88;2000087;Üsküdar Şb.;DERYA AKSOY;46274;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1750000;48350
+89;2000088;Üsküdar Şb.;DERYA AKSOY;46288;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1550000;48350
+90;2000089;Üsküdar Şb.;DERYA AKSOY;46282;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1650000;48350
+91;2000090;Üsküdar Şb.;DERYA AKSOY;46280;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2200000;48350
+92;2000091;Üsküdar Şb.;DERYA AKSOY;46277;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;800000;48350
+93;2000092;Üsküdar Şb.;DERYA AKSOY;46290;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1800000;48350
+94;2000093;Üsküdar Şb.;DERYA AKSOY;46291;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;450000;48350
+95;2000094;Üsküdar Şb.;DERYA AKSOY;46281;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1350000;48350
+96;2000095;Üsküdar Şb.;DERYA AKSOY;46270;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;500000;48350
+97;2000096;Üsküdar Şb.;DERYA AKSOY;46269;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;800000;48350
+98;2000097;Üsküdar Şb.;DERYA AKSOY;46287;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;800000;48350
+99;2000098;Üsküdar Şb.;DERYA AKSOY;46280;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1400000;48350
+100;2000099;Üsküdar Şb.;DERYA AKSOY;46273;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1850000;48350
+101;2000100;Üsküdar Şb.;DERYA AKSOY;46269;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;2350000;48350
+102;2000101;Üsküdar Şb.;DERYA AKSOY;46270;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;940000;48350
+103;2000102;Üsküdar Şb.;DERYA AKSOY;46310;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1450000;48350
+104;2000103;Üsküdar Şb.;DERYA AKSOY;46324;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;750000;48350
+105;2000104;Üsküdar Şb.;DERYA AKSOY;46316;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;950000;48350
+106;2000105;Üsküdar Şb.;DERYA AKSOY;46309;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1900000;48350
+107;2000106;Üsküdar Şb.;DERYA AKSOY;46318;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1000000;48350
+108;2000107;Üsküdar Şb.;DERYA AKSOY;46305;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2000000;48350
+109;2000108;Üsküdar Şb.;DERYA AKSOY;46323;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1650000;48350
+110;2000109;Üsküdar Şb.;DERYA AKSOY;46308;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1950000;48350
+111;2000110;Üsküdar Şb.;DERYA AKSOY;46325;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2150000;48350
+112;2000111;Üsküdar Şb.;DERYA AKSOY;46324;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2150000;48350
+113;2000112;Üsküdar Şb.;DERYA AKSOY;46325;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1000000;48350
+114;2000113;Üsküdar Şb.;DERYA AKSOY;46305;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1500000;48350
+115;2000114;Üsküdar Şb.;DERYA AKSOY;46308;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;700000;48350
+116;2000115;Üsküdar Şb.;DERYA AKSOY;46312;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;600000;48350
+117;2000116;Üsküdar Şb.;DERYA AKSOY;46305;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1000000;48350
+118;2000117;Üsküdar Şb.;DERYA AKSOY;46314;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;450000;48350
+119;2000118;Üsküdar Şb.;DERYA AKSOY;46297;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1650000;48350
+120;2000119;Üsküdar Şb.;DERYA AKSOY;46304;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;750000;48350
+121;2000120;Üsküdar Şb.;DERYA AKSOY;46305;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;650000;48350
+122;2000121;Üsküdar Şb.;DERYA AKSOY;46304;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1500000;48350
+123;2000122;Üsküdar Şb.;DERYA AKSOY;46300;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2300000;48350
+124;2000123;Üsküdar Şb.;DERYA AKSOY;46325;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;770000;48350
+125;2000124;Ümraniye Şb.;BERK CENGİZ;46235;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1050000;48487
+126;2000125;Ümraniye Şb.;BERK CENGİZ;46242;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1100000;48487
+127;2000126;Ümraniye Şb.;BERK CENGİZ;46239;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;650000;48487
+128;2000127;Ümraniye Şb.;BERK CENGİZ;46258;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1100000;48487
+129;2000128;Ümraniye Şb.;BERK CENGİZ;46260;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;2050000;48487
+130;2000129;Ümraniye Şb.;BERK CENGİZ;46258;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2350000;48487
+131;2000130;Ümraniye Şb.;BERK CENGİZ;46244;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1150000;48487
+132;2000131;Ümraniye Şb.;BERK CENGİZ;46265;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1300000;48487
+133;2000132;Ümraniye Şb.;BERK CENGİZ;46246;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2350000;48487
+134;2000133;Ümraniye Şb.;BERK CENGİZ;46251;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1750000;48487
+135;2000134;Ümraniye Şb.;BERK CENGİZ;46262;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1500000;48487
+136;2000135;Ümraniye Şb.;BERK CENGİZ;46263;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1250000;48487
+137;2000136;Ümraniye Şb.;BERK CENGİZ;46239;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1750000;48487
+138;2000137;Ümraniye Şb.;BERK CENGİZ;46265;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2400000;48487
+139;2000138;Ümraniye Şb.;BERK CENGİZ;46251;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;700000;48487
+140;2000139;Ümraniye Şb.;BERK CENGİZ;46252;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1300000;48487
+141;2000140;Ümraniye Şb.;BERK CENGİZ;46242;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2150000;48487
+142;2000141;Ümraniye Şb.;BERK CENGİZ;46238;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;620000;48487
+143;2000142;Ümraniye Şb.;BERK CENGİZ;46274;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;900000;48487
+144;2000143;Ümraniye Şb.;BERK CENGİZ;46277;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;400000;48487
+145;2000144;Ümraniye Şb.;BERK CENGİZ;46289;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1050000;48487
+146;2000145;Ümraniye Şb.;BERK CENGİZ;46270;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;500000;48487
+147;2000146;Ümraniye Şb.;BERK CENGİZ;46295;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1900000;48487
+148;2000147;Ümraniye Şb.;BERK CENGİZ;46274;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2000000;48487
+149;2000148;Ümraniye Şb.;BERK CENGİZ;46267;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;700000;48487
+150;2000149;Ümraniye Şb.;BERK CENGİZ;46288;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;500000;48487
+151;2000150;Ümraniye Şb.;BERK CENGİZ;46281;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1850000;48487
+152;2000151;Ümraniye Şb.;BERK CENGİZ;46280;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1850000;48487
+153;2000152;Ümraniye Şb.;BERK CENGİZ;46276;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;500000;48487
+154;2000153;Ümraniye Şb.;BERK CENGİZ;46268;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1850000;48487
+155;2000154;Ümraniye Şb.;BERK CENGİZ;46286;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;700000;48487
+156;2000155;Ümraniye Şb.;BERK CENGİZ;46288;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2150000;48487
+157;2000156;Ümraniye Şb.;BERK CENGİZ;46277;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;2100000;48487
+158;2000157;Ümraniye Şb.;BERK CENGİZ;46288;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1150000;48487
+159;2000158;Ümraniye Şb.;BERK CENGİZ;46277;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1500000;48487
+160;2000159;Ümraniye Şb.;BERK CENGİZ;46274;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;700000;48487
+161;2000160;Ümraniye Şb.;BERK CENGİZ;46279;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;650000;48487
+162;2000161;Ümraniye Şb.;BERK CENGİZ;46288;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1950000;48487
+163;2000162;Ümraniye Şb.;BERK CENGİZ;46281;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1200000;48487
+164;2000163;Ümraniye Şb.;BERK CENGİZ;46282;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1250000;48487
+165;2000164;Ümraniye Şb.;BERK CENGİZ;46268;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;470000;48487
+166;2000165;Ümraniye Şb.;BERK CENGİZ;46323;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;500000;48487
+167;2000166;Ümraniye Şb.;BERK CENGİZ;46303;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1850000;48487
+168;2000167;Ümraniye Şb.;BERK CENGİZ;46300;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1000000;48487
+169;2000168;Ümraniye Şb.;BERK CENGİZ;46302;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;600000;48487
+170;2000169;Ümraniye Şb.;BERK CENGİZ;46319;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;750000;48487
+171;2000170;Ümraniye Şb.;BERK CENGİZ;46316;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1850000;48487
+172;2000171;Ümraniye Şb.;BERK CENGİZ;46319;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;900000;48487
+173;2000172;Ümraniye Şb.;BERK CENGİZ;46309;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1350000;48487
+174;2000173;Ümraniye Şb.;BERK CENGİZ;46319;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1250000;48487
+175;2000174;Ümraniye Şb.;BERK CENGİZ;46302;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2200000;48487
+176;2000175;Ümraniye Şb.;BERK CENGİZ;46316;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1700000;48487
+177;2000176;Ümraniye Şb.;BERK CENGİZ;46300;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1000000;48487
+178;2000177;Ümraniye Şb.;BERK CENGİZ;46315;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2100000;48487
+179;2000178;Ümraniye Şb.;BERK CENGİZ;46307;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1700000;48487
+180;2000179;Ümraniye Şb.;BERK CENGİZ;46317;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2350000;48487
+181;2000180;Ümraniye Şb.;BERK CENGİZ;46321;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1800000;48487
+182;2000181;Ümraniye Şb.;BERK CENGİZ;46318;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1200000;48487
+183;2000182;Ümraniye Şb.;BERK CENGİZ;46310;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;550000;48487
+184;2000183;Ümraniye Şb.;BERK CENGİZ;46300;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1800000;48487
+185;2000184;Ümraniye Şb.;BERK CENGİZ;46326;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;750000;48487
+186;2000185;Ümraniye Şb.;BERK CENGİZ;46300;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;360000;48487
+187;2000186;Üsküdar Şb.;SELİN ARSLAN;46241;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1000000;48562
+188;2000187;Üsküdar Şb.;SELİN ARSLAN;46253;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;400000;48562
+189;2000188;Üsküdar Şb.;SELİN ARSLAN;46247;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;450000;48562
+190;2000189;Üsküdar Şb.;SELİN ARSLAN;46256;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1350000;48562
+191;2000190;Üsküdar Şb.;SELİN ARSLAN;46238;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;650000;48562
+192;2000191;Üsküdar Şb.;SELİN ARSLAN;46260;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;2000000;48562
+193;2000192;Üsküdar Şb.;SELİN ARSLAN;46254;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1100000;48562
+194;2000193;Üsküdar Şb.;SELİN ARSLAN;46246;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1450000;48562
+195;2000194;Üsküdar Şb.;SELİN ARSLAN;46237;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1800000;48562
+196;2000195;Üsküdar Şb.;SELİN ARSLAN;46253;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1600000;48562
+197;2000196;Üsküdar Şb.;SELİN ARSLAN;46241;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;650000;48562
+198;2000197;Üsküdar Şb.;SELİN ARSLAN;46248;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;900000;48562
+199;2000198;Üsküdar Şb.;SELİN ARSLAN;46261;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;950000;48562
+200;2000199;Üsküdar Şb.;SELİN ARSLAN;46235;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;2350000;48562
+201;2000200;Üsküdar Şb.;SELİN ARSLAN;46252;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2250000;48562
+202;2000201;Üsküdar Şb.;SELİN ARSLAN;46259;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1400000;48562
+203;2000202;Üsküdar Şb.;SELİN ARSLAN;46242;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1040000;48562
+204;2000203;Üsküdar Şb.;SELİN ARSLAN;46281;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1100000;48562
+205;2000204;Üsküdar Şb.;SELİN ARSLAN;46273;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;550000;48562
+206;2000205;Üsküdar Şb.;SELİN ARSLAN;46283;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1650000;48562
+207;2000206;Üsküdar Şb.;SELİN ARSLAN;46267;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;900000;48562
+208;2000207;Üsküdar Şb.;SELİN ARSLAN;46293;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;400000;48562
+209;2000208;Üsküdar Şb.;SELİN ARSLAN;46291;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1100000;48562
+210;2000209;Üsküdar Şb.;SELİN ARSLAN;46267;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1100000;48562
+211;2000210;Üsküdar Şb.;SELİN ARSLAN;46286;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1100000;48562
+212;2000211;Üsküdar Şb.;SELİN ARSLAN;46289;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1500000;48562
+213;2000212;Üsküdar Şb.;SELİN ARSLAN;46288;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1000000;48562
+214;2000213;Üsküdar Şb.;SELİN ARSLAN;46280;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;850000;48562
+215;2000214;Üsküdar Şb.;SELİN ARSLAN;46273;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1800000;48562
+216;2000215;Üsküdar Şb.;SELİN ARSLAN;46280;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;500000;48562
+217;2000216;Üsküdar Şb.;SELİN ARSLAN;46272;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1350000;48562
+218;2000217;Üsküdar Şb.;SELİN ARSLAN;46287;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1750000;48562
+219;2000218;Üsküdar Şb.;SELİN ARSLAN;46282;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1800000;48562
+220;2000219;Üsküdar Şb.;SELİN ARSLAN;46284;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;900000;48562
+221;2000220;Üsküdar Şb.;SELİN ARSLAN;46274;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;850000;48562
+222;2000221;Üsküdar Şb.;SELİN ARSLAN;46267;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1150000;48562
+223;2000222;Üsküdar Şb.;SELİN ARSLAN;46286;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1090000;48562
+224;2000223;Üsküdar Şb.;SELİN ARSLAN;46305;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;950000;48562
+225;2000224;Üsküdar Şb.;SELİN ARSLAN;46316;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1650000;48562
+226;2000225;Üsküdar Şb.;SELİN ARSLAN;46311;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;550000;48562
+227;2000226;Üsküdar Şb.;SELİN ARSLAN;46303;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;650000;48562
+228;2000227;Üsküdar Şb.;SELİN ARSLAN;46297;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2100000;48562
+229;2000228;Üsküdar Şb.;SELİN ARSLAN;46301;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1750000;48562
+230;2000229;Üsküdar Şb.;SELİN ARSLAN;46312;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1650000;48562
+231;2000230;Üsküdar Şb.;SELİN ARSLAN;46314;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1100000;48562
+232;2000231;Üsküdar Şb.;SELİN ARSLAN;46310;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;700000;48562
+233;2000232;Üsküdar Şb.;SELİN ARSLAN;46302;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2000000;48562
+234;2000233;Üsküdar Şb.;SELİN ARSLAN;46316;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;400000;48562
+235;2000234;Üsküdar Şb.;SELİN ARSLAN;46316;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1650000;48562
+236;2000235;Üsküdar Şb.;SELİN ARSLAN;46319;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1100000;48562
+237;2000236;Üsküdar Şb.;SELİN ARSLAN;46322;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;700000;48562
+238;2000237;Üsküdar Şb.;SELİN ARSLAN;46304;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2150000;48562
+239;2000238;Üsküdar Şb.;SELİN ARSLAN;46309;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;500000;48562
+240;2000239;Üsküdar Şb.;SELİN ARSLAN;46307;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;750000;48562
+241;2000240;Üsküdar Şb.;SELİN ARSLAN;46317;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1870000;48562
+242;2000241;Ümraniye Şb.;ECE YALÇIN;46249;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2050000;48655
+243;2000242;Ümraniye Şb.;ECE YALÇIN;46237;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;900000;48655
+244;2000243;Ümraniye Şb.;ECE YALÇIN;46263;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2350000;48655
+245;2000244;Ümraniye Şb.;ECE YALÇIN;46239;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;450000;48655
+246;2000245;Ümraniye Şb.;ECE YALÇIN;46249;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;800000;48655
+247;2000246;Ümraniye Şb.;ECE YALÇIN;46242;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2050000;48655
+248;2000247;Ümraniye Şb.;ECE YALÇIN;46261;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;400000;48655
+249;2000248;Ümraniye Şb.;ECE YALÇIN;46245;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1500000;48655
+250;2000249;Ümraniye Şb.;ECE YALÇIN;46245;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;500000;48655
+251;2000250;Ümraniye Şb.;ECE YALÇIN;46242;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;700000;48655
+252;2000251;Ümraniye Şb.;ECE YALÇIN;46237;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2150000;48655
+253;2000252;Ümraniye Şb.;ECE YALÇIN;46237;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1750000;48655
+254;2000253;Ümraniye Şb.;ECE YALÇIN;46238;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1100000;48655
+255;2000254;Ümraniye Şb.;ECE YALÇIN;46240;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;400000;48655
+256;2000255;Ümraniye Şb.;ECE YALÇIN;46259;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1600000;48655
+257;2000256;Ümraniye Şb.;ECE YALÇIN;46238;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;2200000;48655
+258;2000257;Ümraniye Şb.;ECE YALÇIN;46237;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;900000;48655
+259;2000258;Ümraniye Şb.;ECE YALÇIN;46240;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;700000;48655
+260;2000259;Ümraniye Şb.;ECE YALÇIN;46249;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1700000;48655
+261;2000260;Ümraniye Şb.;ECE YALÇIN;46286;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;800000;48655
+262;2000261;Ümraniye Şb.;ECE YALÇIN;46268;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1500000;48655
+263;2000262;Ümraniye Şb.;ECE YALÇIN;46274;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;650000;48655
+264;2000263;Ümraniye Şb.;ECE YALÇIN;46287;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2000000;48655
+265;2000264;Ümraniye Şb.;ECE YALÇIN;46267;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2100000;48655
+266;2000265;Ümraniye Şb.;ECE YALÇIN;46286;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1750000;48655
+267;2000266;Ümraniye Şb.;ECE YALÇIN;46284;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1100000;48655
+268;2000267;Ümraniye Şb.;ECE YALÇIN;46280;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1600000;48655
+269;2000268;Ümraniye Şb.;ECE YALÇIN;46275;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1950000;48655
+270;2000269;Ümraniye Şb.;ECE YALÇIN;46277;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;750000;48655
+271;2000270;Ümraniye Şb.;ECE YALÇIN;46272;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;750000;48655
+272;2000271;Ümraniye Şb.;ECE YALÇIN;46277;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2150000;48655
+273;2000272;Ümraniye Şb.;ECE YALÇIN;46277;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;950000;48655
+274;2000273;Ümraniye Şb.;ECE YALÇIN;46276;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;400000;48655
+275;2000274;Ümraniye Şb.;ECE YALÇIN;46287;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2000000;48655
+276;2000275;Ümraniye Şb.;ECE YALÇIN;46266;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1350000;48655
+277;2000276;Ümraniye Şb.;ECE YALÇIN;46275;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;650000;48655
+278;2000277;Ümraniye Şb.;ECE YALÇIN;46282;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2200000;48655
+279;2000278;Ümraniye Şb.;ECE YALÇIN;46288;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;650000;48655
+280;2000279;Ümraniye Şb.;ECE YALÇIN;46315;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1350000;48655
+281;2000280;Ümraniye Şb.;ECE YALÇIN;46311;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;800000;48655
+282;2000281;Ümraniye Şb.;ECE YALÇIN;46325;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1200000;48655
+283;2000282;Ümraniye Şb.;ECE YALÇIN;46302;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;450000;48655
+284;2000283;Ümraniye Şb.;ECE YALÇIN;46309;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2000000;48655
+285;2000284;Ümraniye Şb.;ECE YALÇIN;46305;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;600000;48655
+286;2000285;Ümraniye Şb.;ECE YALÇIN;46316;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1700000;48655
+287;2000286;Ümraniye Şb.;ECE YALÇIN;46324;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1950000;48655
+288;2000287;Ümraniye Şb.;ECE YALÇIN;46305;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;950000;48655
+289;2000288;Ümraniye Şb.;ECE YALÇIN;46300;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;750000;48655
+290;2000289;Ümraniye Şb.;ECE YALÇIN;46300;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1950000;48655
+291;2000290;Ümraniye Şb.;ECE YALÇIN;46307;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1000000;48655
+292;2000291;Ümraniye Şb.;ECE YALÇIN;46323;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1200000;48655
+293;2000292;Ümraniye Şb.;ECE YALÇIN;46321;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1300000;48655
+294;2000293;Ümraniye Şb.;ECE YALÇIN;46298;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2350000;48655
+295;2000294;Ümraniye Şb.;ECE YALÇIN;46321;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1450000;48655
+296;2000295;Ümraniye Şb.;ECE YALÇIN;46296;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;750000;48655
+297;2000296;Ümraniye Şb.;ECE YALÇIN;46308;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;600000;48655
+298;2000297;Ümraniye Şb.;ECE YALÇIN;46298;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1950000;48655
+299;2000298;Ümraniye Şb.;ECE YALÇIN;46301;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;780000;48655
+300;2000299;Ümraniye Şb.;BURCU AVCI;46241;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2300000;48877
+301;2000300;Ümraniye Şb.;BURCU AVCI;46238;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1500000;48877
+302;2000301;Ümraniye Şb.;BURCU AVCI;46248;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;650000;48877
+303;2000302;Ümraniye Şb.;BURCU AVCI;46237;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;800000;48877
+304;2000303;Ümraniye Şb.;BURCU AVCI;46238;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1550000;48877
+305;2000304;Ümraniye Şb.;BURCU AVCI;46237;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1350000;48877
+306;2000305;Ümraniye Şb.;BURCU AVCI;46242;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2000000;48877
+307;2000306;Ümraniye Şb.;BURCU AVCI;46252;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;2350000;48877
+308;2000307;Ümraniye Şb.;BURCU AVCI;46249;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;550000;48877
+309;2000308;Ümraniye Şb.;BURCU AVCI;46238;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1200000;48877
+310;2000309;Ümraniye Şb.;BURCU AVCI;46245;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;950000;48877
+311;2000310;Ümraniye Şb.;BURCU AVCI;46242;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;550000;48877
+312;2000311;Ümraniye Şb.;BURCU AVCI;46258;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1350000;48877
+313;2000312;Ümraniye Şb.;BURCU AVCI;46239;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1450000;48877
+314;2000313;Ümraniye Şb.;BURCU AVCI;46244;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1700000;48877
+315;2000314;Ümraniye Şb.;BURCU AVCI;46246;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1000000;48877
+316;2000315;Ümraniye Şb.;BURCU AVCI;46235;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;2350000;48877
+317;2000316;Ümraniye Şb.;BURCU AVCI;46242;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1040000;48877
+318;2000317;Ümraniye Şb.;BURCU AVCI;46291;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;650000;48877
+319;2000318;Ümraniye Şb.;BURCU AVCI;46295;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1300000;48877
+320;2000319;Ümraniye Şb.;BURCU AVCI;46273;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1200000;48877
+321;2000320;Ümraniye Şb.;BURCU AVCI;46288;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;500000;48877
+322;2000321;Ümraniye Şb.;BURCU AVCI;46266;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1850000;48877
+323;2000322;Ümraniye Şb.;BURCU AVCI;46282;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2100000;48877
+324;2000323;Ümraniye Şb.;BURCU AVCI;46282;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1350000;48877
+325;2000324;Ümraniye Şb.;BURCU AVCI;46286;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1050000;48877
+326;2000325;Ümraniye Şb.;BURCU AVCI;46276;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;2300000;48877
+327;2000326;Ümraniye Şb.;BURCU AVCI;46277;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1700000;48877
+328;2000327;Ümraniye Şb.;BURCU AVCI;46290;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1850000;48877
+329;2000328;Ümraniye Şb.;BURCU AVCI;46269;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;500000;48877
+330;2000329;Ümraniye Şb.;BURCU AVCI;46281;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;400000;48877
+331;2000330;Ümraniye Şb.;BURCU AVCI;46268;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1050000;48877
+332;2000331;Ümraniye Şb.;BURCU AVCI;46275;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1750000;48877
+333;2000332;Ümraniye Şb.;BURCU AVCI;46269;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1800000;48877
+334;2000333;Ümraniye Şb.;BURCU AVCI;46280;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1700000;48877
+335;2000334;Ümraniye Şb.;BURCU AVCI;46275;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;2690000;48877
+336;2000335;Ümraniye Şb.;BURCU AVCI;46318;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1800000;48877
+337;2000336;Ümraniye Şb.;BURCU AVCI;46312;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;950000;48877
+338;2000337;Ümraniye Şb.;BURCU AVCI;46322;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1600000;48877
+339;2000338;Ümraniye Şb.;BURCU AVCI;46314;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1850000;48877
+340;2000339;Ümraniye Şb.;BURCU AVCI;46315;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1700000;48877
+341;2000340;Ümraniye Şb.;BURCU AVCI;46317;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2300000;48877
+342;2000341;Ümraniye Şb.;BURCU AVCI;46308;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;700000;48877
+343;2000342;Ümraniye Şb.;BURCU AVCI;46319;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1500000;48877
+344;2000343;Ümraniye Şb.;BURCU AVCI;46307;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1200000;48877
+345;2000344;Ümraniye Şb.;BURCU AVCI;46300;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;750000;48877
+346;2000345;Ümraniye Şb.;BURCU AVCI;46296;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;900000;48877
+347;2000346;Ümraniye Şb.;BURCU AVCI;46321;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;600000;48877
+348;2000347;Ümraniye Şb.;BURCU AVCI;46324;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2050000;48877
+349;2000348;Ümraniye Şb.;BURCU AVCI;46321;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2300000;48877
+350;2000349;Ümraniye Şb.;BURCU AVCI;46300;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2000000;48877
+351;2000350;Ümraniye Şb.;BURCU AVCI;46307;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;600000;48877
+352;2000351;Ümraniye Şb.;BURCU AVCI;46323;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;500000;48877
+353;2000352;Ümraniye Şb.;BURCU AVCI;46315;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2220000;48877
+354;2000353;Ataşehir Şb.;BARIŞ ÇELİK;46241;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1550000;48951
+355;2000354;Ataşehir Şb.;BARIŞ ÇELİK;46249;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1000000;48951
+356;2000355;Ataşehir Şb.;BARIŞ ÇELİK;46254;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1400000;48951
+357;2000356;Ataşehir Şb.;BARIŞ ÇELİK;46263;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1550000;48951
+358;2000357;Ataşehir Şb.;BARIŞ ÇELİK;46263;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;850000;48951
+359;2000358;Ataşehir Şb.;BARIŞ ÇELİK;46255;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1450000;48951
+360;2000359;Ataşehir Şb.;BARIŞ ÇELİK;46260;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1350000;48951
+361;2000360;Ataşehir Şb.;BARIŞ ÇELİK;46240;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1150000;48951
+362;2000361;Ataşehir Şb.;BARIŞ ÇELİK;46262;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1000000;48951
+363;2000362;Ataşehir Şb.;BARIŞ ÇELİK;46258;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2400000;48951
+364;2000363;Ataşehir Şb.;BARIŞ ÇELİK;46256;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;2250000;48951
+365;2000364;Ataşehir Şb.;BARIŞ ÇELİK;46263;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;700000;48951
+366;2000365;Ataşehir Şb.;BARIŞ ÇELİK;46242;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;2050000;48951
+367;2000366;Ataşehir Şb.;BARIŞ ÇELİK;46244;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;900000;48951
+368;2000367;Ataşehir Şb.;BARIŞ ÇELİK;46251;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1550000;48951
+369;2000368;Ataşehir Şb.;BARIŞ ÇELİK;46251;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;2200000;48951
+370;2000369;Ataşehir Şb.;BARIŞ ÇELİK;46251;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1510000;48951
+371;2000370;Ataşehir Şb.;BARIŞ ÇELİK;46270;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1350000;48951
+372;2000371;Ataşehir Şb.;BARIŞ ÇELİK;46266;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;500000;48951
+373;2000372;Ataşehir Şb.;BARIŞ ÇELİK;46277;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;750000;48951
+374;2000373;Ataşehir Şb.;BARIŞ ÇELİK;46267;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2150000;48951
+375;2000374;Ataşehir Şb.;BARIŞ ÇELİK;46281;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;850000;48951
+376;2000375;Ataşehir Şb.;BARIŞ ÇELİK;46282;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2250000;48951
+377;2000376;Ataşehir Şb.;BARIŞ ÇELİK;46291;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1100000;48951
+378;2000377;Ataşehir Şb.;BARIŞ ÇELİK;46293;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1700000;48951
+379;2000378;Ataşehir Şb.;BARIŞ ÇELİK;46294;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1450000;48951
+380;2000379;Ataşehir Şb.;BARIŞ ÇELİK;46295;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;950000;48951
+381;2000380;Ataşehir Şb.;BARIŞ ÇELİK;46294;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;600000;48951
+382;2000381;Ataşehir Şb.;BARIŞ ÇELİK;46284;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1750000;48951
+383;2000382;Ataşehir Şb.;BARIŞ ÇELİK;46266;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1450000;48951
+384;2000383;Ataşehir Şb.;BARIŞ ÇELİK;46293;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;2050000;48951
+385;2000384;Ataşehir Şb.;BARIŞ ÇELİK;46277;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1550000;48951
+386;2000385;Ataşehir Şb.;BARIŞ ÇELİK;46272;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;450000;48951
+387;2000386;Ataşehir Şb.;BARIŞ ÇELİK;46267;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1050000;48951
+388;2000387;Ataşehir Şb.;BARIŞ ÇELİK;46293;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2350000;48951
+389;2000388;Ataşehir Şb.;BARIŞ ÇELİK;46274;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1660000;48951
+390;2000389;Ataşehir Şb.;BARIŞ ÇELİK;46323;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1950000;48951
+391;2000390;Ataşehir Şb.;BARIŞ ÇELİK;46310;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1050000;48951
+392;2000391;Ataşehir Şb.;BARIŞ ÇELİK;46319;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1850000;48951
+393;2000392;Ataşehir Şb.;BARIŞ ÇELİK;46296;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1750000;48951
+394;2000393;Ataşehir Şb.;BARIŞ ÇELİK;46308;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1050000;48951
+395;2000394;Ataşehir Şb.;BARIŞ ÇELİK;46319;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1700000;48951
+396;2000395;Ataşehir Şb.;BARIŞ ÇELİK;46322;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1300000;48951
+397;2000396;Ataşehir Şb.;BARIŞ ÇELİK;46324;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1400000;48951
+398;2000397;Ataşehir Şb.;BARIŞ ÇELİK;46322;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;750000;48951
+399;2000398;Ataşehir Şb.;BARIŞ ÇELİK;46297;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1800000;48951
+400;2000399;Ataşehir Şb.;BARIŞ ÇELİK;46301;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1150000;48951
+401;2000400;Ataşehir Şb.;BARIŞ ÇELİK;46297;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2400000;48951
+402;2000401;Ataşehir Şb.;BARIŞ ÇELİK;46298;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1750000;48951
+403;2000402;Ataşehir Şb.;BARIŞ ÇELİK;46305;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1000000;48951
+404;2000403;Ataşehir Şb.;BARIŞ ÇELİK;46324;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;750000;48951
+405;2000404;Ataşehir Şb.;BARIŞ ÇELİK;46310;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;950000;48951
+406;2000405;Ataşehir Şb.;BARIŞ ÇELİK;46309;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1250000;48951
+407;2000406;Ataşehir Şb.;BARIŞ ÇELİK;46305;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1890000;48951
+408;2000407;Üsküdar Şb.;MURAT ŞAHİN;46262;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;650000;48359
+409;2000408;Üsküdar Şb.;MURAT ŞAHİN;46251;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1100000;48359
+410;2000409;Üsküdar Şb.;MURAT ŞAHİN;46262;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2100000;48359
+411;2000410;Üsküdar Şb.;MURAT ŞAHİN;46253;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1050000;48359
+412;2000411;Üsküdar Şb.;MURAT ŞAHİN;46262;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1350000;48359
+413;2000412;Üsküdar Şb.;MURAT ŞAHİN;46260;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2050000;48359
+414;2000413;Üsküdar Şb.;MURAT ŞAHİN;46260;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1750000;48359
+415;2000414;Üsküdar Şb.;MURAT ŞAHİN;46247;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1800000;48359
+416;2000415;Üsküdar Şb.;MURAT ŞAHİN;46251;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;400000;48359
+417;2000416;Üsküdar Şb.;MURAT ŞAHİN;46247;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1500000;48359
+418;2000417;Üsküdar Şb.;MURAT ŞAHİN;46235;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;550000;48359
+419;2000418;Üsküdar Şb.;MURAT ŞAHİN;46244;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;600000;48359
+420;2000419;Üsküdar Şb.;MURAT ŞAHİN;46246;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1350000;48359
+421;2000420;Üsküdar Şb.;MURAT ŞAHİN;46261;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;650000;48359
+422;2000421;Üsküdar Şb.;MURAT ŞAHİN;46239;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1300000;48359
+423;2000422;Üsküdar Şb.;MURAT ŞAHİN;46235;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1550000;48359
+424;2000423;Üsküdar Şb.;MURAT ŞAHİN;46240;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;400000;48359
+425;2000424;Üsküdar Şb.;MURAT ŞAHİN;46239;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2250000;48359
+426;2000425;Üsküdar Şb.;MURAT ŞAHİN;46258;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2100000;48359
+427;2000426;Üsküdar Şb.;MURAT ŞAHİN;46255;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;600000;48359
+428;2000427;Üsküdar Şb.;MURAT ŞAHİN;46261;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;900000;48359
+429;2000428;Üsküdar Şb.;MURAT ŞAHİN;46287;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;550000;48359
+430;2000429;Üsküdar Şb.;MURAT ŞAHİN;46295;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1450000;48359
+431;2000430;Üsküdar Şb.;MURAT ŞAHİN;46281;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;500000;48359
+432;2000431;Üsküdar Şb.;MURAT ŞAHİN;46295;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1850000;48359
+433;2000432;Üsküdar Şb.;MURAT ŞAHİN;46274;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1500000;48359
+434;2000433;Üsküdar Şb.;MURAT ŞAHİN;46277;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;550000;48359
+435;2000434;Üsküdar Şb.;MURAT ŞAHİN;46275;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;600000;48359
+436;2000435;Üsküdar Şb.;MURAT ŞAHİN;46290;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1300000;48359
+437;2000436;Üsküdar Şb.;MURAT ŞAHİN;46287;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2000000;48359
+438;2000437;Üsküdar Şb.;MURAT ŞAHİN;46266;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;700000;48359
+439;2000438;Üsküdar Şb.;MURAT ŞAHİN;46267;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1950000;48359
+440;2000439;Üsküdar Şb.;MURAT ŞAHİN;46293;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;650000;48359
+441;2000440;Üsküdar Şb.;MURAT ŞAHİN;46282;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;550000;48359
+442;2000441;Üsküdar Şb.;MURAT ŞAHİN;46279;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1850000;48359
+443;2000442;Üsküdar Şb.;MURAT ŞAHİN;46273;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2300000;48359
+444;2000443;Üsküdar Şb.;MURAT ŞAHİN;46273;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;600000;48359
+445;2000444;Üsküdar Şb.;MURAT ŞAHİN;46279;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1250000;48359
+446;2000445;Üsküdar Şb.;MURAT ŞAHİN;46270;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1350000;48359
+447;2000446;Üsküdar Şb.;MURAT ŞAHİN;46282;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2000000;48359
+448;2000447;Üsküdar Şb.;MURAT ŞAHİN;46289;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1000000;48359
+449;2000448;Üsküdar Şb.;MURAT ŞAHİN;46287;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;600000;48359
+450;2000449;Üsküdar Şb.;MURAT ŞAHİN;46274;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;900000;48359
+451;2000450;Üsküdar Şb.;MURAT ŞAHİN;46293;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1300000;48359
+452;2000451;Üsküdar Şb.;MURAT ŞAHİN;46316;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1350000;48359
+453;2000452;Üsküdar Şb.;MURAT ŞAHİN;46305;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1750000;48359
+454;2000453;Üsküdar Şb.;MURAT ŞAHİN;46323;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;900000;48359
+455;2000454;Üsküdar Şb.;MURAT ŞAHİN;46316;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;650000;48359
+456;2000455;Üsküdar Şb.;MURAT ŞAHİN;46305;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2200000;48359
+457;2000456;Üsküdar Şb.;MURAT ŞAHİN;46322;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;900000;48359
+458;2000457;Üsküdar Şb.;MURAT ŞAHİN;46308;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2350000;48359
+459;2000458;Üsküdar Şb.;MURAT ŞAHİN;46300;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1200000;48359
+460;2000459;Üsküdar Şb.;MURAT ŞAHİN;46300;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2350000;48359
+461;2000460;Üsküdar Şb.;MURAT ŞAHİN;46300;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1700000;48359
+462;2000461;Üsküdar Şb.;MURAT ŞAHİN;46302;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;450000;48359
+463;2000462;Üsküdar Şb.;MURAT ŞAHİN;46315;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1700000;48359
+464;2000463;Üsküdar Şb.;MURAT ŞAHİN;46322;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;400000;48359
+465;2000464;Üsküdar Şb.;MURAT ŞAHİN;46326;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;900000;48359
+466;2000465;Üsküdar Şb.;MURAT ŞAHİN;46319;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1900000;48359
+467;2000466;Üsküdar Şb.;MURAT ŞAHİN;46300;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1250000;48359
+468;2000467;Üsküdar Şb.;MURAT ŞAHİN;46304;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2250000;48359
+469;2000468;Üsküdar Şb.;MURAT ŞAHİN;46310;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;550000;48359
+470;2000469;Üsküdar Şb.;MURAT ŞAHİN;46300;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;400000;48359
+471;2000470;Üsküdar Şb.;MURAT ŞAHİN;46314;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1000000;48359
+472;2000471;Üsküdar Şb.;MURAT ŞAHİN;46307;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;890000;48359
+473;2000472;Üsküdar Şb.;MERVE TUNÇ;46261;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1250000;48470
+474;2000473;Üsküdar Şb.;MERVE TUNÇ;46238;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1950000;48470
+475;2000474;Üsküdar Şb.;MERVE TUNÇ;46244;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1550000;48470
+476;2000475;Üsküdar Şb.;MERVE TUNÇ;46239;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1550000;48470
+477;2000476;Üsküdar Şb.;MERVE TUNÇ;46241;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2050000;48470
+478;2000477;Üsküdar Şb.;MERVE TUNÇ;46237;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2400000;48470
+479;2000478;Üsküdar Şb.;MERVE TUNÇ;46237;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;400000;48470
+480;2000479;Üsküdar Şb.;MERVE TUNÇ;46256;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1800000;48470
+481;2000480;Üsküdar Şb.;MERVE TUNÇ;46262;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;500000;48470
+482;2000481;Üsküdar Şb.;MERVE TUNÇ;46244;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1800000;48470
+483;2000482;Üsküdar Şb.;MERVE TUNÇ;46246;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2150000;48470
+484;2000483;Üsküdar Şb.;MERVE TUNÇ;46261;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;450000;48470
+485;2000484;Üsküdar Şb.;MERVE TUNÇ;46239;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1510000;48470
+486;2000485;Üsküdar Şb.;MERVE TUNÇ;46280;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;500000;48470
+487;2000486;Üsküdar Şb.;MERVE TUNÇ;46274;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1100000;48470
+488;2000487;Üsküdar Şb.;MERVE TUNÇ;46266;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1950000;48470
+489;2000488;Üsküdar Şb.;MERVE TUNÇ;46281;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2300000;48470
+490;2000489;Üsküdar Şb.;MERVE TUNÇ;46287;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1700000;48470
+491;2000490;Üsküdar Şb.;MERVE TUNÇ;46293;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;650000;48470
+492;2000491;Üsküdar Şb.;MERVE TUNÇ;46268;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;700000;48470
+493;2000492;Üsküdar Şb.;MERVE TUNÇ;46276;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1850000;48470
+494;2000493;Üsküdar Şb.;MERVE TUNÇ;46282;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1650000;48470
+495;2000494;Üsküdar Şb.;MERVE TUNÇ;46295;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;400000;48470
+496;2000495;Üsküdar Şb.;MERVE TUNÇ;46277;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;500000;48470
+497;2000496;Üsküdar Şb.;MERVE TUNÇ;46289;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;400000;48470
+498;2000497;Üsküdar Şb.;MERVE TUNÇ;46293;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;450000;48470
+499;2000498;Üsküdar Şb.;MERVE TUNÇ;46290;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1000000;48470
+500;2000499;Üsküdar Şb.;MERVE TUNÇ;46267;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;850000;48470
+501;2000500;Üsküdar Şb.;MERVE TUNÇ;46276;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;850000;48470
+502;2000501;Üsküdar Şb.;MERVE TUNÇ;46274;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1400000;48470
+503;2000502;Üsküdar Şb.;MERVE TUNÇ;46290;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1200000;48470
+504;2000503;Üsküdar Şb.;MERVE TUNÇ;46284;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1010000;48470
+505;2000504;Üsküdar Şb.;MERVE TUNÇ;46300;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1950000;48470
+506;2000505;Üsküdar Şb.;MERVE TUNÇ;46297;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1700000;48470
+507;2000506;Üsküdar Şb.;MERVE TUNÇ;46319;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;700000;48470
+508;2000507;Üsküdar Şb.;MERVE TUNÇ;46304;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;700000;48470
+509;2000508;Üsküdar Şb.;MERVE TUNÇ;46302;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;2200000;48470
+510;2000509;Üsküdar Şb.;MERVE TUNÇ;46311;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2200000;48470
+511;2000510;Üsküdar Şb.;MERVE TUNÇ;46315;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1250000;48470
+512;2000511;Üsküdar Şb.;MERVE TUNÇ;46310;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;600000;48470
+513;2000512;Üsküdar Şb.;MERVE TUNÇ;46304;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1750000;48470
+514;2000513;Üsküdar Şb.;MERVE TUNÇ;46323;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;600000;48470
+515;2000514;Üsküdar Şb.;MERVE TUNÇ;46318;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;600000;48470
+516;2000515;Üsküdar Şb.;MERVE TUNÇ;46296;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;700000;48470
+517;2000516;Üsküdar Şb.;MERVE TUNÇ;46308;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;2150000;48470
+518;2000517;Üsküdar Şb.;MERVE TUNÇ;46315;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;500000;48470
+519;2000518;Üsküdar Şb.;MERVE TUNÇ;46304;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;750000;48470
+520;2000519;Üsküdar Şb.;MERVE TUNÇ;46326;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1100000;48470
+521;2000520;Üsküdar Şb.;MERVE TUNÇ;46318;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;790000;48470
+522;2000521;Ümraniye Şb.;SERKAN ÖZTÜRK;46254;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2200000;48618
+523;2000522;Ümraniye Şb.;SERKAN ÖZTÜRK;46252;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2150000;48618
+524;2000523;Ümraniye Şb.;SERKAN ÖZTÜRK;46263;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1550000;48618
+525;2000524;Ümraniye Şb.;SERKAN ÖZTÜRK;46240;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;850000;48618
+526;2000525;Ümraniye Şb.;SERKAN ÖZTÜRK;46259;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2300000;48618
+527;2000526;Ümraniye Şb.;SERKAN ÖZTÜRK;46240;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1000000;48618
+528;2000527;Ümraniye Şb.;SERKAN ÖZTÜRK;46238;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1700000;48618
+529;2000528;Ümraniye Şb.;SERKAN ÖZTÜRK;46262;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;500000;48618
+530;2000529;Ümraniye Şb.;SERKAN ÖZTÜRK;46263;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2050000;48618
+531;2000530;Ümraniye Şb.;SERKAN ÖZTÜRK;46239;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;850000;48618
+532;2000531;Ümraniye Şb.;SERKAN ÖZTÜRK;46263;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;450000;48618
+533;2000532;Ümraniye Şb.;SERKAN ÖZTÜRK;46265;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;550000;48618
+534;2000533;Ümraniye Şb.;SERKAN ÖZTÜRK;46238;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2250000;48618
+535;2000534;Ümraniye Şb.;SERKAN ÖZTÜRK;46256;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1180000;48618
+536;2000535;Ümraniye Şb.;SERKAN ÖZTÜRK;46275;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1950000;48618
+537;2000536;Ümraniye Şb.;SERKAN ÖZTÜRK;46266;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1450000;48618
+538;2000537;Ümraniye Şb.;SERKAN ÖZTÜRK;46268;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;650000;48618
+539;2000538;Ümraniye Şb.;SERKAN ÖZTÜRK;46268;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1050000;48618
+540;2000539;Ümraniye Şb.;SERKAN ÖZTÜRK;46276;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1200000;48618
+541;2000540;Ümraniye Şb.;SERKAN ÖZTÜRK;46287;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;500000;48618
+542;2000541;Ümraniye Şb.;SERKAN ÖZTÜRK;46282;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;900000;48618
+543;2000542;Ümraniye Şb.;SERKAN ÖZTÜRK;46275;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1100000;48618
+544;2000543;Ümraniye Şb.;SERKAN ÖZTÜRK;46293;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;750000;48618
+545;2000544;Ümraniye Şb.;SERKAN ÖZTÜRK;46284;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1500000;48618
+546;2000545;Ümraniye Şb.;SERKAN ÖZTÜRK;46279;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;700000;48618
+547;2000546;Ümraniye Şb.;SERKAN ÖZTÜRK;46284;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;2200000;48618
+548;2000547;Ümraniye Şb.;SERKAN ÖZTÜRK;46275;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1250000;48618
+549;2000548;Ümraniye Şb.;SERKAN ÖZTÜRK;46287;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;700000;48618
+550;2000549;Ümraniye Şb.;SERKAN ÖZTÜRK;46281;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1750000;48618
+551;2000550;Ümraniye Şb.;SERKAN ÖZTÜRK;46281;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;750000;48618
+552;2000551;Ümraniye Şb.;SERKAN ÖZTÜRK;46269;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1450000;48618
+553;2000552;Ümraniye Şb.;SERKAN ÖZTÜRK;46268;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;830000;48618
+554;2000553;Ümraniye Şb.;SERKAN ÖZTÜRK;46304;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;2100000;48618
+555;2000554;Ümraniye Şb.;SERKAN ÖZTÜRK;46304;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1700000;48618
+556;2000555;Ümraniye Şb.;SERKAN ÖZTÜRK;46319;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1550000;48618
+557;2000556;Ümraniye Şb.;SERKAN ÖZTÜRK;46323;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1350000;48618
+558;2000557;Ümraniye Şb.;SERKAN ÖZTÜRK;46316;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1000000;48618
+559;2000558;Ümraniye Şb.;SERKAN ÖZTÜRK;46317;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1950000;48618
+560;2000559;Ümraniye Şb.;SERKAN ÖZTÜRK;46298;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1600000;48618
+561;2000560;Ümraniye Şb.;SERKAN ÖZTÜRK;46312;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;750000;48618
+562;2000561;Ümraniye Şb.;SERKAN ÖZTÜRK;46308;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;450000;48618
+563;2000562;Ümraniye Şb.;SERKAN ÖZTÜRK;46300;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2150000;48618
+564;2000563;Ümraniye Şb.;SERKAN ÖZTÜRK;46314;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2200000;48618
+565;2000564;Ümraniye Şb.;SERKAN ÖZTÜRK;46301;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;950000;48618
+566;2000565;Ümraniye Şb.;SERKAN ÖZTÜRK;46300;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;600000;48618
+567;2000566;Ümraniye Şb.;SERKAN ÖZTÜRK;46308;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1400000;48618
+568;2000567;Ümraniye Şb.;SERKAN ÖZTÜRK;46322;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;400000;48618
+569;2000568;Ümraniye Şb.;SERKAN ÖZTÜRK;46310;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;310000;48618
+570;2000569;Ümraniye Şb.;PINAR ÇAKIR;46256;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;750000;48729
+571;2000570;Ümraniye Şb.;PINAR ÇAKIR;46254;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1100000;48729
+572;2000571;Ümraniye Şb.;PINAR ÇAKIR;46259;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;600000;48729
+573;2000572;Ümraniye Şb.;PINAR ÇAKIR;46240;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;850000;48729
+574;2000573;Ümraniye Şb.;PINAR ÇAKIR;46251;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2250000;48729
+575;2000574;Ümraniye Şb.;PINAR ÇAKIR;46249;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;850000;48729
+576;2000575;Ümraniye Şb.;PINAR ÇAKIR;46255;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2050000;48729
+577;2000576;Ümraniye Şb.;PINAR ÇAKIR;46252;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1950000;48729
+578;2000577;Ümraniye Şb.;PINAR ÇAKIR;46260;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;550000;48729
+579;2000578;Ümraniye Şb.;PINAR ÇAKIR;46240;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1900000;48729
+580;2000579;Ümraniye Şb.;PINAR ÇAKIR;46247;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;650000;48729
+581;2000580;Ümraniye Şb.;PINAR ÇAKIR;46258;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1550000;48729
+582;2000581;Ümraniye Şb.;PINAR ÇAKIR;46247;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1050000;48729
+583;2000582;Ümraniye Şb.;PINAR ÇAKIR;46251;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1450000;48729
+584;2000583;Ümraniye Şb.;PINAR ÇAKIR;46249;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1950000;48729
+585;2000584;Ümraniye Şb.;PINAR ÇAKIR;46255;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;740000;48729
+586;2000585;Ümraniye Şb.;PINAR ÇAKIR;46284;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1150000;48729
+587;2000586;Ümraniye Şb.;PINAR ÇAKIR;46288;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;800000;48729
+588;2000587;Ümraniye Şb.;PINAR ÇAKIR;46272;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;650000;48729
+589;2000588;Ümraniye Şb.;PINAR ÇAKIR;46269;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;750000;48729
+590;2000589;Ümraniye Şb.;PINAR ÇAKIR;46267;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1150000;48729
+591;2000590;Ümraniye Şb.;PINAR ÇAKIR;46267;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;650000;48729
+592;2000591;Ümraniye Şb.;PINAR ÇAKIR;46293;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;650000;48729
+593;2000592;Ümraniye Şb.;PINAR ÇAKIR;46267;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;2000000;48729
+594;2000593;Ümraniye Şb.;PINAR ÇAKIR;46267;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1500000;48729
+595;2000594;Ümraniye Şb.;PINAR ÇAKIR;46289;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1050000;48729
+596;2000595;Ümraniye Şb.;PINAR ÇAKIR;46286;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;800000;48729
+597;2000596;Ümraniye Şb.;PINAR ÇAKIR;46295;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1750000;48729
+598;2000597;Ümraniye Şb.;PINAR ÇAKIR;46283;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1000000;48729
+599;2000598;Ümraniye Şb.;PINAR ÇAKIR;46294;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1550000;48729
+600;2000599;Ümraniye Şb.;PINAR ÇAKIR;46283;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;650000;48729
+601;2000600;Ümraniye Şb.;PINAR ÇAKIR;46283;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;550000;48729
+602;2000601;Ümraniye Şb.;PINAR ÇAKIR;46280;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2150000;48729
+603;2000602;Ümraniye Şb.;PINAR ÇAKIR;46290;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1400000;48729
+604;2000603;Ümraniye Şb.;PINAR ÇAKIR;46266;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1140000;48729
+605;2000604;Ümraniye Şb.;PINAR ÇAKIR;46312;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2000000;48729
+606;2000605;Ümraniye Şb.;PINAR ÇAKIR;46310;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1600000;48729
+607;2000606;Ümraniye Şb.;PINAR ÇAKIR;46319;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2000000;48729
+608;2000607;Ümraniye Şb.;PINAR ÇAKIR;46321;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1350000;48729
+609;2000608;Ümraniye Şb.;PINAR ÇAKIR;46321;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1100000;48729
+610;2000609;Ümraniye Şb.;PINAR ÇAKIR;46308;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1900000;48729
+611;2000610;Ümraniye Şb.;PINAR ÇAKIR;46302;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;1050000;48729
+612;2000611;Ümraniye Şb.;PINAR ÇAKIR;46301;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2300000;48729
+613;2000612;Ümraniye Şb.;PINAR ÇAKIR;46310;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1300000;48729
+614;2000613;Ümraniye Şb.;PINAR ÇAKIR;46311;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1850000;48729
+615;2000614;Ümraniye Şb.;PINAR ÇAKIR;46297;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2050000;48729
+616;2000615;Ümraniye Şb.;PINAR ÇAKIR;46305;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1000000;48729
+617;2000616;Ümraniye Şb.;PINAR ÇAKIR;46304;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1620000;48729
+618;2000617;Ataşehir Şb.;CAN ERDEM;46241;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;2300000;49099
+619;2000618;Ataşehir Şb.;CAN ERDEM;46256;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1700000;49099
+620;2000619;Ataşehir Şb.;CAN ERDEM;46235;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2200000;49099
+621;2000620;Ataşehir Şb.;CAN ERDEM;46238;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1300000;49099
+622;2000621;Ataşehir Şb.;CAN ERDEM;46258;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2200000;49099
+623;2000622;Ataşehir Şb.;CAN ERDEM;46235;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1100000;49099
+624;2000623;Ataşehir Şb.;CAN ERDEM;46248;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;850000;49099
+625;2000624;Ataşehir Şb.;CAN ERDEM;46259;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1700000;49099
+626;2000625;Ataşehir Şb.;CAN ERDEM;46248;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1100000;49099
+627;2000626;Ataşehir Şb.;CAN ERDEM;46262;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2400000;49099
+628;2000627;Ataşehir Şb.;CAN ERDEM;46242;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1200000;49099
+629;2000628;Ataşehir Şb.;CAN ERDEM;46252;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1750000;49099
+630;2000629;Ataşehir Şb.;CAN ERDEM;46265;GAYRİMENKUL;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1200000;49099
+631;2000630;Ataşehir Şb.;CAN ERDEM;46256;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2400000;49099
+632;2000631;Ataşehir Şb.;CAN ERDEM;46251;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;400000;49099
+633;2000632;Ataşehir Şb.;CAN ERDEM;46248;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2460000;49099
+634;2000633;Ataşehir Şb.;CAN ERDEM;46280;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;450000;49099
+635;2000634;Ataşehir Şb.;CAN ERDEM;46274;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;1450000;49099
+636;2000635;Ataşehir Şb.;CAN ERDEM;46277;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2300000;49099
+637;2000636;Ataşehir Şb.;CAN ERDEM;46289;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;650000;49099
+638;2000637;Ataşehir Şb.;CAN ERDEM;46270;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1800000;49099
+639;2000638;Ataşehir Şb.;CAN ERDEM;46287;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1550000;49099
+640;2000639;Ataşehir Şb.;CAN ERDEM;46266;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2150000;49099
+641;2000640;Ataşehir Şb.;CAN ERDEM;46294;ARAÇ;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1700000;49099
+642;2000641;Ataşehir Şb.;CAN ERDEM;46268;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;950000;49099
+643;2000642;Ataşehir Şb.;CAN ERDEM;46269;ARAÇ;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;2350000;49099
+644;2000643;Ataşehir Şb.;CAN ERDEM;46269;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1800000;49099
+645;2000644;Ataşehir Şb.;CAN ERDEM;46268;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;600000;49099
+646;2000645;Ataşehir Şb.;CAN ERDEM;46276;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;550000;49099
+647;2000646;Ataşehir Şb.;CAN ERDEM;46267;ARAÇ;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;1850000;49099
+648;2000647;Ataşehir Şb.;CAN ERDEM;46280;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2150000;49099
+649;2000648;Ataşehir Şb.;CAN ERDEM;46288;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1900000;49099
+650;2000649;Ataşehir Şb.;CAN ERDEM;46284;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2150000;49099
+651;2000650;Ataşehir Şb.;CAN ERDEM;46272;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;600000;49099
+652;2000651;Ataşehir Şb.;CAN ERDEM;46289;ARAÇ;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;610000;49099
+653;2000652;Ataşehir Şb.;CAN ERDEM;46312;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1450000;49099
+654;2000653;Ataşehir Şb.;CAN ERDEM;46311;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;2100000;49099
+655;2000654;Ataşehir Şb.;CAN ERDEM;46325;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1800000;49099
+656;2000655;Ataşehir Şb.;CAN ERDEM;46304;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;1200000;49099
+657;2000656;Ataşehir Şb.;CAN ERDEM;46316;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;2050000;49099
+658;2000657;Ataşehir Şb.;CAN ERDEM;46311;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1650000;49099
+659;2000658;Ataşehir Şb.;CAN ERDEM;46305;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1800000;49099
+660;2000659;Ataşehir Şb.;CAN ERDEM;46304;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2250000;49099
+661;2000660;Ataşehir Şb.;CAN ERDEM;46297;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;900000;49099
+662;2000661;Ataşehir Şb.;CAN ERDEM;46303;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;450000;49099
+663;2000662;Ataşehir Şb.;CAN ERDEM;46325;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;2400000;49099
+664;2000663;Ataşehir Şb.;CAN ERDEM;46316;GAYRİMENKUL;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2050000;49099
+665;2000664;Ataşehir Şb.;CAN ERDEM;46303;GAYRİMENKUL;Çekilişli Finansman;24;Tahsilat Kontrolü Bekleniyor;2200000;49099
+666;2000665;Ataşehir Şb.;CAN ERDEM;46300;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;36;Tahsilat Kontrolü Bekleniyor;950000;49099
+667;2000666;Ataşehir Şb.;CAN ERDEM;46319;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2250000;49099
+668;2000667;Ataşehir Şb.;CAN ERDEM;46308;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;950000;49099
+669;2000668;Ataşehir Şb.;CAN ERDEM;46308;ARAÇ;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;850000;49099
+670;2000669;Ataşehir Şb.;OKAN POLAT;46277;ARAÇ;Çekilişli Finansman;15;Tahsilat Kontrolü Bekleniyor;1200000;49173
+671;2000670;Ataşehir Şb.;OKAN POLAT;46280;ARAÇ;Çekilişli Finansman;36;Tahsilat Kontrolü Bekleniyor;2200000;49173
+672;2000671;Ataşehir Şb.;OKAN POLAT;46294;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;750000;49173
+673;2000672;Ataşehir Şb.;OKAN POLAT;46294;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;650000;49173
+674;2000673;Ataşehir Şb.;OKAN POLAT;46276;ARAÇ;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;2000000;49173
+675;2000674;Ataşehir Şb.;OKAN POLAT;46293;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1600000;49173
+676;2000675;Ataşehir Şb.;OKAN POLAT;46283;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;700000;49173
+677;2000676;Ataşehir Şb.;OKAN POLAT;46273;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;550000;49173
+678;2000677;Ataşehir Şb.;OKAN POLAT;46279;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;2110000;49173
+679;2000678;Ataşehir Şb.;OKAN POLAT;46321;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;15;Tahsilat Kontrolü Bekleniyor;1650000;49173
+680;2000679;Ataşehir Şb.;OKAN POLAT;46307;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;24;Tahsilat Kontrolü Bekleniyor;1100000;49173
+681;2000680;Ataşehir Şb.;OKAN POLAT;46323;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;2300000;49173
+682;2000681;Ataşehir Şb.;OKAN POLAT;46326;ARAÇ;Bireysel Finansman - Peşinatsız;60;Tahsilat Kontrolü Bekleniyor;1600000;49173
+683;2000682;Ataşehir Şb.;OKAN POLAT;46317;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;2050000;49173
+684;2000683;Ataşehir Şb.;OKAN POLAT;46310;GAYRİMENKUL;Çekilişli Finansman;60;Tahsilat Kontrolü Bekleniyor;1050000;49173
+685;2000684;Ataşehir Şb.;OKAN POLAT;46323;GAYRİMENKUL;Çekilişli Finansman;40;Tahsilat Kontrolü Bekleniyor;1450000;49173
+686;2000685;Ataşehir Şb.;OKAN POLAT;46296;ARAÇ;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;400000;49173
+687;2000686;Ataşehir Şb.;OKAN POLAT;46302;GAYRİMENKUL;Bireysel Finansman - Peşinatsız;40;Tahsilat Kontrolü Bekleniyor;400000;49173

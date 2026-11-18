@@ -15,15 +15,16 @@ test et, kanıt göster.** Emin olmadığın her şeyde dur ve kullanıcıya sor
 ## 2. Dosya haritası
 | Dosya / klasör | Ne | Dikkat |
 |---|---|---|
-| `Eminevim Saha Paneli.dc.html` | Uygulamanın tamamı (müşteri, SPY, yönetici) | Şablon dili: `{{ }}`, `<sc-if>`, `<sc-for>`; durum `state`, görüntü değerleri `renderVals()`. Çalışma zamanı `support.js` (değiştirme). |
-| `canli.js` | Uygulamanın merkeze bağlantısı | `window.TY_CANLI` yalnız merkezden açılınca var; GitHub Pages'te gösteri modu sürmeli. |
-| `spyler.js` | 7 SPY listesi (uygulama + merkez ortak) | Değerler uydurmadır; kimlikler (`s1`…) testlerde ve merkez verisinde kullanılıyor. |
-| `assignment.js`, `appointment.js`, `org-data.js` | Atama / randevu / örgüt yardımcıları | Node testleri var. |
-| `merkez/sunucu.py` | Canlı test merkezi (Python stdlib HTTP, 8794) | Atama, 2 dk kabul, devret, bildirim (Web Push). |
+| `IT_DEVIR.md` | Modüler yapı: her dış kaynağın "kapı" dosyası, alanlar, nasıl bağlanır | Yeni kod bu düzene uyar; kapı değişince burayı güncelle. |
+| `Eminevim Saha Paneli.dc.html` | Ekranlar (müşteri, SPY, yönetici) | Şablon dili: `{{ }}`, `<sc-if>`, `<sc-for>`; durum `state`, görüntü değerleri `renderVals()`. Yardımcılar `uygulama/`da. |
+| `uygulama/` | Modüller: `servisler, ayarlar, bicim, finansman, personel, hesap, ornek-veri, canli, appointment, assignment, support` | `support.js` çalışma zamanı (değiştirme). `canli.js`: `window.TY_CANLI` yalnız merkezden açılınca var; Pages'te gösteri modu sürmeli. |
+| `harita/` | `map.html` (Saha Canlı), `rota.html`, `konum-sec.html` | Servis adresleri `uygulama/servisler.js`. |
+| `veri/` | `spyler.js` (**üretilir**, `araclar/veri_hazirla.py`), `kaynak/*.csv`, `ayarlar.json`, `org-data.js` | `veri/OKUBENI.md`. Değerler uydurmadır; kimlikler (`s1`…) testlerde ve merkez verisinde kullanılıyor. |
+| `merkez/sunucu.py` + `merkez/ty/` | Canlı test merkezi (Python stdlib HTTP, 8794), parçalara ayrılmış | Atama, 2 dk kabul, devret, bildirim (Web Push), canlı konum, şirkete aktarım. |
 | `merkez/takip.html` | Yönetici "Saha Canlı" sayfası | |
 | `merkez/canli-sw.js` | Merkezdeki bildirim servis çalışanı (`sw.js` adıyla sunulur) | Kökteki `sw.js` (Pages) ayrı dosyadır. |
 | `web-basvuru/form_bolumu.html` + `olustur.py` | Web formu kaynağı + üretici | `index.html` **üretilir, elle düzenlenmez**: `python olustur.py`. |
-| `senaryo.html`, `rota.html`, `konum-sec.html`, `taslak/`, `linkler.html` | Yardımcı sayfalar | |
+| `senaryo.html`, `taslak/`, `linkler.html` | Yardımcı sayfalar | |
 | `capacitor.config.json`, `codemagic.yaml`, `scripts/`, `ios/` | iPhone (TestFlight) paketi | İmza/sertifika ayarlarına dokunma. |
 | `tests/` | Testler (aşağıda) | |
 | `video/`, `backup/`, `rapor/` | Tanıtım videosu, eski sürüm yedeği, proje belgeleri | `video/` ve `backup/` **değişmez**. |
@@ -101,7 +102,7 @@ Her biri ayrı onay ister. Planı yazarken aşağıdaki etkileri kullanıcıya h
 
 **D. TestFlight uygulamasına kapalıyken bildirim (APNs)**
 - Bugün: tarayıcı/ana ekran sürümünde Web Push çalışıyor; TestFlight uygulamasında (WKWebView) Web Push yok.
-- Yapılırsa: Capacitor bildirim eklentisi (`package.json`), `canli.js`'de yerel uygulama için kayıt, merkezde APNs ile gönderim
+- Yapılırsa: Capacitor bildirim eklentisi (`package.json`), `uygulama/canli.js`'de yerel uygulama için kayıt, merkezde APNs ile gönderim
   (Apple .p8 anahtarı, Key ID, Team ID — kullanıcı sağlar, depoya girmez), Codemagic'te yeni derleme (kullanıcı başlatır).
   Web Push yolu bozulmamalı: `merkez-akis.py` bildirim adımları geçmeye devam etmeli.
 
