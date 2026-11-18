@@ -21,10 +21,10 @@ with sync_playwright() as p:
         else:
             scope=page.locator('.tk-desktopForm')
         form=scope.locator('[data-ty-form]')
-        # KVKK (2026-11-18): aydınlatma yalnız gösterilir (kabul kutusu yok), konum için ayrı rıza kutusu yok; ticari ileti isteğe bağlı
+        # KVKK (2026-11-18): zorunlu "Aydınlatma Metni'ni okudum" kutusu (açık rıza değil); konum için ayrı rıza kutusu yok; ticari ileti isteğe bağlı
         assert form.locator('[name=kanun]').count()==0 and form.locator('[name=konumRiza]').count()==0
         assert not form.locator('[name=kampanya]').is_checked()
-        form.get_by_role('button',name='Aydınlatma Metni',exact=True).click()
+        form.locator('[data-aydinlatma-ac]').click()
         ayd=page.locator('#ty-aydinlatma.acik')
         ayd.get_by_text('hukuk onayı',exact=False).wait_for()
         # Aydınlatma Yükümlülüğü Tebliği m.5 başlıkları + başvuru yolu; uygulamayla aynı metin (uygulama/aydinlatma.js)
@@ -35,6 +35,13 @@ with sync_playwright() as p:
         assert page.locator('#ty-aydinlatma.acik').count()==0
         assert not form.locator('[data-konum-riza]').is_visible()
         form.locator('[name=kampanya]').evaluate('e=>e.click()'); assert form.locator('[name=kampanya]').is_checked()
+        onay=form.locator('[name=aydinlatmaOnay]')
+        assert not onay.is_checked()
+        form.locator('[type=submit]').click()
+        form.get_by_text('Devam etmek için Aydınlatma Metni',exact=False).wait_for()
+        assert scope.locator('[data-sonuc]').is_hidden()
+        onay.evaluate('e=>e.click()'); assert onay.is_checked()
+        assert form.get_by_text('Devam etmek için Aydınlatma Metni',exact=False).count()==0
         form.locator('[name=temsilci]').check()
         dialog=page.locator('[data-pen=temsilci].acik')
         dialog.wait_for()
@@ -97,6 +104,7 @@ with sync_playwright() as p:
         page.locator('[data-pen=temsilci].acik [data-kapat]').first.click()
         assert not form.locator('[name=temsilci]').is_checked()
         assert not form.locator('[data-konum-riza]').is_visible()
+        form.locator('[name=aydinlatmaOnay]').evaluate('e=>e.click()')
         form.locator('[type=submit]').click()
         result.get_by_text('Sayın Mehmet Demir, çağrınız alındı!',exact=True).wait_for()
         assert result.locator('[data-sms-pencere]').count()==0

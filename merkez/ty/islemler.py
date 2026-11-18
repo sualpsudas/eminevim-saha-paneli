@@ -40,8 +40,8 @@ def temiz_kayit(gelen):
 def cagri(veri, istek):
     k = temiz_kayit(istek.get("kayit"))
     web = istek.get("kaynak") == "web" or k.get("kaynak") == "web"
-    if web and istek.get("aydinlatma") is not True and istek.get("konumRiza") is not True:
-        raise ValueError("Aydınlatma metni gösterilemedi. Sayfayı yenileyip yeniden deneyin.")
+    if web and istek.get("aydinlatmaOnay") is not True:
+        raise ValueError("Aydınlatma Metni onaylanmadı. Formdaki kutuyu işaretleyip yeniden deneyin.")
     for alan in ("konumRizaTarih", "aydinlatmaTarih", "kampanya"):
         k.pop(alan, None)
     konum = k.get("konum") or {}
@@ -53,7 +53,7 @@ def cagri(veri, istek):
     k.update({"mesajlar": [], "olusma": simdi(), "repId": None, "teklif": {"denenen": []}})
     if web:
         k["kaynak"] = "web"
-        k["aydinlatmaTarih"] = k["olusma"]  # aydınlatma metni formda gösterildi (onay kutusu yok)
+        k["aydinlatmaTarih"] = k["olusma"]  # müşteri formda "Aydınlatma Metni'ni okudum" kutusunu işaretledi (açık rıza değil)
         k["kampanya"] = istek.get("kampanya") is True  # isteğe bağlı ticari elektronik ileti izni
         k["girisKodu"] = f"{secrets.randbelow(900000) + 100000}"  # SMS yerine ekranda gösterilir (test)
     veri["kayitlar"][k["id"]] = k

@@ -38,7 +38,7 @@ test et, kanıt göster.** Emin olmadığın her şeyde dur ve kullanıcıya sor
 - Web formunda e-posta istenmez; sayfadaki tüm linkler etkisizdir (`data-ty-dis` hariç) — bu kural korunur.
 - Gerçek kişi fotoğrafı kullanılmaz (yalnız sentetik görseller).
 - Müşteri girişi parolasız (2026-11-18): telefon + SMS kodu; yeni müşteri Ad + Soyad (ayrı kutular). E-posta/TC kimlik sorulmaz.
-- KVKK: Aydınlatma Metni tek kaynak `uygulama/aydinlatma.js` (web formuna `olustur.py` gömer; elle iki yere yazma). Aydınlatma metni gösterilir, onay kutusu YOK; açık rıza yalnız isteğe bağlı ticari elektronik ileti için (ayrı, işaretsiz kutu).
+- KVKK: Aydınlatma Metni tek kaynak `uygulama/aydinlatma.js` (web formuna `olustur.py` gömer; elle iki yere yazma). Zorunlu "Aydınlatma Metni'ni okudum, bilgilendirildim" kutusu (açık rıza değil; merkez `aydinlatmaOnay` ister); açık rıza yalnız isteğe bağlı ticari elektronik ileti için (ayrı, işaretsiz kutu).
   "Üçüncü kişilerle paylaşılmaz" gibi yanlış söz yazılmaz. Metinler örnektir, hukuk onayı gerekir.
 - İstenen işin dışına taşan "iyileştirme", yeniden adlandırma, biçim düzeltme, bağımlılık güncellemesi **yapma**. Gördüğün sorunu
   rapor et, kendiliğinden düzeltme.
@@ -83,7 +83,7 @@ Bir test bozulursa testi gevşetme/silme; nedenini bul. Test yeni davranışa g�
 ## 7. Bekleyen işler — yapılırsa ne değişir
 Her biri ayrı onay ister. Planı yazarken aşağıdaki etkileri kullanıcıya hatırlat.
 
-**A. Web formu KVKK — YAPILDI (2026-11-18):** kabul ve konum rıza kutuları kalktı; aydınlatma bilgisi + pencere, isteğe bağlı ticari ileti izni.
+**A. Web formu KVKK — YAPILDI (2026-11-18):** konum rıza kutusu kalktı; "okudum, bilgilendirildim" onay kutusu + pencere, isteğe bağlı ticari ileti izni.
 
 **B. Tek giriş — YAPILDI (2026-11-18, parolasız):** telefon → SMS kodu → kayıtlıysa içeri, yeniyse Ad + Soyad. Uygulamada
   `kodIleri` / `yeniHesapAc` / `webCagrisiAc`; merkezde `merkez/ty/musteri.py`. `video/` değişmez (videodaki eski ekran bilerek kalır).

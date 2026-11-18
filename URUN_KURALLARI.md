@@ -25,8 +25,9 @@ Kurallar ve açık işler `CLAUDE.md`'de, teknik ayrıntı `TEKNIK.md`'de, gerek
 - Web kaynak formu değişince `python web-basvuru/olustur.py`; native paket için `npm run web:sync`. Yeni `appointment.js`, konum seçimi, rota ve QR kitaplığı native/PWA paketlerine dahil edilmiştir.
 - **Tek müşteri girişi (2026-11-18, parola yok):** “Telefon numaranızla devam edin” → SMS kodu. Kayıtlı numara → kod doğrulanınca içeri.
   Yeni numara → **Ad** ve **Soyad** (ayrı kutular) → “Hesabımı oluştur” → Hoş geldiniz. E-posta ve TC kimlik sorulmaz.
-  **KVKK:** aydınlatma metni veri alınan yerde gösterilir (bilgi cümlesi + “Aydınlatma Metni” penceresi), **onay kutusu yok** (hizmet için
-  gerekli veri, KVKK m.5/2-c). Açık rıza yalnız isteğe bağlı iş için, ayrı ve işaretsiz kutu: ticari elektronik ileti izni. Metinler örnektir,
+  **KVKK:** aydınlatma metni veri alınan yerde gösterilir (“Aydınlatma Metni” penceresi) ve
+  zorunlu **“Aydınlatma Metni'ni okudum, bilgilendirildim” kutusu** (kullanıcı kararı 2026-11-18: müşteri tıklayarak onay versin; açık rıza DEĞİL, aydınlatmanın kanıtı); işaretlenmeden hesap açılmaz / form gönderilmez, merkez de kabul etmez (`aydinlatmaOnay`). Kutuda "açık rıza veriyorum" yazılmaz
+  (hizmet için gerekli veri KVKK m.5/2-c ile işlenir; zorunlu rıza kutusu rızayı hizmete bağlamak sayılır). Açık rıza yalnız isteğe bağlı iş için, ayrı ve işaretsiz kutu: ticari elektronik ileti izni. Metinler örnektir,
   yayından önce Eminevim uyum/hukuk onayı gerekir.
   **Aydınlatma Metni tek kaynak (2026-11-18): `uygulama/aydinlatma.js`** (uygulama ve web formu aynı metni gösterir; web formuna `olustur.py` gömer).
   Tebliğ m.5 başlıkları: veri sorumlusu (unvan, adres, Mersis, KEP), veri kategorileri, amaç ↔ hukuki sebep eşleşmesi, toplama yöntemi,
@@ -67,8 +68,8 @@ her adım bitince burada "Durum" güncellenir.
      2/2 gün ve saat → "Onayla". Pencere onaysız kapanırsa düğme kapanır. Formda tek satır özet + "Değiştir".
    - Harita sade ama **mekânlar görünür** olmalı. Uzaktan bakınca yalnız harita + **hizmet bölgeleri yeşil** alan
      (kompakt görünüm). Hizmet bölgeleri şimdilik: **İstanbul Ümraniye, Ataşehir, Üsküdar**.
-   - **KVKK (2026-11-18):** formda kabul kutusu yok; “Kişisel verileriniz … işlenir. Ayrıntılı bilgi: Aydınlatma Metni” bilgi satırı
-     (pencere açar). Konum için ayrı rıza kutusu yok: düğme açılınca harita doğrudan açılır, seçimden sonra formda “Seçeceğiniz yer, yalnız
+   - **KVKK (2026-11-18):** formda zorunlu “Aydınlatma Metni'ni okudum, bilgilendirildim” kutusu (bağlantı metni açar, kutuyu işaretlemez);
+     işaretlenmezse “Devam etmek için Aydınlatma Metni'ni okuduğunuzu onaylayın.” uyarısı. Konum için ayrı rıza kutusu yok: düğme açılınca harita doğrudan açılır, seçimden sonra formda “Seçeceğiniz yer, yalnız
      temsilcinin size ulaşması ve görüşmenin planlanması için kullanılır.” notu görünür. Ticari elektronik ileti izni isteğe bağlı, işaretsiz.
      Merkez web çağrısında aydınlatmanın gösterildiğini (`aydinlatma:true`) ve izni kaydeder; "üçüncü kişilerle paylaşılmaz" gibi yanlış
      söz yazılmaz (harita/SMS/bildirim hizmet sağlayıcıları kullanılır).

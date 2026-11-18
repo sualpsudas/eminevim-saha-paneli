@@ -61,6 +61,8 @@ Yalnız gerektiğinde okunur (amaç/ilke, plan, belge işi, "bu neden böyle" so
   gösterilir (zorunlu onay kutusu "rızayı hizmete bağlama" sayılabilir). Açık rıza yalnız isteğe bağlı ticari ileti için, ayrı kutu.
   "Üçüncü kişilerle paylaşılmaz" sözü kalktı (harita/SMS/bildirim sağlayıcıları var). Yurt dışı harita servisleri `IT_DEVIR.md`'de not edildi.
 - Gerçek yayında tek hesap: Eminevim üyeleri aynı hesapla girer. Metinler hukuk/uyum onayına bağlı.
+- 2026-11-18 (sonra, kullanıcı kararı "amacımız onay alabiliyor olmak"): zorunlu **"Aydınlatma Metni'ni okudum, bilgilendirildim"** kutusu
+  geldi. Açık rıza kutusu değil (hizmet m.5/2-c ile işlenir): aydınlatmanın yapıldığının kanıtı, onay anı kaydedilir. "Açık rıza veriyorum" yazılmaz.
 
 ## Tarihçe
 - 2026-10-20/21: proje adı Tasarruf Yanımda; müşteriye uygulama indirtilmez, önce web. Web formunda e-posta istenmez (10-21 akşam).

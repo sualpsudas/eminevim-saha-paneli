@@ -137,15 +137,16 @@ def senaryo_web(browser, hatalar):
     s.goruntu(web, "m", TELEFON)
     s.adim("m", "Müşteri web formunu doldurur", "Eminevim sitesindeki başvuru formu: ad, soyad, telefon. E-posta istenmez.")
 
-    # KVKK: aydınlatma yalnız gösterilir (onay kutusu yok); ticari ileti izni isteğe bağlı, işaretsiz gelir
+    # KVKK: zorunlu "Aydınlatma Metni'ni okudum" kutusu (açık rıza değil); ticari ileti izni ayrı, isteğe bağlı, işaretsiz gelir
     assert not form.locator("[name=kampanya]").is_checked()
-    form.get_by_role("button", name="Aydınlatma Metni", exact=True).click()
+    form.locator("[data-aydinlatma-ac]").click()
     ayd = web.locator("#ty-aydinlatma.acik")
     ayd.get_by_role("button", name="Kapat", exact=True).wait_for()
     s.goruntu(web, "m", TELEFON)
-    s.adim("m", "KVKK: Aydınlatma Metni", "Formun altında kısa bilgi ve \"Aydınlatma Metni\" bağlantısı var; onay kutusu yok. "
-           "Kampanya iletisi izni isteğe bağlıdır, işaretsiz gelir.")
+    s.adim("m", "KVKK: Aydınlatma Metni ve onay", "Müşteri \"Aydınlatma Metni\"ni açıp okur, \"okudum, bilgilendirildim\" kutusunu işaretler; "
+           "işaretlemeden form gönderilmez. Kampanya iletisi izni ayrı, isteğe bağlı, işaretsiz gelir.")
     ayd.get_by_role("button", name="Kapat", exact=True).click()
+    form.locator("[name=aydinlatmaOnay]").evaluate("e=>e.click()")
 
     form.locator("[name=temsilci]").check()
     pen = web.locator("[data-pen=temsilci].acik")
@@ -258,8 +259,10 @@ def senaryo_uygulama(browser, hatalar):
     pen = page.get_by_role("dialog", name="Aydınlatma Metni", exact=True)
     pen.wait_for()
     s.goruntu(page, "m", TELEFON)
-    s.adim("m", "KVKK: Aydınlatma Metni", "\"Aydınlatma Metni\"ne dokununca metnin tamamı açılır. Kampanya iletisi izni isteğe bağlıdır, işaretsiz gelir.")
+    s.adim("m", "KVKK: Aydınlatma Metni ve onay", "\"Aydınlatma Metni\"ne dokununca metnin tamamı açılır; müşteri \"okudum, bilgilendirildim\" "
+           "kutusunu işaretlemeden hesap açılmaz. Kampanya iletisi izni ayrı, isteğe bağlı, işaretsiz gelir.")
     pen.get_by_role("button", name="Kapat", exact=True).click()
+    page.get_by_role("checkbox", name="Aydınlatma Metni'ni okudum, bilgilendirildim", exact=True).check()
 
     page.get_by_role("button", name="Hesabımı oluştur", exact=True).click()
     page.get_by_role("button", name="Atla", exact=True).wait_for()

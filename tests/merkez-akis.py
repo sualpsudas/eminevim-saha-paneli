@@ -118,6 +118,7 @@ with sync_playwright() as p:
     musteri.get_by_label('Ad',exact=True).fill('Deniz')
     musteri.get_by_label('Soyad',exact=True).fill('Test')
     musteri.get_by_role('checkbox',name='Ticari elektronik ileti izni (isteğe bağlı)',exact=True).check()
+    musteri.get_by_role('checkbox',name="Aydınlatma Metni'ni okudum, bilgilendirildim",exact=True).check()
     musteri.get_by_role('button',name='Hesabımı oluştur',exact=True).click()
     bekle(musteri, 'app.state.girisYapildi')
     assert app(musteri, 'app.state.customerForm.name') == 'Deniz Test'
@@ -289,12 +290,13 @@ with sync_playwright() as p:
     web.goto(KOK + 'web-basvuru/index.html', wait_until='domcontentloaded')
     web.wait_for_function("document.querySelector('[data-ty-form] input[name=ad]').value.length>0")
     form = web.locator('.tk-desktopForm [data-ty-form]')
-    # Merkez, aydınlatma metni gösterilmemiş web çağrısını kabul etmez (form her gönderimde aydinlatma:true yollar).
+    # Merkez, "Aydınlatma Metni'ni okudum" kutusu işaretlenmemiş web çağrısını kabul etmez (form aydinlatmaOnay yollar).
     try:
         merkez('api/cagri', {'kaynak':'web', 'kayit':{'id':'onaysiz-web','kaynak':'web','konum':{'lat':41.02,'lng':29.02}}})
         raise AssertionError('Aydınlatmasız web çağrısı kabul edildi')
     except urllib.error.HTTPError as err:
         assert err.code == 400 and 'Aydınlatma' in json.loads(err.read())['hata']
+    form.locator('[name=aydinlatmaOnay]').evaluate('e=>e.click()')
     form.locator('[name=temsilci]').check()
     pencere = web.locator('[data-pen=temsilci].acik')
     pencere.wait_for()

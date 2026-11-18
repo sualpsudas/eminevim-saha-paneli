@@ -136,6 +136,8 @@
   .ty-mobil .ty-bolge-disi{font-size:10pt}
   .ty-aydinlatma{margin:0;padding:0 2px;font-size:8pt;line-height:1.4;color:#666;text-align:left}
   .ty-mobil .ty-aydinlatma{font-size:9.5pt}
+  .ty-onay .ty-ayd-link{border:0;background:none;padding:0;color:var(--tkd_yesil);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
+  .ty-onay input.ty-eksik + .tk-checkmark{box-shadow:0 0 0 2px var(--tdk_turuncu)}
   .ty-aydinlatma button{border:0;background:none;padding:0;color:var(--tkd_yesil);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
   .ty-konum-not{margin:6px 0 0;padding:0 6px;font-size:8pt;line-height:1.4;color:#666}
   .ty-mobil .ty-konum-not{font-size:9.5pt}
@@ -317,14 +319,18 @@
     <div class="col-9 pb-3 px-0"><input type="text" name="telefon" placeholder="Telefon" class="tk-inputGri" inputmode="tel" autocomplete="tel-national" aria-label="Telefon"></div>
 
     <div class="col-12">
+      <label class="tk-checkboxContainer ty-onay">
+        <span class="tk-inputGriLabel"><button type="button" class="ty-ayd-link" data-aydinlatma-ac>Aydınlatma Metni</button>'ni okudum; kişisel verilerimin bu metinde anlatıldığı şekilde işleneceği konusunda bilgilendirildim.</span>
+        <input type="checkbox" name="aydinlatmaOnay" aria-label="Aydınlatma Metni'ni okudum, bilgilendirildim">
+        <span class="tk-checkmark"></span>
+      </label>
+    </div>
+    <div class="col-12 pb-3">
       <label class="tk-checkboxContainer">
         <span class="tk-inputGriLabel">Kampanyalardan haberdar olmak için Emin Üstün Holding Şirketleri'nden ticari elektronik ileti almak istiyorum. (İsteğe bağlı)</span>
         <input type="checkbox" name="kampanya">
         <span class="tk-checkmark"></span>
       </label>
-    </div>
-    <div class="col-12 pb-3">
-      <p class="ty-aydinlatma">Kişisel verileriniz, başvurunuzun değerlendirilmesi ve sizinle iletişim kurulması amacıyla Eminevim tarafından işlenir. Ayrıntılı bilgi: <button type="button" data-aydinlatma-ac>Aydınlatma Metni</button></p>
     </div>
 
     <div class="col-12 pb-2 px-0" data-plan-satir hidden>
@@ -524,7 +530,7 @@
       if(anahtar.checked){ bolgeDisi=false; disNot.hidden=true; pencereAc(); }
       else { talep=null; konum=null; formGoster(); }
     });
-    form.querySelector('[data-aydinlatma-ac]').addEventListener('click', function(e){ aydinlatmaAc(e.currentTarget); });
+    form.querySelector('[data-aydinlatma-ac]').addEventListener('click', function(e){ e.preventDefault(); aydinlatmaAc(e.currentTarget); });  // kutuyu işaretlemez, metni açar
     ozetBtn.addEventListener('click', pencereAc);
 
     /* --- Pencere: 1 harita → 2 gün ve saat --- */
@@ -755,6 +761,7 @@
       if(!v.ad) eksik.push([f.ad,'Adınızı yazın.']);
       if(!v.soyad) eksik.push([f.soyad,'Soyadınızı yazın.']);
       if(v.tel.length!==10) eksik.push([f.telefon,'Telefonu 10 hane yazın.']);
+      if(!f.aydinlatmaOnay.checked) eksik.push([f.aydinlatmaOnay,"Devam etmek için Aydınlatma Metni'ni okuduğunuzu onaylayın."]);
       if(eksik.length){
         eksik.forEach(function(x){ isaretle(x[0], x[1]); });
         var ilk=eksik[0][0], odak=ilk.matches('input') ? ilk : ilk.querySelector('input');
@@ -801,7 +808,7 @@
       sonuc.innerHTML = h; form.hidden = true; sonuc.hidden = false;
       if(secim && canli){
         var d=talep.gun, iki=function(n){return (n<10?'0':'')+n;};
-        window.Canli.gonder('api/cagri', { kaynak:'web', aydinlatma:true, kampanya:f.kampanya.checked, musteri:{ ad:v.ad+' '+v.soyad, adi:v.ad, soyadi:v.soyad, tel:t10 },
+        window.Canli.gonder('api/cagri', { kaynak:'web', aydinlatmaOnay:f.aydinlatmaOnay.checked, kampanya:f.kampanya.checked, musteri:{ ad:v.ad+' '+v.soyad, adi:v.ad, soyadi:v.soyad, tel:t10 },
           kayit:{ id:requestId, tip:'ziyaret', durum:'alindi', kaynak:'web', tarih:d.getFullYear()+'-'+iki(d.getMonth()+1)+'-'+iki(d.getDate()), gunYazi:v.gun, saat:v.saat, yer:v.adres,
             konum:{ lat:talep.lat, lng:talep.lng, adres:talep.adres, bolge:talep.bolge } } })
           .then(function(c){ var k=(c.sonuc||{}).girisKodu||''; var el=sonuc.querySelector('[data-sms-kod]'); if(el) el.textContent=k;

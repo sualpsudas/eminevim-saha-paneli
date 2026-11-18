@@ -787,3 +787,10 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Testler: browser-flows, web-flows (Tebliğ başlıkları), preparation-popup, appointment-list, phone-layout, merkez-akis (izin geri alma,
   diğer telefonda da kapalı), panel-senaryo OK. Senaryo görüntüleri yeniden üretildi. Merkez yeniden başlatıldı.
 - Açık (hukuk/uyum): saklama süreleri örnek; yurt dışı aktarım için standart sözleşme; İYS bağlantısı; "Hesabımı sil" kararı.
+
+### 2026-11-18 (8) KVKK: müşteri tıklayarak onay veriyor
+- Kullanıcı kararı: "amacımız onay alabiliyor olmak". Web formu ve uygulamada yeni hesap ekranında zorunlu kutu:
+  "Aydınlatma Metni'ni okudum; kişisel verilerimin bu metinde anlatıldığı şekilde işleneceği konusunda bilgilendirildim." (açık rıza değil)
+- İşaretlenmezse "Devam etmek için Aydınlatma Metni'ni okuduğunuzu onaylayın."; metin bağlantısı kutuyu işaretlemez. Merkez `aydinlatmaOnay`
+  olmadan web çağrısı / yeni hesap kabul etmez; `aydinlatmaTarih` onay anı. Kampanya izni ayrı, isteğe bağlı, işaretsiz.
+- Testler: browser-flows, web-flows, preparation-popup, appointment-list, phone-layout, merkez-akis, panel-senaryo OK. Senaryo görüntüleri yenilendi.

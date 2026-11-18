@@ -1,5 +1,5 @@
 // araclar/senaryo_goruntu.py üretir; elle düzenlenmez
-window.SENARYO_SURUM = "202611181528";
+window.SENARYO_SURUM = "202611181558";
 window.SENARYO = {
  "web": [
   {
@@ -13,8 +13,8 @@ window.SENARYO = {
   },
   {
    "kim": "m",
-   "baslik": "KVKK: Aydınlatma Metni",
-   "metin": "Formun altında kısa bilgi ve \"Aydınlatma Metni\" bağlantısı var; onay kutusu yok. Kampanya iletisi izni isteğe bağlıdır, işaretsiz gelir.",
+   "baslik": "KVKK: Aydınlatma Metni ve onay",
+   "metin": "Müşteri \"Aydınlatma Metni\"ni açıp okur, \"okudum, bilgilendirildim\" kutusunu işaretler; işaretlemeden form gönderilmez. Kampanya iletisi izni ayrı, isteğe bağlı, işaretsiz gelir.",
    "m": "s1-03-m.jpg",
    "p": "s1-01-p.jpg",
    "ust": "#0d2b29",
@@ -177,8 +177,8 @@ window.SENARYO = {
   },
   {
    "kim": "m",
-   "baslik": "KVKK: Aydınlatma Metni",
-   "metin": "\"Aydınlatma Metni\"ne dokununca metnin tamamı açılır. Kampanya iletisi izni isteğe bağlıdır, işaretsiz gelir.",
+   "baslik": "KVKK: Aydınlatma Metni ve onay",
+   "metin": "\"Aydınlatma Metni\"ne dokununca metnin tamamı açılır; müşteri \"okudum, bilgilendirildim\" kutusunu işaretlemeden hesap açılmaz. Kampanya iletisi izni ayrı, isteğe bağlı, işaretsiz gelir.",
    "m": "s2-05-m.jpg",
    "p": "s2-01-p.jpg",
    "ust": "#858a90",

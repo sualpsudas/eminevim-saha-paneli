@@ -109,7 +109,7 @@ def musteri_islem(veri, istek):
             return {"kayitli": False}
         m["sonGiris"] = simdi()
         return {"kayitli": True, **oturum(veri, tel)}
-    if islem == "kayit":  # yeni müşteri: SMS kodu + Ad + Soyad (aydınlatma gösterildi) + isteğe bağlı ticari ileti izni
+    if islem == "kayit":  # yeni müşteri: SMS kodu + Ad + Soyad + "Aydınlatma Metni'ni okudum" onayı + isteğe bağlı ticari ileti izni
         if m:
             raise ValueError("Bu numara kayıtlı. Kodla giriş yapın.")
         adi, soyadi = metin(istek.get("adi"), 40), metin(istek.get("soyadi"), 40)
@@ -117,8 +117,8 @@ def musteri_islem(veri, istek):
             raise ValueError("Adınızı yazın.")
         if len(soyadi) < 2:
             raise ValueError("Soyadınızı yazın.")
-        if istek.get("aydinlatma") is not True:
-            raise ValueError("Aydınlatma metni gösterilemedi. Yeniden deneyin.")
+        if istek.get("aydinlatmaOnay") is not True:
+            raise ValueError("Devam etmek için Aydınlatma Metni'ni okuduğunuzu onaylayın.")
         kod_dogru(tel, istek.get("kod"), harca=True)
         hesap_ac(veri, tel, adi, soyadi, istek.get("kampanya") is True)
         return oturum(veri, tel)

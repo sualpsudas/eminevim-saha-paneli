@@ -103,6 +103,13 @@ with sync_playwright() as p:
     yeni.get_by_role('dialog',name='Aydınlatma Metni',exact=True).get_by_text('hukuk onayı',exact=False).wait_for()
     assert yeni.get_by_text('üçüncü kişilerle paylaşılmaz',exact=False).count()==0
     yeni.get_by_role('dialog',name='Aydınlatma Metni',exact=True).get_by_role('button',name='Kapat',exact=True).click()
+    # KVKK onayı (2026-11-18): "okudum, bilgilendirildim" kutusu zorunlu; metin bağlantısı kutuyu işaretlemez
+    onay=yeni.get_by_role('checkbox',name="Aydınlatma Metni'ni okudum, bilgilendirildim",exact=True)
+    assert not onay.is_checked()
+    buton('Hesabımı oluştur').click()
+    yeni.get_by_role('alert').get_by_text('Devam etmek için Aydınlatma Metni',exact=False).wait_for()
+    assert not app(yeni,'app.state.girisYapildi')
+    onay.check()
     soyad.fill(''); buton('Hesabımı oluştur').click()
     yeni.get_by_role('alert').get_by_text('Soyadınızı yazın.',exact=True).wait_for()
     assert not app(yeni,'app.state.girisYapildi')

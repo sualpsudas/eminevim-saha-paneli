@@ -67,7 +67,7 @@ eminevim-saas/
   üyeleri aynı hesapla (aynı telefon) girer, yeni müşteri o sistemde aday olarak açılır.
 - **Bağlantı:** `merkez/ty/musteri.py → kod_gonder()` SMS servisine bağlanır ve kod yanıtta **dönmez**; `musteri_islem()` hesap okuma/açmayı
   Eminevim üye sistemine yönlendirir (islem: kod, dogrula, kayit, web, oturum, cikis).
-- **KVKK:** aydınlatma metni gösterilir (onay kutusu yok); açık rıza yalnız isteğe bağlı ticari elektronik ileti için (ayrı kutu, `kampanya`).
+- **KVKK:** aydınlatma metni gösterilir, müşteri "okudum, bilgilendirildim" kutusunu işaretler (merkez `aydinlatmaOnay` + `aydinlatmaTarih` = onay anı); açık rıza yalnız isteğe bağlı ticari elektronik ileti için (ayrı kutu, `kampanya`).
   Uygulamadaki ve web formundaki metinler örnektir: yayından önce Eminevim uyum/hukuk onayı gerekir. Hukuki sebep, saklama süresi ve
   İYS (ileti izin sistemi) kaydı şirket sürecine göre netleşir. Metin tek dosyada: `uygulama/aydinlatma.js` (saklama süreleri
   örnek: 2 yıl / 10 yıl / izin için 3 yıl). İzin değişikliği `musteri_islem(islem="izin")` → İYS'ye bu noktadan bildirilir.
