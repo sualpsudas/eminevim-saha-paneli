@@ -18,7 +18,7 @@ with sync_playwright() as p:
     frame=page.frames[1]
     frame.on('pageerror',lambda e:errors.append(str(e)))
     frame.get_by_role('button',name='Devam et',exact=True).click()
-    frame.get_by_role('button',name='Giriş Yap',exact=True).click()
+    frame.get_by_role('button',name='Doğrula',exact=True).click()
     rows=frame.locator('.m-randevu-row')
     rows.first.wait_for()
     assert frame.evaluate('window.EMINEVIM_NATIVE') is True
@@ -57,7 +57,7 @@ with sync_playwright() as p:
     assert frame.locator('.m-yeni').count()==0
     frame.goto(frame.url)
     frame.get_by_role('button',name='Devam et',exact=True).click()
-    frame.get_by_role('button',name='Giriş Yap',exact=True).click()
+    frame.get_by_role('button',name='Doğrula',exact=True).click()
     rows.first.wait_for()
     assert frame.locator('.m-yeni').count()==0
     app(frame,'app.setState({mTalep:{...app.state.mTalep,revision:2}})')
@@ -88,7 +88,7 @@ with sync_playwright() as p:
     mobile.goto('http://127.0.0.1:8799/linkler.html#uygulama-telefon')
     mf=mobile.frame_locator('#cerceve')
     mf.get_by_role('button',name='Devam et',exact=True).click()
-    mf.get_by_role('button',name='Giriş Yap',exact=True).click()
+    mf.get_by_role('button',name='Doğrula',exact=True).click()
     mf.locator('.m-randevu-row').first.wait_for()
     assert 'preview-iphone' not in (mf.locator('html').get_attribute('class') or '')
     assert mf.locator('.m-randevu-row').evaluate('(e)=>e.scrollWidth<=e.clientWidth+1')

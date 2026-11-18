@@ -37,7 +37,9 @@ test et, kanıt göster.** Emin olmadığın her şeyde dur ve kullanıcıya sor
   yazı tipi Century Gothic. Yeni bileşen bu değerlerle yapılır.
 - Web formunda e-posta istenmez; sayfadaki tüm linkler etkisizdir (`data-ty-dis` hariç) — bu kural korunur.
 - Gerçek kişi fotoğrafı kullanılmaz (yalnız sentetik görseller).
-- KVKK: kayıtlı olmayan numara KVKK onayı vermeden müşteri hesabına giremez. Web'den gelen müşteride onay web formunda alınır.
+- Müşteri girişi parolasız (2026-11-18): telefon + SMS kodu; yeni müşteri Ad + Soyad (ayrı kutular). E-posta/TC kimlik sorulmaz.
+- KVKK: aydınlatma metni gösterilir, onay kutusu YOK; açık rıza yalnız isteğe bağlı ticari elektronik ileti için (ayrı, işaretsiz kutu).
+  "Üçüncü kişilerle paylaşılmaz" gibi yanlış söz yazılmaz. Metinler örnektir, hukuk onayı gerekir.
 - İstenen işin dışına taşan "iyileştirme", yeniden adlandırma, biçim düzeltme, bağımlılık güncellemesi **yapma**. Gördüğün sorunu
   rapor et, kendiliğinden düzeltme.
 - Silmek yerine kapatmayı tercih et; büyük bir şeyi kaldırman gerekiyorsa önce sor.
@@ -81,24 +83,14 @@ Bir test bozulursa testi gevşetme/silme; nedenini bul. Test yeni davranışa g�
 ## 7. Bekleyen işler — yapılırsa ne değişir
 Her biri ayrı onay ister. Planı yazarken aşağıdaki etkileri kullanıcıya hatırlat.
 
-**A. Web formunda açık rıza (konum) onayı**
-- Bugün: web formunda yalnız "Aydınlatma Yazısını okudum" kutusu; uygulamadaki KVKK ekranı ise kişisel veri + **konum** için açık rıza ister.
-  Web'den gelen müşteriye uygulamada KVKK sorulmaz.
-- Yapılırsa: `web-basvuru/form_bolumu.html`'de "Temsilci çağırmak istiyorum" seçilince ek onay kutusu (uygulamadaki rıza cümlesi), zorunlu;
-  `python olustur.py` ile `index.html` yeniden üretilir; merkeze giden çağrıya onay bilgisi (tarih) eklenebilir (`merkez/sunucu.py` `api/cagri`).
-  Değişen testler: `web-flows.py`, `merkez-akis.py` (form doldurma adımı). Uygulama tarafı değişmez. Kesin metin Eminevim uyum/hukuk onayına bağlı.
+**A. Web formu KVKK — YAPILDI (2026-11-18):** kabul ve konum rıza kutuları kalktı; aydınlatma bilgisi + pencere, isteğe bağlı ticari ileti izni.
 
-**B. Giriş Yap / Kayıt Ol / Parolamı unuttum sadeleştirme**
-- Bugün: "Kayıt Ol" ve "Parolamı unuttum" aynı SMS kodu akışını açar; kayıtlı numara Kayıt Ol'da sessizce parola yenilemeye düşer;
-  Giriş Yap'ta kayıtsız numara Kayıt Ol akışına yönlenir (KVKK).
-- Yapılırsa: tek giriş "Telefon numaranızla devam edin" → SMS kodu → sistem karar verir (kayıtlı: parola; yeni: ad soyad + parola + KVKK;
-  web'den gelen: parola + çağrı açılır). Değişen: uygulamada giriş ekranı ve `kodIleri`/`submitGiris`/`kodAdGerekli`; `URUN_KURALLARI.md`
-  giriş bölümü; testler `web-flows.py`, `browser-flows.py`, `phone-layout.py`, `merkez-akis.py` (giriş adımları); `senaryo.html` ve
-  taslaklardaki giriş ekranı metinleri kontrol edilir. `video/` değişmez (videodaki eski ekran bilerek kalır).
+**B. Tek giriş — YAPILDI (2026-11-18, parolasız):** telefon → SMS kodu → kayıtlıysa içeri, yeniyse Ad + Soyad. Uygulamada
+  `kodIleri` / `yeniHesapAc` / `webCagrisiAc`; merkezde `merkez/ty/musteri.py`. `video/` değişmez (videodaki eski ekran bilerek kalır).
 
 **C. Müşterinin "kayıtlı" bilgisini merkezde tutmak — YAPILDI (2026-11-11)**
-- `merkez/sunucu.py` `api/musteri` (islem: sorgu, kod, kodkontrol, kayit, giris, yenile, web); `veri.json` → `musteriler`.
-  Uygulamada `musteriMerkez`, `musteriOturumu`. Parola özeti (`tuz`, `ozet`) hiçbir yanıtta dışarı çıkmamalı.
+- `merkez/ty/musteri.py` `api/musteri` (islem: kod, dogrula, kayit, web, oturum, cikis); `veri.json` → `musteriler`.
+  Uygulamada `musteriMerkez`, `musteriOturumu`. Oturum jetonu özetleri (`jetonlar`) hiçbir yanıtta dışarı çıkmamalı.
 
 **D. TestFlight uygulamasına kapalıyken bildirim (APNs)**
 - Bugün: tarayıcı/ana ekran sürümünde Web Push çalışıyor; TestFlight uygulamasında (WKWebView) Web Push yok.

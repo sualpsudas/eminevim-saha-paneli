@@ -61,8 +61,15 @@ eminevim-saas/
   randevu aktarımında `Randevu Sonucu` olarak gidiyor; satış kaydı şirket sisteminde açılır, ertesi günkü H/G hesabına kendiliğinden girer.
 
 ### 2.5 Müşteri hesabı ve SMS
-- **Bugün:** hesaplar merkezde (`veri.json → musteriler`, parola PBKDF2 özeti, oturum jetonu). SMS gönderilmez; kod ekranda gösterilir (test).
-- **Bağlantı:** `merkez/ty/musteri.py → kod_gonder()` SMS servisine bağlanır ve kod yanıtta **dönmez**; hesaplar Eminevim üye sistemine taşınabilir.
+- **Bugün:** hesaplar merkezde (`veri.json → musteriler`: adi, soyadi, aydinlatmaTarih, kampanya + tarihi; oturum jetonu). **Parola yok:**
+  telefon + SMS kodu; oturum "Çıkış yap"a kadar telefonda kalır. SMS gönderilmez; kod ekranda gösterilir (test).
+- **Tek hesap:** ayrı "Tasarruf Yanımda üyeliği" açılmaz. Gerçek yayında Eminevim'in var olan üye/müşteri hesabı kullanılır: gerçek Eminevim
+  üyeleri aynı hesapla (aynı telefon) girer, yeni müşteri o sistemde aday olarak açılır.
+- **Bağlantı:** `merkez/ty/musteri.py → kod_gonder()` SMS servisine bağlanır ve kod yanıtta **dönmez**; `musteri_islem()` hesap okuma/açmayı
+  Eminevim üye sistemine yönlendirir (islem: kod, dogrula, kayit, web, oturum, cikis).
+- **KVKK:** aydınlatma metni gösterilir (onay kutusu yok); açık rıza yalnız isteğe bağlı ticari elektronik ileti için (ayrı kutu, `kampanya`).
+  Uygulamadaki ve web formundaki metinler örnektir: yayından önce Eminevim uyum/hukuk onayı gerekir. Hukuki sebep, saklama süresi ve
+  İYS (ileti izin sistemi) kaydı şirket sürecine göre netleşir.
   Uygulama tarafı: `uygulama/hesap.js` (yalnız gösteri modunda kullanılır).
 
 ### 2.6 Bildirim
@@ -81,6 +88,9 @@ eminevim-saas/
 ### 2.9 Harita, rota, adres arama
 - `uygulama/servisler.js` (`window.TY_SERVISLER`): bugün OpenStreetMap altlığı, OSRM rota, Nominatim adres arama (ücretsiz, deneme amaçlı).
   Şirket kendi servisini kullanacaksa yalnız bu dosyadaki adresler değişir (ya da sayfadan önce `window.TY_SERVISLER` tanımlanır).
+- **KVKK notu (yurt dışı aktarım):** bu ücretsiz servisler yurt dışındaki sunuculardır; adres arama ve rota isteğinde müşterinin seçtiği
+  konum/adres onlara gider. Gerçek yayında yurt içi ya da sözleşmeli bir harita servisi kullanılmalı veya yurt dışı aktarım KVKK m.9'a göre
+  ele alınmalı (aydınlatma metninde de yazılmalı). Web Push bildirim servisleri (Apple/Google) için de aynı değerlendirme yapılır.
 
 ### 2.10 Finansman hesabı
 - `uygulama/finansman.js → senaryoHesapla`: **örnek** formül. Gerçek yayında şirketin onaylı hesabı + uyum/hukuk onayı şart.

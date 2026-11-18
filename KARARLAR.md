@@ -53,6 +53,15 @@ Yalnız gerektiğinde okunur (amaç/ilke, plan, belge işi, "bu neden böyle" so
   ciro ayı **Kayıt Tarihi**; randevu hedefi günlük 10 (genel); H/G **son 3 ay** ortalaması; randevu dosyasında kişi ad soyadla yazılı.
 - Açık: gerçek şube–klasman tablosu; yeni personelde ciro hedefinde kıst (orantılama) yok; ad soyad eşleşmesi kırılgan (sicil sütunu önerilir).
 
+## Müşteri girişi ve KVKK (2026-11-18, kullanıcı onaylı: "önerilerinle ilerle, parola kalkabilir, ad soyad ayrı kutu")
+- Benzer uygulamalarla karşılaştırıldı: hizmet/çağrı uygulamalarında giriş telefon + SMS kodudur, parola yoktur; oturum telefonda kalır.
+  Parola tek kullanımlık kodun üstüne güvenlik katmıyordu, unutulma ve yenileme akışı ekliyordu → kalktı.
+- Yeni müşteriden yalnız Ad + Soyad (ayrı kutular: şirket müşteri kartında ayrı sütunlar). E-posta, TC kimlik yok.
+- KVKK: hizmet için gerekli veri (görüşme, konum) sözleşmenin kurulması/ifası sebebiyle işlenir → açık rıza kutusu yerine aydınlatma
+  gösterilir (zorunlu onay kutusu "rızayı hizmete bağlama" sayılabilir). Açık rıza yalnız isteğe bağlı ticari ileti için, ayrı kutu.
+  "Üçüncü kişilerle paylaşılmaz" sözü kalktı (harita/SMS/bildirim sağlayıcıları var). Yurt dışı harita servisleri `IT_DEVIR.md`'de not edildi.
+- Gerçek yayında tek hesap: Eminevim üyeleri aynı hesapla girer. Metinler hukuk/uyum onayına bağlı.
+
 ## Tarihçe
 - 2026-10-20/21: proje adı Tasarruf Yanımda; müşteriye uygulama indirtilmez, önce web. Web formunda e-posta istenmez (10-21 akşam).
   Bütçe hesabı kullanıcı kararıyla web sitesine de eklendi. Görünüm kaynağı eminevim.com oldu.

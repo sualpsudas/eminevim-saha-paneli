@@ -65,10 +65,12 @@ def randevu_satiri(veri, k):
 def musteri_karti(k):
     m = k.get("musteri") or {}
     ad = str(m.get("ad") or "").split()
-    return {"Kart No": None, "Adı": " ".join(ad[:-1]) or (ad[0] if ad else ""), "Soyadı": ad[-1] if len(ad) > 1 else "",
+    adi = m.get("adi") or " ".join(ad[:-1]) or (ad[0] if ad else "")
+    soyadi = m.get("soyadi") or (ad[-1] if len(ad) > 1 else "")
+    return {"Kart No": None, "Adı": adi, "Soyadı": soyadi,
             "Kategori": "Aday Müşteri", "Referans Grubu": "DİJİTAL KANALI", "Referans (Nereden Duydun)": "TASARRUF YANIMDA",
             "Kaynak": "Tasarruf Yanımda", "Oluşturma Tarihi": _tarih(k.get("olusma"), False), "Semt / Mahalle": k.get("yer") or "",
-            "İl": "İstanbul", "Telefon": m.get("tel") or "", "Id": k["id"]}
+            "İl": "İstanbul", "Telefon": m.get("tel") or "", "Ticari İleti İzni": "Evet" if k.get("kampanya") else "Hayır", "Id": k["id"]}
 
 
 def yeni_cagri(k):

@@ -732,3 +732,14 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Merkez `merkez/ty/` paketine bölündü (ayarlar, yardim, personel, depo, konum, atama, bildirim, musteri, aktarim, islemler, api); `sunucu.py` ince giriş, komutlar aynı. Yeni: `api/konum` (canlı konum girişi), şirkete aktarım `merkez/aktarim/*.jsonl` (randevu + aday müşteri kartı, şirket sütun adlarıyla).
 - Belgeler: `IT_DEVIR.md` (yeni), `veri/OKUBENI.md` (yeni), CLAUDE.md, AGENTS.md, TEKNIK.md, KARARLAR.md, assets/temsilci/OKUBENI.md.
 - Testler: `npm test` OK; `tests/merkez-akis.py` (deneme merkezi 8795) OK; Playwright browser-flows, phone-layout, web-flows, appointment-list, preparation-popup OK; `npm run web:sync` → `www/` hatasız açılıyor.
+
+## 2026-11-18 (2) — Parolasız giriş ve KVKK düzeni
+- Kullanıcı onayı: "önerilerinle ilerle, parola kalkabilir, ad soyad ayrı kutu olabilir".
+- Uygulama: telefon → SMS kodu → kayıtlıysa içeri; yeni müşteri Ad + Soyad (ayrı kutu), aydınlatma bilgisi + "Aydınlatma Metni" penceresi,
+  isteğe bağlı işaretsiz ticari ileti kutusu. Parola, "Parolamı unuttum", ayrı KVKK ekranı ve eski "Kayıt Ol" penceresi kalktı.
+- Merkez `ty/musteri.py`: islem kod/dogrula/kayit/web/oturum/cikis; hesapta adi, soyadi, aydinlatmaTarih, kampanya. Aktarım müşteri kartı
+  Adı/Soyadı'nı hesaptan alır, "Ticari İleti İzni" alanı eklendi.
+- Web formu: kabul kutusu ve konum rıza kutusu kalktı; bilgi satırı + Aydınlatma Metni penceresi; çağrıya aydinlatma/kampanya, bağlantıya
+  adi/soyad/kampanya. `olustur.py` ile yeniden üretildi.
+- Belgeler: URUN_KURALLARI, TEKNIK, IT_DEVIR (tek hesap, KVKK, yurt dışı harita servisleri), KARARLAR, AGENTS. sw CACHE v20.
+- Testler (hepsi OK): browser-flows, web-flows, appointment-list, phone-layout, preparation-popup, merkez-akis (deneme merkez 8795), npm test.

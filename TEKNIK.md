@@ -43,7 +43,8 @@ yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyo
   Bağımlılık: conda base'de `pywebpush`. `merkez/vapid.pem` ve `*_abonelik.json` yalnız sunucuda. iPhone Safari'de yalnız Ana Ekrana Ekle ile.
   Bilgisayar Chrome'unda bildirim denemesi Google'a bağlı ve kararsız, kalıcı teste konmadı; merkez mantığı `tests/merkez-akis.py`
   sahte bildirim sunucusuyla sınanır. Kullanıcı notu: personel girişi ileride yalnız telefondan (ya da yerel uygulamadan) olacak.
-- **Müşteri hesabı:** merkezde (`api/musteri`, `veri.json` → `musteriler`; parola PBKDF2 özeti). Girişte merkez bir jeton verir; müşteri
+- **Müşteri hesabı:** merkezde (`api/musteri` islem: kod, dogrula, kayit, web, oturum, cikis; `veri.json` → `musteriler`: adi, soyadi,
+  aydinlatmaTarih, kampanya). Parola yok (2026-11-18): telefon + SMS kodu. Girişte merkez bir jeton verir; müşteri
   aboneliği (`api/abone` + `musteri`, `jeton`) yalnız onunla. Bildirimler: SPY kabul ("Temsilciniz belli oldu"), yola çıkış (tahmini varış),
   SPY mesajı (kabul/yola çıkış hazır mesajları `oto` ile ayrı bildirim üretmez). Dokununca o randevu açılır (`?ac=` / servis çalışanı mesajı).
   Bir telefon tek kişiye bağlı (SPY ya da müşteri; sonuncusu geçerli).

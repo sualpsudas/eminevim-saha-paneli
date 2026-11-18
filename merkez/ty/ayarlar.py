@@ -40,11 +40,9 @@ KAPALI_DURUMLAR = {"tamamlandi", "iptal"}
 DURUM_AD = {"alindi": "yeni çağrı", "atandi": "SPY kabul etti", "netlesti": "müşteri saati onayladı", "yolda": "SPY yola çıktı",
             "gorusme": "SPY yolda", "gorusmede": "kapıda doğrulandı, görüşmede", "tamamlandi": "görüşme tamamlandı", "iptal": "iptal edildi"}
 
-# Müşteri hesabı: parolanın kendisi saklanmaz (PBKDF2 özeti)
-PAROLA_TUR = 100_000
-HATA_SINIR, KILIT_DK = 5, 5   # art arda 5 yanlış parola → 5 dk giriş kapalı
-KOD_DK = 10                   # SMS kodu (test: ekranda gösterilir) 10 dk geçerli
-DEMO_PAROLA = "test123"
+# Müşteri hesabı (parola yok): telefon + SMS kodu
+HATA_SINIR = 5   # aynı koda art arda 5 yanlış deneme → kod geçersiz, yenisi istenir
+KOD_DK = 10      # SMS kodu (test: ekranda gösterilir) 10 dk geçerli
 
 # Sunulan dosyalar (depo kökünden). Klasörlerin içindeki her dosya, yalnız aşağıdaki uzantılarla.
 STATIK_UZANTI = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",

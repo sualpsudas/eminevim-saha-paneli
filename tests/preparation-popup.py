@@ -15,7 +15,7 @@ with sync_playwright() as p:
         page=browser.new_page(viewport={'width':width,'height':height},reduced_motion='reduce')
         page.goto('http://127.0.0.1:8799/Eminevim%20Saha%20Paneli.dc.html?native=1')
         page.get_by_role('button',name='Devam et',exact=True).click()
-        page.get_by_role('button',name='Giriş Yap',exact=True).click()
+        page.get_by_role('button',name='Doğrula',exact=True).click()
         app(page,'app.setState({mTalep:{...app.state.mTalep,durum:"atandi"}})')
         dialog=page.get_by_role('dialog',name='Görüşmeye hazırlanmamıza yardımcı olun',exact=True)
         assert dialog.count()==0
@@ -48,7 +48,7 @@ with sync_playwright() as p:
         assert app(page,'app.state.mTalep.durum')=='netlesti'
         page.reload()
         page.get_by_role('button',name='Devam et',exact=True).click()
-        page.get_by_role('button',name='Giriş Yap',exact=True).click()
+        page.get_by_role('button',name='Doğrula',exact=True).click()
         page.get_by_role('button',name='Randevularım',exact=True).wait_for()
         assert dialog.count()==0
         page.close()

@@ -7,7 +7,7 @@
   konum.py     KONUM KAPISI     — SPY'nin anlık konumu (canlı takip girişi: api/konum)
   atama.py     ATAMA KAPISI     — çağrıyı hangi SPY alır
   bildirim.py  BİLDİRİM KAPISI  — telefon bildirimi (Web Push; ileride APNs/SMS)
-  musteri.py   MÜŞTERİ HESABI KAPISI — telefon + parola, SMS kodu, oturum
+  musteri.py   MÜŞTERİ HESABI KAPISI — telefon + SMS kodu (parola yok), oturum
   aktarim.py   AKTARIM KAPISI   — çağrıları şirketin randevu / müşteri kartı biçiminde dışarı verir
   islemler.py  istekleri işleyen kurallar (api/cagri, api/kayit, ...)
   api.py       HTTP sunucusu (adresler, dosya sunma, başlat/durdur)

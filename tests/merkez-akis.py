@@ -110,19 +110,20 @@ with sync_playwright() as p:
     except urllib.error.HTTPError as e:
         assert e.code == 400
 
-    # Yeni müşteri: gerçek ekran adımlarıyla kod, ad/parola ve KVKK.
+    # Yeni müşteri: gerçek ekran adımlarıyla SMS kodu → Ad + Soyad (aydınlatma gösterilir) + isteğe bağlı ticari ileti izni
     musteri.get_by_label('Telefon numaranız',exact=True).fill('0555 111 22 33')
     musteri.get_by_role('button',name='Devam et',exact=True).click()
     musteri.get_by_label('SMS ile gelen 6 haneli kod').wait_for()
     musteri.get_by_role('button',name='Doğrula',exact=True).click()
-    musteri.get_by_label('Ad Soyad',exact=True).fill('Deniz Test')
-    musteri.get_by_label('Parola',exact=True).fill('test123')
-    musteri.get_by_label('Parola tekrar',exact=True).fill('test123')
-    musteri.get_by_role('button',name='Parolayı kaydet ve devam et',exact=True).click()
-    musteri.get_by_role('checkbox',name='Aydınlatma Metni',exact=False).check()
-    musteri.get_by_role('button',name='Onaylıyorum',exact=True).click()
+    musteri.get_by_label('Ad',exact=True).fill('Deniz')
+    musteri.get_by_label('Soyad',exact=True).fill('Test')
+    musteri.get_by_role('checkbox',name='Ticari elektronik ileti izni (isteğe bağlı)',exact=True).check()
+    musteri.get_by_role('button',name='Hesabımı oluştur',exact=True).click()
     bekle(musteri, 'app.state.girisYapildi')
     assert app(musteri, 'app.state.customerForm.name') == 'Deniz Test'
+    hs = json.loads((Path(tempfile.gettempdir()) / 'deneme.json').read_text(encoding='utf-8'))['musteriler']['5551112233']
+    assert hs['adi'] == 'Deniz' and hs['soyadi'] == 'Test' and hs['kampanya'] is True and hs['aydinlatmaTarih'] > 0, hs
+    assert not any(a in hs for a in ('tuz', 'ozet', 'parola')), hs
     # Müşteri bildirimi: girişten sonra Randevularım'da "Bildirimleri açın" kartı; abonelik yalnız girişte verilen jetonla
     musteri.get_by_text('Bildirimleri açın', exact=True).wait_for()
     ab['/m1'] = abonelik('/m1')
@@ -274,16 +275,15 @@ with sync_playwright() as p:
     web.goto(KOK + 'web-basvuru/index.html', wait_until='domcontentloaded')
     web.wait_for_function("document.querySelector('[data-ty-form] input[name=ad]').value.length>0")
     form = web.locator('.tk-desktopForm [data-ty-form]')
-    # Merkez de web çağrısını onaysız kabul etmez.
+    # Merkez, aydınlatma metni gösterilmemiş web çağrısını kabul etmez (form her gönderimde aydinlatma:true yollar).
     try:
         merkez('api/cagri', {'kaynak':'web', 'kayit':{'id':'onaysiz-web','kaynak':'web','konum':{'lat':41.02,'lng':29.02}}})
-        raise AssertionError('Onaysız web çağrısı kabul edildi')
+        raise AssertionError('Aydınlatmasız web çağrısı kabul edildi')
     except urllib.error.HTTPError as err:
-        assert err.code == 400 and 'konum onayı' in json.loads(err.read())['hata']
+        assert err.code == 400 and 'Aydınlatma' in json.loads(err.read())['hata']
     form.locator('[name=temsilci]').check()
-    assert web.locator('[data-pen=temsilci].acik').count() == 0
-    form.locator('[data-konum-riza] label').click()
     pencere = web.locator('[data-pen=temsilci].acik')
+    pencere.wait_for()
     pencere.locator('[data-ileri]').click(); pencere.locator('[data-ileri]').click()
     form.locator('[type=submit]').click()
     sonuc = web.locator('.tk-desktopForm [data-sonuc]')
@@ -301,8 +301,9 @@ with sync_playwright() as p:
     link = sonuc.locator('a[data-ty-dis]').first.get_attribute('href')
     rid = parse_qs(urlparse(link).query)['rid'][0]
     wk = next(x for x in merkez('api/durum?hepsi=1')['kayitlar'] if x['id'] == rid)
-    assert wk['konumRizaTarih'] == wk['olusma'] and wk['konumRizaTarih'] > 0
+    assert wk['aydinlatmaTarih'] == wk['olusma'] and wk['aydinlatmaTarih'] > 0 and wk['kampanya'] is False
     assert wk['girisKodu'] == kod and wk['kaynak'] == 'web' and wk['musteri']['ad'] == 'Mehmet Demir', wk
+    assert wk['musteri']['adi'] == 'Mehmet' and wk['musteri']['soyadi'] == 'Demir', wk
     uyg = web_ctx.new_page(); uyg.set_viewport_size({'width': 393, 'height': 852})
     uyg.on('pageerror', lambda e: errors.append('uyg: ' + str(e)))
     uyg.goto(link + '&native=1', wait_until='domcontentloaded')
@@ -311,8 +312,6 @@ with sync_playwright() as p:
     uyg.get_by_role('button', name='Doğrula', exact=True).click()
     uyg.get_by_role('alert').get_by_text('Kod eşleşmedi', exact=False).wait_for()
     uyg.get_by_label('SMS ile gelen 6 haneli kod').fill(kod); uyg.get_by_role('button', name='Doğrula').click()
-    uyg.get_by_label('Parola', exact=True).fill('abc123'); uyg.get_by_label('Parola tekrar').fill('abc123')
-    uyg.get_by_role('button', name='Parolayı kaydet ve devam et').click()
     bekle(uyg, 'app.state.mTalep && app.state.mTalep.id===' + repr(rid))
     assert app(uyg, 'app.state.customerForm.name') == 'Mehmet Demir'
     # Web'den gelen müşteri: tanıtım geçilince görüşmeye hazırlık penceresi; kaydedilen bilgi merkeze gider
@@ -330,7 +329,7 @@ with sync_playwright() as p:
         uyg.wait_for_timeout(300)
     assert (wk.get('ekBilgi') or {}).get('neIcin') == 'Konut', wk.get('ekBilgi')
 
-    # Hesap merkezde: A telefonunda açılan hesapla B telefonunda yalnız parolayla girilir; çağrılar da gelir
+    # Hesap merkezde: A telefonunda açılan hesapla B telefonunda aynı numara + SMS koduyla girilir (ad sorulmaz); çağrılar da gelir
     def telefon_b():
         pg = browser.new_context(viewport={'width': 393, 'height': 852}).new_page()
         pg.on('pageerror', lambda e: errors.append('b: ' + str(e)))
@@ -339,28 +338,30 @@ with sync_playwright() as p:
     def numara(pg, tel):
         pg.get_by_label('Telefon numaranız', exact=True).fill(tel)
         pg.get_by_role('button', name='Devam et', exact=True).click()
+        pg.get_by_label('SMS ile gelen 6 haneli kod').wait_for()
+        bekle(pg, 'String(app.state.kodGirdi||"").length===6')
     b = telefon_b()
     numara(b, '0555 111 22 33')
-    b.get_by_text('Parolanızı girin', exact=True).wait_for()
-    b.get_by_label('Parola', exact=True).fill('yanlis1')
-    b.get_by_role('button', name='Giriş Yap', exact=True).click()
-    b.get_by_role('alert').get_by_text('Parola eşleşmedi', exact=False).wait_for()
-    b.get_by_label('Parola', exact=True).fill('test123')
-    b.get_by_role('button', name='Giriş Yap', exact=True).click()
+    assert b.get_by_label('Parola', exact=True).count() == 0
+    dogru = app(b, 'app.state.kodGirdi')
+    b.get_by_label('SMS ile gelen 6 haneli kod').fill('000000' if dogru != '000000' else '111111')
+    b.get_by_role('button', name='Doğrula', exact=True).click()
+    b.get_by_role('alert').get_by_text('Kod eşleşmedi', exact=False).wait_for()
+    b.get_by_label('SMS ile gelen 6 haneli kod').fill(dogru)
+    b.get_by_role('button', name='Doğrula', exact=True).click()
     bekle(b, 'app.state.girisYapildi && app.state.mTalep')
-    assert app(b, 'app.state.customerForm.name') == 'Deniz Test' and app(b, 'app.state.kvkkAsama') is False
+    assert app(b, 'app.state.customerForm.name') == 'Deniz Test' and app(b, 'app.state.kampanyaIzni') is True
     assert app(b, 'app.state.mTalep.durum') == 'tamamlandi' and app(b, 'app.state.chatMessages.length') >= 3
     b.screenshot(path=str(OUT / '9-baska-telefon-giris.png'))
-    # Uygulama kapanıp açılınca müşteri girişli kalır (parola sorulmaz), randevular merkezden gelir
+    # Uygulama kapanıp açılınca müşteri girişli kalır (kod sorulmaz), randevular merkezden gelir
     b.reload()
     bekle(b, 'app.state.girisYapildi && app.state.customerForm.name==="Deniz Test" && app.state.mTalep', 10000)
-    assert 'test123' not in b.evaluate('JSON.stringify(localStorage)'), 'Parola telefonda saklanmamalı'
-    # Web'den gelen müşteri (Mehmet Demir) de başka telefonda parolayla girer, web çağrısı Randevularım'da
+    # Web'den gelen müşteri (Mehmet Demir) de başka telefonda numara + SMS koduyla girer, web çağrısı Randevularım'da
     b2 = telefon_b()
     numara(b2, parse_qs(urlparse(link).query)['tel'][0])
-    b2.get_by_label('Parola', exact=True).fill('abc123')
-    b2.get_by_role('button', name='Giriş Yap', exact=True).click()
+    b2.get_by_role('button', name='Doğrula', exact=True).click()
     bekle(b2, 'app.state.mTalep && app.state.mTalep.id===' + repr(rid))
+    assert app(b2, 'app.state.customerForm.name') == 'Mehmet Demir'
     # Çıkış yap → oturum telefonda ve merkezde kapanır; yeniden açınca giriş ekranı
     o = json.loads(b2.evaluate('localStorage.getItem("ty-musteri-oturum")'))
     app(b2, 'app.cikisYap()')
@@ -372,25 +373,25 @@ with sync_playwright() as p:
         raise AssertionError('Çıkıştan sonra eski oturum geçerli olmamalı')
     except urllib.error.HTTPError as e:
         assert e.code == 400
-    # Kayıtlı olmayan numara: parola sorulmaz, SMS kodu → ad/parola → KVKK
+    # Kayıtlı olmayan numara: SMS kodu → Ad + Soyad ekranı (hesap henüz açılmaz)
     b3 = telefon_b()
     numara(b3, '0555 999 88 77')
-    b3.get_by_label('SMS ile gelen 6 haneli kod').wait_for()
     b3.get_by_role('button', name='Doğrula', exact=True).click()
-    b3.get_by_label('Ad Soyad', exact=True).wait_for()
-    assert merkez('api/musteri', {'islem': 'sorgu', 'tel': '5559998877'})['sonuc']['kayitli'] is False
-    # 5 yanlış parola → kısa süreli kilit (doğru parola da geçmez)
+    b3.get_by_label('Soyad', exact=True).wait_for()
+    assert '5559998877' not in json.loads((Path(tempfile.gettempdir()) / 'deneme.json').read_text(encoding='utf-8'))['musteriler']
+    # Aynı koda 5 yanlış deneme → kod geçersiz olur (doğru kod da geçmez, yenisi istenir)
+    yeni_kod = merkez('api/musteri', {'islem': 'kod', 'tel': '5551112233'})['sonuc']['kod']
     for _ in range(5):
         try:
-            merkez('api/musteri', {'islem': 'giris', 'tel': '5551112233', 'parola': 'yanlis'})
+            merkez('api/musteri', {'islem': 'dogrula', 'tel': '5551112233', 'kod': '000000' if yeni_kod != '000000' else '111111'})
         except urllib.error.HTTPError as e:
             assert e.code == 400
     try:
-        merkez('api/musteri', {'islem': 'giris', 'tel': '5551112233', 'parola': 'test123'})
-        raise AssertionError('Kilitliyken giriş olmamalı')
+        merkez('api/musteri', {'islem': 'dogrula', 'tel': '5551112233', 'kod': yeni_kod})
+        raise AssertionError('5 yanlıştan sonra kod geçersiz olmalı')
     except urllib.error.HTTPError as e:
-        assert 'Çok fazla hatalı deneme' in json.loads(e.read())['hata']
-    assert '"tuz"' not in json.dumps(merkez('api/durum?hepsi=1')), 'Parola özeti dışarı çıkmamalı'
+        assert 'süresi doldu' in json.loads(e.read())['hata']
+    assert '"jetonlar"' not in json.dumps(merkez('api/durum?hepsi=1')), 'Hesap bilgisi dışarı çıkmamalı'
 
     # Yeni sürüm yayınlanınca açık uygulamada "Yeni sürüm hazır · Yenile" şeridi
     app(b, 'app._uygulamaSurum="eski"')
@@ -409,12 +410,12 @@ with sync_playwright() as p:
     b2.wait_for_function('localStorage.getItem("ty-randevu-v1")===null', timeout=10000)
     abone = json.loads((Path(tempfile.gettempdir()) / 'deneme_abonelik.json').read_text(encoding='utf-8'))
     assert abone and not any(x.get('musteri') for x in abone.values()), abone
-    assert merkez('api/musteri', {'islem': 'sorgu', 'tel': '5551112233'})['sonuc']['kayitli'] is False
+    assert '5551112233' not in json.loads((Path(tempfile.gettempdir()) / 'deneme.json').read_text(encoding='utf-8'))['musteriler']
     assert not errors, errors
     print('Merkez akışı: OK (7 SPY, hemen çağrı, bildirim tüm telefonlara + telefon değişimi + 410 temizliği, geri sayım + gerekçe, kabul, mesaj, yola çıkış, QR, özet, molada,'
           ' ileri tarih puanı, devret → kimse almadı, Saha Canlı haritası + süzgeç, kompakt performans,'
           ' web formu → SMS penceresi → merkez kodu → uygulama → görüşmeye hazırlık,'
-          ' merkezdeki hesapla başka telefonda parola girişi + yanlış parola + kilit, kayıtsız numara → SMS kodu,'
+          ' merkezdeki hesapla başka telefonda SMS koduyla giriş (parola yok) + yanlış kod + 5 hatada kod iptali, kayıtsız numara → Ad + Soyad,'
           ' müşteri bildirimi: kabul + SPY mesajı + yola çıkış, jetonsuz abonelik reddi, dokununca randevu)')
     print('Görseller:', OUT)
     browser.close()

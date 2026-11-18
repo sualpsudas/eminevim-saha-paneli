@@ -1,4 +1,4 @@
-"""Web başvurusu sonuç ekranı (SMS penceresi) ve uygulamaya geçiş (kod + parola, görüşmeye hazırlık) kontrolü."""
+"""Web başvurusu sonuç ekranı (SMS penceresi) ve uygulamaya geçiş (SMS kodu, parola yok; görüşmeye hazırlık) ve KVKK bilgisi kontrolü."""
 from pathlib import Path
 from urllib.parse import urlparse,parse_qs
 import tempfile
@@ -21,17 +21,20 @@ with sync_playwright() as p:
         else:
             scope=page.locator('.tk-desktopForm')
         form=scope.locator('[data-ty-form]')
-        riza=form.locator('[name=konumRiza]')
+        # KVKK (2026-11-18): aydınlatma yalnız gösterilir (kabul kutusu yok), konum için ayrı rıza kutusu yok; ticari ileti isteğe bağlı
+        assert form.locator('[name=kanun]').count()==0 and form.locator('[name=konumRiza]').count()==0
+        assert not form.locator('[name=kampanya]').is_checked()
+        form.get_by_role('button',name='Aydınlatma Metni',exact=True).click()
+        ayd=page.locator('#ty-aydinlatma.acik')
+        ayd.get_by_text('hukuk onayı',exact=False).wait_for()
+        assert 'üçüncü kişi' not in ayd.inner_text()
+        ayd.get_by_role('button',name='Kapat',exact=True).click()
+        assert page.locator('#ty-aydinlatma.acik').count()==0
         assert not form.locator('[data-konum-riza]').is_visible()
+        form.locator('[name=kampanya]').evaluate('e=>e.click()'); assert form.locator('[name=kampanya]').is_checked()
         form.locator('[name=temsilci]').check()
-        assert form.locator('[data-konum-riza]').is_visible() and not riza.is_checked()
-        assert page.locator('[data-pen=temsilci].acik').count()==0
-        form.locator('[type=submit]').click()
-        form.get_by_text('Temsilci çağırmak için konum onayı verin.',exact=True).wait_for()
-        if width==1440:
-            scope.screenshot(path=str(OUT/'web-konum-onayi.png'))
-        form.locator('[data-konum-riza] label').click()
         dialog=page.locator('[data-pen=temsilci].acik')
+        dialog.wait_for()
         dialog.locator('[data-ileri]').click()
         dialog.locator('[data-ileri]').click()
         form.locator('[type=submit]').click()
@@ -59,19 +62,20 @@ with sync_playwright() as p:
         link=result.locator('a[data-ty-dis]').first.get_attribute('href')
         q=parse_qs(urlparse(link).query)
         assert q['rid'] and q['lat'] and q['lng'] and q['tarih']
+        assert q['adi']==['Mehmet'] and q['soyad']==['Demir'] and q['kampanya']==['1']
+        assert form.locator('[data-konum-riza]').count()==1
         assert urlparse(link).hostname=='127.0.0.1'
-        # Aynı tarayıcıda (aynı site deposu) bağlantıyı aç: önce SMS kodu, sonra parola oluşturma; bilgiler randevuyla gelmeli.
+        # Aynı tarayıcıda (aynı site deposu) bağlantıyı aç: SMS kodu → doğrudan içeri (ad soyad formdan, parola yok); randevu gelmeli.
         app=ctx.new_page(); app.set_viewport_size({'width':393,'height':852})
         app.goto(link+'&native=1',wait_until='domcontentloaded')
         app.wait_for_function('document.querySelector(".login-box [autocomplete=one-time-code]")?.hasAttribute("data-dc-tpl") || !!document.querySelector("[data-dc-tpl][autocomplete=one-time-code]")')
         app.get_by_label('SMS ile gelen 6 haneli kod').fill('000000'); app.get_by_role('button',name='Doğrula',exact=True).click()
         assert app.get_by_text('Kod eşleşmedi').count()==1
         app.get_by_label('SMS ile gelen 6 haneli kod').fill(kod); app.get_by_role('button',name='Doğrula',exact=True).click()
-        app.get_by_label('Parola',exact=True).fill('abc123'); app.get_by_label('Parola tekrar').fill('abc123')
-        app.get_by_role('button',name='Parolayı kaydet ve devam et').click()
         app.wait_for_function("JSON.parse(sessionStorage.getItem('ty-randevu-v1')||'null')?.mTalep")
         saved=app.evaluate("JSON.parse(sessionStorage.getItem('ty-randevu-v1'))")
         assert saved['mTalep']['id']==q['rid'][0]
+        assert app.get_by_label('Parola',exact=True).count()==0 and app.get_by_label('Soyad',exact=True).count()==0
         # Görüşmeye hazırlık yalnız uygulamada: girişte açılır; "Şimdi değil" → Randevum'da kart kalır
         app.wait_for_timeout(800)
         if app.get_by_role('button', name='Atla', exact=True).count():  # önce tanıtım, sonra hazırlık
@@ -82,17 +86,18 @@ with sync_playwright() as p:
         app.get_by_role('button', name='Randevularım', exact=True).click(); app.locator('.m-randevu-row').first.click()
         app.get_by_text('Görüşmeye hazırlık · isteğe bağlı', exact=True).wait_for()
         app.close()
-        # Temsilci seçimini geri alıp konum onayı vermeden normal başvuru yapılabilir.
+        # Temsilci penceresi seçim yapmadan kapatılırsa anahtar kapanır; normal başvuru yapılabilir.
         page.reload(wait_until='domcontentloaded')
         page.wait_for_function("document.querySelector('[data-ty-form] input[name=ad]').value.length>0")
         if width<500: page.locator('.tk-mobilFormYeniCover [data-bs-toggle]').click()
         form.locator('[name=temsilci]').check()
-        form.locator('[name=temsilci]').uncheck()
+        page.locator('[data-pen=temsilci].acik [data-kapat]').first.click()
+        assert not form.locator('[name=temsilci]').is_checked()
         assert not form.locator('[data-konum-riza]').is_visible()
         form.locator('[type=submit]').click()
         result.get_by_text('Sayın Mehmet Demir, çağrınız alındı!',exact=True).wait_for()
         assert result.locator('[data-sms-pencere]').count()==0
         assert not errors,errors
         page.close()
-    print('Web telefon/bilgisayar: sonuç ekranı, SMS penceresi, SMS kodu + parola ile uygulamaya randevu, görüşmeye hazırlık: OK')
+    print('Web telefon/bilgisayar: sonuç ekranı, SMS penceresi, aydınlatma bilgisi, SMS koduyla (parolasız) uygulamaya randevu, görüşmeye hazırlık: OK')
     browser.close()

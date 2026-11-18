@@ -23,17 +23,19 @@ Kurallar ve açık işler `CLAUDE.md`'de, teknik ayrıntı `TEKNIK.md`'de, gerek
 - Çalışma durumu ve yaş aralığı **ilk başvuruda zorunlu değildir**. Başvurudan sonra isteğe bağlı, atlanabilir; sonra düzenlenebilir. Kesin yaş/doğum tarihi istenmez. 2026-11-11: bu sorular **yalnız uygulamada** (web sonuç ekranında yok), bkz. Canlı test sürümü → Görüşmeye hazırlık.
 - Randevu ve hesaplar bu tarayıcı sekmesinin `sessionStorage` alanında saklanır. Gerçek hesap güvenliği, cihazlar arası eşitleme ve kalıcı sunucu kaydı henüz yoktur.
 - Web kaynak formu değişince `python web-basvuru/olustur.py`; native paket için `npm run web:sync`. Yeni `appointment.js`, konum seçimi, rota ve QR kitaplığı native/PWA paketlerine dahil edilmiştir.
-- **Tek müşteri girişi (2026-11-11):** “Telefon numaranızla devam edin”. Kayıtlı numara → yalnız mevcut parola;
-  “Parolamı unuttum” → SMS kodu → yeni parola. Yeni numara → SMS kodu → ad soyad + parola → KVKK → Hoş geldiniz.
-  **Yeni müşteri KVKK onayı olmadan hesabına giremez.** Örnek kayıtlı müşteri Ayşe Kaya (0532 145 67 89); test parolası hazır gelir.
-- **Web’den uygulamaya:** temsilci çağrısının SMS önizlemesindeki bağlantı → başvuruya ait 6 haneli kod → parola → aynı çağrı.
-  Web formundaki konum onayı yeniden sorulmaz. Test kodları gerçek SMS yerine ekranda gösterilir. Gerçek SMS ayrı iştir.
-- **Müşteri hesabı merkezde (2026-11-11, yalnız merkezden açılan sürüm):** telefon, ad soyad, KVKK onay tarihi, web'den geldiyse konum onay
-  tarihi. Parola düz metin tutulmaz (merkezde PBKDF2 özeti). Aynı numara + parola **her telefonda** çalışır; kayıtlı numaraya başka
-  telefonda da yalnız parola sorulur, çağrıları Randevularım'a gelir. Art arda 5 yanlış parola → 5 dk giriş kapalı ("Parolamı unuttum" açık).
-  Web'den gelen müşterinin hesabı parolayı oluşturunca açılır. Test sıfırlaması müşterileri de siler; Ayşe Kaya (parola test123) yeniden kurulur.
-  GitHub Pages gösterisi eski davranışla kalır (hesap o tarayıcıda).
-- **Müşteri oturumu "Çıkış yap"a kadar açık kalır:** uygulama kapanıp açılınca parola sorulmaz. Telefonda parola değil, merkezin verdiği
+- **Tek müşteri girişi (2026-11-18, parola yok):** “Telefon numaranızla devam edin” → SMS kodu. Kayıtlı numara → kod doğrulanınca içeri.
+  Yeni numara → **Ad** ve **Soyad** (ayrı kutular) → “Hesabımı oluştur” → Hoş geldiniz. E-posta ve TC kimlik sorulmaz.
+  **KVKK:** aydınlatma metni veri alınan yerde gösterilir (bilgi cümlesi + “Aydınlatma Metni” penceresi), **onay kutusu yok** (hizmet için
+  gerekli veri, KVKK m.5/2-c). Açık rıza yalnız isteğe bağlı iş için, ayrı ve işaretsiz kutu: ticari elektronik ileti izni. Metinler örnektir,
+  yayından önce Eminevim uyum/hukuk onayı gerekir. Örnek kayıtlı müşteri Ayşe Kaya (0532 145 67 89); test kodu ekranda hazır gelir.
+- **Web’den uygulamaya:** temsilci çağrısının SMS önizlemesindeki bağlantı → başvuruya ait 6 haneli kod → aynı çağrı (ad, soyad ve izin
+  formdan gelir; uygulamada yeniden sorulmaz). Test kodları gerçek SMS yerine ekranda gösterilir. Gerçek SMS ayrı iştir.
+- **Müşteri hesabı merkezde (yalnız merkezden açılan sürüm):** telefon, ad, soyad, aydınlatma gösterim tarihi, ticari ileti izni (+ tarihi).
+  Aynı numara + SMS kodu **her telefonda** çalışır; kayıtlı numarada ad sorulmaz, çağrıları Randevularım'a gelir. Aynı koda 5 yanlış
+  deneme → kod geçersiz, yenisi istenir. Web'den gelen müşterinin hesabı kodla ilk girişte açılır. Test sıfırlaması müşterileri de siler;
+  örnek müşteriler yeniden kurulur. GitHub Pages gösterisinde hesap o tarayıcıda.
+- **Tek hesap:** Tasarruf Yanımda ayrı üyelik açmaz; gerçek yayında Eminevim üyeleri aynı (Eminevim) hesabıyla girer (`IT_DEVIR.md`).
+- **Müşteri oturumu "Çıkış yap"a kadar açık kalır:** uygulama kapanıp açılınca kod sorulmaz. Telefonda merkezin verdiği
   oturum anahtarı saklanır. Çıkış yap ve test verisini sıfırlama oturumu telefonda ve merkezde kapatır.
 - **Test sıfırlaması telefonlara da yansır:** uygulama açılınca (o sırada kapalı olsa bile) yerel randevular silinir, müşteri giriş ekranına döner.
   Yeni sürüm yüklenince üstte "Yeni sürüm hazır · Yenile" çıkar; ana ekrandan açılan uygulamada aşağı çekince sayfa yenilenir.
@@ -60,9 +62,11 @@ her adım bitince burada "Durum" güncellenir.
      2/2 gün ve saat → "Onayla". Pencere onaysız kapanırsa düğme kapanır. Formda tek satır özet + "Değiştir".
    - Harita sade ama **mekânlar görünür** olmalı. Uzaktan bakınca yalnız harita + **hizmet bölgeleri yeşil** alan
      (kompakt görünüm). Hizmet bölgeleri şimdilik: **İstanbul Ümraniye, Ataşehir, Üsküdar**.
-   - Temsilci seçilince ayrı konum açık rızası işaretsiz açılır. Metin amacı kendi içinde söyler (uygulamadaki KVKK ekranında amaçlar cümlenin üstünde yazdığı için "yukarıda belirtilen" web'de kullanılmaz).
-     Onaydan sonra harita açılır. Onay vermek istemeyen temsilci seçimini kapatıp normal başvuru yapabilir.
-     Merkez web temsilci çağrısında onayı doğrular ve zamanını kaydeder.
+   - **KVKK (2026-11-18):** formda kabul kutusu yok; “Kişisel verileriniz … işlenir. Ayrıntılı bilgi: Aydınlatma Metni” bilgi satırı
+     (pencere açar). Konum için ayrı rıza kutusu yok: düğme açılınca harita doğrudan açılır, seçimden sonra formda “Seçeceğiniz yer, yalnız
+     temsilcinin size ulaşması ve görüşmenin planlanması için kullanılır.” notu görünür. Ticari elektronik ileti izni isteğe bağlı, işaretsiz.
+     Merkez web çağrısında aydınlatmanın gösterildiğini (`aydinlatma:true`) ve izni kaydeder; "üçüncü kişilerle paylaşılmaz" gibi yanlış
+     söz yazılmaz (harita/SMS/bildirim hizmet sağlayıcıları kullanılır).
    - Seçilen konum hizmet bölgesinin içindeyse ilerlenir.
    - **2026-11-11 (geçerli):** sonuç ekranı başlığı "Sayın Ad Soyad, temsilci çağrınız alındı!" + gün/saat/yer özeti + "… numarasına SMS
      gönderdik" (SMS önizlemesi kendiliğinden açılan, **Kapat'a kadar duran** pencere; "SMS'i göster" yeniden açar) + uygulama kartı
@@ -99,8 +103,8 @@ Adım 2 bitti: "Başarılı!" ekranı (ad soyad, gün/saat/yer özeti, "Size ata
 fotoğrafını ve sicil numarasını Eminevim uygulamasından kontrol edebilirsiniz.", yeşil kartta uygulama yazısı + turuncu
 "Uygulamayı aç"; link `?kaynak=web&ad=&tel=&gun=&saat=&yer=` taşır — adım 3'te uygulama bunu okuyacak). Mesaj önizleme
 düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adım 3–6 yapıldı (2026-10-21, kullanıcı "uygulama senaryolarını kontrol et" dedi):
-- **Giriş ve kayıt telefonla** (e-posta yok). "Kayıtlı Müşteri" = telefon + şifre. "Yeni Müşteri" = telefonla kayıt
-  (ad soyad, telefon, şifre; adres de sorulmaz) → KVKK → Hoş geldiniz. Eski üyeliksiz "Temsilcimiz size gelsin" akışı
+- **Giriş ve kayıt telefonla** (e-posta yok). 2026-11-18'den beri parola yok: telefon + SMS kodu; yeni müşteri Ad + Soyad
+  (adres sorulmaz) → Hoş geldiniz. Eski üyeliksiz "Temsilcimiz size gelsin" akışı
   girişte yok; aynı ekranlar yalnız uygulama içi "Temsilci iste" ve "Görüşme günü (örnek)" için kullanılır (`yaKaynak:"uygulama"`).
 - **Web'den gelen:** `?kaynak=web&ad=&tel=&gun=&saat=&yer=` → giriş ekranı atlanır, telefonla kayıtlı, finansman yok,
   talep Başvurum'da, SPY atanmış (bölgeye göre: Üsküdar→Derya Aksoy, Ümraniye→Berk Cengiz, diğer→Onur Kaya) ve
@@ -120,7 +124,7 @@ düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adı
   İlk adım yazısı SPY yoksa söz vermez.
   Bölge dışı telefon talebi (`bolgeDisi`, web'den `&bolgeDisi=1`) → "Başka adres için temsilci iste".
 - **Hoş geldiniz:** 3 sayfalık alt pencere, her sayfada basit resim (satır içi SVG) + tek kısa cümle (yeni kayıt ve web'den gelen).
-- **Kayıtlı Müşteri (Ayşe Kaya):** KVKK sorulmaz (önceden onaylamış); **görüşme günü** senaryosu — bugün 18:00, SPY
+- **Kayıtlı Müşteri (Ayşe Kaya):** ad sorulmaz; **görüşme günü** senaryosu — bugün 18:00, SPY
   Onur Kaya yolda (~12 dk), konut finansmanı var, sohbette randevu dünden netleşmiş.
 - Uygulama içi "Temsilci iste" (2026-10-21 gece): web penceresiyle aynı akış — 1/2 harita (`konum-sec.html`, iframe;
   seçimi `postMessage {tip:"ty-konum"}` ile yollar; `BOLGELER` form_bolumu.html'den kopya, bölge değişirse ikisini de
@@ -228,7 +232,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   Etkin taraf turuncu etiket + vurgulu düğme; telefonda tek cihaz, etkin taraf öne gelir. Ekranlar SABİT çizimdir (gerçek
   uygulama değil): kullanıcıyla konuşarak senaryo geliştirmek için; onaylanan ekranlar sonra uygulamaya taşınır.
   Üstte senaryo seçimi (kullanıcı isteği 2026-10-22: ana akış UYGULAMADAN):
-  **Senaryo 1 · Uygulamadan** (19 adım, müşteri hep telefon): uygulamayı açar → telefon → SMS kodu → ad soyad + parola →
+  **Senaryo 1 · Uygulamadan** (19 adım, müşteri hep telefon): uygulamayı açar → telefon → SMS kodu → ad + soyad →
   Hoş geldiniz → Randevularım'dan "Temsilci iste" → harita → gün/saat → talep tablete düşer → SPY kabul eder →
   müşteri Randevularım'da "Saati onayla" → isteğe bağlı hazırlık bilgileri → Finansman Aracı tercihi SPY tabletinde
   "ÖN BİLGİ" kartı (2026-10-23; değerler uygulamadaki örnekle aynı: Konut · ~3.500.000 ₺ · %10 · 72 ay · ~43.750 ₺)

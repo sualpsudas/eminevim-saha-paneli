@@ -23,7 +23,7 @@ def aligned(page):
 def login(page):
     page.goto(BASE+'Eminevim%20Saha%20Paneli.dc.html?native=1')
     page.get_by_role('button',name='Devam et',exact=True).click()
-    page.get_by_role('button',name='Giriş Yap',exact=True).click()
+    page.get_by_role('button',name='Doğrula',exact=True).click()
     page.get_by_role('button',name='Randevularım',exact=True).wait_for()
     # Örnek müşterilerde finansman yok (2026-11-12); test liste akışı için bir kayıt ekler
     app(page,'app.setState({musteriBasvurulari:[{id:"b1",tur:"Konut Finansmanı",plan:"Bireysel",tutar:3500000,pesinatPct:10,vade:80,tarih:"12.09.2026"}]})')
@@ -143,7 +143,7 @@ with sync_playwright() as p:
     preview.goto(BASE+'linkler.html#uygulama-telefon')
     frame=preview.frame_locator('#cerceve')
     frame.get_by_role('button',name='Devam et',exact=True).click()
-    frame.get_by_role('button',name='Giriş Yap',exact=True).click()
+    frame.get_by_role('button',name='Doğrula',exact=True).click()
     for tab in ['Randevularım','Sohbetler','Finansman','Ayarlar']:
         frame.get_by_role('button',name=tab,exact=True).click()
         preview.wait_for_timeout(350)

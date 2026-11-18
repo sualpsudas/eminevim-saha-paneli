@@ -22,7 +22,7 @@ function AYSE_SEED() {
     ],
   };
 }
-// Örnek müşteriler (2026-11-12): hepsi kayıtlı, parola DEMO_PAROLA; hiçbirinde finansman yok. Ayşe'nin randevusu hazır, diğerleri boş başlar.
+// Örnek müşteriler (2026-11-12): hepsi kayıtlı (telefon + SMS koduyla girer); hiçbirinde finansman yok. Ayşe'nin randevusu hazır, diğerleri boş başlar.
 const ORNEK_MUSTERILER = [
   { tel: "5321456789", ad: "Ayşe Kaya", adres: "Barbaros Mah. Begonya Sk. No:12, Ataşehir / İstanbul" },
   { tel: "5332103456", ad: "Zeynep Arslan", adres: "Caferağa Mah. Moda Cd. No:48, Kadıköy / İstanbul" },
@@ -37,13 +37,13 @@ function ornekSeed(tel) {
   return { yeniMusteri: false, avatarUrl: "", degerlendirmeler: [], appointments: [], customerForm: { name: m.ad, phone: telYaz(m.tel), email: "", address: m.adres, testMode: false },
     customerMeetings: [], musteriBasvurulari: [], aktifBasvuruId: null, talepSebebi: "", mTalep: null, mGecmis: [], chatMessages: [] };
 }
-// Yeni üye kaydı için rastgele örnek bilgi: ad, kayıtlı olmayan telefon ve parola (yazmakla uğraşılmasın)
+// Yeni üye kaydı için rastgele örnek bilgi: ad, soyad ve kayıtlı olmayan telefon (yazmakla uğraşılmasın)
 function rastgeleUye() {
   const ad = ["Selin", "Mert", "Derya", "Kerem", "Naz", "Emre", "Pelin", "Tolga", "Defne", "Barış"], soyad = ["Aydın", "Çelik", "Koç", "Polat", "Güneş", "Erdem", "Aksoy", "Kaplan", "Tekin", "Yavuz"];
   const r = (n) => Math.floor(Math.random() * n), d = (n) => Array.from({ length: n }, () => r(10)).join("");
   let tel; do { tel = ["530", "531", "536", "537", "538", "539"][r(6)] + d(7); } while (ornekMu(tel));
-  const parola = "Ty" + d(4) + "k";
-  return { ad: ad[r(ad.length)] + " " + soyad[r(soyad.length)], tel: telYaz(tel), parola };
+  const adi = ad[r(ad.length)], soyadi = soyad[r(soyad.length)];
+  return { adi, soyadi, ad: adi + " " + soyadi, tel: telYaz(tel) };
 }
 const DISTRICT_COORDS = {
   "Beylikdüzü": { lat: 41.0035, lng: 28.6412 }, "Bakırköy": { lat: 40.9829, lng: 28.8770 },
@@ -68,7 +68,6 @@ const DEMO_BASVURULAR = [
 ];
 
 function coordForDistrict(ilce) { return DISTRICT_COORDS[ilce] || DISTRICT_COORDS["Ataşehir"]; }
-// Prototip hesabı yalnız bu tarayıcıda. Parolanın kendisi diske yazılmaz.
+// Prototip hesabı yalnız bu tarayıcıda.
 const AYSE_TEL = "5321456789";
-const DEMO_PAROLA = "test123";
 const CUSTOMER_ILCE = "Ataşehir";

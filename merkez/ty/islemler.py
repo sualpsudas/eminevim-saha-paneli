@@ -40,18 +40,21 @@ def temiz_kayit(gelen):
 def cagri(veri, istek):
     k = temiz_kayit(istek.get("kayit"))
     web = istek.get("kaynak") == "web" or k.get("kaynak") == "web"
-    if web and istek.get("konumRiza") is not True:
-        raise ValueError("Temsilci çağırmak için konum onayı verin.")
-    k.pop("konumRizaTarih", None)
+    if web and istek.get("aydinlatma") is not True and istek.get("konumRiza") is not True:
+        raise ValueError("Aydınlatma metni gösterilemedi. Sayfayı yenileyip yeniden deneyin.")
+    for alan in ("konumRizaTarih", "aydinlatmaTarih", "kampanya"):
+        k.pop(alan, None)
     konum = k.get("konum") or {}
     if not isinstance(konum.get("lat"), (int, float)) or not isinstance(konum.get("lng"), (int, float)):
         raise ValueError("Konum eksik.")
     m = istek.get("musteri") or {}
-    k["musteri"] = {"ad": metin(m.get("ad"), 80), "tel": metin(m.get("tel"), 20), "ekBilgi": m.get("ekBilgi") if isinstance(m.get("ekBilgi"), dict) else None}
+    k["musteri"] = {"ad": metin(m.get("ad"), 80), "adi": metin(m.get("adi"), 40), "soyadi": metin(m.get("soyadi"), 40), "tel": metin(m.get("tel"), 20),
+                    "ekBilgi": m.get("ekBilgi") if isinstance(m.get("ekBilgi"), dict) else None}
     k.update({"mesajlar": [], "olusma": simdi(), "repId": None, "teklif": {"denenen": []}})
     if web:
         k["kaynak"] = "web"
-        k["konumRizaTarih"] = k["olusma"]
+        k["aydinlatmaTarih"] = k["olusma"]  # aydınlatma metni formda gösterildi (onay kutusu yok)
+        k["kampanya"] = istek.get("kampanya") is True  # isteğe bağlı ticari elektronik ileti izni
         k["girisKodu"] = f"{secrets.randbelow(900000) + 100000}"  # SMS yerine ekranda gösterilir (test)
     veri["kayitlar"][k["id"]] = k
     olay(veri, f"Yeni çağrı: {k['musteri']['ad'] or 'Müşteri'} ({k.get('yer') or ''}), {k.get('gunYazi') or k.get('tarih') or ''} {k.get('saat') or ''}", k["id"])
@@ -63,7 +66,7 @@ def cagri(veri, istek):
 
 def kayit(veri, istek):
     k = temiz_kayit(istek.get("kayit"))
-    for alan in ("teklif", "sahipsiz", "atamaPuan", "gerekce", "girisKodu", "konumRizaTarih"):
+    for alan in ("teklif", "sahipsiz", "atamaPuan", "gerekce", "girisKodu", "konumRizaTarih", "aydinlatmaTarih", "kampanya"):
         k.pop(alan, None)  # bunları yalnız merkez yazar
     eski = veri["kayitlar"].get(k["id"])
     if not eski:
