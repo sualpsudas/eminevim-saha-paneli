@@ -24,7 +24,7 @@ test et, kanıt göster.** Emin olmadığın her şeyde dur ve kullanıcıya sor
 | `merkez/takip.html` | Yönetici "Saha Canlı" sayfası | |
 | `merkez/canli-sw.js` | Merkezdeki bildirim servis çalışanı (`sw.js` adıyla sunulur) | Kökteki `sw.js` (Pages) ayrı dosyadır. |
 | `web-basvuru/form_bolumu.html` + `olustur.py` | Web formu kaynağı + üretici | `index.html` **üretilir, elle düzenlenmez**: `python olustur.py`. |
-| `panel.html`, `senaryo.html`, `taslak/`, `linkler.html` | Yardımcı sayfalar (panel: çerçeve, video, Senaryo 1 web / 2 uygulama) | |
+| `panel.html`, `senaryo/` (üretilir), `taslak/`, `linkler.html` | Yardımcı sayfalar (panel: çerçeve, video ana + kadın sesli, Senaryo 1 web / 2 uygulama: gerçek ekran görüntüleri, `python araclar/senaryo_goruntu.py` ile üretilir; ekran/akış değişince yeniden çalıştır). `senaryo.html` eski, güncellenmez | |
 | `capacitor.config.json`, `codemagic.yaml`, `scripts/`, `ios/` | iPhone (TestFlight) paketi | İmza/sertifika ayarlarına dokunma. |
 | `tests/` | Testler (aşağıda) | |
 | `video/`, `backup/`, `rapor/` | Tanıtım videosu, eski sürüm yedeği, proje belgeleri | `video/` ve `backup/` **değişmez**. |
@@ -110,7 +110,7 @@ Her biri ayrı onay ister. Planı yazarken aşağıdaki etkileri kullanıcıya h
   ve **kapat düğmesi** (sağ üst ✕ + boşluğa dokununca/Geri ile kapanma). Liste ekranı yalnız kartlardan oluşur.
   Yeni çağrı bildirimine dokununca da bu pencere açılır. Değişen: `Eminevim Saha Paneli.dc.html` SPY Görüşmeler bölümü (`tpD*` değerleri),
   testler `merkez-akis.py` (kabul/mesaj/yola çıkış/QR adımları pencereden yapılır), `browser-flows.py`, `phone-layout.py` personel sekmeleri;
-  `senaryo.html` SPY ekranları ve `URUN_KURALLARI.md` SPY ekranı maddesi güncellenir.
+  panel senaryo görüntüleri (`araclar/senaryo_goruntu.py`) ve `URUN_KURALLARI.md` SPY ekranı maddesi güncellenir.
 
 **G. Personel paneli kozmetik iyileştirmeleri — YAPILDI (2026-11-12; ayrıntı `PROJE_ILERLEME.md`, kural `URUN_KURALLARI.md` → Personel)**
 - Kaynak: `design-plans/personel-panel-inceleme-2026-11-12.md` (dış inceleme metni). Yalnız **kozmetik** (boyut, ağırlık, renk tonu,

@@ -91,13 +91,11 @@
     <div class="ust-tel" role="group" aria-label="Ne gösterilsin">
       <button type="button" data-ne="uygulama" aria-pressed="true">Uyg</button>
       <button type="button" data-ne="web" aria-pressed="false">Web</button>
-      <button type="button" data-ne="senaryo" aria-pressed="false">Senaryo</button>
     </div>
     <header>
       <div class="grup" role="group" aria-label="Ne gösterilsin">
         <button type="button" data-ne="uygulama" aria-pressed="true">Uygulama</button>
         <button type="button" data-ne="web" aria-pressed="false">Web formu</button>
-        <button type="button" data-ne="senaryo" aria-pressed="false">Senaryo</button>
       </div>
       <div class="grup" role="group" aria-label="Görünüm" id="gorunumGrup" hidden>
         <button type="button" data-gorunum="telefon" aria-pressed="true">Telefon</button>
@@ -128,13 +126,14 @@
 (function () {
   var ADRES = {
     uygulama: { telefon: "Eminevim%20Saha%20Paneli.dc.html?native=1" },
-    web: { telefon: "web-basvuru/", bilgisayar: "web-basvuru/" },
-    senaryo: { telefon: "senaryo.html", bilgisayar: "senaryo.html" }
+    web: { telefon: "web-basvuru/", bilgisayar: "web-basvuru/" }
   };
+  // Senaryolar artık panelde (gerçek ekran görüntüleriyle, 2026-11-18); eski bağlantılar oraya gider
+  if (/^#senaryo/.test(location.hash)) { location.replace("panel.html#senaryo-1"); return; }
   var BOYUT = { telefon: [393, 852], bilgisayar: [1440, 900], tablet: [1180, 820] };
   var uygCihaz = "telefon";   // uygulama personel girişinde "tablet" der (postMessage ty-cihaz)
   var secim = { ne: "uygulama", gorunum: "telefon" };
-  var m = /^#(uygulama|web|senaryo)-(telefon|bilgisayar)$/.exec(location.hash);
+  var m = /^#(uygulama|web)-(telefon|bilgisayar)$/.exec(location.hash);
   if (m) { secim.ne = m[1]; secim.gorunum = m[2]; }
   else { try { var k = JSON.parse(localStorage.getItem("ty-onizleme") || "null"); if (k && ADRES[k.ne]) secim = k; } catch (e) {} }
 

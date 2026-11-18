@@ -748,3 +748,13 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - Kullanıcı isteği: ana sayfada kutular (Proje Çerçevesi, Tanıtım Videosu, Senaryo 1, Senaryo 2); tıklayınca solda dar dikey menü,
   sıra Proje Çerçevesi → Tanıtım Videosu → Senaryo 1 (web formundan) → Senaryo 2 (uygulamadan). Web formu/uygulama panelden açılmaz.
 - Senaryolar yeni (parolasız) girişe göre yazıldı. linkler.html'e "Panel" bağlantısı. Telefon (390) ve bilgisayar (1366) ekran denemesi OK.
+
+## 2026-11-18 (4) — Panel senaryoları gerçek ekranlarla, kadın sesli video
+- Neden: eski senaryo (`senaryo.html`) elle çizilmiş sabit ekranlardı, uygulama değiştikçe güncellenmemişti (parola, KVKK ekranı vb.).
+- Yeni `araclar/senaryo_goruntu.py`: gerçek web formu + uygulama (gösteri) adım adım yürütülür, müşteri (393x852) ve SPY (1180x820)
+  görüntüleri `senaryo/goruntu/` + `senaryo/adimlar.js`. Senaryo 1 web 15 adım, Senaryo 2 uygulama 16 adım.
+- panel.html: Senaryo 1/2 iki bölmeli (solda müşteri, sağda SPY tablet), Geri/İleri, noktalar, ok tuşları; dar ekranda tek taraf +
+  Müşteri/SPY düğmesi, dokununca tam boyut. Tanıtım Videosu'na "Kadın sesli" seçimi (`tasarruf-yanimda-tanitim-kadin.mp4?v=1`).
+- linkler.html: "Senaryo" sekmesi kaldırıldı, eski `#senaryo-…` panele yönlenir. senaryo.html silinmedi (güncellenmez).
+- Testler: yeni `tests/panel-senaryo.py` (1440 ve 393 genişlik) OK; appointment-list, phone-layout OK. Uygulama kodu değişmedi.
+

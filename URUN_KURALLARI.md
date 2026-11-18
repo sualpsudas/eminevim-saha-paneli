@@ -45,7 +45,7 @@ Kurallar ve açık işler `CLAUDE.md`'de, teknik ayrıntı `TEKNIK.md`'de, gerek
   Geri ile liste soldan kayar (0,24 sn); sekme değişiminde kayma yok; "hareketi azalt" açıksa kapalı. Temsilci iste penceresi
   telefonda tam ekran (masaüstü telefon çerçevesinin lacivert üst şeridi yok). Kartlarda çok hafif gölge, rakamlar eşit genişlikte.
 - **Ekran yazıları sade:** slogan ("Emin olmak, güven demek") ve "nasıl hesaplanıyor / ne işe yarar" türü açıklamalar yok.
-- Doğrulama: `npm test`; yerel 8799 sunucusunda `tests/browser-flows.py` ve `tests/web-flows.py` (Playwright + Chrome). Senaryo sayfası bu geliştirmeden sonra ayrıca ele alınacak.
+- Doğrulama: `npm test`; yerel 8799 sunucusunda `tests/browser-flows.py` ve `tests/web-flows.py` (Playwright + Chrome). Panel senaryoları: `tests/panel-senaryo.py`.
 
 Bu bölüm `CLAUDE.md`'deki eski kararlarla çelişirse **bu bölüm geçerlidir**. Uygulama adım adım, kullanıcıyla konuşarak yapılır;
 her adım bitince burada "Durum" güncellenir.
@@ -225,23 +225,22 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
     Geçmiş) artık gösterilmiyor; kod duruyor, temizlenebilir. Uydurma "Yeni Başvuru" bildirim zamanlayıcısı kapatıldı.
   - **Fotoğraflar:** `TEMSILCI_DETAY[*].foto` (boşsa baş harf). Sentetik portre komutu ve dosya adları `assets/temsilci/OKUBENI.md`;
     kullanıcı üretip gönderecek (gerçek kişi fotoğrafı yok; açık lisanslı uygun hazır görsel bulunamadı).
-- `senaryo.html` — **Senaryo** sekmesi (linkler.html'de üçüncü üst sekme "Senaryo", `#senaryo-telefon`; kendi sayfası
-  `senaryo.html#adim-5-bilgisayar`). Senaryo tasarım tahtası: solda müşteri (Telefon / Bilgisayar seçimi; bilgisayarda
-  site + uygulamasız **takip sayfası** `eminevim.com/takip/…`, kapıda SMS linkiyle telefon), sağda personel **hep tablet,
-  yatay** (sol yeşil menü + iki sütun). Alt bantta adım açıklaması, İleri/Geri, adım noktaları, otomatik oynat (6 sn), ok tuşları.
-  Etkin taraf turuncu etiket + vurgulu düğme; telefonda tek cihaz, etkin taraf öne gelir. Ekranlar SABİT çizimdir (gerçek
-  uygulama değil): kullanıcıyla konuşarak senaryo geliştirmek için; onaylanan ekranlar sonra uygulamaya taşınır.
-  Üstte senaryo seçimi (kullanıcı isteği 2026-10-22: ana akış UYGULAMADAN):
-  **Senaryo 1 · Uygulamadan** (19 adım, müşteri hep telefon): uygulamayı açar → telefon → SMS kodu → ad + soyad →
-  Hoş geldiniz → Randevularım'dan "Temsilci iste" → harita → gün/saat → talep tablete düşer → SPY kabul eder →
-  müşteri Randevularım'da "Saati onayla" → isteğe bağlı hazırlık bilgileri → Finansman Aracı tercihi SPY tabletinde
-  "ÖN BİLGİ" kartı (2026-10-23; değerler uygulamadaki örnekle aynı: Konut · ~3.500.000 ₺ · %10 · 72 ay · ~43.750 ₺)
-  → bir gün önce bilgilendirme formu (ÖNERİ, uygulamada
-  yok) → yola çıkar → kapıda QR → yeşil → tablette plan + özet → müşteri özeti inceler (puan isteğe bağlı).
-  **Senaryo 2 · Web'den** (12 adım, eski akış; müşteri Telefon/Bilgisayar seçilir, bilgisayarda uygulamasız takip sayfası).
-  Adres: `senaryo.html#uyg-adim-5`, `#web-adim-9-bilgisayar` (eski `#adim-N-…` = web). Ekranlar uygulamanın güncel görünümünü
-  taklit eder (personel düzeniyle aynı üst bant ve alt menü, Geri; Randevularım · Sohbetler · Finansman · Ayarlar); uygulama değişince senaryo da güncellenmeli.
-  Yeni senaryo = `SENARYOLAR` + adım dizisi + ekran işlevleri (TEL / BIL / TAB).
+- **Senaryolar panelde (`panel.html#senaryo-1`, `#senaryo-2`; 2026-11-18, kullanıcı: "ekranlar birebir uygulamalardaki gibi olmalı").**
+  Ekran ikiye bölünür: solda müşteri (telefon), sağda SPY (**tablet**, yatay). Alt bantta adım no + kim (Müşteri / SPY / ikisi),
+  başlık, kısa açıklama, Geri / İleri, adım noktaları, ok tuşları. Etkin taraf yeşil çerçeve, diğeri soluk. 900 px altında tek taraf
+  görünür (adımın etkin tarafı; üstte Müşteri / SPY düğmesi), görüntüye dokununca tam boyut açılır.
+  **Görüntüler çizim değil, gerçek ekran:** `python araclar/senaryo_goruntu.py` gerçek web formunu ve uygulamayı (gösteri kipi) açıp
+  her adımı yapar, `senaryo/goruntu/*.jpg` + `senaryo/adimlar.js` üretir (elle düzenlenmez). Bir adım yapılamazsa betik hata verir.
+  **Uygulama veya web formu ekranı/akışı değişince betik yeniden çalıştırılır** (yerel 8799 sunucusu açıkken); adım ekleme/çıkarma betikte.
+  Gösteri kipinden ayrılan iki yer (canlı akış gibi görünsün diye): çağrı SPY'ye "yeni çağrı" düşer ve SPY elle kabul eder
+  (gösteri kendisi atıyor); web senaryosunda görüşme günü "Bugün"e çekilir (SPY yalnız o gün yola çıkabilir).
+  Senaryo 1 · Web formundan (15 adım): form → temsilci penceresi (harita, gün/saat) → teşekkür + SMS, çağrı SPY'ye → SPY kabul →
+  SMS bağlantısı + kod → Hoş geldiniz → hazırlık → Randevularım "Saati onayla" → kesinleşti → ortak son.
+  Senaryo 2 · Uygulamadan (16 adım): telefon → SMS kodu → Ad + Soyad → Hoş geldiniz → "Temsilci iste" → harita → gün/saat →
+  çağrı SPY'ye → kabul → saati onayla + hazırlık → kesinleşti → ortak son. Ortak son: görüşme günü → yola çık → kapıda QR →
+  görüşme → özet.
+- `senaryo.html` — eski el çizimi senaryo tahtası (2026-10-22). linkler.html'deki "Senaryo" sekmesi kaldırıldı (eski `#senaryo-…`
+  bağlantıları panele gider); dosya duruyor ama güncellenmez, ekranları uygulamayla uyuşmaz.
 
 ## Müşteri uygulaması yerleşimi ve gezinme (2026-10-22)
 - Telefon yerleşimi: animasyonların inline stil adlarına bağlı seçiciler kullanma. `app-stage` → `customer-shell` → `customer-screen` → `customer-panel` yüksekliği taşır; başlık/alt menü küçülmez, orta alan kayar. Görünür yükseklik `--app-height` ile güncellenir. `tests/phone-layout.py` müşteri/personel sekmeleri, kısa ekran ve önizleme çerçevesini kontrol eder.

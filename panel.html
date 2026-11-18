@@ -51,19 +51,59 @@
   .bolum .not{margin:0 0 18px;color:var(--soluk);font-size:14.5px}
   video{width:100%;max-height:72vh;border-radius:14px;background:#000;display:block}
 
-  /* Senaryo adımları */
-  ol.adimlar{list-style:none;margin:0;padding:0;counter-reset:a}
-  ol.adimlar li{counter-increment:a;position:relative;padding:0 0 18px 46px}
-  ol.adimlar li::before{content:counter(a);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--yesil);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
-  ol.adimlar li::after{content:"";position:absolute;left:14px;top:34px;bottom:4px;width:2px;background:var(--cizgi)}
-  ol.adimlar li:last-child::after{display:none}
-  .kim{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.03em;padding:2px 8px;border-radius:20px;margin-bottom:3px}
-  .kim.m{background:#fdf0e7;color:#a8541f}
-  .kim.s{background:var(--acikYesil);color:var(--yesil)}
-  .kim.y{background:#eef0f3;color:#4a5361}
-  ol.adimlar b{display:block;font-size:16px;line-height:1.35}
-  ol.adimlar p{margin:3px 0 0;color:var(--soluk);font-size:14.5px}
-  .bilgi{margin:6px 0 22px;padding:12px 14px;border-radius:12px;background:var(--acikYesil);font-size:14px;color:#24493b}
+  /* Video sürüm seçimi */
+  .secim{display:inline-flex;gap:4px;padding:4px;border-radius:12px;background:#e8ebe9;margin:0 0 12px}
+  .secim button{border:0;background:none;padding:7px 14px;border-radius:9px;cursor:pointer;font-size:14px}
+  .secim button[aria-pressed="true"]{background:#fff;color:var(--yesil);font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+  /* Senaryo: solda müşteri (telefon), sağda SPY (tablet); adım adım ilerler. Görüntüler gerçek uygulamadan
+     (araclar/senaryo_goruntu.py üretir). */
+  .sen{flex:1;min-height:0;display:flex;flex-direction:column;padding:max(14px,env(safe-area-inset-top)) 18px 14px;gap:10px}
+  .sen-ust{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .sen-ust h2{margin:0}
+  .sen-ust .not{margin:0}
+  .sahne{flex:1;min-height:0;display:flex;align-items:center;justify-content:center}
+  .bolmeler{display:grid;grid-template-columns:1fr 3.12fr;gap:18px;align-items:end;width:100%;max-width:calc((100dvh - 250px) * 1.95)}
+  .bolme{min-width:0;transition:opacity .25s}
+  .bolme .etiket{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;margin:0 0 6px;color:var(--soluk)}
+  .bolme .etiket i{width:9px;height:9px;border-radius:50%;background:var(--cizgi)}
+  .bolme .ekran{display:block;width:100%;height:auto;border-radius:14px;border:3px solid #cfd5d2;background:#fff}
+  .bolme.tel .ekran{border-radius:22px;aspect-ratio:393/852}
+  .bolme.tab .ekran{aspect-ratio:1180/820}
+  .bolme.etkin .ekran{border-color:var(--yesil);box-shadow:0 6px 22px rgba(0,114,76,.18)}
+  .bolme.etkin .etiket{color:var(--yesil)}
+  .bolme.etkin .etiket i{background:var(--turuncu)}
+  .bolme:not(.etkin){opacity:.6}
+  .sen-alt{display:flex;align-items:center;gap:12px;background:var(--kart);border:1px solid var(--cizgi);border-radius:14px;padding:10px 12px}
+  .sen-alt .yazi{flex:1;min-width:0}
+  .sen-alt .sira{font-size:12.5px;color:var(--soluk)}
+  .sen-alt b{display:block;font-size:16px;line-height:1.3}
+  .sen-alt p{margin:2px 0 0;font-size:14px;color:var(--soluk);line-height:1.4}
+  .dugme{flex:0 0 auto;min-width:48px;min-height:44px;border-radius:12px;border:1.5px solid var(--yesil);background:#fff;color:var(--yesil);font-weight:700;cursor:pointer;padding:0 14px}
+  .dugme.ileri{background:var(--turuncu);border-color:var(--turuncu);color:#fff}
+  .dugme:disabled{opacity:.35;cursor:default}
+  .noktalar{display:flex;flex-wrap:wrap;justify-content:center;gap:2px}
+  .noktalar button{width:22px;height:22px;border:0;background:none;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .noktalar button::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--cizgi)}
+  .noktalar button[aria-current="step"]::before{background:var(--yesil);width:10px;height:10px}
+  .yan-sec{display:none}
+  .buyut{display:block}
+  .ipucu{display:none;font-size:12px;color:var(--soluk);text-align:center;margin-top:4px}
+  .bilgi{margin:0;padding:8px 12px;border-radius:10px;background:var(--acikYesil);font-size:13px;color:#24493b}
+
+  /* Dar ekran: iki bölme sığmaz → adımın etkin tarafı görünür, üstteki düğmeyle diğerine geçilir */
+  @media (max-width:899px){
+    .yan-sec{display:inline-flex;margin:0}
+    .bolmeler{display:block;max-width:none}
+    .bolme{display:none;opacity:1 !important}
+    .bolme.gorunur{display:block}
+    .bolme.tel.gorunur{max-width:min(100%,calc((100dvh - 300px) * .461));margin:0 auto}
+    .bolme.tab.gorunur{max-width:calc((100dvh - 300px) * 1.44);margin:0 auto}
+    .ipucu{display:block}
+    .sen-alt{flex-wrap:wrap}
+    .sen-alt .yazi{flex-basis:100%;order:-1}
+    .sen-alt .dugme{flex:1}
+  }
 
   /* Telefon: menü dar ray olur (simge + kısa ad) */
   @media (max-width:699px){
@@ -74,6 +114,7 @@
     .ray a{flex-direction:column;gap:4px;padding:9px 2px;font-size:11px;text-align:center}
     .ray a .uzun,.ray .alt{display:none}
     .kaydir{padding:max(16px,env(safe-area-inset-top)) 14px 32px}
+    .sen{padding:max(12px,env(safe-area-inset-top)) 12px 12px}
     h2{font-size:20px}
   }
   @media (min-width:700px){ .ray a .kisa{display:none} }
@@ -118,49 +159,65 @@
       <div class="kaydir"><div class="icerik">
         <h2 id="h-video">Tanıtım Videosu</h2>
         <p class="not">Sesi açarak izleyin.</p>
+        <div class="secim" role="group" aria-label="Seslendirme">
+          <button type="button" aria-pressed="true" data-video="video/tasarruf-yanimda-tanitim.mp4?v=12">Ana sürüm</button>
+          <button type="button" aria-pressed="false" data-video="video/tasarruf-yanimda-tanitim-kadin.mp4?v=1">Kadın sesli</button>
+        </div>
         <video controls playsinline preload="metadata" data-src="video/tasarruf-yanimda-tanitim.mp4?v=12"></video>
       </div></div>
     </section>
 
     <section class="bolum" id="b-senaryo-1" aria-labelledby="h-s1">
-      <div class="kaydir"><div class="icerik">
-        <h2 id="h-s1">Senaryo 1 · Web formundan</h2>
-        <p class="not">Müşteri eminevim.com'daki formdan temsilci çağırır.</p>
-        <ol class="adimlar">
-          <li><span class="kim m">Müşteri</span><b>Formu doldurur</b><p>Ad, Soyad ve telefon. E-posta istenmez. Altta kısa aydınlatma bilgisi ve “Aydınlatma Metni” bağlantısı var; onay kutusu yok. Kampanya iletisi izni isteğe bağlıdır.</p></li>
-          <li><span class="kim m">Müşteri</span><b>“Temsilci çağırmak istiyorum”u açar</b><p>Haritada görüşme yerini, sonra gün ve saati seçer. Seçilen yer hizmet bölgesinin dışındaysa müşteri telefonla aranır.</p></li>
-          <li><span class="kim m">Müşteri</span><b>Gönderir</b><p>“Temsilci çağrınız alındı” ekranı açılır. Telefona SMS gelir: uygulama giriş kodu ve bağlantı. Temsilcinin adı henüz gösterilmez.</p></li>
-          <li><span class="kim y">Sistem</span><b>Çağrı en uygun SPY'ye düşer</b><p>Puanlı atama yapılır ve SPY'nin telefonuna bildirim gider. SPY 2 dakika içinde almazsa çağrı sıradakine geçer. Kimse almazsa yönetici ekranında “kimse almadı” olarak görünür ve takım lideri atar.</p></li>
-          <li><span class="kim s">SPY</span><b>Çağrıyı kabul eder</b><p>Müşteriye “Temsilciniz belli oldu” bildirimi gider.</p></li>
-          <li><span class="kim m">Müşteri</span><b>SMS'teki bağlantıyla uygulamaya girer</b><p>Yalnızca 6 haneli kodu yazar; parola yoktur. Ad ve soyad formdan geldiği için yeniden sorulmaz. Çağrısı Randevularım'da hazırdır.</p></li>
-          <li><span class="kim m">Müşteri</span><b>Görüşmeye hazırlık (isteğe bağlı)</b><p>Ne için düşündüğünü, çalışma durumunu ve yaş aralığını paylaşabilir. Bu bilgiler SPY'ye ön bilgi olarak gider.</p></li>
-          <li><span class="kim s">SPY</span><b>Yola çıkar</b><p>Müşteriye tahmini varış saati bildirilir. Müşteri temsilcisiyle uygulamadan yazışabilir.</p></li>
-          <li><span class="kim s">SPY</span><b>Kapıda kimlik doğrulama</b><p>Müşteri uygulamadaki QR kodunu gösterir, SPY okutur ve görüşme başlar.</p></li>
-          <li><span class="kim s">SPY</span><b>Görüşmeyi bitirir</b><p>Görüşme özeti müşteriye gider, müşteri isterse puan verir. Randevu ve aday müşteri kartı şirket sistemine aktarılır.</p></li>
-        </ol>
-      </div></div>
+      <div class="sen" data-senaryo="web">
+        <div class="sen-ust">
+          <h2 id="h-s1">Senaryo 1 · Web formundan</h2>
+          <div class="secim yan-sec" role="group" aria-label="Gösterilen ekran">
+            <button type="button" data-yan="m" aria-pressed="true">Müşteri</button><button type="button" data-yan="p" aria-pressed="false">SPY</button>
+          </div>
+        </div>
+        <div class="sahne">
+          <div class="bolmeler">
+            <figure class="bolme tel" data-bolme="m" style="margin:0"><figcaption class="etiket"><i></i>Müşteri · telefon</figcaption><a class="buyut" target="_blank" rel="noopener"><img class="ekran" alt=""></a><span class="ipucu">Büyütmek için dokunun</span></figure>
+            <figure class="bolme tab" data-bolme="p" style="margin:0"><figcaption class="etiket"><i></i>SPY · tablet</figcaption><a class="buyut" target="_blank" rel="noopener"><img class="ekran" alt=""></a><span class="ipucu">Büyütmek için dokunun</span></figure>
+          </div>
+        </div>
+        <div class="sen-alt">
+          <button type="button" class="dugme" data-geri aria-label="Önceki adım">‹ Geri</button>
+          <div class="yazi" aria-live="polite"><span class="sira"></span><b></b><p></p></div>
+          <button type="button" class="dugme ileri" data-ileri aria-label="Sonraki adım">İleri ›</button>
+        </div>
+        <div class="noktalar" role="group" aria-label="Adımlar"></div>
+        <p class="bilgi">Ekranlar gerçek web formundan ve uygulamadan alındı. Çağrı en uygun SPY'ye düşer; SPY 2 dakikada almazsa sıradakine geçer, kimse almazsa takım lideri atar. Görüşme sonunda randevu ve aday müşteri kartı şirket sistemine aktarılır.</p>
+      </div>
     </section>
 
     <section class="bolum" id="b-senaryo-2" aria-labelledby="h-s2">
-      <div class="kaydir"><div class="icerik">
-        <h2 id="h-s2">Senaryo 2 · Uygulamadan</h2>
-        <p class="not">Müşteri Eminevim uygulamasından temsilci çağırır.</p>
-        <ol class="adimlar">
-          <li><span class="kim m">Müşteri</span><b>Telefon numarasıyla girer</b><p>“Telefon numaranızla devam edin” der ve SMS ile gelen 6 haneli kodu yazar. Parola yoktur. Oturum, müşteri “Çıkış yap” diyene kadar açık kalır.</p></li>
-          <li><span class="kim m">Müşteri</span><b>İlk kez giriyorsa: Ad ve Soyad</b><p>Ad ve Soyad ayrı kutulara yazılır. Aydınlatma metni gösterilir; onay kutusu yoktur. Kampanya iletisi izni isteğe bağlıdır. Kayıtlı müşteri bu adımı görmez.</p></li>
-          <li><span class="kim m">Müşteri</span><b>“Temsilci iste”</b><p>Randevularım'dan görüşme yerini haritada, sonra gün ve saati seçer.</p></li>
-          <li><span class="kim y">Sistem</span><b>Çağrı en uygun SPY'ye düşer</b><p>Atama Senaryo 1'deki gibidir: puanlı seçim, bildirim, 2 dakika kabul süresi, sıradakine geçiş.</p></li>
-          <li><span class="kim s">SPY</span><b>Kabul eder</b><p>Müşteri Randevularım'da temsilcisini görür ve “Saati onayla”ya dokunur.</p></li>
-          <li><span class="kim m">Müşteri</span><b>Hazırlık ve Finansman Aracı (isteğe bağlı)</b><p>Hazırlık bilgilerini ve üyelere açık Finansman Aracı tercihini paylaşabilir. Bunlar SPY'nin ekranında ön bilgi olarak görünür.</p></li>
-          <li><span class="kim s">SPY</span><b>Yola çıkar</b><p>Müşteriye tahmini varış saati bildirilir. Müşteri temsilcisiyle uygulamadan yazışabilir.</p></li>
-          <li><span class="kim s">SPY</span><b>Kapıda kimlik doğrulama</b><p>Müşteri QR kodunu gösterir, SPY okutur ve görüşme başlar.</p></li>
-          <li><span class="kim s">SPY</span><b>Görüşmeyi bitirir</b><p>Özet müşteriye gider, müşteri isterse puan verir ve yeni randevu isteyebilir. Kayıt şirket sistemine aktarılır.</p></li>
-        </ol>
-      </div></div>
+      <div class="sen" data-senaryo="uygulama">
+        <div class="sen-ust">
+          <h2 id="h-s2">Senaryo 2 · Uygulamadan</h2>
+          <div class="secim yan-sec" role="group" aria-label="Gösterilen ekran">
+            <button type="button" data-yan="m" aria-pressed="true">Müşteri</button><button type="button" data-yan="p" aria-pressed="false">SPY</button>
+          </div>
+        </div>
+        <div class="sahne">
+          <div class="bolmeler">
+            <figure class="bolme tel" data-bolme="m" style="margin:0"><figcaption class="etiket"><i></i>Müşteri · telefon</figcaption><a class="buyut" target="_blank" rel="noopener"><img class="ekran" alt=""></a><span class="ipucu">Büyütmek için dokunun</span></figure>
+            <figure class="bolme tab" data-bolme="p" style="margin:0"><figcaption class="etiket"><i></i>SPY · tablet</figcaption><a class="buyut" target="_blank" rel="noopener"><img class="ekran" alt=""></a><span class="ipucu">Büyütmek için dokunun</span></figure>
+          </div>
+        </div>
+        <div class="sen-alt">
+          <button type="button" class="dugme" data-geri aria-label="Önceki adım">‹ Geri</button>
+          <div class="yazi" aria-live="polite"><span class="sira"></span><b></b><p></p></div>
+          <button type="button" class="dugme ileri" data-ileri aria-label="Sonraki adım">İleri ›</button>
+        </div>
+        <div class="noktalar" role="group" aria-label="Adımlar"></div>
+        <p class="bilgi">Ekranlar gerçek uygulamadan alındı. Atama Senaryo 1'deki gibidir. Üye müşteri bekleme sırasında Finansman Aracı'ndan ön tercihlerini de paylaşabilir.</p>
+      </div>
     </section>
   </main>
 </div>
 
+<script src="senaryo/adimlar.js?v=202611181316"></script>
 <script>
 (function(){
   var bolumler = ["cerceve","video","senaryo-1","senaryo-2"];
@@ -180,6 +237,61 @@
     });
     if (ic) { var k = document.querySelector(".bolum.acik .kaydir"); if (k) k.scrollTop = 0; }
   }
+  // Video sürümü
+  var video = document.querySelector("#b-video video");
+  document.querySelectorAll("[data-video]").forEach(function(b){
+    b.addEventListener("click", function(){
+      document.querySelectorAll("[data-video]").forEach(function(x){ x.setAttribute("aria-pressed", String(x === b)); });
+      video.pause(); video.setAttribute("src", b.getAttribute("data-video")); video.load();
+    });
+  });
+
+  // Senaryolar: iki bölmeli, adım adım
+  var KLASOR = "senaryo/goruntu/", SURUM = window.SENARYO_SURUM || "1";
+  document.querySelectorAll("[data-senaryo]").forEach(function(kok){
+    var adimlar = (window.SENARYO || {})[kok.getAttribute("data-senaryo")] || [], n = 0, elle = null;
+    var img = { m: kok.querySelector("[data-bolme=m] img"), p: kok.querySelector("[data-bolme=p] img") };
+    var nokta = kok.querySelector(".noktalar");
+    adimlar.forEach(function(a, i){
+      var b = document.createElement("button"); b.type = "button"; b.setAttribute("aria-label", (i + 1) + ". adım: " + a.baslik);
+      b.addEventListener("click", function(){ git(i); }); nokta.appendChild(b);
+    });
+    function yol(ad){ return KLASOR + ad + "?v=" + SURUM; }
+    function yanGoster(yan){
+      ["m","p"].forEach(function(y){ kok.querySelector("[data-bolme=" + y + "]").classList.toggle("gorunur", y === yan); });
+      kok.querySelectorAll("[data-yan]").forEach(function(x){ x.setAttribute("aria-pressed", String(x.getAttribute("data-yan") === yan)); });
+    }
+    function git(i){
+      if (!adimlar.length) return;
+      n = Math.max(0, Math.min(adimlar.length - 1, i)); elle = null;
+      var a = adimlar[n];
+      img.m.src = yol(a.m); img.p.src = yol(a.p);
+      img.m.parentNode.href = img.m.src; img.p.parentNode.href = img.p.src;
+      img.m.alt = "Müşteri ekranı: " + a.baslik; img.p.alt = "SPY ekranı: " + a.baslik;
+      ["m","p"].forEach(function(y){ kok.querySelector("[data-bolme=" + y + "]").classList.toggle("etkin", a.kim === y || a.kim === "y"); });
+      yanGoster(a.kim === "p" ? "p" : "m");
+      kok.querySelector(".sira").textContent = (n + 1) + " / " + adimlar.length + " · " + (a.kim === "m" ? "Müşteri" : a.kim === "p" ? "SPY" : "Müşteri ve SPY");
+      kok.querySelector(".yazi b").textContent = a.baslik;
+      kok.querySelector(".yazi p").textContent = a.metin;
+      kok.querySelector("[data-geri]").disabled = n === 0;
+      kok.querySelector("[data-ileri]").disabled = n === adimlar.length - 1;
+      nokta.querySelectorAll("button").forEach(function(b, k){ if (k === n) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current"); });
+      var s = adimlar[n + 1]; if (s) { new Image().src = yol(s.m); new Image().src = yol(s.p); }  // sonraki adım hazır olsun
+    }
+    kok.querySelector("[data-geri]").addEventListener("click", function(){ git(n - 1); });
+    kok.querySelector("[data-ileri]").addEventListener("click", function(){ git(n + 1); });
+    kok.querySelectorAll("[data-yan]").forEach(function(x){ x.addEventListener("click", function(){ yanGoster(x.getAttribute("data-yan")); }); });
+    kok.addEventListener("keydown", function(e){ if (e.key === "ArrowRight") git(n + 1); if (e.key === "ArrowLeft") git(n - 1); });
+    kok.tabIndex = -1;
+    kok.git = git;
+    git(0);
+  });
+  document.addEventListener("keydown", function(e){
+    var k = document.querySelector(".bolum.acik [data-senaryo]");
+    if (!k || /INPUT|TEXTAREA|SELECT|VIDEO/.test(e.target.tagName) || e.target.closest("[data-senaryo]")) return;
+    if (e.key === "ArrowRight" || e.key === "ArrowLeft") k.dispatchEvent(new KeyboardEvent("keydown", { key: e.key }));
+  });
+
   document.querySelector("[data-ana]").addEventListener("click", function(){ history.pushState(null, "", location.pathname + location.search); goster(); });
   window.addEventListener("hashchange", goster);
   goster();
