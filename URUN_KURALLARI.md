@@ -190,8 +190,9 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 - **Web formu** merkezden açılırsa (`<merkez>/web-basvuru/index.html`) "Temsilci çağırmak istiyorum" çağrısı merkeze gider; SMS önizlemesindeki
   6 haneli giriş kodunu merkez verir. Uygulamada telefon + bu kodla girince aynı çağrı açılır (merkezde `api/kod`). Pages kopyasında eski
   gösteri davranışı (kod tarayıcıda üretilir).
-- **Görüşmeye hazırlık yalnız uygulamada** (web'de yok): çalışma durumu, yaş aralığı, "Ne için düşünüyorsunuz?" (Konut / Araç / İşyeri /
-  Henüz karar vermedim), kısa not (en çok 300 harf). Web'den gelen müşteri uygulamaya ilk girdiğinde (tanıtım penceresi kapanınca) ve saat
+- **Görüşmeye hazırlık yalnız uygulamada** (web'de yok): çalışma durumu, yaş aralığı, kısa not (en çok 300 harf) ve
+  **Finansman Aracı** düğmesi (2026-11-18: finansman türü burada sorulmaz, "Ne için düşünüyorsunuz?" kalktı; düğme girilenleri kaydedip
+  Finansman sekmesini açar, tür/tutar/vade orada seçilir ve SPY'ye ön bilgi olarak gider). Web'den gelen müşteri uygulamaya ilk girdiğinde (tanıtım penceresi kapanınca) ve saat
   onaylanınca sorulur; "Şimdi değil" → Randevum ayrıntısında "Görüşmeye hazırlık · isteğe bağlı" kartı kalır. Telefonla görüşme çağrısında sorulmaz.
 - Canlıda uydurma otomatik yanıtlar kapalıdır. SMS kodu test sürümünde ekranda gösterilir.
 - Merkezde atama puanı `atamaPuan` alanındadır (müşteri yıldız puanı `puan` ile karışmasın).

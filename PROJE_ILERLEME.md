@@ -767,3 +767,10 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - KVKK adımları eklendi: Senaryo 1'de web formunun Aydınlatma Metni penceresi, Senaryo 2'de uygulamanınki (onay kutusu yok,
   ticari ileti izni isteğe bağlı/işaretsiz; betik bunu da denetler). Senaryo 1: 16, Senaryo 2: 17 adım.
 - Test `tests/panel-senaryo.py`: 1440x900, 1280x640, 393x852, 390x664'te her adımda taşma denetimi OK.
+
+### 2026-11-18 (6) Görüşmeye hazırlık: finansman türü kalktı, Finansman Aracı düğmesi geldi
+- Kullanıcı isteği: kozmetik öneriler (taslak/kozmetik/*.jpg) uygulanmadı; yalnız bu değişiklik.
+- Hazırlık penceresinden "Ne için düşünüyorsunuz?" (Konut/Araç/İşyeri/Henüz karar vermedim) kalktı; yerine "Finansman Aracı" düğmesi:
+  girilenleri kaydeder, Finansman sekmesini açar (tür/tutar/vade orada; SPY'ye ön bilgi olarak gider). SPY detayında "Ne için" satırı da kalktı.
+- Testler: preparation-popup (düğme → kaydet + Finansman), merkez-akis (çalışma durumu ile), browser-flows, appointment-list, phone-layout,
+  web-flows, panel-senaryo OK. Senaryo görüntüleri yeniden üretildi.

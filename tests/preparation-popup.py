@@ -28,7 +28,7 @@ with sync_playwright() as p:
         assert app(page,'app.state.mTalep.durum')=='netlesti'
         box=dialog.bounding_box()
         assert box['y']>=0 and box['x']>=0 and box['x']+box['width']<=width+1
-        assert dialog.get_by_label('Ne için düşünüyorsunuz').count()==1 and dialog.get_by_label('Temsilcinizin bilmesini istediğiniz not').count()==1
+        assert dialog.get_by_label('Ne için düşünüyorsunuz').count()==0 and dialog.get_by_role('button',name='Finansman Aracı',exact=True).count()==1 and dialog.get_by_label('Temsilcinizin bilmesini istediğiniz not').count()==1
         dialog.get_by_role('button',name='Şimdi değil',exact=True).scroll_into_view_if_needed()
         page.screenshot(path=str(OUT/f'hazirlik-popup-{width}.png'))
         dialog.get_by_role('button',name='Şimdi değil',exact=True).click()
@@ -42,7 +42,13 @@ with sync_playwright() as p:
         assert app(page,'app.state.customerForm.ekBilgi.calisma')=='Emekli'
         page.get_by_role('button',name='Bilgileri düzenle',exact=True).click()
         assert dialog.get_by_role('button',name='Ön tercihler',exact=True).count()==0
-        dialog.get_by_role('button',name='Şimdi değil',exact=True).click()
+        # Finansman Aracı düğmesi: girilen bilgi kaydedilir, Finansman sekmesi açılır
+        dialog.get_by_label('Yaş aralığı',exact=True).select_option(label='35–44')
+        dialog.get_by_role('button',name='Finansman Aracı',exact=True).click()
+        page.locator('.customer-finance').wait_for()
+        assert dialog.count()==0 and app(page,'app.state.customerForm.ekBilgi.yas')=='35–44' and app(page,'app.state.customerForm.ekBilgi.calisma')=='Emekli'
+        page.get_by_role('button',name='Randevularım',exact=True).click()
+        page.locator('.m-randevu-row').first.click()
         page.get_by_role('button',name='Ön tercihler',exact=True).click()
         page.locator('.customer-finance').wait_for()
         assert app(page,'app.state.mTalep.durum')=='netlesti'

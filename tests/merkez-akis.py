@@ -320,14 +320,14 @@ with sync_playwright() as p:
         uyg.get_by_role('button', name='Atla', exact=True).click()
     uyg.get_by_text('Görüşmeye hazırlanmamıza yardımcı olun', exact=True).wait_for()
     uyg.screenshot(path=str(OUT / '8-hazirlik.png'))
-    uyg.get_by_label('Ne için düşünüyorsunuz').select_option('Konut')
+    uyg.get_by_label('Çalışma durumu', exact=True).select_option(label='Emekli')
     uyg.get_by_role('button', name='Kaydet', exact=True).click()
     for _ in range(20):
         wk = next(x for x in merkez('api/durum?hepsi=1')['kayitlar'] if x['id'] == rid)
-        if (wk.get('ekBilgi') or {}).get('neIcin') == 'Konut':
+        if (wk.get('ekBilgi') or {}).get('calisma') == 'Emekli':
             break
         uyg.wait_for_timeout(300)
-    assert (wk.get('ekBilgi') or {}).get('neIcin') == 'Konut', wk.get('ekBilgi')
+    assert (wk.get('ekBilgi') or {}).get('calisma') == 'Emekli', wk.get('ekBilgi')
 
     # Hesap merkezde: A telefonunda açılan hesapla B telefonunda aynı numara + SMS koduyla girilir (ad sorulmaz); çağrılar da gelir
     def telefon_b():
