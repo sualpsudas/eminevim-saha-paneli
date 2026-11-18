@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tasarruf Yanımda · Panel</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{
+    --yesil:#00724c; --turuncu:#ea803f; --acikYesil:#e9f0ed; --zemin:#f6f7f6; --kart:#fff; --yazi:#222; --soluk:#666; --cizgi:#ddd;
+    --ray:212px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--zemin);color:var(--yazi);font:16px/1.55 "Century Gothic",-apple-system,"Segoe UI",Arial,sans-serif;-webkit-text-size-adjust:100%}
+  a{color:var(--yesil)}
+  button{font:inherit;color:inherit}
+  :focus-visible{outline:3px solid var(--turuncu);outline-offset:2px}
+
+  /* Ana sayfa */
+  .ana{min-height:100%;padding:max(28px,env(safe-area-inset-top)) 16px 32px;max-width:880px;margin:0 auto}
+  .ana header{margin:8px 4px 22px}
+  .ana h1{margin:0;font-size:28px;line-height:1.2;color:var(--yesil)}
+  .ana header p{margin:6px 0 0;color:var(--soluk);font-size:15px}
+  .kutular{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .kutu{display:flex;flex-direction:column;align-items:flex-start;gap:10px;min-height:150px;padding:16px;border:1px solid var(--cizgi);border-radius:14px;background:var(--kart);text-align:left;cursor:pointer;text-decoration:none;color:var(--yazi)}
+  .kutu:hover{border-color:var(--yesil)}
+  .kutu .ikon{width:44px;height:44px;border-radius:12px;background:var(--acikYesil);color:var(--yesil);display:flex;align-items:center;justify-content:center}
+  .kutu b{font-size:17px;line-height:1.25}
+  .kutu span{font-size:13.5px;color:var(--soluk);line-height:1.4}
+  @media (min-width:700px){ .kutular{grid-template-columns:repeat(4,minmax(0,1fr))} .kutu{min-height:180px} }
+
+  /* İç sayfa: solda küçültülmüş panel (dikey menü), sağda içerik */
+  .ic{display:none;height:100%}
+  body.icte .ana{display:none}
+  body.icte .ic{display:flex}
+  nav.ray{flex:0 0 var(--ray);background:var(--kart);border-right:1px solid var(--cizgi);display:flex;flex-direction:column;padding:max(14px,env(safe-area-inset-top)) 10px 14px;gap:4px;overflow-y:auto}
+  .ray .marka{display:flex;align-items:center;gap:8px;padding:6px 8px 14px;border:0;background:none;cursor:pointer;color:var(--yesil);font-weight:700;font-size:15px;text-align:left}
+  .ray a{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;text-decoration:none;color:var(--yazi);font-size:14.5px;line-height:1.25}
+  .ray a:hover{background:var(--zemin)}
+  .ray a[aria-current="page"]{background:var(--acikYesil);color:var(--yesil);font-weight:700}
+  .ray svg{flex:0 0 22px}
+  .ray .alt{display:block;font-size:12px;color:var(--soluk);font-weight:400}
+  main{flex:1;min-width:0;display:flex;flex-direction:column;height:100%}
+  .bolum{display:none;flex:1;min-height:0}
+  .bolum.acik{display:flex;flex-direction:column}
+  .cerceve{flex:1;width:100%;border:0;background:#fff}
+  .kaydir{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:max(20px,env(safe-area-inset-top)) 20px 40px}
+  .icerik{max-width:760px;margin:0 auto}
+  h2{margin:0 0 4px;font-size:23px;line-height:1.25;color:var(--yesil)}
+  .bolum .not{margin:0 0 18px;color:var(--soluk);font-size:14.5px}
+  video{width:100%;max-height:72vh;border-radius:14px;background:#000;display:block}
+
+  /* Senaryo adımları */
+  ol.adimlar{list-style:none;margin:0;padding:0;counter-reset:a}
+  ol.adimlar li{counter-increment:a;position:relative;padding:0 0 18px 46px}
+  ol.adimlar li::before{content:counter(a);position:absolute;left:0;top:0;width:30px;height:30px;border-radius:50%;background:var(--yesil);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center}
+  ol.adimlar li::after{content:"";position:absolute;left:14px;top:34px;bottom:4px;width:2px;background:var(--cizgi)}
+  ol.adimlar li:last-child::after{display:none}
+  .kim{display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.03em;padding:2px 8px;border-radius:20px;margin-bottom:3px}
+  .kim.m{background:#fdf0e7;color:#a8541f}
+  .kim.s{background:var(--acikYesil);color:var(--yesil)}
+  .kim.y{background:#eef0f3;color:#4a5361}
+  ol.adimlar b{display:block;font-size:16px;line-height:1.35}
+  ol.adimlar p{margin:3px 0 0;color:var(--soluk);font-size:14.5px}
+  .bilgi{margin:6px 0 22px;padding:12px 14px;border-radius:12px;background:var(--acikYesil);font-size:14px;color:#24493b}
+
+  /* Telefon: menü dar ray olur (simge + kısa ad) */
+  @media (max-width:699px){
+    :root{--ray:74px}
+    nav.ray{padding-left:6px;padding-right:6px;align-items:stretch}
+    .ray .marka{justify-content:center;padding:6px 0 12px}
+    .ray .marka span{display:none}
+    .ray a{flex-direction:column;gap:4px;padding:9px 2px;font-size:11px;text-align:center}
+    .ray a .uzun,.ray .alt{display:none}
+    .kaydir{padding:max(16px,env(safe-area-inset-top)) 14px 32px}
+    h2{font-size:20px}
+  }
+  @media (min-width:700px){ .ray a .kisa{display:none} }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-cerceve" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M7 3h7l5 5v13H7zM14 3v5h5M10 13h6M10 17h6"/></symbol>
+  <symbol id="i-video" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 9.5v5l4.5-2.5z" fill="currentColor"/></symbol>
+  <symbol id="i-web" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M8 21h8M7 9h6M7 13h10"/></symbol>
+  <symbol id="i-uyg" viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M11 18h2"/></symbol>
+  <symbol id="i-ev" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
+</svg>
+
+<div class="ana">
+  <header>
+    <h1>Tasarruf Yanımda</h1>
+    <p>Müşteri temsilci çağırır, aktif SPY'ler dilediği yerde ve saatte ulaşır.</p>
+  </header>
+  <div class="kutular">
+    <a class="kutu" href="#cerceve"><span class="ikon"><svg width="24" height="24"><use href="#i-cerceve"/></svg></span><b>Proje Çerçevesi</b><span>Amaç, hedef kitle ve temel işleyiş</span></a>
+    <a class="kutu" href="#video"><span class="ikon"><svg width="24" height="24"><use href="#i-video"/></svg></span><b>Tanıtım Videosu</b><span>Kısa tanıtım</span></a>
+    <a class="kutu" href="#senaryo-1"><span class="ikon"><svg width="24" height="24"><use href="#i-web"/></svg></span><b>Senaryo 1</b><span>Çağrı web formundan gelir</span></a>
+    <a class="kutu" href="#senaryo-2"><span class="ikon"><svg width="24" height="24"><use href="#i-uyg"/></svg></span><b>Senaryo 2</b><span>Çağrı uygulamadan gelir</span></a>
+  </div>
+</div>
+
+<div class="ic">
+  <nav class="ray" aria-label="Bölümler">
+    <button type="button" class="marka" data-ana aria-label="Ana sayfa"><svg width="22" height="22"><use href="#i-ev"/></svg><span>Tasarruf Yanımda</span></button>
+    <a href="#cerceve"><svg width="22" height="22" aria-hidden="true"><use href="#i-cerceve"/></svg><span><span class="uzun">Proje Çerçevesi</span><span class="kisa">Çerçeve</span></span></a>
+    <a href="#video"><svg width="22" height="22" aria-hidden="true"><use href="#i-video"/></svg><span><span class="uzun">Tanıtım Videosu</span><span class="kisa">Video</span></span></a>
+    <a href="#senaryo-1"><svg width="22" height="22" aria-hidden="true"><use href="#i-web"/></svg><span><span class="uzun">Senaryo 1</span><span class="kisa">Senaryo 1</span><span class="alt">Web formundan</span></span></a>
+    <a href="#senaryo-2"><svg width="22" height="22" aria-hidden="true"><use href="#i-uyg"/></svg><span><span class="uzun">Senaryo 2</span><span class="kisa">Senaryo 2</span><span class="alt">Uygulamadan</span></span></a>
+  </nav>
+  <main>
+    <section class="bolum" id="b-cerceve" aria-label="Proje Çerçevesi">
+      <iframe class="cerceve" title="Proje Çerçevesi" data-src="rapor/proje-cercevesi.html"></iframe>
+    </section>
+
+    <section class="bolum" id="b-video" aria-labelledby="h-video">
+      <div class="kaydir"><div class="icerik">
+        <h2 id="h-video">Tanıtım Videosu</h2>
+        <p class="not">Sesi açarak izleyin.</p>
+        <video controls playsinline preload="metadata" data-src="video/tasarruf-yanimda-tanitim.mp4?v=12"></video>
+      </div></div>
+    </section>
+
+    <section class="bolum" id="b-senaryo-1" aria-labelledby="h-s1">
+      <div class="kaydir"><div class="icerik">
+        <h2 id="h-s1">Senaryo 1 · Web formundan</h2>
+        <p class="not">Müşteri eminevim.com'daki formdan temsilci çağırır.</p>
+        <ol class="adimlar">
+          <li><span class="kim m">Müşteri</span><b>Formu doldurur</b><p>Ad, Soyad ve telefon. E-posta istenmez. Altta kısa aydınlatma bilgisi ve “Aydınlatma Metni” bağlantısı var; onay kutusu yok. Kampanya iletisi izni isteğe bağlıdır.</p></li>
+          <li><span class="kim m">Müşteri</span><b>“Temsilci çağırmak istiyorum”u açar</b><p>Haritada görüşme yerini, sonra gün ve saati seçer. Seçilen yer hizmet bölgesinin dışındaysa müşteri telefonla aranır.</p></li>
+          <li><span class="kim m">Müşteri</span><b>Gönderir</b><p>“Temsilci çağrınız alındı” ekranı açılır. Telefona SMS gelir: uygulama giriş kodu ve bağlantı. Temsilcinin adı henüz gösterilmez.</p></li>
+          <li><span class="kim y">Sistem</span><b>Çağrı en uygun SPY'ye düşer</b><p>Puanlı atama yapılır ve SPY'nin telefonuna bildirim gider. SPY 2 dakika içinde almazsa çağrı sıradakine geçer. Kimse almazsa yönetici ekranında “kimse almadı” olarak görünür ve takım lideri atar.</p></li>
+          <li><span class="kim s">SPY</span><b>Çağrıyı kabul eder</b><p>Müşteriye “Temsilciniz belli oldu” bildirimi gider.</p></li>
+          <li><span class="kim m">Müşteri</span><b>SMS'teki bağlantıyla uygulamaya girer</b><p>Yalnızca 6 haneli kodu yazar; parola yoktur. Ad ve soyad formdan geldiği için yeniden sorulmaz. Çağrısı Randevularım'da hazırdır.</p></li>
+          <li><span class="kim m">Müşteri</span><b>Görüşmeye hazırlık (isteğe bağlı)</b><p>Ne için düşündüğünü, çalışma durumunu ve yaş aralığını paylaşabilir. Bu bilgiler SPY'ye ön bilgi olarak gider.</p></li>
+          <li><span class="kim s">SPY</span><b>Yola çıkar</b><p>Müşteriye tahmini varış saati bildirilir. Müşteri temsilcisiyle uygulamadan yazışabilir.</p></li>
+          <li><span class="kim s">SPY</span><b>Kapıda kimlik doğrulama</b><p>Müşteri uygulamadaki QR kodunu gösterir, SPY okutur ve görüşme başlar.</p></li>
+          <li><span class="kim s">SPY</span><b>Görüşmeyi bitirir</b><p>Görüşme özeti müşteriye gider, müşteri isterse puan verir. Randevu ve aday müşteri kartı şirket sistemine aktarılır.</p></li>
+        </ol>
+      </div></div>
+    </section>
+
+    <section class="bolum" id="b-senaryo-2" aria-labelledby="h-s2">
+      <div class="kaydir"><div class="icerik">
+        <h2 id="h-s2">Senaryo 2 · Uygulamadan</h2>
+        <p class="not">Müşteri Eminevim uygulamasından temsilci çağırır.</p>
+        <ol class="adimlar">
+          <li><span class="kim m">Müşteri</span><b>Telefon numarasıyla girer</b><p>“Telefon numaranızla devam edin” der ve SMS ile gelen 6 haneli kodu yazar. Parola yoktur. Oturum, müşteri “Çıkış yap” diyene kadar açık kalır.</p></li>
+          <li><span class="kim m">Müşteri</span><b>İlk kez giriyorsa: Ad ve Soyad</b><p>Ad ve Soyad ayrı kutulara yazılır. Aydınlatma metni gösterilir; onay kutusu yoktur. Kampanya iletisi izni isteğe bağlıdır. Kayıtlı müşteri bu adımı görmez.</p></li>
+          <li><span class="kim m">Müşteri</span><b>“Temsilci iste”</b><p>Randevularım'dan görüşme yerini haritada, sonra gün ve saati seçer.</p></li>
+          <li><span class="kim y">Sistem</span><b>Çağrı en uygun SPY'ye düşer</b><p>Atama Senaryo 1'deki gibidir: puanlı seçim, bildirim, 2 dakika kabul süresi, sıradakine geçiş.</p></li>
+          <li><span class="kim s">SPY</span><b>Kabul eder</b><p>Müşteri Randevularım'da temsilcisini görür ve “Saati onayla”ya dokunur.</p></li>
+          <li><span class="kim m">Müşteri</span><b>Hazırlık ve Finansman Aracı (isteğe bağlı)</b><p>Hazırlık bilgilerini ve üyelere açık Finansman Aracı tercihini paylaşabilir. Bunlar SPY'nin ekranında ön bilgi olarak görünür.</p></li>
+          <li><span class="kim s">SPY</span><b>Yola çıkar</b><p>Müşteriye tahmini varış saati bildirilir. Müşteri temsilcisiyle uygulamadan yazışabilir.</p></li>
+          <li><span class="kim s">SPY</span><b>Kapıda kimlik doğrulama</b><p>Müşteri QR kodunu gösterir, SPY okutur ve görüşme başlar.</p></li>
+          <li><span class="kim s">SPY</span><b>Görüşmeyi bitirir</b><p>Özet müşteriye gider, müşteri isterse puan verir ve yeni randevu isteyebilir. Kayıt şirket sistemine aktarılır.</p></li>
+        </ol>
+      </div></div>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  var bolumler = ["cerceve","video","senaryo-1","senaryo-2"];
+  function goster(){
+    var ad = location.hash.replace("#","");
+    var ic = bolumler.indexOf(ad) >= 0;
+    document.body.classList.toggle("icte", ic);
+    document.querySelectorAll(".ray a").forEach(function(a){
+      if (a.getAttribute("href") === "#" + ad) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
+    });
+    bolumler.forEach(function(b){
+      var el = document.getElementById("b-" + b), acik = b === ad;
+      el.classList.toggle("acik", acik);
+      var yuk = el.querySelector("[data-src]");
+      if (acik && yuk && !yuk.getAttribute("src")) yuk.setAttribute("src", yuk.getAttribute("data-src"));  // açılınca yüklenir
+      if (!acik) { var v = el.querySelector("video"); if (v) v.pause(); }
+    });
+    if (ic) { var k = document.querySelector(".bolum.acik .kaydir"); if (k) k.scrollTop = 0; }
+  }
+  document.querySelector("[data-ana]").addEventListener("click", function(){ history.pushState(null, "", location.pathname + location.search); goster(); });
+  window.addEventListener("hashchange", goster);
+  goster();
+})();
+</script>
+</body>
+</html>

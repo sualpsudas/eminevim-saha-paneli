@@ -743,3 +743,8 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
   adi/soyad/kampanya. `olustur.py` ile yeniden üretildi.
 - Belgeler: URUN_KURALLARI, TEKNIK, IT_DEVIR (tek hesap, KVKK, yurt dışı harita servisleri), KARARLAR, AGENTS. sw CACHE v20.
 - Testler (hepsi OK): browser-flows, web-flows, appointment-list, phone-layout, preparation-popup, merkez-akis (deneme merkez 8795), npm test.
+
+## 2026-11-18 (3) — Panel (panel.html)
+- Kullanıcı isteği: ana sayfada kutular (Proje Çerçevesi, Tanıtım Videosu, Senaryo 1, Senaryo 2); tıklayınca solda dar dikey menü,
+  sıra Proje Çerçevesi → Tanıtım Videosu → Senaryo 1 (web formundan) → Senaryo 2 (uygulamadan). Web formu/uygulama panelden açılmaz.
+- Senaryolar yeni (parolasız) girişe göre yazıldı. linkler.html'e "Panel" bağlantısı. Telefon (390) ve bilgisayar (1366) ekran denemesi OK.

@@ -24,7 +24,7 @@ test et, kanıt göster.** Emin olmadığın her şeyde dur ve kullanıcıya sor
 | `merkez/takip.html` | Yönetici "Saha Canlı" sayfası | |
 | `merkez/canli-sw.js` | Merkezdeki bildirim servis çalışanı (`sw.js` adıyla sunulur) | Kökteki `sw.js` (Pages) ayrı dosyadır. |
 | `web-basvuru/form_bolumu.html` + `olustur.py` | Web formu kaynağı + üretici | `index.html` **üretilir, elle düzenlenmez**: `python olustur.py`. |
-| `senaryo.html`, `taslak/`, `linkler.html` | Yardımcı sayfalar | |
+| `panel.html`, `senaryo.html`, `taslak/`, `linkler.html` | Yardımcı sayfalar (panel: çerçeve, video, Senaryo 1 web / 2 uygulama) | |
 | `capacitor.config.json`, `codemagic.yaml`, `scripts/`, `ios/` | iPhone (TestFlight) paketi | İmza/sertifika ayarlarına dokunma. |
 | `tests/` | Testler (aşağıda) | |
 | `video/`, `backup/`, `rapor/` | Tanıtım videosu, eski sürüm yedeği, proje belgeleri | `video/` ve `backup/` **değişmez**. |

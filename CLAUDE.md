@@ -36,7 +36,9 @@ Pages adresi değişir). **Tasarım kararı henüz verilmedi:** mevcut prototip 
 - SPY listesi `veri/spyler.js` **üretilir**: `veri/kaynak/*.csv` + `veri/ayarlar.json` → `python araclar/veri_hazirla.py` (`veri/OKUBENI.md`).
 - Web formu: `web-basvuru/form_bolumu.html` düzenlenir → `python olustur.py` ile **mutlaka yeniden üret**.
 - Canlı test merkezi: `merkez/` (`sunucu.py` giriş, kod `merkez/ty/` parçaları, `takip.html`, `canli-sw.js`), bağlantı `uygulama/canli.js`.
-- iPhone: Capacitor + Codemagic (`IOS_TESTFLIGHT.md`). Taslaklar `taslak/`, senaryo `senaryo.html`, proje belgeleri `rapor/`.
+- iPhone: Capacitor + Codemagic (`IOS_TESTFLIGHT.md`). Taslaklar `taslak/`, senaryo `senaryo.html` (eski çizim tahtası), proje belgeleri `rapor/`.
+- **Panel `panel.html`** (2026-11-18): ana sayfa kutuları → solda dar dikey menü: Proje Çerçevesi, Tanıtım Videosu, Senaryo 1 (web formundan),
+  Senaryo 2 (uygulamadan). Web formu ve uygulama panelden açılmaz (ayrı linkler). Akış değişince senaryo adımları da güncellenir.
 
 ## Çalıştırma ve yayın
 - **Merkez (7/24, port 8794):** durdurmak için `python sunucu.py --durdur` (taskkill değil); başlatma Başlangıç kısayolu
