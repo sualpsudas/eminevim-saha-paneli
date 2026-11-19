@@ -38,7 +38,7 @@ def uygulama_surumu():
         return ""
 
 
-SIKISTIRILAN = {"text/html", "text/javascript", "application/javascript", "text/css", "application/json", "image/svg+xml"}
+SIKISTIRILAN = {"text/html", "text/javascript", "application/javascript", "text/css", "application/json", "image/svg+xml", "font/ttf"}
 
 
 class Isleyici(BaseHTTPRequestHandler):

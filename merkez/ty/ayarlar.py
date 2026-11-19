@@ -47,7 +47,7 @@ KOD_DK = 10      # SMS kodu (test: ekranda gösterilir) 10 dk geçerli
 # Sunulan dosyalar (depo kökünden). Klasörlerin içindeki her dosya, yalnız aşağıdaki uzantılarla.
 STATIK_UZANTI = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
                  ".json": "application/json; charset=utf-8", ".png": "image/png", ".jpg": "image/jpeg", ".svg": "image/svg+xml",
-                 ".webp": "image/webp", ".ico": "image/x-icon"}
+                 ".webp": "image/webp", ".ico": "image/x-icon", ".ttf": "font/ttf"}
 STATIK_KOK = {UYGULAMA, "index.html", "manifest.json", "eminevim-qr.png", "veri/spyler.js", "veri/org-data.js", "web-basvuru/index.html"}
 STATIK_KLASOR = ("assets/", "vendor/", "web-basvuru/", "uygulama/", "harita/")
 # Bunlar değişince açık uygulamalar "Yeni sürüm hazır · Yenile" şeridi gösterir

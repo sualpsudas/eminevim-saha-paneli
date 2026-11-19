@@ -714,6 +714,45 @@ html.native-app .giris-isaret { filter: none !important; width: 100% !important;
 html.native-app .giris-isaret + .giris-form { margin-top: 0 !important; }
 html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { margin-right: 120px; }
 html.native-app .customer-finance-scroll > div:first-child > div:first-child > div:last-child { position: absolute; right: 0; top: 0; opacity: 0; }
+/* Yazı tipi, başlık boşluğu, yumuşak çizgiler (2026-11-19) */
+@font-face { font-family: "TYJakarta"; font-weight: 400; font-style: normal; font-display: swap; src: url(assets/fonts/jakarta-400.ttf) format("truetype"); }
+@font-face { font-family: "TYJakarta"; font-weight: 500; font-style: normal; font-display: swap; src: url(assets/fonts/jakarta-500.ttf) format("truetype"); }
+@font-face { font-family: "TYJakarta"; font-weight: 600; font-style: normal; font-display: swap; src: url(assets/fonts/jakarta-600.ttf) format("truetype"); }
+@font-face { font-family: "TYJakarta"; font-weight: 700; font-style: normal; font-display: swap; src: url(assets/fonts/jakarta-700.ttf) format("truetype"); }
+@font-face { font-family: "TYJakarta"; font-weight: 800; font-style: normal; font-display: swap; src: url(assets/fonts/jakarta-800.ttf) format("truetype"); }
+html.native-app, html.native-app body, html.native-app .app-root, html.native-app .app-root * { font-family: "TYJakarta", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif !important; letter-spacing: -.1px; }
+html.native-app .customer-bas h1, html.native-app .customer-screen .customer-ust-ad { letter-spacing: -.5px; }
+/* Başlık yukarı, içerik hemen arkasından */
+html.native-app .customer-screen { --hero-yuk: calc(env(safe-area-inset-top,0px) + 142px); }
+html.native-app .customer-screen .tp-bas { padding-top: 6px; }
+html.native-app .customer-screen .customer-bas { padding-bottom: 26px; }
+html.native-app .customer-screen::after { top: calc(env(safe-area-inset-top,0px) + 46px) !important; width: 200px !important; height: 112px !important; }
+html.native-app .customer-screen > .customer-header + .customer-panel, html.native-app .customer-screen > .customer-bas + .customer-panel { margin-top: -20px; }
+html.native-app .customer-screen > .customer-panel.customer-profile { margin-top: 70px; }
+html.native-app .customer-screen > .customer-panel.customer-finance { margin-top: 8px; }
+html.native-app .customer-finance::before { top: 70px; }
+html.native-app .customer-finance-scroll > div:first-child { margin-bottom: 22px; }
+html.native-app .customer-screen:has(> .customer-profile) .customer-header::after { top: 58px; }
+html.native-app .customer-screen > .customer-panel { padding-top: 20px; }
+/* Yumuşak çizgiler */
+html.native-app .customer-bas h1::after, html.native-app .customer-screen:has(> .customer-profile) .customer-header::after { height: 4px; border-radius: 4px; }
+html.native-app .customer-bas h1::after { width: 40px; margin-top: 9px; background: linear-gradient(90deg,#8BE02E,#5FC41B); }
+html.native-app .m-konuşma-row::before { width: 5px; border-radius: 0 6px 6px 0; top: 14px; bottom: 14px; background: linear-gradient(180deg,#3DBE8B,#0F8A5E); }
+html.native-app .customer-screen [style*="border-bottom:1px solid var(--line)"], html.native-app .customer-screen [style*="border-bottom: 1px solid var(--line)"] { border-bottom-color: rgba(0,114,76,.09) !important; }
+html.native-app .customer-screen [style*="border-top:1px solid var(--line)"], html.native-app .customer-screen [style*="border-top: 1px solid var(--line)"] { border-top: 0 !important; }
+html.native-app .customer-settings input[type="checkbox"] { accent-color: #00724C; width: 22px; height: 22px; border-radius: 7px; }
+html.native-app .customer-screen input, html.native-app .customer-screen select, html.native-app .customer-screen textarea { border-color: transparent !important; }
+html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) > span { height: 5px !important; }
+html.native-app .customer-screen button { -webkit-tap-highlight-color: transparent; }
+/* Düzeltme: resim kırpılması, finansman çubuğu, profil çizgisi */
+html.native-app .customer-screen { --hero-yuk: calc(env(safe-area-inset-top,0px) + 146px); }
+html.native-app .customer-screen::after { top: calc(env(safe-area-inset-top,0px) + 38px) !important; width: 190px !important; height: 104px !important; }
+html.native-app .customer-screen:has(> .customer-profile) .customer-header::after { height: auto !important; border-radius: 0; line-height: 1.2; padding-bottom: 14px; background: linear-gradient(90deg,#8BE02E,#5FC41B) left bottom / 40px 4px no-repeat; top: 54px; }
+html.native-app .customer-screen > .customer-panel.customer-finance { margin-top: 16px; }
+html.native-app .customer-finance::before { top: 76px; }
+html.native-app .customer-finance-scroll > div:first-child { margin-bottom: 24px; }
+html.native-app .customer-screen > .customer-panel.customer-profile { margin-top: 76px; }
+html.native-app .customer-screen > .customer-header + .customer-panel, html.native-app .customer-screen > .customer-bas + .customer-panel { margin-top: -14px; }
 </style>
 </helmet>
 
