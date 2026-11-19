@@ -1086,6 +1086,9 @@ html.native-app .m-randevu-tablo { gap: 8px !important; }
 /* b58: pencere içi kart düğmeleri küçük */
 html.native-app .m-sheet .m-durum .m-btn { min-height: 38px !important; font-size: 13px !important; padding: 0 16px !important; }
 html.native-app .m-sheet .m-kart .m-btn { min-height: 44px !important; font-size: 14px !important; }
+/* b59: finansman başlıkları diğer sayfalarla aynı satır (fin1 1px aşağıydı, fin2/3 1px yukarıydı) */
+html.native-app .customer-screen:not(:has(> .customer-bas)) .customer-finance-scroll > div:first-child > div:first-child { transform: translateY(-12px) !important; }
+html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scroll) .customer-bas h1 { transform: translateY(1px); }
 </style>
 </helmet>
 

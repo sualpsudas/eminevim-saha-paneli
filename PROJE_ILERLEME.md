@@ -880,3 +880,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Finansman ilerleme cubuklari diger sayfalarin yesil cizgisiyle ayni hizaya (105-109px; once 12px asagidaydi; baslik cap-top zaten ayni). Acilis ekrani (EMINEVIM buyuk, Tasarruf Yanimda, slogan "Dilediginiz yerde temsilcimizle gorusme planlayin!", ev-araba sahnesi; yalniz uygulama gorunumu, oturumda bir kez ~2.5 sn): acilisEkrani() + CSS b55-b56, sw v46. iOS yerel acilis (LaunchScreen) ayri: yeni derleme ister.
 
 - 2026-11-20: Randevu bolumu kompakt: uzun aciklamalar kalkti (Gorusmeye hazirlik yalniz baslik+Bilgi ekle, on tercih satiri kisaldi, bos durumdaki cumle kalkti), pencere ici bosluk/yazi/dugme kucultuldu, liste satiri dar. Pencere ~495px -> ~300px. CSS b57-b58, sw v47.
+
+- 2026-11-20: Finansman baslik hizasi (ilk harf olcumu): fin1 1px asagida, fin2/3 1px yukaridaydi -> hepsi diger sayfalarla ayni satir (393 ve 320, guvenli alan simule edilerek de tutarli). CSS b59, sw v48.
