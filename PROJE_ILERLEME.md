@@ -866,3 +866,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: Temsilci iste akisi (ya-akis) native modda alttan acilan sayfa: ustte ekran gorunur, yesil ust bant + Geri pill, ortak yesil duygme temasi, guvenli alan (CSS b47, sw v38). 393x852, 375x667, 320x568 dogrulandi.
 
 - 2026-11-19: Temsilci iste onay adimi: koyu yesil baslik, acik yesil ozet karti, uygulamada "Randevularima don" dugmesi (CSS b48-b49, sw v39).
+
+- 2026-11-19: Randevu ayrintisi alttan acilan pencere (m-sheet): asagi surukle=kapat, yukari cek=tam sayfa (Geri ile pencereye doner), perdeye dokun=kapat. Liste arkada hep gorunur; Geri ust bandi kalkti. Pull-to-refresh pencere icinde kapali. CSS b50, sw v40. Dokunmatik surukleme CDP ile dogrulandi.
