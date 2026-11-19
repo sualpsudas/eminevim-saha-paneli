@@ -1067,6 +1067,25 @@ html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { 
 .ty-acilis-ad { color: #CFEFDD; font-weight: 700; font-size: clamp(16px,4.6vw,20px); letter-spacing: .02em; margin-top: 10px; }
 .ty-acilis-slogan { color: rgba(255,255,255,.82); font-weight: 600; font-size: clamp(13px,3.8vw,16px); line-height: 1.4; margin: 26px auto 0; max-width: 270px; }
 .ty-acilis-sahne { position: absolute; left: 0; right: 0; margin: 0 auto; bottom: calc(env(safe-area-inset-bottom,0px) + 4vh); width: min(88%,420px); opacity: .9; pointer-events: none; animation: tyAcilisGel .9s ease .15s both; }
+/* b57: randevu bölümü kompakt */
+.m-ek-oz { display: block; font-size: 11.5px; opacity: .85; margin-top: 2px; }
+.m-ek-oz:empty { display: none; }
+.m-sheet .m-sheet-ic { gap: 8px !important; padding: 4px 16px 16px !important; }
+.m-sheet .m-kart { padding: 13px 14px !important; gap: 8px !important; border-radius: 20px !important; }
+.m-sheet .m-kart h2 { font-size: 20px !important; margin: 0 !important; line-height: 1.2; }
+.m-sheet .m-kart h3 { font-size: 15px !important; }
+.m-sheet .m-kart p { margin: 0 !important; font-size: 13px !important; line-height: 1.35; }
+.m-sheet .m-kart .m-btn { min-height: 44px !important; font-size: 14px !important; }
+.m-sheet .m-durum > div[style*="border-top"], .m-sheet .m-durum > div { gap: 8px !important; padding-top: 8px !important; }
+.m-sheet .m-durum .m-btn { min-height: 38px !important; padding: 0 16px !important; font-size: 13px !important; }
+.m-sheet .m-actions .m-btn { min-height: 46px !important; }
+.m-sheet .m-sheet-ic > .m-btn { min-height: 46px !important; font-size: 14px !important; }
+html.native-app .m-randevu-row { padding-top: 10px !important; padding-bottom: 10px !important; }
+html.native-app .m-rd-tarih { height: 54px !important; }
+html.native-app .m-randevu-tablo { gap: 8px !important; }
+/* b58: pencere içi kart düğmeleri küçük */
+html.native-app .m-sheet .m-durum .m-btn { min-height: 38px !important; font-size: 13px !important; padding: 0 16px !important; }
+html.native-app .m-sheet .m-kart .m-btn { min-height: 44px !important; font-size: 14px !important; }
 </style>
 </helmet>
 
@@ -1184,15 +1203,15 @@ html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { 
 <sc-if value="{{ customerNavBasvurum }}"><div class="m-akis customer-panel customer-appointments {{ mGecisSinif }}">
 <sc-if value="{{ mListeAcik }}"><sc-if value="{{ mBildirimSor }}"><div class="m-kart" role="region" aria-label="Bildirimler"><h3>Bildirimleri açın</h3><p>{{ mBildirimSorMetin }}</p><div class="m-actions"><sc-if value="{{ mBildirimDugme }}"><button class="m-btn" onClick="{{ mBildirimAc }}">Bildirimleri aç</button></sc-if><button class="m-btn o" onClick="{{ mBildirimSonra }}">Şimdi değil</button></div></div></sc-if><sc-if value="{{ mListeVar }}"><div class="m-randevu-tablo"><sc-if value="{{ mRdBos }}"><p class="m-rd-bos">Bu filtrede randevu yok.</p></sc-if><sc-for list="{{ mRandevular }}" as="r"><button class="m-randevu-row" onClick="{{ r.onAc }}" aria-label="{{ r.etiket }}"><span class="m-rd-tarih"><b>{{ r.gun }}</b><small>{{ r.ay }}</small></span><span class="m-rd-orta"><b>{{ r.saat }}</b><small>{{ r.temsilci }}</small></span><span class="m-rd-sag"><span class="{{ r.rozetSinif }}">{{ r.rozet }}</span><sc-if value="{{ r.yeni }}"><span class="m-yeni" aria-label="Yeni veya onay bekleyen randevu">!</span></sc-if></span></button></sc-for></div></sc-if></sc-if>
 
-<sc-if value="{{ mTalepYok }}"><div class="m-kart"><h3>Temsilcimiz size gelsin</h3><p>Uygun gün ve saatte, belirttiğiniz yerde görüşelim.</p><button class="m-btn" onClick="{{ mTemsilciIste }}">Temsilci iste</button><ul class="m-guven"><li>Ücretsiz görüşme</li><li>Size uygun zaman</li><li>Uzman destek</li></ul></div></sc-if>
+<sc-if value="{{ mTalepYok }}"><div class="m-kart"><h3>Temsilcimiz size gelsin</h3><button class="m-btn" onClick="{{ mTemsilciIste }}">Temsilci iste</button><ul class="m-guven"><li>Ücretsiz görüşme</li><li>Size uygun zaman</li><li>Uzman destek</li></ul></div></sc-if>
 </div></sc-if>
 <sc-if value="{{ mDetayAcik }}"><div class="m-sheet-perde" onClick="{{ mSheetKapat }}"></div><div class="m-sheet {{ mSheetSinif }}" role="dialog" aria-label="Randevu ayrıntısı"><div class="m-sheet-tut"><button type="button" class="m-sheet-geri" onClick="{{ mSheetKucult }}" aria-label="Geri">Geri</button><i class="m-sheet-cubuk"></i></div><div class="m-akis m-sheet-ic">
 <sc-if value="{{ mAktifDetay }}">
 <div class="m-kart m-durum" role="status"><sc-if value="{{ mDurumBaslikVar }}"><h2>{{ mDurumBaslik }}</h2></sc-if><sc-if value="{{ mDurumAltVar }}"><p>{{ mDurumAlt }}</p></sc-if><sc-if value="{{ mZiyaret }}"><p><b>{{ mGun }} · {{ mSaat }}</b><br>{{ mYer }}</p></sc-if><sc-if value="{{ mRepVar }}"><p>Temsilciniz: <b>{{ mRepAd }}</b></p></sc-if>
 <sc-if value="{{ mOnayVar }}"><button class="m-btn" onClick="{{ mSaatOnayla }}">Saati onayla · {{ mSaat }}</button></sc-if>
 <sc-if value="{{ mTakipVar }}"><button class="m-btn o" onClick="{{ mYoldaGor }}">Temsilcinizi takip edin</button></sc-if>
-<sc-if value="{{ mOnTercihVar }}"><div style="border-top:1px solid rgba(255,255,255,.3);padding-top:10px;display:flex;align-items:center;gap:10px;"><p style="flex:1;font-size:12.5px;">Beklerken finansman ön tercihlerinizi oluşturun.</p><button class="m-btn o" type="button" onClick="{{ mFinansmanTercihGit }}" style="flex:0 0 auto;">Ön tercihler</button></div></sc-if>
-<sc-if value="{{ mEkBilgiSonra }}"><div style="border-top:1px solid rgba(255,255,255,.3);padding-top:10px;display:flex;align-items:center;gap:10px;"><p style="flex:1;font-size:12.5px;"><b>Görüşmeye hazırlık</b> · isteğe bağlı<br>{{ mEkBilgiOzet }}</p><button class="m-btn o" type="button" onClick="{{ mEkBilgiAc }}" style="flex:0 0 auto;">{{ mEkBilgiDugme }}</button></div></sc-if>
+<sc-if value="{{ mOnTercihVar }}"><div style="border-top:1px solid rgba(255,255,255,.3);padding-top:10px;display:flex;align-items:center;gap:10px;"><p style="flex:1;font-size:12.5px;"><b>Finansman ön tercihleri</b></p><button class="m-btn o" type="button" onClick="{{ mFinansmanTercihGit }}" style="flex:0 0 auto;">Oluştur</button></div></sc-if>
+<sc-if value="{{ mEkBilgiSonra }}"><div style="border-top:1px solid rgba(255,255,255,.3);padding-top:10px;display:flex;align-items:center;gap:10px;"><p style="flex:1;font-size:12.5px;"><b>Görüşmeye hazırlık</b><span class="m-ek-oz">{{ mEkBilgiOzet }}</span></p><button class="m-btn o" type="button" onClick="{{ mEkBilgiAc }}" style="flex:0 0 auto;">{{ mEkBilgiDugme }}</button></div></sc-if>
 </div>
 <sc-if value="{{ mGecikmeVar }}"><div class="m-kart m-uyari" role="status">{{ mGecikmeYazi }}</div></sc-if>
 <sc-if value="{{ mDegisiklikVar }}"><div class="m-kart m-not"><h3>Yeni zaman öneriniz iletildi</h3><p>{{ mDegisiklikYazi }}</p><p>Temsilcinizin onayı bekleniyor. Yukarıdaki mevcut randevunuz henüz değişmedi.</p><button class="m-btn o" onClick="{{ mDegisiklikVazgec }}">Öneriyi geri çek</button></div></sc-if>
@@ -2411,7 +2430,7 @@ class Component extends DCLogic {
       mTakipHarita:rota,mVarisMetin:eta?"Tahmini varış "+eta.saat+" · yaklaşık "+eta.dakika+" dakika":"Tahmini varış bilgisi bekleniyor",
       mKonumGuncel:eta?.eski?"Son konum güncellemesi "+Math.floor((Date.now()-t.sonKonum)/60000)+" dakika önce. Varış tahmini değişebilir.":"Son bilinen konum ve tahmini rota.",
       mTakipMesaj:()=>this.setState({yaOpen:false,yaKaynak:"",customerNav:"sohbet",mKonusmaAcik:true}),
-      mEkBilgiSonra:!!t&&t.tip!=="telefon"&&["alindi","atandi","netlesti","yolda"].includes(t.durum)&&!s.ekBilgiAcik,mEkBilgiOzet:(()=>{const b=s.customerForm.ekBilgi;const x=b?[b.calisma,b.yas].filter(Boolean).join(" · ")+(b.not?" · Not: "+b.not:""):"";return x||"Çalışma durumunuzu, yaş aralığınızı ve finansman tercihlerinizi paylaşırsanız temsilciniz görüşmeye hazırlıklı gelir.";})(),
+      mEkBilgiSonra:!!t&&t.tip!=="telefon"&&["alindi","atandi","netlesti","yolda"].includes(t.durum)&&!s.ekBilgiAcik,mEkBilgiOzet:(()=>{const b=s.customerForm.ekBilgi;const x=b?[b.calisma,b.yas].filter(Boolean).join(" · ")+(b.not?" · Not: "+b.not:""):"";return x;})(),
       mEkBilgiDugme:s.customerForm.ekBilgi?"Bilgileri düzenle":s.customerForm.ekBilgiAtlandi?"İsterseniz bilgi ekleyin":"Bilgi ekle",
       ekBilgiAcik:s.ekBilgiAcik&&!(s.hosgeldinAdim>0),ekCalisma:s.ekCalisma,ekYas:s.ekYas,ekNot:s.ekNot,setEkNot:(e)=>this.setState({ekNot:e.target.value}),
       mFinansmanTercihGit:()=>this.setState({customerNav:"basvuru",mSeciliRandevuId:null,mSheetTam:false}),
