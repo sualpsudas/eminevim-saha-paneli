@@ -862,3 +862,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: Basliklar 16px yukari (header margin-bottom -16px, hero-yuk 156, gorsel top 132, profil basligi top 56); beyaz sayfa ustu hepsinde 128px; Geri/durum cipi ile cakisma yok. sw v36. Codemagic build 9 (f31b4ea) sirada bekliyordu; bu degisiklik canli merkezden gelir, derleme gerekmez.
 
 - 2026-11-19: Gorseller buyudu (clamp 110-210px/38vw); ortak dugme temasi (birincil koyu yesil, ikincil acik yesil #D4EEE2, 52px, tam yuvarlak; Cikis yap/Aydinlatma/Devam ayni); panel alt boslugu guvenli alani sayar (110+safe, finans 92+safe) -> Devam navbara binmez (47/34 simule edildi). Codemagic build 9 (f31b4ea) basarili, TestFlight isleme. sw v37.
+
+- 2026-11-19: Temsilci iste akisi (ya-akis) native modda alttan acilan sayfa: ustte ekran gorunur, yesil ust bant + Geri pill, ortak yesil duygme temasi, guvenli alan (CSS b47, sw v38). 393x852, 375x667, 320x568 dogrulandi.

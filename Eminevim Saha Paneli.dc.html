@@ -989,6 +989,18 @@ html.native-app .customer-screen > .customer-panel { padding-bottom: calc(110px 
 html.native-app .customer-screen > .customer-panel.customer-finance { padding-bottom: calc(92px + env(safe-area-inset-bottom,0px)) !important; }
 html.native-app .customer-finance-actions { padding-bottom: 0 !important; }
 @media (max-height: 700px) { html.native-app .customer-finance-actions { transform: none !important; } }
+/* b47: Temsilci iste penceresi = alttan açılan sayfa (üstte ekran görünür), yeşil üst bant + ortak düğme teması */
+html.native-app .ya-akis { padding: 0 !important; align-items: flex-end !important; background: rgba(6,38,26,.52) !important; -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+html.native-app .ya-akis > div { width: 100% !important; max-width: none !important; height: calc(100% - env(safe-area-inset-top,0px) - 44px) !important; max-height: none !important; background: transparent !important; padding: 0 !important; box-shadow: none !important; border-radius: 0 !important; }
+html.native-app .ya-akis > div > div { border-radius: 28px 28px 0 0 !important; background: linear-gradient(180deg,#F8FCFA 0%,#E3F4EC 100%) !important; box-shadow: 0 -12px 34px rgba(0,50,34,.28); padding-bottom: env(safe-area-inset-bottom,0px); }
+html.native-app .ya-akis > div > div > div:nth-child(2) { background: linear-gradient(160deg,#0A5A3E 0%,#00724C 100%); padding: 10px 14px 12px !important; gap: 8px !important; }
+html.native-app .ya-akis > div > div > div:nth-child(2) > button { background: rgba(255,255,255,.18) !important; color: #fff !important; min-height: 36px !important; min-width: 0 !important; padding: 0 16px !important; border-radius: 99px !important; font-size: 13.5px !important; font-weight: 800 !important; }
+html.native-app .ya-akis > div > div > div:nth-child(2) > span:not([aria-label]) { visibility: hidden; }
+html.native-app .ya-akis > div > div > div:nth-child(2) i { background: rgba(255,255,255,.35) !important; width: 22px !important; height: 5px !important; border-radius: 4px !important; }
+html.native-app .ya-akis > div > div > div:nth-child(2) i[style*="00724C"], html.native-app .ya-akis > div > div > div:nth-child(2) i[style*="rgb(0, 114, 76)"] { background: #7ED321 !important; }
+html.native-app .ya-akis [style*="font:800 24px"], html.native-app .ya-akis [style*="font:800 22px"], html.native-app .ya-akis [style*="font: 800 24px"], html.native-app .ya-akis [style*="font: 800 22px"] { color: #12362B !important; font-size: 24px !important; letter-spacing: -.4px; }
+html.native-app .ya-akis [style*="background:#EA803F"], html.native-app .ya-akis [style*="background: rgb(234, 128, 63)"] { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff !important; border: 0 !important; border-radius: 99px !important; min-height: 52px !important; font-size: 15px !important; font-weight: 800 !important; box-shadow: 0 10px 22px rgba(0,88,59,.26) !important; }
+html.native-app .ya-akis [style*="box-shadow:0 -1px 0 var(--line)"], html.native-app .ya-akis [style*="box-shadow: rgba(0, 0, 0, 0)"] { box-shadow: none !important; background: transparent !important; }
 </style>
 </helmet>
 
