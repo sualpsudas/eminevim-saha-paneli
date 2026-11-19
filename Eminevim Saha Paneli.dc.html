@@ -892,6 +892,11 @@ html.native-app .customer-finance-scroll > div:nth-child(2):has(> button.scp0) {
 html.native-app .customer-finance button.scp0 { min-width: 0 !important; width: 100% !important; box-sizing: border-box; padding-left: 4px !important; padding-right: 4px !important; }
 html.native-app .customer-finance button.scp0 > span:first-child { width: 100% !important; max-width: 96px; height: auto !important; aspect-ratio: 1 / 1; }
 html.native-app .customer-finance-scroll { overflow-x: hidden !important; }
+/* b29: kod ekranı ikincil düğmeler */
+html.native-app .giris-form > button[style*="transparent"] { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 52px !important; border-radius: 30px !important; background: #DCF1E6 !important; color: #0B5B3F !important; font-size: 15px !important; font-weight: 800 !important; box-shadow: none; }
+html.native-app .giris-form > button[style*="min-height: 32px"] { background: transparent !important; color: #546A62 !important; min-height: 44px !important; font-size: 14px !important; font-weight: 700 !important; }
+html.native-app .giris-form > button[style*="min-height: 32px"]::before { content: "‹"; font-size: 20px; margin-right: 6px; line-height: 1; }
+html.native-app .giris-form input[aria-label="SMS ile gelen 6 haneli kod"] { text-align: center; text-indent: 0; padding-left: 20px !important; letter-spacing: 8px; }
 </style>
 </helmet>
 
