@@ -884,3 +884,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Finansman baslik hizasi (ilk harf olcumu): fin1 1px asagida, fin2/3 1px yukaridaydi -> hepsi diger sayfalarla ayni satir (393 ve 320, guvenli alan simule edilerek de tutarli). CSS b59, sw v48.
 
 - 2026-11-20: Randevu penceresi: Finansman on tercihleri + Gorusmeye hazirlik tek satirda iki kompakt dugme; "Kapida kimligini dogrula" yesil kartin icine alindi (ayri kart kalkti); kartin disinda yalniz Tarihi degistir / Iptal et. CSS b60, sw v49.
+
+- 2026-11-20: Finansman tum hizalar test edildi (baslik ilk harf, alt cizgi, beyaz panel ust kenari, gorsel kutusu; 7 ekran, 393 ve 320): fin2/3 cizgisi 1px asagi, fin1 cubugu 1px kalin duzeltildi (b61). Randevu penceresi tam hali artik Randevularim sayfasinin beyaz paneli gibi (ust baslik gorunur, yesil bant/Geri yok, perde seffaf); popup en fazla %70 (b62, sw v51). Tam halden asagi cek: kucult, cok asagi cek: kapat.

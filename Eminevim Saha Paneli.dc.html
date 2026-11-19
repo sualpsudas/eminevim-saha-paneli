@@ -1095,6 +1095,18 @@ html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scro
 html.native-app .m-sheet .m-hizli .m-btn { flex: 1 1 0; min-width: 0; min-height: 36px !important; padding: 0 8px !important; font-size: 12.5px !important; font-weight: 800 !important; }
 .m-sheet .m-dogrula { border-top: 1px solid rgba(255,255,255,.3); padding-top: 10px; }
 html.native-app .m-sheet .m-dogrula .m-btn { width: 100%; min-height: 42px !important; font-size: 14px !important; }
+/* b61: finansman alt çizgileri diğer sayfalarla aynı satır ve kalınlıkta */
+html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) > span { height: 4px !important; }
+html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scroll) .customer-bas h1::after { transform: translateY(-1px); }
+/* b62: tam hâl = Randevularım sayfasının beyaz paneli (üst başlık görünür kalır, ayrı sayfa gibi durmaz) */
+.m-sheet.tam { height: var(--tamh, calc(100% - 128px)) !important; border-radius: 28px 28px 0 0 !important; top: auto !important; }
+.m-sheet.tam .m-sheet-tut { min-height: 20px !important; padding: 10px 0 4px !important; }
+.m-sheet.tam .m-sheet-tut::before { opacity: 0 !important; }
+.m-sheet.tam .m-sheet-cubuk { opacity: 1 !important; }
+.m-sheet-geri, .m-sheet.tam .m-sheet-geri { display: none !important; }
+.customer-screen:has(.m-sheet.tam) .m-sheet-perde { background: transparent; }
+.m-sheet-perde { transition: background .3s ease; }
+.m-sheet.tam { box-shadow: none; background: linear-gradient(180deg,#F8FCFA 0%,#E3F4EC 100%); }
 </style>
 </helmet>
 
@@ -2049,12 +2061,14 @@ class Component extends DCLogic {
       const ust = el.parentElement ? el.parentElement.clientHeight : 800;
       const alt = parseFloat(getComputedStyle(el).paddingBottom) || 0;
       const son = ic.lastElementChild, ich = son ? son.getBoundingClientRect().bottom - ic.getBoundingClientRect().top + ic.scrollTop + (parseFloat(getComputedStyle(ic).paddingBottom) || 0) : ic.scrollHeight;
-      const h = Math.round(Math.min(tut.offsetHeight + ich + alt, ust * 0.85));
+      const h = Math.round(Math.min(tut.offsetHeight + ich + alt, ust * 0.7));
+      const pn = document.querySelector(".customer-appointments");
+      if (pn) { const tamh = Math.round(ust - (pn.getBoundingClientRect().top - el.parentElement.getBoundingClientRect().top)); if (tamh > 200 && el.dataset.tam !== String(tamh)) { el.dataset.tam = String(tamh); el.style.setProperty("--tamh", tamh + "px"); } }
       if (el.dataset.pop !== String(h)) { el.dataset.pop = String(h); el.style.setProperty("--pop", h + "px"); }
     };
     new MutationObserver(olc).observe(document.body, { childList: true, subtree: true, characterData: true });
     setInterval(olc, 400);
-    const tamYukseklik = (el) => (el.parentElement ? el.parentElement.clientHeight : 800);
+    const tamYukseklik = (el) => parseFloat(el.dataset.tam) || (el.parentElement ? el.parentElement.clientHeight - 128 : 700);
     document.addEventListener("touchstart", (e) => {
       const el = sh();
       if (!el || !el.contains(e.target) || e.touches.length !== 1) { b = null; return; }
@@ -2086,7 +2100,7 @@ class Component extends DCLogic {
         el.style.transition = "";
         const bitir = () => { el.style.height = ""; el.style.transform = ""; el.style.animation = ""; el.style.removeProperty("--tamoran"); };
         if (b.tam) {
-          if (dy > 110) { el.style.height = pop + "px"; this.setState({ mSheetTam: false }); setTimeout(bitir, 360); } else { el.style.height = tum + "px"; setTimeout(bitir, 360); }
+          if (dy > 320) { b = null; el.style.height = ""; this.sheetKapat(); return; } else if (dy > 110) { el.style.height = pop + "px"; this.setState({ mSheetTam: false }); setTimeout(bitir, 360); } else { el.style.height = tum + "px"; setTimeout(bitir, 360); }
         } else if (dy < -60) { el.style.height = tum + "px"; this.setState({ mSheetTam: true }); setTimeout(bitir, 360); }
         else if (dy > 110) { b = null; el.style.transform = ""; this.sheetKapat(); return; }
         else { el.style.height = pop + "px"; el.style.transform = ""; setTimeout(bitir, 360); }
