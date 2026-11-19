@@ -815,3 +815,4 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
   logo (`Splash.imageset` 3×2732, logo 900 px: aspectFill kırpmasına sığar). Giriş ekranı: "Tasarruf Yanımda" yazısı yerine şeffaf
   `assets/tasarruf-yanimda-logo.png`, üstte küçük EMİNEVİM logosu. Üst yeşil çubuk ve web formu değişmedi. `sw.js` v23.
 - iPhone simgesi/açılışı bir sonraki Codemagic derlemesiyle gelir. Testler: phone-layout, browser-flows, appointment-list, web-flows: OK.
+- 2026-11-19: iPhone uygulama hissi (giriş ekranı EMINEVIM+işaret, native CSS, scrollEnabled=false, viewport kilidi), merkez gzip+ETag. Codemagic yeni derleme gerekir. Sırada: alt menü/kart örnek ekran, bildirim (APNs).
