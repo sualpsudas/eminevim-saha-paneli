@@ -824,6 +824,10 @@ html.native-app .tp-iki { background: #EEF7F2; }
 html.native-app .tp-bas .tp-geri { position: absolute; right: 62px; top: -42px; min-height: 34px; padding: 0 14px; border-radius: 99px; background: rgba(255,255,255,.16); border: 1.5px solid rgba(255,255,255,.55); color: #fff; font-weight: 800; font-size: 13px; }
 /* b17: SPY alt zemin */
 html.native-app .app-stage, html.native-app .app-root, html.native-app body { background-color: #EEF7F2; }
+/* b18: yeşil bant panel köşelerinin altına kadar uzar; görsel küçülür, başlıkla çakışmaz */
+html.native-app .customer-screen { --hero-yuk: calc(env(safe-area-inset-top,0px) + 172px); }
+html.native-app .tp::before { height: calc(env(safe-area-inset-top,0px) + 172px); }
+html.native-app .customer-screen::after { top: calc(env(safe-area-inset-top,0px) + 54px) !important; width: 160px !important; height: 94px !important; right: 10px !important; background-size: contain !important; background-position: right bottom !important; }
 </style>
 </helmet>
 
