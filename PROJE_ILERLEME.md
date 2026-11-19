@@ -850,3 +850,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: Giris "Geri don" okunu kaldirdik; giris/kod ekrani kisa telefonda (667px) tum sayfa kaymaz (b33). Diger ekranlarda tum sayfa kaymasi yok; yalniz profil/ayarlar panel ici kayar.
 
 - 2026-11-19: Randevularim: tarih blogu + saat + durum rozeti (Bekliyor sari, Onaylandi yesil, Yolda mavi, Tamamlandi yesil, Iptal kirmizi) ve filtre cipleri; bos ekranda 3 guven yazisi. sw v31. Yonetici ekrani ve "Ornek" dugmelerini ayirma sirada.
+
+- 2026-11-19: Geri dugmesi ust banda tasindi (Tasarruf Yanimda yazisi kalkti); finansman adim 1-3 beyaz sayfa ayni hizada, Devam/Kaydet 24px asagi (nav ustu); b36 olcekli olculer (clamp, 320-430 px denendi, genis ekranda max 480). sw v32.
