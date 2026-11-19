@@ -1089,6 +1089,12 @@ html.native-app .m-sheet .m-kart .m-btn { min-height: 44px !important; font-size
 /* b59: finansman başlıkları diğer sayfalarla aynı satır (fin1 1px aşağıydı, fin2/3 1px yukarıydı) */
 html.native-app .customer-screen:not(:has(> .customer-bas)) .customer-finance-scroll > div:first-child > div:first-child { transform: translateY(-12px) !important; }
 html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scroll) .customer-bas h1 { transform: translateY(1px); }
+/* b60: kart içi hızlı eylemler: tek satırda iki kompakt düğme; kapıda doğrulama kartın içinde */
+.m-sheet .m-hizli { display: flex; gap: 8px; border-top: 1px solid rgba(255,255,255,.3); padding-top: 10px; }
+.m-sheet .m-hizli:not(:has(button)) { display: none; }
+html.native-app .m-sheet .m-hizli .m-btn { flex: 1 1 0; min-width: 0; min-height: 36px !important; padding: 0 8px !important; font-size: 12.5px !important; font-weight: 800 !important; }
+.m-sheet .m-dogrula { border-top: 1px solid rgba(255,255,255,.3); padding-top: 10px; }
+html.native-app .m-sheet .m-dogrula .m-btn { width: 100%; min-height: 42px !important; font-size: 14px !important; }
 </style>
 </helmet>
 
@@ -1213,12 +1219,11 @@ html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scro
 <div class="m-kart m-durum" role="status"><sc-if value="{{ mDurumBaslikVar }}"><h2>{{ mDurumBaslik }}</h2></sc-if><sc-if value="{{ mDurumAltVar }}"><p>{{ mDurumAlt }}</p></sc-if><sc-if value="{{ mZiyaret }}"><p><b>{{ mGun }} · {{ mSaat }}</b><br>{{ mYer }}</p></sc-if><sc-if value="{{ mRepVar }}"><p>Temsilciniz: <b>{{ mRepAd }}</b></p></sc-if>
 <sc-if value="{{ mOnayVar }}"><button class="m-btn" onClick="{{ mSaatOnayla }}">Saati onayla · {{ mSaat }}</button></sc-if>
 <sc-if value="{{ mTakipVar }}"><button class="m-btn o" onClick="{{ mYoldaGor }}">Temsilcinizi takip edin</button></sc-if>
-<sc-if value="{{ mOnTercihVar }}"><div style="border-top:1px solid rgba(255,255,255,.3);padding-top:10px;display:flex;align-items:center;gap:10px;"><p style="flex:1;font-size:12.5px;"><b>Finansman ön tercihleri</b></p><button class="m-btn o" type="button" onClick="{{ mFinansmanTercihGit }}" style="flex:0 0 auto;">Oluştur</button></div></sc-if>
-<sc-if value="{{ mEkBilgiSonra }}"><div style="border-top:1px solid rgba(255,255,255,.3);padding-top:10px;display:flex;align-items:center;gap:10px;"><p style="flex:1;font-size:12.5px;"><b>Görüşmeye hazırlık</b><span class="m-ek-oz">{{ mEkBilgiOzet }}</span></p><button class="m-btn o" type="button" onClick="{{ mEkBilgiAc }}" style="flex:0 0 auto;">{{ mEkBilgiDugme }}</button></div></sc-if>
+<sc-if value="{{ mDogrulaVar }}"><div class="m-dogrula"><button class="m-btn o" onClick="{{ mQrAc }}">Kapıda kimliğini doğrula</button></div></sc-if>
+<div class="m-hizli"><sc-if value="{{ mOnTercihVar }}"><button class="m-btn o" type="button" onClick="{{ mFinansmanTercihGit }}">Finansman ön tercihleri</button></sc-if><sc-if value="{{ mEkBilgiSonra }}"><button class="m-btn o" type="button" onClick="{{ mEkBilgiAc }}">Görüşmeye hazırlık</button></sc-if></div>
 </div>
 <sc-if value="{{ mGecikmeVar }}"><div class="m-kart m-uyari" role="status">{{ mGecikmeYazi }}</div></sc-if>
 <sc-if value="{{ mDegisiklikVar }}"><div class="m-kart m-not"><h3>Yeni zaman öneriniz iletildi</h3><p>{{ mDegisiklikYazi }}</p><p>Temsilcinizin onayı bekleniyor. Yukarıdaki mevcut randevunuz henüz değişmedi.</p><button class="m-btn o" onClick="{{ mDegisiklikVazgec }}">Öneriyi geri çek</button></div></sc-if>
-<sc-if value="{{ mDogrulaVar }}"><div class="m-kart"><h3>Temsilciniz kapıya geldiğinde</h3><p>Bilgilerini kontrol edin, ardından kodunuzu personel uygulamasıyla okutmasını isteyin.</p><button class="m-btn" onClick="{{ mQrAc }}">Kapıda kimliğini doğrula</button></div></sc-if>
 <sc-if value="{{ mYaninizdaVar }}"><div class="m-kart m-not"><h3>✓ Temsilciniz doğrulandı</h3><p>{{ mRepAd }} · Sicil {{ mRepSicil }}<br>Görüşme başlangıcı {{ mDogrulamaSaat }}</p></div></sc-if>
 <sc-if value="{{ mDegistirVar }}"><div class="m-actions"><button class="m-btn o m-btn-degis" onClick="{{ mDegistir }}">Tarihi değiştir</button><button class="m-btn o m-btn-iptal" onClick="{{ mIptalAc }}">İptal et</button></div></sc-if>
 

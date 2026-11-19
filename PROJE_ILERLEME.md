@@ -882,3 +882,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Randevu bolumu kompakt: uzun aciklamalar kalkti (Gorusmeye hazirlik yalniz baslik+Bilgi ekle, on tercih satiri kisaldi, bos durumdaki cumle kalkti), pencere ici bosluk/yazi/dugme kucultuldu, liste satiri dar. Pencere ~495px -> ~300px. CSS b57-b58, sw v47.
 
 - 2026-11-20: Finansman baslik hizasi (ilk harf olcumu): fin1 1px asagida, fin2/3 1px yukaridaydi -> hepsi diger sayfalarla ayni satir (393 ve 320, guvenli alan simule edilerek de tutarli). CSS b59, sw v48.
+
+- 2026-11-20: Randevu penceresi: Finansman on tercihleri + Gorusmeye hazirlik tek satirda iki kompakt dugme; "Kapida kimligini dogrula" yesil kartin icine alindi (ayri kart kalkti); kartin disinda yalniz Tarihi degistir / Iptal et. CSS b60, sw v49.
