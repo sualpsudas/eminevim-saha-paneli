@@ -832,3 +832,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: Giriş ekranı: üstte "Tasarruf Yanımda", altta ortada küçük EMİNEVİM logosu.
 
 - 2026-11-19: Başlık + yeşil çizgi tüm sayfalarda aynı hizada (üst yeşil bant içinde, sol kenar 18px); finansman kartları nane dolgu + beyaz çerçeve; alt menü yazıları küçüldü.
+
+- 2026-11-19: SPY (personel) ekranları müşteri uygulamasıyla aynı dile geçti (yeşil bant, yumuşak kartlar, yüzen alt menü); Görüşmeler/Performans/Profil. Yeni görünüm yalnız ?native=1 ile (iPhone uygulamasında otomatik).
