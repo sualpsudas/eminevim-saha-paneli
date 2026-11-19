@@ -870,3 +870,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: Randevu ayrintisi alttan acilan pencere (m-sheet): asagi surukle=kapat, yukari cek=tam sayfa (Geri ile pencereye doner), perdeye dokun=kapat. Liste arkada hep gorunur; Geri ust bandi kalkti. Pull-to-refresh pencere icinde kapali. CSS b50, sw v40. Dokunmatik surukleme CDP ile dogrulandi.
 
 - 2026-11-20: Giris kod ekrani: "Geri" (sol ok + Geri yazisi), "Kodu tekrar gonder" duz yazi; secici siniflara tasindi (Safari stil yazimi farki). CSS b51, sw v41.
+
+- 2026-11-20: Baslik hizasi olculdu (7 sayfa x 320/393/430: cap-top ayni, en fazla 1px harf farki). Alt cubuk secili sekme sade: arka plan yok, simge ici yesil dolu, yazi yesil (CSS b52, sw v42; simgelerde .i ic cizgi sinifi).
