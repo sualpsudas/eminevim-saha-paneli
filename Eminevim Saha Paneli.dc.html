@@ -757,6 +757,38 @@ html.native-app .customer-screen > .customer-header + .customer-panel, html.nati
 html.native-app .giris-baslik { letter-spacing: -.6px; margin-top: -4px; }
 html.native-app .giris-marka { filter: none !important; width: 96px !important; margin: auto auto 0 !important; }
 html.native-app .giris-form { padding-bottom: calc(26px + env(safe-area-inset-bottom,0px)); }
+/* Başlık/çizgi hizası her sayfada aynı + örnek tasarıma yaklaştırma (2026-11-19 b9) */
+html.native-app .customer-header.customer-ust { padding-left: 18px !important; padding-right: 18px !important; }
+html.native-app .customer-screen .tp-bas { padding-left: 18px !important; padding-right: 18px !important; }
+html.native-app .customer-screen:has(> .customer-profile) .customer-header::after { left: 18px !important; }
+html.native-app .customer-finance-scroll > div:first-child { padding-left: 0 !important; }
+/* Finansman: başlık ve ilerleme çubuğu bant içinde, diğer sayfalarla aynı yükseklik */
+html.native-app .customer-finance-scroll > div:first-child > div:first-child { transform: translateY(-31px); }
+html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { transform: translateY(-35px); }
+/* Kartlar: örnekteki gibi nane dolgu + beyaz çerçeve + yumuşak ışıma */
+html.native-app .customer-finance button.scp0:not([style*="rgb(0, 114, 76)"]) { background: linear-gradient(180deg,#F9FDFB,#E3F4EB) !important; border: 2px solid #fff !important; box-shadow: 0 8px 22px rgba(0,100,66,.10), 0 0 0 1px rgba(0,114,76,.06) !important; }
+html.native-app .customer-finance button.scp0 { min-height: 140px !important; border-radius: 26px !important; }
+/* Alt menü: daha ince, yazılar küçük */
+html.native-app .customer-nav > button span { font-size: 11px !important; font-weight: 700 !important; }
+html.native-app .app-bottom-nav.customer-nav { padding: 6px !important; }
+html.native-app .customer-nav > button { min-height: 52px !important; border-radius: 22px !important; }
+/* b10: finansman kaydırma kutusu yukarı uzatıldı (başlık kesilmesin); profil başlığı aynı hizaya */
+html.native-app .customer-finance-scroll { margin-top: -34px !important; padding-top: 34px !important; }
+html.native-app .customer-screen:has(> .customer-profile) .customer-header::after { top: 69px !important; padding-bottom: 11px !important; }
+/* b11: hizalama inceltme */
+html.native-app .customer-screen:has(> .customer-profile) .customer-header::after { top: 63px !important; }
+html.native-app .customer-screen > .customer-panel.customer-profile { margin-top: 73px !important; }
+html.native-app .customer-screen > .customer-panel.customer-finance { margin-top: 5px !important; }
+/* b12 */
+html.native-app .customer-finance-scroll > div:first-child > div:first-child { transform: translateY(-21px); }
+html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { transform: translateY(-23px); }
+html.native-app .customer-screen > .customer-panel.customer-finance { margin-top: -2px !important; }
+html.native-app .customer-screen > .customer-panel.customer-profile { margin-top: 79px !important; }
+html.native-app .customer-screen:has(> .customer-profile) .customer-header::after { top: 65px !important; }
+/* b13 */
+html.native-app .customer-finance-scroll > div:first-child > div:first-child { transform: translateY(-14px); }
+html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { transform: translateY(-16px); }
+html.native-app .customer-screen > .customer-panel.customer-finance { margin-top: 4px !important; }
 </style>
 </helmet>
 
