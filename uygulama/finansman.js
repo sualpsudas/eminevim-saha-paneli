@@ -1,7 +1,7 @@
 /* FİNANSMAN KAPISI — bütçe/ödeme planı hesabı. Şu an KABA ÖRNEK hesap (ekranda 'Örnek hesaplamadır').
    Gerçek yayında senaryoHesapla() şirketin onaylı hesabına bağlanır (uyum/hukuk onayı şart); ekranlar değişmez.
    Ürün türleri, vade ve peşinat seçenekleri de buradan gelir. */
-const EV_IKON_TASIT = "assets/eminevim/header_araba.svg";
+const EV_IKON_TASIT = "assets/eminevim/header_araba_yan.svg";
 const EV_IKON_KONUT = "assets/eminevim/header_ev.svg";
 const EV_IKON_ISYERI = "assets/eminevim/header_isYeri.svg";
 /* eminevim.com/finansal-cozumler sayfalarından: her üründe Bireysel (kendi tahsisat tarihini belirle) ve Çekilişli (grup çekilişi) plan var. */

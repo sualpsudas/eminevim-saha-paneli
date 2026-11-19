@@ -615,6 +615,26 @@ html.native-app .customer-nav > button { min-height: 54px !important; border-rad
 html.native-app .customer-nav > button[aria-current="page"] { background: var(--tintGreen) !important; color: #00724C !important; box-shadow: none !important; }
 html.native-app .customer-nav > button span { font-size: 11px !important; }
 html.native-app .customer-nav > button:active { transform: scale(.94); opacity: 1; }
+/* Resimli üst bölüm (revize tasarım, 2026-11-19): koyu yeşil gradyan + sekme resmi, banda binen yuvarlak sayfa, yüzen menü */
+html.native-app .customer-screen { --hero-yuk: calc(env(safe-area-inset-top,0px) + 168px); background: #EAF3EE !important; }
+html.native-app .customer-screen::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: var(--hero-yuk); background: linear-gradient(160deg, #0A5A3E 0%, #00724C 55%, #0F7F57 100%); z-index: 0; pointer-events: none; }
+html.native-app .customer-screen::after { content: ""; position: absolute; right: 0; top: calc(env(safe-area-inset-top,0px) + 50px); width: 170px; height: 118px; background: var(--hero-resim) right bottom / contain no-repeat; -webkit-mask-image: linear-gradient(to right, transparent 0, #000 40%), linear-gradient(to bottom, transparent 0, #000 30%); -webkit-mask-composite: source-in; mask-composite: intersect; z-index: 0; pointer-events: none; }
+html.native-app .customer-screen:has(> .customer-appointments) { --hero-resim: url(assets/ty/hero-randevu.webp); }
+html.native-app .customer-screen:has(> .customer-chat) { --hero-resim: url(assets/ty/hero-sohbet.webp); }
+html.native-app .customer-screen:has(> .customer-finance) { --hero-resim: url(assets/ty/hero-finans.webp); }
+html.native-app .customer-screen:has(> .customer-settings) { --hero-resim: url(assets/ty/hero-ayar.webp); }
+html.native-app .customer-screen:has(> .customer-profile) { --hero-resim: url(assets/ty/hero-profil.webp); }
+html.native-app .customer-header.customer-ust { background: transparent !important; box-shadow: none; border-radius: 0; z-index: 1; }
+html.native-app .customer-screen .customer-bas { position: relative; z-index: 1; padding-bottom: 46px; }
+html.native-app .customer-screen .customer-bas h1, html.native-app .customer-screen .customer-bas .tp-geri { color: #fff; }
+html.native-app .customer-screen > .customer-panel { position: relative; z-index: 1; background: linear-gradient(180deg, #fff 0%, #EAF4EF 100%); border-radius: 28px 28px 0 0; box-shadow: 0 -8px 24px rgba(0,60,40,.12); }
+html.native-app .customer-screen > .customer-header + .customer-panel, html.native-app .customer-screen > .customer-bas + .customer-panel { margin-top: -26px; }
+html.native-app .customer-screen > .customer-header + .customer-panel { margin-top: 64px; }
+html.native-app .app-bottom-nav.customer-nav { position: fixed !important; left: 14px !important; right: 14px !important; width: auto !important; top: calc(100% - 82px - env(safe-area-inset-bottom,0px)) !important; bottom: auto !important; border-radius: 30px; background: rgba(255,255,255,.94) !important; box-shadow: 0 10px 30px rgba(0,60,40,.18) !important; padding: 7px 8px !important; z-index: 5; }
+html.native-app .customer-nav > button[aria-current="page"] { background: #00724C !important; color: #fff !important; }
+html.native-app .customer-nav > button[aria-current="page"] svg, html.native-app .customer-nav > button[aria-current="page"] span { color: #fff !important; stroke: #fff; }
+html.native-app .customer-screen > .customer-panel { padding-bottom: 110px !important; }
+html.native-app img[src*="header_araba_yan"] { transform: scale(1.55); }
 </style>
 </helmet>
 
