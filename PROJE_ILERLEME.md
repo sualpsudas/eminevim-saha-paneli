@@ -844,3 +844,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: Finansman kartları (Konut/Taşıt/İşyeri) 320-520 px genişlikte taşmaz (3 eşit sütun, minmax(0,1fr)); 388 px altında sağa taşıp seçince kayıyordu.
 
 - 2026-11-19: SMS kod ekranı: "Kodu tekrar gönder" nane hap düğme, "Geri dön" sade ‹ bağlantı, kod kutusu ortalı.
+
+- 2026-11-19: Bilgisayarda alt menü tarayıcı genişliğine yayılıyordu (position:fixed) -> ekran çerçevesine göre absolute; sayfa esnemesi kapatıldı (html fixed + overscroll none); kod ekranı: Kodu tekrar gönder düz yazı, Geri sol üstte küçük.

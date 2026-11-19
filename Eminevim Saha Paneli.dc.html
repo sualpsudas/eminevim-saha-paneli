@@ -897,6 +897,18 @@ html.native-app .giris-form > button[style*="transparent"] { display: flex; alig
 html.native-app .giris-form > button[style*="min-height: 32px"] { background: transparent !important; color: #546A62 !important; min-height: 44px !important; font-size: 14px !important; font-weight: 700 !important; }
 html.native-app .giris-form > button[style*="min-height: 32px"]::before { content: "‹"; font-size: 20px; margin-right: 6px; line-height: 1; }
 html.native-app .giris-form input[aria-label="SMS ile gelen 6 haneli kod"] { text-align: center; text-indent: 0; padding-left: 20px !important; letter-spacing: 8px; }
+/* b30: kod ekranı: tekrar gönder düz yazı, Geri sol üstte küçük yazı */
+html.native-app .giris-ic { position: relative; }
+html.native-app .giris-form > button[style*="transparent"] { background: transparent !important; min-height: 40px !important; font-size: 14px !important; font-weight: 700 !important; color: #00724C !important; border-radius: 0 !important; }
+html.native-app .giris-form > button[style*="min-height: 32px"] { position: absolute; left: 18px; top: calc(env(safe-area-inset-top,0px) + 18px); width: auto !important; min-height: 0 !important; padding: 6px 4px !important; font-size: 14px !important; font-weight: 700 !important; color: #fff !important; background: transparent !important; z-index: 4; }
+html.native-app .giris-form > button[style*="min-height: 32px"]::before { font-size: 18px; margin-right: 3px; }
+/* b31: alt menü ekran çerçevesine göre konumlanır (bilgisayarda tarayıcı genişliğine yayılmasın) */
+html.native-app .customer-screen { position: relative; }
+html.native-app .app-bottom-nav.customer-nav { position: absolute !important; top: auto !important; bottom: calc(14px + env(safe-area-inset-bottom,0px)) !important; left: 18px !important; right: 18px !important; }
+html.native-app .tp-alt { position: absolute !important; bottom: calc(14px + env(safe-area-inset-bottom,0px)) !important; }
+/* b32: sayfa yukarı/aşağı esnemesin; yalnız uzun listeler kendi içinde kayar */
+html.native-app, html.native-app body { position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden !important; overscroll-behavior: none; }
+html.native-app .customer-panel, html.native-app .customer-finance-scroll, html.native-app .customer-settings, html.native-app .customer-profile, html.native-app .customer-appointments, html.native-app .tp-sutun, html.native-app .tp-iki, html.native-app .tp-ana { overscroll-behavior: none !important; }
 </style>
 </helmet>
 
