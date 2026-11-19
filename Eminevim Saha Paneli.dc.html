@@ -828,6 +828,20 @@ html.native-app .app-stage, html.native-app .app-root, html.native-app body { ba
 html.native-app .customer-screen { --hero-yuk: calc(env(safe-area-inset-top,0px) + 172px); }
 html.native-app .tp::before { height: calc(env(safe-area-inset-top,0px) + 172px); }
 html.native-app .customer-screen::after { top: calc(env(safe-area-inset-top,0px) + 54px) !important; width: 160px !important; height: 94px !important; right: 10px !important; background-size: contain !important; background-position: right bottom !important; }
+/* b19: görsel genişliğe oranlı (başlıkla çakışmaz); finans seçili kart boyutu; ayarlar altı sabit */
+html.native-app .customer-screen::after { top: calc(env(safe-area-inset-top,0px) + 148px) !important; transform: translateY(-100%); width: 34% !important; height: auto !important; aspect-ratio: 1.7 / 1; right: 10px !important; }
+html.native-app .customer-finance button.scp0 > span:nth-child(2) { font-size: 15px !important; color: #0B4A35 !important; }
+html.native-app .customer-finance button.scp0 > span:last-child:not(:nth-child(2)) { font-size: inherit; }
+html.native-app .customer-finance button.scp0 { min-height: 140px !important; width: auto !important; }
+html.native-app .customer-finance-scroll > div[style*="font-size: 11px"][style*="line-height: 1.5"] { display: none; }
+html.native-app .customer-settings { display: flex; flex-direction: column; min-height: 100%; box-sizing: border-box; padding-bottom: calc(112px + env(safe-area-inset-bottom,0px)) !important; }
+html.native-app .customer-settings > button:last-of-type, html.native-app .customer-settings > *:nth-last-child(2) { margin-top: auto; }
+/* b20: finans sayfa zemini diger sayfalarla ayni yukseklikte */
+html.native-app .customer-finance::before { top: 83px !important; }
+/* b21 */
+html.native-app .customer-finance::before { top: 88px !important; }
+html.native-app .customer-screen:has(> .customer-profile) .customer-header::after { top: 71px !important; }
+html.native-app .customer-screen > .customer-panel.customer-profile { margin-top: 92px !important; }
 </style>
 </helmet>
 
