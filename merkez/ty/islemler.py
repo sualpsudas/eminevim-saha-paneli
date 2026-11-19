@@ -8,6 +8,7 @@
   api/konum    SPY'nin canlı konumu (konum.py; canlı takip devreye alınınca)
   api/kod      web formundan gelen müşterinin giriş kodu
   api/musteri  müşteri hesabı (musteri.py)
+  api/dogrulama kapıda kimlik doğrulama: müşteriye kod, SPY okutur (dogrulama.py)
   api/sifirla  test verisini sıfırla
 Okuma (api/durum) için özetler de burada: spy_ozet, bugun_sayilar.
 """
@@ -19,13 +20,14 @@ from . import aktarim, bildirim
 from .atama import randevuda_mi, teklif_et
 from .ayarlar import DURUM_AD, KAPALI_DURUMLAR, YEDEK
 from .depo import bos_veri
+from .dogrulama import KAPI_KODLARI, dogrulama_islem
 from .konum import anlik_konum, canli_konum, konum_yaz
 from .musteri import KODLAR, musteri_islem
 from .personel import SPY_IDLER
 from .yardim import bugun, damga, metin, olay, saat_yaz, simdi, tel_temiz
 
 GORULME = {}  # SPY id -> son yoklama zamanı (yalnız bellekte)
-YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/sifirla")
+YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla")
 
 
 def temiz_kayit(gelen):
@@ -66,8 +68,13 @@ def cagri(veri, istek):
 
 def kayit(veri, istek):
     k = temiz_kayit(istek.get("kayit"))
-    for alan in ("teklif", "sahipsiz", "atamaPuan", "gerekce", "girisKodu", "konumRizaTarih", "aydinlatmaTarih", "kampanya"):
+    for alan in ("teklif", "sahipsiz", "atamaPuan", "gerekce", "girisKodu", "konumRizaTarih", "aydinlatmaTarih", "kampanya", "dogrulama", "dogrulandi"):
         k.pop(alan, None)  # bunları yalnız merkez yazar
+    eski_durum = (veri["kayitlar"].get(k["id"]) or {}).get("durum")
+    if k.get("durum") == "gorusmede" and eski_durum != "gorusmede":
+        raise ValueError("Görüşme, kapıda QR ya da kod doğrulanınca başlar.")  # yalnız api/dogrulama başlatır
+    if eski_durum == "gorusmede" and k.get("durum") in ("atandi", "netlesti", "yolda", "gorusme"):
+        k["durum"] = "gorusmede"  # doğrulamadan önceki eski kopya görüşmeyi geri almasın
     eski = veri["kayitlar"].get(k["id"])
     if not eski:
         raise ValueError("Kayıt bulunamadı.")
@@ -155,6 +162,7 @@ def giris_kodu(veri, istek):
 
 def sifirla(veri, istek):
     KODLAR.clear()
+    KAPI_KODLARI.clear()
     if istek.get("onay") != "evet":
         raise ValueError("Onay eksik.")
     YEDEK.mkdir(exist_ok=True)
@@ -170,7 +178,7 @@ def sifirla(veri, istek):
 
 
 ISLEMLER = {"api/cagri": cagri, "api/kayit": kayit, "api/mesaj": mesaj, "api/spy": spy_durum, "api/aktar": aktar,
-            "api/konum": konum, "api/kod": giris_kodu, "api/musteri": musteri_islem, "api/sifirla": sifirla}
+            "api/konum": konum, "api/kod": giris_kodu, "api/musteri": musteri_islem, "api/dogrulama": dogrulama_islem, "api/sifirla": sifirla}
 
 
 def uygula(veri, yol, istek):

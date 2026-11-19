@@ -48,12 +48,19 @@ yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyo
   aboneliği (`api/abone` + `musteri`, `jeton`) yalnız onunla. Bildirimler: SPY kabul ("Temsilciniz belli oldu"), yola çıkış (tahmini varış),
   SPY mesajı (kabul/yola çıkış hazır mesajları `oto` ile ayrı bildirim üretmez). Dokununca o randevu açılır (`?ac=` / servis çalışanı mesajı).
   Bir telefon tek kişiye bağlı (SPY ya da müşteri; sonuncusu geçerli).
+- **Kapıda doğrulama (2026-11-19):** `api/dogrulama` (`ty/dogrulama.py`). `islem:kod` (müşteri tel + jeton) → 4 haneli kod, yalnız bellekte
+  (`KAPI_KODLARI`, merkez yeniden başlarsa müşteri "Kodu yenile"). QR içeriği `{randevu, revision, kod}`. `islem:dogrula` (id, spy, kod, revision)
+  → randevu + SPY + sürüm + süre kontrolü, `gorusmede` + `dogrulandi {zaman, yol: qr|kod}`, müşteriye bildirim. Kamera: `getUserMedia` (https
+  gerekir; Funnel https), çözme BarcodeDetector ya da `vendor/jsQR.js` (Apache-2.0, ekran açılınca yüklenir). iPhone: Info.plist
+  `NSCameraUsageDescription`. Test: `merkez-akis.py` sahte kamerayla (Chrome `--use-file-for-fake-video-capture`, müşterinin QR'ı .y4m).
 
 ## iPhone (TestFlight)
 - TestFlight'ta derleme var (Build 1, 2026-10-05; `IOS_TESTFLIGHT.md`).
 - `scripts/merkez-adresi.mjs`: Codemagic'te `TY_MERKEZ_URL` (merkezin tam https adresi + gizli yol) varsa uygulamayı merkez sayfasına bağlar →
   uygulama değişikliği yeni derleme istemeden telefona gelir. Değişken yoksa paketteki gösteri sürümü açılır.
 - Uygulama kapalıyken bildirim için APNs anahtarı (.p8) + Capacitor bildirim eklentisi + yeni Codemagic derlemesi gerekir (yapılmadı).
+- Uygulama yalnız iPhone (`TARGETED_DEVICE_FAMILY = 1`): iPad'de büyütülmüş iPhone penceresinde açılır, SPY tablet düzeni görünmez.
+  SPY'ler iPad'de merkez linkini (Safari / Ana Ekrana Ekle) kullanır; iPad desteği ayrı karar (2026-11-19).
 
 ## linkler.html ve çalışma sayfası
 - Telefonda: yalnız sol üstte küçük "Uyg / Web" tuşları, sayfa gerçek boyutunda tam ekran.

@@ -109,7 +109,7 @@ Her biri ayrı onay ister. Planı yazarken aşağıdaki etkileri kullanıcıya h
   müşteri bilgileri, o duruma uygun seçenekler (Kabul et / Devret, Yola çık, gecikme, QR okut, mesajlar, kapanış/özet)
   ve **kapat düğmesi** (sağ üst ✕ + boşluğa dokununca/Geri ile kapanma). Liste ekranı yalnız kartlardan oluşur.
   Yeni çağrı bildirimine dokununca da bu pencere açılır. Değişen: `Eminevim Saha Paneli.dc.html` SPY Görüşmeler bölümü (`tpD*` değerleri),
-  testler `merkez-akis.py` (kabul/mesaj/yola çıkış/QR adımları pencereden yapılır), `browser-flows.py`, `phone-layout.py` personel sekmeleri;
+  testler `merkez-akis.py` (kabul/mesaj/yola çıkış pencereden; kapıda kod merkezde, QR sahte kamerayla gerçekten okunur), `browser-flows.py`, `phone-layout.py` personel sekmeleri;
   panel senaryo görüntüleri (`araclar/senaryo_goruntu.py`) ve `URUN_KURALLARI.md` SPY ekranı maddesi güncellenir.
 
 **G. Personel paneli kozmetik iyileştirmeleri — YAPILDI (2026-11-12; ayrıntı `PROJE_ILERLEME.md`, kural `URUN_KURALLARI.md` → Personel)**

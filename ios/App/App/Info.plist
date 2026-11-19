@@ -26,6 +26,8 @@
 	<true/>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>Görüşme yerinde müşterinin ekranındaki doğrulama QR kodunu okutmak için kameranızı kullanır.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Size en yakın saha temsilcisini gösterebilmek ve görüşme konumunu belirlemek için konumunuza erişir.</string>
 	<key>UIApplicationSceneManifest</key>

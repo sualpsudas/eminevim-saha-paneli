@@ -208,7 +208,6 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
   .tp{flex-direction:column}
   .tp-yan{width:auto;flex:0 0 auto;flex-direction:row;align-items:center;padding:max(10px,env(safe-area-inset-top)) 10px 8px;overflow-x:auto;gap:2px}
   .tp-yan > img{margin:0 10px 0 4px;height:16px}
-  .tp-ust-kisi > span:first-child{display:none}
   .tp-iki{display:flex;flex-direction:column}
   .tp-iki > .tp-sutun{flex:0 0 auto}
   .tp-iki > .tp-sutun:last-child{order:-1}
@@ -540,7 +539,15 @@ html{-webkit-tap-highlight-color:transparent}
 .pt-ad,.pt-sube{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .pt-sube{color:var(--dim)}
 .pt-sag{text-align:right;font-variant-numeric:tabular-nums}
-@media (max-width:640px){.tp-govde.pt-govde{padding:10px 12px}.pt-sat{grid-template-columns:minmax(0,1.3fr) minmax(0,.9fr) 56px 56px;gap:6px;padding:7px 10px;font-size:12.5px}}
+/* Hizalama (2026-11-19): üst çubukta ad/durum yalnız telefonda gizli (iPad dikeyde görünür); süzgeç çipleri telefonda tek satır, yana kayar;
+   yönetici tablosunda ad ve şube kesilmez, alt satıra geçer */
+@media (max-width:640px){.tp-ust-kisi > span:first-child{display:none}
+  .tp-cip[aria-label="Süz"]{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-2px;padding:2px}
+  .tp-cip[aria-label="Süz"]::-webkit-scrollbar{display:none}
+  .tp-cip[aria-label="Süz"] button{flex:0 0 auto}
+  .pt-ad{white-space:normal;overflow:visible}
+  .pt-sube{overflow:visible}}
+@media (max-width:640px){.tp-govde.pt-govde{padding:10px 12px}.pt-sat{grid-template-columns:minmax(0,1fr) max-content 52px 52px;gap:8px;padding:7px 10px;font-size:12.5px}}
 .tp-geri{display:none;min-height:44px;min-width:44px;padding:0 8px 0 0;border:0;background:transparent;color:#00724C;font:700 13px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;cursor:pointer}
 .tp-geri:focus-visible,.tp-bildirim-git:focus-visible{outline:2px solid #00724C;outline-offset:2px;border-radius:8px}
 .tp-bildirim-git{cursor:pointer}
@@ -608,11 +615,12 @@ html{-webkit-tap-highlight-color:transparent}
   <sc-if value="{{ qrTaramaAcik }}"><div style="position:fixed;inset:0;z-index:90;background:#1E3856;color:#fff;display:flex;flex-direction:column;align-items:center;padding:max(18px,env(safe-area-inset-top)) 22px max(22px,env(safe-area-inset-bottom));gap:12px;text-align:center;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">
     <div style="width:100%;display:flex;align-items:center;"><button onClick="{{ spyQrKapat }}" aria-label="Kapat" style="width:40px;height:40px;border:none;background:transparent;color:#fff;font-size:24px;cursor:pointer;">×</button><b style="flex:1;font-size:16px;">Kimlik doğrulama</b><span style="width:40px;"></span></div>
     <sc-if value="{{ qrTaramaBekliyor }}"><span style="font-size:13px;opacity:.85;line-height:1.45;max-width:290px;">Müşterinin Randevularım ekranındaki QR kodunu çerçeveye getirin.</span>
-      <div style="position:relative;width:240px;height:240px;margin:10px 0;border-radius:22px;background:rgba(255,255,255,.06);overflow:hidden;"><span style="position:absolute;left:0;top:0;width:44px;height:44px;border-left:4px solid #EA803F;border-top:4px solid #EA803F;border-radius:22px 0 0 0;"></span><span style="position:absolute;right:0;top:0;width:44px;height:44px;border-right:4px solid #EA803F;border-top:4px solid #EA803F;border-radius:0 22px 0 0;"></span><span style="position:absolute;left:0;bottom:0;width:44px;height:44px;border-left:4px solid #EA803F;border-bottom:4px solid #EA803F;border-radius:0 0 0 22px;"></span><span style="position:absolute;right:0;bottom:0;width:44px;height:44px;border-right:4px solid #EA803F;border-bottom:4px solid #EA803F;border-radius:0 0 22px 0;"></span><span style="position:absolute;left:16px;right:16px;height:2px;background:#EA803F;box-shadow:0 0 12px #EA803F;animation:qrTara 2s ease-in-out infinite alternate;"></span></div>
-      <button onClick="{{ spyQrOrnek }}" style="min-height:44px;padding:0 20px;border:1.5px solid #fff;background:transparent;color:#fff;border-radius:22px;font-size:13px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Örnek: QR okundu</button>
-      <div style="width:100%;max-width:300px;border-top:1px solid rgba(255,255,255,.2);padding-top:14px;margin-top:6px;display:flex;flex-direction:column;gap:8px;"><span style="font-size:12.5px;opacity:.85;">Okunmuyorsa müşterinin ekranındaki / SMS'teki 4 haneli kodu girin:</span><div style="display:flex;gap:8px;"><input value="{{ qrKodGirdi }}" onChange="{{ setQrKodGirdi }}" inputmode="numeric" maxlength="4" placeholder="• • • •" aria-label="4 haneli kod" style="flex:1;min-width:0;min-height:46px;border:0;border-radius:22px;background:#fff;color:#1E3856;text-align:center;font:800 20px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;letter-spacing:8px;"><button class="btn-turuncu-yazi" onClick="{{ spyKodDogrula }}" style="min-height:46px;padding:0 18px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:15px;font-weight:900;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Doğrula</button></div><sc-if value="{{ qrHataVar }}"><span role="alert" style="font-size:12.5px;color:#FCE0D4;font-weight:700;">{{ qrHata }}</span></sc-if></div>
+      <div style="position:relative;width:240px;height:240px;margin:10px 0;border-radius:22px;background:rgba(255,255,255,.06);overflow:hidden;"><video data-qr-video playsinline muted autoplay aria-label="Kamera görüntüsü" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video><span style="position:absolute;left:0;top:0;width:44px;height:44px;border-left:4px solid #EA803F;border-top:4px solid #EA803F;border-radius:22px 0 0 0;"></span><span style="position:absolute;right:0;top:0;width:44px;height:44px;border-right:4px solid #EA803F;border-top:4px solid #EA803F;border-radius:0 22px 0 0;"></span><span style="position:absolute;left:0;bottom:0;width:44px;height:44px;border-left:4px solid #EA803F;border-bottom:4px solid #EA803F;border-radius:0 0 0 22px;"></span><span style="position:absolute;right:0;bottom:0;width:44px;height:44px;border-right:4px solid #EA803F;border-bottom:4px solid #EA803F;border-radius:0 0 22px 0;"></span><span style="position:absolute;left:16px;right:16px;height:2px;background:#EA803F;box-shadow:0 0 12px #EA803F;animation:qrTara 2s ease-in-out infinite alternate;"></span></div>
+      <sc-if value="{{ qrKameraYaziVar }}"><span role="status" style="font-size:12.5px;line-height:1.45;max-width:290px;color:#FCE0D4;font-weight:700;">{{ qrKameraYazi }}</span></sc-if>
+      <sc-if value="{{ spyQrOrnekVar }}"><button onClick="{{ spyQrOrnek }}" style="min-height:44px;padding:0 20px;border:1.5px solid #fff;background:transparent;color:#fff;border-radius:22px;font-size:13px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Örnek: QR okundu</button></sc-if>
+      <div style="width:100%;max-width:300px;border-top:1px solid rgba(255,255,255,.2);padding-top:14px;margin-top:6px;display:flex;flex-direction:column;gap:8px;"><span style="font-size:12.5px;opacity:.85;">Okunmuyorsa müşterinin ekranındaki 4 haneli kodu girin:</span><div style="display:flex;gap:8px;"><input value="{{ qrKodGirdi }}" onChange="{{ setQrKodGirdi }}" inputmode="numeric" maxlength="4" placeholder="• • • •" aria-label="4 haneli kod" style="flex:1;min-width:0;min-height:46px;border:0;border-radius:22px;background:#fff;color:#1E3856;text-align:center;font:800 20px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;letter-spacing:8px;"><button class="btn-turuncu-yazi" onClick="{{ spyKodDogrula }}" style="min-height:46px;padding:0 18px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:15px;font-weight:900;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Doğrula</button></div><sc-if value="{{ qrHataVar }}"><span role="alert" style="font-size:12.5px;color:#FCE0D4;font-weight:700;">{{ qrHata }}</span></sc-if></div>
     </sc-if>
-    <sc-if value="{{ qrTaramaTamam }}"><div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;"><span style="width:84px;height:84px;border-radius:50%;background:#00724C;display:flex;align-items:center;justify-content:center;"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><b style="font-size:20px;">Doğrulandı · görüşme başladı</b><span style="font-size:13.5px;opacity:.9;line-height:1.5;max-width:290px;">Ayşe Kaya · {{ spyDogrulamaSaat }}<br>Müşterinin ekranında adınız ve sicil numaranız onaylı görünüyor. Varışınız kaydedildi.</span></div><button class="btn-turuncu-yazi" onClick="{{ spyQrKapat }}" style="width:100%;max-width:320px;min-height:46px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:15px;font-weight:900;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Tamam</button></sc-if>
+    <sc-if value="{{ qrTaramaTamam }}"><div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;"><span style="width:84px;height:84px;border-radius:50%;background:#00724C;display:flex;align-items:center;justify-content:center;"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><b style="font-size:20px;">Doğrulandı · görüşme başladı</b><span style="font-size:13.5px;opacity:.9;line-height:1.5;max-width:290px;">{{ spyDogrulamaMusteri }} · {{ spyDogrulamaSaat }}<br>Müşterinin ekranında adınız ve sicil numaranız onaylı görünüyor. Varışınız kaydedildi.</span></div><button class="btn-turuncu-yazi" onClick="{{ spyQrKapat }}" style="width:100%;max-width:320px;min-height:46px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:15px;font-weight:900;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Tamam</button></sc-if>
   </div></sc-if>
   <sc-if value="{{ yaOpen }}"><div class="ya-akis" style="position:fixed;inset:0;z-index:59;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:20px;"><div style="width:375px;max-width:100%;height:100%;max-height:700px;background:#1E3856;border-radius:44px;padding:12px;box-shadow:0 34px 60px -20px rgba(30,56,86,.45);"><div style="height:100%;border-radius:34px;background:var(--bg);display:flex;flex-direction:column;overflow:hidden;"><div class="ya-ust" style="height:30px;background:#1E3856;flex-shrink:0;"></div>
     <div style="display:flex;align-items:center;gap:10px;padding:12px 18px 4px;flex-shrink:0;"><button onClick="{{ yaGeri }}" aria-label="Geri" style="min-width:44px;min-height:44px;border:none;background:transparent;color:#00724C;font:700 13px GOTHIC,'Segoe UI',sans-serif;cursor:pointer;">Geri</button><span style="flex:1;font:800 13px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:#00724C;">Tasarruf Yanımda</span><sc-if value="{{ yaIlerlemeGoster }}"><span style="display:flex;gap:5px;" aria-label="{{ yaIlerlemeEtiket }}"><i style="width:18px;height:4px;border-radius:2px;background:{{ yaBar1 }};"></i><i style="width:18px;height:4px;border-radius:2px;background:{{ yaBar2 }};"></i><i style="width:18px;height:4px;border-radius:2px;background:{{ yaBar3 }};"></i></span></sc-if></div>
@@ -719,7 +727,7 @@ html{-webkit-tap-highlight-color:transparent}
 </sc-if>
       </div></sc-if>
       <sc-if value="{{ mQrAcik }}"><div onClick="{{ mQrKapat }}" style="position:absolute;inset:0;z-index:70;background:rgba(30,56,86,.55);display:flex;align-items:flex-end;animation:backdropIn .2s ease-out;"><div onClick="{{ stopProp }}" class="customer-sheet" role="dialog" aria-modal="true" aria-label="Temsilcinizi doğrulayın" style="width:100%;max-height:92%;overflow-y:auto;background:var(--card);border-radius:22px 22px 0 0;padding:22px 22px 24px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;animation:sheetUp .32s cubic-bezier(.2,.8,.25,1);">
-        <sc-if value="{{ mQrBekliyor }}"><b style="font:800 19px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);">Temsilcinizi doğrulayın</b><span style="font-size:13px;color:var(--dim);line-height:1.45;">Temsilcinizden bu kodu <b style="color:var(--ink);">Eminevim personel uygulamasıyla</b> okutmasını isteyin. Doğrulanınca ekranınız yeşile döner.</span><div style="padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff;margin-top:6px;line-height:0;"><sc-if value="{{ mQrResimVar }}"><img src="{{ mQrSrc }}" alt="Doğrulama kodu (QR)" style="width:188px;height:188px;image-rendering:pixelated;"></sc-if></div><span style="font-size:12.5px;color:var(--dim);">Okutamazsa kod: <b style="font-size:18px;letter-spacing:6px;color:var(--ink);">{{ mQrKod }}</b></span><span style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#00724C;font-weight:700;margin-top:2px;"><span style="width:14px;height:14px;border-radius:50%;border:2px solid #00724C;border-top-color:transparent;animation:spin 1s linear infinite;"></span>Okutulması bekleniyor…</span><span style="font-size:12px;color:#B25E30;line-height:1.45;background:var(--tintRed);border-radius:14px;padding:8px 12px;margin-top:4px;">Ekranınız yeşile dönmezse kişisel bilgi vermeyin ve 444 36 46'yı arayın.</span><button class="m-btn o" onClick="{{ mQrAc }}">Kodu yenile / kontrol et</button><button onClick="{{ mQrOrnek }}" style="min-height:34px;border:none;background:transparent;color:var(--dim);font-size:12px;font-weight:700;text-decoration:underline;cursor:pointer;">Örnek: temsilci okuttu</button></sc-if>
+        <sc-if value="{{ mQrBekliyor }}"><b style="font:800 19px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);">Temsilcinizi doğrulayın</b><span style="font-size:13px;color:var(--dim);line-height:1.45;">Temsilcinizden bu kodu <b style="color:var(--ink);">Eminevim personel uygulamasıyla</b> okutmasını isteyin. Doğrulanınca ekranınız yeşile döner.</span><div style="padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff;margin-top:6px;line-height:0;"><sc-if value="{{ mQrResimVar }}"><img src="{{ mQrSrc }}" alt="Doğrulama kodu (QR)" style="width:188px;height:188px;image-rendering:pixelated;"></sc-if></div><span style="font-size:12.5px;color:var(--dim);">Okutamazsa kod: <b style="font-size:18px;letter-spacing:6px;color:var(--ink);">{{ mQrKod }}</b></span><span style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#00724C;font-weight:700;margin-top:2px;"><span style="width:14px;height:14px;border-radius:50%;border:2px solid #00724C;border-top-color:transparent;animation:spin 1s linear infinite;"></span>Okutulması bekleniyor…</span><span style="font-size:12px;color:#B25E30;line-height:1.45;background:var(--tintRed);border-radius:14px;padding:8px 12px;margin-top:4px;">Ekranınız yeşile dönmezse kişisel bilgi vermeyin ve 444 36 46'yı arayın.</span><button class="m-btn o" onClick="{{ mQrAc }}">Kodu yenile / kontrol et</button><sc-if value="{{ mQrOrnekVar }}"><button onClick="{{ mQrOrnek }}" style="min-height:34px;border:none;background:transparent;color:var(--dim);font-size:12px;font-weight:700;text-decoration:underline;cursor:pointer;">Örnek: temsilci okuttu</button></sc-if></sc-if>
         <sc-if value="{{ mQrTamam }}"><span style="width:76px;height:76px;border-radius:50%;background:#00724C;display:flex;align-items:center;justify-content:center;animation:popIn .3s ease-out;"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M5 12l5 5L19 7"/></svg></span><b style="font:800 20px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:#00724C;margin-top:6px;">Kimlik doğrulandı</b><span style="display:flex;align-items:center;gap:10px;background:var(--tintGreen);border-radius:14px;padding:10px 14px;margin-top:4px;"><span style="width:40px;height:40px;border-radius:50%;background-color:#1E3856;background-image:{{ mRepFotoCss }};background-size:cover;background-position:center;color:{{ mRepBasRenk }};font:800 14px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;display:flex;align-items:center;justify-content:center;">{{ mRepBas }}</span><span style="text-align:left;"><b style="display:block;font-size:15px;color:var(--ink);">{{ mRepAd }}</b><span style="font-size:12px;color:#00724C;font-weight:700;">✓ Eminevim temsilcisi · Sicil {{ mRepSicil }}</span></span></span><span style="font-size:13px;color:var(--dim);line-height:1.45;margin-top:4px;">Görüşmeniz {{ mDogrulamaSaat }}'da başladı. İyi görüşmeler!</span><button class="btn-turuncu-yazi" onClick="{{ mQrKapat }}" style="width:100%;min-height:46px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:15px;font-weight:900;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;margin-top:8px;">Tamam</button></sc-if>
       </div></div></sc-if>
       <sc-if value="{{ ekBilgiAcik }}"><div onClick="{{ mEkBilgiKapat }}" style="position:absolute;inset:0;z-index:70;background:rgba(22,31,43,.5);display:flex;align-items:flex-end;"><form class="m-kart customer-sheet" role="dialog" aria-modal="true" aria-label="Görüşmeye hazırlanmamıza yardımcı olun" onClick="{{ stopProp }}" style="width:100%;border:0;border-radius:22px 22px 0 0;padding:24px 22px;gap:14px" onSubmit="{{ mEkBilgiKaydet }}"><h3>Görüşmeye hazırlanmamıza yardımcı olun</h3><p>İsterseniz paylaşın; temsilciniz görüşmeye hazırlıklı gelir. Bu adımı atlayabilirsiniz, randevunuz devam eder.</p><div style="display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:14px;"><p style="flex:1;font-size:13px;">Finansman tercihlerinizi de paylaşabilirsiniz; temsilciniz görüşmeye buna göre hazırlanır.</p><button class="m-btn o" type="button" onClick="{{ mEkBilgiFinansman }}" style="flex:0 0 auto;">Finansman Aracı</button></div><label class="m-alan">Çalışma durumu<select aria-label="Çalışma durumu" value="{{ ekCalisma }}" onChange="{{ setEkCalisma }}"><option value="">Paylaşmak istemiyorum</option><option>Ücretli çalışan</option><option>Serbest çalışan / işletme sahibi</option><option>Emekli</option><option>Öğrenci</option><option>Çalışmıyor</option><option>Diğer</option></select></label><label class="m-alan">Yaş aralığı<select aria-label="Yaş aralığı" value="{{ ekYas }}" onChange="{{ setEkYas }}"><option value="">Paylaşmak istemiyorum</option><option>18–24</option><option>25–34</option><option>35–44</option><option>45–54</option><option>55–64</option><option>65 ve üzeri</option></select></label><label class="m-alan">Temsilcinizin bilmesini istediğiniz not<textarea maxlength="300" value="{{ ekNot }}" onChange="{{ setEkNot }}" placeholder="Örn. akşam 19'dan sonra uygunum, eşim de katılacak"></textarea></label><p style="font-size:12px;color:var(--dim);">Paylaştıklarınız yalnız görüşmenize hazırlık için temsilcinize iletilir. Ayrıntılı bilgi: <button type="button" onClick="{{ aydinlatmaAc }}" style="border:0;background:transparent;padding:0;color:#00724C;font:700 12px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;text-decoration:underline;cursor:pointer;">Aydınlatma Metni</button></p><div class="m-actions"><button class="m-btn" type="submit">Kaydet</button><button class="m-btn o" type="button" onClick="{{ mEkBilgiKapat }}">Şimdi değil</button></div></form></div></sc-if>
@@ -1600,6 +1608,7 @@ class Component extends DCLogic {
     return this.canliGonder("api/mesaj", { id, from, text, mid, ...(oto ? { oto: true } : {}) }).catch(() => {});
   }
   componentWillUnmount() {
+    this.qrKameraDurdur();
     if (this._yaTimer) clearTimeout(this._yaTimer);
     clearInterval(this._t);
     clearTimeout(this._loadTimer);
@@ -1645,19 +1654,101 @@ class Component extends DCLogic {
     const id = personel ? this.state.tpSecim : this.state.mTalep?.id;
     const original=this.mKayit(id);
     if(personel&&original?.repId!==this.state.personelRepId){this.setState({qrHata:"Bu randevu başka bir SPY'ye atanmış."});return;}
+    if (CANLI && this._canliBilinen?.[id]) {
+      // Canlı: kodu merkez üretir ve saklar; yalnız müşterinin telefonuna gelir, SPY'nin cihazına gitmez (merkez/ty/dogrulama.py)
+      if (personel) { this.setState({qrTarama:"bekliyor", qrBookingId:id, qrRepId:original.repId, qrKodGirdi:"", qrHata:"", qrKameraYazi:""}); return; }
+      let o = null;
+      try { o = JSON.parse(Canli.oku("ty-musteri-oturum") || "null"); } catch (_) {}
+      this.setState({ mQrAcik: true, mKapiHata: "" });
+      Canli.gonder("api/dogrulama", { islem: "kod", id, tel: o?.tel, jeton: o?.jeton })
+        .then((v) => this.setState({ mKapiKod: { ...v.sonuc, id } }))
+        .catch((e) => this.setState({ mKapiKod: null, mKapiHata: e.message || "Kod alınamadı. İnternet bağlantınızı kontrol edin." }));
+      return;
+    }
     const t = Appointment.challenge(original);
     if (!t?.dogrulama) return;
     this.mKayitYaz(t);
     this.setState(personel ? {qrTarama:"bekliyor", qrBookingId:t.id, qrRepId:t.repId, qrKodGirdi:"", qrHata:""} : {mQrAcik:true});
   }
-  dogrula(personel) {
+  dogrula(personel, qr) {
     const id = personel ? this.state.qrBookingId : this.state.mTalep?.id;
+    if (CANLI && personel && this._canliBilinen?.[id]) {
+      const kod = this.state.qrKodGirdi;
+      if (!/^\d{4}$/.test(kod)) { this.setState({ qrHata: "4 haneli kodu girin." }); return; }
+      if (this._qrGonderiliyor) return;
+      this._qrGonderiliyor = true;
+      this.canliGonder("api/dogrulama", { islem: "dogrula", id, spy: this.state.personelRepId, kod, revision: this._qrRevision, qr: !!qr })
+        .then((k) => {
+          this.qrKameraDurdur();
+          const z = k?.dogrulandi?.zaman || Date.now();
+          this.setState({ qrTarama: "tamam", qrKodGirdi: "", qrHata: "", demoDogrulama: { saat: new Date(z).toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" }), repId: this.state.personelRepId, bookingId: id } });
+        })
+        .catch((e) => this.setState({ qrHata: e.message || "Merkeze ulaşılamadı. İnternet bağlantınızı kontrol edin.", qrKodGirdi: "" }))
+        .finally(() => { this._qrGonderiliyor = false; this._qrRevision = undefined; });
+      return;
+    }
     const t = this.mKayit(id), repId = personel ? this.state.personelRepId : t?.repId;
     const code = personel ? this.state.qrKodGirdi : t?.dogrulama?.kod;
     const verified = Appointment.verify(t, id, repId, code);
     if (!verified) { this.setState({qrHata:"Kod eşleşmedi veya süresi doldu. Müşteriden kodu yenilemesini isteyin."}); return; }
     this.mKayitYaz(verified);
+    if (personel) this.qrKameraDurdur();
     this.setState({ ...(this.state.mTalep?.id===id&&this.state.yaAdim===4?{yaOpen:false,yaKaynak:""}:{}), qrTarama:personel ? "tamam" : "", qrKodGirdi:"", qrHata:"", demoDogrulama:{saat:new Date(verified.dogrulandi.zaman).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}), repId, bookingId:id} });
+  }
+  qrOkundu(metin) {
+    // QR içeriği: {randevu, revision, kod}. Başka randevunun QR'ı okunursa uyarır, okumaya devam eder.
+    let v = null;
+    try { v = JSON.parse(metin); } catch (_) {}
+    if (!v || !/^\d{4}$/.test(String(v.kod || ""))) { this.setState({ qrHata: "Bu QR, Tasarruf Yanımda doğrulama kodu değil." }); return; }
+    if (v.randevu !== this.state.qrBookingId) { this.setState({ qrHata: "Bu QR başka bir randevuya ait. Doğru müşteriyle görüştüğünüzden emin olun." }); return; }
+    this._qrRevision = v.revision;
+    this.setState({ qrKodGirdi: String(v.kod), qrHata: "" }, () => this.dogrula(true, true));
+  }
+  qrKameraBaslat() {
+    // Tarayıcı ekranı açıkken arka kamera; QR çözme: BarcodeDetector varsa o, yoksa vendor/jsQR.js (internetsiz, ekran açılınca yüklenir)
+    if (this._qrAkis || this._qrBasliyor || this.state.qrKameraYazi) return;
+    const video = document.querySelector("[data-qr-video]");
+    if (!video) return;
+    if (!navigator.mediaDevices?.getUserMedia) { this.setState({ qrKameraYazi: "Bu cihazda kamera açılamadı. Kodu aşağıya elle girin." }); return; }
+    this._qrBasliyor = true;
+    const yukle = () => window.jsQR || ("BarcodeDetector" in window) ? Promise.resolve() : new Promise((ok, hata) => {
+      const sc = document.createElement("script"); sc.src = "./vendor/jsQR.js"; sc.onload = ok; sc.onerror = hata; document.head.appendChild(sc);
+    });
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" } }, audio: false }).then((akis) => {
+      this._qrBasliyor = false;
+      if (this.state.qrTarama !== "bekliyor") { akis.getTracks().forEach((x) => x.stop()); return; }
+      this._qrAkis = akis; video.srcObject = akis; video.play?.().catch(() => {});
+      return yukle().then(() => {
+        const dedektor = "BarcodeDetector" in window && !window.jsQR ? new window.BarcodeDetector({ formats: ["qr_code"] }) : null;
+        const tuval = document.createElement("canvas"), ctx = tuval.getContext("2d", { willReadFrequently: true });
+        let son = "";
+        const tara = () => {
+          if (!this._qrAkis) return;
+          const v = document.querySelector("[data-qr-video]");
+          if (v && v.srcObject !== this._qrAkis) v.srcObject = this._qrAkis;  // ekran yeniden çizildiyse görüntü bağlı kalsın
+          if (v && v.readyState >= 2 && v.videoWidth) {
+            const oku = dedektor ? dedektor.detect(v).then((r) => r[0]?.rawValue || "")
+              : Promise.resolve().then(() => {
+                const g = Math.min(1, 640 / v.videoWidth); tuval.width = Math.round(v.videoWidth * g); tuval.height = Math.round(v.videoHeight * g);
+                ctx.drawImage(v, 0, 0, tuval.width, tuval.height);
+                const r = window.jsQR(ctx.getImageData(0, 0, tuval.width, tuval.height).data, tuval.width, tuval.height, { inversionAttempts: "dontInvert" });
+                return r?.data || "";
+              });
+            oku.then((metin) => { if (metin && metin !== son && !this._qrGonderiliyor) { son = metin; this.qrOkundu(metin); } })
+              .catch(() => {}).finally(() => { this._qrZaman = setTimeout(tara, 200); });
+          } else this._qrZaman = setTimeout(tara, 200);
+        };
+        tara();
+      });
+    }).catch((e) => {
+      this._qrBasliyor = false;
+      this.setState({ qrKameraYazi: e?.name === "NotAllowedError" ? "Kamera izni verilmedi. Ayarlar'dan izin verin ya da kodu aşağıya elle girin." : "Kamera açılamadı. Kodu aşağıya elle girin." });
+    });
+  }
+  qrKameraDurdur() {
+    clearTimeout(this._qrZaman);
+    if (this._qrAkis) this._qrAkis.getTracks().forEach((x) => x.stop());
+    this._qrAkis = null;
   }
   tpRandevuIslem(id, islem) {
     let t = this.mKayit(id);
@@ -1726,6 +1817,7 @@ class Component extends DCLogic {
     const t=s.mTalep, d=t?.durum, rep=t?.repId?TEMSILCI_DETAY[t.repId]:null, eta=Appointment.eta(t), done=d==="tamamlandi", canceled=d==="iptal", moving=["yolda","gorusme"].includes(d), verified=d==="gorusmede";
     const durum = {alindi:"Çağrınız alındı",atandi:"Randevu saatinizi onaylayın",netlesti:"Randevunuz kesinleşti",yolda:"Temsilciniz yolda",gorusme:"Temsilciniz yolda",gorusmede:"Temsilciniz yanınızda",tamamlandi:"Görüşmeniz tamamlandı",iptal:"Randevunuz iptal edildi"};
     const saat = t?.dogrulandi ? new Date(t.dogrulandi.zaman).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}) : "";
+    const canliKapi = CANLI && !!t && !!this._canliBilinen?.[t.id], kapiKod = canliKapi && s.mKapiKod?.id === t.id ? s.mKapiKod : null;
     const point=t?.konum || DISTRICT_COORDS["Ataşehir"], r=s.spylerList.find((x)=>x.id===t?.repId);
     const rota = r ? "harita/rota.html?takip=1&yol=1&e=Temsilciniz&b="+r.lat+","+r.lng+"&n="+point.lat+","+point.lng+","+encodeURIComponent("Görüşme noktası")+",b" : "";
     return {
@@ -1733,8 +1825,8 @@ class Component extends DCLogic {
       mDurumBaslik:t?.tip==="telefon"?"Sizi arayacağız":durum[d]||"",
       mDurumAlt:canceled?"İptal kaydınız saklandı. Dilerseniz yeni bir randevu oluşturabilirsiniz.":done?"Özeti inceleyebilir, düzeltme isteyebilirsiniz.":verified?"Kimlik "+saat+" saatinde doğrulandı.":moving?(eta?"Tahmini varış "+eta.saat+" · "+eta.dakika+" dakika":"Varış bilgisi bekleniyor"):d==="netlesti"?"":d==="atandi"?"Temsilciniz görüşme için bu zamanı önerdi.":t?.tip==="telefon"?"Telefonla iletişime geçeceğiz.":"Temsilciniz belirleniyor.",
       mTakipVar:moving,mDogrulaVar:moving,mQrAcik:!!s.mQrAcik&&(moving||verified),mYaninizdaVar:verified,mIletisimVar:!!rep&&!canceled,
-      mQrAc:()=>this.mQrHazirla(false),mQrBekliyor:!verified,mQrTamam:verified,mQrKod:t?.dogrulama?.son>Date.now()?t.dogrulama.kod.split("").join(" "):"Süresi doldu",
-      mQrSrc:qrResim(JSON.stringify({randevu:t?.id,temsilci:t?.repId,revision:t?.revision,kod:t?.dogrulama?.kod})),mQrOrnek:()=>this.dogrula(false),mDogrulamaSaat:saat,
+      mQrAc:()=>this.mQrHazirla(false),mQrBekliyor:!verified,mQrTamam:verified,mQrKod:kapiKod?(kapiKod.son>Date.now()?kapiKod.kod.split("").join(" "):"Süresi doldu"):canliKapi?(s.mKapiHata||"Kod alınıyor…"):t?.dogrulama?.son>Date.now()?t.dogrulama.kod.split("").join(" "):"Süresi doldu",
+      mQrSrc:kapiKod?qrResim(JSON.stringify({randevu:t.id,revision:kapiKod.revision,kod:kapiKod.kod})):canliKapi?"":qrResim(JSON.stringify({randevu:t?.id,revision:t?.revision,kod:t?.dogrulama?.kod})),mQrOrnek:()=>this.dogrula(false),mQrOrnekVar:!canliKapi,mDogrulamaSaat:saat,
       mDegistirVar:!!t&&t.tip==="ziyaret"&&!Appointment.terminal(t)&&!verified,
       mDegisiklikVar:!!t?.degisiklik,mDegisiklikYazi:t?.degisiklik?t.degisiklik.gunYazi+" · "+t.degisiklik.saat+" · "+t.degisiklik.yer:"",
       mDegisiklikVazgec:()=>this.mKayitYaz({...t,degisiklik:null}),
@@ -1934,6 +2026,7 @@ class Component extends DCLogic {
   }
   componentDidUpdate() {
     this.aydinlatmaDoldur();
+    if (this.state.qrTarama === "bekliyor") this.qrKameraBaslat(); else if (this._qrAkis) this.qrKameraDurdur();
     this.mKaydetHesap();
     if (CANLI && this.state.panel !== "spy" && this.state.mTalep && this._canliBilinen?.[this.state.mTalep.id]) {
       const id = this.state.mTalep.id;
@@ -3802,7 +3895,10 @@ class Component extends DCLogic {
       spyRandevuDurum: s.demoDogrulama ? "✓ Kimlik doğrulandı · " + s.demoDogrulama.saat + " · görüşmede" : "Müşteri sizi bekliyor · kapıda QR ile doğrulayın",
       spyQrGerekli: !s.demoDogrulama,
       spyQrAc: () => this.mQrHazirla(true),
-      spyQrKapat: () => this.setState({ qrTarama: "" }),
+      spyQrKapat: () => { this.qrKameraDurdur(); this.setState({ qrTarama: "", qrKameraYazi: "" }); },
+      spyQrOrnekVar: !(CANLI && this._canliBilinen?.[s.qrBookingId]),
+      qrKameraYazi: s.qrKameraYazi || "", qrKameraYaziVar: !!s.qrKameraYazi,
+      spyDogrulamaMusteri: (() => { const k = this.mKayit(s.qrBookingId); return k?.musteri?.ad || k?.ad || "Müşteri"; })(),
       spyQrOrnek: () => { const t=this.mKayit(this.state.qrBookingId); this.setState({qrKodGirdi:t?.dogrulama?.kod||""},()=>this.dogrula(true)); },
       qrTaramaAcik: !!s.qrTarama, qrTaramaBekliyor: s.qrTarama === "bekliyor", qrTaramaTamam: s.qrTarama === "tamam",
       qrKodGirdi: s.qrKodGirdi || "", setQrKodGirdi: (e) => this.setState({ qrKodGirdi: e.target.value.replace(/\D/g, "").slice(0, 4), qrHata: "" }),

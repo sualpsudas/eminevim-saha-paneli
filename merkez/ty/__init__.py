@@ -8,6 +8,7 @@
   atama.py     ATAMA KAPISI     — çağrıyı hangi SPY alır
   bildirim.py  BİLDİRİM KAPISI  — telefon bildirimi (Web Push; ileride APNs/SMS)
   musteri.py   MÜŞTERİ HESABI KAPISI — telefon + SMS kodu (parola yok), oturum
+  dogrulama.py KAPIDA DOĞRULAMA KAPISI — müşteriye 4 haneli kod (merkezde), SPY QR/kodla doğrular (api/dogrulama)
   aktarim.py   AKTARIM KAPISI   — çağrıları şirketin randevu / müşteri kartı biçiminde dışarı verir
   islemler.py  istekleri işleyen kurallar (api/cagri, api/kayit, ...)
   api.py       HTTP sunucusu (adresler, dosya sunma, başlat/durdur)

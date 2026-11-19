@@ -794,3 +794,16 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 - İşaretlenmezse "Devam etmek için Aydınlatma Metni'ni okuduğunuzu onaylayın."; metin bağlantısı kutuyu işaretlemez. Merkez `aydinlatmaOnay`
   olmadan web çağrısı / yeni hesap kabul etmez; `aydinlatmaTarih` onay anı. Kampanya izni ayrı, isteğe bağlı, işaretsiz.
 - Testler: browser-flows, web-flows, preparation-popup, appointment-list, phone-layout, merkez-akis, panel-senaryo OK. Senaryo görüntüleri yenilendi.
+
+### 2026-11-19 Kapıda QR gerçek: kod merkezde, SPY kamerayla okur + hizalama kontrolü
+- Kullanıcı: "iPhone'a geçmeden QR ve gerçek kod gerçekten çalışsın, navbar/hizalar kontrol edilsin" (SMS gerçek değil: a seçeneği, kod ekranda kalır).
+- Yeni `merkez/ty/dogrulama.py` + `api/dogrulama`: müşteriye randevuya özel 4 haneli kod (10 dk, yalnız bellekte; SPY cihazına/veri dosyasına
+  gitmez), SPY QR ya da kodla doğrular → merkez randevu/SPY/sürüm/süre kontrolü, 5 hatada iptal, `gorusmede`. `api/kayit` artık
+  "gorusmede" yazamaz, eski kopya görüşmeyi geri alamaz. Uygulama: SPY tarayıcı ekranında gerçek arka kamera (BarcodeDetector / `vendor/jsQR.js`),
+  izin yoksa "kodu elle girin"; başarı ekranında gerçek müşteri adı (eskiden sabit "Ayşe Kaya"). Örnek düğmeleri yalnız gösteride.
+  iPhone Info.plist kamera izni metni; `sw.js` v22 (+jsQR).
+- Hizalama: 320/393/430 telefon, iPad dikey/yatay, SPY/TL/yönetici. Düzeltilen: telefonda süzgeç çipleri tek satır (yana kayar, Saha Canlı ile aynı),
+  iPad dikeyde üst çubukta ad/durum görünür (eskiden ≤899 px gizliydi), yönetici performans tablosunda ad/şube kesilmez.
+  Sorun olmayan: sohbet ekranındaki soluk yazı yalnız geçiş animasyonu anında alınan görüntü.
+- Testler: merkez-akis (sahte kamerayla gerçek QR okuma, kodun SPY'ye gitmemesi, ret durumları), browser-flows, appointment-list, phone-layout,
+  preparation-popup, web-flows, panel-senaryo, node birim testleri: OK.

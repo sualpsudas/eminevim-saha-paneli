@@ -1,4 +1,4 @@
-const CACHE = 'eminevim-v21';
+const CACHE = 'eminevim-v22';
 const ASSETS = [
   './',
   './index.html',
@@ -18,6 +18,7 @@ const ASSETS = [
   './harita/rota.html',
   './harita/map.html',
   './vendor/qrcode.min.js',
+  './vendor/jsQR.js',
   './veri/spyler.js?v=2',
   './veri/org-data.js?v=7',
   './vendor/react.production.min.js',

@@ -102,8 +102,8 @@ eminevim-saas/
 | `ayarlar.py` | yollar, port, atama sabitleri, sunulan dosyalar |
 | `yardim.py` | zaman, metin, uzaklık, olay kaydı |
 | `personel.py` | SPY listesini `veri/spyler.js`'ten okur |
-| `depo.py`, `konum.py`, `atama.py`, `bildirim.py`, `musteri.py`, `aktarim.py` | kapılar (yukarıda) |
-| `islemler.py` | istek kuralları: `api/cagri, kayit, mesaj, spy, aktar, konum, kod, musteri, sifirla` |
+| `depo.py`, `konum.py`, `atama.py`, `bildirim.py`, `musteri.py`, `dogrulama.py`, `aktarim.py` | kapılar (yukarıda; `dogrulama.py` kapıda QR/kod: gerçek sistemde SPY kimliği personel girişinden) |
+| `islemler.py` | istek kuralları: `api/cagri, kayit, mesaj, spy, aktar, konum, kod, musteri, dogrulama, sifirla` |
 | `api.py` | HTTP sunucusu: adresler, dosya sunma, `api/durum`, başlat/durdur |
 
 ## 4. Çalıştırma ve test

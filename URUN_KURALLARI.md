@@ -17,7 +17,10 @@ Kurallar ve açık işler `CLAUDE.md`'de, teknik ayrıntı `TEKNIK.md`'de, gerek
 - Web başvurusu ve uygulamadan yeni kayıt aynı randevu modeline bağlanır. Randevum'da saat doğrudan onaylanır; sonuç sohbete düşer.
 - Randevu durumları: `alindi → atandi → netlesti → yolda → gorusmede → tamamlandi`; iptal `iptal` olarak saklanır. Yeni randevuda önceki kayıt müşteri geçmişine taşınır. Puan vermek yeni randevu şartı değildir.
 - Değişiklik `degisiklik` alanında bekler; eski kesin saat korunur. Personel yeni öneriyi onaylayınca gün/saat/konum güncellenir. Yoldayken de değişiklik/iptal erişimi vardır.
-- Personelin Yola çık / gecikme / QR / bitir işlemleri seçili randevuya bağlıdır. Kod randevu, SPY ve revizyonla eşleşir, 10 dakika geçerlidir ve kullanıldığında tüketilir. Gerçek kamera ve sunucuda kimlik doğrulama henüz yoktur; demo tarama düğmesi ve kod girişi korunmuştur.
+- Personelin Yola çık / gecikme / QR / bitir işlemleri seçili randevuya bağlıdır. Kod randevu, SPY ve revizyonla eşleşir, 10 dakika geçerlidir ve kullanıldığında tüketilir. **Canlıda (2026-11-19) kodu merkez üretir ve kontrol eder** (`merkez/ty/dogrulama.py`): kod yalnız müşterinin telefonuna gelir,
+  SPY'nin cihazına ve veri dosyasına gitmez; SPY tableti/telefonu **gerçek kamerayla** QR okur (BarcodeDetector ya da `vendor/jsQR.js`), kamera
+  açılmazsa kodu elle girer. Görüşmeyi yalnız merkez başlatır (`api/kayit` ile "gorusmede" yazılamaz); 5 yanlış denemede kod iptal.
+  "Örnek: QR okundu" / "Örnek: temsilci okuttu" düğmeleri yalnız gösteride (GitHub Pages) kalır.
 - Takipte son bilinen SPY ve görüşme noktası, tahmini varış ve eski konum uyarısı görünür. Haritadaki çizgi yol ağına göre hesaplanmış navigasyon rotası değildir. Gerçek GPS/ETA için canlı servis gerekir.
 - Personel görüşmeyi bitirince aynı müşteriye özet/not/sonraki adım gider. Puan penceresi kendiliğinden açılmaz. Sorusu olursa müşteri temsilcisine sohbetten yazar (düzeltme/destek bölümü 2026-11-11 kaldırıldı).
 - Çalışma durumu ve yaş aralığı **ilk başvuruda zorunlu değildir**. Başvurudan sonra isteğe bağlı, atlanabilir; sonra düzenlenebilir. Kesin yaş/doğum tarihi istenmez. 2026-11-11: bu sorular **yalnız uygulamada** (web sonuç ekranında yok), bkz. Canlı test sürümü → Görüşmeye hazırlık.
@@ -139,7 +142,7 @@ düğmesi kaldırıldı (SMS biçimi ve sentetik fotoğraflar açık soru). Adı
   "Temsilci Bul" eşleştirme ekranı (customerNav "tasarruf") kaldırıldı. SPY fotoğrafı yerine baş harfler.
 - Önizleme telefonda `dvh` + visualViewport ile görünür alana oturur (iOS Safari alt çubuğu düğmeleri kapatıyordu).
 - **Kapıda QR doğrulama (2026-10-21):** Görüşme günü Randevum'da "Kapıda kimliğini doğrula" → QR (vendor/qrcode.min.js,
-  internetsiz) + 4 haneli yedek kod (`DOGRULAMA_KODU` 4821, SMS ile de gider). Personel (SPY) Görüşmeler'in üstünde
+  internetsiz) + 4 haneli yedek kod (randevuya özel, 10 dk; canlıda merkez üretir, satır 20). Personel (SPY) Görüşmeler'in üstünde
   "Bugünkü randevu · Ayşe K." kartı → "Kapıda: müşterinin QR'ını okut" (tarayıcı ekranı, "Örnek: QR okundu" ya da kod gir)
   → müşterinin ekranı yeşil: "Temsilciniz yanınızda · Kimliği 18:10'da doğrulandı"; varış kaydı. Durum `demoDogrulama`
   (oturumlar arası kalır; görüşme bitince sıfırlanır). Güvenlik mantığı: onay MÜŞTERİNİN ekranında görünür, sahte biri

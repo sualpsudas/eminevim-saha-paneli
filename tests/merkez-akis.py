@@ -210,12 +210,65 @@ with sync_playwright() as p:
     musteri.get_by_role('region', name='Bildirimler').wait_for()
     app(musteri, 'app.randevuAc(app.state.mTalep.id)')
     assert app(musteri, 'app.state.customerNav') == 'basvurum' and app(musteri, 'app.state.mSeciliRandevuId') == app(musteri, 'app.state.mTalep.id')
+    # Kapıda doğrulama (2026-11-19): kodu merkez üretir, yalnız müşteriye döner; SPY cihazına ve kayda gitmez.
     app(musteri, 'app.setState({customerNav:"basvurum",mSeciliRandevuId:app.state.mTalep.id});app.mQrHazirla(false)')
-    bekle(spy, 'Object.values(app.state.tpKayitlar)[0].dogrulama')
-    kod = app(musteri, 'app.state.mTalep.dogrulama.kod')
+    bekle(musteri, 'app.state.mKapiKod && app.state.mKapiKod.kod')
+    kod, rid = app(musteri, 'app.state.mKapiKod.kod'), app(musteri, 'app.state.mTalep.id')
+    assert re.fullmatch(r'\d{4}', kod) and kod.replace('', ' ').strip() in musteri.get_by_role('dialog', name='Temsilcinizi doğrulayın').inner_text()
+    assert musteri.get_by_role('button', name='Örnek: temsilci okuttu', exact=True).count() == 0, 'Canlıda örnek düğmesi yok'
+    assert kod not in json.dumps(merkez('api/durum?spy=s2')['kayitlar']), 'Kapı kodu SPY cihazına gitmemeli'
+    assert kod not in (Path(tempfile.gettempdir()) / 'deneme.json').read_text(encoding='utf-8'), 'Kapı kodu veri dosyasına yazılmamalı'
+
+    def red(yol, govde, parca):
+        try:
+            merkez(yol, govde); raise AssertionError('Kabul edilmemeliydi: ' + parca)
+        except urllib.error.HTTPError as e:
+            assert e.code == 400 and parca in json.loads(e.read())['hata'], parca
+    kayit_simdi = app(spy, 'JSON.stringify(app.mKayit(' + repr(rid) + '))')
+    red('api/kayit', {'kayit': {**json.loads(kayit_simdi), 'durum': 'gorusmede'}}, 'kapıda QR ya da kod')
+    red('api/dogrulama', {'islem': 'kod', 'id': rid}, 'Oturum doğrulanamadı')
+    red('api/dogrulama', {'islem': 'dogrula', 'id': rid, 'spy': 's1', 'kod': kod}, 'başka bir SPY')
+    # SPY tableti: bu makinede kamera yok → "elle girin" yazısı; yanlış kod → uyarı; örnek düğmesi yok
     spy.get_by_role('button', name="Vardım: müşterinin QR'ını okut", exact=True).click()
-    app(spy, 'app.setState({qrKodGirdi:' + repr(kod) + '});app.dogrula(true)')
+    spy.get_by_role('status').get_by_text('Kodu aşağıya elle girin', exact=False).wait_for()
+    assert spy.get_by_role('button', name='Örnek: QR okundu', exact=True).count() == 0
+    spy.get_by_label('4 haneli kod').fill('0000' if kod != '0000' else '1111')
+    spy.get_by_role('button', name='Doğrula', exact=True).click()
+    spy.get_by_role('alert').get_by_text('Kod eşleşmedi', exact=False).wait_for()
+    spy.get_by_role('button', name='Kapat', exact=True).first.click()
+    # Gerçek kamera: müşterinin ekranındaki QR, Chrome'a sahte kamera görüntüsü olarak verilir; SPY kamerayla okur
+    qr_png = OUT / 'kapi-qr.png'
+    musteri.screenshot(path=str(OUT / 'kapi-musteri.png'))
+    qr_png.write_bytes(base64.b64decode(musteri.get_by_alt_text('Doğrulama kodu (QR)').get_attribute('src').split(',', 1)[1]))
+    from PIL import Image
+    W, H = 640, 480
+    kare = Image.new('L', (W, H), 255)
+    q = Image.open(qr_png).convert('L').resize((360, 360), Image.NEAREST)
+    kare.paste(q, ((W - 360) // 2, (H - 360) // 2))
+    y4m = OUT / 'kapi-qr.y4m'
+    with open(y4m, 'wb') as f:
+        f.write(f'YUV4MPEG2 W{W} H{H} F10:1 Ip A1:1 C420jpeg\n'.encode())
+        for _ in range(10):
+            f.write(b'FRAME\n' + kare.tobytes() + bytes([128]) * (W * H // 2))
+    kamerali = p.chromium.launch(channel='chrome', headless=True, args=['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream', '--use-file-for-fake-video-capture=' + str(y4m)])
+    kam_ctx = kamerali.new_context(viewport={'width': 1180, 'height': 820}, permissions=['camera'])
+    kam = kam_ctx.new_page(); kam.on('pageerror', lambda e: errors.append(str(e)))
+    kam.goto(URL); kam.get_by_role('button', name='Devam et', exact=True).wait_for()
+    personel(kam, 's2')
+    bekle(kam, 'app.mKayit(' + repr(rid) + ')')
+    app(kam, 'app.setState({tpSecim:' + repr(rid) + '})')
+    kam.get_by_role('button', name="Vardım: müşterinin QR'ını okut", exact=True).click()
+    bekle(kam, 'app.state.qrTarama==="tamam"', 20000)
+    kam.get_by_text('Doğrulandı · görüşme başladı', exact=True).wait_for()
+    assert 'Deniz Test' in kam.get_by_text('Deniz Test ·', exact=False).inner_text()
+    kam.screenshot(path=str(OUT / 'kapi-qr-okundu.png'))
     bekle(musteri, 'app.state.mTalep.durum==="gorusmede"')
+    musteri.get_by_text('Kimlik doğrulandı', exact=True).wait_for()
+    d = json.loads((Path(tempfile.gettempdir()) / 'deneme.json').read_text(encoding='utf-8'))['kayitlar'][rid]
+    assert d['dogrulandi']['yol'] == 'qr' and d['dogrulandi']['repId'] == 's2', d.get('dogrulandi')
+    red('api/dogrulama', {'islem': 'kod', 'id': rid, 'tel': '5551112233', 'jeton': 'x'}, 'Oturum doğrulanamadı')
+    kamerali.close()
+    bekle(spy, 'app.mKayit(' + repr(rid) + ').durum==="gorusmede"')
     app(spy, 'app.setState({qrTarama:"",tpOzetNot:"Plan seçenekleri görüşüldü."})')
     spy.get_by_role('button', name='Görüşmeyi bitir · özeti gönder', exact=True).click()
     bekle(musteri, 'app.state.mTalep.durum==="tamamlandi"')
@@ -428,7 +481,7 @@ with sync_playwright() as p:
     assert abone and not any(x.get('musteri') for x in abone.values()), abone
     assert '5551112233' not in json.loads((Path(tempfile.gettempdir()) / 'deneme.json').read_text(encoding='utf-8'))['musteriler']
     assert not errors, errors
-    print('Merkez akışı: OK (7 SPY, hemen çağrı, bildirim tüm telefonlara + telefon değişimi + 410 temizliği, geri sayım + gerekçe, kabul, mesaj, yola çıkış, QR, özet, molada,'
+    print('Merkez akışı: OK (7 SPY, hemen çağrı, bildirim tüm telefonlara + telefon değişimi + 410 temizliği, geri sayım + gerekçe, kabul, mesaj, yola çıkış, kapı kodu merkezde + kamerayla QR, özet, molada,'
           ' ileri tarih puanı, devret → kimse almadı, Saha Canlı haritası + süzgeç, kompakt performans,'
           ' web formu → SMS penceresi → merkez kodu → uygulama → görüşmeye hazırlık,'
           ' merkezdeki hesapla başka telefonda SMS koduyla giriş (parola yok) + yanlış kod + 5 hatada kod iptali, kayıtsız numara → Ad + Soyad,'
