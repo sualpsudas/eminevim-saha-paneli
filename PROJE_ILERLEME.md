@@ -819,3 +819,6 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
 
 ## 2026-11-19 — resimli üst bölüm
 Müşteri ekranları: koyu yeşil gradyan + sekme resmi (assets/ty/hero-*.webp), banda binen yuvarlak sayfa, yüzen alt menü; finansman taşıt simgesi yan görünüm. Finansman/Profil başlığı hâlâ sayfa içinde.
+
+## 2026-11-19 — tasarım karşılaştırması
+Revize mockup ile birebir: sistem fontu, koyu yeşil yazı, durum hapı (yeşil nokta), lime çizgi, sol vurgulu sohbet kartı, mint ikon kutuları, yeşil gradyan düğmeler, yüzen menü (yeni ikonlar), giriş ekranı yeşil bölüm + beyaz sayfa. Finansman/Profil başlığı yeşil bölümde.
