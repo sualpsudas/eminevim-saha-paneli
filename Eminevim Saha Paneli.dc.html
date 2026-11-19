@@ -1024,6 +1024,11 @@ html.native-app .ya-akis [style*="background: var(--tintGreen)"] * { color: #0B5
 .m-sheet.tam .m-sheet-cubuk { display: none; }
 .m-sheet.tam .m-sheet-geri { display: inline-flex; align-items: center; min-height: 36px; padding: 0 16px; border: 0; border-radius: 99px; background: rgba(255,255,255,.18); color: #fff; font-size: 13.5px; font-weight: 800; cursor: pointer; }
 html.native-app .m-sheet .m-kart:not(.m-durum) { background: #fff; box-shadow: 0 2px 10px rgba(0,60,40,.06); }
+/* b51: giriş "Geri" ve "Kodu tekrar gönder" sınıfla biçimlenir (Safari stil yazımına bağlı değil) */
+html.native-app .giris-form.giris-form > button.kod-tekrar { display: block; background: transparent !important; box-shadow: none !important; border: 0 !important; border-radius: 0 !important; min-height: 36px !important; width: auto !important; align-self: center; color: #00724C !important; font-size: 14px !important; font-weight: 700 !important; padding: 6px 12px !important; }
+html.native-app .giris-form.giris-form > button.kod-tekrar::after, html.native-app .giris-form.giris-form > button.giris-geri::after { content: none !important; }
+html.native-app .giris-form.giris-form > button.giris-geri { display: inline-flex; align-items: center; position: absolute; left: 18px; top: calc(env(safe-area-inset-top,0px) + 18px); width: auto !important; min-height: 0 !important; padding: 6px 4px !important; background: transparent !important; box-shadow: none !important; border: 0 !important; border-radius: 0 !important; color: #fff !important; font-size: 16px !important; font-weight: 800 !important; }
+html.native-app .giris-form.giris-form > button.giris-geri::before { content: "←" !important; font-size: 20px; margin: 0 6px 0 0 !important; line-height: 1; }
 </style>
 </helmet>
 
@@ -1047,7 +1052,7 @@ html.native-app .m-sheet .m-kart:not(.m-durum) { background: #fff; box-shadow: 0
           <sc-if value="{{ kodOrnekVar }}"><div style="font-size:11.5px;color:var(--dim);background:var(--tintGreen);border-radius:12px;padding:7px 10px;text-align:left;">Test: ad ve soyad örnek olarak dolduruldu. İsterseniz değiştirin.</div></sc-if>
           <sc-if value="{{ kodHataVar }}"><div role="alert" style="font-size:12px;font-weight:700;color:#B25E30;text-align:left;">{{ kodHata }}</div></sc-if>
           <button onClick="{{ kodIleri }}" style-active="transform:scale(.97);" style="width:100%; min-height:46px; background:#00724C; color:#fff; border:none; border-radius:22px; font-size:14px; font-weight:700; cursor:pointer; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">{{ kodDugme }}</button>
-          <sc-if value="{{ kodTekrarVar }}"><button class="kod-tekrar" onClick="{{ kodTekrar }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;">Kodu tekrar gönder</button></sc-if><sc-if value="{{ girisGeriVar }}"><button onClick="{{ girisGeri }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;min-height:32px;">Geri dön</button></sc-if>
+          <sc-if value="{{ kodTekrarVar }}"><button class="kod-tekrar" onClick="{{ kodTekrar }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;">Kodu tekrar gönder</button></sc-if><sc-if value="{{ girisGeriVar }}"><button class="giris-geri" onClick="{{ girisGeri }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;min-height:32px;">Geri</button></sc-if>
         <img class="giris-marka" src="assets/logo-green.png" alt="Eminevim" style="width:96px;height:auto;margin:auto auto 0;display:block;opacity:.9;"></div></sc-if>
       </div>
     </div>
