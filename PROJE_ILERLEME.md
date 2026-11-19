@@ -836,3 +836,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: SPY (personel) ekranları müşteri uygulamasıyla aynı dile geçti (yeşil bant, yumuşak kartlar, yüzen alt menü); Görüşmeler/Performans/Profil. Yeni görünüm yalnız ?native=1 ile (iPhone uygulamasında otomatik).
 
 - 2026-11-19: Hero görseli genişliğe oranlı (başlıkla çakışmaz); finansman seçili kart boyutu düzeldi, açıklama cümlesi gizli; ayarlarda Çıkış yap + marka satırı altta sabit; finans/profil sayfa zemini diğerleriyle aynı yükseklik.
+
+- 2026-11-19: Dalga beyaz alanın ortasına; Geri düğmesi beyaz sayfada (müşteri sohbeti + SPY ayrıntı); gönderilen sohbet balonu okunur; kozmetik (iç ışık, başlık gölgesi, basış geri bildirimi).
