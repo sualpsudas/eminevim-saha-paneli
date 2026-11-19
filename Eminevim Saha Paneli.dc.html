@@ -1001,6 +1001,14 @@ html.native-app .ya-akis > div > div > div:nth-child(2) i[style*="00724C"], html
 html.native-app .ya-akis [style*="font:800 24px"], html.native-app .ya-akis [style*="font:800 22px"], html.native-app .ya-akis [style*="font: 800 24px"], html.native-app .ya-akis [style*="font: 800 22px"] { color: #12362B !important; font-size: 24px !important; letter-spacing: -.4px; }
 html.native-app .ya-akis [style*="background:#EA803F"], html.native-app .ya-akis [style*="background: rgb(234, 128, 63)"] { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff !important; border: 0 !important; border-radius: 99px !important; min-height: 52px !important; font-size: 15px !important; font-weight: 800 !important; box-shadow: 0 10px 22px rgba(0,88,59,.26) !important; }
 html.native-app .ya-akis [style*="box-shadow:0 -1px 0 var(--line)"], html.native-app .ya-akis [style*="box-shadow: rgba(0, 0, 0, 0)"] { box-shadow: none !important; background: transparent !important; }
+/* b48: Temsilci iste onay adımı başlığı ve ayrıntı yazıları */
+html.native-app .ya-akis [style*="font:800 23px"] { color: #12362B !important; font-size: 24px !important; letter-spacing: -.4px; }
+html.native-app .ya-akis [style*="background:var(--tintGreen)"] { background: #D4EEE2 !important; color: #0B5B3F !important; border-radius: 18px !important; padding: 14px 16px !important; }
+html.native-app .ya-akis [style*="background:var(--tintGreen)"] * { color: #0B5B3F !important; }
+/* b49: b48 seçicileri tarayıcının boşluklu stil yazımına da uysun */
+html.native-app .ya-akis [style*="font: 800 23px"] { color: #12362B !important; font-size: 24px !important; letter-spacing: -.4px; }
+html.native-app .ya-akis [style*="background: var(--tintGreen)"] { background: #D4EEE2 !important; color: #0B5B3F !important; border-radius: 18px !important; padding: 14px 16px !important; }
+html.native-app .ya-akis [style*="background: var(--tintGreen)"] * { color: #0B5B3F !important; }
 </style>
 </helmet>
 
@@ -1097,6 +1105,7 @@ html.native-app .ya-akis [style*="box-shadow:0 -1px 0 var(--line)"], html.native
       </sc-if>
       <sc-if value="{{ yaUygulamaMi }}"><div style="font-size:13px;color:var(--dim);line-height:1.5;">{{ yaUygBilgi }}</div></sc-if>
       <div style="flex:1;min-height:4px;"></div>
+      <sc-if value="{{ yaUygulamaMi }}"><button class="btn-turuncu-yazi" onClick="{{ yaGeri }}" style="min-height:52px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:16px;font-weight:900;cursor:pointer;">Randevularıma dön</button></sc-if>
       <sc-if value="{{ yaWebAkis }}">      <div style="border-top:1px solid var(--line);padding-top:12px;display:flex;align-items:center;gap:10px;"><span style="flex:1;font-size:12px;color:var(--dim);line-height:1.4;">Görüşme öncesinde Çözümlerimize, Kampanyalarımıza ve Finansman aracına göz atmak için üye olun.</span><button onClick="{{ yaUyeOl }}" style="min-height:36px;padding:0 12px;border:1.5px solid #00724C;background:var(--card);color:#00724C;border-radius:22px;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">Üye olun</button></div></sc-if>
 
     </div></sc-if>
