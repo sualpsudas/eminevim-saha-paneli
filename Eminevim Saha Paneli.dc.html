@@ -863,6 +863,30 @@ html.native-app .tp-ana:has(.tp-geri) .tp-iki { padding-top: 66px; }
 html.native-app .customer-screen:has(.customer-bas .tp-geri) > .customer-bas { z-index: 3; }
 html.native-app .customer-bas .tp-geri { top: 100px; }
 html.native-app .customer-screen:has(.customer-bas .tp-geri) > .customer-panel:not(.customer-finance)::before { height: 40px; }
+/* b25: Finansman 2. adım ve sonrası normal sayfa gibi (taşma düzeltmesi) */
+html.native-app .customer-screen:has(> .customer-bas) > .customer-panel.customer-finance { background: radial-gradient(ellipse 130% 34% at 108% 80%, rgba(150,210,185,.40) 0 60%, transparent 61%), linear-gradient(180deg, #F8FCFA 0%, #E3F4EC 100%) !important; box-shadow: inset 0 1.5px 0 rgba(255,255,255,.95) !important; overflow: hidden !important; margin-top: -14px !important; border-radius: 32px 32px 0 0; }
+html.native-app .customer-screen:has(> .customer-bas) .customer-finance::before { display: none; }
+html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll { margin-top: 0 !important; padding-top: 66px !important; }
+html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll > div:first-child > div:first-child, html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll > div:first-child > div:nth-child(2) { transform: none; }
+html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll > div:first-child > div:nth-child(2) > span:not([style*="rgb(0, 114, 76)"]) { background: #CFE4DA !important; }
+html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll > div:first-child > div:nth-child(2) > span[style*="rgb(0, 114, 76)"] { background: linear-gradient(90deg,#8BE02E,#5FC41B) !important; }
+html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll > div:first-child { margin-bottom: 16px; }
+/* seçenek kartları (radyo tipi) */
+html.native-app .customer-finance button.scp1 { background: #fff !important; border: 2px solid #fff !important; border-radius: 22px !important; box-shadow: var(--golge-kart); padding: 16px !important; }
+html.native-app .customer-finance button.scp1 > span:first-child { width: 24px !important; height: 24px !important; border: 2px solid #9CC5B4 !important; background: #fff !important; }
+html.native-app .customer-finance button.scp1[style*="rgb(0, 114, 76)"] { border-color: #00724C !important; background: linear-gradient(180deg,#F4FBF8,#DFF3EA) !important; }
+html.native-app .customer-finance button.scp1[style*="rgb(0, 114, 76)"] > span:first-child { background: #00724C !important; border-color: #00724C !important; }
+html.native-app .customer-finance button.scp1 > span:nth-child(2) > span:first-child { font-size: 15px !important; }
+html.native-app .customer-finance button.scp1 > span:nth-child(2) > span:last-child { font-size: 12.5px !important; }
+/* b26: adım 2+ başlık görünür, alanlar beyaz */
+html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll > div:first-child > div:first-child, html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll > div:first-child > div:first-child * { color: #12362B !important; text-shadow: none !important; }
+html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll > div:first-child > div:first-child { font-size: 20px; }
+html.native-app .customer-finance input:not([type=range]) { background: #fff !important; border: 0 !important; box-shadow: var(--golge-kart); border-radius: 18px !important; }
+html.native-app .customer-finance button[style*="var(--kutu)"]:not(.scp0):not(.scp1) { background: #fff !important; box-shadow: var(--golge-kart); border-color: transparent !important; }
+/* b27 */
+html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll > div:first-child > div:first-child > div:first-child { font-size: 21px !important; letter-spacing: -.3px; }
+html.native-app .customer-finance input:not([type=range]) { background: transparent !important; box-shadow: none !important; border-radius: 0 !important; }
+html.native-app .customer-finance div:has(> input:not([type=range])) { background: #fff !important; box-shadow: var(--golge-kart); border-radius: 18px !important; }
 </style>
 </helmet>
 

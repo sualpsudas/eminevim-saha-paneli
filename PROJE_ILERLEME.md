@@ -838,3 +838,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: Hero görseli genişliğe oranlı (başlıkla çakışmaz); finansman seçili kart boyutu düzeldi, açıklama cümlesi gizli; ayarlarda Çıkış yap + marka satırı altta sabit; finans/profil sayfa zemini diğerleriyle aynı yükseklik.
 
 - 2026-11-19: Dalga beyaz alanın ortasına; Geri düğmesi beyaz sayfada (müşteri sohbeti + SPY ayrıntı); gönderilen sohbet balonu okunur; kozmetik (iç ışık, başlık gölgesi, basış geri bildirimi).
+
+- 2026-11-19: Finansman 2. adım ve sonrası düzeltildi (1. adım hileleri sızıyordu): normal beyaz sayfa, Geri düğmesi, görünür başlık, radyo kartları, beyaz alanlar.
