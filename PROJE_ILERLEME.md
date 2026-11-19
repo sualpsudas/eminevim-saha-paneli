@@ -858,3 +858,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: Tum sayfa basliklari ayni boy (32px, dar telefonda 27px) ve ayni hizada (cap ust 81px @393/430; Randevu, Sohbet, Finansman 1-3, Ayarlar, Profil). Kod ekraninda "Kodu tekrar gonder" ve Test notu kartsiz duz yazi (class kod-tekrar/kod-demo, b41). sw v34.
 
 - 2026-11-19: Musteri Randevularim filtre cipleri kaldirildi (istek). sw v35.
+
+- 2026-11-19: Basliklar 16px yukari (header margin-bottom -16px, hero-yuk 156, gorsel top 132, profil basligi top 56); beyaz sayfa ustu hepsinde 128px; Geri/durum cipi ile cakisma yok. sw v36. Codemagic build 9 (f31b4ea) sirada bekliyordu; bu degisiklik canli merkezden gelir, derleme gerekmez.

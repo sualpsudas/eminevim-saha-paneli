@@ -972,6 +972,11 @@ html.native-app .customer-screen:has(> .customer-profile) .customer-header::afte
   html.native-app .customer-bas h1, html.native-app .customer-screen:not(:has(> .customer-bas)) .customer-finance-scroll > div:first-child > div:first-child > div:first-child, html.native-app .customer-screen:has(> .customer-profile) .customer-header::after { font-size: 27px !important; }
 }
 html.native-app .customer-screen:not(:has(> .customer-bas)) .customer-finance-scroll > div:first-child > div:first-child { transform: translateY(-11px) !important; }
+/* b44: başlık bloğu 16px yukarı (üst satır Geri/durum çipi için boş kalır); beyaz sayfa ve görsel birlikte yükselir */
+html.native-app .customer-header.customer-ust { margin-bottom: -16px !important; }
+html.native-app .customer-screen { --hero-yuk: calc(env(safe-area-inset-top,0px) + 156px); }
+html.native-app .customer-screen::after { top: calc(env(safe-area-inset-top,0px) + 132px) !important; }
+html.native-app .customer-screen:has(> .customer-profile) .customer-header::after { top: 56px !important; }
 </style>
 </helmet>
 
