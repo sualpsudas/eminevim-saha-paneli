@@ -846,3 +846,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: SMS kod ekranı: "Kodu tekrar gönder" nane hap düğme, "Geri dön" sade ‹ bağlantı, kod kutusu ortalı.
 
 - 2026-11-19: Bilgisayarda alt menü tarayıcı genişliğine yayılıyordu (position:fixed) -> ekran çerçevesine göre absolute; sayfa esnemesi kapatıldı (html fixed + overscroll none); kod ekranı: Kodu tekrar gönder düz yazı, Geri sol üstte küçük.
+
+- 2026-11-19: Giris "Geri don" okunu kaldirdik; giris/kod ekrani kisa telefonda (667px) tum sayfa kaymaz (b33). Diger ekranlarda tum sayfa kaymasi yok; yalniz profil/ayarlar panel ici kayar.
