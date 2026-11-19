@@ -698,6 +698,16 @@ html.native-app .giris-form input[aria-label="Telefon numaranız"] { background-
 html.native-app .giris-form > button:not([style*="transparent"]) { background: linear-gradient(180deg,#0F7F57,#00583B) !important; min-height: 62px !important; border-radius: 32px !important; font-size: 18px !important; box-shadow: 0 12px 26px rgba(0,88,59,.30); display: flex; align-items: center; justify-content: center; gap: 12px; }
 html.native-app .giris-form > button:not([style*="transparent"])::after { content: "→"; font-size: 22px; }
 html.native-app .customer-screen > .customer-panel.customer-profile { margin-top: 96px; }
+/* Yeni 3D varlık kütüphanesi: şeffaf üst resimler + finansman kart ikonları */
+html.native-app .customer-screen::after { width: 200px; height: 128px; }
+html.native-app .customer-screen:has(> .customer-finance)::after, html.native-app .customer-screen:has(> .customer-settings)::after, html.native-app .customer-screen:has(> .customer-profile)::after { -webkit-mask-image: none; mask-image: none; width: 210px; height: 120px; top: calc(env(safe-area-inset-top,0px) + 56px); }
+html.native-app .customer-screen:has(> .customer-finance) { --hero-resim: url(assets/ty/hero-finans.webp); }
+html.native-app .customer-finance button.scp0 > span:first-child > span { display: none !important; }
+html.native-app .customer-finance button.scp0 > span:first-child { width: 96px !important; height: 96px !important; background-size: contain !important; background-repeat: no-repeat !important; background-position: center !important; }
+html.native-app .customer-finance-scroll > div:nth-child(2) > button:nth-child(1) > span:first-child { background-image: url(assets/ty/kart-konut.webp) !important; }
+html.native-app .customer-finance-scroll > div:nth-child(2) > button:nth-child(2) > span:first-child { background-image: url(assets/ty/kart-tasit.webp) !important; }
+html.native-app .customer-finance-scroll > div:nth-child(2) > button:nth-child(3) > span:first-child { background-image: url(assets/ty/kart-isyeri.webp) !important; }
+html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { margin-right: 0; }
 </style>
 </helmet>
 

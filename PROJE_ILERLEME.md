@@ -822,3 +822,6 @@ Müşteri ekranları: koyu yeşil gradyan + sekme resmi (assets/ty/hero-*.webp),
 
 ## 2026-11-19 — tasarım karşılaştırması
 Revize mockup ile birebir: sistem fontu, koyu yeşil yazı, durum hapı (yeşil nokta), lime çizgi, sol vurgulu sohbet kartı, mint ikon kutuları, yeşil gradyan düğmeler, yüzen menü (yeni ikonlar), giriş ekranı yeşil bölüm + beyaz sayfa. Finansman/Profil başlığı yeşil bölümde.
+
+## 2026-11-19 — 3D varlık kütüphanesi
+OneDrive Belgeler/eminevim-saas "Yeşil 3D Uygulama Varlık Kütüphanesi.png" (şeffaf) kesildi: assets/ty/hero-finans|ayar|profil.webp, kart-konut|tasit|isyeri.webp. Randevu/sohbet resimleri hâlâ mockup kırpması.
