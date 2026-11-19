@@ -592,6 +592,27 @@ html.native-app ::-webkit-scrollbar { display: none; }
 html.native-app .giris-marka { margin-top: -28px; }
 html.native-app button, html.native-app [role="button"] { -webkit-user-select: none; user-select: none; }
 html.native-app button:active { opacity: .82; }
+/* Modern katman, müşteri ekranları (2026-11-19): çizgi yerine yumuşak kart, hap menü, açık üst başlık. Yalnız iPhone uygulaması. */
+html.native-app { --golge-kart: 0 1px 2px rgba(15,55,35,.05), 0 6px 20px rgba(15,55,35,.07); }
+html.native-app .customer-screen > .customer-statusbar { background: var(--bg) !important; }
+html.native-app .customer-header.customer-ust { background: var(--bg); color: var(--ink); padding: max(6px, env(safe-area-inset-top)) 20px 8px; min-height: 56px; }
+html.native-app .customer-ust-logo { content: url(assets/logo-green.png); height: 20px; }
+html.native-app .customer-ust .customer-durum { background: var(--tintGreen); color: #00724C; opacity: 1; padding: 6px 12px; border-radius: 99px; min-height: 0; font-size: 11.5px; }
+html.native-app .customer-ust .tp-av { background: #00724C; color: #fff; }
+html.native-app .customer-screen .tp-bas { background: transparent !important; border-bottom: 0 !important; padding-top: 6px; }
+html.native-app .customer-screen .tp-bas h1 { font-size: 26px; letter-spacing: -.3px; }
+html.native-app .customer-screen [style*="border:1px solid var(--line)"], html.native-app .customer-screen [style*="border: 1px solid var(--line)"], html.native-app .customer-screen .m-kart { border: 0 !important; border-radius: 20px; box-shadow: var(--golge-kart) !important; }
+html.native-app .customer-screen [style*="border:1.5px solid #00724C"], html.native-app .customer-screen [style*="border:1px solid #00724C"], html.native-app .customer-screen [style*="border: 1.5px solid rgb(0, 114, 76)"], html.native-app .customer-screen [style*="border: 1px solid rgb(0, 114, 76)"], html.native-app .customer-screen .m-btn.o { border: 0 !important; background: var(--tintGreen) !important; }
+html.native-app .customer-screen .m-btn { border-radius: 16px; min-height: 48px; font-weight: 800; }
+html.native-app .m-randevu-tablo { border: 0; background: transparent; overflow: visible; display: flex; flex-direction: column; gap: 10px; }
+html.native-app .m-randevu-baslik { display: none; }
+html.native-app .m-randevu-row { border: 0; border-radius: 20px; box-shadow: var(--golge-kart); min-height: 78px; padding: 16px; }
+html.native-app .m-randevu-row .m-randevu-durum { border-radius: 99px; padding: 4px 9px; }
+html.native-app .app-bottom-nav.customer-nav { border-top: 0 !important; background: color-mix(in srgb, var(--card) 88%, transparent) !important; -webkit-backdrop-filter: saturate(1.6) blur(18px); backdrop-filter: saturate(1.6) blur(18px); box-shadow: 0 -1px 0 rgba(15,55,35,.06), 0 -8px 24px rgba(15,55,35,.05) !important; padding: 8px 10px max(10px, env(safe-area-inset-bottom)) !important; gap: 4px; }
+html.native-app .customer-nav > button { min-height: 54px !important; border-radius: 18px !important; box-shadow: none !important; transition: background .2s, color .2s, transform .12s; }
+html.native-app .customer-nav > button[aria-current="page"] { background: var(--tintGreen) !important; color: #00724C !important; box-shadow: none !important; }
+html.native-app .customer-nav > button span { font-size: 11px !important; }
+html.native-app .customer-nav > button:active { transform: scale(.94); opacity: 1; }
 </style>
 </helmet>
 
@@ -2021,7 +2042,7 @@ class Component extends DCLogic {
     const bar = this._nativePlugin("StatusBar");
     if (!bar) return;
     const s = this.state;
-    const acikZemin = !s.girisYapildi || s.personelLoginOpen || s.detayId || s.chatOpen || s.pointPickerOpen || s.mapExpandedOpen;
+    const acikZemin = !s.girisYapildi || s.panel === "musteri" || s.personelLoginOpen || s.detayId || s.chatOpen || s.pointPickerOpen || s.mapExpandedOpen;
     const style = acikZemin && !s.darkMode ? "LIGHT" : "DARK";
     if (style === this._statusBarStyle) return;
     this._statusBarStyle = style;
