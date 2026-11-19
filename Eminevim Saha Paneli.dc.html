@@ -887,6 +887,11 @@ html.native-app .customer-finance button[style*="var(--kutu)"]:not(.scp0):not(.s
 html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll > div:first-child > div:first-child > div:first-child { font-size: 21px !important; letter-spacing: -.3px; }
 html.native-app .customer-finance input:not([type=range]) { background: transparent !important; box-shadow: none !important; border-radius: 0 !important; }
 html.native-app .customer-finance div:has(> input:not([type=range])) { background: #fff !important; box-shadow: var(--golge-kart); border-radius: 18px !important; }
+/* b28: finansman kartları hiçbir genişlikte taşmaz */
+html.native-app .customer-finance-scroll > div:nth-child(2):has(> button.scp0) { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+html.native-app .customer-finance button.scp0 { min-width: 0 !important; width: 100% !important; box-sizing: border-box; padding-left: 4px !important; padding-right: 4px !important; }
+html.native-app .customer-finance button.scp0 > span:first-child { width: 100% !important; max-width: 96px; height: auto !important; aspect-ratio: 1 / 1; }
+html.native-app .customer-finance-scroll { overflow-x: hidden !important; }
 </style>
 </helmet>
 
