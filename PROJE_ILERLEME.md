@@ -828,3 +828,5 @@ OneDrive Belgeler/eminevim-saas "Yeşil 3D Uygulama Varlık Kütüphanesi.png" (
 
 ## 2026-11-19 — yeni şeffaf 3D resimler
 OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbet, randevu, finans, ayar, profil, ev), kart-*.webp, giris-sahne.webp (giriş ekranı ev+araba). Finansmandaki 1/3 sayacı gizlendi (resimle çakışıyordu).
+
+- 2026-11-19: Giriş ekranı: üstte "Tasarruf Yanımda", altta ortada küçük EMİNEVİM logosu.

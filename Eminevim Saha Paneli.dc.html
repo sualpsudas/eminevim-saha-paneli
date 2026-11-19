@@ -753,6 +753,10 @@ html.native-app .customer-finance::before { top: 76px; }
 html.native-app .customer-finance-scroll > div:first-child { margin-bottom: 24px; }
 html.native-app .customer-screen > .customer-panel.customer-profile { margin-top: 76px; }
 html.native-app .customer-screen > .customer-header + .customer-panel, html.native-app .customer-screen > .customer-bas + .customer-panel { margin-top: -14px; }
+/* Giriş: üstte uygulama adı, altta küçük EMİNEVİM (2026-11-19) */
+html.native-app .giris-baslik { letter-spacing: -.6px; margin-top: -4px; }
+html.native-app .giris-marka { filter: none !important; width: 96px !important; margin: auto auto 0 !important; }
+html.native-app .giris-form { padding-bottom: calc(26px + env(safe-area-inset-bottom,0px)); }
 </style>
 </helmet>
 
@@ -765,7 +769,7 @@ html.native-app .customer-screen > .customer-header + .customer-panel, html.nati
     <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column;position:relative;">
       <button class="login-staff-button" onClick="{{ openPersonelGiris }}" style="position:absolute;right:16px;top:14px;z-index:2;min-height:36px;border:none;background:transparent;color:#00724C;font-size:11px;font-weight:800;cursor:pointer;">Personel Girişi</button>
       <div class="giris-ic" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:112px 30px 36px; gap:20px;overflow-y:auto;">
-        <img class="giris-marka" src="assets/logo-green.png" alt="Eminevim" style="width:240px;max-width:78%;height:auto;">
+        <div class="giris-baslik" style="font-weight:800;font-size:30px;color:#fff;text-align:center;">Tasarruf Yanımda</div>
         <img class="giris-isaret" src="assets/ty/giris-sahne.webp" alt="Tasarruf Yanımda" style="width:210px;max-width:68%;height:auto;margin-top:-4px;">
         <sc-if value="{{ girisModKod }}"><div class="giris-form" style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
           <sc-if value="{{ kodBaslikVar }}"><div style="text-align:left;"><b style="display:block;font-size:16px;color:var(--ink);">{{ kodBaslik }}</b><span style="font-size:12px;color:var(--dim);line-height:1.45;">{{ kodAlt }}</span></div></sc-if>
@@ -777,7 +781,7 @@ html.native-app .customer-screen > .customer-header + .customer-panel, html.nati
           <sc-if value="{{ kodHataVar }}"><div role="alert" style="font-size:12px;font-weight:700;color:#B25E30;text-align:left;">{{ kodHata }}</div></sc-if>
           <button onClick="{{ kodIleri }}" style-active="transform:scale(.97);" style="width:100%; min-height:46px; background:#00724C; color:#fff; border:none; border-radius:22px; font-size:14px; font-weight:700; cursor:pointer; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">{{ kodDugme }}</button>
           <sc-if value="{{ kodTekrarVar }}"><button onClick="{{ kodTekrar }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;">Kodu tekrar gönder</button></sc-if><sc-if value="{{ girisGeriVar }}"><button onClick="{{ girisGeri }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;min-height:32px;">Geri dön</button></sc-if>
-        </div></sc-if>
+        <img class="giris-marka" src="assets/logo-green.png" alt="Eminevim" style="width:96px;height:auto;margin:auto auto 0;display:block;opacity:.9;"></div></sc-if>
       </div>
     </div>
   </div>
