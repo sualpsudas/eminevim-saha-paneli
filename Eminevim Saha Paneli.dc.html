@@ -1044,6 +1044,18 @@ html.native-app .customer-nav > button:not([aria-current="page"]) span { color: 
 html.native-app .m-sheet .m-actions .m-btn.m-btn-degis { background: #E6EEEA !important; color: #33564A !important; }
 html.native-app .m-sheet .m-actions .m-btn.m-btn-iptal { background: #FCE8E6 !important; color: #B42318 !important; }
 html.native-app .m-sheet .m-actions .m-btn { padding: 0 10px !important; }
+/* b54: randevu penceresi akıcı: sabit alt kenar, yükseklik geçişi, üst bant yumuşak belirir */
+.m-sheet { height: var(--pop, 56%); max-height: none !important; transition: height .32s cubic-bezier(.2,.8,.2,1), border-radius .32s ease, transform .24s ease; overflow: hidden; }
+.m-sheet.tam { top: auto !important; height: 100%; border-radius: 0; }
+.m-sheet-tut { position: relative; min-height: 20px; padding: 10px 0 4px !important; transition: min-height .32s cubic-bezier(.2,.8,.2,1), padding .32s ease; background: transparent !important; justify-content: center !important; }
+.m-sheet-tut::before { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg,#0A5A3E 0%,#00724C 100%); opacity: 0; transition: opacity .32s ease; border-radius: inherit; }
+.m-sheet.tam .m-sheet-tut { min-height: calc(env(safe-area-inset-top,0px) + 62px); padding: calc(env(safe-area-inset-top,0px) + 12px) 14px 12px !important; }
+.m-sheet.tam .m-sheet-tut::before { opacity: 1; }
+.m-sheet-cubuk { position: relative; transition: opacity .2s; display: block !important; }
+.m-sheet.tam .m-sheet-cubuk { opacity: 0; }
+.m-sheet-geri, .m-sheet.tam .m-sheet-geri { display: inline-flex !important; position: absolute; left: 14px; bottom: 12px; opacity: 0; pointer-events: none; transition: opacity .25s ease .08s; z-index: 1; align-items: center; min-height: 36px; padding: 0 16px; border: 0; border-radius: 99px; background: rgba(255,255,255,.18); color: #fff; font-size: 13.5px; font-weight: 800; cursor: pointer; }
+.m-sheet.tam .m-sheet-geri { opacity: 1; pointer-events: auto; }
+.m-sheet .m-sheet-ic, .m-sheet.tam .m-sheet-ic { flex: 1 1 auto; min-height: 0; }
 </style>
 </helmet>
 
@@ -1169,6 +1181,7 @@ html.native-app .m-sheet .m-actions .m-btn { padding: 0 10px !important; }
 <sc-if value="{{ mOnayVar }}"><button class="m-btn" onClick="{{ mSaatOnayla }}">Saati onayla · {{ mSaat }}</button></sc-if>
 <sc-if value="{{ mTakipVar }}"><button class="m-btn o" onClick="{{ mYoldaGor }}">Temsilcinizi takip edin</button></sc-if>
 <sc-if value="{{ mOnTercihVar }}"><div style="border-top:1px solid rgba(255,255,255,.3);padding-top:10px;display:flex;align-items:center;gap:10px;"><p style="flex:1;font-size:12.5px;">Beklerken finansman ön tercihlerinizi oluşturun.</p><button class="m-btn o" type="button" onClick="{{ mFinansmanTercihGit }}" style="flex:0 0 auto;">Ön tercihler</button></div></sc-if>
+<sc-if value="{{ mEkBilgiSonra }}"><div style="border-top:1px solid rgba(255,255,255,.3);padding-top:10px;display:flex;align-items:center;gap:10px;"><p style="flex:1;font-size:12.5px;"><b>Görüşmeye hazırlık</b> · isteğe bağlı<br>{{ mEkBilgiOzet }}</p><button class="m-btn o" type="button" onClick="{{ mEkBilgiAc }}" style="flex:0 0 auto;">{{ mEkBilgiDugme }}</button></div></sc-if>
 </div>
 <sc-if value="{{ mGecikmeVar }}"><div class="m-kart m-uyari" role="status">{{ mGecikmeYazi }}</div></sc-if>
 <sc-if value="{{ mDegisiklikVar }}"><div class="m-kart m-not"><h3>Yeni zaman öneriniz iletildi</h3><p>{{ mDegisiklikYazi }}</p><p>Temsilcinizin onayı bekleniyor. Yukarıdaki mevcut randevunuz henüz değişmedi.</p><button class="m-btn o" onClick="{{ mDegisiklikVazgec }}">Öneriyi geri çek</button></div></sc-if>
@@ -1176,7 +1189,6 @@ html.native-app .m-sheet .m-actions .m-btn { padding: 0 10px !important; }
 <sc-if value="{{ mYaninizdaVar }}"><div class="m-kart m-not"><h3>✓ Temsilciniz doğrulandı</h3><p>{{ mRepAd }} · Sicil {{ mRepSicil }}<br>Görüşme başlangıcı {{ mDogrulamaSaat }}</p></div></sc-if>
 <sc-if value="{{ mDegistirVar }}"><div class="m-actions"><button class="m-btn o m-btn-degis" onClick="{{ mDegistir }}">Tarihi değiştir</button><button class="m-btn o m-btn-iptal" onClick="{{ mIptalAc }}">İptal et</button></div></sc-if>
 
-<sc-if value="{{ mEkBilgiSonra }}"><div class="m-kart"><h3>Görüşmeye hazırlık · isteğe bağlı</h3><p>{{ mEkBilgiOzet }}</p><button class="m-btn o" onClick="{{ mEkBilgiAc }}">{{ mEkBilgiDugme }}</button></div></sc-if>
 <sc-if value="{{ mOzetVar }}"><div class="m-kart"><h3>Görüşme özeti</h3><sc-for list="{{ mOzetSatirlar }}" as="o"><div class="m-ozet"><span>{{ o.k }}</span><b>{{ o.v }}</b></div></sc-for><p>{{ mOzetNot }}</p><div class="m-not m-kart"><b>Sonraki adım</b><p>{{ mSonrakiAdim }}</p></div></div></sc-if>
 <sc-if value="{{ mPuanSorulsun }}"><button class="m-btn o" onClick="{{ mPuanAc }}">Görüşmeyi puanlayın · isteğe bağlı</button></sc-if><sc-if value="{{ mPuanVar }}"><p class="m-ek">Puanınız {{ mPuanYildiz }} · Teşekkürler</p></sc-if>
 <sc-if value="{{ mYeniRandevuVar }}"><button class="m-btn" onClick="{{ mTemsilciIste }}">Yeni randevu iste</button></sc-if>
@@ -1965,37 +1977,66 @@ class Component extends DCLogic {
     tur();
   }
   canliHemen() { if (this._canliTur) { clearTimeout(this._canliZaman); this._canliTur(); } }
+  sheetKapat() {
+    // Pencere aşağı kayarak kaybolur, sonra kayıt temizlenir
+    const el = document.querySelector(".m-sheet"), pr = document.querySelector(".m-sheet-perde");
+    const bitir = () => this.setState({ mSeciliRandevuId: null, mSorunAcik: false, mSheetTam: false });
+    if (!el) return bitir();
+    el.style.transition = "transform .24s ease-in"; el.style.transform = "translateY(105%)";
+    if (pr) { pr.style.transition = "opacity .24s"; pr.style.opacity = "0"; }
+    setTimeout(bitir, 240);
+  }
   sheetSurukleKur() {
-    // Randevu penceresi: aşağı çek = kapat/küçült, yukarı çek = tam sayfa
+    // Randevu penceresi: yükseklik parmakla birlikte akar. Yukarı çek = tam sayfa, aşağı çek = küçül/kapat
     let b = null;
     const sh = () => document.querySelector(".m-sheet");
+    const olc = () => {
+      const el = sh(); if (!el || b || el.classList.contains("tam")) return;
+      const tut = el.querySelector(".m-sheet-tut"), ic = el.querySelector(".m-sheet-ic"); if (!tut || !ic) return;
+      const ust = el.parentElement ? el.parentElement.clientHeight : 800;
+      const alt = parseFloat(getComputedStyle(el).paddingBottom) || 0;
+      const son = ic.lastElementChild, ich = son ? son.getBoundingClientRect().bottom - ic.getBoundingClientRect().top + ic.scrollTop + (parseFloat(getComputedStyle(ic).paddingBottom) || 0) : ic.scrollHeight;
+      const h = Math.round(Math.min(tut.offsetHeight + ich + alt, ust * 0.85));
+      if (el.dataset.pop !== String(h)) { el.dataset.pop = String(h); el.style.setProperty("--pop", h + "px"); }
+    };
+    new MutationObserver(olc).observe(document.body, { childList: true, subtree: true, characterData: true });
+    setInterval(olc, 400);
+    const tamYukseklik = (el) => (el.parentElement ? el.parentElement.clientHeight : 800);
     document.addEventListener("touchstart", (e) => {
       const el = sh();
       if (!el || !el.contains(e.target) || e.touches.length !== 1) { b = null; return; }
       const ic = el.querySelector(".m-sheet-ic");
       if (ic && ic.contains(e.target) && ic.scrollTop > 0) { b = null; return; }
-      b = { y: e.touches[0].clientY, x: e.touches[0].clientX, dy: 0, aktif: false };
+      olc();
+      b = { y: e.touches[0].clientY, x: e.touches[0].clientX, dy: 0, aktif: false, tam: el.classList.contains("tam"), h0: el.getBoundingClientRect().height };
     }, { passive: true });
     document.addEventListener("touchmove", (e) => {
       const el = sh();
       if (!b || !el) { b = null; return; }
-      const dy = e.touches[0].clientY - b.y, tam = el.classList.contains("tam");
+      const dy = e.touches[0].clientY - b.y;
       if (!b.aktif) {
         if (Math.abs(dy) < 8) return;
-        if (Math.abs(e.touches[0].clientX - b.x) > Math.abs(dy) || (dy < 0 && tam)) { b = null; return; }
-        b.aktif = true; el.style.transition = "none";
+        if (Math.abs(e.touches[0].clientX - b.x) > Math.abs(dy) || (dy < 0 && b.tam)) { b = null; return; }
+        b.aktif = true; el.style.transition = "none"; el.style.animation = "none";
       }
       b.dy = dy;
       if (e.cancelable) e.preventDefault();
-      el.style.transform = "translateY(" + (tam ? Math.max(dy, 0) : Math.max(dy, -60)) + "px)";
+      const tum = tamYukseklik(el);
+      if (dy < 0) { el.style.transform = ""; el.style.height = Math.min(b.h0 - dy, tum) + "px"; el.style.setProperty("--tamoran", Math.min(1, Math.max(0, (b.h0 - dy - b.h0) / Math.max(1, tum - b.h0)))); }
+      else if (b.tam) { el.style.transform = ""; el.style.height = Math.max(b.h0 - dy, 120) + "px"; }
+      else { el.style.transform = "translateY(" + dy + "px)"; }
     }, { passive: false });
     document.addEventListener("touchend", () => {
       const el = sh();
       if (b && b.aktif && el) {
-        const dy = b.dy, tam = el.classList.contains("tam");
-        el.style.transition = ""; el.style.transform = "";
-        if (dy > 110) { if (tam) this.setState({ mSheetTam: false }); else this.setState({ mSeciliRandevuId: null, mSorunAcik: false, mSheetTam: false }); }
-        else if (dy < -60 && !tam) this.setState({ mSheetTam: true });
+        const dy = b.dy, tum = tamYukseklik(el), pop = parseFloat(el.dataset.pop) || b.h0;
+        el.style.transition = "";
+        const bitir = () => { el.style.height = ""; el.style.transform = ""; el.style.animation = ""; el.style.removeProperty("--tamoran"); };
+        if (b.tam) {
+          if (dy > 110) { el.style.height = pop + "px"; this.setState({ mSheetTam: false }); setTimeout(bitir, 360); } else { el.style.height = tum + "px"; setTimeout(bitir, 360); }
+        } else if (dy < -60) { el.style.height = tum + "px"; this.setState({ mSheetTam: true }); setTimeout(bitir, 360); }
+        else if (dy > 110) { b = null; el.style.transform = ""; this.sheetKapat(); return; }
+        else { el.style.height = pop + "px"; el.style.transform = ""; setTimeout(bitir, 360); }
       }
       b = null;
     });
@@ -3566,7 +3607,7 @@ class Component extends DCLogic {
       customerNavSohbet: s.customerNav === "sohbet",
       mKonusmaListeAcik:!s.mKonusmaAcik,mKonusmaDetayAcik:!!s.mKonusmaAcik,mKonusmaAc:()=>{this.gecis("m-ileri");this.setState({mKonusmaAcik:true});},mKonusmaEtiket:"Konuşmayı aç: "+(rep?.ad||"Temsilciniz"),
       mHeaderGeriVar:(s.customerNav==="basvuru"&&((s.musteriBasvurulari.length===0||!!s.basvuruDuzenle)&&s.basvuruAdim>1||(!!s.basvuruDuzenle&&s.musteriBasvurulari.length>0)))||(s.customerNav==="sohbet"&&!!s.mKonusmaAcik),
-      mSheetSinif:s.mSheetTam?"tam":"",mSheetKapat:()=>this.setState({mSeciliRandevuId:null,mSorunAcik:false,mSheetTam:false}),mSheetKucult:()=>s.mSheetTam?this.setState({mSheetTam:false}):this.setState({mSeciliRandevuId:null,mSorunAcik:false}),
+      mSheetSinif:s.mSheetTam?"tam":"",mSheetKapat:()=>this.sheetKapat(),mSheetKucult:()=>this.sheetKapat(),
       mHeaderGeri:()=>{if(s.customerNav==="sohbet"&&s.mKonusmaAcik||s.customerNav==="basvurum"&&s.mSeciliRandevuId)this.gecis("m-geri");if(s.customerNav==="sohbet")this.setState({mKonusmaAcik:false});else if(s.customerNav==="basvuru"){if((s.musteriBasvurulari.length===0||s.basvuruDuzenle)&&s.basvuruAdim>1)this.setState({basvuruAdim:s.basvuruAdim-1});else if(s.basvuruDuzenle&&s.musteriBasvurulari.length)this.setState({basvuruDuzenle:false,duzenlenenId:null});else this.setState({customerNav:"basvurum"});}else this.setState({mSeciliRandevuId:null,mSorunAcik:false});},
       setCustomerNavBasvurum: () => this.setState({ customerNav: "basvurum",mSeciliRandevuId:null }),
       setCustomerNavSohbet: () => this.setState({ customerNav: "sohbet",mKonusmaAcik:false }),

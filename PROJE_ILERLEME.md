@@ -874,3 +874,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Baslik hizasi olculdu (7 sayfa x 320/393/430: cap-top ayni, en fazla 1px harf farki). Alt cubuk secili sekme sade: arka plan yok, simge ici yesil dolu, yazi yesil (CSS b52, sw v42; simgelerde .i ic cizgi sinifi).
 
 - 2026-11-20: Randevu penceresi: Tarihi degistir (acik gri-yesil) / Iptal et (acik kirmizi) yan yana. Pencere ustu pencereler (QR, iptal, puan, ek bilgi, temsilci bilgi, takip, temsilci iste) pencerenin onune alindi (m-modal, z120); sayfa degistiren eylemler (on tercihler, takip, degistir, temsilci iste) pencereyi once kapatir; pencere yalniz Randevu sekmesinde gorunur. CSS b53, sw v43.
+
+- 2026-11-20: Randevu penceresi akici: yukseklik parmakla birlikte akar (sabit alt kenar), ust yesil bant yumusak belirir; Geri = pencere asagi kayarak tamamen kapanir; Bilgi ekle karti yesil kartin icine alindi; pencere yuksekligi icerige gore olculur. CSS b54, sw v44. Dokunmatik: yukari, asagi, kapat, perdeye dokun CDP ile dogrulandi.
