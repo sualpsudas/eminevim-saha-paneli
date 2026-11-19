@@ -856,3 +856,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: Beyaz sayfa ustu tum musteri ekranlarinda ayni (143px, 320/393/430 genislikte olculdu: randevu, sohbet, ayarlar, profil, finansman 1-2, detay); baslik h1 sabit yukseklik; gorsel genisligi clamp(104,30vw,200) ve finansman cubugu gorselle cakismaz (b37-b40). sw v33.
 
 - 2026-11-19: Tum sayfa basliklari ayni boy (32px, dar telefonda 27px) ve ayni hizada (cap ust 81px @393/430; Randevu, Sohbet, Finansman 1-3, Ayarlar, Profil). Kod ekraninda "Kodu tekrar gonder" ve Test notu kartsiz duz yazi (class kod-tekrar/kod-demo, b41). sw v34.
+
+- 2026-11-19: Musteri Randevularim filtre cipleri kaldirildi (istek). sw v35.
