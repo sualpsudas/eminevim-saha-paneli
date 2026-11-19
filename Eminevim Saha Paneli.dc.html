@@ -1056,6 +1056,17 @@ html.native-app .m-sheet .m-actions .m-btn { padding: 0 10px !important; }
 .m-sheet-geri, .m-sheet.tam .m-sheet-geri { display: inline-flex !important; position: absolute; left: 14px; bottom: 12px; opacity: 0; pointer-events: none; transition: opacity .25s ease .08s; z-index: 1; align-items: center; min-height: 36px; padding: 0 16px; border: 0; border-radius: 99px; background: rgba(255,255,255,.18); color: #fff; font-size: 13.5px; font-weight: 800; cursor: pointer; }
 .m-sheet.tam .m-sheet-geri { opacity: 1; pointer-events: auto; }
 .m-sheet .m-sheet-ic, .m-sheet.tam .m-sheet-ic { flex: 1 1 auto; min-height: 0; }
+/* b55: finansman ilerleme çubukları diğer sayfaların yeşil çizgisiyle aynı hizada */
+html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { transform: translateY(-12px) !important; }
+/* b56: açılış ekranı (EMİNEVİM + Tasarruf Yanımda + slogan), giriş ekranıyla aynı yeşil palet */
+@keyframes tyAcilisCik { 0%,72% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
+@keyframes tyAcilisGel { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.ty-acilis { position: fixed; inset: 0; z-index: 9999; background: linear-gradient(165deg,#0A5A3E 0%,#00724C 60%,#0F8A5E 100%); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0 28px env(safe-area-inset-bottom,0px); animation: tyAcilisCik 2.5s ease forwards; font-family: "TYJakarta", -apple-system, "Segoe UI", sans-serif; }
+.ty-acilis-ic { animation: tyAcilisGel .7s ease both; margin-top: -8vh; }
+.ty-acilis-marka { color: #fff; font-weight: 800; font-size: clamp(38px,12.5vw,58px); letter-spacing: .06em; line-height: 1.05; }
+.ty-acilis-ad { color: #CFEFDD; font-weight: 700; font-size: clamp(16px,4.6vw,20px); letter-spacing: .02em; margin-top: 10px; }
+.ty-acilis-slogan { color: rgba(255,255,255,.82); font-weight: 600; font-size: clamp(13px,3.8vw,16px); line-height: 1.4; margin: 26px auto 0; max-width: 270px; }
+.ty-acilis-sahne { position: absolute; left: 0; right: 0; margin: 0 auto; bottom: calc(env(safe-area-inset-bottom,0px) + 4vh); width: min(88%,420px); opacity: .9; pointer-events: none; animation: tyAcilisGel .9s ease .15s both; }
 </style>
 </helmet>
 
@@ -1944,6 +1955,7 @@ class Component extends DCLogic {
     else if (CANLI && q.get("kaynak") !== "web") this.musteriOturumSurdur();  // müşteri oturumu da (Çıkış yap'a kadar)
     this.canliBasla();
     this.sheetSurukleKur();
+    this.acilisEkrani();
     if (CANLI) this.cekYenileKur();
   }
 
@@ -1977,6 +1989,20 @@ class Component extends DCLogic {
     tur();
   }
   canliHemen() { if (this._canliTur) { clearTimeout(this._canliZaman); this._canliTur(); } }
+  acilisEkrani() {
+    // Açılış ekranı: yalnız uygulama görünümünde, oturumda bir kez (yaklaşık 2 sn)
+    try {
+      if (!document.documentElement.classList.contains("native-app")) return;
+      if (sessionStorage.getItem("ty_acilis")) return;
+      sessionStorage.setItem("ty_acilis", "1");
+    } catch (e) { if (!document.documentElement.classList.contains("native-app")) return; }
+    const d = document.createElement("div");
+    d.className = "ty-acilis";
+    d.setAttribute("aria-hidden", "true");
+    d.innerHTML = '<div class="ty-acilis-ic"><div class="ty-acilis-marka">EMİNEVİM</div><div class="ty-acilis-ad">Tasarruf Yanımda</div><div class="ty-acilis-slogan">Dilediğiniz yerde temsilcimizle görüşme planlayın!</div></div><img class="ty-acilis-sahne" src="assets/ty/giris-sahne.webp" alt="">';
+    document.body.appendChild(d);
+    setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 2600);
+  }
   sheetKapat() {
     // Pencere aşağı kayarak kaybolur, sonra kayıt temizlenir
     const el = document.querySelector(".m-sheet"), pr = document.querySelector(".m-sheet-perde");
