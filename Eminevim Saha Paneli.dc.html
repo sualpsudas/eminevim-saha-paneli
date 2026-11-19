@@ -708,6 +708,12 @@ html.native-app .customer-finance-scroll > div:nth-child(2) > button:nth-child(1
 html.native-app .customer-finance-scroll > div:nth-child(2) > button:nth-child(2) > span:first-child { background-image: url(assets/ty/kart-tasit.webp) !important; }
 html.native-app .customer-finance-scroll > div:nth-child(2) > button:nth-child(3) > span:first-child { background-image: url(assets/ty/kart-isyeri.webp) !important; }
 html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { margin-right: 0; }
+/* Yeni şeffaf 3D resimler (2026-11-19 öğleden sonra) */
+html.native-app .customer-screen::after { -webkit-mask-image: none !important; mask-image: none !important; width: 215px; height: 125px; top: calc(env(safe-area-inset-top,0px) + 54px); background-position: right bottom; }
+html.native-app .giris-isaret { filter: none !important; width: 100% !important; max-width: 340px !important; margin-bottom: -6px !important; }
+html.native-app .giris-isaret + .giris-form { margin-top: 0 !important; }
+html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { margin-right: 120px; }
+html.native-app .customer-finance-scroll > div:first-child > div:first-child > div:last-child { position: absolute; right: 0; top: 0; opacity: 0; }
 </style>
 </helmet>
 
@@ -721,7 +727,7 @@ html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { 
       <button class="login-staff-button" onClick="{{ openPersonelGiris }}" style="position:absolute;right:16px;top:14px;z-index:2;min-height:36px;border:none;background:transparent;color:#00724C;font-size:11px;font-weight:800;cursor:pointer;">Personel Girişi</button>
       <div class="giris-ic" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:112px 30px 36px; gap:20px;overflow-y:auto;">
         <img class="giris-marka" src="assets/logo-green.png" alt="Eminevim" style="width:240px;max-width:78%;height:auto;">
-        <img class="giris-isaret" src="assets/ty-isaret.png" alt="Tasarruf Yanımda" style="width:210px;max-width:68%;height:auto;margin-top:-4px;">
+        <img class="giris-isaret" src="assets/ty/giris-sahne.webp" alt="Tasarruf Yanımda" style="width:210px;max-width:68%;height:auto;margin-top:-4px;">
         <sc-if value="{{ girisModKod }}"><div class="giris-form" style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
           <sc-if value="{{ kodBaslikVar }}"><div style="text-align:left;"><b style="display:block;font-size:16px;color:var(--ink);">{{ kodBaslik }}</b><span style="font-size:12px;color:var(--dim);line-height:1.45;">{{ kodAlt }}</span></div></sc-if>
           <sc-if value="{{ kodAdim1 }}"><input value="{{ kodTel }}" onChange="{{ setKodTel }}" inputmode="tel" autocomplete="tel" placeholder="Telefon numaranız" aria-label="Telefon numaranız" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>

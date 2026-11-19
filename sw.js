@@ -1,4 +1,4 @@
-const CACHE = 'eminevim-v27';
+const CACHE = 'eminevim-v28';
 const ASSETS = [
   './',
   './index.html',
@@ -27,7 +27,7 @@ const ASSETS = [
   './assets/logo-green.png',
   './assets/logo-white.png',
   './assets/tasarruf-yanimda-logo.png',
-  './assets/ty-isaret.png',
+  './assets/ty-isaret.png','./assets/ty/giris-sahne.webp',
   './assets/ty/hero-randevu.webp','./assets/ty/hero-sohbet.webp','./assets/ty/hero-finans.webp','./assets/ty/hero-ayar.webp','./assets/ty/hero-profil.webp','./assets/ty/kart-konut.webp','./assets/ty/kart-tasit.webp','./assets/ty/kart-isyeri.webp','./assets/eminevim/header_araba_yan.svg',
   './assets/icon-180.png',
   './assets/icon-192.png',

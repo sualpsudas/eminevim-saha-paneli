@@ -825,3 +825,6 @@ Revize mockup ile birebir: sistem fontu, koyu yeşil yazı, durum hapı (yeşil 
 
 ## 2026-11-19 — 3D varlık kütüphanesi
 OneDrive Belgeler/eminevim-saas "Yeşil 3D Uygulama Varlık Kütüphanesi.png" (şeffaf) kesildi: assets/ty/hero-finans|ayar|profil.webp, kart-konut|tasit|isyeri.webp. Randevu/sohbet resimleri hâlâ mockup kırpması.
+
+## 2026-11-19 — yeni şeffaf 3D resimler
+OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbet, randevu, finans, ayar, profil, ev), kart-*.webp, giris-sahne.webp (giriş ekranı ev+araba). Finansmandaki 1/3 sayacı gizlendi (resimle çakışıyordu).
