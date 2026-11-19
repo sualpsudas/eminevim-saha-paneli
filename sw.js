@@ -1,4 +1,4 @@
-const CACHE = 'eminevim-v22';
+const CACHE = 'eminevim-v23';
 const ASSETS = [
   './',
   './index.html',
@@ -26,6 +26,7 @@ const ASSETS = [
   './manifest.json',
   './assets/logo-green.png',
   './assets/logo-white.png',
+  './assets/tasarruf-yanimda-logo.png',
   './assets/icon-180.png',
   './assets/icon-192.png',
   './assets/icon-512.png'

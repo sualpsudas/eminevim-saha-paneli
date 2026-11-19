@@ -807,3 +807,11 @@ Kullanıcı onaylı plan: hemen çağrıda uygulamanın açık olması şartı k
   Sorun olmayan: sohbet ekranındaki soluk yazı yalnız geçiş animasyonu anında alınan görüntü.
 - Testler: merkez-akis (sahte kamerayla gerçek QR okuma, kodun SPY'ye gitmemesi, ret durumları), browser-flows, appointment-list, phone-layout,
   preparation-popup, web-flows, panel-senaryo, node birim testleri: OK.
+
+### 2026-11-19 Yeni Tasarruf Yanımda logosu: simge, açılış, giriş ekranı
+- Kullanıcı logoyu ChatGPT ile Eminevim renklerine yaklaştırdı; ana yeşil elle #00724C'ye düzeltildi (kaynak: OneDrive Belgeler
+  `Tasarruf Yanımda_ Ev ve Araba3_renk.png`). Kullanıcı: "simge olduğu gibi olmalı" → simgede logonun tamamı (ev + araba + yazı + telefon).
+- Ana ekran simgesi: beyaz zemin, opak (`assets/icon-180/192/512.png`, iOS `AppIcon-512@2x.png` 1024). iPhone açılış: beyaz zeminde ortada
+  logo (`Splash.imageset` 3×2732, logo 900 px: aspectFill kırpmasına sığar). Giriş ekranı: "Tasarruf Yanımda" yazısı yerine şeffaf
+  `assets/tasarruf-yanimda-logo.png`, üstte küçük EMİNEVİM logosu. Üst yeşil çubuk ve web formu değişmedi. `sw.js` v23.
+- iPhone simgesi/açılışı bir sonraki Codemagic derlemesiyle gelir. Testler: phone-layout, browser-flows, appointment-list, web-flows: OK.

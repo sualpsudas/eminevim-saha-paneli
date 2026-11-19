@@ -1,5 +1,5 @@
 // araclar/senaryo_goruntu.py üretir; elle düzenlenmez
-window.SENARYO_SURUM = "202611190943";
+window.SENARYO_SURUM = "202611191128";
 window.SENARYO = {
  "web": [
   {

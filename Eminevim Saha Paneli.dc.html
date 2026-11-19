@@ -590,10 +590,8 @@ html{-webkit-tap-highlight-color:transparent}
     <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column;position:relative;">
       <button class="login-staff-button" onClick="{{ openPersonelGiris }}" style="position:absolute;right:16px;top:14px;z-index:2;min-height:36px;border:none;background:transparent;color:#00724C;font-size:11px;font-weight:800;cursor:pointer;">Personel Girişi</button>
       <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:112px 30px 36px; gap:20px;overflow-y:auto;">
-        <img src="assets/logo-green.png" alt="Eminevim" style="width:150px;">
-        <div style="text-align:center;position:relative;width:100%;">
-          <div style="font-size:18px; font-weight:800; color:var(--ink); font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Tasarruf Yanımda</div>
-        </div>
+        <img src="assets/logo-green.png" alt="Eminevim" style="width:110px;">
+        <img src="assets/tasarruf-yanimda-logo.png" alt="Tasarruf Yanımda" style="width:190px;max-width:70%;height:auto;">
         <sc-if value="{{ girisModKod }}"><div style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
           <sc-if value="{{ kodBaslikVar }}"><div style="text-align:left;"><b style="display:block;font-size:16px;color:var(--ink);">{{ kodBaslik }}</b><span style="font-size:12px;color:var(--dim);line-height:1.45;">{{ kodAlt }}</span></div></sc-if>
           <sc-if value="{{ kodAdim1 }}"><input value="{{ kodTel }}" onChange="{{ setKodTel }}" inputmode="tel" autocomplete="tel" placeholder="Telefon numaranız" aria-label="Telefon numaranız" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>
