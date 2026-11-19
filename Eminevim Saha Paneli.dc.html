@@ -19,7 +19,12 @@
   var cap = window.Capacitor;
   var isNative = !!(cap && cap.isNativePlatform && cap.isNativePlatform()) || new URLSearchParams(location.search).get('native') === '1';
   window.EMINEVIM_NATIVE = isNative;
-  if (isNative) document.documentElement.classList.add('native-app');
+  if (isNative) {
+    document.documentElement.classList.add('native-app');
+    var vp = document.querySelector('meta[name="viewport"]');
+    if (vp) vp.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover');
+    ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (a) { document.addEventListener(a, function (e) { e.preventDefault(); }, { passive: false }); });
+  }
   if (/[?&]iphonePreview=1\b/.test(location.search) && window.parent !== window) document.documentElement.classList.add('preview-iphone');
   function fitViewport() {
     var h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
@@ -578,6 +583,15 @@ html{-webkit-tap-highlight-color:transparent}
 .ayd-govde section{margin:0 0 10px}.ayd-govde .ayd-b{display:block;color:var(--ink);font-size:13px;margin-bottom:3px}
 .ayd-govde p{margin:0}.ayd-govde ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:3px}.ayd-govde ul b{color:var(--ink)}
 .ayd-govde small{display:block;font-size:11px;margin-top:4px}
+/* iPhone uygulaması (Capacitor / ?native=1): web sayfası değil uygulama hissi */
+html.native-app, html.native-app body { overscroll-behavior: none; -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-tap-highlight-color: transparent; -webkit-text-size-adjust: 100%; touch-action: manipulation; }
+html.native-app input, html.native-app select, html.native-app textarea { font-size: 16px !important; -webkit-user-select: text; user-select: text; }
+html.native-app input[type="checkbox"] { font-size: inherit !important; }
+html.native-app [style*="overflow-y:auto"], html.native-app [style*="overflow-y: auto"], html.native-app .app-scroll-region, html.native-app .metric-scroll { overscroll-behavior-y: none; scrollbar-width: none; }
+html.native-app ::-webkit-scrollbar { display: none; }
+html.native-app .giris-marka { margin-top: -28px; }
+html.native-app button, html.native-app [role="button"] { -webkit-user-select: none; user-select: none; }
+html.native-app button:active { opacity: .82; }
 </style>
 </helmet>
 
@@ -590,8 +604,8 @@ html{-webkit-tap-highlight-color:transparent}
     <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column;position:relative;">
       <button class="login-staff-button" onClick="{{ openPersonelGiris }}" style="position:absolute;right:16px;top:14px;z-index:2;min-height:36px;border:none;background:transparent;color:#00724C;font-size:11px;font-weight:800;cursor:pointer;">Personel Girişi</button>
       <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:112px 30px 36px; gap:20px;overflow-y:auto;">
-        <img src="assets/logo-green.png" alt="Eminevim" style="width:110px;">
-        <img src="assets/tasarruf-yanimda-logo.png" alt="Tasarruf Yanımda" style="width:190px;max-width:70%;height:auto;">
+        <img class="giris-marka" src="assets/logo-green.png" alt="Eminevim" style="width:240px;max-width:78%;height:auto;">
+        <img class="giris-isaret" src="assets/ty-isaret.png" alt="Tasarruf Yanımda" style="width:210px;max-width:68%;height:auto;margin-top:-4px;">
         <sc-if value="{{ girisModKod }}"><div style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
           <sc-if value="{{ kodBaslikVar }}"><div style="text-align:left;"><b style="display:block;font-size:16px;color:var(--ink);">{{ kodBaslik }}</b><span style="font-size:12px;color:var(--dim);line-height:1.45;">{{ kodAlt }}</span></div></sc-if>
           <sc-if value="{{ kodAdim1 }}"><input value="{{ kodTel }}" onChange="{{ setKodTel }}" inputmode="tel" autocomplete="tel" placeholder="Telefon numaranız" aria-label="Telefon numaranız" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>

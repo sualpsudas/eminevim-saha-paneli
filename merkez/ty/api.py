@@ -9,6 +9,7 @@ Adresler (hepsi gizli yolun altında: /<gizli_yol.txt>/...):
   GET  <uygulama dosyaları>               depo kökünden (ayarlar.STATIK_*); uygulama sayfasına window.TY_CANLI eklenir,
                                           böylece GitHub Pages'teki kopya gösteri modunda kalır, buradaki merkeze bağlanır.
 """
+import gzip
 import json
 import os
 import secrets
@@ -37,16 +38,32 @@ def uygulama_surumu():
         return ""
 
 
+SIKISTIRILAN = {"text/html", "text/javascript", "application/javascript", "text/css", "application/json", "image/svg+xml"}
+
+
 class Isleyici(BaseHTTPRequestHandler):
     def log_message(self, *a):
         pass
 
-    def _yanit(self, kod, govde, tur="application/json; charset=utf-8"):
+    def _yanit(self, kod, govde, tur="application/json; charset=utf-8", etag=None):
         veri = govde if isinstance(govde, bytes) else json.dumps(govde, ensure_ascii=False).encode("utf-8")
+        if etag and self.headers.get("If-None-Match") == etag:  # değişmemiş dosya: gövde gönderilmez (telefonda hızlı açılış)
+            self.send_response(304)
+            self.send_header("ETag", etag)
+            self.send_header("Cache-Control", "no-cache")
+            self.end_headers()
+            return
+        sikistir = len(veri) > 1024 and "gzip" in self.headers.get("Accept-Encoding", "") and tur.split(";")[0] in SIKISTIRILAN
+        if sikistir:
+            veri = gzip.compress(veri, 6)
         self.send_response(kod)
         self.send_header("Content-Type", tur)
         self.send_header("Content-Length", str(len(veri)))
-        self.send_header("Cache-Control", "no-store")
+        if sikistir:
+            self.send_header("Content-Encoding", "gzip")
+        if etag:
+            self.send_header("ETag", etag)
+        self.send_header("Cache-Control", "no-cache" if etag else "no-store")
         self.end_headers()
         self.wfile.write(veri)
 
@@ -115,7 +132,9 @@ class Isleyici(BaseHTTPRequestHandler):
             on = ("/" + self.server.gizli + "/").encode()  # tam yol: web formu kopyasında <base> eminevim.com'u gösterir
             icerik = icerik.replace(b"<head>", b'<head>\n<script>window.TY_CANLI={api:"' + on + b'api/"};</script>\n<script src="' + on
                                     + b'uygulama/canli.js"></script>', 1)
-        self._yanit(200, icerik, STATIK_UZANTI.get(dosya.suffix.lower(), "application/octet-stream"))
+        durum = dosya.stat()
+        self._yanit(200, icerik, STATIK_UZANTI.get(dosya.suffix.lower(), "application/octet-stream"),
+                    etag='"%x-%x-%x"' % (durum.st_mtime_ns, durum.st_size, len(icerik)))
 
     def do_POST(self):
         yol = self._yol()
