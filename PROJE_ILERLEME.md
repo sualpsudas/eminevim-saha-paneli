@@ -852,3 +852,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-19: Randevularim: tarih blogu + saat + durum rozeti (Bekliyor sari, Onaylandi yesil, Yolda mavi, Tamamlandi yesil, Iptal kirmizi) ve filtre cipleri; bos ekranda 3 guven yazisi. sw v31. Yonetici ekrani ve "Ornek" dugmelerini ayirma sirada.
 
 - 2026-11-19: Geri dugmesi ust banda tasindi (Tasarruf Yanimda yazisi kalkti); finansman adim 1-3 beyaz sayfa ayni hizada, Devam/Kaydet 24px asagi (nav ustu); b36 olcekli olculer (clamp, 320-430 px denendi, genis ekranda max 480). sw v32.
+
+- 2026-11-19: Beyaz sayfa ustu tum musteri ekranlarinda ayni (143px, 320/393/430 genislikte olculdu: randevu, sohbet, ayarlar, profil, finansman 1-2, detay); baslik h1 sabit yukseklik; gorsel genisligi clamp(104,30vw,200) ve finansman cubugu gorselle cakismaz (b37-b40). sw v33.

@@ -948,6 +948,20 @@ html.native-app .m-rd-orta b { font-size: clamp(17px, 5.2vw, 20px) !important; }
 @media (max-height: 700px) { html.native-app .customer-screen > .customer-panel { padding-top: 12px; } html.native-app .customer-finance-actions { transform: translateY(18px); } }
 /* çok geniş ekran (iPad, bilgisayar): içerik en çok telefon genişliğinde kalır */
 @media (min-width: 560px) { html.native-app .customer-screen { max-width: 480px; margin-left: auto; margin-right: auto; } }
+/* b37: tüm sayfalarda beyaz sayfa üstü aynı referans (en üstten 154px @393 genişlik) */
+html.native-app .customer-screen > .customer-panel.customer-finance::before { top: 90px !important; }
+html.native-app .customer-screen:has(> .customer-bas) > .customer-panel.customer-finance { margin-top: 2px !important; }
+html.native-app .customer-screen:has(> .customer-bas) .customer-finance-scroll { padding-top: 10px !important; }
+html.native-app .customer-screen > .customer-panel.customer-profile { margin-top: 94px !important; }
+/* b38: başlık satır yüksekliği sabit → beyaz sayfa üstü ekran genişliğinden bağımsız */
+html.native-app .customer-bas h1 { line-height: 40px !important; height: 40px; white-space: nowrap; }
+html.native-app .customer-screen:has(> .customer-bas) > .customer-panel.customer-finance { margin-top: 0 !important; }
+/* b39: finansman adım 1 ve profil de aynı referans (143px) */
+html.native-app .customer-screen > .customer-panel.customer-finance::before { top: 79px !important; }
+html.native-app .customer-screen > .customer-panel.customer-profile { margin-top: 83px !important; }
+/* b40: görsel başlıkla ve ilerleme çubuğuyla yatayda çakışmaz */
+html.native-app .customer-screen::after { width: clamp(104px, 30vw, 200px) !important; }
+html.native-app .customer-screen:not(:has(> .customer-bas)) .customer-finance-scroll > div:first-child > div:nth-child(2) { margin-right: clamp(104px, 30vw, 200px) !important; }
 </style>
 </helmet>
 
