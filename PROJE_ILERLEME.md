@@ -993,3 +993,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20 (sw v113): giriş hâlesi bir kademe daha azaltıldı; uygulama ikonuna (iOS 1024 + assets/icon-180/192/512) logo çevresinde çok hafif ışık eklendi, logo aynı. iOS ikonu yeni Codemagic derlemesi ister.
 
 - 2026-11-20 (sw v114): giriş hâlesi bir kademe daha azaltıldı.
+
+- 2026-11-20 (sw v115): giriş hâlesi yalnız ev logosunda ve Eminevim logosunda; başlık/slogandan kaldırıldı, bir kademe daha azaltıldı.
