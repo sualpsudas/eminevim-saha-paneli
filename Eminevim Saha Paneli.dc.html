@@ -2201,10 +2201,11 @@ class Component extends DCLogic {
     // Açılış ekranı: yalnız uygulama görünümünde, oturumda bir kez (yaklaşık 2 sn)
     try {
       if (!document.documentElement.classList.contains("native-app")) return;
-      // Giriş yapılana kadar her açılışta; giriş yapılınca çıkış yapana kadar bir daha gösterilmez
-      const isaretle = setInterval(() => { try { if (this.state.girisYapildi) { localStorage.setItem("ty_acilis", "1"); clearInterval(isaretle); } } catch (e) { clearInterval(isaretle); } }, 800);
-      if (localStorage.getItem("ty_acilis")) { clearInterval(isaretle); return; }
-      if (this.state.girisYapildi) { localStorage.setItem("ty_acilis", "1"); clearInterval(isaretle); return; }
+      // Kayıtlı oturum yoksa (giriş yapılmamış ya da çıkış yapılmış) her açılışta gösterilir
+      let oturum = this.state.girisYapildi;
+      try { if (typeof Canli !== "undefined") { const m = JSON.parse(Canli.oku("ty-musteri-oturum") || "null"); oturum = oturum || !!(Canli.oku("ty-yonetici") || TEMSILCI_DETAY[Canli.oku("ty-spy")] || (m && m.tel && m.jeton)); } } catch (e) { }
+      try { localStorage.removeItem("ty_acilis"); } catch (e) { }
+      if (oturum) return;
       document.documentElement.classList.add("ty-giris-anim");
       this._tyAnimT = setTimeout(() => { document.documentElement.classList.remove("ty-giris-anim"); }, 25000);
     } catch (e) { if (!document.documentElement.classList.contains("native-app")) return; }
@@ -3466,7 +3467,6 @@ class Component extends DCLogic {
     });
   }
   cikisYap() {
-    try { localStorage.removeItem("ty_acilis"); } catch (e) { }  // sonraki açılışta animasyon yeniden
     // Hesabın oturum verisini sakla (tekrar giriş yapınca geri gelsin)
     const s = this.state;
     const key = telAnahtar(s.customerForm.phone);

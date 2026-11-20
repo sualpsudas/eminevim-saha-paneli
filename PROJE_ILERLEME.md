@@ -959,3 +959,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Telefon tarayıcısında (dokunmatik + dar ekran) da native-app görünümü; ana ekran kısayolu düz gri sayfa açıyordu. Masaüstü değişmedi. sw v93.
 
 - 2026-11-20: Videosuz açılışta Eminevim+Tasarruf Yanımda yazıları animasyonsuz hemen, bekleme 5,5 sn, ilk kare 1,2 sn + kısa flu geçiş; animasyon işareti artık GİRİŞ yapınca konur (girişsiz her açılışta oynar), çıkışta silinir. sw v96.
+
+- 2026-11-20: Açılış animasyonu kuralı sadeleşti: kayıtlı oturum (müşteri/SPY/yönetici) yoksa her açılışta gösterilir; eski ty_acilis işareti yüzünden gösterilmeme hatası giderildi. sw v97.
