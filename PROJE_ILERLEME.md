@@ -971,3 +971,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Eminevim logosu kural: kart altı ile ekran dibi arası dikey ortalı; giriş, kod, yeni üye (780px üstü ekranda; kısa ekranda gizli) ve personel girişinde ölçüldü. sw v102.
 
 - 2026-11-20: Video gelmezse ilk kare + yazılar 3 sn ekranda kalır, sonra flu geçiş. sw v103.
+
+- 2026-11-20: Açılış görsel (ilk kare) yedeği kapatıldı: video inene kadar yeşil ekranda beklenir (güvenlik: 90 sn veya hata → sessizce giriş sayfası). sw v104.

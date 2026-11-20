@@ -2230,10 +2230,7 @@ class Component extends DCLogic {
     v.className = "ty-el-video"; v.muted = true; v.defaultMuted = true; v.playsInline = true; v.preload = "auto";
     v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", ""); v.setAttribute("autoplay", "");
     d.classList.add("ty-vid"); d.insertBefore(v, d.firstChild);
-    // İlk kare (videonun ilk karesiyle aynı): yüklenir yüklenmez görünür, video üstüne biner
-    const ilk = document.createElement("img"); ilk.className = "ty-el-ilk"; ilk.alt = ""; ilk.decoding = "async";
-    ilk.onload = () => { ilkT = ilkT || 1; };
-    ilk.src = "assets/ty/acilis-el-sikisma.webp"; d.insertBefore(ilk, d.firstChild);
+
     const yz = document.createElement("div"); yz.className = "ty-vid-yazi";
     yz.innerHTML = '<img src="assets/logo-green.png" alt=""><div>Tasarruf Yanımda</div>'; d.appendChild(yz);
     document.body.appendChild(d);
@@ -2245,9 +2242,8 @@ class Component extends DCLogic {
       // Video çok geç inerse: ilk kare olduğu gibi görünür, sonra flu geçişle giriş sayfası
       if (basladi || yedekte) return; yedekte = true;
       try { ac.abort(); } catch (e) { }
-      d.classList.add("ty-ilk-var");  // video gelmedi: ilk kare + yazılar birlikte
-      // İlk kare en az 1,2 sn ekranda kalsın, sonra flu geçiş
-      const bek = ilkT ? 3000 : 3600;
+            // İlk kare en az 1,2 sn ekranda kalsın, sonra flu geçiş
+      const bek = 0;  // ilk kare yedeği kapalı: yalnız hata/aşırı gecikmede sessizce giriş sayfasına
       setTimeout(() => { d.classList.add("ty-vid-bitti"); }, bek);
       setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, bek + 900);
       setTimeout(() => { h.classList.remove("ty-giris-anim", "ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, bek + 2000);
@@ -2272,7 +2268,7 @@ class Component extends DCLogic {
     v.addEventListener("ended", () => setTimeout(bitir, 1000));
     v.addEventListener("error", yedek);
     // Video tamamen inene kadar yeşil ekranda bekle; inmezse yedek animasyon
-    const yedekT = setTimeout(yedek, 5500);
+    const yedekT = setTimeout(yedek, 90000);
     fetch("assets/ty/acilis.mp4", { signal: ac.signal }).then((r) => { if (!r.ok) throw new Error("video"); return r.blob(); }).then((bl) => {
       if (yedekte) return;
       v.src = URL.createObjectURL(bl);
