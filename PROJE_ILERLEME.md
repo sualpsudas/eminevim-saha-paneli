@@ -989,3 +989,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20 (sw v111, b82): giriş ekranında logo, "Tasarruf Yanımda", slogan ve Eminevim yazısı çevresinde yumuşak yeşilimsi ışık hâlesi (B şiddeti; alt logoda daha güçlü). Personel girişindeki Eminevim logosunda da var.
 
 - 2026-11-20 (sw v112): giriş ışık hâlesi azaltıldı (icon/yazı 16px .38, alt logo 12px .7).
+
+- 2026-11-20 (sw v113): giriş hâlesi bir kademe daha azaltıldı; uygulama ikonuna (iOS 1024 + assets/icon-180/192/512) logo çevresinde çok hafif ışık eklendi, logo aynı. iOS ikonu yeni Codemagic derlemesi ister.
