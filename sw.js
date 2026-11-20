@@ -1,4 +1,4 @@
-const CACHE = 'eminevim-v81';
+const CACHE = 'eminevim-v82';
 const ASSETS = [
   './',
   './index.html',
@@ -51,6 +51,26 @@ function isAppShell(url) {
   return /\.(html|js|json)$/i.test(url.pathname) || url.pathname === '/' || url.pathname.endsWith('/');
 }
 
+// iPhone (WebKit) video için 'Range' isteği ister; önbellekten tam dosya (200) dönerse video oynamaz → 206 parça yanıtı
+async function videoYanit(req) {
+  const c = await caches.open(CACHE);
+  let hit = await c.match(req.url);
+  if (!hit) {
+    const res = await fetch(req.url);
+    if (res.ok) c.put(req.url, res.clone()).catch(() => {});
+    hit = res;
+  }
+  const aralik = req.headers.get('range');
+  if (!aralik || !hit.ok) return hit;
+  const buf = await hit.arrayBuffer();
+  const m = /bytes=(\d*)-(\d*)/.exec(aralik) || [];
+  let bas = m[1] ? parseInt(m[1], 10) : 0, son = m[2] ? parseInt(m[2], 10) : buf.byteLength - 1;
+  if (son >= buf.byteLength) son = buf.byteLength - 1;
+  return new Response(buf.slice(bas, son + 1), { status: 206, headers: {
+    'Content-Type': 'video/mp4', 'Accept-Ranges': 'bytes', 'Content-Length': String(son - bas + 1),
+    'Content-Range': 'bytes ' + bas + '-' + son + '/' + buf.byteLength } });
+}
+
 self.addEventListener('fetch', (e) => {
   const req = e.request;
   if (req.method !== 'GET') return;
@@ -59,6 +79,7 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(fetch(req).catch(() => caches.match(req)));
     return;
   }
+  if (/\.mp4$/i.test(url.pathname)) { e.respondWith(videoYanit(req)); return; }
   if (isAppShell(url)) {
     e.respondWith(
       fetch(req).then((res) => {

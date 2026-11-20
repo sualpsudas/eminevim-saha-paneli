@@ -2229,7 +2229,7 @@ class Component extends DCLogic {
       setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, 5200);
     });
     v.addEventListener("error", yedek);
-    setTimeout(yedek, 2500);
+    setTimeout(yedek, 5000);
     try { const pr = v.play(); if (pr && pr.catch) pr.catch(yedek); } catch (e) { yedek(); }
     setTimeout(() => { h.classList.remove("ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, 13500);
   }
