@@ -912,3 +912,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Beyaz bolum, baslik+slogan ile ayni anda baslar (T+3.5s). sw v66.
 - 2026-11-20: iOS yerel acilis ekrani (Splash) web acilisiyle ayni gorsel (1290x2796); web acilista foto yumusak belirme kaldirildi (kesintisiz gecis). sw v67. Codemagic derlemesi kullanici baslatir.
 - 2026-11-20: Cikis yapinca giris ekrani animasyonsuz gelir (animasyon yalniz uygulama acilisinda, ty-giris-anim sinifi varken). sw v68.
+- 2026-11-20: Personel Girisi dugmesi durum cubugunun (saat/sarj/sebeke) altina indirildi (safe-area-inset-top + 14px). sw v69.

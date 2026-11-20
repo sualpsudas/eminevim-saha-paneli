@@ -1074,6 +1074,9 @@ html.native-app .giris-ikon .gi-n2 { animation-delay: calc(var(--gd,0s) + 2s); }
 /* animasyon yalnız uygulama açılışında; çıkış yapınca giriş ekranı animasyonsuz gelir */
 html.native-app:not(.ty-giris-anim) .giris-ikon, html.native-app:not(.ty-giris-anim) .giris-baslik, html.native-app:not(.ty-giris-anim) .giris-slogan, html.native-app:not(.ty-giris-anim) .giris-form, html.native-app:not(.ty-giris-anim) .giris-ikon .gi-n1, html.native-app:not(.ty-giris-anim) .giris-ikon .gi-n2, html.native-app:not(.ty-giris-anim) .giris-ikon .gi-cati, html.native-app:not(.ty-giris-anim) .giris-ikon .gi-dudak { animation: none !important; }
 html.native-app:not(.ty-giris-anim) .giris-ikon .gi-cati, html.native-app:not(.ty-giris-anim) .giris-ikon .gi-dudak { stroke-dashoffset: 0 !important; }
+/* Personel Girişi: durum çubuğu (saat, şarj, şebeke) altında kalsın */
+html.native-app .login-staff-button { top: calc(env(safe-area-inset-top,0px) + 14px) !important; }
+html.native-app .giris-ic { padding-top: max(92px, calc(env(safe-area-inset-top,0px) + 66px)) !important; }
 @keyframes giSol { from { opacity: 0; } to { opacity: 1; } }
 @keyframes giIkon { from { opacity: 0; transform: translateY(14px) scale(.8); } to { opacity: 1; transform: none; } }
 @keyframes giBaslik { from { clip-path: inset(0 100% 0 0); opacity: 1; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
