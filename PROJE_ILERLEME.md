@@ -927,3 +927,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Yeni üye adımı: slogan geri geldi, Hesabımı oluştur düğmesi ekranın altına sabit, üst bölüm orantılı. sw v77.
 
 - 2026-11-20: Açılış: el sıkışma fotoğrafı (assets/ty/acilis-el-sikisma.webp) ellerin üstüne zoom yapar, yeşile dönüşür, logo çizilir, giriş ekranına bağlanır. Eski acilis-foto.webp kullanılmıyor. sw v78.
+
+- 2026-11-20: Açılış dönüşümü: fotoğraftaki çatı/başlar/kollar SVG ile giriş logosunun çatı/nokta/ağzına dönüşür (acilisDonusum), giriş logosu açılış varken çizilmez, büyük bekleyip küçülür. Kullanıcı gerçek geçiş için video önerdi (ilk/son kare ile video üretimi). sw v79.
