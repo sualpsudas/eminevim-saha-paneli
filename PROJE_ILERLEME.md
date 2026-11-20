@@ -914,3 +914,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Cikis yapinca giris ekrani animasyonsuz gelir (animasyon yalniz uygulama acilisinda, ty-giris-anim sinifi varken). sw v68.
 - 2026-11-20: Personel Girisi dugmesi durum cubugunun (saat/sarj/sebeke) altina indirildi (safe-area-inset-top + 14px). sw v69.
 - 2026-11-20: Giris logo animasyonu hizlandirildi (cati .2s, noktalar .8/1.1s, agiz 1.4s, yazilar+beyaz bolum 2.1s; toplam ~4 sn). sw v70.
+- 2026-11-20: Personel (SPY) ekrani: .tp native-app ici position:relative oldugu icin sayfa uzuyor, alt menu ekran disinda kaliyordu -> fixed inset 0; Performans/Profil yuvarlak ustlu panel + baslik gorselleri (hero-finans/hero-profil). sw v71.
