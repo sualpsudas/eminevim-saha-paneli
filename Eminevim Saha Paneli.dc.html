@@ -1129,6 +1129,14 @@ html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scro
 .customer-screen:has(.m-sheet.tam) .m-sheet-perde { background: transparent; }
 .m-sheet-perde { transition: background .3s ease; }
 .m-sheet.tam { box-shadow: none; background: linear-gradient(180deg,#F8FCFA 0%,#E3F4EC 100%); }
+/* b64: tam hâl Randevularım paneline yerleşir: tutamaç yok, aşağı çekilmez, yalnız geri düğmesi; akıcı geçişler */
+.m-sheet { transition: height .46s cubic-bezier(.22,1,.36,1), border-radius .46s ease, transform .3s cubic-bezier(.22,1,.36,1), box-shadow .4s ease !important; }
+.m-sheet.tam .m-sheet-cubuk { display: none !important; }
+.m-sheet.tam .m-sheet-tut { min-height: 46px !important; padding: 8px 16px 0 !important; justify-content: flex-start !important; }
+.m-sheet.tam .m-sheet-geri { display: inline-flex !important; position: static !important; opacity: 1 !important; pointer-events: auto !important; min-height: 34px; padding: 0 14px 0 10px; border-radius: 99px; background: #DCF1E6; color: #00583B; font-size: 13.5px; font-weight: 800; }
+.m-sheet.tam .m-sheet-geri::before { content: "‹"; font-size: 20px; line-height: 1; margin-right: 5px; margin-top: -2px; }
+.m-sheet.tam .m-sheet-ic { animation: mTamIc .5s ease both; }
+@keyframes mTamIc { from { opacity: .4; } to { opacity: 1; } }
 </style>
 </helmet>
 
@@ -1249,7 +1257,7 @@ html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scro
 
 <sc-if value="{{ mTalepYok }}"><div class="m-kart"><h3>Temsilcimiz size gelsin</h3><button class="m-btn" onClick="{{ mTemsilciIste }}">Temsilci iste</button><ul class="m-guven"><li>Ücretsiz görüşme</li><li>Size uygun zaman</li><li>Uzman destek</li></ul></div></sc-if>
 </div></sc-if>
-<sc-if value="{{ mDetayAcik }}"><div class="m-sheet-perde" onClick="{{ mSheetKapat }}"></div><div class="m-sheet {{ mSheetSinif }}" role="dialog" aria-label="Randevu ayrıntısı"><div class="m-sheet-tut"><button type="button" class="m-sheet-geri" onClick="{{ mSheetKucult }}" aria-label="Geri">Geri</button><i class="m-sheet-cubuk"></i></div><div class="m-akis m-sheet-ic">
+<sc-if value="{{ mDetayAcik }}"><div class="m-sheet-perde" onClick="{{ mSheetKapat }}"></div><div class="m-sheet {{ mSheetSinif }}" role="dialog" aria-label="Randevu ayrıntısı"><div class="m-sheet-tut"><button type="button" class="m-sheet-geri" onClick="{{ mSheetKucult }}" aria-label="Randevulara dön">Randevulara dön</button><i class="m-sheet-cubuk"></i></div><div class="m-akis m-sheet-ic">
 <sc-if value="{{ mAktifDetay }}">
 <div class="m-kart m-durum" role="status"><sc-if value="{{ mDurumBaslikVar }}"><h2>{{ mDurumBaslik }}</h2></sc-if><sc-if value="{{ mDurumAltVar }}"><p>{{ mDurumAlt }}</p></sc-if><sc-if value="{{ mZiyaret }}"><p><b>{{ mGun }} · {{ mSaat }}</b><br>{{ mYer }}</p></sc-if><sc-if value="{{ mRepVar }}"><p>Temsilciniz: <b>{{ mRepAd }}</b></p></sc-if>
 <sc-if value="{{ mOnayVar }}"><button class="m-btn" onClick="{{ mSaatOnayla }}">Saati onayla · {{ mSaat }}</button></sc-if>
@@ -2074,9 +2082,9 @@ class Component extends DCLogic {
     const el = document.querySelector(".m-sheet"), pr = document.querySelector(".m-sheet-perde");
     const bitir = () => this.setState({ mSeciliRandevuId: null, mSorunAcik: false, mSheetTam: false });
     if (!el) return bitir();
-    el.style.transition = "transform .24s ease-in"; el.style.transform = "translateY(105%)";
-    if (pr) { pr.style.transition = "opacity .24s"; pr.style.opacity = "0"; }
-    setTimeout(bitir, 240);
+    el.style.transition = "transform .34s cubic-bezier(.4,0,.2,1)"; el.style.transform = "translateY(105%)";
+    if (pr) { pr.style.transition = "opacity .34s"; pr.style.opacity = "0"; }
+    setTimeout(bitir, 340);
   }
   sheetSurukleKur() {
     // Randevu penceresi: yükseklik parmakla birlikte akar. Yukarı çek = tam sayfa, aşağı çek = küçül/kapat
@@ -2100,6 +2108,7 @@ class Component extends DCLogic {
       const el = sh();
       if (!el || !el.contains(e.target) || e.touches.length !== 1) { b = null; return; }
       const ic = el.querySelector(".m-sheet-ic");
+      if (el.classList.contains("tam")) { b = null; return; }
       if (ic && ic.contains(e.target) && ic.scrollTop > 0) { b = null; return; }
       olc();
       b = { y: e.touches[0].clientY, x: e.touches[0].clientX, dy: 0, aktif: false, tam: el.classList.contains("tam"), h0: el.getBoundingClientRect().height };
