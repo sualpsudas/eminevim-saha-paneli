@@ -997,3 +997,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20 (sw v115): giriş hâlesi yalnız ev logosunda ve Eminevim logosunda; başlık/slogandan kaldırıldı, bir kademe daha azaltıldı.
 
 - 2026-11-20 (sw v116): açılış ekranına (yeşil/video/yedek fotoğraf) iki kez dokunulursa doğrudan giriş ekranına kestirme. Tek dokunuş etkisiz. Giriş ekranına ek içerik (10 taslak) şimdilik eklenmedi, karar: kalsın.
+
+- 2026-11-20 (sw v117, b83): giriş alanına dokununca klavye açılınca görünür alan kısalır: alt Eminevim logosu Devam et düğmesinin üstüne biniyor ve kart taşıyordu. Düzeltme: <=600px yükseklikte alt logo gizlenir, ikon/başlık küçülür, slogan gizlenir, giriş ekranı kayar; odaklanan alan görünür alana kaydırılır (focusin). Chrome ile 516/420 px yüksekliğinde denendi; gerçek iPhone klavyesinde denenmedi.
