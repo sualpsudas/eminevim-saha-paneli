@@ -980,6 +980,13 @@ html.native-app.ty-acilis-var.ty-giris-anim .giris-ic .giris-ikon { animation: g
 html.native-app.ty-acilis-var.ty-giris-anim .giris-ic .giris-ikon .gi-cati, html.native-app.ty-acilis-var.ty-giris-anim .giris-ic .giris-ikon .gi-dudak { animation: none !important; stroke-dashoffset: 0 !important; }
 html.native-app.ty-acilis-var.ty-giris-anim .giris-ic .giris-ikon .gi-n1, html.native-app.ty-acilis-var.ty-giris-anim .giris-ic .giris-ikon .gi-n2 { animation: none !important; }
 html.native-app.ty-acilis-var.ty-giris-anim .giris-ic .giris-baslik, html.native-app.ty-acilis-var.ty-giris-anim .giris-ic .giris-slogan, html.native-app.ty-acilis-var.ty-giris-anim .giris-ic .giris-form, html.native-app.ty-acilis-var.ty-giris-anim .giris-ic .giris-marka { animation-delay: calc(var(--gd,0s) + .35s) !important; }
+/* b76: video açılışı; Kling işareti altta kırpılır (video 1.04 büyütülüp üstten hizalanır), giriş logosu videonun son karesindeki logoyla aynı yerden küçülür */
+.ty-acilis.ty-el.ty-vid { animation: none; opacity: 1; transition: opacity .5s ease; background: #0A5A3E; }
+.ty-acilis.ty-el.ty-vid.ty-vid-bitti { opacity: 0; }
+.ty-vid .ty-el-zoom, .ty-vid .ty-el-ust, .ty-vid .ty-acilis-ic { display: none; }
+.ty-el-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transform: scale(1.04); transform-origin: 50% 0; }
+@keyframes giKuculV { from { transform: translateY(calc(51.8vh - max(128px, calc(env(safe-area-inset-top,0px) + 104px)) - 68px)) scale(2); } to { transform: none; } }
+html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-ikon { animation: giKuculV 1.7s cubic-bezier(.6,0,.25,1) calc(var(--gd,0s) + .35s) both !important; }
 /* b32: sayfa yukarı/aşağı esnemesin; yalnız uzun listeler kendi içinde kayar */
 html.native-app, html.native-app body { position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden !important; overscroll-behavior: none; }
 html.native-app .customer-panel, html.native-app .customer-finance-scroll, html.native-app .customer-settings, html.native-app .customer-profile, html.native-app .customer-appointments, html.native-app .tp-sutun, html.native-app .tp-iki, html.native-app .tp-ana { overscroll-behavior: none !important; }
@@ -2187,11 +2194,34 @@ class Component extends DCLogic {
     d.className = "ty-acilis ty-el";
     d.setAttribute("aria-hidden", "true");
     d.innerHTML = '<div class="ty-el-zoom"><img class="ty-el-foto" src="assets/ty/acilis-el-sikisma.webp" alt=""><div class="ty-el-wash"></div><svg class="ty-el-svg" viewBox="0 0 852 1846" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="tyl" x1="0" y1="0" x2="1" y2="0"><stop id="tyl0" offset="0" stop-color="#fff"/><stop id="tyl1" offset=".45" stop-color="#fff"/><stop id="tyl2" offset="1" stop-color="#fff"/></linearGradient></defs><g id="tyg" opacity="0"><path id="tyr" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"/><circle id="tyc1" fill="#fff" fill-opacity="0" stroke="#fff"/><circle id="tyc2" fill="#fff" fill-opacity="0" stroke="#fff"/><path id="tys" fill="none" stroke="url(#tyl)" stroke-linecap="round"/></g></svg></div><div class="ty-el-ust"></div><div class="ty-acilis-ic"><img class="ty-acilis-logo" src="assets/logo-white.png" alt="Eminevim"><div class="ty-acilis-ad">Tasarruf Yanımda</div><div class="ty-acilis-slogan">Dilediğiniz yerde temsilcimizle görüşme planlayın!</div></div>';
+    const h = document.documentElement;
+    const v = document.createElement("video");
+    v.className = "ty-el-video"; v.src = "assets/ty/acilis.mp4"; v.muted = true; v.defaultMuted = true; v.playsInline = true; v.preload = "auto";
+    v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
+    d.classList.add("ty-vid"); d.insertBefore(v, d.firstChild);
     document.body.appendChild(d);
-    this.acilisDonusum(d);
-    document.documentElement.classList.add("ty-acilis-var");
-    setTimeout(() => { document.documentElement.classList.remove("ty-acilis-var"); }, 13500);
-    setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 4500);
+    h.classList.add("ty-acilis-var", "ty-vid-mod");
+    h.style.setProperty("--gd", "99s");
+    let basladi = false, yedekte = false;
+    const yedek = () => {
+      // Video oynamazsa: fotoğraf + çizim dönüşümü
+      if (basladi || yedekte) return; yedekte = true;
+      try { v.pause(); } catch (e) { }
+      if (v.parentNode) v.parentNode.removeChild(v);
+      d.classList.remove("ty-vid"); h.classList.remove("ty-vid-mod"); h.style.setProperty("--gd", "3.4s");
+      this.acilisDonusum(d);
+      setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 4500);
+    };
+    v.addEventListener("playing", () => {
+      if (basladi || yedekte) return; basladi = true;
+      h.style.setProperty("--gd", "4.3s");
+      setTimeout(() => { d.classList.add("ty-vid-bitti"); }, 4300);
+      setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, 5200);
+    });
+    v.addEventListener("error", yedek);
+    setTimeout(yedek, 2500);
+    try { const pr = v.play(); if (pr && pr.catch) pr.catch(yedek); } catch (e) { yedek(); }
+    setTimeout(() => { h.classList.remove("ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, 13500);
   }
   sheetKapat() {
     // Pencere aşağı kayarak kaybolur, sonra kayıt temizlenir

@@ -1,4 +1,4 @@
-const CACHE = 'eminevim-v79';
+const CACHE = 'eminevim-v80';
 const ASSETS = [
   './',
   './index.html',
@@ -28,7 +28,7 @@ const ASSETS = [
   './assets/logo-white.png',
   './assets/tasarruf-yanimda-logo.png',
   './assets/ty-isaret.png','./assets/fonts/jakarta-400.ttf','./assets/fonts/jakarta-500.ttf','./assets/fonts/jakarta-600.ttf','./assets/fonts/jakarta-700.ttf','./assets/fonts/jakarta-800.ttf','./assets/ty/giris-sahne.webp',
-  './assets/ty/acilis-foto.webp','./assets/ty/acilis-el-sikisma.webp','./assets/ty/hero-randevu.webp','./assets/ty/hero-sohbet.webp','./assets/ty/hero-finans.webp','./assets/ty/hero-ayar.webp','./assets/ty/hero-profil.webp','./assets/ty/kart-konut.webp','./assets/ty/kart-tasit.webp','./assets/ty/kart-isyeri.webp','./assets/eminevim/header_araba_yan.svg',
+  './assets/ty/acilis-foto.webp','./assets/ty/acilis-el-sikisma.webp','./assets/ty/acilis.mp4','./assets/ty/hero-randevu.webp','./assets/ty/hero-sohbet.webp','./assets/ty/hero-finans.webp','./assets/ty/hero-ayar.webp','./assets/ty/hero-profil.webp','./assets/ty/kart-konut.webp','./assets/ty/kart-tasit.webp','./assets/ty/kart-isyeri.webp','./assets/eminevim/header_araba_yan.svg',
   './assets/icon-180.png',
   './assets/icon-192.png',
   './assets/icon-512.png'
