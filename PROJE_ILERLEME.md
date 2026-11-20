@@ -908,3 +908,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Giris ekraninda beyaz bolum (telefon formu) ust kisimdan sonra alttan kayarak gelir (ty-giris-anim sinifi, ilk 9,5 sn). sw v62.
 - 2026-11-20: Beyaz form bolumu slogan bitince (≈1 sn sonra) alttan yavasca (1,7 sn) yukari cikar. sw v63.
 - 2026-11-20: Randevu penceresi: tam hal Randevularim paneline yerlesir (ayni baslik/gorsel/hiza), tutamac yok, asagi cekilmez, yalniz "Randevulara don" dugmesi; yukselme/inme gecisleri daha akici. sw v64.
+- 2026-11-20: Giris animasyonu sirasi: cati soldan saga, sol nokta, sag nokta, agiz, sonra baslik+slogan ayni anda soldan saga, en son beyaz bolum (toplam ~7 sn, acilistan sonra). Nokta gecikme hatasi duzeltildi. sw v65.
