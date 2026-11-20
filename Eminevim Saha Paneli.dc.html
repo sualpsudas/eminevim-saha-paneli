@@ -2206,7 +2206,6 @@ class Component extends DCLogic {
     const v = document.createElement("video");
     v.className = "ty-el-video"; v.muted = true; v.defaultMuted = true; v.playsInline = true; v.preload = "auto";
     v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", ""); v.setAttribute("autoplay", "");
-    v.src = "assets/ty/acilis.mp4";
     d.classList.add("ty-vid"); d.insertBefore(v, d.firstChild);
     const yz = document.createElement("div"); yz.className = "ty-vid-yazi";
     yz.innerHTML = '<img src="assets/logo-white.png" alt=""><div>Tasarruf Yanımda</div>'; d.appendChild(yz);
@@ -2223,22 +2222,36 @@ class Component extends DCLogic {
       this.acilisDonusum(d);
       setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 4500);
     };
+    const sonT = setTimeout(() => { h.classList.remove("ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, 40000);
+    let bitti = false;
+    const bitir = () => {
+      // Video bitince (ya da takılırsa) flu geçişle giriş ekranına
+      if (bitti || yedekte) return; bitti = true;
+      d.classList.add("ty-vid-bitti");
+      setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, 1100);
+      setTimeout(() => { h.classList.remove("ty-giris-anim", "ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, 2500);
+    };
     v.addEventListener("playing", () => {
       if (basladi || yedekte) return; basladi = true;
+      clearTimeout(this._tyAnimT); clearTimeout(sonT); clearTimeout(yedekT);
       h.style.setProperty("--gd", "4.3s");
       d.classList.add("ty-vid-hazir");
-      clearTimeout(this._tyAnimT); clearTimeout(sonT);
-      setTimeout(() => { h.classList.remove("ty-giris-anim"); }, 13500);
-      setTimeout(() => { h.classList.remove("ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, 13500);
-      setTimeout(() => { d.classList.add("ty-vid-yazili"); }, 2300);
-      setTimeout(() => { d.classList.add("ty-vid-bitti"); }, 5000);
-      setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, 6200);
+      setTimeout(bitir, ((v.duration || 5.1) + 3) * 1000);
     });
+    v.addEventListener("timeupdate", () => { if (basladi && v.currentTime >= 2.3) d.classList.add("ty-vid-yazili"); });
+    v.addEventListener("ended", () => setTimeout(bitir, 1000));
     v.addEventListener("error", yedek);
-    setTimeout(yedek, 12000);
-    v.addEventListener("loadeddata", () => { try { const q = v.play(); if (q && q.catch) q.catch(() => { }); } catch (e) { } });
-    try { const pr = v.play(); if (pr && pr.catch) pr.catch(yedek); } catch (e) { yedek(); }
-    const sonT = setTimeout(() => { h.classList.remove("ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, 25000);
+    // Video tamamen inene kadar yeşil ekranda bekle; inmezse yedek animasyon
+    const yedekT = setTimeout(yedek, 25000);
+    const ac = new AbortController();
+    setTimeout(() => ac.abort(), 24000);
+    fetch("assets/ty/acilis.mp4", { signal: ac.signal }).then((r) => { if (!r.ok) throw new Error("video"); return r.blob(); }).then((bl) => {
+      if (yedekte) return;
+      v.src = URL.createObjectURL(bl);
+      v.load();
+      const oyna = () => { try { const q = v.play(); if (q && q.catch) q.catch(yedek); } catch (e) { yedek(); } };
+      if (v.readyState >= 3) oyna(); else v.addEventListener("canplaythrough", oyna, { once: true });
+    }).catch(yedek);
   }
   sheetKapat() {
     // Pencere aşağı kayarak kaybolur, sonra kayıt temizlenir

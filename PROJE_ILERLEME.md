@@ -943,3 +943,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Giriş logosu web boyutuna (300x317) büyüdü, animasyon ölçüleri uyarlandı. Açılış: video yüklenene kadar yeşil ekran, video oynayınca 1,1 sn yumuşak belirir; tüm zamanlama 'playing' anından sayılır (yedek 12 sn). sw v85.
 
 - 2026-11-20: Giriş logosu telefon görünümündeki link boyutuna (191x202) döndü (300 çok büyüktü). sw v86.
+
+- 2026-11-20: Açılış videosu tamamen indirilene kadar (blob) yeşil bekler, sonra oynar; yazı video saatine (2,3 sn), flu geçiş video bitince +1 sn; takılırsa süre+3 sn; inmezse 25 sn sonra yedek. sw v87.
