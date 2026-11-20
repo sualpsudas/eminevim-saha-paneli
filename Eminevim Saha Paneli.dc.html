@@ -1062,8 +1062,8 @@ html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { 
 html.native-app .giris-ic { background: linear-gradient(180deg,#0A5A3E 0,#00724C 330px,#E3F4EC 330px) !important; padding: 92px 0 0 !important; gap: 0 !important; }
 html.ty-acilis-var { --gd: 3.9s; }
 html.native-app.ty-giris-anim .giris-ic { background: linear-gradient(180deg,#0A5A3E 0,#00724C 330px,#00724C 100%) !important; }
-html.native-app.ty-giris-anim .giris-form { animation: giForm 1s cubic-bezier(.2,.8,.2,1) calc(var(--gd,0s) + 2.9s) both !important; }
-@keyframes giForm { from { opacity: 0; transform: translateY(70px); } to { opacity: 1; transform: none; } }
+html.native-app.ty-giris-anim .giris-form { animation: giForm 1.7s cubic-bezier(.25,.6,.25,1) calc(var(--gd,0s) + 3.6s) both !important; }
+@keyframes giForm { from { opacity: 1; transform: translateY(100%); } to { opacity: 1; transform: none; } }
 html.native-app .giris-ikon { flex: 0 0 72px; display: block; width: 72px; height: 72px; min-height: 72px; margin: 0 auto 12px; filter: drop-shadow(0 6px 12px rgba(0,30,20,.3)); animation: giIkon .9s cubic-bezier(.2,.9,.3,1.2) calc(var(--gd,0s) + .1s) both; }
 html.native-app .giris-baslik { flex-shrink: 0; background: linear-gradient(90deg,#8BE02E 0%,#fff 82%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent !important; animation: giBaslik 1.5s cubic-bezier(.3,.1,.2,1) calc(var(--gd,0s) + 1.4s) both; margin: 0 !important; font-size: 29px !important; padding: 0 4px 2px; }
 html.native-app .giris-slogan { flex-shrink: 0; color: rgba(255,255,255,.86); font-size: 13px; font-weight: 600; line-height: 1.4; max-width: 250px; text-align: center; margin: 8px auto 34px; animation: giIkon 1s ease calc(var(--gd,0s) + 2.5s) both; }
@@ -2056,7 +2056,7 @@ class Component extends DCLogic {
     try {
       if (!document.documentElement.classList.contains("native-app")) return;
       document.documentElement.classList.add("ty-giris-anim");
-      setTimeout(() => { document.documentElement.classList.remove("ty-giris-anim"); }, 9500);
+      setTimeout(() => { document.documentElement.classList.remove("ty-giris-anim"); }, 11000);
       if (sessionStorage.getItem("ty_acilis")) return;
       sessionStorage.setItem("ty_acilis", "1");
     } catch (e) { if (!document.documentElement.classList.contains("native-app")) return; }
@@ -2066,7 +2066,7 @@ class Component extends DCLogic {
     d.innerHTML = '<div class="ty-acilis-ic"><img class="ty-acilis-logo" src="assets/logo-white.png" alt="Eminevim"><div class="ty-acilis-ad">Tasarruf Yanımda</div><div class="ty-acilis-slogan">Dilediğiniz yerde temsilcimizle görüşme planlayın!</div></div><img class="ty-acilis-sahne" src="assets/ty/acilis-foto.webp" alt="">';
     document.body.appendChild(d);
     document.documentElement.classList.add("ty-acilis-var");
-    setTimeout(() => { document.documentElement.classList.remove("ty-acilis-var"); }, 9500);
+    setTimeout(() => { document.documentElement.classList.remove("ty-acilis-var"); }, 11000);
     setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 4300);
   }
   sheetKapat() {
