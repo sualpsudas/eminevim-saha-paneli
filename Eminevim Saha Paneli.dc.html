@@ -2275,20 +2275,23 @@ class Component extends DCLogic {
     const yedekT = setTimeout(yedek, 90000);
     let webpte = false;
     const webp = (neden) => {
-      // iPhone videoyu otomatik oynatmıyorsa (Düşük Güç Modu vb.): aynı animasyon hareketli resim olarak
-      if (webpte || basladi || yedekte) return yedek(neden); webpte = true;
-      fetch("assets/ty/acilis.webp", { signal: ac.signal }).then((r) => { if (!r.ok) throw new Error("webp http " + r.status); return r.blob(); }).then((bl) => {
-        if (yedekte || basladi) return;
-        const im = new Image(); im.className = "ty-el-video"; im.alt = "";
-        im.onload = () => {
-          if (v.parentNode) v.parentNode.removeChild(v);
-          basla(5.1);
-          setTimeout(() => { d.classList.add("ty-vid-yazili"); }, 2300);
-          setTimeout(() => { bitti || bitir(); }, 6100);
-        };
-        im.onerror = () => yedek((neden && neden.name ? neden.name : "video") + " + resim hatası");
-        d.insertBefore(im, d.firstChild); im.src = URL.createObjectURL(bl);
-      }).catch((e) => yedek((neden && neden.name ? neden.name + " / " : "") + (e && e.message)));
+      // Otomatik oynatma kapalıysa (Düşük Güç Modu vb.): ilk kare + yazılar 3 sn, sonra flu geçişle giriş sayfası
+      if (webpte || basladi || yedekte) return yedek(neden); webpte = true; yedekte = true;
+      try { ac.abort(); } catch (e) { }
+      clearTimeout(this._tyAnimT); clearTimeout(sonT); clearTimeout(yedekT);
+      const im = new Image(); im.className = "ty-el-ilk"; im.alt = "";
+      let git = false;
+      const goster = () => {
+        if (git) return; git = true;
+        d.insertBefore(im, d.firstChild);
+        requestAnimationFrame(() => { d.classList.add("ty-ilk-var"); });
+        setTimeout(() => { d.classList.add("ty-vid-bitti"); }, 3000);
+        setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, 3900);
+        setTimeout(() => { h.classList.remove("ty-giris-anim", "ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, 5000);
+      };
+      im.onload = goster; im.onerror = goster;
+      im.src = "assets/ty/acilis-el-sikisma.webp";
+      setTimeout(goster, 2500);
     };
     const oyna = () => { try { const q = v.play(); if (q && q.catch) q.catch((e) => webp(e)); } catch (e) { webp(e); } };
     let direkt = false;
