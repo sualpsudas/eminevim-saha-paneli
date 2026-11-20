@@ -892,3 +892,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Yeni logo: catı + iki nokta (beyaz/yesil) + firca gulumseme (ucları ince, saga yukselen, beyazdan yesile). Kaynak taslak/ikon.svg. Uygulama ikonu (ios AppIcon 1024, assets/icon-180/192/512), acilis ekranina ikon (assets/ty/ikon.png), sw v52. iOS ikonu ve yerel acilis ekrani yeni Codemagic derlemesi ister; web/Pages hemen gecer. Turk Patent marka sorgusu yapilmadi.
 
 - 2026-11-20: Ikon eski duz hale dondu (catı + iki nokta + simetrik beyazdan yesile gulumseme, firca dudak kaldirildi). Dosyalar ayni (ios AppIcon, assets/icon-*, assets/ty/ikon.png), sw v53.
+
+- 2026-11-20: Acilis ekrani artik gercek fotograf (assets/ty/acilis-foto.webp, Nano Banana ciktisinin ust sag kare kirpimi, 378x681 dusuk cozunurluk): ev + el sikisan iki kisi, yazi ustte. sw v54. Yuksek cozunurluklu tek gorsel gelince degistirilecek. iOS yerel acilis ekrani ayri (Codemagic).
