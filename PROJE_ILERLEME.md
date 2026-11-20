@@ -965,3 +965,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Giriş/yeni üye/personel: beyaz kart içerik kadar (Devam et'in biraz altında biter), Eminevim logosu kartın altında beyaz; Geri düğmesi sola; açılışta Eminevim+Tasarruf Yanımda yazıları fotoğrafla birlikte (animasyonsuz). Kurallar telefon tarayıcısındaki link için de geçerli. sw v99.
 
 - 2026-11-20: Açılışta Eminevim logosu yeşil, Tasarruf Yanımda koyu yeşil (gökyüzü üstünde okunaklı, hafif beyaz parıltı). sw v100.
+
+- 2026-11-20: Açılış: ilk kare artık yalnız video gelmezse görünür (normalde yeşil bekleme → video yumuşak); yazılar yeşil, video yeşil zemine geçince beyaza döner, parıltı yok. Giriş/personel: Eminevim logosu kart altı ile ekran dibi arasında dikey ortalı. sw v101.

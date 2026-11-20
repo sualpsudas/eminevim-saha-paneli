@@ -994,12 +994,15 @@ html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-ikon, ht
 .ty-vid-hazir .ty-el-video { opacity: 1; }
 .ty-el-ilk { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transform: scale(1.04); transform-origin: 50% 0; opacity: 0; transition: opacity .6s ease; }
 .ty-ilk-var .ty-el-ilk { opacity: 1; }
-.ty-yz-direkt .ty-vid-yazi { transition: none; opacity: 1; }
 .ty-vid-yazi { position: absolute; left: 0; right: 0; top: calc(env(safe-area-inset-top,0px) + 10vh); display: none; flex-direction: column; align-items: center; gap: 12px; opacity: 0; transition: opacity .6s ease; pointer-events: none; }
 .ty-vid .ty-vid-yazi { display: flex; }
-.ty-vid.ty-vid-yazili .ty-vid-yazi, .ty-vid.ty-ilk-var .ty-vid-yazi { opacity: 1; }
-.ty-vid-yazi img { width: min(52vw,210px); height: auto; filter: drop-shadow(0 0 8px rgba(255,255,255,.55)); }
-.ty-vid-yazi div { font-weight: 800; font-size: 29px; letter-spacing: -.6px; background: linear-gradient(90deg,#3E8F12 0%,#0A5A3E 70%); filter: drop-shadow(0 0 7px rgba(255,255,255,.6)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; padding: 0 4px 2px; }
+.ty-vid.ty-vid-hazir .ty-vid-yazi, .ty-vid.ty-ilk-var .ty-vid-yazi { opacity: 1; }
+.ty-vid-hazir .ty-vid-yazi { transition-duration: 1.1s; }
+.ty-vid-yazi img { transition: filter .8s ease; }
+.ty-vid-yazili .ty-vid-yazi img { filter: brightness(0) invert(1); }
+.ty-vid-yazi img { width: min(52vw,210px); height: auto; }
+.ty-vid-yazi div { font-weight: 800; font-size: 29px; letter-spacing: -.6px; color: #0A5A3E; transition: color .8s ease; padding: 0 4px 2px; }
+.ty-vid-yazili .ty-vid-yazi div { color: #fff; }
 .ty-acilis.ty-el.ty-vid { transition: opacity .9s ease, filter .9s ease; }
 .ty-yz-direkt.ty-vid-bitti { transition-duration: .6s; }
 .ty-acilis.ty-el.ty-vid.ty-vid-bitti { opacity: 0; filter: blur(24px); }
@@ -1007,10 +1010,10 @@ html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-ikon, ht
 html.native-app .giris-ic.giris-ic, html.native-app .giris-ic.giris-ic:has(input[aria-label="Ad"]) { background: linear-gradient(180deg,#0A5A3E 0,#00724C 100%) !important; }
 html.native-app .customer-screen:has(.giris-ic) { background: linear-gradient(180deg,#0A5A3E 0,#00724C 100%) !important; }
 html.native-app .giris-ic .giris-form { flex: 0 0 auto !important; margin: 0 14px !important; align-self: stretch !important; border-radius: 32px !important; padding: 26px 22px 28px !important; background: #fff !important; box-shadow: 0 14px 34px rgba(0,30,20,.22) !important; }
-html.native-app .giris-ic .giris-marka { filter: brightness(0) invert(1) !important; opacity: 1 !important; width: 104px !important; margin: 24px auto 0 !important; flex: none; }
+html.native-app .giris-ic .giris-marka { filter: brightness(0) invert(1) !important; opacity: 1 !important; width: 104px !important; margin: auto !important; flex: none; }
 html.native-app .pg-kap > div > div { display: flex !important; flex-direction: column !important; }
 html.native-app .pg-kap .pg-form { flex: 0 0 auto !important; margin: 0 14px !important; align-self: stretch !important; border-radius: 32px !important; padding: 26px 22px 28px !important; background: #fff !important; box-shadow: 0 14px 34px rgba(0,30,20,.22) !important; }
-html.native-app .pg-kap img[alt="Eminevim"] { position: static !important; order: 99; filter: brightness(0) invert(1) !important; width: 104px !important; margin: 24px auto 0 !important; flex: none; align-self: center !important; transform: none !important; left: auto !important; opacity: 1 !important; }
+html.native-app .pg-kap img[alt="Eminevim"] { position: static !important; order: 99; filter: brightness(0) invert(1) !important; width: 104px !important; margin: auto !important; flex: none; align-self: center !important; transform: none !important; left: auto !important; opacity: 1 !important; }
 html.native-app .giris-ic .giris-form.giris-form > button.giris-geri { left: 18px !important; right: auto !important; color: #fff !important; }
 /* b32: sayfa yukarı/aşağı esnemesin; yalnız uzun listeler kendi içinde kayar */
 html.native-app, html.native-app body { position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden !important; overscroll-behavior: none; }
@@ -2229,7 +2232,7 @@ class Component extends DCLogic {
     d.classList.add("ty-vid"); d.insertBefore(v, d.firstChild);
     // İlk kare (videonun ilk karesiyle aynı): yüklenir yüklenmez görünür, video üstüne biner
     const ilk = document.createElement("img"); ilk.className = "ty-el-ilk"; ilk.alt = ""; ilk.decoding = "async";
-    ilk.onload = () => { d.classList.add("ty-ilk-var"); ilkT = Date.now(); };
+    ilk.onload = () => { ilkT = ilkT || 1; };
     ilk.src = "assets/ty/acilis-el-sikisma.webp"; d.insertBefore(ilk, d.firstChild);
     const yz = document.createElement("div"); yz.className = "ty-vid-yazi";
     yz.innerHTML = '<img src="assets/logo-green.png" alt=""><div>Tasarruf Yanımda</div>'; d.appendChild(yz);
@@ -2242,9 +2245,9 @@ class Component extends DCLogic {
       // Video çok geç inerse: ilk kare olduğu gibi görünür, sonra flu geçişle giriş sayfası
       if (basladi || yedekte) return; yedekte = true;
       try { ac.abort(); } catch (e) { }
-      d.classList.add("ty-ilk-var", "ty-yz-direkt", "ty-vid-yazili");  // yazılar animasyonsuz hemen
+      d.classList.add("ty-ilk-var");  // video gelmedi: ilk kare + yazılar birlikte
       // İlk kare en az 1,2 sn ekranda kalsın, sonra flu geçiş
-      const bek = Math.max(300, 1200 - (ilkT ? Date.now() - ilkT : 0) + (ilkT ? 0 : 600));
+      const bek = ilkT ? 1400 : 2000;
       setTimeout(() => { d.classList.add("ty-vid-bitti"); }, bek);
       setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, bek + 900);
       setTimeout(() => { h.classList.remove("ty-giris-anim", "ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, bek + 2000);
