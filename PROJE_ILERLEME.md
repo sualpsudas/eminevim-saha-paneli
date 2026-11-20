@@ -981,3 +981,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Otomatik oynatma kapalıysa (Düşük Güç Modu) hareketli WebP yerine ilk kare fotoğraf + yazılar 3 sn, sonra flu geçişle giriş (webp dosyası kullanılmıyor, assets'te duruyor). sw v107.
 
 - 2026-11-20: Eminevim logosu ekranın altında SABİT (alttan 30px + güvenli alan; giriş, yeni üye, personel hepsinde aynı yerde). Yeni üye adımı 800px altı ekranda kart yukarı: üst padding/ikon/başlık küçülür, slogan gizlenir. 667-852 yükseklikte ölçüldü. sw v108.
+
+- 2026-11-20 (sw v109, b80): giriş modern görünüm — koyu yeşil ışıklı zemin + dalga, ikonlu/ayraçlı alanlar (telefon, ad), odakta yeşil halka, derin yeşil düğme (basınca küçülür), SMS kodu geniş aralıklı. Müşteri, yeni üye, personel ve web aynı. 6 ayrı SMS kutusu yapılmadı (tek alan).
