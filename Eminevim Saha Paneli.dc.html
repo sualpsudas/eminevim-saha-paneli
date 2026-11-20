@@ -2247,7 +2247,7 @@ class Component extends DCLogic {
       try { ac.abort(); } catch (e) { }
       d.classList.add("ty-ilk-var");  // video gelmedi: ilk kare + yazılar birlikte
       // İlk kare en az 1,2 sn ekranda kalsın, sonra flu geçiş
-      const bek = ilkT ? 1400 : 2000;
+      const bek = ilkT ? 3000 : 3600;
       setTimeout(() => { d.classList.add("ty-vid-bitti"); }, bek);
       setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, bek + 900);
       setTimeout(() => { h.classList.remove("ty-giris-anim", "ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, bek + 2000);
