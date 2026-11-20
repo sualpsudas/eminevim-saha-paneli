@@ -888,3 +888,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Finansman tum hizalar test edildi (baslik ilk harf, alt cizgi, beyaz panel ust kenari, gorsel kutusu; 7 ekran, 393 ve 320): fin2/3 cizgisi 1px asagi, fin1 cubugu 1px kalin duzeltildi (b61). Randevu penceresi tam hali artik Randevularim sayfasinin beyaz paneli gibi (ust baslik gorunur, yesil bant/Geri yok, perde seffaf); popup en fazla %70 (b62, sw v51). Tam halden asagi cek: kucult, cok asagi cek: kapat.
 
 - 2026-11-20: Logo: 4 ozgun isaret onerisi taslak/logo-onerileri.png (A konum catisi, B e+cati, C ev-tekerlek, D birlikte); tik begenilmedi. Karar bekliyor.
+
+- 2026-11-20: Yeni logo: catı + iki nokta (beyaz/yesil) + firca gulumseme (ucları ince, saga yukselen, beyazdan yesile). Kaynak taslak/ikon.svg. Uygulama ikonu (ios AppIcon 1024, assets/icon-180/192/512), acilis ekranina ikon (assets/ty/ikon.png), sw v52. iOS ikonu ve yerel acilis ekrani yeni Codemagic derlemesi ister; web/Pages hemen gecer. Turk Patent marka sorgusu yapilmadi.
