@@ -1061,6 +1061,9 @@ html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { 
 /* b63: sade giriş ekranı (ikon + ad + slogan), çizim sahne yok */
 html.native-app .giris-ic { background: linear-gradient(180deg,#0A5A3E 0,#00724C 330px,#E3F4EC 330px) !important; padding: 92px 0 0 !important; gap: 0 !important; }
 html.ty-acilis-var { --gd: 3.9s; }
+html.native-app.ty-giris-anim .giris-ic { background: linear-gradient(180deg,#0A5A3E 0,#00724C 330px,#00724C 100%) !important; }
+html.native-app.ty-giris-anim .giris-form { animation: giForm 1s cubic-bezier(.2,.8,.2,1) calc(var(--gd,0s) + 2.9s) both !important; }
+@keyframes giForm { from { opacity: 0; transform: translateY(70px); } to { opacity: 1; transform: none; } }
 html.native-app .giris-ikon { flex: 0 0 72px; display: block; width: 72px; height: 72px; min-height: 72px; margin: 0 auto 12px; filter: drop-shadow(0 6px 12px rgba(0,30,20,.3)); animation: giIkon .9s cubic-bezier(.2,.9,.3,1.2) calc(var(--gd,0s) + .1s) both; }
 html.native-app .giris-baslik { flex-shrink: 0; background: linear-gradient(90deg,#8BE02E 0%,#fff 82%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent !important; animation: giBaslik 1.5s cubic-bezier(.3,.1,.2,1) calc(var(--gd,0s) + 1.4s) both; margin: 0 !important; font-size: 29px !important; padding: 0 4px 2px; }
 html.native-app .giris-slogan { flex-shrink: 0; color: rgba(255,255,255,.86); font-size: 13px; font-weight: 600; line-height: 1.4; max-width: 250px; text-align: center; margin: 8px auto 34px; animation: giIkon 1s ease calc(var(--gd,0s) + 2.5s) both; }
@@ -2052,6 +2055,8 @@ class Component extends DCLogic {
     // Açılış ekranı: yalnız uygulama görünümünde, oturumda bir kez (yaklaşık 2 sn)
     try {
       if (!document.documentElement.classList.contains("native-app")) return;
+      document.documentElement.classList.add("ty-giris-anim");
+      setTimeout(() => { document.documentElement.classList.remove("ty-giris-anim"); }, 9500);
       if (sessionStorage.getItem("ty_acilis")) return;
       sessionStorage.setItem("ty_acilis", "1");
     } catch (e) { if (!document.documentElement.classList.contains("native-app")) return; }

@@ -905,3 +905,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 
 - 2026-11-20: Giriş ekranı sade yapıldı (A): ev+araba çizimi kalktı; uygulama ikonu + "Tasarruf Yanımda" (soldan sağa yeşilden beyaza) + slogan; gülümseme çizilme animasyonu. 320 px ekranda ikon küçülme hatası giderildi. sw v60.
 - 2026-11-20: Açılış fotoğrafı yakın başlar, zoom animasyonu yok. Giriş animasyonları açılış bitince başlar (ikon belirir, gülümseme çizilir, başlık soldan sağa açılır ~1,5 sn, slogan sonra). sw v61.
+- 2026-11-20: Giris ekraninda beyaz bolum (telefon formu) ust kisimdan sonra alttan kayarak gelir (ty-giris-anim sinifi, ilk 9,5 sn). sw v62.
