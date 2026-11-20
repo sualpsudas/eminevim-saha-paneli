@@ -979,3 +979,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: iPhone uygulamasında video play() NotAllowedError veriyordu (otomatik oynatma engeli, büyük ihtimalle Düşük Güç Modu). Çözüm: aynı animasyon assets/ty/acilis.webp (hareketli WebP, 396 KB, ffmpeg imageio-ffmpeg ile üretildi) olarak oynatılır; zamanlama aynı (yazı 2,3 sn, geçiş ~6 sn). Video oynarsa video kullanılır. sw v106.
 
 - 2026-11-20: Otomatik oynatma kapalıysa (Düşük Güç Modu) hareketli WebP yerine ilk kare fotoğraf + yazılar 3 sn, sonra flu geçişle giriş (webp dosyası kullanılmıyor, assets'te duruyor). sw v107.
+
+- 2026-11-20: Eminevim logosu ekranın altında SABİT (alttan 30px + güvenli alan; giriş, yeni üye, personel hepsinde aynı yerde). Yeni üye adımı 800px altı ekranda kart yukarı: üst padding/ikon/başlık küçülür, slogan gizlenir. 667-852 yükseklikte ölçüldü. sw v108.
