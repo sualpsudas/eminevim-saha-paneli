@@ -935,3 +935,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Açılış videosu: logo oluşurken üstte Eminevim logosu + Tasarruf Yanımda belirir, sonra flu geçişle giriş ekranına (arada/girişte başka animasyon yok). Giriş logosu 130x137 -> 160x169 (başlık/kart konumu aynı kaldı). sw v81.
 
 - 2026-11-20: Video telefonda oynamıyordu: önbellek (sw.js) mp4 için tam dosya (200) döndürüyordu, iPhone 'Range' (206) ister. sw.js videoYanit eklendi (v82); video bekleme süresi 2,5 -> 5 sn. SUNUCU (merkez) tarafı: .mp4 uzantısı ve Range desteği yok -> merkez/ty/ayarlar.py + api.py (onayla, servis yeniden başlat).
+
+- 2026-11-20: Giriş logosu 160 -> 200 px (başlık/kart konumu aynı), açılışta son kare 1 sn daha uzun (5. sn'de flu geçiş). sw v83.
