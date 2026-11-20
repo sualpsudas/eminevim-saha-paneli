@@ -910,3 +910,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Randevu penceresi: tam hal Randevularim paneline yerlesir (ayni baslik/gorsel/hiza), tutamac yok, asagi cekilmez, yalniz "Randevulara don" dugmesi; yukselme/inme gecisleri daha akici. sw v64.
 - 2026-11-20: Giris animasyonu sirasi: cati soldan saga, sol nokta, sag nokta, agiz, sonra baslik+slogan ayni anda soldan saga, en son beyaz bolum (toplam ~7 sn, acilistan sonra). Nokta gecikme hatasi duzeltildi. sw v65.
 - 2026-11-20: Beyaz bolum, baslik+slogan ile ayni anda baslar (T+3.5s). sw v66.
+- 2026-11-20: iOS yerel acilis ekrani (Splash) web acilisiyle ayni gorsel (1290x2796); web acilista foto yumusak belirme kaldirildi (kesintisiz gecis). sw v67. Codemagic derlemesi kullanici baslatir.
