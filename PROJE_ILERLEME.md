@@ -985,3 +985,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20 (sw v109, b80): giriş modern görünüm — koyu yeşil ışıklı zemin + dalga, ikonlu/ayraçlı alanlar (telefon, ad), odakta yeşil halka, derin yeşil düğme (basınca küçülür), SMS kodu geniş aralıklı. Müşteri, yeni üye, personel ve web aynı. 6 ayrı SMS kutusu yapılmadı (tek alan).
 
 - 2026-11-20 (sw v110, b81): ortak standart — birincil düğme tek değişkenden (--ty-btn, derin yeşil gradyan; turuncu birincil artık yeşil), ikincil düğme beyaz+ince kenar, tüm giriş alanları/seçiciler/metin kutuları beyaz+kenar+yeşil odak halkası, basınca küçülme. Personel girişi zemini müşteri girişiyle aynı (ışık+dalga). Web formu (form_bolumu) eminevim.com site tasarımında bırakıldı. Müşteri/SPY ekranları zaten ortak temada.
+
+- 2026-11-20 (sw v111, b82): giriş ekranında logo, "Tasarruf Yanımda", slogan ve Eminevim yazısı çevresinde yumuşak yeşilimsi ışık hâlesi (B şiddeti; alt logoda daha güçlü). Personel girişindeki Eminevim logosunda da var.
