@@ -987,3 +987,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20 (sw v110, b81): ortak standart — birincil düğme tek değişkenden (--ty-btn, derin yeşil gradyan; turuncu birincil artık yeşil), ikincil düğme beyaz+ince kenar, tüm giriş alanları/seçiciler/metin kutuları beyaz+kenar+yeşil odak halkası, basınca küçülme. Personel girişi zemini müşteri girişiyle aynı (ışık+dalga). Web formu (form_bolumu) eminevim.com site tasarımında bırakıldı. Müşteri/SPY ekranları zaten ortak temada.
 
 - 2026-11-20 (sw v111, b82): giriş ekranında logo, "Tasarruf Yanımda", slogan ve Eminevim yazısı çevresinde yumuşak yeşilimsi ışık hâlesi (B şiddeti; alt logoda daha güçlü). Personel girişindeki Eminevim logosunda da var.
+
+- 2026-11-20 (sw v112): giriş ışık hâlesi azaltıldı (icon/yazı 16px .38, alt logo 12px .7).
