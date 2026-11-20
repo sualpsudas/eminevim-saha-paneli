@@ -926,6 +926,11 @@ html.native-app .pg-kap .pg-form { align-self: stretch; flex: 1; width: auto; ma
 html.native-app .pg-kap .pg-form select { background-color: #fff !important; border: 0 !important; border-radius: 30px !important; min-height: 60px; box-shadow: var(--golge-kart); font-size: 16px; color: #12362B; padding: 0 22px; width: 100%; }
 html.native-app .pg-kap .pg-form button { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff !important; min-height: 62px !important; border-radius: 32px !important; font-size: 18px !important; font-weight: 800; }
 html.native-app .pg-kap .pg-form button:disabled { background: #BFD9CD !important; color: #fff !important; }
+/* b68: fotoğrafsız avatar (Yönetici): üstte beyaz daire + yeşil harf, profilde yeşil daire + beyaz harf */
+html.native-app .tp-ust-kisi .tp-av:not([style*="url("]) { background-color: #fff !important; color: #00724C !important; font-weight: 800; }
+html.native-app .tp-profil .tp-av:not([style*="url("]) { background-color: #00724C !important; color: #fff !important; }
+html.native-app .tp-canli { padding: 12px 0 0 !important; }
+html.native-app .tp-canli iframe { border-radius: 0; background: #EEF7F2; height: 100% !important; min-height: 0 !important; }
 /* b32: sayfa yukarı/aşağı esnemesin; yalnız uzun listeler kendi içinde kayar */
 html.native-app, html.native-app body { position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden !important; overscroll-behavior: none; }
 html.native-app .customer-panel, html.native-app .customer-finance-scroll, html.native-app .customer-settings, html.native-app .customer-profile, html.native-app .customer-appointments, html.native-app .tp-sutun, html.native-app .tp-iki, html.native-app .tp-ana { overscroll-behavior: none !important; }
