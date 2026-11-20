@@ -898,3 +898,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Acilis fotografi GPT ciktisiyla degisti (941x1672, 124 KB): gun batimi, ev ve el sikisan iki kisi, ust yesil gecis yazi icin. 393 ve 320 test edildi. sw v55.
 
 - 2026-11-20: Acilis ekrani logosuz, sure 2.6 -> 4.3 sn (sw v56).
+
+- 2026-11-20: Acilis fotografi el sikismaya yakinlastirildi (scale 1.55, yavas zoom animasyonu, ustte yesil gecis katmani). sw v57. Giris ekrani gercek gorsel istegi: kullanici farkli bir sey istiyor, konusulacak.
