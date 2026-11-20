@@ -2245,7 +2245,7 @@ class Component extends DCLogic {
       const n = typeof neden === "string" ? neden : ((neden && (neden.message || neden.name || neden.type)) || "");
       const t = document.createElement("div");
       t.style.cssText = "position:absolute;left:16px;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 24px);color:#fff;font:12px/1.4 sans-serif;text-align:center;opacity:.85;z-index:5";
-      t.textContent = "Video açılamadı (v105): " + n + (v.error ? " / kod " + v.error.code : ""); d.appendChild(t);
+      t.textContent = "Video açılamadı (v106): " + n + (v.error ? " / kod " + v.error.code : ""); d.appendChild(t);
       const bek = 4500;
       setTimeout(() => { d.classList.add("ty-vid-bitti"); }, bek);
       setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, bek + 900);
@@ -2260,23 +2260,41 @@ class Component extends DCLogic {
       setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, 1100);
       setTimeout(() => { h.classList.remove("ty-giris-anim", "ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, 2500);
     };
-    v.addEventListener("playing", () => {
+    const basla = (sure) => {
       if (basladi || yedekte) return; basladi = true;
       clearTimeout(this._tyAnimT); clearTimeout(sonT); clearTimeout(yedekT);
       h.style.setProperty("--gd", "4.3s");
       d.classList.add("ty-vid-hazir");
-      setTimeout(bitir, ((v.duration || 5.1) + 3) * 1000);
-    });
+      setTimeout(bitir, (sure + 3) * 1000);
+    };
+    v.addEventListener("playing", () => basla(v.duration || 5.1));
     v.addEventListener("timeupdate", () => { if (basladi && v.currentTime >= 2.3) d.classList.add("ty-vid-yazili"); });
     v.addEventListener("ended", () => setTimeout(bitir, 1000));
-    v.addEventListener("error", () => { if (!direkt) dogrudan("video hatası"); else yedek("video hatası"); });
+    v.addEventListener("error", () => { if (!direkt) dogrudan("video hatası"); else webp("video hatası"); });
     // Video tamamen inene kadar yeşil ekranda bekle; inmezse yedek animasyon
     const yedekT = setTimeout(yedek, 90000);
-    const oyna = () => { try { const q = v.play(); if (q && q.catch) q.catch((e) => { setTimeout(() => { try { const q2 = v.play(); if (q2 && q2.catch) q2.catch(yedek); } catch (x) { yedek(x); } }, 600); }); } catch (e) { yedek(e); } };
+    let webpte = false;
+    const webp = (neden) => {
+      // iPhone videoyu otomatik oynatmıyorsa (Düşük Güç Modu vb.): aynı animasyon hareketli resim olarak
+      if (webpte || basladi || yedekte) return yedek(neden); webpte = true;
+      fetch("assets/ty/acilis.webp", { signal: ac.signal }).then((r) => { if (!r.ok) throw new Error("webp http " + r.status); return r.blob(); }).then((bl) => {
+        if (yedekte || basladi) return;
+        const im = new Image(); im.className = "ty-el-video"; im.alt = "";
+        im.onload = () => {
+          if (v.parentNode) v.parentNode.removeChild(v);
+          basla(5.1);
+          setTimeout(() => { d.classList.add("ty-vid-yazili"); }, 2300);
+          setTimeout(() => { bitti || bitir(); }, 6100);
+        };
+        im.onerror = () => yedek((neden && neden.name ? neden.name : "video") + " + resim hatası");
+        d.insertBefore(im, d.firstChild); im.src = URL.createObjectURL(bl);
+      }).catch((e) => yedek((neden && neden.name ? neden.name + " / " : "") + (e && e.message)));
+    };
+    const oyna = () => { try { const q = v.play(); if (q && q.catch) q.catch((e) => webp(e)); } catch (e) { webp(e); } };
     let direkt = false;
     const dogrudan = (neden) => {
       // İndirip belleğe almak olmadı: videoyu doğrudan adresinden akıt
-      if (direkt || yedekte) return yedek(neden); direkt = true;
+      if (direkt || yedekte) return webp(neden); direkt = true;
       v.src = "assets/ty/acilis.mp4"; v.load(); oyna();
     };
     fetch("assets/ty/acilis.mp4", { signal: ac.signal }).then((r) => { if (!r.ok) throw new Error("http " + r.status); return r.blob(); }).then((bl) => {
