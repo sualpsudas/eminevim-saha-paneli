@@ -995,14 +995,23 @@ html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-ikon, ht
 .ty-el-ilk { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transform: scale(1.04); transform-origin: 50% 0; opacity: 0; transition: opacity .6s ease; }
 .ty-ilk-var .ty-el-ilk { opacity: 1; }
 .ty-yz-direkt .ty-vid-yazi { transition: none; opacity: 1; }
-.ty-vid-yazi { position: absolute; left: 0; right: 0; top: calc(env(safe-area-inset-top,0px) + 10vh); display: none; flex-direction: column; align-items: center; gap: 12px; opacity: 0; transition: opacity .7s ease; pointer-events: none; }
+.ty-vid-yazi { position: absolute; left: 0; right: 0; top: calc(env(safe-area-inset-top,0px) + 10vh); display: none; flex-direction: column; align-items: center; gap: 12px; opacity: 0; transition: opacity .6s ease; pointer-events: none; }
 .ty-vid .ty-vid-yazi { display: flex; }
-.ty-vid.ty-vid-yazili .ty-vid-yazi { opacity: 1; }
+.ty-vid.ty-vid-yazili .ty-vid-yazi, .ty-vid.ty-ilk-var .ty-vid-yazi { opacity: 1; }
 .ty-vid-yazi img { width: min(52vw,210px); height: auto; filter: drop-shadow(0 2px 10px rgba(0,40,25,.3)); }
 .ty-vid-yazi div { font-weight: 800; font-size: 29px; letter-spacing: -.6px; background: linear-gradient(90deg,#8BE02E 0%,#fff 82%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; padding: 0 4px 2px; }
 .ty-acilis.ty-el.ty-vid { transition: opacity .9s ease, filter .9s ease; }
 .ty-yz-direkt.ty-vid-bitti { transition-duration: .6s; }
 .ty-acilis.ty-el.ty-vid.ty-vid-bitti { opacity: 0; filter: blur(24px); }
+/* b78: beyaz kart "Devam et"in biraz altında biter; Eminevim logosu kartın altında, beyaz (giriş, yeni üye, personel) */
+html.native-app .giris-ic.giris-ic, html.native-app .giris-ic.giris-ic:has(input[aria-label="Ad"]) { background: linear-gradient(180deg,#0A5A3E 0,#00724C 100%) !important; }
+html.native-app .customer-screen:has(.giris-ic) { background: linear-gradient(180deg,#0A5A3E 0,#00724C 100%) !important; }
+html.native-app .giris-ic .giris-form { flex: 0 0 auto !important; margin: 0 14px !important; align-self: stretch !important; border-radius: 32px !important; padding: 26px 22px 28px !important; background: #fff !important; box-shadow: 0 14px 34px rgba(0,30,20,.22) !important; }
+html.native-app .giris-ic .giris-marka { filter: brightness(0) invert(1) !important; opacity: 1 !important; width: 104px !important; margin: 24px auto 0 !important; flex: none; }
+html.native-app .pg-kap > div > div { display: flex !important; flex-direction: column !important; }
+html.native-app .pg-kap .pg-form { flex: 0 0 auto !important; margin: 0 14px !important; align-self: stretch !important; border-radius: 32px !important; padding: 26px 22px 28px !important; background: #fff !important; box-shadow: 0 14px 34px rgba(0,30,20,.22) !important; }
+html.native-app .pg-kap img[alt="Eminevim"] { position: static !important; order: 99; filter: brightness(0) invert(1) !important; width: 104px !important; margin: 24px auto 0 !important; flex: none; align-self: center !important; transform: none !important; left: auto !important; opacity: 1 !important; }
+html.native-app .giris-ic .giris-form.giris-form > button.giris-geri { left: 18px !important; right: auto !important; color: #fff !important; }
 /* b32: sayfa yukarı/aşağı esnemesin; yalnız uzun listeler kendi içinde kayar */
 html.native-app, html.native-app body { position: fixed; inset: 0; width: 100%; height: 100%; overflow: hidden !important; overscroll-behavior: none; }
 html.native-app .customer-panel, html.native-app .customer-finance-scroll, html.native-app .customer-settings, html.native-app .customer-profile, html.native-app .customer-appointments, html.native-app .tp-sutun, html.native-app .tp-iki, html.native-app .tp-ana { overscroll-behavior: none !important; }
@@ -1269,7 +1278,7 @@ html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scro
           <sc-if value="{{ kodHataVar }}"><div role="alert" style="font-size:12px;font-weight:700;color:#B25E30;text-align:left;">{{ kodHata }}</div></sc-if>
           <button onClick="{{ kodIleri }}" style-active="transform:scale(.97);" style="width:100%; min-height:46px; background:#00724C; color:#fff; border:none; border-radius:22px; font-size:14px; font-weight:700; cursor:pointer; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">{{ kodDugme }}</button>
           <sc-if value="{{ kodTekrarVar }}"><button class="kod-tekrar" onClick="{{ kodTekrar }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;">Kodu tekrar gönder</button></sc-if><sc-if value="{{ girisGeriVar }}"><button class="giris-geri" onClick="{{ girisGeri }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;min-height:32px;">Geri</button></sc-if>
-        <img class="giris-marka" src="assets/logo-green.png" alt="Eminevim" style="width:96px;height:auto;margin:auto auto 0;display:block;opacity:.9;"></div></sc-if>
+        </div><img class="giris-marka" src="assets/logo-green.png" alt="Eminevim" style="width:96px;height:auto;margin:auto auto 0;display:block;opacity:.9;"></sc-if>
       </div>
     </div>
   </div>
