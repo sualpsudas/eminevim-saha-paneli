@@ -917,3 +917,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Personel (SPY) ekrani: .tp native-app ici position:relative oldugu icin sayfa uzuyor, alt menu ekran disinda kaliyordu -> fixed inset 0; Performans/Profil yuvarlak ustlu panel + baslik gorselleri (hero-finans/hero-profil). sw v71.
 - 2026-11-20: Personel Girisi ekrani musteri girisiyle ayni duzen (yesil ust, beyaz yuvarlak ustlu panel, logo beyaz). sw v72.
 - 2026-11-20: Yonetici ekrani: fotografsiz avatar (Y) duzeltildi (ustte beyaz daire/yesil harf; profilde yesil), Saha Canli ust bosluk. sw v73.
+- 2026-11-20: Giris ekrani: logo kare zemini kalkti (yalniz cati+noktalar+agiz), 2,5 kat buyudu; ust bolum ve beyaz panel asagi kaydirildi; kisa ekranlarda kucultme. sw v74.
