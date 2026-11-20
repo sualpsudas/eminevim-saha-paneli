@@ -957,3 +957,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Açılışta ilk kare (fotoğraf) yüklenir yüklenmez görünür, video üstüne biner; video 7 sn'de inmezse ilk kare en az 1,8 sn kalıp flu geçiş. sw v92.
 
 - 2026-11-20: Telefon tarayıcısında (dokunmatik + dar ekran) da native-app görünümü; ana ekran kısayolu düz gri sayfa açıyordu. Masaüstü değişmedi. sw v93.
+
+- 2026-11-20: Videosuz açılışta Eminevim+Tasarruf Yanımda yazıları animasyonsuz hemen, bekleme 5,5 sn, ilk kare 1,2 sn + kısa flu geçiş; animasyon işareti artık GİRİŞ yapınca konur (girişsiz her açılışta oynar), çıkışta silinir. sw v96.
