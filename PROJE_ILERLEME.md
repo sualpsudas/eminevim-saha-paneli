@@ -939,3 +939,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Giriş logosu 160 -> 200 px (başlık/kart konumu aynı), açılışta son kare 1 sn daha uzun (5. sn'de flu geçiş). sw v83.
 
 - 2026-11-20: Açılış videosu uygulamada başlamazsa yedek (fotoğraf+çizim dönüşümü) 5 sn yerine 2,5 sn sonra devreye girer; video özniteliği (muted/autoplay) src'den önce verilir; loadeddata'da yeniden play. sw v84. Animasyonlu WebP yedeği üretilemedi (Playwright seek askıda), SVG yedek yeterli.
+
+- 2026-11-20: Giriş logosu web boyutuna (300x317) büyüdü, animasyon ölçüleri uyarlandı. Açılış: video yüklenene kadar yeşil ekran, video oynayınca 1,1 sn yumuşak belirir; tüm zamanlama 'playing' anından sayılır (yedek 12 sn). sw v85.
