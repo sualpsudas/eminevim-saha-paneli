@@ -1064,6 +1064,7 @@ html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { 
 .ty-acilis { position: fixed; inset: 0; z-index: 9999; background: linear-gradient(165deg,#0A5A3E 0%,#00724C 60%,#0F8A5E 100%); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; text-align: center; padding: calc(env(safe-area-inset-top,0px) + 9vh) 28px 0; animation: tyAcilisCik 4.2s ease forwards; font-family: "TYJakarta", -apple-system, "Segoe UI", sans-serif; }
 .ty-acilis-ic { animation: tyAcilisGel .7s ease both; position: relative; z-index: 1; }
 .ty-acilis-marka { color: #fff; font-weight: 800; font-size: clamp(38px,12.5vw,58px); letter-spacing: .06em; line-height: 1.05; }
+.ty-acilis-logo { display: block; width: min(64vw,250px); height: auto; margin: 0 auto 14px; filter: drop-shadow(0 2px 10px rgba(0,40,25,.35)); }
 .ty-acilis-ikon { display: block; width: 76px; height: 76px; border-radius: 18px; margin: 0 auto 16px; box-shadow: 0 6px 16px rgba(0,0,0,.25); }
 .ty-acilis-ad { text-shadow: 0 1px 8px rgba(0,40,25,.55); color: #E3F6EC; font-weight: 700; font-size: clamp(16px,4.6vw,20px); letter-spacing: .02em; margin-top: 10px; }
 .ty-acilis-slogan { text-shadow: 0 1px 8px rgba(0,40,25,.65); color: #fff; font-weight: 600; font-size: clamp(13px,3.8vw,16px); line-height: 1.4; margin: 26px auto 0; max-width: 270px; }
@@ -2041,7 +2042,7 @@ class Component extends DCLogic {
     const d = document.createElement("div");
     d.className = "ty-acilis";
     d.setAttribute("aria-hidden", "true");
-    d.innerHTML = '<div class="ty-acilis-ic"><div class="ty-acilis-marka">EMİNEVİM</div><div class="ty-acilis-ad">Tasarruf Yanımda</div><div class="ty-acilis-slogan">Dilediğiniz yerde temsilcimizle görüşme planlayın!</div></div><img class="ty-acilis-sahne" src="assets/ty/acilis-foto.webp" alt="">';
+    d.innerHTML = '<div class="ty-acilis-ic"><img class="ty-acilis-logo" src="assets/logo-white.png" alt="Eminevim"><div class="ty-acilis-ad">Tasarruf Yanımda</div><div class="ty-acilis-slogan">Dilediğiniz yerde temsilcimizle görüşme planlayın!</div></div><img class="ty-acilis-sahne" src="assets/ty/acilis-foto.webp" alt="">';
     document.body.appendChild(d);
     setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 4300);
   }
