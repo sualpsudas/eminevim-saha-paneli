@@ -989,7 +989,9 @@ html.native-app.ty-acilis-var.ty-giris-anim .giris-ic .giris-baslik, html.native
 .ty-el-video { opacity: 0; transition: opacity 1.1s ease; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transform: scale(1.04); transform-origin: 50% 0; }
 @keyframes giKuculV { from { transform: translateY(calc(51.8vh - max(54px, calc(env(safe-area-inset-top,0px) + 30px)) - 74px)) scale(2); } to { transform: none; } }
 html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-ikon, html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-baslik, html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-slogan, html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-form, html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-marka { animation: none !important; }
-.ty-vid-hazir .ty-el-video, .ty-vid-ilk .ty-el-video { opacity: 1; }
+.ty-vid-hazir .ty-el-video { opacity: 1; }
+.ty-el-ilk { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transform: scale(1.04); transform-origin: 50% 0; opacity: 0; transition: opacity .6s ease; }
+.ty-ilk-var .ty-el-ilk { opacity: 1; }
 .ty-vid-yazi { position: absolute; left: 0; right: 0; top: calc(env(safe-area-inset-top,0px) + 10vh); display: none; flex-direction: column; align-items: center; gap: 12px; opacity: 0; transition: opacity .7s ease; pointer-events: none; }
 .ty-vid .ty-vid-yazi { display: flex; }
 .ty-vid.ty-vid-yazili .ty-vid-yazi { opacity: 1; }
@@ -2206,24 +2208,30 @@ class Component extends DCLogic {
     d.innerHTML = '<div class="ty-el-zoom"><img class="ty-el-foto" src="assets/ty/acilis-el-sikisma.webp" alt=""><div class="ty-el-wash"></div><svg class="ty-el-svg" viewBox="0 0 852 1846" preserveAspectRatio="xMidYMid slice"><defs><linearGradient id="tyl" x1="0" y1="0" x2="1" y2="0"><stop id="tyl0" offset="0" stop-color="#fff"/><stop id="tyl1" offset=".45" stop-color="#fff"/><stop id="tyl2" offset="1" stop-color="#fff"/></linearGradient></defs><g id="tyg" opacity="0"><path id="tyr" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"/><circle id="tyc1" fill="#fff" fill-opacity="0" stroke="#fff"/><circle id="tyc2" fill="#fff" fill-opacity="0" stroke="#fff"/><path id="tys" fill="none" stroke="url(#tyl)" stroke-linecap="round"/></g></svg></div><div class="ty-el-ust"></div><div class="ty-acilis-ic"><img class="ty-acilis-logo" src="assets/logo-white.png" alt="Eminevim"><div class="ty-acilis-ad">Tasarruf Yanımda</div><div class="ty-acilis-slogan">Dilediğiniz yerde temsilcimizle görüşme planlayın!</div></div>';
     const h = document.documentElement;
     const v = document.createElement("video");
-    v.className = "ty-el-video"; v.poster = "assets/ty/acilis-el-sikisma.webp"; v.muted = true; v.defaultMuted = true; v.playsInline = true; v.preload = "auto";
+    v.className = "ty-el-video"; v.muted = true; v.defaultMuted = true; v.playsInline = true; v.preload = "auto";
     v.setAttribute("muted", ""); v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", ""); v.setAttribute("autoplay", "");
     d.classList.add("ty-vid"); d.insertBefore(v, d.firstChild);
+    // İlk kare (videonun ilk karesiyle aynı): yüklenir yüklenmez görünür, video üstüne biner
+    const ilk = document.createElement("img"); ilk.className = "ty-el-ilk"; ilk.alt = ""; ilk.decoding = "async";
+    ilk.onload = () => { d.classList.add("ty-ilk-var"); ilkT = Date.now(); };
+    ilk.src = "assets/ty/acilis-el-sikisma.webp"; d.insertBefore(ilk, d.firstChild);
     const yz = document.createElement("div"); yz.className = "ty-vid-yazi";
     yz.innerHTML = '<img src="assets/logo-white.png" alt=""><div>Tasarruf Yanımda</div>'; d.appendChild(yz);
     document.body.appendChild(d);
     h.classList.add("ty-acilis-var", "ty-vid-mod");
     h.style.setProperty("--gd", "99s");
-    let basladi = false, yedekte = false;
+    let basladi = false, yedekte = false, ilkT = 0;
     const ac = new AbortController();
     const yedek = () => {
       // Video çok geç inerse: ilk kare olduğu gibi görünür, sonra flu geçişle giriş sayfası
       if (basladi || yedekte) return; yedekte = true;
       try { ac.abort(); } catch (e) { }
-      d.classList.add("ty-vid-ilk");
-      setTimeout(() => { d.classList.add("ty-vid-bitti"); }, 1600);
-      setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, 2700);
-      setTimeout(() => { h.classList.remove("ty-giris-anim", "ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, 4000);
+      d.classList.add("ty-ilk-var");
+      // İlk kare en az 1,8 sn ekranda kalsın, sonra flu geçiş
+      const bek = Math.max(300, 1800 - (ilkT ? Date.now() - ilkT : 0) + (ilkT ? 0 : 600));
+      setTimeout(() => { d.classList.add("ty-vid-bitti"); }, bek);
+      setTimeout(() => { try { v.pause(); } catch (e) { } if (d.parentNode) d.parentNode.removeChild(d); }, bek + 1100);
+      setTimeout(() => { h.classList.remove("ty-giris-anim", "ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, bek + 2400);
     };
     const sonT = setTimeout(() => { h.classList.remove("ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd"); }, 40000);
     let bitti = false;
@@ -2245,7 +2253,7 @@ class Component extends DCLogic {
     v.addEventListener("ended", () => setTimeout(bitir, 1000));
     v.addEventListener("error", yedek);
     // Video tamamen inene kadar yeşil ekranda bekle; inmezse yedek animasyon
-    const yedekT = setTimeout(yedek, 5000);
+    const yedekT = setTimeout(yedek, 7000);
     fetch("assets/ty/acilis.mp4", { signal: ac.signal }).then((r) => { if (!r.ok) throw new Error("video"); return r.blob(); }).then((bl) => {
       if (yedekte) return;
       v.src = URL.createObjectURL(bl);
