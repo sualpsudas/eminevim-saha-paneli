@@ -21,6 +21,8 @@
   window.EMINEVIM_NATIVE = isNative;
   // Ana ekrana eklenen web uygulaması (standalone) da uygulama görünümünü alır
   var standalone = window.navigator.standalone === true || (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
+  // Telefon tarayıcısında da (dokunmatik, dar ekran) aynı uygulama görünümü
+  if (!standalone && window.matchMedia && window.matchMedia('(pointer: coarse)').matches && Math.min(screen.width, window.innerWidth) <= 520) standalone = true;
   if (isNative || standalone) {
     document.documentElement.classList.add('native-app');
     var vp = document.querySelector('meta[name="viewport"]');
