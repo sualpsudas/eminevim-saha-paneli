@@ -920,3 +920,6 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Giris ekrani: logo kare zemini kalkti (yalniz cati+noktalar+agiz), 2,5 kat buyudu; ust bolum ve beyaz panel asagi kaydirildi; kisa ekranlarda kucultme. sw v74.
 
 - 2026-11-20: Personel girişi: "Eminevim" logosu altına gradyanlı "Tasarruf Yanımda" eklendi, "Personel Girişi" küçük alt başlık oldu (animasyonsuz). sw v75.
+
+- 2026-11-20: Yeni üye adımı: üst bölüm küçüldü, form tek ekranda, Geri düğmesi kartın sağ üstünde. Personel girişi yerleşimi müşteri girişiyle aynı (foto=ikon, Tasarruf Yanımda=başlık, Personel Girişi=slogan, Eminevim altta). Açılış animasyonu denemesi: logo ortada büyük çizilir, küçülür, arka plan flu->net; yazı/kart animasyonsuz; animasyonlar ~
+- 2026-11-20: Yeni üye adımı: üst bölüm küçüldü, form tek ekranda, Geri düğmesi kartın sağ üstünde. Personel girişi yerleşimi müşteri girişiyle aynı (foto=ikon, Tasarruf Yanımda=başlık, Personel Girişi=slogan, Eminevim altta). Açılış animasyonu denemesi: logo ortada büyük çizilir, küçülür, arka plan flu->net; yazı/kart animasyonsuz; animasyonlar ~18 yüzde hızlandı. sw v76.
