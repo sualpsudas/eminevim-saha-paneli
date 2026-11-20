@@ -2331,6 +2331,19 @@ class Component extends DCLogic {
       if (direkt || yedekte) return webp(neden); direkt = true;
       v.src = "assets/ty/acilis.mp4"; v.load(); oyna();
     };
+    // Kestirme: açılış ekranına iki kez dokunulursa video/yedek ne olursa olsun doğrudan giriş ekranına geçilir
+    let atlandi = false, sonDok = 0;
+    const atla = () => {
+      if (atlandi) return; atlandi = true; yedekte = true; bitti = true;
+      try { ac.abort(); } catch (e) { }
+      clearTimeout(this._tyAnimT); clearTimeout(sonT); clearTimeout(yedekT);
+      try { v.pause(); } catch (e) { }
+      d.style.pointerEvents = "none"; d.style.transition = "opacity .3s ease"; d.style.opacity = "0";
+      h.classList.remove("ty-giris-anim", "ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd");
+      setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 350);
+    };
+    d.addEventListener("pointerdown", () => { const t = Date.now(); if (t - sonDok < 500) atla(); sonDok = t; });
+    d.addEventListener("dblclick", atla);
     fetch("assets/ty/acilis.mp4", { signal: ac.signal }).then((r) => { if (!r.ok) throw new Error("http " + r.status); return r.blob(); }).then((bl) => {
       if (yedekte) return;
       v.src = URL.createObjectURL(bl);

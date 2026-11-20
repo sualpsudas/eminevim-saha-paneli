@@ -995,3 +995,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20 (sw v114): giriş hâlesi bir kademe daha azaltıldı.
 
 - 2026-11-20 (sw v115): giriş hâlesi yalnız ev logosunda ve Eminevim logosunda; başlık/slogandan kaldırıldı, bir kademe daha azaltıldı.
+
+- 2026-11-20 (sw v116): açılış ekranına (yeşil/video/yedek fotoğraf) iki kez dokunulursa doğrudan giriş ekranına kestirme. Tek dokunuş etkisiz. Giriş ekranına ek içerik (10 taslak) şimdilik eklenmedi, karar: kalsın.
