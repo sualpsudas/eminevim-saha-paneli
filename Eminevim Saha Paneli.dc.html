@@ -1071,6 +1071,9 @@ html.native-app .giris-ikon .gi-dudak { stroke-dasharray: 1 2; stroke-dashoffset
 html.native-app .giris-ikon .gi-cati { stroke-dasharray: 1 2; stroke-dashoffset: 1; animation: giCiz .9s cubic-bezier(.4,0,.2,1) calc(var(--gd,0s) + .5s) forwards; }
 html.native-app .giris-ikon .gi-n1, html.native-app .giris-ikon .gi-n2 { transform-box: fill-box; transform-origin: center; animation: giNokta .45s cubic-bezier(.2,.9,.3,1.5) calc(var(--gd,0s) + 1.5s) both; }
 html.native-app .giris-ikon .gi-n2 { animation-delay: calc(var(--gd,0s) + 2s); }
+/* animasyon yalnız uygulama açılışında; çıkış yapınca giriş ekranı animasyonsuz gelir */
+html.native-app:not(.ty-giris-anim) .giris-ikon, html.native-app:not(.ty-giris-anim) .giris-baslik, html.native-app:not(.ty-giris-anim) .giris-slogan, html.native-app:not(.ty-giris-anim) .giris-form, html.native-app:not(.ty-giris-anim) .giris-ikon .gi-n1, html.native-app:not(.ty-giris-anim) .giris-ikon .gi-n2, html.native-app:not(.ty-giris-anim) .giris-ikon .gi-cati, html.native-app:not(.ty-giris-anim) .giris-ikon .gi-dudak { animation: none !important; }
+html.native-app:not(.ty-giris-anim) .giris-ikon .gi-cati, html.native-app:not(.ty-giris-anim) .giris-ikon .gi-dudak { stroke-dashoffset: 0 !important; }
 @keyframes giSol { from { opacity: 0; } to { opacity: 1; } }
 @keyframes giIkon { from { opacity: 0; transform: translateY(14px) scale(.8); } to { opacity: 1; transform: none; } }
 @keyframes giBaslik { from { clip-path: inset(0 100% 0 0); opacity: 1; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
