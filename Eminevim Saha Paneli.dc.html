@@ -1046,6 +1046,8 @@ html.native-app .pg-kap::before { content: ""; position: absolute; left: 0; righ
 /* b82: giriş ekranı yazı/logo çevresinde yumuşak ışık hâlesi (kendileri değil, etraflarına yayılır; 11-20 azaltıldı) */
 html.native-app .giris-ic.giris-ic .giris-ikon { filter: drop-shadow(0 0 9px rgba(170,255,205,.18)) drop-shadow(0 0 22px rgba(170,255,205,.09)) !important; }
 html.native-app .giris-ic.giris-ic .giris-marka, html.native-app .pg-kap img[alt="Eminevim"] { filter: brightness(0) invert(1) drop-shadow(0 0 7px rgba(190,255,215,.33)) drop-shadow(0 0 16px rgba(190,255,215,.17)) !important; }
+/* b84: kart başlığı tek satır, yazı tipi yüklenince alt satıra inip ekranı kaydırmasın */
+html.native-app.native-app .giris-form.giris-form b { font-size: 19px !important; white-space: nowrap; letter-spacing: -.2px; }
 /* b83: klavye açılınca (görünür alan kısalınca) giriş ekranı: alt logo kaybolur, üst kısım küçülür, ekran kayar */
 @media (max-height: 600px) {
   html.native-app .giris-ic.giris-ic, html.native-app .pg-kap { overflow-y: auto !important; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
@@ -2349,10 +2351,13 @@ class Component extends DCLogic {
       try { ac.abort(); } catch (e) { }
       clearTimeout(this._tyAnimT); clearTimeout(sonT); clearTimeout(yedekT);
       try { v.pause(); } catch (e) { }
-      d.style.pointerEvents = "none"; d.style.transition = "opacity .3s ease"; d.style.opacity = "0";
+      // Perde solarken de dokunuşları yutar: ikinci dokunuş alttaki düğmeye/alana geçmesin (kaldırma 800 ms sonra)
+      d.style.pointerEvents = "auto"; d.style.transition = "opacity .3s ease"; d.style.opacity = "0";
       h.classList.remove("ty-giris-anim", "ty-acilis-var", "ty-vid-mod"); h.style.removeProperty("--gd");
-      setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 350);
+      setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 800);
     };
+    const yut = (e) => { e.preventDefault(); e.stopPropagation(); };
+    ["click", "dblclick", "touchend", "mouseup", "pointerup"].forEach((n) => d.addEventListener(n, yut));
     d.addEventListener("pointerdown", () => { const t = Date.now(); if (t - sonDok < 500) atla(); sonDok = t; });
     d.addEventListener("dblclick", atla);
     fetch("assets/ty/acilis.mp4", { signal: ac.signal }).then((r) => { if (!r.ok) throw new Error("http " + r.status); return r.blob(); }).then((bl) => {
