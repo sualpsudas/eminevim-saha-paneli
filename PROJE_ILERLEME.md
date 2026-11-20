@@ -896,3 +896,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Acilis ekrani artik gercek fotograf (assets/ty/acilis-foto.webp, Nano Banana ciktisinin ust sag kare kirpimi, 378x681 dusuk cozunurluk): ev + el sikisan iki kisi, yazi ustte. sw v54. Yuksek cozunurluklu tek gorsel gelince degistirilecek. iOS yerel acilis ekrani ayri (Codemagic).
 
 - 2026-11-20: Acilis fotografi GPT ciktisiyla degisti (941x1672, 124 KB): gun batimi, ev ve el sikisan iki kisi, ust yesil gecis yazi icin. 393 ve 320 test edildi. sw v55.
+
+- 2026-11-20: Acilis ekrani logosuz, sure 2.6 -> 4.3 sn (sw v56).

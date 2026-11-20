@@ -1059,9 +1059,9 @@ html.native-app .m-sheet .m-actions .m-btn { padding: 0 10px !important; }
 /* b55: finansman ilerleme çubukları diğer sayfaların yeşil çizgisiyle aynı hizada */
 html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { transform: translateY(-12px) !important; }
 /* b56: açılış ekranı (EMİNEVİM + Tasarruf Yanımda + slogan), giriş ekranıyla aynı yeşil palet */
-@keyframes tyAcilisCik { 0%,72% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
+@keyframes tyAcilisCik { 0%,80% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
 @keyframes tyAcilisGel { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-.ty-acilis { position: fixed; inset: 0; z-index: 9999; background: linear-gradient(165deg,#0A5A3E 0%,#00724C 60%,#0F8A5E 100%); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; text-align: center; padding: calc(env(safe-area-inset-top,0px) + 9vh) 28px 0; animation: tyAcilisCik 2.5s ease forwards; font-family: "TYJakarta", -apple-system, "Segoe UI", sans-serif; }
+.ty-acilis { position: fixed; inset: 0; z-index: 9999; background: linear-gradient(165deg,#0A5A3E 0%,#00724C 60%,#0F8A5E 100%); display: flex; flex-direction: column; align-items: center; justify-content: flex-start; text-align: center; padding: calc(env(safe-area-inset-top,0px) + 9vh) 28px 0; animation: tyAcilisCik 4.2s ease forwards; font-family: "TYJakarta", -apple-system, "Segoe UI", sans-serif; }
 .ty-acilis-ic { animation: tyAcilisGel .7s ease both; position: relative; z-index: 1; }
 .ty-acilis-marka { color: #fff; font-weight: 800; font-size: clamp(38px,12.5vw,58px); letter-spacing: .06em; line-height: 1.05; }
 .ty-acilis-ikon { display: block; width: 76px; height: 76px; border-radius: 18px; margin: 0 auto 16px; box-shadow: 0 6px 16px rgba(0,0,0,.25); }
@@ -2039,9 +2039,9 @@ class Component extends DCLogic {
     const d = document.createElement("div");
     d.className = "ty-acilis";
     d.setAttribute("aria-hidden", "true");
-    d.innerHTML = '<div class="ty-acilis-ic"><img class="ty-acilis-ikon" src="assets/ty/ikon.png" alt=""><div class="ty-acilis-marka">EMİNEVİM</div><div class="ty-acilis-ad">Tasarruf Yanımda</div><div class="ty-acilis-slogan">Dilediğiniz yerde temsilcimizle görüşme planlayın!</div></div><img class="ty-acilis-sahne" src="assets/ty/acilis-foto.webp" alt="">';
+    d.innerHTML = '<div class="ty-acilis-ic"><div class="ty-acilis-marka">EMİNEVİM</div><div class="ty-acilis-ad">Tasarruf Yanımda</div><div class="ty-acilis-slogan">Dilediğiniz yerde temsilcimizle görüşme planlayın!</div></div><img class="ty-acilis-sahne" src="assets/ty/acilis-foto.webp" alt="">';
     document.body.appendChild(d);
-    setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 2600);
+    setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 4300);
   }
   sheetKapat() {
     // Pencere aşağı kayarak kaybolur, sonra kayıt temizlenir
