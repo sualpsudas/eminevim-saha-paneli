@@ -973,3 +973,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Video gelmezse ilk kare + yazılar 3 sn ekranda kalır, sonra flu geçiş. sw v103.
 
 - 2026-11-20: Açılış görsel (ilk kare) yedeği kapatıldı: video inene kadar yeşil ekranda beklenir (güvenlik: 90 sn veya hata → sessizce giriş sayfası). sw v104.
+
+- 2026-11-20: Uygulamada video 3-5 sn içinde girişe atlıyordu. Yedekler: indirme olmazsa videoyu doğrudan adresten akıt; oynatma reddedilirse 0,6 sn sonra tekrar; hepsi olmazsa nedeni yeşil ekranda 4,5 sn yazıp (v105 etiketli) girişe geç. Neden: bilinmiyor, kullanıcıdan ekrandaki yazı istenecek. sw v105.
