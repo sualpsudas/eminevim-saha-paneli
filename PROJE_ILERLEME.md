@@ -951,3 +951,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Açılış animasyonu cihazda (localStorage ty_acilis) bir kez; yalnız 'Çıkış yap' sonrası açılışta yeniden. Giriş logosu 140x148. sw v89.
 
 - 2026-11-20: Video 5 sn içinde inmezse ilk kare (fotoğraf) görünür, 1,6 sn sonra flu geçişle giriş sayfası (SVG dönüşüm yedeği kalktı). sw v90.
+
+- 2026-11-20: Ana ekrana eklenen web kısayolu (standalone) uygulama görünümünü (native-app sınıfı) alır; düz gri giriş sayfası sorunu. sw v91.
