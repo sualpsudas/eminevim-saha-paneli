@@ -11,6 +11,7 @@ Adresler (hepsi gizli yolun altında: /<gizli_yol.txt>/...):
 """
 import gzip
 import json
+import re
 import os
 import secrets
 import signal
@@ -84,6 +85,39 @@ class Isleyici(BaseHTTPRequestHandler):
             return dosya if dosya.is_file() else None
         return None
 
+    def _video(self, dosya):
+        # iPhone (WebKit) video için 'Range' (parça) isteği ister; 206 + Content-Range yanıtı
+        boyut = dosya.stat().st_size
+        bas, son, kod = 0, boyut - 1, 200
+        m = re.match(r"bytes=(\d*)-(\d*)$", self.headers.get("Range", "").strip())
+        if m and (m.group(1) or m.group(2)):
+            if m.group(1):
+                bas = int(m.group(1))
+                son = min(int(m.group(2)), boyut - 1) if m.group(2) else boyut - 1
+            else:
+                bas = max(0, boyut - int(m.group(2)))
+            if bas >= boyut or bas > son:
+                self.send_response(416)
+                self.send_header("Content-Range", "bytes */%d" % boyut)
+                self.end_headers()
+                return
+            kod = 206
+        with open(dosya, "rb") as f:
+            f.seek(bas)
+            veri = f.read(son - bas + 1)
+        self.send_response(kod)
+        self.send_header("Content-Type", "video/mp4")
+        self.send_header("Accept-Ranges", "bytes")
+        self.send_header("Content-Length", str(len(veri)))
+        if kod == 206:
+            self.send_header("Content-Range", "bytes %d-%d/%d" % (bas, son, boyut))
+        self.send_header("Cache-Control", "no-cache")
+        self.end_headers()
+        try:
+            self.wfile.write(veri)
+        except (BrokenPipeError, ConnectionResetError):
+            pass
+
     def _durum(self):
         q = parse_qs(self.path.partition("?")[2])
         try:
@@ -127,6 +161,8 @@ class Isleyici(BaseHTTPRequestHandler):
         dosya = self._statik(yol)
         if not dosya:
             return self._yanit(404, {"hata": "Bulunamadı"})
+        if dosya.suffix.lower() == ".mp4":
+            return self._video(dosya)
         icerik = dosya.read_bytes()
         if dosya.name == UYGULAMA or dosya.parent.name == "web-basvuru" and dosya.suffix == ".html":
             on = ("/" + self.server.gizli + "/").encode()  # tam yol: web formu kopyasında <base> eminevim.com'u gösterir
