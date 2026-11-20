@@ -890,3 +890,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Logo: 4 ozgun isaret onerisi taslak/logo-onerileri.png (A konum catisi, B e+cati, C ev-tekerlek, D birlikte); tik begenilmedi. Karar bekliyor.
 
 - 2026-11-20: Yeni logo: catı + iki nokta (beyaz/yesil) + firca gulumseme (ucları ince, saga yukselen, beyazdan yesile). Kaynak taslak/ikon.svg. Uygulama ikonu (ios AppIcon 1024, assets/icon-180/192/512), acilis ekranina ikon (assets/ty/ikon.png), sw v52. iOS ikonu ve yerel acilis ekrani yeni Codemagic derlemesi ister; web/Pages hemen gecer. Turk Patent marka sorgusu yapilmadi.
+
+- 2026-11-20: Ikon eski duz hale dondu (catı + iki nokta + simetrik beyazdan yesile gulumseme, firca dudak kaldirildi). Dosyalar ayni (ios AppIcon, assets/icon-*, assets/ty/ikon.png), sw v53.
