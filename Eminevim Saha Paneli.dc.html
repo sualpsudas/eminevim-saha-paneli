@@ -1060,14 +1060,15 @@ html.native-app .m-sheet .m-actions .m-btn { padding: 0 10px !important; }
 html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { transform: translateY(-12px) !important; }
 /* b63: sade giriş ekranı (ikon + ad + slogan), çizim sahne yok */
 html.native-app .giris-ic { background: linear-gradient(180deg,#0A5A3E 0,#00724C 330px,#E3F4EC 330px) !important; padding: 92px 0 0 !important; gap: 0 !important; }
-html.native-app .giris-ikon { flex: 0 0 72px; display: block; width: 72px; height: 72px; min-height: 72px; margin: 0 auto 12px; filter: drop-shadow(0 6px 12px rgba(0,30,20,.3)); animation: giIkon .6s ease both; }
-html.native-app .giris-baslik { flex-shrink: 0; background: linear-gradient(90deg,#8BE02E 0%,#fff 82%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent !important; animation: giBaslik .9s ease .35s both; margin: 0 !important; font-size: 29px !important; padding: 0 4px 2px; }
-html.native-app .giris-slogan { flex-shrink: 0; color: rgba(255,255,255,.86); font-size: 13px; font-weight: 600; line-height: 1.4; max-width: 250px; text-align: center; margin: 8px auto 34px; animation: giIkon .8s ease .7s both; }
-html.native-app .giris-ikon .gi-dudak { stroke-dasharray: 1; stroke-dashoffset: 1; animation: giCiz .8s cubic-bezier(.4,0,.2,1) .5s forwards; }
-html.native-app .giris-ikon .gi-n1, html.native-app .giris-ikon .gi-n2 { transform-box: fill-box; transform-origin: center; animation: giNokta .4s ease both; }
+html.ty-acilis-var { --gd: 3.9s; }
+html.native-app .giris-ikon { flex: 0 0 72px; display: block; width: 72px; height: 72px; min-height: 72px; margin: 0 auto 12px; filter: drop-shadow(0 6px 12px rgba(0,30,20,.3)); animation: giIkon .9s cubic-bezier(.2,.9,.3,1.2) calc(var(--gd,0s) + .1s) both; }
+html.native-app .giris-baslik { flex-shrink: 0; background: linear-gradient(90deg,#8BE02E 0%,#fff 82%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent !important; animation: giBaslik 1.5s cubic-bezier(.3,.1,.2,1) calc(var(--gd,0s) + 1.4s) both; margin: 0 !important; font-size: 29px !important; padding: 0 4px 2px; }
+html.native-app .giris-slogan { flex-shrink: 0; color: rgba(255,255,255,.86); font-size: 13px; font-weight: 600; line-height: 1.4; max-width: 250px; text-align: center; margin: 8px auto 34px; animation: giIkon 1s ease calc(var(--gd,0s) + 2.5s) both; }
+html.native-app .giris-ikon .gi-dudak { stroke-dasharray: 1; stroke-dashoffset: 1; animation: giCiz 1.1s cubic-bezier(.4,0,.2,1) calc(var(--gd,0s) + .6s) forwards; }
+html.native-app .giris-ikon .gi-n1, html.native-app .giris-ikon .gi-n2 { transform-box: fill-box; transform-origin: center; animation: giNokta .6s cubic-bezier(.2,.9,.3,1.5) calc(var(--gd,0s) + .5s) both; }
 html.native-app .giris-ikon .gi-n1 { animation-delay: .25s; } html.native-app .giris-ikon .gi-n2 { animation-delay: .4s; }
-@keyframes giIkon { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-@keyframes giBaslik { from { clip-path: inset(0 100% 0 0); opacity: .2; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
+@keyframes giIkon { from { opacity: 0; transform: translateY(14px) scale(.8); } to { opacity: 1; transform: none; } }
+@keyframes giBaslik { from { clip-path: inset(0 100% 0 0); opacity: 1; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
 @keyframes giCiz { to { stroke-dashoffset: 0; } }
 @keyframes giNokta { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: scale(1); } }
 @media (prefers-reduced-motion: reduce) { html.native-app .giris-ikon, html.native-app .giris-baslik, html.native-app .giris-slogan, html.native-app .giris-ikon .gi-dudak, html.native-app .giris-ikon .gi-n1, html.native-app .giris-ikon .gi-n2 { animation: none !important; stroke-dashoffset: 0 !important; } }
@@ -1081,8 +1082,9 @@ html.native-app .giris-ikon .gi-n1 { animation-delay: .25s; } html.native-app .g
 .ty-acilis-ikon { display: block; width: 76px; height: 76px; border-radius: 18px; margin: 0 auto 16px; box-shadow: 0 6px 16px rgba(0,0,0,.25); }
 .ty-acilis-ad { text-shadow: 0 1px 8px rgba(0,40,25,.55); color: #E3F6EC; font-weight: 700; font-size: clamp(16px,4.6vw,20px); letter-spacing: .02em; margin-top: 10px; }
 .ty-acilis-slogan { text-shadow: 0 1px 8px rgba(0,40,25,.65); color: #fff; font-weight: 600; font-size: clamp(13px,3.8vw,16px); line-height: 1.4; margin: 26px auto 0; max-width: 270px; }
-.ty-acilis-sahne { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 55% bottom; transform: scale(1.55); transform-origin: 68% 100%; pointer-events: none; animation: tyAcilisZoom 4.2s ease-out both; }
+.ty-acilis-sahne { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 55% bottom; transform: scale(1.55); transform-origin: 68% 100%; pointer-events: none; animation: tyAcilisBelir .5s ease-out both; }
 .ty-acilis::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg,#0A5A3E 0%,rgba(10,90,62,.85) 22%,rgba(10,90,62,0) 58%); pointer-events: none; }
+@keyframes tyAcilisBelir { from { opacity: 0; } to { opacity: 1; } }
 @keyframes tyAcilisZoom { from { transform: scale(1.35); opacity: 0; } 12% { opacity: 1; } to { transform: scale(1.55); opacity: 1; } }
 /* b57: randevu bölümü kompakt */
 .m-ek-oz { display: block; font-size: 11.5px; opacity: .85; margin-top: 2px; }
@@ -2058,6 +2060,8 @@ class Component extends DCLogic {
     d.setAttribute("aria-hidden", "true");
     d.innerHTML = '<div class="ty-acilis-ic"><img class="ty-acilis-logo" src="assets/logo-white.png" alt="Eminevim"><div class="ty-acilis-ad">Tasarruf Yanımda</div><div class="ty-acilis-slogan">Dilediğiniz yerde temsilcimizle görüşme planlayın!</div></div><img class="ty-acilis-sahne" src="assets/ty/acilis-foto.webp" alt="">';
     document.body.appendChild(d);
+    document.documentElement.classList.add("ty-acilis-var");
+    setTimeout(() => { document.documentElement.classList.remove("ty-acilis-var"); }, 9500);
     setTimeout(() => { if (d.parentNode) d.parentNode.removeChild(d); }, 4300);
   }
   sheetKapat() {
