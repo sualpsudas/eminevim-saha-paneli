@@ -947,3 +947,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Açılış videosu tamamen indirilene kadar (blob) yeşil bekler, sonra oynar; yazı video saatine (2,3 sn), flu geçiş video bitince +1 sn; takılırsa süre+3 sn; inmezse 25 sn sonra yedek. sw v87.
 
 - 2026-11-20: Giriş logosu telefonda Safari'de linkin gösterdiği boyuta (157x166, link logosu ekran yüksekliğine göre küçülüyor) eşitlendi. sw v88.
+
+- 2026-11-20: Açılış animasyonu cihazda (localStorage ty_acilis) bir kez; yalnız 'Çıkış yap' sonrası açılışta yeniden. Giriş logosu 140x148. sw v89.

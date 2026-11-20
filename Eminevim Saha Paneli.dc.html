@@ -959,7 +959,7 @@ html.native-app .giris-ic .giris-form.giris-form > button.giris-geri { position:
 html.native-app .pg-kap .spy-foto { order: -1; }
 /* b73: açılış animasyonu (deneme): logo dışında her şey flu; logo ekran ortasında büyük çizilir, sonra küçülüp yerine geçer, flulukla birlikte açılır; yazı/kart animasyonsuz */
 @keyframes giBulan { from { filter: blur(18px); } to { filter: blur(0); } }
-@keyframes giKucul { from { transform: translateY(calc(50vh - max(54px, calc(env(safe-area-inset-top,0px) + 30px)) - 83px)) scale(1.7); } to { transform: none; } }
+@keyframes giKucul { from { transform: translateY(calc(50vh - max(54px, calc(env(safe-area-inset-top,0px) + 30px)) - 74px)) scale(1.9); } to { transform: none; } }
 html.native-app.ty-giris-anim .giris-ic .giris-ikon { position: relative; z-index: 5; animation: giSol .25s ease var(--gd,0s) both, giKucul 1.7s cubic-bezier(.6,0,.25,1) calc(var(--gd,0s) + 1.95s) both !important; }
 html.native-app.ty-giris-anim .giris-ic .giris-baslik, html.native-app.ty-giris-anim .giris-ic .giris-slogan, html.native-app.ty-giris-anim .giris-ic .giris-form, html.native-app.ty-giris-anim .giris-ic .giris-marka { animation: giBulan 1.7s cubic-bezier(.6,0,.25,1) calc(var(--gd,0s) + 1.95s) both !important; }
 /* b74: açılış: el sıkışma fotoğrafı, evin/ellerin üstüne yavaş zoom, yeşile dönüşür, logo çizilir (giriş ekranına bağlanır) */
@@ -985,7 +985,7 @@ html.native-app.ty-acilis-var.ty-giris-anim .giris-ic .giris-baslik, html.native
 .ty-acilis.ty-el.ty-vid.ty-vid-bitti { opacity: 0; }
 .ty-vid .ty-el-zoom, .ty-vid .ty-el-ust, .ty-vid .ty-acilis-ic { display: none; }
 .ty-el-video { opacity: 0; transition: opacity 1.1s ease; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 0; transform: scale(1.04); transform-origin: 50% 0; }
-@keyframes giKuculV { from { transform: translateY(calc(51.8vh - max(54px, calc(env(safe-area-inset-top,0px) + 30px)) - 83px)) scale(1.8); } to { transform: none; } }
+@keyframes giKuculV { from { transform: translateY(calc(51.8vh - max(54px, calc(env(safe-area-inset-top,0px) + 30px)) - 74px)) scale(2); } to { transform: none; } }
 html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-ikon, html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-baslik, html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-slogan, html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-form, html.native-app.ty-vid-mod.ty-acilis-var.ty-giris-anim .giris-ic .giris-marka { animation: none !important; }
 .ty-vid-hazir .ty-el-video { opacity: 1; }
 .ty-vid-yazi { position: absolute; left: 0; right: 0; top: calc(env(safe-area-inset-top,0px) + 10vh); display: none; flex-direction: column; align-items: center; gap: 12px; opacity: 0; transition: opacity .7s ease; pointer-events: none; }
@@ -1153,7 +1153,7 @@ html.ty-acilis-var { --gd: 3.4s; }
 html.native-app.ty-giris-anim .giris-ic { background: linear-gradient(180deg,#0A5A3E 0,#00724C 330px,#00724C 100%) !important; }
 html.native-app.ty-giris-anim .giris-form { animation: giForm 1.4s cubic-bezier(.25,.6,.25,1) calc(var(--gd,0s) + 1.75s) both !important; }
 @keyframes giForm { from { opacity: 1; transform: translateY(115%); } to { opacity: 1; transform: none; } }
-html.native-app .giris-ikon { flex: 0 0 auto; display: block; width: 157px; height: 166px; margin: 0 auto 22px; filter: drop-shadow(0 6px 12px rgba(0,30,20,.3)); animation: giSol .25s ease var(--gd,0s) both; }
+html.native-app .giris-ikon { flex: 0 0 auto; display: block; width: 140px; height: 148px; margin: 0 auto 22px; filter: drop-shadow(0 6px 12px rgba(0,30,20,.3)); animation: giSol .25s ease var(--gd,0s) both; }
 html.native-app .giris-baslik { flex-shrink: 0; background: linear-gradient(90deg,#8BE02E 0%,#fff 82%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent !important; animation: giBaslik 1.25s cubic-bezier(.3,.1,.2,1) calc(var(--gd,0s) + 1.75s) both; margin: 0 !important; font-size: 29px !important; padding: 0 4px 2px; }
 html.native-app .giris-slogan { flex-shrink: 0; color: rgba(255,255,255,.86); font-size: 13px; font-weight: 600; line-height: 1.4; max-width: 250px; text-align: center; margin: 8px auto 44px; animation: giBaslik 1.25s cubic-bezier(.3,.1,.2,1) calc(var(--gd,0s) + 1.75s) both; }
 html.native-app .giris-ikon .gi-dudak { stroke-dasharray: 1 2; stroke-dashoffset: 1; animation: giCiz .5s cubic-bezier(.4,0,.2,1) calc(var(--gd,0s) + 1.15s) forwards; }
@@ -2162,7 +2162,7 @@ class Component extends DCLogic {
     // Fotoğraftaki çatı, başlar ve kollar/eller giriş logosunun çatısına, noktalarına ve ağzına dönüşür
     try {
       const W = innerWidth, H = innerHeight, sc = Math.max(W / 852, H / 1846), ox = (W - 852 * sc) / 2, oy = (H - 1846 * sc) / 2;
-      const Ox = W * .49, Oy = H * .61, K = 1.7, F = 157 * K / 72;
+      const Ox = W * .49, Oy = H * .61, K = 1.9, F = 140 * K / 72;
       const logo = (lx, ly) => { const sx = W / 2 + (lx * .82 + 9 - 50) * F, sy = H / 2 + (ly * .82 + 8 - 50) * F; return [(Ox + (sx - Ox) / K - ox) / sc, (Oy + (sy - Oy) / K - oy) / sc]; };
       const g = .82 * F / K / sc;
       const A = { r: [[10, 935], [425, 722], [845, 948]], c1: [258, 955, 50], c2: [582, 928, 55], s: [[235, 1050], [420, 1225], [600, 1050]], rw: 16, sw: 14 };
@@ -2193,10 +2193,10 @@ class Component extends DCLogic {
     // Açılış ekranı: yalnız uygulama görünümünde, oturumda bir kez (yaklaşık 2 sn)
     try {
       if (!document.documentElement.classList.contains("native-app")) return;
+      if (localStorage.getItem("ty_acilis")) return;  // çıkış yapılana kadar bir kez
+      localStorage.setItem("ty_acilis", "1");
       document.documentElement.classList.add("ty-giris-anim");
       this._tyAnimT = setTimeout(() => { document.documentElement.classList.remove("ty-giris-anim"); }, 25000);
-      if (sessionStorage.getItem("ty_acilis")) return;
-      sessionStorage.setItem("ty_acilis", "1");
     } catch (e) { if (!document.documentElement.classList.contains("native-app")) return; }
     const d = document.createElement("div");
     d.className = "ty-acilis ty-el";
@@ -3451,6 +3451,7 @@ class Component extends DCLogic {
     });
   }
   cikisYap() {
+    try { localStorage.removeItem("ty_acilis"); } catch (e) { }  // sonraki açılışta animasyon yeniden
     // Hesabın oturum verisini sakla (tekrar giriş yapınca geri gelsin)
     const s = this.state;
     const key = telAnahtar(s.customerForm.phone);
