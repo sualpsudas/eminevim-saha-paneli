@@ -902,3 +902,5 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20: Acilis fotografi el sikismaya yakinlastirildi (scale 1.55, yavas zoom animasyonu, ustte yesil gecis katmani). sw v57. Giris ekrani gercek gorsel istegi: kullanici farkli bir sey istiyor, konusulacak.
 
 - 2026-11-20: Acilis ekraninda EMINEVIM yazisi yerine logo (assets/logo-white.png), sw v58. Giris ekrani icin GPT ev+araba fotografi geldi (images/30.webp), kullanima karar bekliyor.
+
+- 2026-11-20: Giriş ekranı sade yapıldı (A): ev+araba çizimi kalktı; uygulama ikonu + "Tasarruf Yanımda" (soldan sağa yeşilden beyaza) + slogan; gülümseme çizilme animasyonu. 320 px ekranda ikon küçülme hatası giderildi. sw v60.

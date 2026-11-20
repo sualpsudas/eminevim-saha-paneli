@@ -1058,6 +1058,19 @@ html.native-app .m-sheet .m-actions .m-btn { padding: 0 10px !important; }
 .m-sheet .m-sheet-ic, .m-sheet.tam .m-sheet-ic { flex: 1 1 auto; min-height: 0; }
 /* b55: finansman ilerleme çubukları diğer sayfaların yeşil çizgisiyle aynı hizada */
 html.native-app .customer-finance-scroll > div:first-child > div:nth-child(2) { transform: translateY(-12px) !important; }
+/* b63: sade giriş ekranı (ikon + ad + slogan), çizim sahne yok */
+html.native-app .giris-ic { background: linear-gradient(180deg,#0A5A3E 0,#00724C 330px,#E3F4EC 330px) !important; padding: 92px 0 0 !important; gap: 0 !important; }
+html.native-app .giris-ikon { flex: 0 0 72px; display: block; width: 72px; height: 72px; min-height: 72px; margin: 0 auto 12px; filter: drop-shadow(0 6px 12px rgba(0,30,20,.3)); animation: giIkon .6s ease both; }
+html.native-app .giris-baslik { flex-shrink: 0; background: linear-gradient(90deg,#8BE02E 0%,#fff 82%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent !important; animation: giBaslik .9s ease .35s both; margin: 0 !important; font-size: 29px !important; padding: 0 4px 2px; }
+html.native-app .giris-slogan { flex-shrink: 0; color: rgba(255,255,255,.86); font-size: 13px; font-weight: 600; line-height: 1.4; max-width: 250px; text-align: center; margin: 8px auto 34px; animation: giIkon .8s ease .7s both; }
+html.native-app .giris-ikon .gi-dudak { stroke-dasharray: 1; stroke-dashoffset: 1; animation: giCiz .8s cubic-bezier(.4,0,.2,1) .5s forwards; }
+html.native-app .giris-ikon .gi-n1, html.native-app .giris-ikon .gi-n2 { transform-box: fill-box; transform-origin: center; animation: giNokta .4s ease both; }
+html.native-app .giris-ikon .gi-n1 { animation-delay: .25s; } html.native-app .giris-ikon .gi-n2 { animation-delay: .4s; }
+@keyframes giIkon { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes giBaslik { from { clip-path: inset(0 100% 0 0); opacity: .2; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
+@keyframes giCiz { to { stroke-dashoffset: 0; } }
+@keyframes giNokta { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { html.native-app .giris-ikon, html.native-app .giris-baslik, html.native-app .giris-slogan, html.native-app .giris-ikon .gi-dudak, html.native-app .giris-ikon .gi-n1, html.native-app .giris-ikon .gi-n2 { animation: none !important; stroke-dashoffset: 0 !important; } }
 /* b56: açılış ekranı (EMİNEVİM + Tasarruf Yanımda + slogan), giriş ekranıyla aynı yeşil palet */
 @keyframes tyAcilisCik { 0%,80% { opacity: 1; visibility: visible; } 100% { opacity: 0; visibility: hidden; } }
 @keyframes tyAcilisGel { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -1123,8 +1136,9 @@ html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scro
     <div style="background:var(--bg); border-radius:34px; overflow:hidden; height:700px; display:flex; flex-direction:column;position:relative;">
       <button class="login-staff-button" onClick="{{ openPersonelGiris }}" style="position:absolute;right:16px;top:14px;z-index:2;min-height:36px;border:none;background:transparent;color:#00724C;font-size:11px;font-weight:800;cursor:pointer;">Personel Girişi</button>
       <div class="giris-ic" style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; padding:112px 30px 36px; gap:20px;overflow-y:auto;">
-        <div class="giris-baslik" style="font-weight:800;font-size:30px;color:#fff;text-align:center;">Tasarruf Yanımda</div>
-        <img class="giris-isaret" src="assets/ty/giris-sahne.webp" alt="Tasarruf Yanımda" style="width:210px;max-width:68%;height:auto;margin-top:-4px;">
+        <svg class="giris-ikon" viewBox="0 0 100 100" role="img" aria-label="Tasarruf Yanımda"><defs><linearGradient id="gi-bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0E8A5C"/><stop offset=".55" stop-color="#00724C"/><stop offset="1" stop-color="#075A3C"/></linearGradient><linearGradient id="gi-lip" gradientUnits="userSpaceOnUse" x1="20" y1="0" x2="80" y2="0"><stop offset="0" stop-color="#F6FCF8"/><stop offset=".45" stop-color="#DDF5B4"/><stop offset="1" stop-color="#8BE02E"/></linearGradient></defs><rect width="100" height="100" rx="23" fill="url(#gi-bg)"/><g transform="translate(9 8) scale(.82)"><path class="gi-cati" d="M16 44 L50 16 L84 44" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><circle class="gi-n1" cx="35" cy="52" r="8" fill="#fff"/><circle class="gi-n2" cx="65" cy="52" r="8" fill="#8BE02E"/><path class="gi-dudak" d="M20 73 Q50 99 80 73" fill="none" stroke="url(#gi-lip)" stroke-width="10" stroke-linecap="round" pathLength="1"/></g></svg>
+        <div class="giris-baslik" style="font-weight:800;font-size:30px;text-align:center;">Tasarruf Yanımda</div>
+        <div class="giris-slogan">Dilediğiniz yerde temsilcimizle görüşme planlayın!</div>
         <sc-if value="{{ girisModKod }}"><div class="giris-form" style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
           <sc-if value="{{ kodBaslikVar }}"><div style="text-align:left;"><b style="display:block;font-size:16px;color:var(--ink);">{{ kodBaslik }}</b><span style="font-size:12px;color:var(--dim);line-height:1.45;">{{ kodAlt }}</span></div></sc-if>
           <sc-if value="{{ kodAdim1 }}"><input value="{{ kodTel }}" onChange="{{ setKodTel }}" inputmode="tel" autocomplete="tel" placeholder="Telefon numaranız" aria-label="Telefon numaranız" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>
