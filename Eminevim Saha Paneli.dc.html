@@ -36,6 +36,12 @@
   }
   fitViewport();
   window.addEventListener('resize', fitViewport);
+  if (document.documentElement.classList.contains('native-app')) {
+    var kbT;
+    var kbAlan = function (t) { return t && t.tagName && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) && !/^(checkbox|radio|button|submit|range|file)$/.test(t.type || ''); };
+    document.addEventListener('focusin', function (e) { if (kbAlan(e.target)) { clearTimeout(kbT); document.documentElement.classList.add('kb'); } });
+    document.addEventListener('focusout', function () { clearTimeout(kbT); kbT = setTimeout(function () { if (!kbAlan(document.activeElement)) document.documentElement.classList.remove('kb'); }, 120); });
+  }
   if (window.visualViewport) window.visualViewport.addEventListener('resize', fitViewport);
 })();
 </script>
@@ -1298,6 +1304,17 @@ html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scro
 .m-sheet.tam .m-sheet-geri::before { content: "‹"; font-size: 20px; line-height: 1; margin-right: 5px; margin-top: -2px; }
 .m-sheet.tam .m-sheet-ic { animation: mTamIc .5s ease both; }
 @keyframes mTamIc { from { opacity: .4; } to { opacity: 1; } }
+
+/* Klavye açıkken (html.kb): giriş = alt panel, sohbet = menü gizli, düğmeler tek renk */
+html.native-app.kb .giris-ic.giris-ic.giris-ic { padding: 54px 0 0 !important; justify-content: flex-start !important; gap: 4px !important; overflow: hidden !important; }
+html.native-app.kb .giris-marka, html.native-app.kb .giris-slogan { display: none !important; }
+html.native-app.kb .giris-ikon { width: 52px !important; height: 56px !important; }
+html.native-app.kb .giris-baslik { font-size: 20px !important; }
+html.native-app.kb .giris-form { margin: auto 0 0 !important; width: 100% !important; flex: 0 0 auto !important; padding: 22px 22px 18px !important; border-radius: 28px 28px 0 0 !important; }
+html.native-app.kb .giris-ic:has(input[aria-label="Ad"]) .giris-ikon, html.native-app.kb .giris-ic:has(input[aria-label="Ad"]) .giris-baslik { display: none !important; }
+html.native-app.kb .customer-nav, html.native-app.kb [class*="customer-nav"] { display: none !important; }
+html.native-app.kb .customer-chat { padding-bottom: 0 !important; }
+html.native-app .tp-btn:not(.o), html.native-app .m-btn:not(.o) { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff !important; }
 </style>
 </helmet>
 
@@ -2257,7 +2274,7 @@ class Component extends DCLogic {
   }
   acilisEkrani() {
     // Giriş alanına dokununca (klavye açılır) alan görünür kalsın
-    if (!this._tyOdak) { this._tyOdak = true; document.addEventListener("focusin", (e) => { const t = e.target; if (t && t.closest && t.closest(".giris-ic, .pg-kap") && /^(INPUT|SELECT|TEXTAREA)$/.test(t.tagName)) setTimeout(() => { try { t.scrollIntoView({ block: "center", behavior: "smooth" }); } catch (x) { } }, 350); }); }
+    
     // Açılış ekranı: yalnız uygulama görünümünde, oturumda bir kez (yaklaşık 2 sn)
     try {
       if (!document.documentElement.classList.contains("native-app")) return;
