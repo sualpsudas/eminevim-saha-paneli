@@ -7,7 +7,7 @@
     "scrollEnabled": false,
     "preferredContentMode": "mobile",
     "allowsLinkPreview": false,
-    "backgroundColor": "#F4F5F3"
+    "backgroundColor": "#0A5A3E"
   },
   "plugins": {
     "StatusBar": {
