@@ -41,6 +41,7 @@
     var kbT;
     // resize:none -> pencere küçülmez; klavye yüksekliği --kb-h olarak verilir, yalnız alttaki giriş satırı/kart yükselir
     window.addEventListener('keyboardWillShow', function (e) { document.documentElement.style.setProperty('--kb-h', ((e && e.keyboardHeight) || 0) + 'px'); });
+    window.addEventListener('keyboardDidShow', function () { var t = document.activeElement; if (t && kbAlan(t) && !document.querySelector('.giris-ic, .pg-kap')) { try { t.scrollIntoView({ block: 'center', behavior: 'smooth' }); } catch (x) { } } });
     window.addEventListener('keyboardDidShow', function (e) { document.documentElement.style.setProperty('--kb-h', ((e && e.keyboardHeight) || 0) + 'px'); });
     window.addEventListener('keyboardWillHide', function () { document.documentElement.style.setProperty('--kb-h', '0px'); });
     var kbAlan = function (t) { return t && t.tagName && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) && !/^(checkbox|radio|button|submit|range|file)$/.test(t.type || ''); };
@@ -669,7 +670,7 @@ html.native-app .m-konuşma-kisi { flex: 1; display: flex; flex-direction: colum
 html.native-app .m-konuşma-kisi b { font-size: 17px; color: #12362B; }
 html.native-app .m-konuşma-kisi small { background: #DCF1E6; color: #0B6B49; font-weight: 800; font-size: 12px; padding: 4px 12px; border-radius: 99px; }
 html.native-app .m-konuşma-row > span[aria-hidden] { width: 38px; height: 38px; border-radius: 50%; background: #DCF1E6; color: #0B6B49; display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 800; flex: none; }
-html.native-app .customer-screen .m-btn, html.native-app .customer-screen [style*="background:#EA803F"], html.native-app .customer-screen [style*="background: rgb(234, 128, 63)"] { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff !important; border: 0 !important; border-radius: 28px !important; min-height: 56px; box-shadow: 0 10px 22px rgba(0,88,59,.28); font-weight: 800; }
+html.native-app .customer-screen .m-btn, html.native-app .customer-screen [style*="background:#EA803F"], html.native-app .customer-screen [style*="background: rgb(234, 128, 63)"] { background: linear-gradient(180deg,#3A9873,#2A7F5E) !important; color: #fff !important; border: 0 !important; border-radius: 28px !important; min-height: 56px; box-shadow: 0 10px 22px rgba(0,88,59,.28); font-weight: 800; }
 html.native-app .customer-screen .m-btn.o, html.native-app .customer-screen [style*="border: 1px solid rgb(0, 114, 76)"][style*="color: rgb(0, 114, 76)"] { background: #D4EEE2 !important; color: #0B5B3F !important; box-shadow: none; border-radius: 24px !important; }
 html.native-app .customer-screen .customer-finance-scroll > div:first-child > div:nth-child(3) { display: none; }
 html.native-app .customer-finance button.scp0:not([style*="rgb(0, 114, 76)"]) { background: #fff !important; border-color: transparent !important; box-shadow: var(--golge-kart); }
@@ -684,7 +685,7 @@ html.native-app .customer-profile svg[width="18"] { box-sizing: content-box; pad
 html.native-app .app-bottom-nav.customer-nav { left: 18px !important; right: 18px !important; border-radius: 30px; padding: 8px !important; }
 html.native-app .customer-nav > button { color: #12362B !important; }
 html.native-app .customer-nav > button span { font-weight: 800 !important; font-size: 11.5px !important; }
-html.native-app .customer-nav > button[aria-current="page"] { background: linear-gradient(180deg,#0F7F57,#00583B) !important; }
+html.native-app .customer-nav > button[aria-current="page"] { background: linear-gradient(180deg,#3A9873,#2A7F5E) !important; }
 html.native-app .giris-ic { background: linear-gradient(180deg,#0A5A3E 0,#00724C 380px,#E3F4EC 380px) !important; padding: 64px 0 0 !important; gap: 14px !important; }
 html.native-app .giris-marka { filter: brightness(0) invert(1); width: 230px !important; }
 html.native-app .giris-isaret { filter: brightness(0) invert(1); width: 230px !important; margin-bottom: 8px !important; }
@@ -710,7 +711,7 @@ html.native-app .customer-screen:has(> .customer-profile) .customer-header::afte
 /* Giriş düzeltmeleri */
 html.native-app .giris-ic { padding-top: 96px !important; }
 html.native-app .giris-form input[aria-label="Telefon numaranız"] { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='22' fill='%23DCF1E6'/%3E%3Cpath d='M30 25.6v2.8a1.8 1.8 0 0 1-2 1.8 17.8 17.8 0 0 1-7.8-2.8 17.5 17.5 0 0 1-5.4-5.4A17.8 17.8 0 0 1 12.2 14a1.8 1.8 0 0 1 1.8-2h2.8a1.8 1.8 0 0 1 1.8 1.5c.1.8.3 1.6.5 2.4a1.8 1.8 0 0 1-.4 1.9l-1.2 1.2a14.4 14.4 0 0 0 5.4 5.4l1.2-1.2a1.8 1.8 0 0 1 1.9-.4c.8.2 1.6.4 2.4.5A1.8 1.8 0 0 1 30 25.6z' fill='none' stroke='%230B6B49' stroke-width='1.8'/%3E%3C/svg%3E") !important; background-repeat: no-repeat !important; background-position: 10px center !important; background-size: 40px !important; }
-html.native-app .giris-form > button:not([style*="transparent"]) { background: linear-gradient(180deg,#0F7F57,#00583B) !important; min-height: 62px !important; border-radius: 32px !important; font-size: 18px !important; box-shadow: 0 12px 26px rgba(0,88,59,.30); display: flex; align-items: center; justify-content: center; gap: 12px; }
+html.native-app .giris-form > button:not([style*="transparent"]) { background: linear-gradient(180deg,#3A9873,#2A7F5E) !important; min-height: 62px !important; border-radius: 32px !important; font-size: 18px !important; box-shadow: 0 12px 26px rgba(0,88,59,.30); display: flex; align-items: center; justify-content: center; gap: 12px; }
 html.native-app .giris-form > button:not([style*="transparent"])::after { content: "→"; font-size: 22px; }
 html.native-app .customer-screen > .customer-panel.customer-profile { margin-top: 96px; }
 /* Yeni 3D varlık kütüphanesi: şeffaf üst resimler + finansman kart ikonları */
@@ -823,10 +824,10 @@ html.native-app .tp-satir { border: 0 !important; border-radius: 22px; box-shado
 html.native-app .tp-satir[aria-pressed="true"] { box-shadow: var(--golge-kart), inset 4px 0 0 #3DBE8B; }
 html.native-app .tp-grup { font-size: 12px; letter-spacing: .6px; color: #546A62; margin: 10px 4px 2px; }
 html.native-app .tp-cip button { background: #fff; border: 0 !important; box-shadow: var(--golge-kart); color: #12362B; min-height: 40px; border-radius: 99px; padding: 0 18px; font-weight: 700; }
-html.native-app .tp-cip button[aria-pressed="true"] { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff !important; }
+html.native-app .tp-cip button[aria-pressed="true"] { background: linear-gradient(180deg,#3A9873,#2A7F5E) !important; color: #fff !important; }
 html.native-app .tp-alt { left: 18px; right: 18px; bottom: calc(14px + env(safe-area-inset-bottom,0px)); border-top: 0 !important; border-radius: 30px; background: rgba(255,255,255,.94) !important; box-shadow: 0 10px 28px rgba(0,60,40,.16); padding: 6px !important; gap: 4px; }
 html.native-app .tp-alt button { max-width: none; border-radius: 22px; min-height: 52px; color: #12362B; box-shadow: none !important; font-size: 11px; font-weight: 700; }
-html.native-app .tp-alt button[aria-current="page"] { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff; }
+html.native-app .tp-alt button[aria-current="page"] { background: linear-gradient(180deg,#3A9873,#2A7F5E) !important; color: #fff; }
 html.native-app .tp-alt button[aria-current="page"] svg { stroke: #fff; }
 html.native-app .tp-ana { padding-bottom: calc(96px + env(safe-area-inset-bottom,0px)); }
 /* b15: SPY başlık hizası + çip gölgesi */
@@ -864,7 +865,7 @@ html.native-app .customer-bas h1, html.native-app .tp-bas h1 { text-shadow: 0 2p
 html.native-app .tp-satir:active, html.native-app .m-konuşma-row:active, html.native-app .m-randevu-row:active { transform: scale(.985); transition: transform .12s; }
 html.native-app .customer-nav > button[aria-current="page"], html.native-app .tp-alt button[aria-current="page"] { box-shadow: 0 6px 14px rgba(0,88,59,.28) !important; }
 /* Sohbet: gönderilen balon okunur */
-html.native-app .customer-chat [style*="align-self: flex-end"] { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff !important; border: 0 !important; box-shadow: 0 4px 12px rgba(0,88,59,.18); }
+html.native-app .customer-chat [style*="align-self: flex-end"] { background: linear-gradient(180deg,#3A9873,#2A7F5E) !important; color: #fff !important; border: 0 !important; box-shadow: 0 4px 12px rgba(0,88,59,.18); }
 html.native-app .customer-chat [style*="align-self: flex-end"] * { color: rgba(255,255,255,.85) !important; }
 html.native-app .customer-chat [style*="align-self: flex-start"] { border: 0 !important; box-shadow: var(--golge-kart); }
 /* Geri düğmesi: yeni açılan içeriğin hemen üstünde, beyaz sayfada */
@@ -941,7 +942,7 @@ html.native-app .pg-kap .spy-foto { margin: 0 auto 26px !important; }
 html.native-app .pg-kap .spy-foto img, html.native-app .pg-kap .spy-foto span { box-shadow: 0 0 0 4px rgba(255,255,255,.85), 0 8px 20px rgba(0,30,20,.3); background-color: rgba(255,255,255,.22) !important; }
 html.native-app .pg-kap .pg-form { align-self: stretch; flex: 1; width: auto; margin: 0; padding: 30px 24px 40px; background: linear-gradient(180deg,#F8FCFA,#E3F4EC); border-radius: 32px 32px 0 0; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 -8px 24px rgba(0,60,40,.10); }
 html.native-app .pg-kap .pg-form select { background-color: #fff !important; border: 0 !important; border-radius: 30px !important; min-height: 60px; box-shadow: var(--golge-kart); font-size: 16px; color: #12362B; padding: 0 22px; width: 100%; }
-html.native-app .pg-kap .pg-form button { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff !important; min-height: 62px !important; border-radius: 32px !important; font-size: 18px !important; font-weight: 800; }
+html.native-app .pg-kap .pg-form button { background: linear-gradient(180deg,#3A9873,#2A7F5E) !important; color: #fff !important; min-height: 62px !important; border-radius: 32px !important; font-size: 18px !important; font-weight: 800; }
 html.native-app .pg-kap .pg-form button:disabled { background: #BFD9CD !important; color: #fff !important; }
 /* b68: fotoğrafsız avatar (Yönetici): üstte beyaz daire + yeşil harf, profilde yeşil daire + beyaz harf */
 html.native-app .tp-ust-kisi .tp-av:not([style*="url("]) { background-color: #fff !important; color: #00724C !important; font-weight: 800; }
@@ -1037,14 +1038,14 @@ html.native-app .giris-ic.giris-ic .giris-form.giris-form input::placeholder { c
 html.native-app .giris-ic.giris-ic .giris-form.giris-form input[aria-label="Telefon numaranız"] { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='22' fill='%23DCF1E6'/%3E%3Cpath d='M30 25.6v2.8a1.8 1.8 0 0 1-2 1.8 17.8 17.8 0 0 1-7.8-2.8 17.5 17.5 0 0 1-5.4-5.4A17.8 17.8 0 0 1 12.2 14a1.8 1.8 0 0 1 1.8-2h2.8a1.8 1.8 0 0 1 1.8 1.5c.1.8.3 1.6.5 2.4a1.8 1.8 0 0 1-.4 1.9l-1.2 1.2a14.4 14.4 0 0 0 5.4 5.4l1.2-1.2a1.8 1.8 0 0 1 1.9-.4c.8.2 1.6.4 2.4.5A1.8 1.8 0 0 1 30 25.6z' fill='none' stroke='%230B6B49' stroke-width='1.8'/%3E%3C/svg%3E"), linear-gradient(#C9DDD3,#C9DDD3) !important; background-repeat: no-repeat !important; background-position: 10px center, 64px center !important; background-size: 40px, 1px 26px !important; padding-left: 80px !important; }
 html.native-app .giris-ic.giris-ic .giris-form.giris-form input[aria-label="Ad"], html.native-app .giris-ic.giris-ic .giris-form.giris-form input[aria-label="Soyad"] { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='44' viewBox='0 0 44 44'%3E%3Ccircle cx='22' cy='22' r='22' fill='%23DCF1E6'/%3E%3Ccircle cx='22' cy='17' r='5' fill='none' stroke='%230B6B49' stroke-width='1.8'/%3E%3Cpath d='M12.5 32c.8-5 4.6-7.5 9.5-7.5s8.7 2.5 9.5 7.5' fill='none' stroke='%230B6B49' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E"), linear-gradient(#C9DDD3,#C9DDD3) !important; background-repeat: no-repeat !important; background-position: 10px center, 64px center !important; background-size: 40px, 1px 26px !important; padding-left: 80px !important; }
 html.native-app .giris-ic.giris-ic .giris-form.giris-form input[aria-label="SMS ile gelen 6 haneli kod"] { background-image: none !important; padding-left: 20px !important; font-size: 24px !important; letter-spacing: 12px; text-indent: 12px; }
-html.native-app .giris-ic.giris-ic .giris-form.giris-form > button:not([style*="transparent"]):not(.giris-geri):not(.kod-tekrar) { background: linear-gradient(180deg,#12905F 0,#00633F 55%,#004D32 100%) !important; box-shadow: 0 12px 24px rgba(0,77,50,.34), inset 0 1px 0 rgba(255,255,255,.22) !important; font-weight: 800; letter-spacing: .2px; transition: transform .12s ease, box-shadow .12s ease; }
+html.native-app .giris-ic.giris-ic .giris-form.giris-form > button:not([style*="transparent"]):not(.giris-geri):not(.kod-tekrar) { background: linear-gradient(180deg,#3A9873,#2A7F5E) !important; box-shadow: 0 12px 24px rgba(0,77,50,.34), inset 0 1px 0 rgba(255,255,255,.22) !important; font-weight: 800; letter-spacing: .2px; transition: transform .12s ease, box-shadow .12s ease; }
 html.native-app .giris-ic.giris-ic .giris-form.giris-form > button:not([style*="transparent"]):not(.giris-geri):not(.kod-tekrar):active { transform: scale(.975); box-shadow: 0 6px 14px rgba(0,77,50,.30), inset 0 1px 0 rgba(255,255,255,.18) !important; }
 html.native-app .giris-ic.giris-ic .giris-form.giris-form > button:disabled { background: #BFD9CD !important; box-shadow: none !important; }
 html.native-app .pg-kap .pg-form select { border: 1px solid #D8E7DF !important; box-shadow: 0 6px 16px rgba(0,60,40,.09) !important; font-weight: 700; }
-html.native-app .pg-kap .pg-form button:not(:disabled) { background: linear-gradient(180deg,#12905F 0,#00633F 55%,#004D32 100%) !important; box-shadow: 0 12px 24px rgba(0,77,50,.34), inset 0 1px 0 rgba(255,255,255,.22) !important; transition: transform .12s ease; }
+html.native-app .pg-kap .pg-form button:not(:disabled) { background: linear-gradient(180deg,#3A9873,#2A7F5E) !important; box-shadow: 0 12px 24px rgba(0,77,50,.34), inset 0 1px 0 rgba(255,255,255,.22) !important; transition: transform .12s ease; }
 html.native-app .pg-kap .pg-form button:not(:disabled):active { transform: scale(.975); }
 /* b81: tüm uygulamada ortak düğme/alan standardı (giriş görünümüyle aynı). Birincil düğme rengi tek yerden: --ty-btn */
-:root { --ty-btn: linear-gradient(180deg,#12905F 0,#00633F 55%,#004D32 100%); --ty-btn-golge: 0 10px 20px rgba(0,77,50,.30), inset 0 1px 0 rgba(255,255,255,.22); --ty-kenar: #D8E7DF; --ty-alan-golge: 0 5px 14px rgba(0,60,40,.08); }
+:root { --ty-btn: linear-gradient(180deg,#3A9873,#2A7F5E); --ty-btn-golge: 0 10px 20px rgba(0,77,50,.30), inset 0 1px 0 rgba(255,255,255,.22); --ty-kenar: #D8E7DF; --ty-alan-golge: 0 5px 14px rgba(0,60,40,.08); }
 html .m-btn:not(.o):not(:disabled), html .tp-btn:not(.o):not(:disabled), html button[style*="background:#EA803F"]:not(:disabled), html button[style*="background:#00724C"]:not(:disabled) { background: var(--ty-btn) !important; color: #fff !important; border: 0 !important; box-shadow: var(--ty-btn-golge) !important; }
 html .m-btn, html .tp-btn, html button[style*="background:#EA803F"], html button[style*="background:#00724C"], html .m-btn.o, html .tp-btn.o { transition: transform .12s ease, box-shadow .12s ease; }
 html .m-btn:active, html .tp-btn:active, html button[style*="background:#EA803F"]:active, html button[style*="background:#00724C"]:active { transform: scale(.975); }
@@ -1161,7 +1162,7 @@ html.native-app .ya-akis > div > div > div:nth-child(2) > span:not([aria-label])
 html.native-app .ya-akis > div > div > div:nth-child(2) i { background: rgba(255,255,255,.35) !important; width: 22px !important; height: 5px !important; border-radius: 4px !important; }
 html.native-app .ya-akis > div > div > div:nth-child(2) i[style*="00724C"], html.native-app .ya-akis > div > div > div:nth-child(2) i[style*="rgb(0, 114, 76)"] { background: #7ED321 !important; }
 html.native-app .ya-akis [style*="font:800 24px"], html.native-app .ya-akis [style*="font:800 22px"], html.native-app .ya-akis [style*="font: 800 24px"], html.native-app .ya-akis [style*="font: 800 22px"] { color: #12362B !important; font-size: 24px !important; letter-spacing: -.4px; }
-html.native-app .ya-akis [style*="background:#EA803F"], html.native-app .ya-akis [style*="background: rgb(234, 128, 63)"] { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff !important; border: 0 !important; border-radius: 99px !important; min-height: 52px !important; font-size: 15px !important; font-weight: 800 !important; box-shadow: 0 10px 22px rgba(0,88,59,.26) !important; }
+html.native-app .ya-akis [style*="background:#EA803F"], html.native-app .ya-akis [style*="background: rgb(234, 128, 63)"] { background: linear-gradient(180deg,#3A9873,#2A7F5E) !important; color: #fff !important; border: 0 !important; border-radius: 99px !important; min-height: 52px !important; font-size: 15px !important; font-weight: 800 !important; box-shadow: 0 10px 22px rgba(0,88,59,.26) !important; }
 html.native-app .ya-akis [style*="box-shadow:0 -1px 0 var(--line)"], html.native-app .ya-akis [style*="box-shadow: rgba(0, 0, 0, 0)"] { box-shadow: none !important; background: transparent !important; }
 /* b48: Temsilci iste onay adımı başlığı ve ayrıntı yazıları */
 html.native-app .ya-akis [style*="font:800 23px"] { color: #12362B !important; font-size: 24px !important; letter-spacing: -.4px; }
@@ -1313,12 +1314,12 @@ html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scro
 /* Klavye açıkken (html.kb): giriş = alt panel, sohbet = menü gizli, düğmeler tek renk */
 html.native-app.kb .customer-nav, html.native-app.kb [class*="customer-nav"] { display: none !important; }
 html.native-app.kb .customer-chat { padding-bottom: 0 !important; }
-html.native-app .tp-btn:not(.o), html.native-app .m-btn:not(.o) { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff !important; }
+html.native-app .tp-btn:not(.o), html.native-app .m-btn:not(.o) { background: linear-gradient(180deg,#3A9873,#2A7F5E) !important; color: #fff !important; }
 /* Giriş: klavye açık/kapalı AYNI düzen (sahibinden gibi) — hiçbir şey yer değiştirmez, üstten başlar, klavye altı örter */
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic { justify-content: flex-start !important; padding: max(46px, calc(env(safe-area-inset-top,0px) + 30px)) 0 0 !important; gap: 10px !important; overflow: hidden !important; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-ikon { width: 52px !important; height: 56px !important; margin: 0 auto !important; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-baslik { font-size: 22px !important; margin: 0 !important; }
-html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-slogan { display: none !important; }
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-slogan { display: block !important; font-size: 13px !important; margin: 2px auto 0 !important; max-width: 300px !important; text-align: center !important; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form { margin: 8px 14px 0 !important; flex: 0 0 auto !important; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-marka { transition: opacity .15s; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form > button.giris-geri { top: max(58px, calc(env(safe-area-inset-top,0px) + 40px)) !important; left: 30px !important; right: auto !important; z-index: 70; }
@@ -1326,12 +1327,20 @@ html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form > bu
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic { gap: 10px !important; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form { gap: 14px !important; padding: 26px 22px 28px !important; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form input:not([type=checkbox]), html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form select { min-height: 60px !important; font-size: 17px !important; }
-html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form > button:not([style*="transparent"]):not(.giris-geri):not(.kod-tekrar) { min-height: 62px !important; font-size: 18px !important; }
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form > button:not([style*="transparent"]):not(.giris-geri):not(.kod-tekrar) { min-height: 54px !important; font-size: 16px !important; font-weight: 700 !important; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form b { font-size: 19px !important; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-marka.giris-marka { position: absolute !important; display: block !important; transition: none !important; }
 html.native-app .giris-ic.giris-ic::before { transition: none !important; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic { height: var(--app-height, 100dvh) !important; min-height: var(--app-height, 100dvh) !important; max-height: var(--app-height, 100dvh) !important; flex: 0 0 auto !important; box-sizing: border-box !important; }
 html.native-app.kb .customer-screen > .customer-chat.customer-chat, html.native-app.kb .m-modal { padding-bottom: var(--kb-h, 0px) !important; }
+/* Düğmeler: tek aile (soft yeşil, biraz küçük, aynı yazı) */
+html.native-app .m-btn, html.native-app .tp-btn, html.native-app .giris-form button, html.native-app .pg-kap .pg-form button { font-family: GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif !important; font-weight: 700 !important; -webkit-text-stroke: 0 !important; letter-spacing: 0 !important; }
+html.native-app .m-btn:not(.o), html.native-app .tp-btn:not(.o) { min-height: 42px !important; font-size: 14px !important; border-radius: 21px !important; padding: 8px 16px !important; box-shadow: 0 4px 12px rgba(42,127,94,.20) !important; }
+html.native-app .m-btn.o, html.native-app .tp-btn.o, html.native-app .customer-screen .m-btn.o { min-height: 42px !important; font-size: 14px !important; border-radius: 21px !important; background: #E6F3EC !important; color: #25704F !important; border: 0 !important; box-shadow: none !important; }
+html.native-app .pg-kap .pg-form button { min-height: 54px !important; font-size: 16px !important; }
+/* Klavye (ekran küçülmez): sayfa klavye kadar kaydırılabilir, geçiş yumuşak; giriş ekranı hariç */
+html.native-app .customer-screen:not(:has(.giris-ic)), html.native-app .customer-panel, html.native-app .customer-screen > div { scroll-behavior: smooth; }
+html.native-app.kb .customer-screen:not(:has(.giris-ic)) { padding-bottom: var(--kb-h, 0px); transition: padding-bottom .25s ease; }
 </style>
 </helmet>
 
