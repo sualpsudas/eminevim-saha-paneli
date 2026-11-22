@@ -1,14 +1,16 @@
 """BİLDİRİM KAPISI — SPY'ye ve müşteriye telefon bildirimi (Web Push).
 
-Şu an: tarayıcı/Ana Ekran uygulaması aboneliği (pywebpush; yoksa bildirim gitmez, gerisi çalışır). Bir telefon tek kişiye bağlı
+Şu an: tarayıcı/Ana Ekran uygulaması aboneliği (pywebpush; yoksa bildirim gitmez, gerisi çalışır) + iPhone uygulaması (APNs, apns.py;
+abonelik anahtarı "apns:<token>"). Bir telefon tek kişiye bağlı
 (SPY ya da müşteri; sonuncusu geçerli), bir kişinin birden çok telefonu olabilir. Abonelikler ayrı dosyada (sıfırlamada SPY'ninkiler kalır).
-Gerçek sistemde: bildir()/bildir_musteri() iPhone uygulama bildirimine (APNs) ve/veya SMS'e bağlanır; çağıran kod değişmez.
+Gerçek sistemde: bildir()/bildir_musteri() SMS'e de bağlanır; çağıran kod değişmez.
 """
 import base64
 import json
+import re
 import threading
 
-from . import depo
+from . import apns, depo
 from .ayarlar import ABONELIK, BILDIRIM_TTL, VAPID, VAPID_SUB
 from .musteri import jeton_ozet
 from .personel import SPY_IDLER
@@ -58,7 +60,7 @@ def uygun_uc(uc):
 
 def bildir(spy_id, govde):
     """SPY'nin bildirim açtığı tüm telefonlara gönderir (arka planda; çağrı akışını bekletmez)."""
-    if not VAPID_NESNE:
+    if not (VAPID_NESNE or apns.hazir()):
         return
     hedefler = [x for x in abone_oku().values() if x.get("spy") == spy_id]
     if hedefler:
@@ -69,7 +71,7 @@ def bildir_musteri(k, baslik, govde):
     """Müşteriye (hesabına giriş yapıp bildirim açtığı telefonlara) çağrıyla ilgili haber; dokununca o randevu açılır.
     Yalnız web'den gelip uygulamaya hiç girmeyen müşterinin aboneliği yoktur: ona gitmez."""
     tel = tel_temiz((k.get("musteri") or {}).get("tel"))
-    if not VAPID_NESNE or not tel:
+    if not (VAPID_NESNE or apns.hazir()) or not tel:
         return
     hedefler = [x for x in abone_oku().values() if x.get("musteri") == tel]
     if hedefler:
@@ -78,9 +80,14 @@ def bildir_musteri(k, baslik, govde):
 
 
 def bildir_gonder(hedefler, govde):
-    from pywebpush import webpush, WebPushException
     bitti = []
-    for h in hedefler:
+    iphone = [h["apns"] for h in hedefler if h.get("apns")]
+    if iphone:
+        bitti += [("apns:" + t, sonuc) for t, sonuc in apns.gonder(iphone, govde)]
+    web = [h for h in hedefler if not h.get("apns")] if VAPID_NESNE else []
+    if web:
+        from pywebpush import webpush, WebPushException
+    for h in web:
         try:
             webpush({"endpoint": h["endpoint"], "keys": h["keys"]}, json.dumps(govde, ensure_ascii=False),
                     vapid_private_key=VAPID_NESNE, vapid_claims={"sub": VAPID_SUB}, ttl=BILDIRIM_TTL,
@@ -132,12 +139,19 @@ def abone_isle(yol, istek):
             return {}
         ab = istek.get("abonelik") or {}
         uc, anahtar = ab.get("endpoint"), ab.get("keys") or {}
-        if (istek.get("spy") not in SPY_IDLER and not tel) or not uygun_uc(uc) or not anahtar.get("p256dh") or not anahtar.get("auth"):
-            raise ValueError("Abonelik eksik.")
+        kim_yok = istek.get("spy") not in SPY_IDLER and not tel
         kim = {"spy": istek["spy"]} if istek.get("spy") in SPY_IDLER else {"musteri": tel}
-        # Telefon başka SPY/müşteri seçtiyse eski bağ kalkar (aynı uç tek kişiye bağlı)
-        a[uc] = {"endpoint": uc, "keys": {"p256dh": metin(anahtar["p256dh"], 200), "auth": metin(anahtar["auth"], 100)},
-                 **kim, "cihaz": metin(istek.get("cihaz"), 80), "eklenme": simdi()}
+        if istek.get("apns"):  # iPhone uygulaması: Apple'ın verdiği cihaz kodu (hex)
+            token = str(istek["apns"]).strip().lower()
+            if kim_yok or not re.fullmatch(r"[0-9a-f]{32,200}", token):
+                raise ValueError("Abonelik eksik.")
+            a["apns:" + token] = {"endpoint": "apns:" + token, "apns": token, **kim, "cihaz": metin(istek.get("cihaz"), 80), "eklenme": simdi()}
+        else:
+            if kim_yok or not uygun_uc(uc) or not anahtar.get("p256dh") or not anahtar.get("auth"):
+                raise ValueError("Abonelik eksik.")
+            # Telefon başka SPY/müşteri seçtiyse eski bağ kalkar (aynı uç tek kişiye bağlı)
+            a[uc] = {"endpoint": uc, "keys": {"p256dh": metin(anahtar["p256dh"], 200), "auth": metin(anahtar["auth"], 100)},
+                     **kim, "cihaz": metin(istek.get("cihaz"), 80), "eklenme": simdi()}
         abone_yaz(a)
         anahtar_ad, deger = next(iter(kim.items()))
         return {**kim, "telefon": sum(1 for x in a.values() if x.get(anahtar_ad) == deger)}

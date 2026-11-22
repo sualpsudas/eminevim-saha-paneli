@@ -2170,6 +2170,10 @@ class Component extends DCLogic {
     const q = new URLSearchParams(window.location.search);
     // Müşteri bildirimine dokunuldu: uygulama kapalıysa ?ac=<randevu>, açıksa servis çalışanından mesaj
     if (CANLI && q.get("ac")) this._acilacak = q.get("ac");
+    if (CANLI) {  // iPhone uygulaması: Apple bildirimine dokunuldu (açıksa hemen, kapalıyken bekleyen kayıttan)
+      window.tyRandevuAc = (rid) => (this.state.girisYapildi && this.state.panel === "spy" ? this.gorusmeAc(rid) : this.randevuAc(rid));
+      const bek = Canli.oku("ty-ac"); if (bek) { Canli.yaz("ty-ac", null); this._acilacak = bek; }
+    }
     if (CANLI && this._acilacak && this.state.girisYapildi && this.state.panel === "spy") { const rid = this._acilacak; this._acilacak = null; this.gorusmeAc(rid); }  // SPY bildirimiyle açıldı: oturum zaten açıksa görüşmeye git
     if (CANLI && navigator.serviceWorker) navigator.serviceWorker.addEventListener("message", (e) => { if (e.data?.tip === "ty-randevu-ac" && e.data.rid) this.randevuAc(e.data.rid); });
     if (q.get("kaynak") === "web") {

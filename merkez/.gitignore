@@ -10,3 +10,5 @@ vapid.pem
 *_abonelik.json
 *_abonelik.tmp
 aktarim/
+apns.p8
+apns.json

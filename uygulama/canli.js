@@ -91,17 +91,47 @@
     return d;
   }
   function pushDestek() {
-    if (global.EMINEVIM_NATIVE) return "native";  // iPhone uygulaması (TestFlight): Apple bildirimi ayrı adım
+    if (global.EMINEVIM_NATIVE) return nativePush() ? "" : "native";  // iPhone uygulaması: Apple bildirimi (APNs), eklenti yoksa eski derleme
     if (!ayar) return "destek-yok";
     if (iosTarayici() && !global.PushManager) return "ana-ekran";
     if (!("serviceWorker" in navigator) || !global.PushManager || !global.Notification) return "destek-yok";
     return "";
+  }
+  // iPhone uygulaması: Apple'ın verdiği cihaz kodu merkeze gider (Web Push yerine); dokununca ilgili randevu açılır
+  function nativePush() { var c = global.Capacitor; return c && c.Plugins && c.Plugins.PushNotifications; }
+  var nativeKodu = null, nativeBekleyen = null, nativeDinleyici = false;
+  function nativeBagla(kim) {
+    var P = nativePush();
+    if (!nativeDinleyici) {
+      nativeDinleyici = true;
+      P.addListener("registration", function (t) { if (nativeBekleyen) nativeBekleyen({ kod: t.value }); });
+      P.addListener("registrationError", function () { if (nativeBekleyen) nativeBekleyen(null); });
+      P.addListener("pushNotificationActionPerformed", function (e) {
+        var rid = e && e.notification && e.notification.data && e.notification.data.rid;
+        if (rid && global.tyRandevuAc) global.tyRandevuAc(rid); else if (rid) yaz("ty-ac", rid);
+      });
+    }
+    return P.requestPermissions().then(function (r) {
+      if (r.receive === "denied") return "reddedildi";
+      if (r.receive !== "granted") return "kapali";
+      return new Promise(function (coz) {
+        var zaman = setTimeout(function () { nativeBekleyen = null; coz(null); }, 15000);
+        nativeBekleyen = function (v) { clearTimeout(zaman); nativeBekleyen = null; coz(v); };
+        P.register();
+      }).then(function (v) {
+        if (!v) return "kapali";
+        nativeKodu = v.kod; yaz("ty-push-uc", "apns:" + v.kod);
+        kim.apns = v.kod; kim.cihaz = "ios-uygulama";
+        return gonder("api/abone", kim).then(function () { return "acik"; });
+      });
+    }).catch(function (e) { try { console.warn("Bildirim açılamadı:", e); } catch (_) {} return "kapali"; });
   }
   function pushBagla(spy, sor) {
     // spy: SPY kimliği ya da müşteri için { musteri: tel, jeton } (girişte merkezin verdiği jeton)
     // sor=true yalnız bir dokunuşla çağrılır (iPhone izni ancak dokunuşla sorar)
     var engel = pushDestek();
     if (engel) return Promise.resolve(engel);
+    if (global.EMINEVIM_NATIVE) return nativeBagla(typeof spy === "object" ? { musteri: spy.musteri, jeton: spy.jeton } : { spy: spy });
     var izin = Notification.permission === "default" && sor ? Notification.requestPermission() : Promise.resolve(Notification.permission);
     return izin.then(function (p) {
       if (p === "denied") return "reddedildi";

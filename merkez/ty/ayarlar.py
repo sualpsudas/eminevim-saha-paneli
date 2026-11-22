@@ -20,6 +20,8 @@ SPY_DOSYASI = KOK / "veri" / "spyler.js"
 # Bildirim (Web Push): telefon başına abonelik. Anahtar yalnız sunucuda (depoda yok).
 ABONELIK = VERI.with_name(VERI.stem + "_abonelik.json")
 VAPID = KLASOR / "vapid.pem"
+APNS_P8 = KLASOR / "apns.p8"     # iPhone uygulaması bildirimi (apns.py); yalnız sunucuda
+APNS_AYAR = KLASOR / "apns.json"  # {"key_id", "team_id", "topic"}
 VAPID_SUB = "mailto:sualpsudas@users.noreply.github.com"  # bildirim servislerine iletişim (depodaki açık git kimliği)
 BILDIRIM_TTL = 120      # telefon kapalı/çevrimdışıysa bildirim bu süre bekler (teklif süresi kadar)
 
