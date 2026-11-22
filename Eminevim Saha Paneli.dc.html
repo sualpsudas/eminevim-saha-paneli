@@ -39,6 +39,10 @@
   window.addEventListener('resize', fitViewport);
   if (document.documentElement.classList.contains('native-app')) {
     var kbT;
+    // resize:none -> pencere küçülmez; klavye yüksekliği --kb-h olarak verilir, yalnız alttaki giriş satırı/kart yükselir
+    window.addEventListener('keyboardWillShow', function (e) { document.documentElement.style.setProperty('--kb-h', ((e && e.keyboardHeight) || 0) + 'px'); });
+    window.addEventListener('keyboardDidShow', function (e) { document.documentElement.style.setProperty('--kb-h', ((e && e.keyboardHeight) || 0) + 'px'); });
+    window.addEventListener('keyboardWillHide', function () { document.documentElement.style.setProperty('--kb-h', '0px'); });
     var kbAlan = function (t) { return t && t.tagName && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) && !/^(checkbox|radio|button|submit|range|file)$/.test(t.type || ''); };
     document.addEventListener('focusin', function (e) { if (kbAlan(e.target)) { clearTimeout(kbT); document.documentElement.classList.add('kb'); } });
     document.addEventListener('focusout', function () { clearTimeout(kbT); kbT = setTimeout(function () { if (!kbAlan(document.activeElement)) { document.documentElement.classList.remove('kb'); setTimeout(fitViewport, 50); setTimeout(fitViewport, 400); } }, 120); });
@@ -1327,6 +1331,7 @@ html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form b { 
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-marka.giris-marka { position: absolute !important; display: block !important; transition: none !important; }
 html.native-app .giris-ic.giris-ic::before { transition: none !important; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic { height: var(--app-height, 100dvh) !important; min-height: var(--app-height, 100dvh) !important; max-height: var(--app-height, 100dvh) !important; flex: 0 0 auto !important; box-sizing: border-box !important; }
+html.native-app.kb .customer-screen > .customer-chat.customer-chat, html.native-app.kb .m-modal { padding-bottom: var(--kb-h, 0px) !important; }
 </style>
 </helmet>
 
