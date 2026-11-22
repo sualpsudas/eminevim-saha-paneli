@@ -31,6 +31,7 @@
   }
   if (/[?&]iphonePreview=1\b/.test(location.search) && window.parent !== window) document.documentElement.classList.add('preview-iphone');
   function fitViewport() {
+    if (document.documentElement.classList.contains('kb') && document.querySelector('.giris-ic, .pg-kap')) return; // giriş: klavye açıkken yükseklik donar, duvar kağıdı/kart kımıldamaz
     var h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
     document.documentElement.style.setProperty('--app-height', Math.round(Math.min(h, window.innerHeight)) + 'px');
   }
@@ -40,7 +41,7 @@
     var kbT;
     var kbAlan = function (t) { return t && t.tagName && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) && !/^(checkbox|radio|button|submit|range|file)$/.test(t.type || ''); };
     document.addEventListener('focusin', function (e) { if (kbAlan(e.target)) { clearTimeout(kbT); document.documentElement.classList.add('kb'); } });
-    document.addEventListener('focusout', function () { clearTimeout(kbT); kbT = setTimeout(function () { if (!kbAlan(document.activeElement)) document.documentElement.classList.remove('kb'); }, 120); });
+    document.addEventListener('focusout', function () { clearTimeout(kbT); kbT = setTimeout(function () { if (!kbAlan(document.activeElement)) { document.documentElement.classList.remove('kb'); setTimeout(fitViewport, 50); setTimeout(fitViewport, 400); } }, 120); });
   }
   if (window.visualViewport) window.visualViewport.addEventListener('resize', fitViewport);
 })();
