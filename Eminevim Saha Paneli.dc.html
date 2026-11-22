@@ -1306,15 +1306,17 @@ html.native-app .customer-screen:has(> .customer-bas):has(.customer-finance-scro
 @keyframes mTamIc { from { opacity: .4; } to { opacity: 1; } }
 
 /* Klavye açıkken (html.kb): giriş = alt panel, sohbet = menü gizli, düğmeler tek renk */
-html.native-app.kb .giris-ic.giris-ic.giris-ic { padding: 54px 0 0 !important; justify-content: flex-start !important; gap: 4px !important; overflow: hidden !important; }
-html.native-app.kb .giris-marka, html.native-app.kb .giris-slogan { display: none !important; }
-html.native-app.kb .giris-ikon { width: 52px !important; height: 56px !important; }
-html.native-app.kb .giris-baslik { font-size: 20px !important; }
-html.native-app.kb .giris-form { margin: auto 0 0 !important; width: 100% !important; flex: 0 0 auto !important; padding: 22px 22px 18px !important; border-radius: 28px 28px 0 0 !important; }
-html.native-app.kb .giris-ic:has(input[aria-label="Ad"]) .giris-ikon, html.native-app.kb .giris-ic:has(input[aria-label="Ad"]) .giris-baslik { display: none !important; }
 html.native-app.kb .customer-nav, html.native-app.kb [class*="customer-nav"] { display: none !important; }
 html.native-app.kb .customer-chat { padding-bottom: 0 !important; }
 html.native-app .tp-btn:not(.o), html.native-app .m-btn:not(.o) { background: linear-gradient(180deg,#0F7F57,#00583B) !important; color: #fff !important; }
+/* Giriş: klavye açık/kapalı AYNI düzen (sahibinden gibi) — hiçbir şey yer değiştirmez, üstten başlar, klavye altı örter */
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic { justify-content: flex-start !important; padding: max(46px, calc(env(safe-area-inset-top,0px) + 30px)) 0 0 !important; gap: 10px !important; overflow: hidden !important; }
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-ikon { width: 52px !important; height: 56px !important; margin: 0 auto !important; }
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-baslik { font-size: 22px !important; margin: 0 !important; }
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-slogan { display: none !important; }
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form { margin: 8px 14px 0 !important; flex: 0 0 auto !important; }
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-marka { transition: opacity .15s; }
+html.native-app.kb .giris-ic .giris-marka { opacity: 0; }
 </style>
 </helmet>
 
