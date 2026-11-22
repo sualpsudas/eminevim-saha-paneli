@@ -109,6 +109,15 @@ with sync_playwright() as p:
         raise AssertionError('Yalnız https bildirim adresi kabul edilmeli')
     except urllib.error.HTTPError as e:
         assert e.code == 400
+    # iPhone uygulaması (APNs): cihaz kodu kaydı ve silinmesi; geçersiz kod reddedilir
+    apns_kod = 'ab' * 32
+    assert merkez('api/abone', {'spy': 's2', 'apns': apns_kod, 'cihaz': 'ios-uygulama'})['sonuc']['spy'] == 's2'
+    try:
+        merkez('api/abone', {'spy': 's2', 'apns': 'xyz'})
+        raise AssertionError('Geçersiz iPhone cihaz kodu kabul edilmemeli')
+    except urllib.error.HTTPError as e:
+        assert e.code == 400
+    merkez('api/abone-sil', {'endpoint': 'apns:' + apns_kod})
 
     # Yeni müşteri: gerçek ekran adımlarıyla SMS kodu → Ad + Soyad (aydınlatma gösterilir) + isteğe bağlı ticari ileti izni
     musteri.get_by_label('Telefon numaranız',exact=True).fill('0555 111 22 33')
@@ -378,7 +387,8 @@ with sync_playwright() as p:
     uyg.goto(link + '&native=1', wait_until='domcontentloaded')
     bekle(uyg, 'app.state.kodAdim===2')
     uyg.get_by_label('SMS ile gelen 6 haneli kod').fill('000000')
-    uyg.get_by_role('button', name='Doğrula', exact=True).click()
+    if uyg.locator('.ty-acilis').count(): uyg.locator('.ty-acilis').dblclick(force=True); uyg.locator('.ty-acilis').wait_for(state='detached')  # 11-20: açılış ekranı (çift dokunuşla geçilir) girişi kaplar
+    uyg.get_by_role('button', name='Doğrula').click()
     uyg.get_by_role('alert').get_by_text('Kod eşleşmedi', exact=False).wait_for()
     uyg.get_by_label('SMS ile gelen 6 haneli kod').fill(kod); uyg.get_by_role('button', name='Doğrula').click()
     bekle(uyg, 'app.state.mTalep && app.state.mTalep.id===' + repr(rid))

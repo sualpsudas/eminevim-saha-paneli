@@ -53,6 +53,7 @@ Pages adresi değişir). **Tasarım kararı henüz verilmedi:** mevcut prototip 
 ## Açık işler
 - Plan: 1 Proje Çerçevesi · 2 Araştırma · 3 Yöntem ve Tasarım · (Sunum) · 4 Teslim; 43 iş, 4 kişi. Tek kaynak OneDrive
   `Eminevim\AlternatifSatisKanali\Belgeler\Tasarruf Yanimda Gorev Dagilimi\kaynak\gorev-tanimlari.md`; görev takip `..\gorev-takip`. Ayrıntı `KARARLAR.md`.
-- iPhone'da uygulama kapalıyken bildirim: APNs anahtarı + Capacitor bildirim eklentisi + yeni Codemagic derlemesi (yapılmadı).
+- iPhone uygulama kapalıyken bildirim (APNs): YAPILDI, telefonda doğrulandı (2026-11-22). Anahtar yalnız sunucuda: `merkez/apns.p8` + `merkez/apns.json`
+  ({key_id, team_id, topic}; ikisi de gitignore). Kod `merkez/ty/apns.py`; conda base'de `pyjwt` + `httpx[http2]` (h2) gerekir.
 - Finansmanlarım rakamları için Eminevim uyum/hukuk onayı.
 - Öneri olarak bekliyor: cumartesi yığılmasını rakamla gösteren analiz (SPY raporları), yönetime kısa sunum.

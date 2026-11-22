@@ -58,7 +58,9 @@ yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyo
 - TestFlight'ta derleme var (Build 1, 2026-10-05; `IOS_TESTFLIGHT.md`).
 - `scripts/merkez-adresi.mjs`: Codemagic'te `TY_MERKEZ_URL` (merkezin tam https adresi + gizli yol) varsa uygulamayı merkez sayfasına bağlar →
   uygulama değişikliği yeni derleme istemeden telefona gelir. Değişken yoksa paketteki gösteri sürümü açılır.
-- Uygulama kapalıyken bildirim için APNs anahtarı (.p8) + Capacitor bildirim eklentisi + yeni Codemagic derlemesi gerekir (yapılmadı).
+- Uygulama kapalıyken bildirim (APNs, 2026-11-22): iPhone uygulaması `@capacitor/push-notifications` ile Apple cihaz kodunu alır, `api/abone` ile merkeze verir
+  (kayıt anahtarı `apns:<token>`, Web Push ile aynı `*_abonelik.json`). Merkez `ty/apns.py` ile Apple'a gönderir (önce üretim, `BadDeviceToken` olursa sandbox).
+  `ios/App/App/App.entitlements` (`aps-environment`) + `AppDelegate.swift` köprüsü. Bildirime dokununca `tyRandevuAc` ilgili randevuyu açar.
 - Uygulama yalnız iPhone (`TARGETED_DEVICE_FAMILY = 1`): iPad'de büyütülmüş iPhone penceresinde açılır, SPY tablet düzeni görünmez.
   SPY'ler iPad'de merkez linkini (Safari / Ana Ekrana Ekle) kullanır; iPad desteği ayrı karar (2026-11-19).
 
