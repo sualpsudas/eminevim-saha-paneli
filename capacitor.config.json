@@ -13,6 +13,9 @@
     "StatusBar": {
       "overlaysWebView": true,
       "style": "DARK"
+    },
+    "Keyboard": {
+      "resize": "native"
     }
   }
 }
