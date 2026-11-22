@@ -1319,6 +1319,12 @@ html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form { margin: 8px 1
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-marka { transition: opacity .15s; }
 html.native-app.kb .giris-ic .giris-marka { opacity: 0; }
 html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form > button.giris-geri { top: max(58px, calc(env(safe-area-inset-top,0px) + 40px)) !important; left: 30px !important; right: auto !important; z-index: 70; }
+/* Kısa ekran (klavye) kuralları giriş kartını değiştirmesin: boyutlar sabit */
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic { gap: 10px !important; }
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form { gap: 14px !important; padding: 26px 22px 28px !important; }
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form input:not([type=checkbox]), html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form select { min-height: 60px !important; font-size: 17px !important; }
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form > button:not([style*="transparent"]):not(.giris-geri):not(.kod-tekrar) { min-height: 62px !important; font-size: 18px !important; }
+html.native-app .giris-ic.giris-ic.giris-ic.giris-ic .giris-form.giris-form b { font-size: 19px !important; }
 </style>
 </helmet>
 
