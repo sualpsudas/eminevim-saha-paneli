@@ -45,7 +45,6 @@
   #akisListe li.yeni{animation:akisYeni 2.4s ease-out}
   #akisListe li.cagri b{color:var(--turuncu)}
   @keyframes akisYeni{from{background:#fff1e3}to{background:transparent}}
-  .leaflet-tile-pane{filter:grayscale(1) contrast(.8) brightness(1.08) opacity(.55)}
   .cn{--c:#ea803f;position:relative;width:16px;height:16px;border-radius:50%;background:var(--c);border:2px solid #fff;box-shadow:0 0 0 1.5px var(--c)}
   .cn::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2.5px solid var(--c);opacity:0}
   .cn.s-alindi{--c:#ea803f;animation:yan .8s ease-in-out infinite}
@@ -123,8 +122,8 @@
   var KAPALI={tamamlandi:1,iptal:1};
   var veri={spyler:[],kayitlar:{},bugun:{gelen:0,gorusme:0}}, surum=0, sifirlama=-1, filtre="tumu", ilkSinir=null;
   var harita=L.map("harita",{zoomSnap:.5}).setView([41.01,29.09],12);
-  // Altlık: OpenStreetMap (CARTO artık anahtar istiyor); renkleri soluk, simgeler ve sınırlar öne çıksın
-  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,subdomains:"abc",attribution:"© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> katkıcıları"}).addTo(harita);
+  // Altlık: Esri açık gri harita — mahalle/cadde adı yok, yalnız sade zemin (adlar karışıklık yapıyordu)
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",{maxZoom:16,attribution:"Esri, HERE, Garmin"}).addTo(harita);
   // Pilot bölge: ilçe sınırları kalın yeşil, mahalleler ince çizgi + ad (yakınlaşınca)
   var S=window.TY_SINIRLAR||{ilceler:[],mahalleler:[]};
   var ilceKatman=L.featureGroup().addTo(harita);
