@@ -1,6 +1,6 @@
 # Çok kişili test: kimlik havuzu, telefon biçimi, sıfırlama, test paneli
 
-Karar tarihi: 2026-11-23 (kullanıcı onayladı). Yeni oturumda **sırayla, teker teker** yapılacak.
+Karar tarihi: 2026-11-23 (kullanıcı onayladı). **Adım 1-7 aynı gün kodlandı** (durum için aşağıdaki "Yapılanlar").
 Her adımdan sonra: bilgisayarda Playwright kontrolü, `tests/merkez-akis.py`, commit + push. Merkezde kod
 değişince merkez düzgünce yeniden başlatılır (`python sunucu.py --durdur`, sonra başlat; taskkill değil).
 
@@ -42,3 +42,14 @@ hepsi izlenip "onaylandı" vb. geri dönüş bildirimi verilebilecek. Aynı kiml
 - Apple tarafı kullanıcıya ait: iç test (en çok 100 App Store Connect kullanıcısı, incelemesiz) ya da dış test grubu
   (link, ilk sürümde kısa beta incelemesi). Gerekirse adım adım yaz. Kaç kişi/kimler henüz belli değil.
 - Aynı oturumda UI sorunları (klavye, düğme) için bkz. CLAUDE.md "iPhone" notları; Codemagic derleme 15 son derleme.
+
+## Yapılanlar (2026-11-23)
+1. Telefon maskesi: `bicim.js` (`telMaske`, `telGecerli`), uygulamada giriş + temsilci isteği + web formu; geçersizde düğme pasif (web formunda hata satırı).
+2. "Kullanımda" kaydı: `merkez/ty/musteri.py` (`kimlik_*`), cihaz kimliği `ty-cihaz`.
+3. Giriş listesi merkezden (`islem: bos`), hepsi doluysa "Kayıtlı kimliklerin hepsi kullanımda".
+4. Yeni üyelik önerisi merkezden (`islem: oner`); aynı numarayla ikinci kayıt zaten reddedilir.
+5. Personel: `api/kimlik` (al/bırak/boş), liste başkasının aldığını göstermez, çıkışta serbest.
+6. Sıfırlama: kimlikler silinir, personel girişe döner (müşteri zaten dönüyordu).
+7. Test paneli: `merkez/takip.html` + `ty/testpanel.py` (katılımcılar, hızlı yanıtlar, bildirim günlüğü, serbest bırak).
+Sınanan: deneme merkezinde (8795) iki ayrı tarayıcıyla kimlik alma/bırakma/başkasının göremeyişi, personel, sıfırlama, test paneli. Sınanmadı: gerçek iPhone ve gerçek bildirim.
+Açık: personel "serbest bırak" yalnız listeyi açar (cihaz bir sonraki açılışta kimliği yeniden alır); `tests/merkez-akis.py` Ayarlar'daki kaldırılmış düğmede takılıyor.

@@ -62,6 +62,38 @@
   .leaflet-tooltip.ilce-ad{background:rgba(255,255,255,.85);border:0;box-shadow:none;color:var(--yesil);font-size:13px;font-weight:800;padding:2px 8px;border-radius:10px}
   .leaflet-tooltip.ilce-ad::before{display:none}
   .gizli-ad .mah-ad{display:none}
+  .sekmeler{display:flex;gap:6px}
+  .sekmeler button{font-size:13px;border:1.5px solid var(--cizgi);background:#fff;border-radius:22px;padding:7px 14px;min-height:36px;color:var(--koyu)}
+  .sekmeler button[aria-pressed=true]{background:var(--yesil);border-color:var(--yesil);color:#fff}
+  body.test-gorunum .ust,body.test-gorunum .cipler,body.test-gorunum .harita-kap{display:none}
+  #testPanel{display:none;flex:1;min-height:0;overflow-y:auto;flex-direction:column;gap:12px;padding-bottom:20px}
+  body.test-gorunum #testPanel{display:flex}
+  #testPanel section{background:#fff;border:1px solid var(--cizgi);border-radius:14px;padding:12px 14px}
+  #testPanel h2{margin:0 0 8px;font-size:14px;color:var(--koyu)}
+  .t-satir{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .t-satir label{font-size:12px;color:var(--yazi)}
+  .t-satir select,.t-satir input{font:inherit;font-size:13px;border:1px solid var(--cizgi);border-radius:10px;padding:7px 10px;min-height:36px;background:#fff;min-width:0}
+  .t-satir input{flex:1;min-width:160px}
+  .t-btn{font-size:13px;border:1.5px solid var(--yesil);background:#fff;color:var(--yesil);border-radius:22px;padding:7px 12px;min-height:36px;font-weight:700}
+  .t-btn.o{border-color:var(--turuncu);color:var(--turuncu)}
+  .t-btn.k{border-color:var(--kirmizi);color:var(--kirmizi)}
+  .t-btn.d{background:var(--yesil);color:#fff}
+  .t-btn:disabled{opacity:.45;cursor:default}
+  .t-sonuc{font-size:12.5px;color:var(--yesil);margin-top:6px;min-height:16px;white-space:pre-line}
+  .t-sonuc.hata{color:var(--kirmizi)}
+  .t-kisi{border-top:1px solid var(--cizgi);padding:9px 0;display:flex;flex-direction:column;gap:4px}
+  .t-kisi:first-of-type{border-top:0}
+  .t-kisi .ust2{display:flex;gap:8px;align-items:baseline;flex-wrap:wrap}
+  .t-kisi b{font-size:14px}
+  .t-rozet{font-size:11px;border-radius:10px;padding:1px 8px;background:#e6f2ec;color:var(--yesil)}
+  .t-rozet.p{background:#fdeedd;color:#b25e30}
+  .t-rozet.kapali{background:#eee;color:#777}
+  .t-kisi .alt{font-size:12.5px;color:var(--yazi)}
+  .t-kisi details{font-size:12px;color:var(--yazi)}
+  .t-tablo{width:100%;border-collapse:collapse;font-size:12px}
+  .t-tablo td,.t-tablo th{text-align:left;padding:5px 6px;border-top:1px solid var(--cizgi);vertical-align:top}
+  .t-tablo th{color:var(--yazi);font-weight:600;border-top:0}
+  .t-bos{font-size:13px;color:var(--yazi)}
   .leaflet-popup-content{font-size:13px;line-height:1.45;margin:10px 12px}
   .leaflet-popup-content b{font-size:14px}
 </style>
@@ -73,9 +105,24 @@
   <button class="sifirla" id="sifirla" type="button">Test verisini sıfırla</button>
 </header>
 <main>
+  <div class="sekmeler" id="sekmeler" role="group" aria-label="Görünüm"><button type="button" data-g="harita" aria-pressed="true">Harita</button><button type="button" data-g="test" aria-pressed="false">Test paneli</button></div>
   <div class="ust" id="sayilar"></div>
   <div class="cipler" role="group" aria-label="SPY'leri süz" id="cipler"></div>
   <div class="harita-kap"><div id="harita" aria-label="Pilot bölge haritası"></div></div>
+  <div id="testPanel" aria-label="Test paneli">
+    <section>
+      <h2>Yanıt gönder</h2>
+      <div class="t-satir"><label for="tKime">Kime</label><select id="tKime" aria-label="Kime"><option value="hepsi">Tüm katılımcılar</option></select></div>
+      <div class="t-satir" style="margin-top:8px"><button type="button" class="t-btn d" data-yanit="onayla">Onayla</button>
+        <select id="tSpy" aria-label="Atanacak SPY"></select><button type="button" class="t-btn" data-yanit="ata">Temsilci ata</button>
+        <button type="button" class="t-btn" data-yanit="kabul">Randevu kabul</button><button type="button" class="t-btn k" data-yanit="iptal">Randevu iptal</button>
+        <button type="button" class="t-btn o" data-yanit="bildirim">Test bildirimi</button></div>
+      <div class="t-satir" style="margin-top:8px"><input id="tMetin" maxlength="200" placeholder="Serbest mesaj yazın" aria-label="Serbest mesaj"><button type="button" class="t-btn o" data-yanit="mesaj">Mesaj gönder</button></div>
+      <div class="t-sonuc" id="tSonuc" role="status"></div>
+    </section>
+    <section><h2>Katılımcılar <span class="t-bos" id="tSayi"></span></h2><div id="tListe"></div></section>
+    <section><h2>Bildirim günlüğü</h2><div id="tGunluk"></div></section>
+  </div>
 </main>
 <div class="kisi-kart" id="kisiKart" hidden role="dialog" aria-label="Ayrıntı"><div id="kisiIc"></div><button type="button" id="kisiKapat" aria-label="Kapat">✕</button></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -153,8 +200,53 @@
     fetch("api/sifirla",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({onay:"evet"})})
       .then(function(r){if(!r.ok)throw new Error(r.status);veri.kayitlar={};surum=0;tur();}).catch(function(err){alert("İşlem yapılamadı: "+err.message);});
   });
-  var zaman=null;
+  var zaman=null, testZaman=null, testAcik=false;
+  function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function once(t){if(!t)return "henüz yok";var d=Math.max(0,Math.round((Date.now()-t)/1000));return d<60?"şimdi":d<3600?Math.round(d/60)+" dk önce":d<86400?Math.round(d/3600)+" sa önce":Math.round(d/86400)+" gün önce";}
+  function testCiz(v){
+    var kime=document.getElementById("tKime"), secili=kime.value, k=v.katilimcilar;
+    kime.innerHTML='<option value="hepsi">Tüm katılımcılar ('+k.length+')</option>'+k.map(function(x){return '<option value="'+esc(x.anahtar)+'">'+esc(x.ad)+(x.tur==="personel"?" (personel)":"")+'</option>';}).join("");
+    kime.value=k.some(function(x){return x.anahtar===secili;})?secili:"hepsi";
+    var sp=document.getElementById("tSpy"), s0=sp.value;
+    if(!sp.options.length||sp.dataset.n!==String(v.spyler.length)){sp.innerHTML=v.spyler.map(function(s){return '<option value="'+esc(s.id)+'">'+esc(s.ad)+'</option>';}).join("");sp.dataset.n=v.spyler.length;if(s0)sp.value=s0;}
+    document.getElementById("tSayi").textContent="· "+k.length;
+    document.getElementById("tListe").innerHTML=k.length?k.map(function(x){
+      return '<div class="t-kisi"><div class="ust2"><b>'+esc(x.ad)+'</b><span class="t-rozet '+(x.tur==="personel"?"p":"")+'">'+(x.tur==="personel"?"Personel":"Müşteri")+'</span>'
+        +'<span class="t-rozet '+(x.bildirim?"":"kapali")+'">Bildirim '+(x.bildirim?"açık":"kapalı")+'</span></div>'
+        +'<div class="alt">'+esc(x.adim)+' · son görülme '+once(x.sonGorulme)+' · kimliği aldı '+once(x.alinma)+' · '+esc(x.kimlik)+'</div>'
+        +(x.cizelge.length?'<details><summary>Zaman çizelgesi</summary>'+x.cizelge.map(function(o){return '<div>'+saat(o.t)+' · '+esc(o.metin)+'</div>';}).join("")+'</details>':"")
+        +'<div><button type="button" class="t-btn k" data-birak="'+esc(x.anahtar)+'">Bu kimliği serbest bırak</button></div></div>';
+    }).join(""):'<div class="t-bos">Henüz kimse kimlik almadı. Uygulamaya giren herkes burada görünür.</div>';
+    document.getElementById("tGunluk").innerHTML=v.gunluk.length?'<table class="t-tablo"><tr><th>Saat</th><th>Kime</th><th>Bildirim</th><th>Yanıt</th></tr>'+v.gunluk.map(function(g){
+      return '<tr><td>'+saat(g.t)+'</td><td>'+esc(g.ad)+'</td><td>'+esc(g.baslik)+(g.govde?'<br><span style="color:var(--yazi)">'+esc(g.govde)+'</span>':"")+'</td><td>'+esc(g.sonuc)+'</td></tr>';
+    }).join("")+'</table>':'<div class="t-bos">Henüz bildirim gönderilmedi.</div>';
+  }
+  function testTur(){
+    clearTimeout(testZaman);
+    if(!testAcik)return;
+    fetch("api/test-durum",{cache:"no-store"}).then(function(r){return r.json();}).then(testCiz).catch(function(){})
+      .then(function(){testZaman=setTimeout(testTur,4000);});
+  }
+  function testGonder(govde){
+    var s=document.getElementById("tSonuc"); s.className="t-sonuc"; s.textContent="Gönderiliyor…";
+    return fetch("api/test",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(govde)})
+      .then(function(r){return r.json().then(function(j){if(!r.ok)throw new Error(j.hata||r.status);return j;});})
+      .then(function(j){s.textContent=((j.sonuc&&j.sonuc.ozet)||[]).join("\n")||"Tamam";testTur();})
+      .catch(function(e){s.className="t-sonuc hata";s.textContent="Yapılamadı: "+e.message;});
+  }
+  document.getElementById("sekmeler").addEventListener("click",function(ev){
+    var b=ev.target.closest("button[data-g]"); if(!b)return;
+    testAcik=b.dataset.g==="test"; document.body.classList.toggle("test-gorunum",testAcik);
+    Array.prototype.forEach.call(document.querySelectorAll("#sekmeler button"),function(x){x.setAttribute("aria-pressed",String(x===b));});
+    if(testAcik)testTur(); else {clearTimeout(testZaman);setTimeout(function(){harita.invalidateSize();},50);}
+  });
+  document.getElementById("testPanel").addEventListener("click",function(ev){
+    var y=ev.target.closest("button[data-yanit]"), b=ev.target.closest("button[data-birak]");
+    if(y){testGonder({islem:"yanit",tur:y.dataset.yanit,hedef:document.getElementById("tKime").value,spy:document.getElementById("tSpy").value,metin:document.getElementById("tMetin").value});}
+    else if(b&&confirm("Bu kimlik serbest bırakılsın mı? Telefonu girişe döner.")){testGonder({islem:"birak",anahtar:b.dataset.birak});}
+  });
   if(DEMO){  // gösteri: merkez yok; örnek durumlarla (canlı sürümde merkezden gelir)
+    document.getElementById("sekmeler").style.display="none";
     document.getElementById("sifirla").style.display="none";
     var ornek={s1:"randevuda",s4:"molada",s15:"randevuda"}, bugunOrnek={s1:2,s2:1,s3:1,s15:2,s21:1};
     veri.spyler=(window.TY_SPYLER||[]).map(function(s){return Object.assign({},s,{hal:ornek[s.id]||"bosta",bugunCagri:bugunOrnek[s.id]||0,bildirim:s.id==="s4"?0:1,konumAn:{lat:s.lat,lng:s.lng}});});

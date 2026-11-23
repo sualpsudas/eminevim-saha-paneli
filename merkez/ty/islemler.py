@@ -24,10 +24,11 @@ from .dogrulama import KAPI_KODLARI, dogrulama_islem
 from .konum import anlik_konum, canli_konum, konum_yaz
 from .musteri import KODLAR, musteri_islem
 from .personel import SPY_IDLER
+from .testpanel import test_islem
 from .yardim import bugun, damga, metin, olay, saat_yaz, simdi, tel_temiz
 
 GORULME = {}  # SPY id -> son yoklama zamanı (yalnız bellekte)
-YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla", "api/kimlik")
+YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla", "api/kimlik", "api/test")
 
 
 def temiz_kayit(gelen):
@@ -201,7 +202,7 @@ def sifirla(veri, istek):
 
 
 ISLEMLER = {"api/cagri": cagri, "api/kayit": kayit, "api/mesaj": mesaj, "api/spy": spy_durum, "api/aktar": aktar,
-            "api/konum": konum, "api/kod": giris_kodu, "api/musteri": musteri_islem, "api/dogrulama": dogrulama_islem, "api/sifirla": sifirla, "api/kimlik": kimlik}
+            "api/konum": konum, "api/kod": giris_kodu, "api/musteri": musteri_islem, "api/dogrulama": dogrulama_islem, "api/sifirla": sifirla, "api/kimlik": kimlik, "api/test": test_islem}
 
 
 def uygula(veri, yol, istek):

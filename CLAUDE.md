@@ -55,6 +55,6 @@ Pages adresi değişir). **Tasarım kararı henüz verilmedi:** mevcut prototip 
   `Eminevim\AlternatifSatisKanali\Belgeler\Tasarruf Yanimda Gorev Dagilimi\kaynak\gorev-tanimlari.md`; görev takip `..\gorev-takip`. Ayrıntı `KARARLAR.md`.
 - iPhone uygulama kapalıyken bildirim (APNs): YAPILDI, telefonda doğrulandı (2026-11-22). Anahtar yalnız sunucuda: `merkez/apns.p8` + `merkez/apns.json`
   ({key_id, team_id, topic}; ikisi de gitignore). Kod `merkez/ty/apns.py`; conda base'de `pyjwt` + `httpx[http2]` (h2) gerekir.
-- **Çok kişili test (karar verildi, yapılacak):** `PLAN-test-kimlik.md` — kimlik havuzu (çıkışta serbest), +90 (5__) ___ __ __ zorunlu telefon biçimi, sıfırlama, yönetici test paneli. Yeni oturumda sırayla uygula.
+- **Çok kişili test (2026-11-23 YAPILDI, canlı merkezde yeniden başlatma bekliyor):** `PLAN-test-kimlik.md` — telefon maskesi, kimlik "kullanımda" kaydı, boş kimlik listesi, sıfırlama, yönetici Test paneli (takip sayfasında). Ayrıntı `TEKNIK.md` → Test kimliği. Kalan: iki gerçek telefonla deneme, `tests/merkez-akis.py` güncelleme (Ayarlar'daki Aydınlatma düğmesi kalktı).
 - Finansmanlarım rakamları için Eminevim uyum/hukuk onayı.
 - Öneri olarak bekliyor: cumartesi yığılmasını rakamla gösteren analiz (SPY raporları), yönetime kısa sunum.

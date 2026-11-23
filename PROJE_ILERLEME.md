@@ -1006,3 +1006,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 ## 2026-11-23
 - Klavye/giriş: sabit düzen (resize none, build 15), düğmeler tek biçim (soft yeşil, 54px), Ayarlar: Yenile + Çıkış yap, çekip yenileme kaldırıldı, Bildirimler ve Aydınlatma Ayarlar'dan çıktı.
 - Çok kişili test kararı verildi: `PLAN-test-kimlik.md` (kimlik havuzu, telefon maskesi, sıfırlama, test paneli). Henüz kodlanmadı.
+- Çok kişili test işi yapıldı (PLAN-test-kimlik.md adım 1-7): +90 (5__) ___ __ __ telefon maskesi (uygulama + web formu), kimlik tek cihazda ("kullanımda", çıkışta serbest), boş kimlik listesi, personel kimliği, sıfırlamada personel çıkışı, yönetici Test paneli (takip sayfası, `ty/testpanel.py`). sw v119. Deneme merkezinde (8795) iki tarayıcıyla doğrulandı; canlı merkez (8794) yeniden başlatılınca devreye girer; gerçek iPhone ve gerçek bildirimle denenmedi.

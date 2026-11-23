@@ -48,6 +48,17 @@ yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyo
   aboneliği (`api/abone` + `musteri`, `jeton`) yalnız onunla. Bildirimler: SPY kabul ("Temsilciniz belli oldu"), yola çıkış (tahmini varış),
   SPY mesajı (kabul/yola çıkış hazır mesajları `oto` ile ayrı bildirim üretmez). Dokununca o randevu açılır (`?ac=` / servis çalışanı mesajı).
   Bir telefon tek kişiye bağlı (SPY ya da müşteri; sonuncusu geçerli).
+- **Test kimliği (2026-11-23, `PLAN-test-kimlik.md`):** çok kişili test için bir kimlik aynı anda tek cihazda. Cihaz kimliği telefonda
+  `ty-cihaz` (uygulama/hesap.js `cihazKimligi`); merkezde `veri.json → kimlikler`: müşteri `<tel>`, personel `spy:<id>` → {cihaz, tarih}.
+  Müşteri: `api/musteri` islem `bos` (boş örnek kimlikler), `oner` (yeni üyelik için kayıtsız ad/soyad/telefon); `kod/dogrula/kayit/web`
+  başka cihazdaysa "kullanımda" hatası verir; giriş alır, `cikis` bırakır. Personel: `api/kimlik` (`bos | al | birak`, `ty/islemler.py`).
+  Telefon her yerde `+90 (5__) ___ __ __` (`uygulama/bicim.js` `telMaske/telGecerli/telAnahtar`; web formu aynı kuralı kendi içinde taşır);
+  saklanan değer 10 hane. `api/sifirla` kimlikleri siler, personeli de girişe döndürür (`yerelSifirla`).
+  Not: bu kural test aşaması içindir; gerçek yayında bir müşteri birden çok cihazdan girebilmeli (`ty/musteri.py` `kimlik_*` işlevleri kaldırılır).
+- **Test paneli (yönetici):** `merkez/takip.html` → "Test paneli" sekmesi (Saha Canlı içinde, yalnız yönetici). Kod `ty/testpanel.py`:
+  `GET api/test-durum` (katılımcılar: adım, son görülme, bildirim açık mı, zaman çizelgesi; bildirim günlüğü), `POST api/test`
+  (`yanit`: onayla | ata | kabul | iptal | bildirim | mesaj, hedef `hepsi` ya da tek kişi; `birak`: kimliği serbest bırakır, müşteri oturumunu da kapatır).
+  Her bildirim `veri.json → bildirimGunlugu`'na yazılır (kime, ne, Apple/Web Push yanıtı; `ty/bildirim.py` `gunluk_yaz`). İlk sürüm: senaryo otomasyonu yok.
 - **Kapıda doğrulama (2026-11-19):** `api/dogrulama` (`ty/dogrulama.py`). `islem:kod` (müşteri tel + jeton) → 4 haneli kod, yalnız bellekte
   (`KAPI_KODLARI`, merkez yeniden başlarsa müşteri "Kodu yenile"). QR içeriği `{randevu, revision, kod}`. `islem:dogrula` (id, spy, kod, revision)
   → randevu + SPY + sürüm + süre kontrolü, `gorusmede` + `dogrulandi {zaman, yol: qr|kod}`, müşteriye bildirim. Kamera: `getUserMedia` (https

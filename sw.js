@@ -1,4 +1,4 @@
-const CACHE = 'eminevim-v118';
+const CACHE = 'eminevim-v119';
 const ASSETS = [
   './',
   './index.html',
