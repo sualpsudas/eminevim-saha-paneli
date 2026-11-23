@@ -300,7 +300,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 
 ## Taslak isteği gelirse (web ya da uygulama)
 Kullanıcı "taslak göster" dediğinde çalışan kod değil, **sunuma eklenebilir ekran taslağı** hazırla:
-1. `taslak/<konu>.html` olarak tek dosya; şablon `taslak/uygulama-akisi.html` (telefon çerçeveleri, her ekranın altında
+1. `taslak/<konu>.html` olarak tek dosya; şablon yok (2026-11-23'te eski taslaklar silindi; git geçmişinde `taslak/uygulama-akisi.html`) (telefon çerçeveleri, her ekranın altında
    kalın başlık + bir iki cümle açıklama, sonda "Bu taslağın kuralları"). Webde masaüstü görünümü gerekiyorsa aynı
    sayfada geniş çerçeve kullan.
 2. Aynı renkler ve bileşenler (yeşil `#00724c`, turuncu buton `#ea803f`, çipler, ilerleme çizgileri); dış kütüphane yok.

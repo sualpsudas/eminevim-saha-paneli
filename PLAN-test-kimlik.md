@@ -50,6 +50,6 @@ hepsi izlenip "onaylandı" vb. geri dönüş bildirimi verilebilecek. Aynı kiml
 4. Yeni üyelik önerisi merkezden (`islem: oner`); aynı numarayla ikinci kayıt zaten reddedilir.
 5. Personel: `api/kimlik` (al/bırak/boş), liste başkasının aldığını göstermez, çıkışta serbest.
 6. Sıfırlama: kimlikler silinir, personel girişe döner (müşteri zaten dönüyordu).
-7. Test paneli: `merkez/takip.html` + `ty/testpanel.py` (katılımcılar, hızlı yanıtlar, bildirim günlüğü, serbest bırak).
+7. Test paneli YERİNE sunum görünümü: `merkez/takip.html` bildirim akışı + "Otomatik ilerlet" (`ty/sunum.py`, `api/ilerlet`); kapsamlı panel kullanıcı isteğiyle kaldırıldı.
 Sınanan: deneme merkezinde (8795) iki ayrı tarayıcıyla kimlik alma/bırakma/başkasının göremeyişi, personel, sıfırlama, test paneli. Sınanmadı: gerçek iPhone ve gerçek bildirim.
 Açık: personel "serbest bırak" yalnız listeyi açar (cihaz bir sonraki açılışta kimliği yeniden alır); `tests/merkez-akis.py` Ayarlar'daki kaldırılmış düğmede takılıyor.

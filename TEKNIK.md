@@ -55,10 +55,10 @@ yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyo
   Telefon her yerde `+90 (5__) ___ __ __` (`uygulama/bicim.js` `telMaske/telGecerli/telAnahtar`; web formu aynı kuralı kendi içinde taşır);
   saklanan değer 10 hane. `api/sifirla` kimlikleri siler, personeli de girişe döndürür (`yerelSifirla`).
   Not: bu kural test aşaması içindir; gerçek yayında bir müşteri birden çok cihazdan girebilmeli (`ty/musteri.py` `kimlik_*` işlevleri kaldırılır).
-- **Test paneli (yönetici):** `merkez/takip.html` → "Test paneli" sekmesi (Saha Canlı içinde, yalnız yönetici). Kod `ty/testpanel.py`:
-  `GET api/test-durum` (katılımcılar: adım, son görülme, bildirim açık mı, zaman çizelgesi; bildirim günlüğü), `POST api/test`
-  (`yanit`: onayla | ata | kabul | iptal | bildirim | mesaj, hedef `hepsi` ya da tek kişi; `birak`: kimliği serbest bırakır, müşteri oturumunu da kapatır).
-  Her bildirim `veri.json → bildirimGunlugu`'na yazılır (kime, ne, Apple/Web Push yanıtı; `ty/bildirim.py` `gunluk_yaz`). İlk sürüm: senaryo otomasyonu yok.
+- **Sunum görünümü (2026-11-23):** `merkez/takip.html` — solda canlı saha haritası (açık çağrıdaki müşteriler lacivert nokta), sağda "Bildirimler"
+  akışı (`api/durum` → son olaylar: "Çağrı geldi · Ayşe Kaya, Üsküdar") ve tek düğme "Otomatik ilerlet" (`POST api/ilerlet`, `ty/sunum.py`):
+  açık çağrıların hepsi bir aşama ilerler (yeni → SPY atandı → yola çıktı [SPY haritada yarı yola gelir] → görüşmede → tamamlandı), her aşamada
+  müşteriye bildirim. Seçim yok. Yönetici girişi sınırsız (`?rol=ask`), telefon ve bilgisayardan açılır.
 - **Kapıda doğrulama (2026-11-19):** `api/dogrulama` (`ty/dogrulama.py`). `islem:kod` (müşteri tel + jeton) → 4 haneli kod, yalnız bellekte
   (`KAPI_KODLARI`, merkez yeniden başlarsa müşteri "Kodu yenile"). QR içeriği `{randevu, revision, kod}`. `islem:dogrula` (id, spy, kod, revision)
   → randevu + SPY + sürüm + süre kontrolü, `gorusmede` + `dogrulandi {zaman, yol: qr|kod}`, müşteriye bildirim. Kamera: `getUserMedia` (https

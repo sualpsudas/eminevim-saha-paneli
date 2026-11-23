@@ -28,7 +28,6 @@ from .ayarlar import ANAHTAR, KLASOR, KOK, PID, PORT, STATIK_KLASOR, STATIK_KOK,
 from .islemler import GORULME, YOLLAR, bugun_sayilar, spy_ozet, uygula
 from .musteri import YazilanHata
 from .personel import SPY_IDLER
-from .testpanel import test_durum
 from .yardim import simdi
 
 
@@ -159,9 +158,6 @@ class Isleyici(BaseHTTPRequestHandler):
             return self._yanit(200, (KLASOR / "canli-sw.js").read_bytes(), "text/javascript; charset=utf-8")
         if yol == "api/durum":
             return self._yanit(200, self._durum())
-        if yol == "api/test-durum":
-            with depo.kilit:
-                return self._yanit(200, test_durum(depo.oku(), GORULME))
         dosya = self._statik(yol)
         if not dosya:
             return self._yanit(404, {"hata": "Bulunamadı"})

@@ -58,27 +58,13 @@ def uygun_uc(uc):
     return u.scheme == "https" or (u.scheme == "http" and u.hostname == "127.0.0.1")  # yerel olan yalnız test için
 
 
-def gonderilebilir():
-    return bool(VAPID_NESNE or apns.hazir())
-
-
-def gunluk_yaz(veri, kim, govde, sonuc):
-    """Test paneli günlüğü (en yeni 200): kime, ne zaman, ne gitti, Apple/Web Push yanıtı."""
-    veri["bildirimGunlugu"] = ([{"t": simdi(), "kim": kim, "baslik": metin(govde.get("baslik"), 80), "govde": metin(govde.get("govde"), 160),
-                                 "sonuc": sonuc}] + veri.get("bildirimGunlugu", []))[:200]
-
-
-def gonder_arka_planda(hedefler, govde, kim=""):
-    threading.Thread(target=bildir_gonder, args=(hedefler, govde, kim), daemon=True).start()
-
-
 def bildir(spy_id, govde):
     """SPY'nin bildirim açtığı tüm telefonlara gönderir (arka planda; çağrı akışını bekletmez)."""
     if not (VAPID_NESNE or apns.hazir()):
         return
     hedefler = [x for x in abone_oku().values() if x.get("spy") == spy_id]
     if hedefler:
-        gonder_arka_planda(hedefler, govde, "spy:" + spy_id)
+        threading.Thread(target=bildir_gonder, args=(hedefler, govde), daemon=True).start()
 
 
 def bildir_musteri(k, baslik, govde):
@@ -89,10 +75,11 @@ def bildir_musteri(k, baslik, govde):
         return
     hedefler = [x for x in abone_oku().values() if x.get("musteri") == tel]
     if hedefler:
-        gonder_arka_planda(hedefler, {"baslik": baslik, "govde": govde, "etiket": "m-" + k["id"], "rid": k["id"]}, "musteri:" + tel)
+        threading.Thread(target=bildir_gonder, args=(hedefler, {"baslik": baslik, "govde": govde, "etiket": "m-" + k["id"], "rid": k["id"]}),
+                         daemon=True).start()
 
 
-def bildir_gonder(hedefler, govde, kim=""):
+def bildir_gonder(hedefler, govde):
     bitti = []
     iphone = [h["apns"] for h in hedefler if h.get("apns")]
     if iphone:
@@ -122,11 +109,6 @@ def bildir_gonder(hedefler, govde, kim=""):
             else:
                 a[uc].update({"son": simdi(), "sonuc": sonuc})
         abone_yaz(a)
-    if kim:  # test paneli günlüğü (kilit sırası: veri, sonra abonelik; abonelik kilidi burada bırakıldı)
-        with depo.kilit:
-            veri = depo.oku()
-            gunluk_yaz(veri, kim, govde, ", ".join(sorted({s for _, s in bitti})) or "gönderilmedi")
-            depo.yaz(veri)
 
 
 def bildirim_sayisi(spy_id):
