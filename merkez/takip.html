@@ -128,11 +128,21 @@
   // Altlık: OpenFreeMap açık gri vektör harita — caddeler ve sokaklar çizili, tüm yazılar (mahalle/cadde adı) gizli; WebGL yoksa Esri adsız gri
   try{
     var gl=L.maplibreGL({style:"https://tiles.openfreemap.org/styles/positron"}).addTo(harita).getMaplibreMap();
-    // Yazılar gizli (yalnız ana cadde adları kalır); yollar sınıfına göre: otoyol koyu, ana cadde orta, sokak çok açık
-    var YOL={highway_motorway_inner:"#9aa5ab",highway_motorway_bridge_inner:"#9aa5ab",highway_motorway_subtle:"#9aa5ab",highway_major_inner:"#b9c1c6",highway_major_subtle:"#b9c1c6",highway_minor:"#e9ecee",highway_path:"#eff1f2",highway_major_casing:"#e4e8ea",highway_motorway_casing:"#e4e8ea",highway_motorway_bridge_casing:"#e4e8ea",tunnel_motorway_casing:"#e4e8ea"};
+    // Yollar sınıfına göre: otoyol koyu, ana cadde orta, iç sokak ince ve çok açık; yazılar seyrek: ana cadde, semt/mahalle (yakınlaşınca), su
+    var YOL={highway_motorway_inner:"#8f9aa1",highway_motorway_bridge_inner:"#8f9aa1",highway_motorway_subtle:"#8f9aa1",highway_major_inner:"#b9c1c6",highway_major_subtle:"#b9c1c6",highway_minor:"#dde1e4",highway_path:"#eceff0",highway_major_casing:"#e4e8ea",highway_motorway_casing:"#e4e8ea",highway_motorway_bridge_casing:"#e4e8ea",tunnel_motorway_casing:"#e4e8ea"};
+    var YAZI={"highway-name-major":0,label_other:11.5,label_village:11.5,label_town:0,water_name_point_label:0,water_name_line_label:0};
     gl.on("styledata",function(){(gl.getStyle().layers||[]).forEach(function(l){
-      if(l.type==="symbol"){if(l.id!=="highway-name-major")try{gl.setLayoutProperty(l.id,"visibility","none");}catch(x){}}
-      else if(YOL[l.id])try{gl.setPaintProperty(l.id,"line-color",YOL[l.id]);}catch(x){}
+      try{
+        if(l.type==="symbol"){
+          if(l.id in YAZI){gl.setLayoutProperty(l.id,"visibility","visible");if(YAZI[l.id])gl.setLayerZoomRange(l.id,YAZI[l.id],24);gl.setPaintProperty(l.id,"text-color","#6f7b82");gl.setPaintProperty(l.id,"text-halo-color","#ffffff");}
+          else gl.setLayoutProperty(l.id,"visibility","none");
+        }else if(YOL[l.id]){
+          gl.setPaintProperty(l.id,"line-color",YOL[l.id]);
+          if(l.id==="highway_minor")gl.setPaintProperty(l.id,"line-width",["interpolate",["linear"],["zoom"],12,.3,15,.8,18,2]);
+          if(l.id==="highway_path"||l.id==="highway_major_casing")gl.setLayoutProperty(l.id,"visibility","none");
+          if(l.id==="highway_major_inner"||l.id==="highway_major_subtle")gl.setPaintProperty(l.id,"line-width",["interpolate",["linear"],["zoom"],10,.5,13,1,16,3,19,6]);
+        }
+      }catch(x){}
     });});
   }catch(x){
     L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",{maxZoom:16,attribution:"Esri"}).addTo(harita);
