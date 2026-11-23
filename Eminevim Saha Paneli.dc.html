@@ -443,7 +443,7 @@ button, svg, input, [style*="background:var(--card)"], [style*="background:var(-
 
 html:has(.pg-kap){overflow:hidden}
 .spy-foto{width:132px;height:132px;flex:none}.spy-foto img,.spy-foto span{display:flex;align-items:center;justify-content:center;width:132px;height:132px;border-radius:50%;object-fit:cover}
-.spy-bos{background:var(--tintGreen)}.spy-gir-yazi:disabled{opacity:.45;cursor:default!important}.spy-yon{background:#1E3856;color:#fff;font:800 44px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif}
+.spy-bos{background:var(--tintGreen)}.kod-ileri:disabled,.btn-turuncu-yazi:disabled{opacity:.45;cursor:default!important}.spy-gir-yazi:disabled{opacity:.45;cursor:default!important}.spy-yon{background:#1E3856;color:#fff;font:800 44px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif}
 .spy-ara.spy-sari{background:#FFF6D6;border-color:#E8D48A}
 .spy-giris{width:100%;display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px}
 .spy-gir-yazi{margin-left:0;align-self:stretch;text-align:center;background:#EA803F;color:#fff;border-radius:22px;padding:8px 14px;font-size:12px;font-weight:800;white-space:nowrap}
@@ -1365,13 +1365,13 @@ html.native-app .customer-finance-actions button { min-height: 54px !important; 
         <div class="giris-slogan">Dilediğiniz yerde temsilcimizle görüşme planlayın!</div>
         <sc-if value="{{ girisModKod }}"><div class="giris-form" style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
           <sc-if value="{{ kodBaslikVar }}"><div style="text-align:left;"><b style="display:block;font-size:16px;color:var(--ink);">{{ kodBaslik }}</b><span style="font-size:12px;color:var(--dim);line-height:1.45;">{{ kodAlt }}</span></div></sc-if>
-          <sc-if value="{{ kodAdim1 }}"><input value="{{ kodTel }}" onChange="{{ setKodTel }}" inputmode="tel" autocomplete="tel" placeholder="Telefon numaranız" aria-label="Telefon numaranız" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>
+          <sc-if value="{{ kodAdim1 }}"><input value="{{ kodTel }}" onChange="{{ setKodTel }}" inputmode="numeric" autocomplete="tel" maxlength="19" placeholder="+90 (5__) ___ __ __" aria-label="Telefon numaranız" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>
           <sc-if value="{{ kodAdim1 }}"><select class="spy-ara ornek-secim" value="{{ ornekSecili }}" onChange="{{ setOrnekSecili }}" aria-label="Örnek müşteri seçin">{{ ornekSecenekler }}</select></sc-if>
           <sc-if value="{{ kodAdim2 }}"><input value="{{ kodGirdi }}" onChange="{{ setKodGirdi }}" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="• • • • • •" aria-label="SMS ile gelen 6 haneli kod" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700;text-align:center;font-size:22px;letter-spacing:10px;"><sc-if value="{{ kodDemoVar }}"><div class="kod-demo" style="font-size:11.5px;color:var(--dim);background:var(--tintGreen);border-radius:12px;padding:7px 10px;text-align:left;">Test: SMS gönderilmez, kod otomatik dolduruldu (<b style="color:#00724C;letter-spacing:2px;">{{ kodDemo }}</b>).</div></sc-if></sc-if>
           <sc-if value="{{ kodAdim3 }}"><input value="{{ kodAd }}" onChange="{{ setKodAd }}" autocomplete="given-name" placeholder="Ad" aria-label="Ad" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"><input value="{{ kodSoyad }}" onChange="{{ setKodSoyad }}" autocomplete="family-name" placeholder="Soyad" aria-label="Soyad" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"><label style="display:flex;align-items:flex-start;gap:9px;text-align:left;cursor:pointer;"><input type="checkbox" checked="{{ kodAydinlatma }}" onChange="{{ toggleKodAydinlatma }}" aria-label="Aydınlatma Metni'ni okudum, bilgilendirildim" style="width:18px;height:18px;accent-color:#00724C;flex:0 0 auto;margin-top:1px;"><span style="font-size:12px;color:var(--ink);line-height:1.45;"><button type="button" onClick="{{ aydinlatmaAcKutu }}" style="border:0;background:transparent;padding:0;color:#00724C;font:700 12px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;text-decoration:underline;cursor:pointer;">Aydınlatma Metni</button>'ni okudum; kişisel verilerimin bu metinde anlatıldığı şekilde işleneceği konusunda bilgilendirildim.</span></label><label style="display:flex;align-items:flex-start;gap:9px;text-align:left;cursor:pointer;"><input type="checkbox" checked="{{ kodKampanya }}" onChange="{{ toggleKodKampanya }}" aria-label="Ticari elektronik ileti izni (isteğe bağlı)" style="width:18px;height:18px;accent-color:#00724C;flex-shrink:0;margin-top:1px;"><span style="font-size:11.5px;color:var(--ink);line-height:1.45;">Kampanyalardan haberdar olmak için Emin Üstün Holding Şirketleri'nden ticari elektronik ileti almak istiyorum. <span style="color:var(--dim);">(İsteğe bağlı)</span></span></label></sc-if>
           <sc-if value="{{ kodOrnekVar }}"><div style="font-size:11.5px;color:var(--dim);background:var(--tintGreen);border-radius:12px;padding:7px 10px;text-align:left;">Test: ad ve soyad örnek olarak dolduruldu. İsterseniz değiştirin.</div></sc-if>
           <sc-if value="{{ kodHataVar }}"><div role="alert" style="font-size:12px;font-weight:700;color:#B25E30;text-align:left;">{{ kodHata }}</div></sc-if>
-          <button onClick="{{ kodIleri }}" style-active="transform:scale(.97);" style="width:100%; min-height:46px; background:#00724C; color:#fff; border:none; border-radius:22px; font-size:14px; font-weight:700; cursor:pointer; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">{{ kodDugme }}</button>
+          <button class="kod-ileri" onClick="{{ kodIleri }}" disabled="{{ kodDugmePasif }}" style-active="transform:scale(.97);" style="width:100%; min-height:46px; background:#00724C; color:#fff; border:none; border-radius:22px; font-size:14px; font-weight:700; cursor:pointer; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">{{ kodDugme }}</button>
           <sc-if value="{{ kodTekrarVar }}"><button class="kod-tekrar" onClick="{{ kodTekrar }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;">Kodu tekrar gönder</button></sc-if><sc-if value="{{ girisGeriVar }}"><button class="giris-geri" onClick="{{ girisGeri }}" style="border:0;background:transparent;color:#00724C;font-size:12px;font-weight:700;cursor:pointer;min-height:32px;">Geri</button></sc-if>
         </div><img class="giris-marka" src="assets/logo-green.png" alt="Eminevim" style="width:96px;height:auto;margin:auto auto 0;display:block;opacity:.9;"></sc-if>
       </div>
@@ -1403,10 +1403,10 @@ html.native-app .customer-finance-actions button { min-height: 54px !important; 
         <div style="flex:1;text-align:center;font-size:11.5px;color:var(--dim);line-height:1.3;"><span style="display:flex;width:44px;height:44px;margin:0 auto 7px;border-radius:50%;background:var(--tintGreen);align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#00724C" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></span>Yolda olduğunu görürsünüz</div>
       </div>
       <input value="{{ yaAd }}" onChange="{{ setYaAd }}" placeholder="Adınız soyadınız" autocomplete="name" aria-label="Adınız soyadınız" style="width:100%;padding:14px;border-radius:22px;border:0;font-size:14px;background:var(--kutu);color:var(--ink);margin-bottom:10px;font-weight:700">
-      <input value="{{ yaTel }}" onChange="{{ setYaTel }}" placeholder="Telefon numaranız" inputmode="tel" autocomplete="tel" aria-label="Telefon numaranız" style="width:100%;padding:14px;border-radius:22px;border:0;font-size:14px;background:var(--kutu);color:var(--ink);font-weight:700">
+      <input value="{{ yaTel }}" onChange="{{ setYaTel }}" placeholder="+90 (5__) ___ __ __" inputmode="numeric" maxlength="19" autocomplete="tel" aria-label="Telefon numaranız" style="width:100%;padding:14px;border-radius:22px;border:0;font-size:14px;background:var(--kutu);color:var(--ink);font-weight:700">
       <div style="flex:1;min-height:16px;"></div>
       <sc-if value="{{ yaHataVar }}"><div role="alert" style="font-size:12px;font-weight:700;color:#B25E30;margin-bottom:8px;">{{ yaHata }}</div></sc-if>
-      <button class="btn-turuncu-yazi" onClick="{{ yaDevam }}" style-active="transform:scale(.98);" style="min-height:52px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:16px;font-weight:900;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Devam</button>
+      <button class="btn-turuncu-yazi" onClick="{{ yaDevam }}" disabled="{{ yaDevamPasif }}" style-active="transform:scale(.98);" style="min-height:52px;border:none;background:#EA803F;color:#fff;border-radius:22px;font-size:16px;font-weight:900;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;">Devam</button>
       <button onClick="{{ yaTelefonla }}" style="min-height:40px;border:none;background:transparent;color:var(--dim);font-size:12.5px;text-decoration:underline;cursor:pointer;margin-top:4px;">Telefonla görüşmeyi tercih ederim</button>
     </div></sc-if>
 
@@ -2072,7 +2072,7 @@ class Component extends DCLogic {
     girisYapildi: false,
     girisEmail: "ayse.kaya@ornek.com",
     girisTelefon: "0532 145 67 89",
-    kodTel: "0532 145 67 89",
+    kodTel: "+90 (532) 145 67 89",
     mKonusmaAcik:false, mSeciliRandevuId:null, mOkunanRandevular:{}, mGecmis: [], tpKayitlar: {}, tpBildirim: "", mBildirim: "", mBildirimSonra: false, personelRepId:"s1", ekBilgiAcik: false, ekCalisma: "", ekYas: "", ekNot: "", mSorunAcik: false, mSorunNot: "", mSorunKonu: "Randevu", tpOzetNot: "", tpSonraki: "Müşterinin değerlendirmesi bekleniyor",
     mTalep: null,          // müşterinin temsilci talebi {tip:"ziyaret"|"telefon", gunYazi, saat, yer, durum:"alindi"|"atandi"|"netlesti"|"degisti"|"gorusme"|"tamamlandi", konum, gecikme, ozet, ozetCevap, puan, bolgeDisi, repId}
     hosgeldinAdim: 0,      // 1-3: yeni gelen müşteriye tanıtım penceresi
@@ -2849,7 +2849,7 @@ class Component extends DCLogic {
     if(existing){this.setState({...existing,girisYapildi:true,panel:"musteri",kvkkOnay:true,customerNav:"basvurum",hosgeldinAdim:this.state.hosgeldinAdim||0});return;}
     // Web formundan "Uygulamayı aç": formdaki telefonla kayıtlı müşteri; henüz finansman yok; talep web'den gelir
     const ad = (q.get("ad") || "Mehmet Demir").trim(), tel = telAnahtar(q.get("tel"));
-    const telYazi = tel.length === 10 ? "0" + tel.slice(0, 3) + " " + tel.slice(3, 6) + " " + tel.slice(6, 8) + " " + tel.slice(8) : "";
+    const telYazi = tel.length === 10 ? telMaske(tel) : "";
     const gun = q.get("gun"), yer = q.get("yer") || "";
     const repId = /üsküdar/i.test(yer) ? "s2" : /ümraniye/i.test(yer) ? "s3" : "s1";
     const talep = gun ? { tip: "ziyaret", gunYazi: gun, saat: q.get("saat") || "", yer, durum: "atandi", repId } : { tip: "telefon", durum: "alindi", bolgeDisi: q.get("bolgeDisi") === "1" };
@@ -2875,7 +2875,7 @@ class Component extends DCLogic {
     const f = this.state.customerForm;
     if (this._yaTimer) clearTimeout(this._yaTimer);
     // Web formundaki gibi: 1/2 harita (hizmet bölgesi) → 2/2 gün ve saat → Başarılı
-    this.setState({ mSeciliRandevuId: null, mSheetTam: false, yaDegistir: false, yaOpen: true, yaAdim: 5, yaAd: f.name || "", yaTel: f.phone || "", yaGun: "", yaGunISO:"", yaSaat: "", yaYer: "", yaIlce: "", yaHata: "", yaRepId: null, yaKaynak: "uygulama",
+    this.setState({ mSeciliRandevuId: null, mSheetTam: false, yaDegistir: false, yaOpen: true, yaAdim: 5, yaAd: f.name || "", yaTel: telMaske(f.phone || ""), yaGun: "", yaGunISO:"", yaSaat: "", yaYer: "", yaIlce: "", yaHata: "", yaRepId: null, yaKaynak: "uygulama",
       yaTelefonla: false, yaKonum: null, yaKonumDurum: "", yaHaritaSrc: "harita/konum-sec.html?t=" + Date.now() });
   }
   yaKonumDevam() {
@@ -3368,7 +3368,7 @@ class Component extends DCLogic {
   yaKimlikGecerli() {
     const s = this.state;
     if (s.yaAd.trim().length < 3) { this.setState({ yaHata: "Adınızı ve soyadınızı yazın." }); return false; }
-    if (s.yaTel.replace(/\D/g, "").replace(/^0/, "").length !== 10) { this.setState({ yaHata: "Telefon numaranızı 10 hane olarak yazın." }); return false; }
+    if (!telGecerli(s.yaTel)) { this.setState({ yaHata: "Telefon numaranızı +90 sonrası 5 ile başlayan 10 hane olarak yazın." }); return false; }
     return true;
   }
   yaDevam(telefonla) {
@@ -3518,7 +3518,7 @@ class Component extends DCLogic {
     const s = this.state, tel = telAnahtar(s.kodTel);
     const q = new URLSearchParams(s.kodWeb || ""), webZiyaret = !!q.get("gun");
     if (!s.girisMod || s.kodAdim === 1) {
-      if (tel.length !== 10) { this.setState({ kodHata: "Telefon numaranızı 10 hane olarak yazın." }); return; }
+      if (!telGecerli(tel)) { this.setState({ kodHata: "Telefon numaranızı +90 sonrası 5 ile başlayan 10 hane olarak yazın." }); return; }
       let k;
       try { k = webZiyaret ? smsKodOku(tel) : CANLI ? smsKodYaz(tel, (await musteriMerkez("kod", { tel })).kod) : smsKodUret(tel); }
       catch (e) { this.setState({ kodHata: e.message }); return; }
@@ -4757,7 +4757,7 @@ class Component extends DCLogic {
       yaBar1: "#00724C", yaBar2: s.yaAdim >= 2 ? "#00724C" : "var(--line)", yaBar3: s.yaAdim >= 3 ? "#00724C" : "var(--line)",
       yaAd: s.yaAd, yaTel: s.yaTel, yaIlce: s.yaIlce, yaEposta: s.yaEposta,
       setYaAd: (e) => this.setState({ yaAd: e.target.value, yaHata: "" }),
-      setYaTel: (e) => this.setState({ yaTel: e.target.value, yaHata: "" }),
+      setYaTel: (e) => this.setState({ yaTel: telMaske(e.target.value), yaHata: "" }),
       setYaIlce: (e) => this.setState({ yaIlce: e.target.value, yaHata: "" }),
       setYaEposta: (e) => this.setState({ yaEposta: e.target.value }),
       yaHata: s.yaHata, yaHataVar: !!s.yaHata,
@@ -4834,7 +4834,8 @@ class Component extends DCLogic {
       setOrnekSecili: (e) => { const v = e.target.value; if (v === "yeni") { const t = rastgeleUye().tel; this.setState({ kodTel: t, yeniOrnekTel: telAnahtar(t), kodHata: "" }); } else if (v) this.setState({ kodTel: telYaz(v), yeniOrnekTel: "", kodHata: "" }); },
       ornekSecenekler: [React.createElement("option", { key: "", value: "" }, "Örnek müşteri seçin")].concat(ORNEK_MUSTERILER.map((m) => React.createElement("option", { key: m.tel, value: m.tel }, m.ad + " · kayıtlı müşteri")), [React.createElement("option", { key: "yeni", value: "yeni" }, "Yeni üye (örnek bilgilerle)")]),
       kodTel: s.kodTel || "", kodGirdi: s.kodGirdi || "", kodAd: s.kodAd || "", kodSoyad: s.kodSoyad || "", kodKampanya: !!s.kodKampanya, kodAydinlatma: !!s.kodAydinlatma, kodOrnekVar: s.girisMod === "kod" && s.kodAdim === 3 && !!s.kodOrnek,
-      setKodTel: (e) => this.setState({ kodTel: e.target.value, kodHata: "" }), setKodGirdi: (e) => this.setState({ kodGirdi: e.target.value.replace(/\D/g, "").slice(0, 6), kodHata: "" }),
+      kodDugmePasif: (!s.girisMod || s.kodAdim === 1) && !telGecerli(s.kodTel), yaDevamPasif: !telGecerli(s.yaTel),
+      setKodTel: (e) => this.setState({ kodTel: telMaske(e.target.value), kodHata: "" }), setKodGirdi: (e) => this.setState({ kodGirdi: e.target.value.replace(/\D/g, "").slice(0, 6), kodHata: "" }),
       setKodAd: (e) => this.setState({ kodAd: e.target.value, kodHata: "", kodOrnek: false }), setKodSoyad: (e) => this.setState({ kodSoyad: e.target.value, kodHata: "", kodOrnek: false }),
       toggleKodKampanya: () => this.setState((st) => ({ kodKampanya: !st.kodKampanya })),
       toggleKodAydinlatma: () => this.setState((st) => ({ kodAydinlatma: !st.kodAydinlatma, kodHata: "" })),

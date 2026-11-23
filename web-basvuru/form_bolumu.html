@@ -316,7 +316,7 @@
     <div class="col-12 pb-2 px-0"><input type="text" name="ad" placeholder="Ad" class="tk-inputGri" autocomplete="given-name" aria-label="Ad"></div>
     <div class="col-12 pb-2 px-0"><input type="text" name="soyad" placeholder="Soyad" class="tk-inputGri" autocomplete="family-name" aria-label="Soyad"></div>
     <div class="col-3 pb-3 px-0"><div class="tk-bayrakDropdown ty-bayrak" aria-hidden="true"><div class="tk-bayraklarCover"><img src="/Images/newWeb_2025/flags/flags.png" style="width:auto; height:15px; position:absolute; top:0; left:-900px" alt=""></div></div></div>
-    <div class="col-9 pb-3 px-0"><input type="text" name="telefon" placeholder="Telefon" class="tk-inputGri" inputmode="tel" autocomplete="tel-national" aria-label="Telefon"></div>
+    <div class="col-9 pb-3 px-0"><input type="text" name="telefon" placeholder="+90 (5__) ___ __ __" maxlength="19" class="tk-inputGri" inputmode="numeric" autocomplete="tel-national" aria-label="Telefon"></div>
 
     <div class="col-12">
       <label class="tk-checkboxContainer ty-onay">
@@ -398,7 +398,7 @@
   var KISA = ['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'], AYK = ['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'];
   var SAATLER = ['10:00','11:00','12:00','13:00','14:00','15:00','16:00','17:00','18:00','19:00','20:00'];
   /* Demo: her açılışta örnek bilgilerle dolu gelir */
-  var ORNEK = { ad:'Mehmet', soyad:'Demir', telefon:'532 123 45 67', saat:'18:00',
+  var ORNEK = { ad:'Mehmet', soyad:'Demir', telefon:'+90 (532) 123 45 67', saat:'18:00',
                 lat:40.98736, lng:29.02670, adres:'Caferağa Mah., Kadıköy' };
   var UYGULAMA = new URL('../Eminevim%20Saha%20Paneli.dc.html', window.location.href).href;
   function tl(n){ return Math.round(n).toLocaleString('tr-TR'); }
@@ -429,7 +429,7 @@
   function takipAc(v, kaynak){
     kap(kaynak).appendChild(takip);
     var set=function(k,t){ var el=takip.querySelector('[data-e="'+k+'"]'); if(el) el.textContent=t; };
-    set('kime', '0'+v.telefonYazi); set('ad', v.ad); set('gun', v.gun); set('saat', v.saat); set('yer', v.adres);
+    set('kime', v.telefonYazi); set('ad', v.ad); set('gun', v.gun); set('saat', v.saat); set('yer', v.adres);
     takip.classList.add('acik'); ustte(takip, true); takip.querySelector('[data-takip-kapat]').focus();
   }
   function takipKapat(){ takip.classList.remove('acik'); ustte(takip, false); }
@@ -735,8 +735,10 @@
     });
 
     f.telefon.addEventListener('input', function(e){
-      var r=e.target.value.replace(/\D/g,'').replace(/^0/,'').slice(0,10), p=[r.slice(0,3),r.slice(3,6),r.slice(6,8),r.slice(8,10)];
-      e.target.value=p.filter(Boolean).join(' ');
+      var v=e.target.value, d=v.replace(/\D/g,'');
+      if(v.trim().indexOf('+90')===0 || (d.length>10 && d.indexOf('90')===0)) d=d.slice(2);
+      d=d.replace(/^0/,'').replace(/^[^5]+/,'').slice(0,10);
+      e.target.value=d ? '+90 ('+d.slice(0,3)+(d.length>3?') '+d.slice(3,6):'')+(d.length>6?' '+d.slice(6,8):'')+(d.length>8?' '+d.slice(8,10):'') : '';
     });
 
     // Hata: eksik kutu turuncu, kısa uyarı hemen altında; düzeltilince kaybolur
@@ -757,10 +759,10 @@
       e.preventDefault();
       var eksik=[];
       form.querySelectorAll('.ty-eksik').forEach(temizle);
-      var v={ ad:f.ad.value.trim(), soyad:f.soyad.value.trim(), tel:f.telefon.value.replace(/\D/g,''), telefonYazi:f.telefon.value.trim() };
+      var v={ ad:f.ad.value.trim(), soyad:f.soyad.value.trim(), tel:f.telefon.value.replace(/\D/g,'').replace(/^90/,''), telefonYazi:f.telefon.value.trim() };
       if(!v.ad) eksik.push([f.ad,'Adınızı yazın.']);
       if(!v.soyad) eksik.push([f.soyad,'Soyadınızı yazın.']);
-      if(v.tel.length!==10) eksik.push([f.telefon,'Telefonu 10 hane yazın.']);
+      if(!/^5\d{9}$/.test(v.tel)) eksik.push([f.telefon,'Telefonu +90 sonrası 5 ile başlayan 10 hane yazın.']);
       if(!f.aydinlatmaOnay.checked) eksik.push([f.aydinlatmaOnay,"Devam etmek için Aydınlatma Metni'ni okuduğunuzu onaylayın."]);
       if(eksik.length){
         eksik.forEach(function(x){ isaretle(x[0], x[1]); });
@@ -795,7 +797,7 @@
         var canli = !!(window.Canli && window.Canli.aktif);
         if(canli) kod = '······';   // canlı test: çağrı merkeze gider, kodu merkez verir
         else { try { localStorage.setItem('ty-sms-kod', JSON.stringify({ tel:t10, kod:kod, son:Date.now()+24*3600000, rid:requestId })); } catch(e) {} }
-        var telYazi = t10.length===10 ? '0'+t10.slice(0,3)+' '+t10.slice(3,6)+' '+t10.slice(6,8)+' '+t10.slice(8) : esc(v.tel);
+        var telYazi = t10.length===10 ? '+90 ('+t10.slice(0,3)+') '+t10.slice(3,6)+' '+t10.slice(6,8)+' '+t10.slice(8) : esc(v.tel);
         h = h.replace('<!--SMS-->', '<div class="ty-sms"><div class="ty-sms-bas"><i class="bi bi-chat-dots-fill" aria-hidden="true"></i><span><b>'+telYazi+'</b> numarasına SMS gönderdik</span><button type="button" class="ty-sms-goster" data-sms-ac>SMS\'i göster</button></div></div>'+
           '<div class="ty-sms-pencere" data-sms-pencere role="dialog" aria-modal="true" aria-label="Gönderilen SMS"><div class="ty-sms-kutu"><div class="ty-sms-bas"><i class="bi bi-chat-dots-fill" aria-hidden="true"></i><span><b>'+telYazi+'</b> numarasına gönderilen SMS</span></div>'+
           '<div class="ty-sms-balon">Eminevim: Temsilci çağrınız alındı. Uygulama giriş kodunuz: <b data-sms-kod>'+kod+'</b> (24 saat geçerli).<br>Uygulamayı indirip randevu takibi, temsilciyle sohbet ve finansman aracı hizmetlerimizden faydalanabilirsiniz: <a data-ty-dis href="'+uygLink+'" target="_blank" rel="noopener">eminevim.com/uygulama</a></div><small>SMS önizlemesi (test)</small>'+

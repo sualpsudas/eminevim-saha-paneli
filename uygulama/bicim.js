@@ -3,8 +3,20 @@ function qrResim(metin) {
   // vendor/qrcode.min.js ile QR görüntüsü (internet gerekmez); kütüphane yoksa boş
   try { const q = window.qrcode(0, "M"); q.addData(metin); q.make(); return q.createDataURL(6, 2); } catch (e) { return ""; }
 }
-function telYaz(t) { t = telAnahtar(t); return t.length === 10 ? "0" + t.slice(0, 3) + " " + t.slice(3, 6) + " " + t.slice(6, 8) + " " + t.slice(8) : t; }
-function telAnahtar(t) { return String(t || "").replace(/\D/g, "").replace(/^0/, ""); }
+// Telefon: +90 sabit; kişi 5 ile başlayan 10 haneyi yazar. Saklanan değer hep 10 hane (5XXXXXXXXX); gösterim "+90 (5XX) XXX XX XX".
+function telAnahtar(t) {
+  const s = String(t || "").trim(); let d = s.replace(/\D/g, "");
+  if (s.startsWith("+90") || (d.length > 10 && d.startsWith("90"))) d = d.slice(2);
+  return d.replace(/^0/, "");
+}
+function telMaske(v) {
+  let d = telAnahtar(v).slice(0, 10);
+  if (d && d[0] !== "5") d = d.replace(/^[^5]+/, "");
+  if (!d) return "";
+  return "+90 (" + d.slice(0, 3) + (d.length > 3 ? ") " + d.slice(3, 6) : "") + (d.length > 6 ? " " + d.slice(6, 8) : "") + (d.length > 8 ? " " + d.slice(8, 10) : "");
+}
+function telGecerli(t) { return /^5\d{9}$/.test(telAnahtar(t)); }
+function telYaz(t) { t = telAnahtar(t); return t.length === 10 ? telMaske(t) : t; }
 function bugunYazi() {
   const gunler = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"], aylar = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
   const d = new Date();
