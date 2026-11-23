@@ -45,7 +45,7 @@
   #akisListe li.yeni{animation:akisYeni 2.4s ease-out}
   #akisListe li.cagri b{color:var(--turuncu)}
   @keyframes akisYeni{from{background:#fff1e3}to{background:transparent}}
-  .cn{--c:#ea803f;position:relative;width:16px;height:16px;border-radius:50%;background:var(--c);border:2px solid #fff;box-shadow:0 0 0 1.5px var(--c)}
+  .cn{--c:#ea803f;box-sizing:border-box;position:relative;width:16px;height:16px;border-radius:50%;background:var(--c);border:2px solid #fff;box-shadow:0 0 0 1.5px var(--c)}
   .cn::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2.5px solid var(--c);opacity:0}
   .cn.s-alindi{--c:#ea803f;animation:yan .8s ease-in-out infinite}
   .cn.s-alindi::after,.cn.s-atandi::after,.cn.s-yolda::after{animation:halka 1.5s ease-out infinite}
@@ -82,7 +82,7 @@
     .kisi-kart button{flex:0 0 44px;height:44px;border:0;border-radius:50%;background:#eee;color:var(--koyu);font-size:18px}
   }
   /* Harita simgeleri ve yazıları */
-  .spy-ik{border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+  .spy-ik{box-sizing:border-box;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
   .cagri-ik{animation:yan .8s ease-in-out infinite;width:12px;height:12px;border-radius:50%;background:var(--kirmizi);border:2px solid #fff;box-shadow:0 0 0 3px rgba(198,40,40,.35)}
   .leaflet-tooltip.mah-ad{background:transparent;border:0;box-shadow:none;color:#4d5a55;font-size:10.5px;font-weight:600;text-shadow:0 0 3px #fff,0 0 3px #fff;padding:0}
   .leaflet-tooltip.mah-ad::before{display:none}
@@ -209,7 +209,7 @@
       return '<button type="button" data-filtre="'+x[0]+'" aria-pressed="'+(filtre===x[0])+'">'+(x[0]==="tumu"?"":'<span class="renk r-'+x[0]+'"></span>')+x[1]+' ('+(sayac[x[0]]||0)+')</button>';
     }).join("")+'<span class="ipucu"><span><i style="background:#ea803f"></i>Yeni çağrı</span><span><i style="background:#2f6fdb"></i>Atandı</span><span><i style="background:#7a3fd0"></i>Yolda</span><span><i style="background:#00724c"></i>Görüşmede</span>'+(sah.length?'<span><i style="background:#c0392b"></i>Kimse almadı</span>':"")+'</span>';
     var gorunen=veri.spyler.filter(function(s){return filtre==="tumu"||s.hal===filtre;});
-    spyKatman.clearLayers(); isaretler={}; cagriIsaret={}; var boy=DAR.matches?14:10;
+    spyKatman.clearLayers(); isaretler={}; cagriIsaret={}; var boy=16;
     gorunen.forEach(function(s){
       var k=s.konumAn||s, renk=(HAL[s.hal]||HAL.bosta)[1];
       isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,icon:L.divIcon({className:"",html:'<div class="spy-ik" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px"></div>',iconSize:[boy,boy],iconAnchor:[boy/2,boy/2]})});
