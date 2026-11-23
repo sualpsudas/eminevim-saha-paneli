@@ -8,8 +8,16 @@ function smsKodUret(tel) { const v = new Uint32Array(1); (window.crypto && crypt
 function smsKodSil() { try { localStorage.removeItem("ty-sms-kod"); } catch (e) {} }
 function KAYIT_DEPO() { return CANLI ? localStorage : sessionStorage; }
 // Merkez sürümünde müşteri hesabı merkezde: aynı telefon + SMS koduyla her telefonda girilir; oturum merkezin verdiği jetonla kalır
+// Test aşaması: bir müşteri kimliği aynı anda tek cihazda kullanılır; cihaz kimliği telefonda bir kez üretilip saklanır
+function cihazKimligi() {
+  let c = Canli.oku("ty-cihaz");
+  if (!c) { c = "c" + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); Canli.yaz("ty-cihaz", c); }
+  return c;
+}
+// Personel kimliği (SPY) de aynı kuralla: aynı anda tek cihaz
+function kimlikMerkez(govde) { return Canli.gonder("api/kimlik", { cihaz: cihazKimligi(), ...govde }).then((v) => v.sonuc); }
 function musteriMerkez(islem, govde) {
-  return Canli.gonder("api/musteri", { islem, ...govde }).then((v) => v.sonuc,
+  return Canli.gonder("api/musteri", { islem, cihaz: cihazKimligi(), ...govde }).then((v) => v.sonuc,
     (e) => { throw e instanceof TypeError ? Error("Merkeze ulaşılamadı. İnternet bağlantınızı kontrol edip yeniden deneyin.") : e; });
 }
 function smsKodYaz(tel, kod) { const k = { tel: telAnahtar(tel), kod, son: Date.now() + 10 * 60000 }; try { localStorage.setItem("ty-sms-kod", JSON.stringify(k)); } catch (e) {} return k; }

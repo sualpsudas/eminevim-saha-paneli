@@ -27,7 +27,7 @@ from .personel import SPY_IDLER
 from .yardim import bugun, damga, metin, olay, saat_yaz, simdi, tel_temiz
 
 GORULME = {}  # SPY id -> son yoklama zamanı (yalnız bellekte)
-YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla")
+YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla", "api/kimlik")
 
 
 def temiz_kayit(gelen):
@@ -160,6 +160,29 @@ def giris_kodu(veri, istek):
     raise ValueError("Kod ya da telefon eşleşmedi.")
 
 
+def kimlik(veri, istek):
+    """Test aşaması: personel kimliği (SPY) aynı anda tek cihazda kullanılır. islem: bos | al | birak.
+    veri["kimlikler"]["spy:<id>"] = {cihaz, tarih}; müşteri kimlikleri musteri.py'de aynı sözlükte tutulur."""
+    islem, cihaz = istek.get("islem"), metin(istek.get("cihaz"), 64)
+    kim = veri.setdefault("kimlikler", {})
+    if islem == "bos":  # başka cihazın aldığı personel kimlikleri (giriş listesinden çıkarılır)
+        return {"dolu": [a[4:] for a, k in kim.items() if a.startswith("spy:") and k.get("cihaz") != cihaz]}
+    spy = metin(istek.get("spy"), 40)
+    if spy not in veri["spyler"]:
+        raise ValueError("SPY bulunamadı.")
+    kullanan = (kim.get("spy:" + spy) or {}).get("cihaz")
+    if islem == "al":
+        if kullanan not in (None, cihaz):
+            raise ValueError("Bu personel kimliği başka bir cihazda kullanımda. Boş bir kimlik seçin.")
+        kim["spy:" + spy] = {"cihaz": cihaz, "tarih": simdi()}
+        return {}
+    if islem == "birak":
+        if kullanan in (None, cihaz):
+            kim.pop("spy:" + spy, None)
+        return {}
+    raise ValueError("İşlem bilinmiyor.")
+
+
 def sifirla(veri, istek):
     KODLAR.clear()
     KAPI_KODLARI.clear()
@@ -178,7 +201,7 @@ def sifirla(veri, istek):
 
 
 ISLEMLER = {"api/cagri": cagri, "api/kayit": kayit, "api/mesaj": mesaj, "api/spy": spy_durum, "api/aktar": aktar,
-            "api/konum": konum, "api/kod": giris_kodu, "api/musteri": musteri_islem, "api/dogrulama": dogrulama_islem, "api/sifirla": sifirla}
+            "api/konum": konum, "api/kod": giris_kodu, "api/musteri": musteri_islem, "api/dogrulama": dogrulama_islem, "api/sifirla": sifirla, "api/kimlik": kimlik}
 
 
 def uygula(veri, yol, istek):

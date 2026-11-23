@@ -17,13 +17,14 @@ kilit = threading.Lock()
 
 def bos_veri():
     return {"surum": 1, "spyler": {s["id"]: {**s, "durum": "musait", "sonGorulme": 0} for s in SPYLER}, "kayitlar": {},
-            "musteriler": {t: dict(m) for t, m in ORNEK_MUSTERILER.items()}, "olaylar": []}
+            "musteriler": {t: dict(m) for t, m in ORNEK_MUSTERILER.items()}, "olaylar": [], "kimlikler": {}}
 
 
 def oku():
     if not VERI.exists():
         yaz(bos_veri())
     veri = json.loads(VERI.read_text(encoding="utf-8"))
+    veri.setdefault("kimlikler", {})
     musteriler = veri.setdefault("musteriler", {})
     for tel, m in ORNEK_MUSTERILER.items():
         musteriler.setdefault(tel, dict(m))

@@ -1366,7 +1366,7 @@ html.native-app .customer-finance-actions button { min-height: 54px !important; 
         <sc-if value="{{ girisModKod }}"><div class="giris-form" style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
           <sc-if value="{{ kodBaslikVar }}"><div style="text-align:left;"><b style="display:block;font-size:16px;color:var(--ink);">{{ kodBaslik }}</b><span style="font-size:12px;color:var(--dim);line-height:1.45;">{{ kodAlt }}</span></div></sc-if>
           <sc-if value="{{ kodAdim1 }}"><input value="{{ kodTel }}" onChange="{{ setKodTel }}" inputmode="numeric" autocomplete="tel" maxlength="19" placeholder="+90 (5__) ___ __ __" aria-label="Telefon numaranız" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>
-          <sc-if value="{{ kodAdim1 }}"><select class="spy-ara ornek-secim" value="{{ ornekSecili }}" onChange="{{ setOrnekSecili }}" aria-label="Örnek müşteri seçin">{{ ornekSecenekler }}</select></sc-if>
+          <sc-if value="{{ kodAdim1 }}"><select class="spy-ara ornek-secim" value="{{ ornekSecili }}" onFocus="{{ bosYenile }}" onChange="{{ setOrnekSecili }}" aria-label="Örnek müşteri seçin">{{ ornekSecenekler }}</select></sc-if>
           <sc-if value="{{ kodAdim2 }}"><input value="{{ kodGirdi }}" onChange="{{ setKodGirdi }}" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="• • • • • •" aria-label="SMS ile gelen 6 haneli kod" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700;text-align:center;font-size:22px;letter-spacing:10px;"><sc-if value="{{ kodDemoVar }}"><div class="kod-demo" style="font-size:11.5px;color:var(--dim);background:var(--tintGreen);border-radius:12px;padding:7px 10px;text-align:left;">Test: SMS gönderilmez, kod otomatik dolduruldu (<b style="color:#00724C;letter-spacing:2px;">{{ kodDemo }}</b>).</div></sc-if></sc-if>
           <sc-if value="{{ kodAdim3 }}"><input value="{{ kodAd }}" onChange="{{ setKodAd }}" autocomplete="given-name" placeholder="Ad" aria-label="Ad" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"><input value="{{ kodSoyad }}" onChange="{{ setKodSoyad }}" autocomplete="family-name" placeholder="Soyad" aria-label="Soyad" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"><label style="display:flex;align-items:flex-start;gap:9px;text-align:left;cursor:pointer;"><input type="checkbox" checked="{{ kodAydinlatma }}" onChange="{{ toggleKodAydinlatma }}" aria-label="Aydınlatma Metni'ni okudum, bilgilendirildim" style="width:18px;height:18px;accent-color:#00724C;flex:0 0 auto;margin-top:1px;"><span style="font-size:12px;color:var(--ink);line-height:1.45;"><button type="button" onClick="{{ aydinlatmaAcKutu }}" style="border:0;background:transparent;padding:0;color:#00724C;font:700 12px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;text-decoration:underline;cursor:pointer;">Aydınlatma Metni</button>'ni okudum; kişisel verilerimin bu metinde anlatıldığı şekilde işleneceği konusunda bilgilendirildim.</span></label><label style="display:flex;align-items:flex-start;gap:9px;text-align:left;cursor:pointer;"><input type="checkbox" checked="{{ kodKampanya }}" onChange="{{ toggleKodKampanya }}" aria-label="Ticari elektronik ileti izni (isteğe bağlı)" style="width:18px;height:18px;accent-color:#00724C;flex-shrink:0;margin-top:1px;"><span style="font-size:11.5px;color:var(--ink);line-height:1.45;">Kampanyalardan haberdar olmak için Emin Üstün Holding Şirketleri'nden ticari elektronik ileti almak istiyorum. <span style="color:var(--dim);">(İsteğe bağlı)</span></span></label></sc-if>
           <sc-if value="{{ kodOrnekVar }}"><div style="font-size:11.5px;color:var(--dim);background:var(--tintGreen);border-radius:12px;padding:7px 10px;text-align:left;">Test: ad ve soyad örnek olarak dolduruldu. İsterseniz değiştirin.</div></sc-if>
@@ -1377,7 +1377,7 @@ html.native-app .customer-finance-actions button { min-height: 54px !important; 
       </div>
     </div>
   </div>
-  <sc-if value="{{ personelLoginOpen }}"><div class="pg-kap" style="position:fixed;inset:0;z-index: 61;background:var(--bg);display:flex;align-items:flex-start;justify-content:center;padding:48px 20px 48px;overflow-y:auto;"><div style="width:375px; max-width:100%; background:#1E3856; border-radius: 44px; padding:12px; box-shadow:0 34px 60px -20px rgba(30,56,86,.45);"><div style="height:700px;border-radius: 34px;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:112px 30px 36px;gap:20px;text-align:center;overflow-y:auto;position:relative;"><img src="assets/logo-green.png" alt="Eminevim" style="width:150px;flex:none;"><div class="pg-marka" style="font:800 18px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);">Tasarruf Yanımda</div><div class="pg-baslik" style="font:800 18px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);">Personel Girişi</div><div class="spy-foto">{{ spyFotoAlan }}</div><div class="pg-form"><select class="spy-ara{{ spySecimSinif }}" value="{{ spySecili }}" onChange="{{ setSpySecili }}" aria-label="Personel seçin" style="margin-top:0;">{{ spySecenekler }}</select><button type="button" class="spy-gir-yazi" disabled="{{ spyGirKapali }}" onClick="{{ spyGir }}" aria-label="{{ spySeciliEtiket }}" style="width:100%;min-height:46px;border:0;font-size:14px;cursor:pointer;font-family:inherit;">Giriş yap</button></div><button onClick="{{ closePersonelGiris }}" class="login-staff-button" style="position:absolute;right:16px;top:14px;z-index:2;min-height:36px;border:none;background:transparent;color:#00724C;font-size:11px;font-weight:800;cursor:pointer;">Müşteri Girişi</button></div></div></div></sc-if>
+  <sc-if value="{{ personelLoginOpen }}"><div class="pg-kap" style="position:fixed;inset:0;z-index: 61;background:var(--bg);display:flex;align-items:flex-start;justify-content:center;padding:48px 20px 48px;overflow-y:auto;"><div style="width:375px; max-width:100%; background:#1E3856; border-radius: 44px; padding:12px; box-shadow:0 34px 60px -20px rgba(30,56,86,.45);"><div style="height:700px;border-radius: 34px;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:112px 30px 36px;gap:20px;text-align:center;overflow-y:auto;position:relative;"><img src="assets/logo-green.png" alt="Eminevim" style="width:150px;flex:none;"><div class="pg-marka" style="font:800 18px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);">Tasarruf Yanımda</div><div class="pg-baslik" style="font:800 18px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);">Personel Girişi</div><div class="spy-foto">{{ spyFotoAlan }}</div><div class="pg-form"><select class="spy-ara{{ spySecimSinif }}" value="{{ spySecili }}" onFocus="{{ personelYenile }}" onChange="{{ setSpySecili }}" aria-label="Personel seçin" style="margin-top:0;">{{ spySecenekler }}</select><button type="button" class="spy-gir-yazi" disabled="{{ spyGirKapali }}" onClick="{{ spyGir }}" aria-label="{{ spySeciliEtiket }}" style="width:100%;min-height:46px;border:0;font-size:14px;cursor:pointer;font-family:inherit;">Giriş yap</button></div><button onClick="{{ closePersonelGiris }}" class="login-staff-button" style="position:absolute;right:16px;top:14px;z-index:2;min-height:36px;border:none;background:transparent;color:#00724C;font-size:11px;font-weight:800;cursor:pointer;">Müşteri Girişi</button></div></div></div></sc-if>
   </sc-if>
   <sc-if value="{{ aydinlatmaAcik }}"><div role="dialog" aria-modal="true" aria-label="Aydınlatma Metni" style="position:fixed;inset:0;z-index:95;background:rgba(22,31,43,.5);display:flex;align-items:center;justify-content:center;padding:20px;"><div style="width:375px;max-width:100%;max-height:min(680px,100%);background:var(--card);border-radius:24px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.25);"><div style="display:flex;align-items:center;padding:16px 18px 6px;"><b style="font:800 17px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;color:var(--ink);">Aydınlatma Metni</b><button type="button" onClick="{{ aydinlatmaKapat }}" aria-label="Pencereyi kapat" style="margin-left:auto;width:40px;height:40px;border:none;background:transparent;color:var(--dim);font-size:22px;cursor:pointer;">×</button></div><div class="ayd-govde" data-aydinlatma-govde style="overflow-y:auto;padding:4px 18px 18px;font-size:12.5px;color:var(--dim);line-height:1.55;"></div><div style="padding:10px 18px 16px;border-top:1px solid var(--line);"><button type="button" class="m-btn" onClick="{{ aydinlatmaKapat }}" style="width:100%;">Kapat</button></div></div></div></sc-if>
   <!-- Temsilci akışı (yeni müşteri / uygulamadan Temsilci iste / görüşme günü): giriş ekranı dışında da açılır -->
@@ -2235,9 +2235,10 @@ class Component extends DCLogic {
     }
     const directRole = q.get("rol");
     if (["tl", "sgl", "ask", "spy"].indexOf(directRole) >= 0) this.loginRole(directRole, q.get("spy"));
-    else if (CANLI && TEMSILCI_DETAY[Canli.oku("ty-spy")]) this.loginRole("spy", Canli.oku("ty-spy"), true);  // personel oturumu cihazda kalır
+    else if (CANLI && TEMSILCI_DETAY[Canli.oku("ty-spy")]) { kimlikMerkez({ islem: "al", spy: Canli.oku("ty-spy") }).catch(() => {}); this.loginRole("spy", Canli.oku("ty-spy"), true); }  // personel oturumu cihazda kalır
     else if (CANLI && Canli.oku("ty-yonetici")) this.loginRole("ask");
     else if (CANLI && q.get("kaynak") !== "web") this.musteriOturumSurdur();  // müşteri oturumu da (Çıkış yap'a kadar)
+    if (CANLI) this.bosKimlikleriYukle();
     this.canliBasla();
     this.sheetSurukleKur();
     this.acilisEkrani();
@@ -2516,6 +2517,11 @@ class Component extends DCLogic {
       ...(musteri ? { girisYapildi: false, kvkkOnay: false, kvkkTarih: null, kampanyaIzni: false, girisMod: "", hosgeldinAdim: 0, customerNav: "basvurum",
         kodAdim: 1, kodHata: "Test verisi sıfırlandı. Yeniden giriş yapın.", customerForm: { name: "", phone: "", email: "", address: "", testMode: false } } : {}),
     });
+    if (CANLI && this.state.panel === "spy" && this.state.girisYapildi) {  // personel de çıkar; kimlik merkezde zaten serbest
+      Canli.yaz("ty-spy", null); Canli.pushBirak();
+      this.setState({ ...this.girisTemel(), girisYapildi: false, panel: "musteri", spySecili: "", personelLoginOpen: false });
+    }
+    this.bosKimlikleriYukle(); this.personelKimlikYukle();
     if (!musteri) this.showBildirim({ ad: "Test verisi sıfırlandı", ilce: "Eski kayıtlar temizlendi" });
   }
   canliUygula(kayitlar, spyler) {
@@ -3434,7 +3440,21 @@ class Component extends DCLogic {
     this.setState({ yaOpen: false, ...this.girisTemel(), kodTel: s.yaTel, kodAd: ad.slice(0, -1).join(" ") || ad[0] || "", kodSoyad: ad.length > 1 ? ad[ad.length - 1] : "" }, () => this.kodIleri());
   }
 
-  uyeOneri() { const u = rastgeleUye(); return { kodAd: u.adi, kodSoyad: u.soyadi, kodOrnek: true, kodKampanya: false }; }
+  personelKimlikYukle() {
+    if (CANLI) kimlikMerkez({ islem: "bos" }).then((v) => this.setState({ doluPersonel: v.dolu || [] }), () => {});
+  }
+  personelGir(id) {
+    // Canlı: personel kimliği tek cihaza bağlanır; başkası almışsa uyarı verilir, liste yenilenir
+    if (!CANLI) return this.loginRole("spy", id);
+    kimlikMerkez({ islem: "al", spy: id }).then(() => this.loginRole("spy", id),
+      (e) => { this.showBildirim({ ad: "Kimlik kullanımda", ilce: e.message }); this.personelKimlikYukle(); });
+  }
+  bosKimlikleriYukle() {
+    // Test aşaması: giriş listesi merkezden gelir, yalnız boş (başka cihazın almadığı) örnek kimlikler görünür
+    if (!CANLI) return;
+    musteriMerkez("bos", {}).then((v) => this.setState({ bosKimlikler: v.kimlikler || [] }), () => {});
+  }
+  uyeOneri() { const o = this._oneri, u = o && o.tel === telAnahtar(this.state.kodTel) ? o : rastgeleUye(); return { kodAd: u.adi, kodSoyad: u.soyadi, kodOrnek: true, kodKampanya: false }; }
   kayitliMusteri(tel) { return ornekMu(tel) || !!(this._hesaplar || {})[tel]; }
   musteriOturumu(v, yeni) {
     // Merkez sürümü: hesap ve çağrılar merkezden gelir; bu cihazdaki ek bilgiler (başvurular, fotoğraf) varsa korunur
@@ -3469,7 +3489,7 @@ class Component extends DCLogic {
     let o = null;
     try { o = JSON.parse(Canli.oku("ty-musteri-oturum") || "null"); } catch (_) {}
     Canli.yaz("ty-musteri-oturum", null);
-    if (merkezde && o) musteriMerkez("cikis", o).catch(() => {});
+    if (merkezde && o) musteriMerkez("cikis", o).catch(() => {}).then(() => this.bosKimlikleriYukle());
   }
   musteriOturumSurdur(deneme = 0) {
     // Uygulama yeniden açıldı: kayıtlı oturum varsa kodsuz devam (randevular merkezden yeniden gelir)
@@ -3626,7 +3646,7 @@ class Component extends DCLogic {
     const s = this.state;
     const key = telAnahtar(s.customerForm.phone);
     if (CANLI) Canli.yaz("ty-yonetici", null);
-    if (CANLI && s.panel === "spy") { Canli.yaz("ty-spy", null); Canli.pushBirak(); this.setState({ tpKayitlar: {}, tpSecim: null, tpBildirim: "" }); }
+    if (CANLI && s.panel === "spy") { const sid = Canli.oku("ty-spy"); if (sid) kimlikMerkez({ islem: "birak", spy: sid }).catch(() => {}); Canli.yaz("ty-spy", null); Canli.pushBirak(); this.setState({ tpKayitlar: {}, tpSecim: null, tpBildirim: "" }); }
     if (CANLI && s.panel === "musteri" && this._musteriBildirim) { Canli.pushBirak(); this._musteriBildirim = null; this.setState({ mBildirim: "" }); }  // çıkış yapan telefona müşteri bildirimi gitmez
     if (CANLI && s.panel === "musteri") this.musteriOturumKapat(true);
     this.mKaydetHesap();
@@ -4815,24 +4835,26 @@ class Component extends DCLogic {
       girisTelefon: s.girisTelefon,
       setGirisTelefon: (e) => this.setState({ girisTelefon: e.target.value }),
       personelLoginOpen: s.personelLoginOpen,
-      openPersonelGiris: () => this.setState({ personelLoginOpen: true }),
+      openPersonelGiris: () => { this.personelKimlikYukle(); this.setState({ personelLoginOpen: true }); },
+      personelYenile: () => this.personelKimlikYukle(),
       closePersonelGiris: () => this.setState({ personelLoginOpen: false }),
       submitPersonelGiris: () => this.loginRole("spy"),
       ...(() => {  // personel girişi: açılır listeden SPY (ilçe, sonra ada göre)
-        const x = TEMSILCI_DETAY[s.spySecili], liste = Object.values(TEMSILCI_DETAY).slice().sort((a, b) => a.ilce.localeCompare(b.ilce, "tr") || a.ad.localeCompare(b.ad, "tr"));
+        const x = TEMSILCI_DETAY[s.spySecili], liste = Object.values(TEMSILCI_DETAY).filter((y) => y.id === s.spySecili || !(s.doluPersonel || []).includes(y.id)).sort((a, b) => a.ilce.localeCompare(b.ilce, "tr") || a.ad.localeCompare(b.ad, "tr"));
         const yon = s.spySecili === "yonetici", E = React.createElement;
         return { spySecili: s.spySecili || "", setSpySecili: (e) => this.setState({ spySecili: e.target.value }),
           spySecimSinif: yon ? " spy-sari" : "",
           spyFotoAlan: x ? E("img", { src: x.foto, alt: x.ad }) : yon ? E("span", { className: "spy-yon", "aria-label": "Yönetici" }, "Y") : E("span", { className: "spy-bos", "aria-hidden": "true" }),
           spySecenekler: [E("option", { key: "", value: "" }, "Personel seçin")].concat(liste.map((y) => E("option", { key: y.id, value: y.id }, y.ad + " · " + y.mahalle.replace(/ Mah\.$/, "") + ", " + y.ilce)), [E("option", { key: "yonetici", value: "yonetici", style: { background: "#FFF6D6" } }, "Yönetici")]),
-          spySeciliVar: !!x || yon, spyGirKapali: !(x || yon), spySeciliEtiket: yon ? "Yönetici olarak giriş yap" : x ? x.ad + " olarak giriş yap" : "Giriş yap", spyGir: () => yon ? this.loginRole("ask") : x && this.loginRole("spy", x.id) };
+          spySeciliVar: !!x || yon, spyGirKapali: !(x || yon), spySeciliEtiket: yon ? "Yönetici olarak giriş yap" : x ? x.ad + " olarak giriş yap" : "Giriş yap", spyGir: () => yon ? this.loginRole("ask") : x && this.personelGir(x.id) };
       })(),
       submitYoneticiGiris: () => this.loginRole("ask"),
       girisModKod: !s.girisMod || s.girisMod === "kod", girisGeriVar: s.girisMod === "kod",
       kodAdim1: !s.girisMod || s.kodAdim === 1, kodAdim2: s.girisMod === "kod" && s.kodAdim === 2, kodAdim3: s.girisMod === "kod" && s.kodAdim === 3,
-      ornekSecili: ornekMu(telAnahtar(s.kodTel)) ? telAnahtar(s.kodTel) : (s.yeniOrnekTel && telAnahtar(s.kodTel) === s.yeniOrnekTel ? "yeni" : ""),
-      setOrnekSecili: (e) => { const v = e.target.value; if (v === "yeni") { const t = rastgeleUye().tel; this.setState({ kodTel: t, yeniOrnekTel: telAnahtar(t), kodHata: "" }); } else if (v) this.setState({ kodTel: telYaz(v), yeniOrnekTel: "", kodHata: "" }); },
-      ornekSecenekler: [React.createElement("option", { key: "", value: "" }, "Örnek müşteri seçin")].concat(ORNEK_MUSTERILER.map((m) => React.createElement("option", { key: m.tel, value: m.tel }, m.ad + " · kayıtlı müşteri")), [React.createElement("option", { key: "yeni", value: "yeni" }, "Yeni üye (örnek bilgilerle)")]),
+      ornekSecili: (s.bosKimlikler || ORNEK_MUSTERILER).some((m) => m.tel === telAnahtar(s.kodTel)) ? telAnahtar(s.kodTel) : (s.yeniOrnekTel && telAnahtar(s.kodTel) === s.yeniOrnekTel ? "yeni" : ""),
+      bosYenile: () => this.bosKimlikleriYukle(),
+      setOrnekSecili: (e) => { const v = e.target.value; if (v === "yeni") { const yaz = (u) => { this._oneri = { tel: telAnahtar(u.tel), adi: u.adi, soyadi: u.soyadi }; this.setState({ kodTel: telYaz(u.tel), yeniOrnekTel: telAnahtar(u.tel), kodHata: "" }); }; if (CANLI) musteriMerkez("oner", {}).then(yaz, () => yaz(rastgeleUye())); else yaz(rastgeleUye()); } else if (v) this.setState({ kodTel: telYaz(v), yeniOrnekTel: "", kodHata: "" }); },
+      ornekSecenekler: [React.createElement("option", { key: "", value: "" }, "Örnek müşteri seçin")].concat((s.bosKimlikler || ORNEK_MUSTERILER).map((m) => React.createElement("option", { key: m.tel, value: m.tel }, m.ad + " · kayıtlı müşteri")), s.bosKimlikler && !s.bosKimlikler.length ? [React.createElement("option", { key: "dolu", value: "", disabled: true }, "Kayıtlı kimliklerin hepsi kullanımda")] : [], [React.createElement("option", { key: "yeni", value: "yeni" }, "Yeni üye (örnek bilgilerle)")]),
       kodTel: s.kodTel || "", kodGirdi: s.kodGirdi || "", kodAd: s.kodAd || "", kodSoyad: s.kodSoyad || "", kodKampanya: !!s.kodKampanya, kodAydinlatma: !!s.kodAydinlatma, kodOrnekVar: s.girisMod === "kod" && s.kodAdim === 3 && !!s.kodOrnek,
       kodDugmePasif: (!s.girisMod || s.kodAdim === 1) && !telGecerli(s.kodTel), yaDevamPasif: !telGecerli(s.yaTel),
       setKodTel: (e) => this.setState({ kodTel: telMaske(e.target.value), kodHata: "" }), setKodGirdi: (e) => this.setState({ kodGirdi: e.target.value.replace(/\D/g, "").slice(0, 6), kodHata: "" }),
