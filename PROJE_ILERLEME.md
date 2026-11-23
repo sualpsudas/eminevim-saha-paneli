@@ -1014,3 +1014,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - Harita: yollar sınıfına göre (otoyol koyu, ana cadde orta, sokak açık), yalnız ana cadde adları; rota inceltildi; test verisi sıfırlanınca SPY konumları da sıfırlanır (ty/konum.py konum_sifirla). Deneme merkezinde sınandı. sw v127.
 - Harita dengelendi: ana yollar belirgin, iç sokaklar ince/açık, seyrek yer adları (semt, ana cadde, su), yakınlaşınca mahalleler. sw v128.
 - Çağrı geldikten 10 sn sonra SPY'ye iletilir (teklifZamani, bekçi 2 sn); takip sayfasında Personel ve Müşteri çip grupları (müşteri aşamasına göre süzme); müşteri yanındaki SPY ikonu yana kayar; sahipsiz ikon da 16px. Deneme merkezinde sınandı. sw v130. tests/merkez-akis.py çağrı anında atama varsayıyor (bayat).
+- Takip sayfası üst düğmeleri tek açılır "Göster" menüsüne toplandı: Personel ve Müşteri aç/kapa + durum işaretleri (kutucuk). sw v131.
