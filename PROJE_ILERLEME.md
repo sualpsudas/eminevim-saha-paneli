@@ -1010,3 +1010,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - Test paneli kaldırıldı, yerine sunum görünümü: takip sayfasında harita + bildirim akışı + tek "Otomatik ilerlet" düğmesi (açık çağrıların hepsini bir aşama taşır, müşteriye bildirim). `ty/sunum.py`. Deneme merkezinde (8795) masaüstü ve telefon genişliğinde sınandı.
 - Sunum haritası sadeleştirildi: mahalle çizgileri kalktı, altlık soluk; çağrılar aşamaya göre renk/animasyon, yoldaki SPY için rota çizgisi, aşama göstergesi, bilgisayarda tarayıcı bildirimi. Deneme merkezinde sınandı (rota + renk sınıfları, sayfa hatası yok). sw v124.
 - Harita altlığı adsız açık gri (Esri World Light Gray Base): mahalle/cadde adları kalktı, yalnız ilçe adları ve noktalar. sw v125.
+- Harita altlığı OpenFreeMap vektör (maplibre): caddeler/sokaklar açık gri çizgi, mahalle/cadde adı yok (yazı katmanları gizli); WebGL yoksa Esri. sw v126.

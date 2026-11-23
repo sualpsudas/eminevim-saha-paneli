@@ -109,6 +109,9 @@
 </main>
 <div class="kisi-kart" id="kisiKart" hidden role="dialog" aria-label="Ayrıntı"><div id="kisiIc"></div><button type="button" id="kisiKapat" aria-label="Kapat">✕</button></div>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<script src="https://unpkg.com/@maplibre/maplibre-gl-leaflet@0.0.22/leaflet-maplibre-gl.js"></script>
 <script>
   // Merkezde: <gizli>/takip → assets/…; GitHub Pages gösterisinde: merkez/takip.html?demo=1 → ../assets/…, ../veri/spyler.js
   var DEMO=/[?&]demo=1/.test(location.search), KOK=DEMO?"../":"";
@@ -122,8 +125,13 @@
   var KAPALI={tamamlandi:1,iptal:1};
   var veri={spyler:[],kayitlar:{},bugun:{gelen:0,gorusme:0}}, surum=0, sifirlama=-1, filtre="tumu", ilkSinir=null;
   var harita=L.map("harita",{zoomSnap:.5}).setView([41.01,29.09],12);
-  // Altlık: Esri açık gri harita — mahalle/cadde adı yok, yalnız sade zemin (adlar karışıklık yapıyordu)
-    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",{maxZoom:16,attribution:"Esri, HERE, Garmin"}).addTo(harita);
+  // Altlık: OpenFreeMap açık gri vektör harita — caddeler ve sokaklar çizili, tüm yazılar (mahalle/cadde adı) gizli; WebGL yoksa Esri adsız gri
+  try{
+    var gl=L.maplibreGL({style:"https://tiles.openfreemap.org/styles/positron"}).addTo(harita).getMaplibreMap();
+    gl.on("styledata",function(){(gl.getStyle().layers||[]).forEach(function(l){if(l.type==="symbol")try{gl.setLayoutProperty(l.id,"visibility","none");}catch(x){}else if(l.type==="line"&&/highway|road|street|bridge|tunnel/.test(l.id)&&!/rail|path|casing/.test(l.id))try{gl.setPaintProperty(l.id,"line-color","#c9d0d4");}catch(x){}});});
+  }catch(x){
+    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",{maxZoom:16,attribution:"Esri"}).addTo(harita);
+  }
   // Pilot bölge: ilçe sınırları kalın yeşil, mahalleler ince çizgi + ad (yakınlaşınca)
   var S=window.TY_SINIRLAR||{ilceler:[],mahalleler:[]};
   var ilceKatman=L.featureGroup().addTo(harita);
