@@ -17,7 +17,7 @@ import secrets
 import time
 
 from . import aktarim, bildirim
-from .atama import randevuda_mi, teklif_et
+from .atama import ILETIM_BEKLEME_SN, randevuda_mi, teklif_et
 from .ayarlar import DURUM_AD, KAPALI_DURUMLAR, YEDEK
 from .depo import bos_veri
 from .dogrulama import KAPI_KODLARI, dogrulama_islem
@@ -61,7 +61,8 @@ def cagri(veri, istek):
         k["girisKodu"] = f"{secrets.randbelow(900000) + 100000}"  # SMS yerine ekranda gösterilir (test)
     veri["kayitlar"][k["id"]] = k
     olay(veri, f"Yeni çağrı: {k['musteri']['ad'] or 'Müşteri'} ({k.get('yer') or ''}), {k.get('gunYazi') or k.get('tarih') or ''} {k.get('saat') or ''}", k["id"])
-    teklif_et(veri, k)
+    k.update({"durum": "alindi", "sahipsiz": False})
+    k["teklifZamani"] = k["olusma"] + ILETIM_BEKLEME_SN * 1000  # çağrı önce "alındı"; iletim zamanını bekçi / durum yoklaması getirir
     damga(veri, k)
     aktarim.yeni_cagri(k)
     return k

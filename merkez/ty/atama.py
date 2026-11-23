@@ -67,8 +67,12 @@ def adaylar(veri, k, haric=()):
     return sorted(sonuc, key=lambda x: -x[0])
 
 
+ILETIM_BEKLEME_SN = 10  # çağrı geldikten sonra SPY'ye iletilene kadar (sunumda "alındı" aşaması görünsün)
+
+
 def teklif_et(veri, k, neden=""):
     """Çağrıyı sıradaki en yüksek puanlı SPY'ye teklif eder; uygun kimse kalmadıysa "kimse almadı" (haritada kırmızı)."""
+    k.pop("teklifZamani", None)
     t = k.setdefault("teklif", {"denenen": []})
     liste = adaylar(veri, k, set(t["denenen"]) | set(k.get("eskiRepler", [])))
     ad = (k.get("musteri") or {}).get("ad") or "Müşteri"
@@ -100,7 +104,11 @@ def sureleri_denetle(veri):
     degisti = False
     for k in veri["kayitlar"].values():
         t = k.get("teklif") or {}
-        if k.get("durum") == "alindi" and k.get("repId") and t.get("bitis") and t["bitis"] < simdi():
+        if k.get("durum") == "alindi" and not k.get("repId") and not k.get("sahipsiz") and k.get("teklifZamani") and k["teklifZamani"] <= simdi():
+            teklif_et(veri, k)
+            damga(veri, k)
+            degisti = True
+        elif k.get("durum") == "alindi" and k.get("repId") and t.get("bitis") and t["bitis"] < simdi():
             teklif_et(veri, k, " (önceki 2 dk içinde kabul etmedi)")
             damga(veri, k)
             degisti = True

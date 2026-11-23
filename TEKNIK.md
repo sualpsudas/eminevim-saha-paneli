@@ -55,7 +55,7 @@ yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyo
   Telefon her yerde `+90 (5__) ___ __ __` (`uygulama/bicim.js` `telMaske/telGecerli/telAnahtar`; web formu aynı kuralı kendi içinde taşır);
   saklanan değer 10 hane. `api/sifirla` kimlikleri siler, personeli de girişe döndürür (`yerelSifirla`).
   Not: bu kural test aşaması içindir; gerçek yayında bir müşteri birden çok cihazdan girebilmeli (`ty/musteri.py` `kimlik_*` işlevleri kaldırılır).
-- **Sunum görünümü (2026-11-23):** `merkez/takip.html` — solda canlı saha haritası (açık çağrıdaki müşteriler lacivert nokta), sağda "Bildirimler"
+- **Çağrı iletimi:** çağrı önce "alındı" kalır, 10 sn sonra (`atama.py` ILETIM_BEKLEME_SN, bekçi 2 sn) SPY'ye iletilir. **Sunum görünümü (2026-11-23):** `merkez/takip.html` — solda canlı saha haritası (açık çağrıdaki müşteriler lacivert nokta), sağda "Bildirimler"
   akışı (`api/durum` → son olaylar: "Çağrı geldi · Ayşe Kaya, Üsküdar") ve tek düğme "Otomatik ilerlet" (`POST api/ilerlet`, `ty/sunum.py`):
   açık çağrıların hepsi bir aşama ilerler (yeni → SPY atandı → yola çıktı [SPY haritada yarı yola gelir] → görüşmede → tamamlandı), her aşamada
   müşteriye bildirim. Seçim yok. Harita sade (mahalle yok, adsız açık gri OpenFreeMap vektör altlık: caddeler çizili, tüm yazılar gizli; WebGL yoksa Esri adsız gri); çağrılar aşamaya göre renkli nokta (yeni çağrı turuncu yanıp söner, atandı mavi, yolda mor halkalı, görüşmede yeşil), yoldaki SPY→müşteri rotası OSRM ile çizilir; bilgisayarda yeni olay için tarayıcı bildirimi (ilk tıklamada izin istenir). Yönetici girişi sınırsız (`?rol=ask`), telefon ve bilgisayardan açılır.
