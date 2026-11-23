@@ -202,10 +202,10 @@
   });
   if(DEMO){  // gösteri: merkez yok; örnek durumlarla (canlı sürümde merkezden gelir)
     document.getElementById("sifirla").style.display="none"; document.getElementById("ilerlet").style.display="none";
-    akisCiz([{t:Date.now()-60000,metin:"Yeni çağrı: Ayşe Kaya (Üsküdar), bugün 18:00"},{t:Date.now()-30000,metin:"Ayşe Kaya (Üsküdar) → Onur Kaya · puan 74"}]);
-    var ornek={s1:"randevuda",s4:"molada",s15:"randevuda"}, bugunOrnek={s1:2,s2:1,s3:1,s15:2,s21:1};
-    veri.spyler=(window.TY_SPYLER||[]).map(function(s){return Object.assign({},s,{hal:ornek[s.id]||"bosta",bugunCagri:bugunOrnek[s.id]||0,bildirim:s.id==="s4"?0:1,konumAn:{lat:s.lat,lng:s.lng}});});
-    veri.bugun={gelen:9,gorusme:4};
+    akisCiz([]);
+    var ornek={}, bugunOrnek={};
+    veri.spyler=(window.TY_SPYLER||[]).map(function(s){return Object.assign({},s,{hal:ornek[s.id]||"bosta",bugunCagri:bugunOrnek[s.id]||0,bildirim:0,konumAn:{lat:s.lat,lng:s.lng}});});
+    veri.bugun={gelen:0,gorusme:0};
     document.getElementById("bag").textContent="Gösteri · örnek veri";
     ciz();
     return;
