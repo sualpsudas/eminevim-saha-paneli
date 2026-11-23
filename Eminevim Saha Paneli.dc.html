@@ -3923,7 +3923,7 @@ class Component extends DCLogic {
       },
       tpProfilGit: () => this.setState({ tpSekme: "profil", tpSecim: null, tpRota: false }),
       tpOrnekVar: false, tpOrnekZaman: "",
-      tpGorusmelerAcik: sekme === "gorusmeler", tpCanliAcik: false, tpCanliMerkez: sekme === "canli", tpCanliSrc: CANLI ? "takip?gomulu=1" : "merkez/takip.html?gomulu=1&demo=1", tpPerfAcik: sekme === "performans",
+      tpGorusmelerAcik: sekme === "gorusmeler", tpCanliAcik: false, tpCanliMerkez: sekme === "canli", tpCanliSrc: CANLI ? "takip?gomulu=1" : "merkez/takip.html?gomulu=1&demo=1&s=20261123b", tpPerfAcik: sekme === "performans",
       ...this.performansDegerleri(s, sekme === "performans" ? rol : ""),
       tpBaslik: sekme === "gorusmeler" ? "Görüşmeler" : sekme === "canli" ? "Saha Canlı" : sekme === "profil" ? "Profil" : "Performans",
    };
