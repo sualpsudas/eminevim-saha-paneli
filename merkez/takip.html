@@ -128,7 +128,12 @@
   // Altlık: OpenFreeMap açık gri vektör harita — caddeler ve sokaklar çizili, tüm yazılar (mahalle/cadde adı) gizli; WebGL yoksa Esri adsız gri
   try{
     var gl=L.maplibreGL({style:"https://tiles.openfreemap.org/styles/positron"}).addTo(harita).getMaplibreMap();
-    gl.on("styledata",function(){(gl.getStyle().layers||[]).forEach(function(l){if(l.type==="symbol")try{gl.setLayoutProperty(l.id,"visibility","none");}catch(x){}else if(l.type==="line"&&/highway|road|street|bridge|tunnel/.test(l.id)&&!/rail|path|casing/.test(l.id))try{gl.setPaintProperty(l.id,"line-color","#c9d0d4");}catch(x){}});});
+    // Yazılar gizli (yalnız ana cadde adları kalır); yollar sınıfına göre: otoyol koyu, ana cadde orta, sokak çok açık
+    var YOL={highway_motorway_inner:"#9aa5ab",highway_motorway_bridge_inner:"#9aa5ab",highway_motorway_subtle:"#9aa5ab",highway_major_inner:"#b9c1c6",highway_major_subtle:"#b9c1c6",highway_minor:"#e9ecee",highway_path:"#eff1f2",highway_major_casing:"#e4e8ea",highway_motorway_casing:"#e4e8ea",highway_motorway_bridge_casing:"#e4e8ea",tunnel_motorway_casing:"#e4e8ea"};
+    gl.on("styledata",function(){(gl.getStyle().layers||[]).forEach(function(l){
+      if(l.type==="symbol"){if(l.id!=="highway-name-major")try{gl.setLayoutProperty(l.id,"visibility","none");}catch(x){}}
+      else if(YOL[l.id])try{gl.setPaintProperty(l.id,"line-color",YOL[l.id]);}catch(x){}
+    });});
   }catch(x){
     L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",{maxZoom:16,attribution:"Esri"}).addTo(harita);
   }
@@ -171,8 +176,8 @@
       if(k.durum!=="yolda"&&k.durum!=="gorusme")return;
       var s=veri.spyler.filter(function(x){return x.id===k.repId;})[0]; if(!s)return;
       var a=s.konumAn||s, b=k.konum, anah=k.id+"|"+a.lat.toFixed(4)+","+a.lng.toFixed(4), hazir=rotaOnbellek[anah];
-      if(Array.isArray(hazir)){L.polyline(hazir,{color:"#7a3fd0",weight:5,opacity:.85,interactive:false}).addTo(rotaKatman);return;}
-      L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:"#7a3fd0",weight:3,opacity:.7,dashArray:"6 8",interactive:false}).addTo(rotaKatman);
+      if(Array.isArray(hazir)){L.polyline(hazir,{color:"#7a3fd0",weight:3,opacity:.85,interactive:false}).addTo(rotaKatman);return;}
+      L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:"#7a3fd0",weight:2,opacity:.7,dashArray:"6 8",interactive:false}).addTo(rotaKatman);
       if(hazir)return;  // "yok": kuş uçuşu kalır
       rotaOnbellek[anah]="bekle";
       fetch("https://router.project-osrm.org/route/v1/driving/"+a.lng+","+a.lat+";"+b.lng+","+b.lat+"?overview=full&geometries=geojson")

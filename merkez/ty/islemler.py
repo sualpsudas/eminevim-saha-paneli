@@ -21,7 +21,7 @@ from .atama import randevuda_mi, teklif_et
 from .ayarlar import DURUM_AD, KAPALI_DURUMLAR, YEDEK
 from .depo import bos_veri
 from .dogrulama import KAPI_KODLARI, dogrulama_islem
-from .konum import anlik_konum, canli_konum, konum_yaz
+from .konum import konum_sifirla, anlik_konum, canli_konum, konum_yaz
 from .musteri import KODLAR, musteri_islem
 from .personel import SPY_IDLER
 from .sunum import ilerlet
@@ -195,6 +195,7 @@ def sifirla(veri, istek):
     veri.clear()
     veri.update(bos_veri())
     veri["surum"] = surum + 1
+    konum_sifirla()
     veri["sifirlama"] = veri["surum"]  # cihazlar eski kayıtları bırakır, müşteri oturumları kapanır
     bildirim.musteri_abonelerini_sil()
     olay(veri, "Test verisi sıfırlandı")

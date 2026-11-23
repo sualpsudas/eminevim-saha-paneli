@@ -25,6 +25,12 @@ def konum_yaz(spy_id, lat, lng):
     return CANLI[spy_id]
 
 
+def konum_sifirla():
+    """Test verisi sıfırlanınca SPY'ler kayıtlı sabit konumlarına döner."""
+    with _kilit:
+        CANLI.clear()
+
+
 def canli_konum(spy_id):
     with _kilit:
         k = CANLI.get(spy_id)

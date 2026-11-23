@@ -1011,3 +1011,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - Sunum haritası sadeleştirildi: mahalle çizgileri kalktı, altlık soluk; çağrılar aşamaya göre renk/animasyon, yoldaki SPY için rota çizgisi, aşama göstergesi, bilgisayarda tarayıcı bildirimi. Deneme merkezinde sınandı (rota + renk sınıfları, sayfa hatası yok). sw v124.
 - Harita altlığı adsız açık gri (Esri World Light Gray Base): mahalle/cadde adları kalktı, yalnız ilçe adları ve noktalar. sw v125.
 - Harita altlığı OpenFreeMap vektör (maplibre): caddeler/sokaklar açık gri çizgi, mahalle/cadde adı yok (yazı katmanları gizli); WebGL yoksa Esri. sw v126.
+- Harita: yollar sınıfına göre (otoyol koyu, ana cadde orta, sokak açık), yalnız ana cadde adları; rota inceltildi; test verisi sıfırlanınca SPY konumları da sıfırlanır (ty/konum.py konum_sifirla). Deneme merkezinde sınandı. sw v127.
