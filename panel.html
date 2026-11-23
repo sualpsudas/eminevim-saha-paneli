@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tasarruf Yanımda · Panel</title>
+<title>Tasarruf Yanımda · Senaryolar</title>
 <meta name="robots" content="noindex">
 <style>
   :root{
@@ -135,39 +135,13 @@
   <symbol id="i-ev" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></symbol>
 </svg>
 
-<div class="ana">
-  <header>
-    <h1>Tasarruf Yanımda</h1>
-    <p>Müşteri temsilci çağırır, aktif SPY'ler dilediği yerde ve saatte ulaşır.</p>
-  </header>
-  <div class="kutular">
-    <a class="kutu" href="#cerceve"><span class="ikon"><svg width="24" height="24"><use href="#i-cerceve"/></svg></span><b>Proje Çerçevesi</b><span>Amaç, hedef kitle ve temel işleyiş</span></a>
-    <a class="kutu" href="#video"><span class="ikon"><svg width="24" height="24"><use href="#i-video"/></svg></span><b>Tanıtım Videosu</b><span>Kısa tanıtım</span></a>
-    <a class="kutu" href="#senaryo-1"><span class="ikon"><svg width="24" height="24"><use href="#i-web"/></svg></span><b>Senaryo 1</b><span>Çağrı web formundan gelir</span></a>
-    <a class="kutu" href="#senaryo-2"><span class="ikon"><svg width="24" height="24"><use href="#i-uyg"/></svg></span><b>Senaryo 2</b><span>Çağrı uygulamadan gelir</span></a>
-  </div>
-</div>
-
 <div class="ic">
   <nav class="ray" aria-label="Bölümler">
-    <button type="button" class="marka" data-ana aria-label="Ana sayfa"><svg width="22" height="22"><use href="#i-ev"/></svg><span>Tasarruf Yanımda</span></button>
-    <a href="#cerceve"><svg width="22" height="22" aria-hidden="true"><use href="#i-cerceve"/></svg><span><span class="uzun">Proje Çerçevesi</span><span class="kisa">Çerçeve</span></span></a>
-    <a href="#video"><svg width="22" height="22" aria-hidden="true"><use href="#i-video"/></svg><span><span class="uzun">Tanıtım Videosu</span><span class="kisa">Video</span></span></a>
+    <button type="button" class="marka" data-ana aria-label="Senaryo 1"><svg width="22" height="22"><use href="#i-ev"/></svg><span>Tasarruf Yanımda</span></button>
     <a href="#senaryo-1"><svg width="22" height="22" aria-hidden="true"><use href="#i-web"/></svg><span><span class="uzun">Senaryo 1</span><span class="kisa">Senaryo 1</span><span class="alt">Web formundan</span></span></a>
     <a href="#senaryo-2"><svg width="22" height="22" aria-hidden="true"><use href="#i-uyg"/></svg><span><span class="uzun">Senaryo 2</span><span class="kisa">Senaryo 2</span><span class="alt">Uygulamadan</span></span></a>
   </nav>
   <main>
-    <section class="bolum" id="b-cerceve" aria-label="Proje Çerçevesi">
-      <iframe class="cerceve" title="Proje Çerçevesi" data-src="rapor/proje-cercevesi.html"></iframe>
-    </section>
-
-    <section class="bolum" id="b-video" aria-labelledby="h-video">
-      <div class="kaydir"><div class="icerik">
-        <h2 id="h-video" style="margin-bottom:14px">Tanıtım Videosu</h2>
-        <video controls playsinline preload="metadata" data-src="video/tasarruf-yanimda-tanitim-kadin.mp4?v=1"></video>
-      </div></div>
-    </section>
-
     <section class="bolum" id="b-senaryo-1" aria-labelledby="h-s1">
       <div class="sen" data-senaryo="web">
         <div class="sen-ust">
@@ -219,9 +193,10 @@
 <script src="senaryo/adimlar.js?v=202611191128"></script>
 <script>
 (function(){
-  var bolumler = ["cerceve","video","senaryo-1","senaryo-2"];
+  var bolumler = ["senaryo-1","senaryo-2"];
   function goster(){
     var ad = location.hash.replace("#","");
+    if (bolumler.indexOf(ad) < 0) ad = "senaryo-1";  // açılış: Senaryo 1
     var ic = bolumler.indexOf(ad) >= 0;
     document.body.classList.toggle("icte", ic);
     document.querySelectorAll(".ray a").forEach(function(a){

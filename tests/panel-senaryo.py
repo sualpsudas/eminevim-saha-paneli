@@ -1,4 +1,4 @@
-"""Panel: senaryolar iki bölmeli (müşteri telefon + SPY tablet), adım adım ilerler; görüntüler yüklenir; video iki sürüm.
+"""Panel: senaryolar iki bölmeli (müşteri telefon + SPY tablet), adım adım ilerler; görüntüler yüklenir.
 Yerel sunucu: python -m http.server 8799. Görüntüler: python araclar/senaryo_goruntu.py"""
 from pathlib import Path
 import tempfile
@@ -41,10 +41,10 @@ with sync_playwright() as p:
                 kok.locator('[data-yan=p]').click(); assert kok.locator('[data-bolme=p].gorunur').count() == 1
             page.keyboard.press('ArrowLeft')
             assert kok.locator('.sira').inner_text().startswith(f'{toplam - 1} /')
-        page.goto(URL + '#video')
-        page.locator('#b-video video').wait_for()
-        assert 'kadin' in page.locator('#b-video video').get_attribute('src') and page.locator('[data-video]').count() == 0
+        page.goto(URL)  # adressiz açılış: Senaryo 1
+        page.locator('.bolum.acik#b-senaryo-1').wait_for()
+        assert page.locator('#b-video, #b-cerceve, .kutular').count() == 0
         assert not errors, errors
         page.close()
-    print('Panel senaryoları (iki bölme, adım adım, görüntüler yüklü, dar ekranda tek taraf) , taşma yok, video kadın sesli: OK')
+    print('Panel senaryoları (iki bölme, adım adım, görüntüler yüklü, dar ekranda tek taraf) , taşma yok, açılış Senaryo 1: OK')
     browser.close()
