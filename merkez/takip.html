@@ -45,6 +45,18 @@
   #akisListe li.yeni{animation:akisYeni 2.4s ease-out}
   #akisListe li.cagri b{color:var(--turuncu)}
   @keyframes akisYeni{from{background:#fff1e3}to{background:transparent}}
+  .leaflet-tile-pane{filter:grayscale(1) contrast(.8) brightness(1.08) opacity(.55)}
+  .cn{--c:#ea803f;position:relative;width:16px;height:16px;border-radius:50%;background:var(--c);border:2px solid #fff;box-shadow:0 0 0 1.5px var(--c)}
+  .cn::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2.5px solid var(--c);opacity:0}
+  .cn.s-alindi{--c:#ea803f;animation:yan .8s ease-in-out infinite}
+  .cn.s-alindi::after,.cn.s-atandi::after,.cn.s-yolda::after{animation:halka 1.5s ease-out infinite}
+  .cn.s-atandi{--c:#2f6fdb}
+  .cn.s-yolda{--c:#7a3fd0}
+  .cn.s-gorusmede{--c:#00724c}
+  @keyframes yan{0%,100%{opacity:1}50%{opacity:.25}}
+  @keyframes halka{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.7);opacity:0}}
+  .ipucu{display:inline-flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--yazi);margin-left:8px}
+  .ipucu i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:-1px}
   .musteri-ik{width:14px;height:14px;border-radius:50%;background:#1e3856;border:2px solid #fff;box-shadow:0 0 0 1.5px #1e3856}
   .harita-kap{flex:1;min-height:380px;position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--cizgi);background:#fff}
   #harita{position:absolute;inset:0}
@@ -72,7 +84,7 @@
   }
   /* Harita simgeleri ve yazıları */
   .spy-ik{border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
-  .cagri-ik{width:12px;height:12px;border-radius:50%;background:var(--kirmizi);border:2px solid #fff;box-shadow:0 0 0 3px rgba(198,40,40,.35)}
+  .cagri-ik{animation:yan .8s ease-in-out infinite;width:12px;height:12px;border-radius:50%;background:var(--kirmizi);border:2px solid #fff;box-shadow:0 0 0 3px rgba(198,40,40,.35)}
   .leaflet-tooltip.mah-ad{background:transparent;border:0;box-shadow:none;color:#4d5a55;font-size:10.5px;font-weight:600;text-shadow:0 0 3px #fff,0 0 3px #fff;padding:0}
   .leaflet-tooltip.mah-ad::before{display:none}
   .leaflet-tooltip.ilce-ad{background:rgba(255,255,255,.85);border:0;box-shadow:none;color:var(--yesil);font-size:13px;font-weight:800;padding:2px 8px;border-radius:10px}
@@ -115,13 +127,9 @@
   L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,subdomains:"abc",attribution:"© <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a> katkıcıları"}).addTo(harita);
   // Pilot bölge: ilçe sınırları kalın yeşil, mahalleler ince çizgi + ad (yakınlaşınca)
   var S=window.TY_SINIRLAR||{ilceler:[],mahalleler:[]};
-  var mahKatman=L.layerGroup().addTo(harita), ilceKatman=L.featureGroup().addTo(harita);
-  S.mahalleler.forEach(function(m){
-    L.polygon(m.halkalar,{color:"#6f8a80",weight:.8,opacity:.7,fill:false,interactive:false}).addTo(mahKatman);
-    L.tooltip({permanent:true,direction:"center",className:"mah-ad"}).setLatLng(m.merkez).setContent(m.ad).addTo(mahKatman);
-  });
+  var ilceKatman=L.featureGroup().addTo(harita);
   S.ilceler.forEach(function(i){
-    L.polygon(i.halkalar,{color:"#00724c",weight:2.5,fillColor:"#00724c",fillOpacity:.05,interactive:false}).bindTooltip(i.ad,{permanent:true,direction:"center",className:"ilce-ad"}).addTo(ilceKatman);
+    L.polygon(i.halkalar,{color:"#00724c",weight:1.5,opacity:.6,fillColor:"#00724c",fillOpacity:.03,interactive:false}).bindTooltip(i.ad,{permanent:true,direction:"center",className:"ilce-ad"}).addTo(ilceKatman);
   });
   function sigdir(){harita.invalidateSize();if(S.ilceler.length)harita.fitBounds(ilceKatman.getBounds(),{padding:[10,10]});}
   sigdir(); addEventListener("load",sigdir); setTimeout(sigdir,400);  // telefonda yerleşim geç oturuyor
@@ -144,7 +152,29 @@
   }
   function cagriBilgi(k){return '<b>Kimse almadı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br>'+e(k.gunYazi||k.tarih)+' '+e(k.saat)+'<br><span style="color:#666">Uygun SPY çıkınca kendiliğinden teklif edilir.</span>';}
   var ASAMA={alindi:"çağrı geldi",atandi:"SPY kabul etti",netlesti:"saat onaylandı",yolda:"SPY yolda",gorusme:"SPY yolda",gorusmede:"görüşmede"};
-  function musteriBilgi(k){return '<b>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'</b><br>'+e(ASAMA[k.durum]||k.durum)+'<br>'+e(k.yer);}
+  function musteriBilgi(k){
+    var s=veri.spyler.filter(function(x){return x.id===k.repId;})[0];
+    return '<b>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'</b><br>'+e(ASAMA[k.durum]||k.durum)+(s?' · '+e(s.ad):'')+'<br>'+e(k.yer)+(k.varisZamani&&(k.durum==="yolda"||k.durum==="gorusme")?'<br>Tahmini varış '+saat(k.varisZamani):'');
+  }
+  // Yoldaki SPY → müşteri rotası (gerçek yol: OSRM genel sunucusu; olmazsa kuş uçuşu kesikli çizgi)
+  var rotaKatman=L.layerGroup().addTo(harita), rotaOnbellek={}, rotaTur=0;
+  function rotalar(){
+    rotaKatman.clearLayers(); var tur=++rotaTur;
+    acikCagrilar().forEach(function(k){
+      if(k.durum!=="yolda"&&k.durum!=="gorusme")return;
+      var s=veri.spyler.filter(function(x){return x.id===k.repId;})[0]; if(!s)return;
+      var a=s.konumAn||s, b=k.konum, anah=k.id+"|"+a.lat.toFixed(4)+","+a.lng.toFixed(4), hazir=rotaOnbellek[anah];
+      if(Array.isArray(hazir)){L.polyline(hazir,{color:"#7a3fd0",weight:5,opacity:.85,interactive:false}).addTo(rotaKatman);return;}
+      L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:"#7a3fd0",weight:3,opacity:.7,dashArray:"6 8",interactive:false}).addTo(rotaKatman);
+      if(hazir)return;  // "yok": kuş uçuşu kalır
+      rotaOnbellek[anah]="bekle";
+      fetch("https://router.project-osrm.org/route/v1/driving/"+a.lng+","+a.lat+";"+b.lng+","+b.lat+"?overview=full&geometries=geojson")
+        .then(function(r){return r.json();}).then(function(j){
+          rotaOnbellek[anah]=j.routes&&j.routes[0]?j.routes[0].geometry.coordinates.map(function(c){return [c[1],c[0]];}):"yok";
+          if(tur===rotaTur)rotalar();
+        }).catch(function(){rotaOnbellek[anah]="yok";});
+    });
+  }
   function acikCagrilar(){return Object.values(veri.kayitlar).filter(function(k){return !k.sahipsiz&&!KAPALI[k.durum]&&k.konum&&k.konum.lat!=null;});}
   function sahipsizler(){return Object.values(veri.kayitlar).filter(function(k){return k.sahipsiz&&!k.repId&&!KAPALI[k.durum]&&k.konum;});}
   function ciz(){
@@ -155,17 +185,19 @@
       .map(function(x){return '<div class="sayi '+(x[2]||"")+'"><b>'+x[1]+'</b><span>'+x[0]+' · bugün</span></div>';}).join("");
     document.getElementById("cipler").innerHTML=[["tumu","Tümü"],["bosta","Boşta"],["randevuda","Randevuda"],["molada","Molada"]].map(function(x){
       return '<button type="button" data-filtre="'+x[0]+'" aria-pressed="'+(filtre===x[0])+'">'+(x[0]==="tumu"?"":'<span class="renk r-'+x[0]+'"></span>')+x[1]+' ('+(sayac[x[0]]||0)+')</button>';
-    }).join("")+(sah.length?'<span class="bilgi"><span class="renk r-sahipsiz"></span> Kimse almadı</span>':"");
+    }).join("")+'<span class="ipucu"><span><i style="background:#ea803f"></i>Yeni çağrı</span><span><i style="background:#2f6fdb"></i>Atandı</span><span><i style="background:#7a3fd0"></i>Yolda</span><span><i style="background:#00724c"></i>Görüşmede</span>'+(sah.length?'<span><i style="background:#c0392b"></i>Kimse almadı</span>':"")+'</span>';
     var gorunen=veri.spyler.filter(function(s){return filtre==="tumu"||s.hal===filtre;});
-    spyKatman.clearLayers(); isaretler={}; cagriIsaret={}; var boy=DAR.matches?16:12;
+    spyKatman.clearLayers(); isaretler={}; cagriIsaret={}; var boy=DAR.matches?14:10;
     gorunen.forEach(function(s){
       var k=s.konumAn||s, renk=(HAL[s.hal]||HAL.bosta)[1];
       isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,icon:L.divIcon({className:"",html:'<div class="spy-ik" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px"></div>',iconSize:[boy,boy],iconAnchor:[boy/2,boy/2]})});
       bagla(isaretler[s.id],spyBilgi(s)).addTo(spyKatman);
     });
     acikCagrilar().forEach(function(k){
-      L.marker([k.konum.lat,k.konum.lng],{title:(k.musteri&&k.musteri.ad)||"Müşteri",icon:L.divIcon({className:"",html:'<div class="musteri-ik"></div>',iconSize:[14,14],iconAnchor:[7,7]})}).bindPopup(musteriBilgi(k)).addTo(spyKatman);
+      var sinif={alindi:"s-alindi",atandi:"s-atandi",netlesti:"s-atandi",yolda:"s-yolda",gorusme:"s-yolda",gorusmede:"s-gorusmede"}[k.durum]||"s-atandi";
+      L.marker([k.konum.lat,k.konum.lng],{title:(k.musteri&&k.musteri.ad)||"Müşteri",zIndexOffset:500,icon:L.divIcon({className:"",html:'<div class="cn '+sinif+'"></div>',iconSize:[16,16],iconAnchor:[8,8]})}).bindPopup(musteriBilgi(k)).addTo(spyKatman);
     });
+    rotalar();
     sah.forEach(function(k){
       cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:"Kimse almadı",icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[12,12],iconAnchor:[6,6]})});
       bagla(cagriIsaret[k.id],cagriBilgi(k)).addTo(spyKatman);
@@ -192,8 +224,14 @@
       var yeni=!akisIlk&&!akisGorulen[o.t+o.metin];
       return '<li class="'+(yeni?"yeni ":"")+(/^Yeni çağrı/.test(o.metin)?"cagri":"")+'"><time>'+saat(o.t)+'</time><span>'+akisYazi(o.metin)+'</span></li>';
     }).join("")||'<li><span style="color:var(--yazi)">Henüz çağrı yok</span></li>';
-    (olaylar||[]).forEach(function(o){akisGorulen[o.t+o.metin]=1;}); akisIlk=false;
+    var yeniler=(olaylar||[]).filter(function(o){return !akisGorulen[o.t+o.metin];});
+    (olaylar||[]).forEach(function(o){akisGorulen[o.t+o.metin]=1;});
+    if(!akisIlk&&"Notification" in window&&Notification.permission==="granted")yeniler.slice(0,3).forEach(function(o){
+      if(/^Yeni çağrı/.test(o.metin)||!/^\S.* \(.*\) → /.test(o.metin))try{new Notification("Tasarruf Yanımda",{body:akisYazi(o.metin).replace(/<[^>]+>/g,"").replace(/&amp;/g,"&")});}catch(x){}
+    });
+    akisIlk=false;
   }
+  addEventListener("click",function(){if("Notification" in window&&Notification.permission==="default")try{Notification.requestPermission();}catch(x){}},{once:true});
   document.getElementById("ilerlet").addEventListener("click",function(){
     var b=this; b.disabled=true;
     fetch("api/ilerlet",{method:"POST",headers:{"Content-Type":"application/json"},body:"{}"})
