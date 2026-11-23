@@ -1001,3 +1001,8 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-20 (sw v117, b83): giriş alanına dokununca klavye açılınca görünür alan kısalır: alt Eminevim logosu Devam et düğmesinin üstüne biniyor ve kart taşıyordu. Düzeltme: <=600px yükseklikte alt logo gizlenir, ikon/başlık küçülür, slogan gizlenir, giriş ekranı kayar; odaklanan alan görünür alana kaydırılır (focusin). Chrome ile 516/420 px yüksekliğinde denendi; gerçek iPhone klavyesinde denenmedi.
 
 - 2026-11-20 (v118): giriş kartı başlığı tek satıra sabitlendi (b84, yazı tipi yüklenince alt satıra inmesin); açılış ekranında çift dokunuş kestirmesi artık dokunuşu yutuyor, alttaki "Personel Girişi" vb. tetiklenmiyor (perde 800 ms sonra kalkar). 393/375/360 genişlikte Playwright ile doğrulandı.
+
+
+## 2026-11-23
+- Klavye/giriş: sabit düzen (resize none, build 15), düğmeler tek biçim (soft yeşil, 54px), Ayarlar: Yenile + Çıkış yap, çekip yenileme kaldırıldı, Bildirimler ve Aydınlatma Ayarlar'dan çıktı.
+- Çok kişili test kararı verildi: `PLAN-test-kimlik.md` (kimlik havuzu, telefon maskesi, sıfırlama, test paneli). Henüz kodlanmadı.
