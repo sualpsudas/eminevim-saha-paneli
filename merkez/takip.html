@@ -393,6 +393,11 @@
   var ekleModu=false;
   var ADLAR=["Ayşe","Mehmet","Fatma","Mustafa","Zeynep","Ahmet","Elif","Hasan","Merve","Emre","Selin","Burak","Deniz","Can","Esra","Murat"], SOYADLAR=["Yılmaz","Kaya","Demir","Çelik","Şahin","Yıldız","Aydın","Öztürk","Arslan","Doğan","Kılıç","Aslan","Polat","Erdem","Koç","Tekin"];
   function rast(a){return a[Math.floor(Math.random()*a.length)];}
+  function rastAd(){  // sistemde (kapalı çağrılar dahil) aynı isimde müşteri olmasın
+    var var_=Object.values(veri.kayitlar).map(function(k){return (k.musteri&&k.musteri.ad)||"";}), ad, n=0;
+    do{ad=rast(ADLAR)+" "+rast(SOYADLAR);}while(var_.indexOf(ad)>=0&&++n<200);
+    return ad;
+  }
   function rastTel(){var s="05"+rast(["30","32","33","35","36","42","44","54","55"]);for(var i=0;i<7;i++)s+=Math.floor(Math.random()*10);return s;}
   var ekleBtn=L.control({position:"topright"});
   ekleBtn.onAdd=function(){var d=L.DomUtil.create("div","ekle-kap");d.innerHTML='<button type="button" id="eBtn">+ Çağrı ekle</button><div id="eIpucu" hidden>Haritada müşterinin yerine dokunun</div>';L.DomEvent.disableClickPropagation(d);return d;};
@@ -405,7 +410,7 @@
     if(!ekleModu)return;
     var ip=document.getElementById("eIpucu"), nokta=ev.latlng;
     ekleKapat();
-    fetch("api/cagri-ekle",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ad:rast(ADLAR)+" "+rast(SOYADLAR),tel:rastTel(),yer:"",lat:nokta.lat,lng:nokta.lng})})
+    fetch("api/cagri-ekle",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ad:rastAd(),tel:rastTel(),yer:"",lat:nokta.lat,lng:nokta.lng})})
       .then(function(r){return r.json().catch(function(){return {};}).then(function(v){if(!r.ok)throw new Error(v.hata||("Hata "+r.status));});})
       .then(function(){surum=0;tur();})
       .catch(function(err){ip.textContent=err.message;ip.hidden=false;setTimeout(function(){ip.hidden=true;ip.textContent="Haritada müşterinin yerine dokunun";},4000);});

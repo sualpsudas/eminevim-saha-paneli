@@ -1034,3 +1034,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - (aynı gün) Otomatik ilerlet: yolda aşamasından sonraki basışta SPY rota boyunca müşteriye sürekli yürür (15 sn; merkez başlangıç+süreyi tutar yolBasladi/yolSure/yolBaslangic, konum.py zamana göre hesaplar, takip.html animKonum ile akıcı çizer); bir sonraki basışta görüşmede. Merkez yeniden başlatıldı.
 - (aynı gün) Otomatik ilerlet: yürüme 30 sn, rota SPY ilerledikçe kısalır, varışta kendiliğinden görüşmeye geçer (sunum.varis_denetle, api.py bekçisi 2 sn). SPY açılır kutusunda Ciro %/Rnd % gösterilir; Bugün N çağrı ve Bildirim satırları kalktı. Merkez yeniden başlatıldı.
 - (aynı gün) Çağrı iletimi 10 sn yerine 4 sn sonra (ILETIM_BEKLEME_SN=4, bekçi 1 sn). Merkez yeniden başlatıldı.
+- (aynı gün) Çağrı ekle: rastgele ad sistemde (kapalı çağrılar dahil) zaten varsa yeniden seçilir.
