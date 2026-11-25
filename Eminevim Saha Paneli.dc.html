@@ -2009,10 +2009,9 @@ html.native-app .customer-finance-actions button { min-height: 54px !important; 
           </sc-if>
 
           <sc-if value="{{ adminTabIsHarita }}">
-          <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; gap:10px; height:100%;">
-            <div style="display:flex;gap:8px;align-items:center;"><button onClick="{{ toggleHaritaSpy }}" style="min-height:34px;padding:0 13px;border:1px solid {{ haritaSpyBorder }};background:{{ haritaSpyBg }};color:{{ haritaSpyText }};border-radius:99px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:{{ haritaSpyDot }};"></span>SPY · {{ spylerCount }}</button><button onClick="{{ toggleHaritaMusteri }}" style="min-height:34px;padding:0 13px;border:1px solid {{ haritaMusteriBorder }};background:{{ haritaMusteriBg }};color:{{ haritaMusteriText }};border-radius:99px;font-size:11.5px;font-weight:800;cursor:pointer;font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;display:flex;align-items:center;gap:6px;"><span style="width:8px;height:8px;border-radius:50%;background:{{ haritaMusteriDot }};"></span>Müşteri · {{ toplamBasvuru }}</button></div>
+          <div style="animation:tabIn .3s ease-out; padding:14px; display:flex; flex-direction:column; height:100%;">
             <div style="flex:1; min-height:280px; background:var(--card); border-radius:15px; border:1px solid var(--line); overflow:hidden;">
-              <iframe ref="{{ canliMapRef }}" src="harita/map.html?v=4" onLoad="{{ onCanliMapLoad }}" title="Saha haritası" style="width:100%; height:100%; border:none; display:block;"></iframe>
+              <iframe src="{{ takipSrc }}" title="Saha canlı: harita ve bildirimler" style="width:100%; height:100%; border:none; display:block;"></iframe>
             </div>
           </div>
           </sc-if>
@@ -5066,6 +5065,7 @@ class Component extends DCLogic {
       toplamBasvuru: s.spylerList.reduce((a, x) => a + x.sayac, 0),
       aktifTalepCount: s.reqStatus === "idle" ? 0 : 1,
       appointmentCount: s.appointments.length,
+      takipSrc: window.TY_CANLI ? "takip?gomulu=1" : "merkez/takip.html?demo=1&gomulu=1&v=" + 1,
       canliMapRef: this._canliRef(),
       onCanliMapLoad: () => { this.postCanliAdmin(); this.postBasvurular(); },
       spyLiveMapRef: this._spyLiveRef(),
