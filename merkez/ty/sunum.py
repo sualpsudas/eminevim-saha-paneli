@@ -10,7 +10,30 @@ from .konum import anlik_konum, konum_yaz
 from .yardim import damga, olay, saat_yaz, simdi
 
 DAKIKA = 60000
-YOL_SN = 15  # sunumda SPY'nin rota boyunca müşteriye varma süresi
+YOL_SN = 30  # sunumda SPY'nin rota boyunca müşteriye varma süresi
+
+
+def _varis(veri, k):
+    """SPY müşterinin yerine vardı: görüşme başlar (yürüyüş bitince kendiliğinden ya da erken basışta)."""
+    ad = (k.get("musteri") or {}).get("ad") or "Müşteri"
+    spy = veri["spyler"][k["repId"]]
+    konum = k.get("konum") or {}
+    veri.get("elleKonum", {}).pop(spy["id"], None)  # varış: elle taşınan konum bırakılır
+    konum_yaz(spy["id"], konum["lat"], konum["lng"])
+    k["durum"], k["dogrulandi"] = "gorusmede", {"zaman": simdi(), "yol": "kod"}
+    olay(veri, f"{ad}: {spy['ad']} kapıda, görüşme başladı", k["id"])
+    bildirim.bildir_musteri(k, f"Temsilciniz doğrulandı: {spy['ad']}", "Görüşmeniz başladı. İyi görüşmeler!")
+    damga(veri, k)
+
+
+def varis_denetle(veri):
+    """Yürüyüş süresi dolan SPY müşteriye varmış sayılır, görüşme kendiliğinden başlar. Değişiklik olduysa True."""
+    degisti = False
+    for k in veri["kayitlar"].values():
+        if k.get("durum") in ("yolda", "gorusme") and k.get("yolBasladi") and k.get("repId") and simdi() >= k["yolBasladi"] + (k.get("yolSure") or 0):
+            _varis(veri, k)
+            degisti = True
+    return degisti
 
 
 def _ilerle(veri, k):
@@ -43,13 +66,7 @@ def _ilerle(veri, k):
         olay(veri, f"{ad}: {spy['ad']} müşteriye doğru ilerliyor", k["id"])
         yeni = "yolda"
     elif durum in ("yolda", "gorusme"):
-        spy = veri["spyler"][k["repId"]]
-        konum = k.get("konum") or {}
-        veri.get("elleKonum", {}).pop(spy["id"], None)  # varış: elle taşınan konum bırakılır
-        konum_yaz(spy["id"], konum["lat"], konum["lng"])
-        k["durum"], k["dogrulandi"] = "gorusmede", {"zaman": simdi(), "yol": "kod"}
-        olay(veri, f"{ad}: {spy['ad']} kapıda, görüşme başladı", k["id"])
-        bildirim.bildir_musteri(k, f"Temsilciniz doğrulandı: {spy['ad']}", "Görüşmeniz başladı. İyi görüşmeler!")
+        _varis(veri, k)
         yeni = "gorusmede"
     elif durum == "gorusmede":
         k["durum"] = "tamamlandi"

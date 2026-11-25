@@ -247,7 +247,7 @@
   function spyBilgi(s){
     var h=HAL[s.hal]||HAL.bosta, r=randevusu(s);
     return '<b>'+e(s.ad)+'</b><br><span class="renk r-'+e(s.hal)+'"></span> '+h[0]+(r?' · '+(r.musteri&&r.musteri.ad||"Müşteri")+' ('+DURUM[r.durum]+')':'')+
-      '<br>Bugün '+(s.bugunCagri||0)+' / 4 çağrı<br>'+(s.bildirim?'Bildirim: '+s.bildirim+' telefon':'Bildirim kapalı')+'<br><span style="color:#666">'+e(s.mahalle)+', '+e(s.ilce)+'</span>'+(DEMO?"":spyTasinir(s)?TASI_IPUCU:TASINMAZ);
+      '<br>Ciro '+e(s.ciroHG)+'% · Rnd '+e(s.randevuHG)+'%<br><span style="color:#666">'+e(s.mahalle)+', '+e(s.ilce)+'</span>'+(DEMO?"":spyTasinir(s)?TASI_IPUCU:TASINMAZ);
   }
   function cagriBilgi(k){if(k.bolgeDisi)return '<b>Pilot bölge dışı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br><span style="color:#666">Temsilci gönderilmez, telefonla görüşülür. Bölge içine taşırsanız çağrı yeniden teklif edilir.</span>'+(DEMO?"":TASI_IPUCU);
     return '<b>Kimse almadı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br>'+e(k.gunYazi||k.tarih)+' '+e(k.saat)+'<br><span style="color:#666">Uygun SPY çıkınca kendiliğinden teklif edilir.</span>'+(DEMO?"":TASI_IPUCU);}
@@ -270,8 +270,8 @@
       }
       if(k.durum!=="yolda"&&k.durum!=="gorusme")return;
       var a=k.yolBaslangic||s.konumAn||s, b=k.konum, anah=k.id+"|"+a.lat.toFixed(4)+","+a.lng.toFixed(4), hazir=rotaOnbellek[anah];
-      if(Array.isArray(hazir)){L.polyline(hazir,{color:"#ea803f",weight:3,opacity:.85,interactive:false}).addTo(rotaKatman);return;}
-      L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:"#ea803f",weight:2,opacity:.7,dashArray:"6 8",interactive:false}).addTo(rotaKatman);
+      if(Array.isArray(hazir)){if(!k.yolBasladi)L.polyline(hazir,{color:"#ea803f",weight:3,opacity:.85,interactive:false}).addTo(rotaKatman);return;}  // yürüyen SPY'nin kalan rotasını kare() çizer
+      if(!k.yolBasladi)L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:"#ea803f",weight:2,opacity:.7,dashArray:"6 8",interactive:false}).addTo(rotaKatman);
       if(hazir)return;  // "yok": kuş uçuşu kalır
       rotaOnbellek[anah]="bekle";
       fetch("https://router.project-osrm.org/route/v1/driving/"+a.lng+","+a.lat+";"+b.lng+","+b.lat+"?overview=full&geometries=geojson")
@@ -288,14 +288,22 @@
     var k=yolCagri(s); if(!k)return null;
     var p=Math.min(1,Math.max(0,(Date.now()+saatFark-k.yolBasladi)/(k.yolSure||1))), a=k.yolBaslangic, b=k.konum;
     var yol=rotaOnbellek[k.id+"|"+a.lat.toFixed(4)+","+a.lng.toFixed(4)];
-    if(!Array.isArray(yol)||yol.length<2)return {lat:a.lat+(b.lat-a.lat)*p,lng:a.lng+(b.lng-a.lng)*p};
+    if(!Array.isArray(yol)||yol.length<2){var n={lat:a.lat+(b.lat-a.lat)*p,lng:a.lng+(b.lng-a.lng)*p};n.kalan=[[n.lat,n.lng],[b.lat,b.lng]];return n;}
     var uz=[0],i; for(i=1;i<yol.length;i++)uz.push(uz[i-1]+Math.hypot(yol[i][0]-yol[i-1][0],yol[i][1]-yol[i-1][1]));
     var hedef=uz[uz.length-1]*p; for(i=1;i<yol.length&&uz[i]<hedef;i++);
     i=Math.min(i,yol.length-1); var f=uz[i]>uz[i-1]?(hedef-uz[i-1])/(uz[i]-uz[i-1]):1;
-    return {lat:yol[i-1][0]+(yol[i][0]-yol[i-1][0])*f,lng:yol[i-1][1]+(yol[i][1]-yol[i-1][1])*f};
+    var yer={lat:yol[i-1][0]+(yol[i][0]-yol[i-1][0])*f,lng:yol[i-1][1]+(yol[i][1]-yol[i-1][1])*f};
+    yer.kalan=[[yer.lat,yer.lng]].concat(yol.slice(i)); return yer;
   }
+  var kalanCizgi={};
   (function kare(){
-    veri.spyler.forEach(function(s){var m=isaretler[s.id],c=m&&!suruk&&animKonum(s);if(c)m.setLatLng([c.lat,c.lng]);});
+    veri.spyler.forEach(function(s){
+      var m=isaretler[s.id],c=m&&!suruk&&animKonum(s),k=yolCagri(s);
+      if(!c){if(k&&kalanCizgi[k.id]&&rotaKatman.hasLayer(kalanCizgi[k.id]))rotaKatman.removeLayer(kalanCizgi[k.id]);return;}
+      m.setLatLng([c.lat,c.lng]);
+      var l=kalanCizgi[k.id]; if(!l)l=kalanCizgi[k.id]=L.polyline(c.kalan,{color:"#ea803f",weight:3,opacity:.85,interactive:false});
+      l.setLatLngs(c.kalan); if(!rotaKatman.hasLayer(l))l.addTo(rotaKatman);  // ilerledikçe rota kısalır
+    });
     requestAnimationFrame(kare);
   })();
   function acikCagrilar(){return Object.values(veri.kayitlar).filter(function(k){return !k.sahipsiz&&!KAPALI[k.durum]&&k.konum&&k.konum.lat!=null;});}

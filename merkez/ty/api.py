@@ -24,6 +24,7 @@ from urllib.parse import parse_qs, unquote
 
 from . import bildirim, depo
 from .atama import sureleri_denetle
+from .sunum import varis_denetle
 from .ayarlar import ANAHTAR, KLASOR, KOK, PID, PORT, STATIK_KLASOR, STATIK_KOK, STATIK_UZANTI, SURUM_DOSYALARI, UYGULAMA
 from .islemler import GORULME, YOLLAR, bugun_sayilar, spy_ozet, uygula
 from .musteri import YazilanHata
@@ -130,7 +131,7 @@ class Isleyici(BaseHTTPRequestHandler):
             GORULME[spy] = simdi()  # uygulaması açık personel (takip sayfası için)
         with depo.kilit:
             veri = depo.oku()
-            if sureleri_denetle(veri):
+            if sureleri_denetle(veri) | varis_denetle(veri):
                 depo.yaz(veri)
 
         def gorur(k):  # personel kendi çağrılarını (devrettikleri dahil), müşteri kendi kaydını, takip sayfası hepsini
@@ -246,7 +247,7 @@ def main():
             time.sleep(2)
             with depo.kilit:
                 veri = depo.oku()
-                if sureleri_denetle(veri):
+                if sureleri_denetle(veri) | varis_denetle(veri):
                     depo.yaz(veri)
     threading.Thread(target=bekci, daemon=True).start()
     PID.write_text(str(os.getpid()))
