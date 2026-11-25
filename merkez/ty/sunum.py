@@ -89,7 +89,7 @@ def sim_kabul(veri):
     degisti = False
     for k in veri["kayitlar"].values():
         s = veri["spyler"].get(k.get("repId") or "")
-        if s and s.get("sim") and k.get("durum") == "alindi" and not k.get("sahipsiz") and k.get("atanma") and simdi() >= k["atanma"] + SIM_KABUL_SN * 1000:
+        if s and s.get("sim") and k.get("durum") == "alindi" and k.get("kaynak") != "yonetici" and not k.get("sahipsiz") and k.get("atanma") and simdi() >= k["atanma"] + SIM_KABUL_SN * 1000:
             degisti = bool(_ilerle(veri, k)) or degisti
     return degisti
 

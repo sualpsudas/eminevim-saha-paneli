@@ -23,7 +23,7 @@ from .ayarlar import DURUM_AD, KAPALI_DURUMLAR, YEDEK
 from .depo import bos_veri
 from .dogrulama import KAPI_KODLARI, dogrulama_islem
 from .konum import konum_sifirla, anlik_konum, canli_konum, konum_yaz, konum_ve_kaynak
-from .musteri import KODLAR, musteri_islem
+from .musteri import KODLAR, hesap_ac, musteri_islem
 from .personel import SPY_IDLER
 from .sunum import ilerlet
 from .yardim import bugun, damga, metin, olay, saat_yaz, simdi, tel_temiz
@@ -219,7 +219,11 @@ def cagri_ekle(veri, istek):
         raise ValueError("Bu nokta pilot bölge (Üsküdar, Ümraniye, Ataşehir) dışında; çağrı eklenemez.")
     k = {"id": "y-" + secrets.token_hex(5), "konum": {"lat": lat, "lng": lng}, "yer": metin(istek.get("yer"), 120) or "Haritada seçilen nokta",
          "tarih": bugun(), "saat": time.strftime("%H:%M"), "gunYazi": "Bugün", "kaynak": "yonetici"}
-    return cagri(veri, {"kayit": k, "musteri": {"ad": metin(istek.get("ad"), 80) or "Test müşterisi", "tel": metin(istek.get("tel"), 20)}})
+    ad, tel = metin(istek.get("ad"), 80) or "Test müşterisi", tel_temiz(istek.get("tel"))
+    adi, _, soyadi = ad.partition(" ")
+    if len(tel) == 10 and tel not in veri["musteriler"]:  # KVKK/Aydınlatma adımları geçmiş yeni üye: uygulamada giriş listesinde görünür, randevu oradan yanıtlanır
+        hesap_ac(veri, tel, adi, soyadi, False, "yonetici")
+    return cagri(veri, {"kayit": k, "musteri": {"ad": ad, "adi": adi, "soyadi": soyadi, "tel": tel}})
 
 
 def oneri_islem(veri, istek):
