@@ -7,4 +7,5 @@ function atamaMesaji(ilkAd, repId, t) {
 }
 /* Müşterinin gördüğü temsilci bilgileri (panelde kısa ad kullanılır) */
 // 7 test SPY'si: spyler.js (merkez/sunucu.py da aynı dosyayı okur). foto: sentetik portre, assets/temsilci/OKUBENI.md
-const TEMSILCI_DETAY = (window.TY_SPYLER || []).reduce((o, x) => { o[x.id] = x; return o; }, {});
+// Hareketli örnek SPY'ler (yalnız canlı test merkezi sunar: window.TY_SPYLER_SIM) yalnız müşteri tarafı bilgi kartında kullanılır
+const TEMSILCI_DETAY = (window.TY_SPYLER || []).concat(window.TY_SPYLER_SIM || []).reduce((o, x) => { o[x.id] = x; return o; }, {});

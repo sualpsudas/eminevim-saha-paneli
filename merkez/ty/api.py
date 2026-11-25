@@ -24,11 +24,11 @@ from urllib.parse import parse_qs, unquote
 
 from . import bildirim, depo
 from .atama import sureleri_denetle
-from .sunum import varis_denetle
+from .sunum import sunum_denetle
 from .ayarlar import ANAHTAR, KLASOR, KOK, PID, PORT, STATIK_KLASOR, STATIK_KOK, STATIK_UZANTI, SURUM_DOSYALARI, UYGULAMA
 from .islemler import GORULME, YOLLAR, bugun_sayilar, spy_ozet, uygula
 from .musteri import YazilanHata
-from .personel import SPY_IDLER
+from .personel import SIM_SPYLER, SPY_IDLER
 from .yardim import simdi
 
 
@@ -131,7 +131,7 @@ class Isleyici(BaseHTTPRequestHandler):
             GORULME[spy] = simdi()  # uygulaması açık personel (takip sayfası için)
         with depo.kilit:
             veri = depo.oku()
-            if sureleri_denetle(veri) | varis_denetle(veri):
+            if sureleri_denetle(veri) | sunum_denetle(veri):
                 depo.yaz(veri)
 
         def gorur(k):  # personel kendi çağrılarını (devrettikleri dahil), müşteri kendi kaydını, takip sayfası hepsini
@@ -169,6 +169,8 @@ class Isleyici(BaseHTTPRequestHandler):
             on = ("/" + self.server.gizli + "/").encode()  # tam yol: web formu kopyasında <base> eminevim.com'u gösterir
             icerik = icerik.replace(b"<head>", b'<head>\n<script>window.TY_CANLI={api:"' + on + b'api/"};</script>\n<script src="' + on
                                     + b'uygulama/canli.js"></script>', 1)
+        if dosya.name == "spyler.js" and dosya.parent.name == "veri":  # hareketli örnek SPY'lerin müşteri tarafı bilgi kartı (SPY girişinde görünmez)
+            icerik += b"\nwindow.TY_SPYLER_SIM=" + json.dumps(SIM_SPYLER, ensure_ascii=False).encode("utf-8") + b";\n"
         durum = dosya.stat()
         self._yanit(200, icerik, STATIK_UZANTI.get(dosya.suffix.lower(), "application/octet-stream"),
                     etag='"%x-%x-%x"' % (durum.st_mtime_ns, durum.st_size, len(icerik)))
@@ -247,7 +249,7 @@ def main():
             time.sleep(1)
             with depo.kilit:
                 veri = depo.oku()
-                if sureleri_denetle(veri) | varis_denetle(veri):
+                if sureleri_denetle(veri) | sunum_denetle(veri):
                     depo.yaz(veri)
     threading.Thread(target=bekci, daemon=True).start()
     PID.write_text(str(os.getpid()))

@@ -22,14 +22,14 @@ from .atama import ILETIM_BEKLEME_SN, randevuda_mi, teklif_et, yeniden_ata
 from .ayarlar import DURUM_AD, KAPALI_DURUMLAR, YEDEK
 from .depo import bos_veri
 from .dogrulama import KAPI_KODLARI, dogrulama_islem
-from .konum import konum_sifirla, anlik_konum, canli_konum, konum_yaz
+from .konum import konum_sifirla, anlik_konum, canli_konum, konum_yaz, konum_ve_kaynak
 from .musteri import KODLAR, musteri_islem
 from .personel import SPY_IDLER
 from .sunum import ilerlet
 from .yardim import bugun, damga, metin, olay, saat_yaz, simdi, tel_temiz
 
 GORULME = {}  # SPY id -> son yoklama zamanı (yalnız bellekte)
-YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla", "api/kimlik", "api/ilerlet", "api/konum-tasi", "api/cagri-ekle")
+YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla", "api/kimlik", "api/ilerlet", "api/konum-tasi", "api/cagri-ekle", "api/oneri")
 
 
 def temiz_kayit(gelen):
@@ -222,6 +222,25 @@ def cagri_ekle(veri, istek):
     return cagri(veri, {"kayit": k, "musteri": {"ad": metin(istek.get("ad"), 80) or "Test müşterisi", "tel": metin(istek.get("tel"), 20)}})
 
 
+def oneri_islem(veri, istek):
+    """Müşteri, ilçede uygun SPY olmadığında önerilen randevuya yanıt verdi: {id, karar: kabul|red}.
+    kabul: çağrı önerilen gün/saate alınır ve o saate uygun SPY'ye teklif edilir. red: öneri kalkar, çağrı "kimse almadı" olarak bekler (müşteri başka saat seçer)."""
+    k = veri["kayitlar"].get(str(istek.get("id") or ""))
+    if not k or not k.get("oneri") or k.get("durum") != "alindi":
+        raise ValueError("Bekleyen bir randevu önerisi yok.")
+    o = k.pop("oneri")
+    ad = (k.get("musteri") or {}).get("ad") or "Müşteri"
+    k["oneriYok"] = True  # bir daha otomatik öneri üretilmez
+    if istek.get("karar") == "kabul":
+        k.update({"tarih": o["tarih"], "saat": o["saat"], "gunYazi": o["gunYazi"], "sahipsiz": False, "repId": None, "teklif": {"denenen": []}})
+        olay(veri, f"{ad}: önerilen randevuyu kabul etti → {o['gunYazi']} {o['saat']}", k["id"])
+        teklif_et(veri, k, " (önerilen randevu)")
+    else:
+        olay(veri, f"{ad}: önerilen randevuyu kabul etmedi, başka saat seçecek", k["id"])
+    damga(veri, k)
+    return k
+
+
 def giris_kodu(veri, istek):
     tel = tel_temiz(istek.get("tel"))
     kod = metin(istek.get("kod"), 6)
@@ -274,7 +293,7 @@ def sifirla(veri, istek):
 
 ISLEMLER = {"api/cagri": cagri, "api/kayit": kayit, "api/mesaj": mesaj, "api/spy": spy_durum, "api/aktar": aktar,
             "api/konum": konum, "api/kod": giris_kodu, "api/musteri": musteri_islem, "api/dogrulama": dogrulama_islem, "api/sifirla": sifirla, "api/kimlik": kimlik, "api/ilerlet": ilerlet,
-            "api/konum-tasi": konum_tasi, "api/cagri-ekle": cagri_ekle}
+            "api/konum-tasi": konum_tasi, "api/cagri-ekle": cagri_ekle, "api/oneri": oneri_islem}
 
 
 def uygula(veri, yol, istek):
@@ -286,7 +305,8 @@ def uygula(veri, yol, istek):
 def spy_ozet(veri, s):
     hal = "molada" if s.get("durum") == "molada" else "randevuda" if randevuda_mi(veri, s["id"]) else "bosta"
     bugunku = sum(1 for x in veri["kayitlar"].values() if x.get("repId") == s["id"] and x.get("tarih") == bugun() and x.get("durum") != "iptal")
-    return {**s, "hal": hal, "konumAn": anlik_konum(veri, s), "canliKonum": bool(canli_konum(s["id"])), "bugunCagri": bugunku,
+    konum_, kaynak = konum_ve_kaynak(veri, s)
+    return {**s, "hal": hal, "konumAn": konum_, "geziyor": kaynak == "gezi", "canliKonum": bool(canli_konum(s["id"])), "bugunCagri": bugunku,
             "sonGorulme": GORULME.get(s["id"], 0), "bildirim": bildirim.bildirim_sayisi(s["id"])}
 
 

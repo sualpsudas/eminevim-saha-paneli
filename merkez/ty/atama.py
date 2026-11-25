@@ -7,7 +7,8 @@ Ağırlıklar ve sınırlar merkez/ty/ayarlar.py'de; konum konum.py'den; H/G de�
 import time
 
 from .ayarlar import AGIRLIK, ARALIK_DK, GUNLUK_SINIR, HEMEN_DK, HG_TAVAN, KABUL_SN, KAPALI_DURUMLAR, YAKINLIK_KM
-from .bildirim import bildir
+from .bildirim import bildir, bildir_musteri
+from .bolge import ilce_bul
 from .konum import anlik_konum
 from .yardim import bugun, dakika, damga, km, olay, simdi
 
@@ -44,6 +45,7 @@ def mesgul_mu(veri, spy_id, haric_id=None):
 
 def adaylar(veri, k, haric=()):
     """Eleme + puan. Döner: puana göre sıralı [(puan, spy, gerekçe, km)].
+    Yalnız müşterinin ilçesindeki SPY'ler aday olur (ilçe pilot sınırlarından bulunur; bölge dışıysa ilçe denetimi yok).
     Hemen: molada, başka müşteriye bağlı (teklif/atandı/yolda/görüşmede), günlük sınırı dolan elenir (uygulaması kapalı olabilir: bildirim gider); puan yakınlık 50, H/G 30, bugünkü çağrı 20.
     İleri saat/gün: o gün sınırı dolan, o saatin ±90 dk'sında randevusu olan elenir; puan H/G 50, yakınlık 30, o günkü çağrı 20."""
     konum = k.get("konum") or {}
@@ -51,9 +53,10 @@ def adaylar(veri, k, haric=()):
     hemen = hemen_mi(k)
     a = AGIRLIK["hemen" if hemen else "ileri"]
     gun_kayit = [x for x in veri["kayitlar"].values() if x.get("tarih") == tarih and x.get("durum") != "iptal" and x["id"] != k.get("id")]
+    ilce = ilce_bul(konum.get("lat"), konum.get("lng")) if isinstance(konum.get("lat"), (int, float)) and isinstance(konum.get("lng"), (int, float)) else None
     sonuc = []
     for s in veri["spyler"].values():
-        if s["id"] in haric:
+        if s["id"] in haric or (ilce and s.get("ilce") != ilce):  # SPY yalnız kendi ilçesindeki müşteriye gider
             continue
         benim = [x for x in gun_kayit if x.get("repId") == s["id"]]
         if len(benim) >= GUNLUK_SINIR:
@@ -78,6 +81,38 @@ def adaylar(veri, k, haric=()):
     return sorted(sonuc, key=lambda x: -x[0])
 
 
+GUN_AD = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"]
+AY_AD = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"]
+RANDEVU_BAS, RANDEVU_SON = 10 * 60, 20 * 60  # önerilebilen saat aralığı (web formundaki gibi 10:00–20:00)
+
+
+def oneri_bul(veri, k):
+    """İlçede o an uygun SPY yoksa müşteriye önerilecek ilk randevu: bugünden 7 gün içinde, 30 dakikalık adımlarla, ilçedeki bir SPY'nin
+    ileri-saat kurallarına (günlük sınır, ±90 dk çakışma) uyduğu ilk saat. Döner: {"tarih","saat","gunYazi","repId","repAd"} ya da None."""
+    haric = set(k.get("eskiRepler", []))
+    an = time.time() + (HEMEN_DK + 1) * 60
+    ist = dakika(k.get("saat"))
+    if k.get("tarih") and ist is not None:  # istenen saatten önce önerilmez
+        try:
+            an = max(an, time.mktime(time.strptime(k["tarih"], "%Y-%m-%d")) + ist * 60 + 30 * 60)
+        except ValueError:
+            pass
+    adim = 30 * 60
+    t = (int(an) // adim + 1) * adim
+    for _ in range(7 * 48):
+        yerel = time.localtime(t)
+        dk = yerel.tm_hour * 60 + yerel.tm_min
+        if RANDEVU_BAS <= dk <= RANDEVU_SON:
+            tarih = time.strftime("%Y-%m-%d", yerel)
+            k2 = {**k, "tarih": tarih, "saat": time.strftime("%H:%M", yerel)}
+            liste = adaylar(veri, k2, haric)
+            if liste:
+                gun = "Bugün" if tarih == bugun() else f"{yerel.tm_mday} {AY_AD[yerel.tm_mon - 1]} {GUN_AD[yerel.tm_wday]}"
+                return {"tarih": tarih, "saat": k2["saat"], "gunYazi": gun, "repId": liste[0][1]["id"], "repAd": liste[0][1]["ad"]}
+        t += adim
+    return None
+
+
 ILETIM_BEKLEME_SN = 4  # çağrı geldikten sonra SPY'ye iletilene kadar (sunumda "alındı" aşaması görünsün)
 
 
@@ -93,10 +128,18 @@ def teklif_et(veri, k, neden=""):
         ilk = not k.get("sahipsiz")
         k.update({"repId": None, "sahipsiz": True, "durum": "alindi", "gerekce": ""})
         t["bitis"] = 0
-        if ilk:
+        if not k.get("oneri") and not k.get("oneriYok") and not k.get("bolgeDisi"):
+            o = oneri_bul(veri, k)
+            if o:  # ilçede şu an uygun SPY yok: müşteriye sonraki uygun randevu saati önerilir (uygulamada kabul / başka saat)
+                k["oneri"] = o
+                olay(veri, f"{ad}: ilçede şu an uygun SPY yok → randevu önerildi: {o['gunYazi']} {o['saat']} ({o['repAd']}){neden}", k["id"])
+                bildir_musteri(k, "Bu saatte uygun temsilcimiz yok", f"Size {o['gunYazi']} {o['saat']} için randevu önerelim. Uygulamadan onaylayabilirsiniz.")
+                return k
+        if ilk and not k.get("oneri"):
             olay(veri, f"{ad}: uygun SPY kalmadı → kimse almadı{neden}", k["id"])
         return k
     puan, spy, gerekce, uzak = liste[0]
+    k.pop("oneri", None)  # uygun SPY çıktı: öneri geçersiz, çağrı doğrudan teklif edilir
     if k.get("repId") and k["repId"] != spy["id"]:
         k["eskiRepler"] = sorted(set(k.get("eskiRepler", [])) | {k["repId"]})
     t["denenen"].append(spy["id"])

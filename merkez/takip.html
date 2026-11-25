@@ -249,7 +249,8 @@
     return '<b>'+e(s.ad)+'</b><br><span class="renk r-'+e(s.hal)+'"></span> '+h[0]+(r?' · '+(r.musteri&&r.musteri.ad||"Müşteri")+' ('+DURUM[r.durum]+')':'')+
       '<br>Ciro '+e(s.ciroHG)+'% · Rnd '+e(s.randevuHG)+'%<br><span style="color:#666">'+e(s.mahalle)+', '+e(s.ilce)+'</span>'+(DEMO?"":spyTasinir(s)?TASI_IPUCU:TASINMAZ);
   }
-  function cagriBilgi(k){if(k.bolgeDisi)return '<b>Pilot bölge dışı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br><span style="color:#666">Temsilci gönderilmez, telefonla görüşülür. Bölge içine taşırsanız çağrı yeniden teklif edilir.</span>'+(DEMO?"":TASI_IPUCU);
+  function cagriBilgi(k){if(k.oneri)return '<b>Randevu önerildi</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br>İstenen: '+e(k.gunYazi||k.tarih)+' '+e(k.saat)+'<br><b>Önerilen: '+e(k.oneri.gunYazi)+' '+e(k.oneri.saat)+'</b> ('+e(k.oneri.repAd)+')<br><span style="color:#666">İlçede şu an uygun SPY yok; müşterinin uygulamadan onayı bekleniyor.</span>'+(DEMO?"":TASI_IPUCU);
+    if(k.bolgeDisi)return '<b>Pilot bölge dışı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br><span style="color:#666">Temsilci gönderilmez, telefonla görüşülür. Bölge içine taşırsanız çağrı yeniden teklif edilir.</span>'+(DEMO?"":TASI_IPUCU);
     return '<b>Kimse almadı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br>'+e(k.gunYazi||k.tarih)+' '+e(k.saat)+'<br><span style="color:#666">Uygun SPY çıkınca kendiliğinden teklif edilir.</span>'+(DEMO?"":TASI_IPUCU);}
   var ASAMA={alindi:"çağrı geldi",atandi:"SPY kabul etti",netlesti:"saat onaylandı",yolda:"SPY yolda",gorusme:"SPY yolda",gorusmede:"görüşmede"};
   function musteriBilgi(k){
@@ -285,7 +286,12 @@
   var saatFark=0;
   function yolCagri(s){return Object.values(veri.kayitlar).filter(function(k){return k.repId===s.id&&(k.durum==="yolda"||k.durum==="gorusme")&&k.yolBasladi&&k.yolBaslangic&&k.konum;})[0];}
   function animKonum(s){
-    var k=yolCagri(s); if(!k)return null;
+    var k=yolCagri(s);
+    if(!k){  // hareketli örnek SPY: ilçesinde dolaşır (formül merkezdeki konum.gezi_konum ile aynı)
+      if(!s.geziyor||!s.gezi)return null;
+      var ts=(Date.now()+saatFark)/1000, g=s.gezi;
+      return {lat:s.lat+g.enlem[0]*Math.sin(2*Math.PI*ts/g.enlem[1]+g.enlem[2]),lng:s.lng+g.boylam[0]*Math.sin(2*Math.PI*ts/g.boylam[1]+g.boylam[2])};
+    }
     var p=Math.min(1,Math.max(0,(Date.now()+saatFark-k.yolBasladi)/(k.yolSure||1))), a=k.yolBaslangic, b=k.konum;
     var yol=rotaOnbellek[k.id+"|"+a.lat.toFixed(4)+","+a.lng.toFixed(4)];
     if(!Array.isArray(yol)||yol.length<2){var n={lat:a.lat+(b.lat-a.lat)*p,lng:a.lng+(b.lng-a.lng)*p};n.kalan=[[n.lat,n.lng],[b.lat,b.lng]];return n;}
@@ -301,6 +307,7 @@
       var m=isaretler[s.id],c=m&&!suruk&&animKonum(s),k=yolCagri(s);
       if(!c){if(k&&kalanCizgi[k.id]&&rotaKatman.hasLayer(kalanCizgi[k.id]))rotaKatman.removeLayer(kalanCizgi[k.id]);return;}
       m.setLatLng([c.lat,c.lng]);
+      if(!k)return;
       var l=kalanCizgi[k.id]; if(!l)l=kalanCizgi[k.id]=L.polyline(c.kalan,{color:"#ea803f",weight:3,opacity:.85,interactive:false});
       l.setLatLngs(c.kalan); if(!rotaKatman.hasLayer(l))l.addTo(rotaKatman);  // ilerledikçe rota kısalır
     });
@@ -313,7 +320,8 @@
     var sayac={tumu:veri.spyler.length,bosta:0,randevuda:0,molada:0};
     veri.spyler.forEach(function(s){sayac[s.hal]=(sayac[s.hal]||0)+1;});
     var sah=sahipsizler();
-    document.getElementById("sayilar").innerHTML=[["Gelen Çağrı",veri.bugun.gelen],["Görüşme Sayısı",veri.bugun.gorusme]].concat(sah.filter(function(k){return !k.bolgeDisi;}).length?[["Kimse almadı",sah.filter(function(k){return !k.bolgeDisi;}).length,"uyari"]]:[]).concat(sah.some(function(k){return k.bolgeDisi;})?[["Pilot bölge dışı",sah.filter(function(k){return k.bolgeDisi;}).length,"uyari"]]:[])
+    document.getElementById("sayilar").innerHTML=[["Gelen Çağrı",veri.bugun.gelen],["Görüşme Sayısı",veri.bugun.gorusme]].concat([["Kimse almadı",function(k){return !k.bolgeDisi&&!k.oneri;}],["Randevu önerildi",function(k){return !!k.oneri;}],["Pilot bölge dışı",function(k){return !!k.bolgeDisi;}]]
+        .map(function(z){var n=sah.filter(z[1]).length;return n?[z[0],n,"uyari"]:null;}).filter(Boolean))
       .map(function(x){return '<div class="sayi '+(x[2]||"")+'"><b>'+x[1]+'</b><span>'+x[0]+' · bugün</span></div>';}).join("");
     var MAS=[["alindi","Yeni çağrı","#ffffff"],["atandi","Atandı","#ea803f"],["yolda","Yolda","#ea803f"],["gorusmede","Görüşmede","#ea803f"],["sahipsiz","Kimse almadı","#c0392b"]], msay={tumu:0,alindi:0,atandi:0,yolda:0,gorusmede:0,sahipsiz:0};
     Object.values(veri.kayitlar).forEach(function(k){if(KAPALI[k.durum]||!k.konum||k.konum.lat==null)return;var a=asama(k);msay.tumu++;msay[a]=(msay[a]||0)+1;});
@@ -341,7 +349,7 @@
     });
     rotalar();
     sah.filter(function(){return gM&&mSec.sahipsiz;}).forEach(function(k){
-      cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:k.bolgeDisi?"Pilot bölge dışı":"Kimse almadı",draggable:musteriTasinir(k),icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[16,16],iconAnchor:[8,8]})});
+      cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:k.oneri?"Randevu önerildi":k.bolgeDisi?"Pilot bölge dışı":"Kimse almadı",draggable:musteriTasinir(k),icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[16,16],iconAnchor:[8,8]})});
       surukle(cagriIsaret[k.id],"musteri",k.id);
       bagla(cagriIsaret[k.id],cagriBilgi(k)).addTo(spyKatman);
     });

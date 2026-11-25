@@ -1478,6 +1478,7 @@ html.native-app .customer-finance-actions button { min-height: 54px !important; 
 </div>
 <sc-if value="{{ mGecikmeVar }}"><div class="m-kart m-uyari" role="status">{{ mGecikmeYazi }}</div></sc-if>
 <sc-if value="{{ mDegisiklikVar }}"><div class="m-kart m-not"><h3>Yeni zaman öneriniz iletildi</h3><p>{{ mDegisiklikYazi }}</p><p>Temsilcinizin onayı bekleniyor. Yukarıdaki mevcut randevunuz henüz değişmedi.</p><button class="m-btn o" onClick="{{ mDegisiklikVazgec }}">Öneriyi geri çek</button></div></sc-if>
+<sc-if value="{{ mOneriVar }}"><div class="m-kart m-not" role="status"><h3>Size başka bir saat önerelim</h3><p>{{ mOneriYazi }}</p><p>Seçtiğiniz saatte ilçenizde uygun temsilcimiz bulunmuyor.</p><button class="m-btn" onClick="{{ mOneriKabul }}">Bu saati kabul et</button><button class="m-btn o" onClick="{{ mOneriRed }}">Başka saat seç</button></div></sc-if>
 <sc-if value="{{ mYaninizdaVar }}"><div class="m-kart m-not"><h3>✓ Temsilciniz doğrulandı</h3><p>{{ mRepAd }} · Sicil {{ mRepSicil }}<br>Görüşme başlangıcı {{ mDogrulamaSaat }}</p></div></sc-if>
 <sc-if value="{{ mDegistirVar }}"><div class="m-actions"><button class="m-btn o m-btn-degis" onClick="{{ mDegistir }}">Tarihi değiştir</button><button class="m-btn o m-btn-iptal" onClick="{{ mIptalAc }}">İptal et</button></div></sc-if>
 
@@ -2830,6 +2831,8 @@ class Component extends DCLogic {
       mQrAc:()=>this.mQrHazirla(false),mQrBekliyor:!verified,mQrTamam:verified,mQrKod:kapiKod?(kapiKod.son>Date.now()?kapiKod.kod.split("").join(" "):"Süresi doldu"):canliKapi?(s.mKapiHata||"Kod alınıyor…"):t?.dogrulama?.son>Date.now()?t.dogrulama.kod.split("").join(" "):"Süresi doldu",
       mQrSrc:kapiKod?qrResim(JSON.stringify({randevu:t.id,revision:kapiKod.revision,kod:kapiKod.kod})):canliKapi?"":qrResim(JSON.stringify({randevu:t?.id,revision:t?.revision,kod:t?.dogrulama?.kod})),mQrOrnek:()=>this.dogrula(false),mQrOrnekVar:!canliKapi,mDogrulamaSaat:saat,
       mDegistirVar:!!t&&t.tip==="ziyaret"&&!Appointment.terminal(t)&&!verified,
+      mOneriVar: !!t?.oneri && t.durum === "alindi", mOneriYazi: t?.oneri ? t.oneri.gunYazi + " · " + t.oneri.saat + " · " + (t.yer || "") : "",
+      mOneriKabul: () => this.mOneriYanit("kabul"), mOneriRed: () => this.mOneriYanit("red"),
       mDegisiklikVar:!!t?.degisiklik,mDegisiklikYazi:t?.degisiklik?t.degisiklik.gunYazi+" · "+t.degisiklik.saat+" · "+t.degisiklik.yer:"",
       mDegisiklikVazgec:()=>this.mKayitYaz({...t,degisiklik:null}),
       mGecikmeVar:moving&&!!t?.gecikme,mGecikmeYazi:"Yaklaşık "+(t?.gecikme||0)+" dakika gecikme. Randevunuz "+(t?.saat||"")+"; güncel tahmini varış "+(eta?.saat||"bekleniyor")+".",
@@ -2898,6 +2901,16 @@ class Component extends DCLogic {
     if (k.bolge) { this.setState({ yaAdim: 2, yaIlce: k.adres, yaHata: "" }); return; }
     // Bölge dışı: temsilci gelemez → telefonla görüşme talebi
     this.setState({ yaIlce: k.adres, yaTelefonla: true, yaAdim: 3, yaHata: "", yaDegistir: false, mTalep: { tip: "telefon", durum: "alindi", bolgeDisi: true } }, () => this.yaTalebiPanele());
+  }
+  mOneriYanit(karar) {
+    // İlçede uygun SPY olmayınca merkezin önerdiği randevu: kabul → o saate teklif edilir; red → müşteri kendi saatini seçer
+    const t = this.state.mTalep;
+    if (!t || !CANLI) return;
+    Canli.gonder("api/oneri", { id: t.id, karar }).then((v) => {
+      if (v.sonuc && v.sonuc.id) this.canliUygula([v.sonuc]);
+      if (karar === "red") this.mDegistir();
+      else this.showBildirim({ ad: "Randevunuz alındı", ilce: "Temsilciniz onayladığında bildirim alacaksınız" });
+    }).catch((err) => this.showBildirim({ ad: "İşlem yapılamadı", ilce: err.message }));
   }
   mDegistir() {
     // Gün/saat (ve istenirse yer) değişikliği: haritadan sonraki adımdan başlar; temsilci onaylayınca netleşir

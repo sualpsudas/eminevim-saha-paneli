@@ -78,6 +78,24 @@ def _ilerle(veri, k):
     return yeni
 
 
+SIM_KABUL_SN = 4  # hareketli örnek SPY teklifi bu kadar sonra kendiliğinden kabul eder (gerçek SPY uygulamadan kabul eder)
+
+
+def sim_kabul(veri):
+    """Hareketli örnek SPY'ye giden teklif birkaç saniye sonra kabul edilir (müşteriye "temsilciniz belli oldu" gider). Değişiklik olduysa True."""
+    degisti = False
+    for k in veri["kayitlar"].values():
+        s = veri["spyler"].get(k.get("repId") or "")
+        if s and s.get("sim") and k.get("durum") == "alindi" and not k.get("sahipsiz") and k.get("atanma") and simdi() >= k["atanma"] + SIM_KABUL_SN * 1000:
+            degisti = bool(_ilerle(veri, k)) or degisti
+    return degisti
+
+
+def sunum_denetle(veri):
+    """Bekçi (her saniye): örnek SPY kabulü + varışta görüşme. Değişiklik olduysa True."""
+    return sim_kabul(veri) | varis_denetle(veri)
+
+
 def ilerlet(veri, _istek=None):
     """api/ilerlet: açık çağrıların hepsi bir aşama ilerler. Döner: {"ilerleyen": sayı}."""
     sayi = 0

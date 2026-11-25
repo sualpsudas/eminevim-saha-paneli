@@ -6,9 +6,10 @@
      Giriş noktası: konum_yaz(spy_id, lat, lng) — merkezde POST api/konum {id, lat, lng}. Uygulama bunu henüz göndermiyor;
      canlı takip devreye alınınca uygulama ya da IT'nin sistemi bu adrese yazar.
   2. Bugünkü son randevusunun yeri (görüşmede / tamamlandı; yolda iken SPY henüz varmadı, eski yerinde kalır ki rota çizilsin).
-  3. Kayıtlı sabit konumu (veri/spyler.js: lat, lng).
+  3. Hareketli örnek SPY: ilçesinde dolaşma (gezi_konum); diğerleri kayıtlı sabit konumu (veri/spyler.js: lat, lng).
 Canlı konum yalnız bellekte tutulur (merkez yeniden başlayınca silinir).
 """
+import math
 import threading
 
 from .ayarlar import CANLI_KONUM_DK
@@ -38,21 +39,37 @@ def canli_konum(spy_id):
     return k if k and simdi() - k["t"] <= CANLI_KONUM_DK * 60000 else None
 
 
-def anlik_konum(veri, s):
+def gezi_konum(s, t_ms=None):
+    """Hareketli örnek SPY'nin zamana bağlı konumu: tabanı çevresinde yavaş, düzgün dolaşma (lat/lng = taban + genlik·sin(2πt/periyot + faz)).
+    Takip sayfası aynı formülü tarayıcıda hesaplar (akıcı hareket için)."""
+    t = (t_ms if t_ms is not None else simdi()) / 1000
+    g = s["gezi"]
+    return {"lat": s["lat"] + g["enlem"][0] * math.sin(2 * math.pi * t / g["enlem"][1] + g["enlem"][2]),
+            "lng": s["lng"] + g["boylam"][0] * math.sin(2 * math.pi * t / g["boylam"][1] + g["boylam"][2])}
+
+
+def konum_ve_kaynak(veri, s):
+    """(konum, kaynak): kaynak yol | elle | canli | randevu | gezi | sabit."""
     for x in veri["kayitlar"].values():  # sunumda yola çıkmış: başlangıçtan müşteriye zamana göre ilerler
         if x.get("repId") == s["id"] and x.get("durum") in ("yolda", "gorusme") and x.get("yolBasladi") and x.get("yolBaslangic") and isinstance(x.get("konum"), dict):
             p = min(1.0, max(0.0, (simdi() - x["yolBasladi"]) / (x.get("yolSure") or 1)))
             a, b = x["yolBaslangic"], x["konum"]
-            return {"lat": a["lat"] + (b["lat"] - a["lat"]) * p, "lng": a["lng"] + (b["lng"] - a["lng"]) * p}
+            return {"lat": a["lat"] + (b["lat"] - a["lat"]) * p, "lng": a["lng"] + (b["lng"] - a["lng"]) * p}, "yol"
     elle = (veri.get("elleKonum") or {}).get(s["id"])  # yönetici haritada sürükleyerek taşıdı: test sıfırlanana ya da canlı konum gelene kadar geçerli
     if elle:
-        return {"lat": elle["lat"], "lng": elle["lng"]}
+        return {"lat": elle["lat"], "lng": elle["lng"]}, "elle"
     k = canli_konum(s["id"])
     if k:
-        return {"lat": k["lat"], "lng": k["lng"]}
+        return {"lat": k["lat"], "lng": k["lng"]}, "canli"
     son = [x for x in veri["kayitlar"].values() if x.get("repId") == s["id"] and x.get("tarih") == bugun()
            and x.get("durum") in ("gorusmede", "tamamlandi") and isinstance(x.get("konum"), dict) and "lat" in x["konum"]]
     if son:
         x = max(son, key=lambda y: y.get("guncelleme", 0))["konum"]
-        return {"lat": x["lat"], "lng": x["lng"]}
-    return {"lat": s["lat"], "lng": s["lng"]}
+        return {"lat": x["lat"], "lng": x["lng"]}, "randevu"
+    if s.get("gezi"):
+        return gezi_konum(s), "gezi"
+    return {"lat": s["lat"], "lng": s["lng"]}, "sabit"
+
+
+def anlik_konum(veri, s):
+    return konum_ve_kaynak(veri, s)[0]
