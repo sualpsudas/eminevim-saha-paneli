@@ -102,6 +102,9 @@
   .leaflet-tooltip.mah-ad::before{display:none}
   .leaflet-tooltip.ilce-ad{background:rgba(255,255,255,.5);border:0;box-shadow:none;color:var(--yesil);opacity:.45;font-size:13px;font-weight:800;padding:2px 8px;border-radius:10px}  /* ilçe adı arka planda, soluk */
   .leaflet-tooltip.ilce-ad::before{display:none}
+  .leaflet-tooltip.spy-ad{display:none;background:rgba(255,255,255,.9);border:0;box-shadow:0 1px 3px rgba(0,0,0,.25);color:#1b3a2d;font-size:11px;font-weight:700;padding:1px 6px;border-radius:8px;pointer-events:none}
+  .leaflet-tooltip.spy-ad::before{display:none}
+  .yakin-ad .leaflet-tooltip.spy-ad{display:block}
   .gizli-ad .mah-ad{display:none}
   .leaflet-popup-content{font-size:13px;line-height:1.45;margin:10px 12px}
   .leaflet-popup-content b{font-size:14px}
@@ -215,11 +218,11 @@
   var ilceKatman=L.featureGroup().addTo(harita);
   harita.createPane("ilceAd").style.zIndex=420;  // işaretlerin (600) ve rotaların arkasında
   S.ilceler.forEach(function(i){
-    L.polygon(i.halkalar,{color:"#00724c",weight:2.8,opacity:.95,fillColor:"#00724c",fillOpacity:.09,interactive:false}).bindTooltip(i.ad,{permanent:true,direction:"center",className:"ilce-ad",pane:"ilceAd"}).addTo(ilceKatman);
+    L.polygon(i.halkalar,{color:"#00724c",weight:1.8,opacity:.9,fillColor:"#00724c",fillOpacity:.08,interactive:false}).bindTooltip(i.ad,{permanent:true,direction:"center",className:"ilce-ad",pane:"ilceAd"}).addTo(ilceKatman);
   });
   function sigdir(){harita.invalidateSize();if(S.ilceler.length)harita.fitBounds(ilceKatman.getBounds(),{padding:[10,10]});}
   sigdir(); addEventListener("load",sigdir); setTimeout(sigdir,400);  // telefonda yerleşim geç oturuyor
-  function adGorunur(){document.getElementById("harita").classList.toggle("gizli-ad",harita.getZoom()<13);}
+  function adGorunur(){var h=document.getElementById("harita");h.classList.toggle("gizli-ad",harita.getZoom()<13);h.classList.toggle("yakin-ad",harita.getZoom()>=14);}  // yakınlaşınca personel adları görünür
   harita.on("zoomend",adGorunur); adGorunur();
   var spyKatman=L.layerGroup().addTo(harita), isaretler={}, cagriIsaret={};
   // Telefonda (dar ekran) ayrıntı balon yerine alttan kart olarak açılır; işaretler parmak için büyük
@@ -357,6 +360,7 @@
       var k=animKonum(s)||s.konumAn||s, eslesti=acikCagrilar().some(function(c){return c.repId===s.id;}), renk=eslesti?"#00724c":(HAL[s.hal]||HAL.bosta)[1];  // temsilci belli olunca SPY de dolar
       var yanda=gM&&acikCagrilar().some(function(c){return Math.abs(c.konum.lat-k.lat)<.0005&&Math.abs(c.konum.lng-k.lng)<.0007;});  // müşterinin yanında: üst üste binmesin
       isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,draggable:spyTasinir(s),icon:L.divIcon({className:"",html:'<div class="spy-ik'+(s.sim?' hare':'')+'" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px"></div>',iconSize:[boy,boy],iconAnchor:[yanda?boy/2-22:boy/2,boy/2]})});
+      isaretler[s.id].bindTooltip(e(s.ad),{permanent:true,direction:"top",offset:[0,-boy/2-1],className:"spy-ad"});
       surukle(isaretler[s.id],"spy",s.id);
       bagla(isaretler[s.id],spyBilgi(s)).addTo(spyKatman);
     });
