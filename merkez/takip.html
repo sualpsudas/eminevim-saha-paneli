@@ -71,7 +71,6 @@
   .musteri-ik{width:14px;height:14px;border-radius:50%;background:#1e3856;border:2px solid #fff;box-shadow:0 0 0 1.5px #1e3856}
   .harita-kap{flex:1;min-height:380px;position:relative;border-radius:14px;overflow:hidden;border:1px solid var(--cizgi);background:#fff}
   #harita{position:absolute;inset:0}
-  #harita .leaflet-tile-pane{filter:saturate(.65) brightness(1.04) contrast(.95)}
   .bos{color:var(--yazi);font-size:14px;margin:0;padding:16px;background:#fff;border:1px solid var(--cizgi);border-radius:12px}
   /* Uygulamanın içinde (Saha Canlı sekmesi): harita kısa, kişi kartları ilk ekranda */
   body.gomulu .harita-kap{flex:1;min-height:280px}
@@ -138,7 +137,34 @@
   var veri={spyler:[],kayitlar:{},bugun:{gelen:0,gorusme:0}}, surum=0, sifirlama=-1, gP=true, gM=true, pSec={bosta:1,randevuda:1,molada:1}, mSec={alindi:1,atandi:1,yolda:1,gorusmede:1,sahipsiz:1}, menuAcik=false, ilkSinir=null;
   var harita=L.map("harita",{zoomSnap:.5}).setView([41.01,29.09],12);
   // Altlık: standart sokak haritası (OpenStreetMap; tüm caddeler ve yazılar çizili). Önceki sade gri vektör altlık için git geçmişine bak (2026-11-24).
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap"}).addTo(harita);
+  // 2026-11-25: sade, renkli vektör altlık (OpenFreeMap "bright" stili, renkleri Google Haritalar'a yaklaştırılmış; gereksiz katmanlar kapalı). Açılmazsa eski OSM resmi.
+  function osmYedek(){L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap"}).addTo(harita);}
+  function sadeStil(st){
+    var GIZLE=/^(poi|road_oneway|ferry|railway|tunnel-railway|bridge-railway|aeroway|airport|boundary|cablecar|building|highway-shield|road_shield|waterway_line_label|highway-name-path|landuse-|landcover-(glacier|ice|sand)|label_(state|country))/;
+    st.layers.forEach(function(l){
+      var p=l.paint=l.paint||{}, id=l.id;
+      l.layout=l.layout||{};
+      if(GIZLE.test(id)){l.layout.visibility="none";return;}
+      if(id==="background")p["background-color"]="#f3f3f1";
+      else if(/^(park|landcover-wood|landcover-grass)/.test(id)){p["fill-color"]="#cfe7c5";p["fill-opacity"]=1;}
+      else if(/^water$|^water-intermittent$/.test(id)){p["fill-color"]="#a9dcf0";p["fill-opacity"]=1;}
+      else if(/^waterway/.test(id))p["line-color"]="#a9dcf0";
+      else if(/^(highway|bridge|tunnel)-/.test(id)&&l.type==="line"){
+        var kasa=/casing/.test(id), buyuk=/motorway|trunk|primary/.test(id);
+        p["line-color"]=buyuk?(kasa?"#aab6cc":"#e1e7f1"):(kasa?"#d6d9de":"#ffffff");
+        p["line-opacity"]=1;
+      }
+      else if(l.type==="symbol"){
+        p["text-color"]="#5f6368";p["text-halo-color"]="#ffffff";p["text-halo-width"]=1.6;
+        if(/^label_(other|village|town)$/.test(id))l.minzoom=Math.max(l.minzoom||0,13);  // küçük semt adları yalnız yakınlaşınca
+      }
+    });
+    return st;
+  }
+  fetch("https://tiles.openfreemap.org/styles/bright").then(function(r){return r.json();}).then(function(st){
+    L.maplibreGL({style:sadeStil(st)}).addTo(harita);
+    harita.attributionControl.addAttribution('<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; OpenMapTiles, veri &copy; OpenStreetMap');
+  }).catch(osmYedek);
   // Pilot bölge: ilçe sınırları kalın yeşil, mahalleler ince çizgi + ad (yakınlaşınca)
   var S=window.TY_SINIRLAR||{ilceler:[],mahalleler:[]};
   var ilceKatman=L.featureGroup().addTo(harita);
