@@ -366,8 +366,11 @@
   // Çağrı ekle: düğme → haritada yere dokun → ad/telefon/yer formu → merkeze gerçek kayıt (Test verisini sıfırla'ya kadar kalır; uygulama akışı aynen çalışır)
   var ekleModu=false, ekleNokta=null, ekleIsaret=null, ekleForm=document.createElement("div");
   ekleForm.className="ekle-form"; ekleForm.hidden=true;
-  ekleForm.innerHTML='<b>Örnek çağrı ekle</b><label>Ad Soyad<input id="eAd" autocomplete="off" value="Örnek Müşteri"></label><label>Telefon<input id="eTel" inputmode="tel" autocomplete="off" placeholder="05xx xxx xx xx"></label><label>Yer (mahalle/adres)<input id="eYer" autocomplete="off"></label><div class="ekle-hata" id="eHata"></div><div class="ekle-dugme"><button type="button" id="eVazgec">Vazgeç</button><button type="button" id="eGonder" class="tamam">Çağrıyı ekle</button></div>';
+  ekleForm.innerHTML='<b>Örnek çağrı ekle</b><label>Ad Soyad<input id="eAd" autocomplete="off"></label><label>Telefon<input id="eTel" inputmode="tel" autocomplete="off" placeholder="05xx xxx xx xx"></label><label>Yer (mahalle/adres)<input id="eYer" autocomplete="off" placeholder="boş bırakılabilir"></label><div class="ekle-hata" id="eHata"></div><div class="ekle-dugme"><button type="button" id="eVazgec">Vazgeç</button><button type="button" id="eGonder" class="tamam">Çağrıyı ekle</button></div>';
   document.body.appendChild(ekleForm);
+  var ADLAR=["Ayşe","Mehmet","Fatma","Mustafa","Zeynep","Ahmet","Elif","Hasan","Merve","Emre","Selin","Burak","Deniz","Can","Esra","Murat"], SOYADLAR=["Yılmaz","Kaya","Demir","Çelik","Şahin","Yıldız","Aydın","Öztürk","Arslan","Doğan","Kılıç","Aslan","Polat","Erdem","Koç","Tekin"];
+  function rast(a){return a[Math.floor(Math.random()*a.length)];}
+  function rastTel(){var s="05"+rast(["30","32","33","35","36","42","44","54","55"]);for(var i=0;i<7;i++)s+=Math.floor(Math.random()*10);return s;}
   var ekleBtn=L.control({position:"topright"});
   ekleBtn.onAdd=function(){var d=L.DomUtil.create("div","ekle-kap");d.innerHTML='<button type="button" id="eBtn">+ Çağrı ekle</button><div id="eIpucu" hidden>Haritada müşterinin yerine dokunun</div>';L.DomEvent.disableClickPropagation(d);return d;};
   if(!DEMO)ekleBtn.addTo(harita);
@@ -377,7 +380,8 @@
     else if(ev.target.id==="eVazgec")ekleKapat();
     else if(ev.target.id==="eGonder"){
       var ad=document.getElementById("eAd").value.trim(), tel=document.getElementById("eTel").value.trim(), yer=document.getElementById("eYer").value.trim(), h=document.getElementById("eHata");
-      if(!ad||!yer){h.textContent="Ad ve yer boş olamaz.";return;}
+      if(!ad){h.textContent="Ad boş olamaz.";return;}
+      if(!yer)yer="Haritadan seçilen konum";
       ev.target.disabled=true; h.textContent="";
       fetch("api/cagri-ekle",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ad:ad,tel:tel,yer:yer,lat:ekleNokta.lat,lng:ekleNokta.lng})})
         .then(function(r){return r.json().catch(function(){return {};}).then(function(v){if(!r.ok)throw new Error(v.hata||("Hata "+r.status));});})
@@ -390,6 +394,7 @@
     ekleNokta=ev.latlng;
     if(ekleIsaret)harita.removeLayer(ekleIsaret);
     ekleIsaret=L.marker(ev.latlng,{icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[16,16],iconAnchor:[8,8]})}).addTo(harita);
+    document.getElementById("eAd").value=rast(ADLAR)+" "+rast(SOYADLAR); document.getElementById("eTel").value=rastTel(); document.getElementById("eYer").value="";
     ekleForm.hidden=false; document.getElementById("eHata").textContent=""; document.getElementById("eGonder").disabled=false;
   });
   if(DEMO){  // gösteri: merkez yok; örnek durumlarla (canlı sürümde merkezden gelir)
