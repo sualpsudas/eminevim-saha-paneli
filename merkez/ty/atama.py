@@ -56,8 +56,12 @@ def adaylar(veri, k, haric=()):
     ilce = ilce_bul(konum.get("lat"), konum.get("lng")) if isinstance(konum.get("lat"), (int, float)) and isinstance(konum.get("lng"), (int, float)) else None
     sonuc = []
     for s in veri["spyler"].values():
-        if s["id"] in haric or (ilce and s.get("ilce") != ilce):  # SPY yalnız kendi ilçesindeki müşteriye gider
+        if s["id"] in haric:
             continue
+        if ilce:  # SPY yalnız o an ilçesinde bulunduğu müşteriye gider: hemen çağrıda şu anki yeri, ileri saatte kayıtlı ilçesi (yol turu başka ilçeye taşan ya da haritada taşınan SPY'ye hemen çağrı gitmez)
+            yer = anlik_konum(veri, s)
+            if (ilce_bul(yer["lat"], yer["lng"]) if hemen else s.get("ilce")) != ilce:
+                continue
         benim = [x for x in gun_kayit if x.get("repId") == s["id"]]
         if len(benim) >= GUNLUK_SINIR:
             continue
