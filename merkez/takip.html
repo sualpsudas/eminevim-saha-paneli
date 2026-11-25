@@ -228,7 +228,6 @@
   var spyKatman=L.layerGroup().addTo(harita), isaretler={}, cagriIsaret={};
   // Genel müdürlük: küçük turuncu nokta. Konum cadde düzeyinde (Ahmet Tevfik İleri Cd., Yamanevler); bina numarası haritada yok, ~±200 m sapabilir.
   L.marker([41.02873,29.11376],{title:"Genel Müdürlük",zIndexOffset:300,icon:L.divIcon({className:"",html:'<div class="gm-ik"></div>',iconSize:[10,10],iconAnchor:[5,5]})})
-    .bindTooltip("Genel Müdürlük",{permanent:true,direction:"bottom",offset:[0,6],className:"spy-ad"})
     .bindPopup("<b>Genel Müdürlük</b><br>Yamanevler, Ahmet Tevfik İleri Cd. No:20 A<br>Ümraniye / İstanbul").addTo(harita);
   // Telefonda (dar ekran) ayrıntı balon yerine alttan kart olarak açılır; işaretler parmak için büyük
   var DAR=matchMedia("(max-width:640px)"), kisiKart=document.getElementById("kisiKart");
