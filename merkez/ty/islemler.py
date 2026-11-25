@@ -236,7 +236,7 @@ def oneri_islem(veri, istek):
     ad = (k.get("musteri") or {}).get("ad") or "Müşteri"
     k["oneriYok"] = True  # bir daha otomatik öneri üretilmez
     if istek.get("karar") == "kabul":
-        k.update({"tarih": o["tarih"], "saat": o["saat"], "gunYazi": o["gunYazi"], "sahipsiz": False, "repId": None, "teklif": {"denenen": []}})
+        k.update({"tarih": o["tarih"], "saat": o["saat"], "gunYazi": o["gunYazi"], "oneriKabul": True, "sahipsiz": False, "repId": None, "teklif": {"denenen": []}})
         olay(veri, f"{ad}: önerilen randevuyu kabul etti → {o['gunYazi']} {o['saat']}", k["id"])
         teklif_et(veri, k, " (önerilen randevu)")
     else:

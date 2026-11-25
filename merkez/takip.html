@@ -61,6 +61,8 @@
   .cn::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2.5px solid var(--c);opacity:0}
   .cn.s-alindi{--c:#ea803f;animation:yan .8s ease-in-out infinite}
   .cn.s-alindi::after,.cn.s-atandi::after,.cn.s-yolda::after{animation:halka 1.5s ease-out infinite}
+  .cn.s-randevu{background:linear-gradient(135deg,#fff 38%,#ea803f 38%,#ea803f 62%,#fff 62%);width:22px;height:22px}  /* müşteri önerilen randevuyu kabul etti: beyaz üstüne eğik turuncu çizgi + saat */
+  .rsaat{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);white-space:nowrap;background:#fff;color:#b8571a;border:1px solid #ea803f;border-radius:10px;padding:1px 7px;font:600 11px/1.4 sans-serif;box-shadow:0 1px 3px rgba(0,0,0,.25)}
   .cn.s-atandi{--f:#ea803f}
   .cn.s-yolda{--f:#ea803f}
   .cn.s-gorusmede{--f:#ea803f}
@@ -326,6 +328,8 @@
     });
     requestAnimationFrame(kare);
   })();
+  function randevuBekliyor(k){return !!k.oneriKabul&&!k.oneri&&{alindi:1,atandi:1,netlesti:1}[k.durum]===1;}  // önerilen randevuyu kabul etti, SPY henüz yola çıkmadı
+  function randevuIkon(k){return '<div class="cn s-randevu"><span class="rsaat">Randevu '+e(k.saat||"")+'</span></div>';}
   function acikCagrilar(){return Object.values(veri.kayitlar).filter(function(k){return !k.sahipsiz&&!KAPALI[k.durum]&&k.konum&&k.konum.lat!=null;});}
   function asama(k){return k.sahipsiz&&!k.repId?"sahipsiz":{alindi:"alindi",atandi:"atandi",netlesti:"atandi",yolda:"yolda",gorusme:"yolda",gorusmede:"gorusmede"}[k.durum]||"atandi";}
   function sahipsizler(){return Object.values(veri.kayitlar).filter(function(k){return k.sahipsiz&&!k.repId&&!KAPALI[k.durum]&&k.konum;});}
@@ -357,12 +361,13 @@
     });
     acikCagrilar().filter(function(k){return gM&&mSec[asama(k)];}).forEach(function(k){
       var sinif={alindi:"s-alindi",atandi:"s-atandi",netlesti:"s-atandi",yolda:"s-yolda",gorusme:"s-yolda",gorusmede:"s-gorusmede"}[k.durum]||"s-atandi";
-      var mk=L.marker([k.konum.lat,k.konum.lng],{title:(k.musteri&&k.musteri.ad)||"Müşteri",zIndexOffset:500,draggable:musteriTasinir(k),icon:L.divIcon({className:"",html:'<div class="cn '+sinif+'"></div>',iconSize:[18,18],iconAnchor:[9,9]})});
+      var rnd=randevuBekliyor(k), mk=L.marker([k.konum.lat,k.konum.lng],{title:(k.musteri&&k.musteri.ad)||"Müşteri",zIndexOffset:500,draggable:musteriTasinir(k),icon:L.divIcon({className:"",html:rnd?randevuIkon(k):'<div class="cn '+sinif+'"></div>',iconSize:rnd?[22,22]:[18,18],iconAnchor:rnd?[11,11]:[9,9]})});
       surukle(mk,"musteri",k.id); bagla(mk,musteriBilgi(k)).addTo(spyKatman);
     });
     rotalar();
     sah.filter(function(){return gM&&mSec.sahipsiz;}).forEach(function(k){
-      cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:k.oneri?"Randevu önerildi":k.bolgeDisi?"Pilot bölge dışı":"Kimse almadı",draggable:musteriTasinir(k),icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[16,16],iconAnchor:[8,8]})});
+      var rnd=randevuBekliyor(k);
+      cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:k.oneri?"Randevu önerildi":k.bolgeDisi?"Pilot bölge dışı":"Kimse almadı",draggable:musteriTasinir(k),icon:L.divIcon({className:"",html:rnd?randevuIkon(k):'<div class="cagri-ik"></div>',iconSize:rnd?[22,22]:[16,16],iconAnchor:rnd?[11,11]:[8,8]})});
       surukle(cagriIsaret[k.id],"musteri",k.id);
       bagla(cagriIsaret[k.id],cagriBilgi(k)).addTo(spyKatman);
     });
