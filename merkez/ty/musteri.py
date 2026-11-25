@@ -11,7 +11,7 @@ import hmac
 import random
 import secrets
 
-from .ayarlar import HATA_SINIR, KOD_DK
+from .ayarlar import HATA_SINIR, KAPALI_DURUMLAR, KOD_DK
 from .yardim import metin, olay, simdi, tel_temiz
 
 KODLAR = {}  # tel -> {"kod", "bitis", "hata"} (yalnız bellekte)
@@ -41,8 +41,10 @@ def kimlik_al(veri, tel, cihaz):
 
 
 def bos_kimlikler(veri, cihaz):
-    """Giriş listesi: başkasının kullanmadığı örnek müşteriler (kendi cihazının aldığı da görünür)."""
-    return [{"tel": t, "ad": m["ad"]} for t, m in ORNEK_MUSTERILER.items() if kimlik_kullanan(veri, t) in (None, cihaz)]
+    """Giriş listesi: başkasının kullanmadığı kayıtlı müşteriler — örnekler + test sırasında açılan yeni üyeler (sıfırlanana kadar);
+    kendi cihazının aldığı da görünür. "randevuda": açık çağrısı olan müşteri (listede hafif sarı)."""
+    randevuda = {tel_temiz((k.get("musteri") or {}).get("tel")) for k in veri["kayitlar"].values() if k.get("durum") not in KAPALI_DURUMLAR}
+    return [{"tel": t, "ad": m.get("ad") or t, "randevuda": t in randevuda} for t, m in veri["musteriler"].items() if kimlik_kullanan(veri, t) in (None, cihaz)]
 
 
 ONER_AD = ["Selin", "Mert", "Derya", "Kerem", "Naz", "Emre", "Pelin", "Tolga", "Defne", "Barış"]
@@ -114,14 +116,14 @@ def hesap_ac(veri, tel, adi, soyadi, kampanya, kaynak="uygulama", rid=None, aydi
     an = simdi()
     veri["musteriler"][tel] = {"adi": adi, "soyadi": soyadi, "ad": f"{adi} {soyadi}".strip(), "aydinlatmaTarih": aydinlatma_tarih or an,
                               "kampanya": bool(kampanya), "kampanyaTarih": an if kampanya else 0, "olusma": an, "kaynak": kaynak}
-    olay(veri, f"Yeni müşteri hesabı{' (web)' if kaynak == 'web' else ''}: {adi} {soyadi}", rid)
+    # Yönetici akışına/bildirimine "Yeni müşteri hesabı" düşmez (istenmedi, 2026-11-24)
 
 
 def musteri_islem(veri, istek):
     """islem: kod | dogrula | kayit | web | oturum | cikis | izin. Hesap merkezde; her telefonda aynı numara + SMS kodu."""
     islem, tel, cihaz = istek.get("islem"), tel_temiz(istek.get("tel")), metin(istek.get("cihaz"), 64)
     if islem == "bos":  # giriş listesi: yalnız boş örnek kimlikler
-        return {"kimlikler": bos_kimlikler(veri, cihaz), "toplam": len(ORNEK_MUSTERILER)}
+        return {"kimlikler": bos_kimlikler(veri, cihaz), "toplam": len(veri["musteriler"])}
     if islem == "oner":
         return yeni_oneri(veri)
     if len(tel) != 10:
@@ -138,6 +140,8 @@ def musteri_islem(veri, istek):
             raise ValueError("Oturum doğrulanamadı. Yeniden giriş yapın.")
         if islem == "cikis":
             m["jetonlar"].remove(jeton_ozet(jeton))
+            from . import bildirim  # çıkış yapan oturumun bildirim abonelikleri silinir (telefon bildirimi bırakmayı unutsa da)
+            bildirim.abone_jeton_sil(tel, jeton_ozet(jeton))
             if not cihaz or kimlik_kullanan(veri, tel) == cihaz:
                 veri.setdefault("kimlikler", {}).pop(tel, None)  # çıkışta kimlik serbest kalır
             return {}

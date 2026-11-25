@@ -122,6 +122,13 @@ def musteri_abonelerini_sil():
         abone_yaz({uc: x for uc, x in a.items() if not x.get("musteri")})
 
 
+def abone_jeton_sil(tel, ozet):
+    """Müşteri çıkış yapınca: o oturumun (jeton) abonelikleri ve jetonsuz eski kayıtları silinir. Kilit sırası: veri → abonelik."""
+    with abone_kilit:
+        a = abone_oku()
+        abone_yaz({uc: x for uc, x in a.items() if not (x.get("musteri") == tel and x.get("jeton", ozet) == ozet)})
+
+
 def abone_isle(yol, istek):
     # Kilit sırası her yerde: önce veri (depo.kilit), sonra abonelik (abone_kilit)
     tel = tel_temiz(istek.get("musteri"))
@@ -145,13 +152,13 @@ def abone_isle(yol, istek):
             token = str(istek["apns"]).strip().lower()
             if kim_yok or not re.fullmatch(r"[0-9a-f]{32,200}", token):
                 raise ValueError("Abonelik eksik.")
-            a["apns:" + token] = {"endpoint": "apns:" + token, "apns": token, **kim, "cihaz": metin(istek.get("cihaz"), 80), "eklenme": simdi()}
+            a["apns:" + token] = {"endpoint": "apns:" + token, "apns": token, **kim, "jeton": jeton_ozet(istek.get("jeton")), "cihaz": metin(istek.get("cihaz"), 80), "eklenme": simdi()}
         else:
             if kim_yok or not uygun_uc(uc) or not anahtar.get("p256dh") or not anahtar.get("auth"):
                 raise ValueError("Abonelik eksik.")
             # Telefon başka SPY/müşteri seçtiyse eski bağ kalkar (aynı uç tek kişiye bağlı)
             a[uc] = {"endpoint": uc, "keys": {"p256dh": metin(anahtar["p256dh"], 200), "auth": metin(anahtar["auth"], 100)},
-                     **kim, "cihaz": metin(istek.get("cihaz"), 80), "eklenme": simdi()}
+                     **kim, "jeton": jeton_ozet(istek.get("jeton")), "cihaz": metin(istek.get("cihaz"), 80), "eklenme": simdi()}
         abone_yaz(a)
         anahtar_ad, deger = next(iter(kim.items()))
         return {**kim, "telefon": sum(1 for x in a.values() if x.get(anahtar_ad) == deger)}

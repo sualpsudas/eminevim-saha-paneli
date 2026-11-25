@@ -1015,3 +1015,14 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - Harita dengelendi: ana yollar belirgin, iç sokaklar ince/açık, seyrek yer adları (semt, ana cadde, su), yakınlaşınca mahalleler. sw v128.
 - Çağrı geldikten 10 sn sonra SPY'ye iletilir (teklifZamani, bekçi 2 sn); takip sayfasında Personel ve Müşteri çip grupları (müşteri aşamasına göre süzme); müşteri yanındaki SPY ikonu yana kayar; sahipsiz ikon da 16px. Deneme merkezinde sınandı. sw v130. tests/merkez-akis.py çağrı anında atama varsayıyor (bayat).
 - Takip sayfası üst düğmeleri tek açılır "Göster" menüsüne toplandı: Personel ve Müşteri aç/kapa + durum işaretleri (kutucuk). sw v131.
+
+## 2026-11-24 — Takip haritası renkleri, örnek müşteri konumu
+- `merkez/takip.html`: SPY = beyaz daire + koyu yeşil çerçeve (boşta beyaz, molada gri, çağrıyla eşleşince dolu yeşil); müşteri = turuncu çerçeve (yeni çağrı beyaz + yanıp söner, temsilci belli olunca dolu turuncu); SPY→müşteri rotası turuncu (atandıda ince kuş uçuşu, yolda gerçek yol).
+- `uygulama/ornek-veri.js`: 5 örnek müşteriye pilot bölge içinde farklı kayıtlı konum (Ataşehir ×2, Üsküdar ×2, Ümraniye); Zeynep ve Elif'in adresi pilot bölgeye taşındı. Uygulamada "temsilci iste" bu konumla doğrudan gün-saat adımına açılır; yeni üyede harita adımı kalır (`ornekKonum`, `mTemsilciIste`).
+- Not: TEKNIK.md'deki "atandı mavi, yolda mor" ifadesi eskidi.
+- (aynı gün) `merkez/ty/atama.py`: hemen atamada "meşgul" SPY elenir (`mesgul_mu`): teklif beklenen, atandı, yolda ya da görüşmede çağrısı olan SPY'ye ikinci çağrı gitmez; sıradaki uygun SPY'ye geçer, kimse kalmazsa "kimse almadı". Önceden yalnız yolda/görüşmede elenirdi, atandı aşamasındaki SPY'ye ikinci çağrı da gidebiliyordu. Merkezin yeniden başlatılması gerekir.
+- (aynı gün) `merkez/ty/sunum.py`: Otomatik ilerlet'te SPY yola çıkınca artık yarı yola kaymaz (rota çizgisi çizilir); görüşmede müşterinin yerine gelir. Merkez yeniden başlatıldı.
+- (aynı gün) Müşteri çıkışında bildirim aboneliği sunucuda da silinir (`abone_jeton_sil`, abonelik artık jeton özeti taşır); giriş listesi artık tüm kayıtlı müşterileri (yeni üyeler dahil, sıfırlanana kadar) gösterir, açık çağrısı olanlar hafif sarı; çıkışta giriş telefonu/yeni üye önerisi sıfırlanır. Merkez yeniden başlatıldı.
+- (aynı gün) Giriş ekranı örnek müşteri listesi özel açılır liste oldu (iPhone seçici renk göstermez); randevuda olan satır sarı. Merkez yeniden başlatıldı.
+- (aynı gün) Yeni müşteri kaydında yöneticiye/akışa "Yeni müşteri hesabı" olayı düşmez (hesap_ac); müşteriye giden bildirimler değişmedi.
+- (aynı gün) Takip haritası altlığı standart sokak (OpenStreetMap) oldu; eski sade gri OpenFreeMap vektör altlığı git geçmişinde.

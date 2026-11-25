@@ -42,8 +42,8 @@
   .cipler .grup{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
   .cipler .grup+.grup{margin-left:14px;padding-left:14px;border-left:1.5px solid var(--cizgi)}
   .cipler .g-ad{font-size:12px;font-weight:700;color:var(--yazi);margin-right:2px}
-  .renk{display:inline-block;width:10px;height:10px;border-radius:50%}
-  .r-bosta{background:var(--yesil)}.r-randevuda{background:var(--turuncu)}.r-molada{background:var(--gri)}.r-sahipsiz{background:var(--kirmizi)}
+  .renk{display:inline-block;box-sizing:border-box;width:12px;height:12px;border-radius:50%;border:2px solid #00724c;vertical-align:-1px}
+  .r-bosta{background:#fff}.r-randevuda{background:#00724c}.r-molada{background:var(--gri)}.r-sahipsiz{background:var(--kirmizi)}
   .sahne{flex:1;display:flex;gap:10px;min-height:0}
   .sahne .harita-kap{min-width:0}
   .akis{width:320px;flex:0 0 320px;background:#fff;border:1px solid var(--cizgi);border-radius:14px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
@@ -57,13 +57,13 @@
   #akisListe li.yeni{animation:akisYeni 2.4s ease-out}
   #akisListe li.cagri b{color:var(--turuncu)}
   @keyframes akisYeni{from{background:#fff1e3}to{background:transparent}}
-  .cn{--c:#ea803f;box-sizing:border-box;position:relative;width:16px;height:16px;border-radius:50%;background:var(--c);border:2px solid #fff;box-shadow:0 0 0 1.5px var(--c)}
+  .cn{--c:#ea803f;--f:#fff;box-sizing:border-box;position:relative;width:18px;height:18px;border-radius:50%;background:var(--f);border:3px solid var(--c);box-shadow:0 1px 3px rgba(0,0,0,.35)}
   .cn::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2.5px solid var(--c);opacity:0}
   .cn.s-alindi{--c:#ea803f;animation:yan .8s ease-in-out infinite}
   .cn.s-alindi::after,.cn.s-atandi::after,.cn.s-yolda::after{animation:halka 1.5s ease-out infinite}
-  .cn.s-atandi{--c:#2f6fdb}
-  .cn.s-yolda{--c:#7a3fd0}
-  .cn.s-gorusmede{--c:#00724c}
+  .cn.s-atandi{--f:#ea803f}
+  .cn.s-yolda{--f:#ea803f}
+  .cn.s-gorusmede{--f:#ea803f}
   @keyframes yan{0%,100%{opacity:1}50%{opacity:.25}}
   @keyframes halka{0%{transform:scale(.6);opacity:.9}100%{transform:scale(1.7);opacity:0}}
   .ipucu{display:inline-flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--yazi);margin-left:8px}
@@ -94,7 +94,7 @@
     .kisi-kart button{flex:0 0 44px;height:44px;border:0;border-radius:50%;background:#eee;color:var(--koyu);font-size:18px}
   }
   /* Harita simgeleri ve yazıları */
-  .spy-ik{box-sizing:border-box;border-radius:50%;border:2px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+  .spy-ik{box-sizing:border-box;border-radius:50%;border:3px solid #00724c;box-shadow:0 1px 3px rgba(0,0,0,.4)}
   .cagri-ik{animation:yan .8s ease-in-out infinite;box-sizing:border-box;width:16px;height:16px;border-radius:50%;background:var(--kirmizi);border:2px solid #fff;box-shadow:0 0 0 3px rgba(198,40,40,.35)}
   .leaflet-tooltip.mah-ad{background:transparent;border:0;box-shadow:none;color:#4d5a55;font-size:10.5px;font-weight:600;text-shadow:0 0 3px #fff,0 0 3px #fff;padding:0}
   .leaflet-tooltip.mah-ad::before{display:none}
@@ -132,33 +132,13 @@
 <script>
 (function(){
   if(/[?&]gomulu=1/.test(location.search))document.body.classList.add("gomulu");
-  var HAL={bosta:["Boşta","#00724c"],randevuda:["Randevuda","#ea803f"],molada:["Molada","#8a8f94"]};
+  var HAL={bosta:["Boşta","#ffffff"],randevuda:["Randevuda","#00724c"],molada:["Molada","#8a8f94"]};
   var DURUM={yolda:"yolda",gorusme:"yolda",gorusmede:"görüşmede"};
   var KAPALI={tamamlandi:1,iptal:1};
   var veri={spyler:[],kayitlar:{},bugun:{gelen:0,gorusme:0}}, surum=0, sifirlama=-1, gP=true, gM=true, pSec={bosta:1,randevuda:1,molada:1}, mSec={alindi:1,atandi:1,yolda:1,gorusmede:1,sahipsiz:1}, menuAcik=false, ilkSinir=null;
   var harita=L.map("harita",{zoomSnap:.5}).setView([41.01,29.09],12);
-  // Altlık: OpenFreeMap açık gri vektör harita — caddeler ve sokaklar çizili, tüm yazılar (mahalle/cadde adı) gizli; WebGL yoksa Esri adsız gri
-  try{
-    var gl=L.maplibreGL({style:"https://tiles.openfreemap.org/styles/positron"}).addTo(harita).getMaplibreMap();
-    // Yollar sınıfına göre: otoyol koyu, ana cadde orta, iç sokak ince ve çok açık; yazılar seyrek: ana cadde, semt/mahalle (yakınlaşınca), su
-    var YOL={highway_motorway_inner:"#8f9aa1",highway_motorway_bridge_inner:"#8f9aa1",highway_motorway_subtle:"#8f9aa1",highway_major_inner:"#b9c1c6",highway_major_subtle:"#b9c1c6",highway_minor:"#dde1e4",highway_path:"#eceff0",highway_major_casing:"#e4e8ea",highway_motorway_casing:"#e4e8ea",highway_motorway_bridge_casing:"#e4e8ea",tunnel_motorway_casing:"#e4e8ea"};
-    var YAZI={"highway-name-major":0,label_other:11.5,label_village:11.5,label_town:0,water_name_point_label:0,water_name_line_label:0};
-    gl.on("styledata",function(){(gl.getStyle().layers||[]).forEach(function(l){
-      try{
-        if(l.type==="symbol"){
-          if(l.id in YAZI){gl.setLayoutProperty(l.id,"visibility","visible");if(YAZI[l.id])gl.setLayerZoomRange(l.id,YAZI[l.id],24);gl.setPaintProperty(l.id,"text-color","#6f7b82");gl.setPaintProperty(l.id,"text-halo-color","#ffffff");}
-          else gl.setLayoutProperty(l.id,"visibility","none");
-        }else if(YOL[l.id]){
-          gl.setPaintProperty(l.id,"line-color",YOL[l.id]);
-          if(l.id==="highway_minor")gl.setPaintProperty(l.id,"line-width",["interpolate",["linear"],["zoom"],12,.3,15,.8,18,2]);
-          if(l.id==="highway_path"||l.id==="highway_major_casing")gl.setLayoutProperty(l.id,"visibility","none");
-          if(l.id==="highway_major_inner"||l.id==="highway_major_subtle")gl.setPaintProperty(l.id,"line-width",["interpolate",["linear"],["zoom"],10,.5,13,1,16,3,19,6]);
-        }
-      }catch(x){}
-    });});
-  }catch(x){
-    L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}",{maxZoom:16,attribution:"Esri"}).addTo(harita);
-  }
+  // Altlık: standart sokak haritası (OpenStreetMap; tüm caddeler ve yazılar çizili). Önceki sade gri vektör altlık için git geçmişine bak (2026-11-24).
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap"}).addTo(harita);
   // Pilot bölge: ilçe sınırları kalın yeşil, mahalleler ince çizgi + ad (yakınlaşınca)
   var S=window.TY_SINIRLAR||{ilceler:[],mahalleler:[]};
   var ilceKatman=L.featureGroup().addTo(harita);
@@ -195,11 +175,17 @@
   function rotalar(){
     rotaKatman.clearLayers(); var tur=++rotaTur;
     acikCagrilar().forEach(function(k){
-      if(k.durum!=="yolda"&&k.durum!=="gorusme")return;
       var s=veri.spyler.filter(function(x){return x.id===k.repId;})[0]; if(!s)return;
+      if(k.durum==="atandi"||k.durum==="netlesti"){  // temsilci belli, henüz yolda değil: ince kuş uçuşu çizgi
+        if(!gM||!mSec.atandi||!gP||!pSec[s.hal])return;
+        var c=s.konumAn||s;
+        L.polyline([[c.lat,c.lng],[k.konum.lat,k.konum.lng]],{color:"#ea803f",weight:1.2,opacity:.75,interactive:false}).addTo(rotaKatman);
+        return;
+      }
+      if(k.durum!=="yolda"&&k.durum!=="gorusme")return;
       var a=s.konumAn||s, b=k.konum, anah=k.id+"|"+a.lat.toFixed(4)+","+a.lng.toFixed(4), hazir=rotaOnbellek[anah];
-      if(Array.isArray(hazir)){L.polyline(hazir,{color:"#7a3fd0",weight:3,opacity:.85,interactive:false}).addTo(rotaKatman);return;}
-      L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:"#7a3fd0",weight:2,opacity:.7,dashArray:"6 8",interactive:false}).addTo(rotaKatman);
+      if(Array.isArray(hazir)){L.polyline(hazir,{color:"#ea803f",weight:3,opacity:.85,interactive:false}).addTo(rotaKatman);return;}
+      L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:"#ea803f",weight:2,opacity:.7,dashArray:"6 8",interactive:false}).addTo(rotaKatman);
       if(hazir)return;  // "yok": kuş uçuşu kalır
       rotaOnbellek[anah]="bekle";
       fetch("https://router.project-osrm.org/route/v1/driving/"+a.lng+","+a.lat+";"+b.lng+","+b.lat+"?overview=full&geometries=geojson")
@@ -218,10 +204,10 @@
     var sah=sahipsizler();
     document.getElementById("sayilar").innerHTML=[["Gelen Çağrı",veri.bugun.gelen],["Görüşme Sayısı",veri.bugun.gorusme]].concat(sah.length?[["Kimse almadı",sah.length,"uyari"]]:[])
       .map(function(x){return '<div class="sayi '+(x[2]||"")+'"><b>'+x[1]+'</b><span>'+x[0]+' · bugün</span></div>';}).join("");
-    var MAS=[["alindi","Yeni çağrı","#ea803f"],["atandi","Atandı","#2f6fdb"],["yolda","Yolda","#7a3fd0"],["gorusmede","Görüşmede","#00724c"],["sahipsiz","Kimse almadı","#c0392b"]], msay={tumu:0,alindi:0,atandi:0,yolda:0,gorusmede:0,sahipsiz:0};
+    var MAS=[["alindi","Yeni çağrı","#ffffff"],["atandi","Atandı","#ea803f"],["yolda","Yolda","#ea803f"],["gorusmede","Görüşmede","#ea803f"],["sahipsiz","Kimse almadı","#c0392b"]], msay={tumu:0,alindi:0,atandi:0,yolda:0,gorusmede:0,sahipsiz:0};
     Object.values(veri.kayitlar).forEach(function(k){if(KAPALI[k.durum]||!k.konum||k.konum.lat==null)return;var a=asama(k);msay.tumu++;msay[a]=(msay[a]||0)+1;});
-    var PAS=[["bosta","Boşta","#00724c"],["randevuda","Randevuda","#ea803f"],["molada","Molada","#8a8f94"]];
-    function satir(anah,grup,ad,renk,say,sec,acik){return '<label class="alt-satir'+(acik?"":" sonuk")+'"><input type="checkbox" data-'+grup+'="'+anah+'"'+(sec[anah]?" checked":"")+'><span class="renk" style="background:'+renk+'"></span>'+ad+' ('+say+')</label>';}
+    var PAS=[["bosta","Boşta","#ffffff"],["randevuda","Randevuda","#00724c"],["molada","Molada","#8a8f94"]];
+    function satir(anah,grup,ad,renk,say,sec,acik){return '<label class="alt-satir'+(acik?"":" sonuk")+'"><input type="checkbox" data-'+grup+'="'+anah+'"'+(sec[anah]?" checked":"")+'><span class="renk" style="background:'+renk+(grup==="m"?';border-color:#ea803f':'')+'"></span>'+ad+' ('+say+')</label>';}
     var ozet=[gP?"Personel ("+sayac.tumu+")":"",gM?"Müşteri ("+msay.tumu+")":""].filter(Boolean).join(" · ")||"Hiçbiri";
     document.getElementById("cipler").innerHTML='<div class="menu-kap"><button type="button" class="menu-btn" id="menuBtn" aria-expanded="'+menuAcik+'">Göster: '+ozet+' ▾</button>'+(menuAcik?
       '<div class="menu-panel" id="menuPanel"><label class="m-bas"><input type="checkbox" id="gP"'+(gP?" checked":"")+'>Personel ('+sayac.tumu+')</label>'+
@@ -229,16 +215,16 @@
       '<div class="ay"></div><label class="m-bas"><input type="checkbox" id="gM"'+(gM?" checked":"")+'>Müşteri ('+msay.tumu+')</label>'+
       MAS.map(function(x){return satir(x[0],"m",x[1],x[2],msay[x[0]]||0,mSec,gM);}).join("")+'</div>':"")+'</div>';
     var gorunen=gP?veri.spyler.filter(function(s){return pSec[s.hal];}):[];
-    spyKatman.clearLayers(); isaretler={}; cagriIsaret={}; var boy=16;
+    spyKatman.clearLayers(); isaretler={}; cagriIsaret={}; var boy=18;
     gorunen.forEach(function(s){
-      var k=s.konumAn||s, renk=(HAL[s.hal]||HAL.bosta)[1];
+      var k=s.konumAn||s, eslesti=acikCagrilar().some(function(c){return c.repId===s.id;}), renk=eslesti?"#00724c":(HAL[s.hal]||HAL.bosta)[1];  // temsilci belli olunca SPY de dolar
       var yanda=gM&&acikCagrilar().some(function(c){return Math.abs(c.konum.lat-k.lat)<.0005&&Math.abs(c.konum.lng-k.lng)<.0007;});  // müşterinin yanında: üst üste binmesin
       isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,icon:L.divIcon({className:"",html:'<div class="spy-ik" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px"></div>',iconSize:[boy,boy],iconAnchor:[yanda?boy/2-22:boy/2,boy/2]})});
       bagla(isaretler[s.id],spyBilgi(s)).addTo(spyKatman);
     });
     acikCagrilar().filter(function(k){return gM&&mSec[asama(k)];}).forEach(function(k){
       var sinif={alindi:"s-alindi",atandi:"s-atandi",netlesti:"s-atandi",yolda:"s-yolda",gorusme:"s-yolda",gorusmede:"s-gorusmede"}[k.durum]||"s-atandi";
-      L.marker([k.konum.lat,k.konum.lng],{title:(k.musteri&&k.musteri.ad)||"Müşteri",zIndexOffset:500,icon:L.divIcon({className:"",html:'<div class="cn '+sinif+'"></div>',iconSize:[16,16],iconAnchor:[8,8]})}).bindPopup(musteriBilgi(k)).addTo(spyKatman);
+      L.marker([k.konum.lat,k.konum.lng],{title:(k.musteri&&k.musteri.ad)||"Müşteri",zIndexOffset:500,icon:L.divIcon({className:"",html:'<div class="cn '+sinif+'"></div>',iconSize:[18,18],iconAnchor:[9,9]})}).bindPopup(musteriBilgi(k)).addTo(spyKatman);
     });
     rotalar();
     sah.filter(function(){return gM&&mSec.sahipsiz;}).forEach(function(k){

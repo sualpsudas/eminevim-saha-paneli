@@ -1366,7 +1366,7 @@ html.native-app .customer-finance-actions button { min-height: 54px !important; 
         <sc-if value="{{ girisModKod }}"><div class="giris-form" style="width:100%; display:flex; flex-direction:column; gap:10px; margin-top:4px; animation:tabIn .25s ease-out;">
           <sc-if value="{{ kodBaslikVar }}"><div style="text-align:left;"><b style="display:block;font-size:16px;color:var(--ink);">{{ kodBaslik }}</b><span style="font-size:12px;color:var(--dim);line-height:1.45;">{{ kodAlt }}</span></div></sc-if>
           <sc-if value="{{ kodAdim1 }}"><input value="{{ kodTel }}" onChange="{{ setKodTel }}" inputmode="numeric" autocomplete="tel" maxlength="19" placeholder="+90 (5__) ___ __ __" aria-label="Telefon numaranız" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"></sc-if>
-          <sc-if value="{{ kodAdim1 }}"><select class="spy-ara ornek-secim" value="{{ ornekSecili }}" onFocus="{{ bosYenile }}" onChange="{{ setOrnekSecili }}" aria-label="Örnek müşteri seçin">{{ ornekSecenekler }}</select></sc-if>
+          <sc-if value="{{ kodAdim1 }}"><div style="position:relative;"><button type="button" class="spy-ara ornek-secim" onClick="{{ ornekAcKapat }}" aria-haspopup="listbox" aria-expanded="{{ ornekAcik }}" aria-label="Örnek müşteri seçin" style="display:flex;justify-content:space-between;align-items:center;text-align:left;cursor:pointer;background:{{ ornekDugmeBg }};"><span>{{ ornekEtiket }}</span><span aria-hidden="true">▾</span></button><sc-if value="{{ ornekAcik }}"><div role="listbox" style="position:absolute;left:0;right:0;top:46px;z-index:30;max-height:260px;overflow-y:auto;background:#fff;border:1px solid var(--line);border-radius:16px;box-shadow:0 8px 24px rgba(0,0,0,.18);"><sc-for list="{{ ornekListe }}" as="o"><button type="button" role="option" onClick="{{ o.onSec }}" style="display:block;width:100%;min-height:44px;padding:0 14px;text-align:left;border:0;border-bottom:1px solid #eee;font:inherit;font-size:13px;color:var(--ink);background:{{ o.bg }};cursor:pointer;">{{ o.label }}</button></sc-for></div></sc-if></div></sc-if>
           <sc-if value="{{ kodAdim2 }}"><input value="{{ kodGirdi }}" onChange="{{ setKodGirdi }}" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="• • • • • •" aria-label="SMS ile gelen 6 haneli kod" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700;text-align:center;font-size:22px;letter-spacing:10px;"><sc-if value="{{ kodDemoVar }}"><div class="kod-demo" style="font-size:11.5px;color:var(--dim);background:var(--tintGreen);border-radius:12px;padding:7px 10px;text-align:left;">Test: SMS gönderilmez, kod otomatik dolduruldu (<b style="color:#00724C;letter-spacing:2px;">{{ kodDemo }}</b>).</div></sc-if></sc-if>
           <sc-if value="{{ kodAdim3 }}"><input value="{{ kodAd }}" onChange="{{ setKodAd }}" autocomplete="given-name" placeholder="Ad" aria-label="Ad" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"><input value="{{ kodSoyad }}" onChange="{{ setKodSoyad }}" autocomplete="family-name" placeholder="Soyad" aria-label="Soyad" style="width:100%; padding:13px 14px; border-radius:22px; border:0; font-size:13.5px; font-family:GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif; background:var(--kutu); color:var(--ink);font-weight:700"><label style="display:flex;align-items:flex-start;gap:9px;text-align:left;cursor:pointer;"><input type="checkbox" checked="{{ kodAydinlatma }}" onChange="{{ toggleKodAydinlatma }}" aria-label="Aydınlatma Metni'ni okudum, bilgilendirildim" style="width:18px;height:18px;accent-color:#00724C;flex:0 0 auto;margin-top:1px;"><span style="font-size:12px;color:var(--ink);line-height:1.45;"><button type="button" onClick="{{ aydinlatmaAcKutu }}" style="border:0;background:transparent;padding:0;color:#00724C;font:700 12px GOTHIC,'Century Gothic','Segoe UI',Arial,sans-serif;text-decoration:underline;cursor:pointer;">Aydınlatma Metni</button>'ni okudum; kişisel verilerimin bu metinde anlatıldığı şekilde işleneceği konusunda bilgilendirildim.</span></label><label style="display:flex;align-items:flex-start;gap:9px;text-align:left;cursor:pointer;"><input type="checkbox" checked="{{ kodKampanya }}" onChange="{{ toggleKodKampanya }}" aria-label="Ticari elektronik ileti izni (isteğe bağlı)" style="width:18px;height:18px;accent-color:#00724C;flex-shrink:0;margin-top:1px;"><span style="font-size:11.5px;color:var(--ink);line-height:1.45;">Kampanyalardan haberdar olmak için Emin Üstün Holding Şirketleri'nden ticari elektronik ileti almak istiyorum. <span style="color:var(--dim);">(İsteğe bağlı)</span></span></label></sc-if>
           <sc-if value="{{ kodOrnekVar }}"><div style="font-size:11.5px;color:var(--dim);background:var(--tintGreen);border-radius:12px;padding:7px 10px;text-align:left;">Test: ad ve soyad örnek olarak dolduruldu. İsterseniz değiştirin.</div></sc-if>
@@ -2876,13 +2876,22 @@ class Component extends DCLogic {
     const sor = !!t && t.tip !== "telefon" && ["alindi", "atandi", "netlesti", "yolda"].includes(t.durum) && !f.ekBilgi && !f.ekBilgiAtlandi;
     return sor ? { ekBilgiAcik: true, ekCalisma: "", ekYas: "", ekNot: "" } : {};
   }
+  yaVarsayilanZaman() {
+    // Hazır seçim: bugün ve bir sonraki uygun ilk saat (bugün kalmadıysa/pazarsa sonraki iş günü 10:00)
+    const uzun = ["Pazar", "Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi"], aylar = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
+    const simdi = new Date(), d = new Date(simdi); d.setHours(12, 0, 0, 0);
+    let saat = simdi.getDay() !== 0 && simdi.getHours() < 19 ? Math.max(10, simdi.getHours() + 2) : 0;
+    if (!saat || saat > 20) { saat = 10; do { d.setDate(d.getDate() + 1); } while (d.getDay() === 0); }
+    return { yaGun: d.getDate() + " " + aylar[d.getMonth()] + " " + uzun[d.getDay()], yaGunISO: d.toLocaleDateString("en-CA"), yaSaat: String(saat).padStart(2, "0") + ":00" };
+  }
   mTemsilciIste() {
     // Uygulamadan temsilci isteği: kayıtlı müşterinin adı/telefonu hazır, gün-saat-ilçe seçilir
     const f = this.state.customerForm;
     if (this._yaTimer) clearTimeout(this._yaTimer);
-    // Web formundaki gibi: 1/2 harita (hizmet bölgesi) → 2/2 gün ve saat → Başarılı
-    this.setState({ mSeciliRandevuId: null, mSheetTam: false, yaDegistir: false, yaOpen: true, yaAdim: 5, yaAd: f.name || "", yaTel: telMaske(f.phone || ""), yaGun: "", yaGunISO:"", yaSaat: "", yaYer: "", yaIlce: "", yaHata: "", yaRepId: null, yaKaynak: "uygulama",
-      yaTelefonla: false, yaKonum: null, yaKonumDurum: "", yaHaritaSrc: "harita/konum-sec.html?t=" + Date.now() });
+    // Web formundaki gibi: 1/2 harita (hizmet bölgesi) → 2/2 gün ve saat → Başarılı. Kayıtlı örnek müşterinin konumu hazır: harita adımı atlanır; yeni üyede seçilir.
+    const kayitli = ornekKonum(telAnahtar(f.phone || ""));
+    this.setState({ mSeciliRandevuId: null, mSheetTam: false, yaDegistir: false, yaOpen: true, yaAdim: kayitli ? 2 : 5, yaAd: f.name || "", yaTel: telMaske(f.phone || ""), ...this.yaVarsayilanZaman(), yaYer: "", yaIlce: kayitli ? kayitli.adres : "", yaHata: "", yaRepId: null, yaKaynak: "uygulama",
+      yaTelefonla: false, yaKonum: kayitli, yaKonumDurum: "", yaHaritaSrc: "harita/konum-sec.html?t=" + Date.now() });
   }
   yaKonumDevam() {
     const s = this.state, k = s.yaKonum;
@@ -3454,6 +3463,14 @@ class Component extends DCLogic {
     if (!CANLI) return;
     musteriMerkez("bos", {}).then((v) => this.setState({ bosKimlikler: v.kimlikler || [] }), () => {});
   }
+  ornekSec(v) {
+    // Giriş ekranındaki örnek müşteri listesinden seçim ("yeni": kayıtsız bir numara + ad önerilir)
+    this.setState({ ornekAcik: false });
+    if (v === "yeni") {
+      const yaz = (u) => { this._oneri = { tel: telAnahtar(u.tel), adi: u.adi, soyadi: u.soyadi }; this.setState({ kodTel: telYaz(u.tel), yeniOrnekTel: telAnahtar(u.tel), kodHata: "" }); };
+      if (CANLI) musteriMerkez("oner", {}).then(yaz, () => yaz(rastgeleUye())); else yaz(rastgeleUye());
+    } else if (v) this.setState({ kodTel: telYaz(v), yeniOrnekTel: "", kodHata: "" });
+  }
   uyeOneri() { const o = this._oneri, u = o && o.tel === telAnahtar(this.state.kodTel) ? o : rastgeleUye(); return { kodAd: u.adi, kodSoyad: u.soyadi, kodOrnek: true, kodKampanya: false }; }
   kayitliMusteri(tel) { return ornekMu(tel) || !!(this._hesaplar || {})[tel]; }
   musteriOturumu(v, yeni) {
@@ -3659,7 +3676,7 @@ class Component extends DCLogic {
     if (this._yaTimer) clearTimeout(this._yaTimer);
     this.setState({
       yaOpen: false, ...this.girisTemel(),
-      girisYapildi: false, kvkkOnay: false, kvkkTarih: null, kampanyaIzni: false, hosgeldinAdim: 0, yaKaynak: "",
+      girisYapildi: false, kvkkOnay: false, kvkkTarih: null, kampanyaIzni: false, hosgeldinAdim: 0, yaKaynak: "", kodTel: "+90 (532) 145 67 89", yeniOrnekTel: "",
       customerStage: "form", reqStatus: "idle", assignedRepId: null, customerNav: "basvurum",
       basvuruTuru: "", basvuruTutar: "", talepSebebi: "", locationShared: false,
     });
@@ -4853,8 +4870,14 @@ class Component extends DCLogic {
       kodAdim1: !s.girisMod || s.kodAdim === 1, kodAdim2: s.girisMod === "kod" && s.kodAdim === 2, kodAdim3: s.girisMod === "kod" && s.kodAdim === 3,
       ornekSecili: (s.bosKimlikler || ORNEK_MUSTERILER).some((m) => m.tel === telAnahtar(s.kodTel)) ? telAnahtar(s.kodTel) : (s.yeniOrnekTel && telAnahtar(s.kodTel) === s.yeniOrnekTel ? "yeni" : ""),
       bosYenile: () => this.bosKimlikleriYukle(),
-      setOrnekSecili: (e) => { const v = e.target.value; if (v === "yeni") { const yaz = (u) => { this._oneri = { tel: telAnahtar(u.tel), adi: u.adi, soyadi: u.soyadi }; this.setState({ kodTel: telYaz(u.tel), yeniOrnekTel: telAnahtar(u.tel), kodHata: "" }); }; if (CANLI) musteriMerkez("oner", {}).then(yaz, () => yaz(rastgeleUye())); else yaz(rastgeleUye()); } else if (v) this.setState({ kodTel: telYaz(v), yeniOrnekTel: "", kodHata: "" }); },
-      ornekSecenekler: [React.createElement("option", { key: "", value: "" }, "Örnek müşteri seçin")].concat((s.bosKimlikler || ORNEK_MUSTERILER).map((m) => React.createElement("option", { key: m.tel, value: m.tel }, m.ad + " · kayıtlı müşteri")), s.bosKimlikler && !s.bosKimlikler.length ? [React.createElement("option", { key: "dolu", value: "", disabled: true }, "Kayıtlı kimliklerin hepsi kullanımda")] : [], [React.createElement("option", { key: "yeni", value: "yeni" }, "Yeni üye (örnek bilgilerle)")]),
+      ornekAcik: !!s.ornekAcik,
+      ornekAcKapat: () => { if (!s.ornekAcik) this.bosKimlikleriYukle(); this.setState({ ornekAcik: !s.ornekAcik }); },
+      ornekEtiket: (() => { const k = (s.bosKimlikler || ORNEK_MUSTERILER).find((m) => m.tel === telAnahtar(s.kodTel)); return k ? k.ad + " · kayıtlı müşteri" + (k.randevuda ? " · randevuda" : "") : s.yeniOrnekTel && telAnahtar(s.kodTel) === s.yeniOrnekTel ? "Yeni üye (örnek bilgilerle)" : "Örnek müşteri seçin"; })(),
+      ornekDugmeBg: (() => { const k = (s.bosKimlikler || ORNEK_MUSTERILER).find((m) => m.tel === telAnahtar(s.kodTel)); return k && k.randevuda ? "#fff4b8" : "var(--card)"; })(),
+      ornekListe: (s.bosKimlikler || ORNEK_MUSTERILER).map((m) => ({ label: m.ad + " · kayıtlı müşteri" + (m.randevuda ? " · randevuda" : ""), bg: m.randevuda ? "#fff4b8" : "#fff", onSec: () => this.ornekSec(m.tel) }))
+        .concat(s.bosKimlikler && !s.bosKimlikler.length ? [{ label: "Kayıtlı kimliklerin hepsi kullanımda", bg: "#f2f2f2", onSec: () => {} }] : [], [{ label: "Yeni üye (örnek bilgilerle)", bg: "#fff", onSec: () => this.ornekSec("yeni") }]),
+      setOrnekSecili: (e) => this.ornekSec(e.target.value),
+      ornekSecenekler: [React.createElement("option", { key: "", value: "" }, "Örnek müşteri seçin")].concat((s.bosKimlikler || ORNEK_MUSTERILER).map((m) => React.createElement("option", { key: m.tel, value: m.tel, style: m.randevuda ? { background: "#fff4b8" } : undefined }, m.ad + " · kayıtlı müşteri" + (m.randevuda ? " · randevuda" : ""))), s.bosKimlikler && !s.bosKimlikler.length ? [React.createElement("option", { key: "dolu", value: "", disabled: true }, "Kayıtlı kimliklerin hepsi kullanımda")] : [], [React.createElement("option", { key: "yeni", value: "yeni" }, "Yeni üye (örnek bilgilerle)")]),
       kodTel: s.kodTel || "", kodGirdi: s.kodGirdi || "", kodAd: s.kodAd || "", kodSoyad: s.kodSoyad || "", kodKampanya: !!s.kodKampanya, kodAydinlatma: !!s.kodAydinlatma, kodOrnekVar: s.girisMod === "kod" && s.kodAdim === 3 && !!s.kodOrnek,
       kodDugmePasif: (!s.girisMod || s.kodAdim === 1) && !telGecerli(s.kodTel), yaDevamPasif: !telGecerli(s.yaTel),
       setKodTel: (e) => this.setState({ kodTel: telMaske(e.target.value), kodHata: "" }), setKodGirdi: (e) => this.setState({ kodGirdi: e.target.value.replace(/\D/g, "").slice(0, 6), kodHata: "" }),

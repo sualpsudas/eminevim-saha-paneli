@@ -547,7 +547,7 @@
     function pencereAc(){
       if(!anahtar.checked) return;
       konum = talep ? { lat:talep.lat, lng:talep.lng, adres:talep.adres, bolge:talep.bolge } : konum;
-      taslak = talep ? { gun:talep.gun, saat:talep.saat } : { gun:ilkHaftaici(), saat:ORNEK.saat };
+      taslak = talep ? { gun:talep.gun, saat:talep.saat } : ilkUygun();
       ustte(kutu, true); pen.classList.add('acik'); adimGoster(1); haritaKur();
       P('[data-kapat]').focus({preventScroll:true});
     }
@@ -699,6 +699,12 @@
     var ayGos;
     function bugunMu(d){ return !!d && d.toDateString()===new Date().toDateString(); }
     function saatGecti(s){ return parseInt(s,10) <= new Date().getHours()+1; }
+    // Hazır seçim: bugün ve bir sonraki uygun ilk saat (bugün kalmadıysa sonraki iş günü 10:00)
+    function ilkUygun(){
+      var n=new Date(), h=Math.max(10,n.getHours()+2);
+      if(n.getDay()!==0 && n.getHours()<19 && h<=20) return { gun:new Date(n.getFullYear(),n.getMonth(),n.getDate(),12), saat:(h<10?'0':'')+h+':00' };
+      var d=new Date(yarin); while(d.getDay()===0) d.setDate(d.getDate()+1); return { gun:d, saat:'10:00' };
+    }
     function ilkHaftaici(){ var d=new Date(yarin); while(d.getDay()===0||d.getDay()===6) d.setDate(d.getDate()+1); return d; }
     function takvimCiz(){
       var y=ayGos.getFullYear(), m=ayGos.getMonth(), h='';

@@ -24,12 +24,14 @@ function AYSE_SEED() {
 }
 // Örnek müşteriler (2026-11-12): hepsi kayıtlı (telefon + SMS koduyla girer); hiçbirinde finansman yok. Ayşe'nin randevusu hazır, diğerleri boş başlar.
 const ORNEK_MUSTERILER = [
-  { tel: "5321456789", ad: "Ayşe Kaya", adres: "Barbaros Mah. Begonya Sk. No:12, Ataşehir / İstanbul" },
-  { tel: "5332103456", ad: "Zeynep Arslan", adres: "Caferağa Mah. Moda Cd. No:48, Kadıköy / İstanbul" },
-  { tel: "5353204567", ad: "Can Öztürk", adres: "Altunizade Mah. Kuşbakışı Sk. No:7, Üsküdar / İstanbul" },
-  { tel: "5414305678", ad: "Elif Yıldız", adres: "Cevizli Mah. Bağdat Cd. No:215, Maltepe / İstanbul" },
-  { tel: "5436507890", ad: "Burak Şahin", adres: "Atatürk Mah. Ihlamur Sk. No:3, Ataşehir / İstanbul" },
+  { tel: "5321456789", ad: "Ayşe Kaya", adres: "Barbaros Mah. Begonya Sk. No:12, Ataşehir / İstanbul", konum: { lat: 40.99237, lng: 29.10166, bolge: "Ataşehir" } },
+  { tel: "5332103456", ad: "Zeynep Arslan", adres: "Çengelköy Mah. Çengelköy Cd. No:48, Üsküdar / İstanbul", konum: { lat: 41.05105, lng: 29.05994, bolge: "Üsküdar" } },
+  { tel: "5353204567", ad: "Can Öztürk", adres: "Altunizade Mah. Kuşbakışı Sk. No:7, Üsküdar / İstanbul", konum: { lat: 41.01835, lng: 29.04422, bolge: "Üsküdar" } },
+  { tel: "5414305678", ad: "Elif Yıldız", adres: "Yukarı Dudullu Mah. Alemdağ Cd. No:215, Ümraniye / İstanbul", konum: { lat: 41.01, lng: 29.15571, bolge: "Ümraniye" } },
+  { tel: "5436507890", ad: "Burak Şahin", adres: "Atatürk Mah. Ihlamur Sk. No:3, Ataşehir / İstanbul", konum: { lat: 40.99048, lng: 29.12761, bolge: "Ataşehir" } },
 ];
+// Örnek müşterinin kayıtlı konumu (pilot bölge içinde, hepsi farklı yerde): temsilci isterken harita adımı atlanır. Yeni üyede yok → konum seçilir.
+function ornekKonum(tel) { const m = ORNEK_MUSTERILER.find((x) => x.tel === tel); return m ? { ...m.konum, adres: m.adres, not: "" } : null; }
 function ornekMu(tel) { return ORNEK_MUSTERILER.some((m) => m.tel === tel); }
 function ornekSeed(tel) {
   if (tel === AYSE_TEL || !ornekMu(tel)) return AYSE_SEED();

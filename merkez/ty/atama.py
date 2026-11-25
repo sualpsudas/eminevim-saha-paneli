@@ -31,9 +31,20 @@ def randevuda_mi(veri, spy_id):
     return any(x.get("repId") == spy_id and x.get("durum") in ("yolda", "gorusmede") for x in veri["kayitlar"].values())
 
 
+def mesgul_mu(veri, spy_id, haric_id=None):
+    """SPY şu an başka bir müşteriye bağlı mı: yolda/görüşmede ya da teklif beklenen/atanmış ve zamanı yakın (hemen) çağrısı var.
+    Aynı SPY aynı anda iki müşteriye gönderilmez; yeni çağrıya sıradaki uygun SPY atanır."""
+    for x in veri["kayitlar"].values():
+        if x.get("repId") != spy_id or x.get("id") == haric_id or x.get("durum") in KAPALI_DURUMLAR:
+            continue
+        if x.get("durum") in ("yolda", "gorusme", "gorusmede") or hemen_mi(x):
+            return True
+    return False
+
+
 def adaylar(veri, k, haric=()):
     """Eleme + puan. Döner: puana göre sıralı [(puan, spy, gerekçe, km)].
-    Hemen: molada, yolda/görüşmede, günlük sınırı dolan elenir (uygulaması kapalı olabilir: bildirim gider); puan yakınlık 50, H/G 30, bugünkü çağrı 20.
+    Hemen: molada, başka müşteriye bağlı (teklif/atandı/yolda/görüşmede), günlük sınırı dolan elenir (uygulaması kapalı olabilir: bildirim gider); puan yakınlık 50, H/G 30, bugünkü çağrı 20.
     İleri saat/gün: o gün sınırı dolan, o saatin ±90 dk'sında randevusu olan elenir; puan H/G 50, yakınlık 30, o günkü çağrı 20."""
     konum = k.get("konum") or {}
     tarih = k.get("tarih") or bugun()
@@ -48,7 +59,7 @@ def adaylar(veri, k, haric=()):
         if len(benim) >= GUNLUK_SINIR:
             continue
         if hemen:
-            if s.get("durum") == "molada" or randevuda_mi(veri, s["id"]):
+            if s.get("durum") == "molada" or mesgul_mu(veri, s["id"], k.get("id")):
                 continue
             uzak = km(anlik_konum(veri, s), konum)
         else:

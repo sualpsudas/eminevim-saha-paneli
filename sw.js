@@ -1,4 +1,4 @@
-const CACHE = 'eminevim-v131';
+﻿const CACHE = 'eminevim-v132';
 const ASSETS = [
   './',
   './index.html',
@@ -45,13 +45,13 @@ self.addEventListener('activate', (e) => {
   self.clients.claim();
 });
 
-// Network-first for HTML/JS/JSON (kod güncellemeleri anında ulaşsın);
-// cache-first for statik varlıklar (görseller, ikonlar).
+// Network-first for HTML/JS/JSON (kod gÃ¼ncellemeleri anÄ±nda ulaÅŸsÄ±n);
+// cache-first for statik varlÄ±klar (gÃ¶rseller, ikonlar).
 function isAppShell(url) {
   return /\.(html|js|json)$/i.test(url.pathname) || url.pathname === '/' || url.pathname.endsWith('/');
 }
 
-// iPhone (WebKit) video için 'Range' isteği ister; önbellekten tam dosya (200) dönerse video oynamaz → 206 parça yanıtı
+// iPhone (WebKit) video iÃ§in 'Range' isteÄŸi ister; Ã¶nbellekten tam dosya (200) dÃ¶nerse video oynamaz â†’ 206 parÃ§a yanÄ±tÄ±
 async function videoYanit(req) {
   const c = await caches.open(CACHE);
   let hit = await c.match(req.url);

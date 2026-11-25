@@ -1,12 +1,12 @@
 """SUNUM KAPISI — "Otomatik ilerlet": açık çağrıların hepsini bir sonraki aşamaya taşır (bilgisayarda canlı saha sunumu için).
 
 Aşamalar: yeni çağrı → SPY atandı → yola çıktı → görüşmede → tamamlandı. Yeni çağrıya atama kuralıyla (atama.py) SPY bulunur ve
-hemen kabul etmiş sayılır; müşteriye her aşamada bildirim gider. SPY'nin konumu haritada çağrıya doğru yaklaşır.
+hemen kabul etmiş sayılır; müşteriye her aşamada bildirim gider. SPY yola çıkınca yerinde kalır (haritada rota çizilir), görüşmede müşterinin yerine gelir.
 """
 from . import bildirim
 from .atama import teklif_et
 from .ayarlar import KAPALI_DURUMLAR
-from .konum import anlik_konum, konum_yaz
+from .konum import konum_yaz
 from .yardim import damga, olay, saat_yaz, simdi
 
 DAKIKA = 60000
@@ -29,8 +29,6 @@ def _ilerle(veri, k):
         yeni = "atandi"
     elif durum in ("atandi", "netlesti"):
         spy = veri["spyler"][k["repId"]]
-        konum, bas = k.get("konum") or {}, anlik_konum(veri, spy)
-        konum_yaz(spy["id"], (bas["lat"] + konum["lat"]) / 2, (bas["lng"] + konum["lng"]) / 2)  # yolun yarısı
         k["durum"], k["varisZamani"] = "yolda", simdi() + 10 * DAKIKA
         olay(veri, f"{ad}: {spy['ad']} yola çıktı", k["id"])
         bildirim.bildir_musteri(k, f"Temsilciniz yola çıktı · tahmini varış {saat_yaz(k['varisZamani'])}", f"{spy['ad']} size doğru geliyor.")
