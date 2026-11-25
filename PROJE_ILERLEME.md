@@ -1029,3 +1029,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 
 - 2026-11-25 Takip haritasında müşteri ve SPY işaretleri sürüklenebilir (müşteri kabul edilene kadar, SPY kabul ettiği çağrı yokken); konum değişince çağrı yeniden değerlendirilir, daha uygun SPY varsa teklif ona geçer. Haritada "+ Çağrı ekle" ile gerçek örnek çağrı eklenir (sıfırlanana kadar kalır). Kod: `merkez/ty/islemler.py` (konum_tasi, cagri_ekle), `atama.py` (yeniden_ata), `konum.py` (elleKonum), `takip.html`. Deneme merkezinde (8795) API ve arayüz sınandı. Ayrıca harita OpenFreeMap vektör altlık (Google benzeri renk, az etiket, renkli yol rozetleri) oldu.
 - (aynı gün) Pilot bölge denetimi: müşteri bölge dışına sürüklenince çağrı telefonla görüşmeye döner (bolgeDisi), SPY taşınamaz, bölge dışına çağrı eklenemez. Merkez yeniden başlatıldı.
+- (aynı gün) Çağrı ekle: form kalktı, düğmeye basıp haritaya dokunmak çağrıyı rastgele ad/telefonla hemen ekler.
