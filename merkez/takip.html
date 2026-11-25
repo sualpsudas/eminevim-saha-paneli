@@ -141,6 +141,7 @@
   function osmYedek(){L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap"}).addTo(harita);}
   function sadeStil(st){
     var GIZLE=/^(poi_transit|road_oneway|ferry|railway|tunnel-railway|bridge-railway|aeroway|airport|boundary|cablecar|building|road_shield|waterway_line_label|highway-name-path|landuse-|landcover-(glacier|ice|sand)|label_(state|country))/;
+    var ekle=[];
     st.layers.forEach(function(l){
       var p=l.paint=l.paint||{}, id=l.id;
       l.layout=l.layout||{};
@@ -156,10 +157,17 @@
       }
       else if(l.type==="symbol"){
         p["text-color"]="#5f6368";p["text-halo-color"]="#ffffff";p["text-halo-width"]=1.6;
-        if(/^label_(other|village|town)$/.test(id)){l.minzoom=11;l.layout["icon-image"]="";l.layout["text-size"]=11;}  // semt adları orta yakınlıktan itibaren, küçük ve gri
-        if(/^highway-shield/.test(id)){  // yol rozeti yalnız otoyol ve ana yollarda
+        if(/^label_(other|village|town)$/.test(id)){l.layout["icon-image"]="";l.layout["text-size"]=11;l.layout["text-padding"]=28;}  // seyrek yazı: üst üste binenler elenir
+        if(id==="label_other"){  // semt adları: uzakta çok seyrek (büyük boşluk), yakınlaştıkça sıklaşır. Not: MapLibre yakınlığı Leaflet'ten 1 eksik.
+          l.minzoom=10; l.layout["text-padding"]=["interpolate",["linear"],["zoom"],10,80,11,60,12,36,14,12];
+        }
+        if(id==="label_village")l.layout.visibility="none";
+        if(/^highway-shield/.test(id)){  // yol rozeti: otoyol ve ana yollarda, renkli (O turuncu, D mavi, E yeşil, diğer gri)
           l.filter=["all",l.filter,["in",["get","class"],["literal",["motorway","trunk","primary"]]]];
-          p["text-color"]="#3c4043";
+          var ilk=["slice",["to-string",["get","ref"]],0,1];
+          l.layout["icon-image"]=["case",["==",ilk,"O"],"rozet-o",["==",ilk,"D"],"rozet-d",["==",ilk,"E"],"rozet-e","rozet-g"];
+          l.layout["icon-text-fit"]="both"; l.layout["icon-text-fit-padding"]=[0,2,0,2]; l.layout["text-size"]=8.5;  // küçük rozet
+          p["text-color"]=["case",["==",ilk,"O"],"#5b3a00","#ffffff"]; p["text-halo-width"]=0;
         }
         if(/^poi_r/.test(id)){  // ilgi noktalarından yalnız park adları, simgesiz
           l.filter=["all",l.filter,["in",["get","class"],["literal",["park","nature_reserve"]]]];
@@ -167,10 +175,23 @@
         }
       }
     });
+    ekle.forEach(function(l){st.layers.push(l);});
     return st;
   }
+  // Yol rozeti resimleri (kenarlı yuvarlak dikdörtgen; renk adından seçilir)
+  var ROZET={"rozet-o":["#fcb64e","#e39320"],"rozet-d":["#5a8de0","#3d68b8"],"rozet-e":["#5db97c","#3d9560"],"rozet-g":["#8b929c","#6b7280"]};  // dolgu, kenar (Google Haritalar tonları)
+  function rozetResmi(g){
+    g.on("styleimagemissing",function(ev){
+      var r=ROZET[ev.id]; if(!r)return;
+      var c=document.createElement("canvas"); c.width=48; c.height=32; var x=c.getContext("2d");
+      x.fillStyle=r[1]; x.beginPath(); x.roundRect(1,1,46,30,9); x.fill();
+      x.fillStyle=r[0]; x.beginPath(); x.roundRect(4,4,40,24,6); x.fill();
+      g.addImage(ev.id,x.getImageData(0,0,48,32),{pixelRatio:2,stretchX:[[14,34]],stretchY:[[10,22]],content:[12,8,36,24]});
+    });
+  }
   fetch("https://tiles.openfreemap.org/styles/bright").then(function(r){return r.json();}).then(function(st){
-    L.maplibreGL({style:sadeStil(st)}).addTo(harita);
+    var kat=L.maplibreGL({style:sadeStil(st)}).addTo(harita);
+    try{window.TY_GL=kat.getMaplibreMap();rozetResmi(window.TY_GL);}catch(x){}
     harita.attributionControl.addAttribution('<a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; OpenMapTiles, veri &copy; OpenStreetMap');
   }).catch(osmYedek);
   // Pilot bölge: ilçe sınırları kalın yeşil, mahalleler ince çizgi + ad (yakınlaşınca)
