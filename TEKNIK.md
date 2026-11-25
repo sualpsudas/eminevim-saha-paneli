@@ -67,6 +67,8 @@ yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyo
 
 - **Takipte sürükleme ve çağrı ekleme (2026-11-25):** `api/konum-tasi` {tur: musteri|spy, id, lat, lng}: müşteri yalnız `alindi` durumunda (teklif bekleyen dahil), SPY yalnız kabul ettiği (atandi/netlesti/yolda/gorusme/gorusmede) çağrısı yokken taşınır; SPY konumu `veri["elleKonum"]`da durur (test sıfırlanınca ya da gerçek canlı konum gelince silinir, `konum.py`). Sonra `atama.yeniden_ata`: daha uygun SPY çıktıysa teklif ona geçer (eski SPY reddetmediği için elenmiş sayılmaz; gönderilmiş bildirim geri alınamaz), değilse uzaklık/puan güncellenir. `api/cagri-ekle` {ad, tel, yer, lat, lng}: gerçek kayıt (`y-…`, kaynak yonetici); sıfırlanana kadar kalır, uygulama akışı aynı. Arayüz yalnız `merkez/takip.html` (düğme haritanın sağ üstünde; panelin Saha Canlı sekmesi onu gömer; gösteri/GitHub Pages sürümünde yok).
 
+- **Pilot bölge denetimi (2026-11-25, `merkez/ty/bolge.py`, sınırlar `assets/pilot-sinirlar.js`):** müşteri bölge dışına sürüklenirse çağrı `bolgeDisi` olur (temsilci gönderilmez, telefonla görüşülür; takipte "Pilot bölge dışı"), bölgeye geri taşınınca baştan teklif edilir. SPY bölge dışına taşınamaz, bölge dışına çağrı eklenemez (400 hata).
+
 ## iPhone (TestFlight)
 - TestFlight'ta derleme var (Build 1, 2026-10-05; `IOS_TESTFLIGHT.md`).
 - `scripts/merkez-adresi.mjs`: Codemagic'te `TY_MERKEZ_URL` (merkezin tam https adresi + gizli yol) varsa uygulamayı merkez sayfasına bağlar →

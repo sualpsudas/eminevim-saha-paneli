@@ -249,7 +249,8 @@
     return '<b>'+e(s.ad)+'</b><br><span class="renk r-'+e(s.hal)+'"></span> '+h[0]+(r?' · '+(r.musteri&&r.musteri.ad||"Müşteri")+' ('+DURUM[r.durum]+')':'')+
       '<br>Bugün '+(s.bugunCagri||0)+' / 4 çağrı<br>'+(s.bildirim?'Bildirim: '+s.bildirim+' telefon':'Bildirim kapalı')+'<br><span style="color:#666">'+e(s.mahalle)+', '+e(s.ilce)+'</span>'+(DEMO?"":spyTasinir(s)?TASI_IPUCU:TASINMAZ);
   }
-  function cagriBilgi(k){return '<b>Kimse almadı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br>'+e(k.gunYazi||k.tarih)+' '+e(k.saat)+'<br><span style="color:#666">Uygun SPY çıkınca kendiliğinden teklif edilir.</span>'+(DEMO?"":TASI_IPUCU);}
+  function cagriBilgi(k){if(k.bolgeDisi)return '<b>Pilot bölge dışı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br><span style="color:#666">Temsilci gönderilmez, telefonla görüşülür. Bölge içine taşırsanız çağrı yeniden teklif edilir.</span>'+(DEMO?"":TASI_IPUCU);
+    return '<b>Kimse almadı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br>'+e(k.gunYazi||k.tarih)+' '+e(k.saat)+'<br><span style="color:#666">Uygun SPY çıkınca kendiliğinden teklif edilir.</span>'+(DEMO?"":TASI_IPUCU);}
   var ASAMA={alindi:"çağrı geldi",atandi:"SPY kabul etti",netlesti:"saat onaylandı",yolda:"SPY yolda",gorusme:"SPY yolda",gorusmede:"görüşmede"};
   function musteriBilgi(k){
     var s=veri.spyler.filter(function(x){return x.id===k.repId;})[0];
@@ -287,7 +288,7 @@
     var sayac={tumu:veri.spyler.length,bosta:0,randevuda:0,molada:0};
     veri.spyler.forEach(function(s){sayac[s.hal]=(sayac[s.hal]||0)+1;});
     var sah=sahipsizler();
-    document.getElementById("sayilar").innerHTML=[["Gelen Çağrı",veri.bugun.gelen],["Görüşme Sayısı",veri.bugun.gorusme]].concat(sah.length?[["Kimse almadı",sah.length,"uyari"]]:[])
+    document.getElementById("sayilar").innerHTML=[["Gelen Çağrı",veri.bugun.gelen],["Görüşme Sayısı",veri.bugun.gorusme]].concat(sah.filter(function(k){return !k.bolgeDisi;}).length?[["Kimse almadı",sah.filter(function(k){return !k.bolgeDisi;}).length,"uyari"]]:[]).concat(sah.some(function(k){return k.bolgeDisi;})?[["Pilot bölge dışı",sah.filter(function(k){return k.bolgeDisi;}).length,"uyari"]]:[])
       .map(function(x){return '<div class="sayi '+(x[2]||"")+'"><b>'+x[1]+'</b><span>'+x[0]+' · bugün</span></div>';}).join("");
     var MAS=[["alindi","Yeni çağrı","#ffffff"],["atandi","Atandı","#ea803f"],["yolda","Yolda","#ea803f"],["gorusmede","Görüşmede","#ea803f"],["sahipsiz","Kimse almadı","#c0392b"]], msay={tumu:0,alindi:0,atandi:0,yolda:0,gorusmede:0,sahipsiz:0};
     Object.values(veri.kayitlar).forEach(function(k){if(KAPALI[k.durum]||!k.konum||k.konum.lat==null)return;var a=asama(k);msay.tumu++;msay[a]=(msay[a]||0)+1;});
@@ -315,7 +316,7 @@
     });
     rotalar();
     sah.filter(function(){return gM&&mSec.sahipsiz;}).forEach(function(k){
-      cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:"Kimse almadı",draggable:musteriTasinir(k),icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[16,16],iconAnchor:[8,8]})});
+      cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:k.bolgeDisi?"Pilot bölge dışı":"Kimse almadı",draggable:musteriTasinir(k),icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[16,16],iconAnchor:[8,8]})});
       surukle(cagriIsaret[k.id],"musteri",k.id);
       bagla(cagriIsaret[k.id],cagriBilgi(k)).addTo(spyKatman);
     });

@@ -17,6 +17,7 @@ import secrets
 import time
 
 from . import aktarim, bildirim
+from .bolge import bolgede_mi
 from .atama import ILETIM_BEKLEME_SN, randevuda_mi, teklif_et, yeniden_ata
 from .ayarlar import DURUM_AD, KAPALI_DURUMLAR, YEDEK
 from .depo import bos_veri
@@ -177,7 +178,22 @@ def konum_tasi(veri, istek):
         if k.get("durum") != "alindi":
             raise ValueError("Bu çağrıya temsilci atandı ya da çağrı kapandı; konumu değiştirilemez.")
         k["konum"] = {**(k.get("konum") or {}), "lat": lat, "lng": lng}
-        olay(veri, f"{(k.get('musteri') or {}).get('ad') or 'Müşteri'}: konum haritada değiştirildi", kid)
+        ad = (k.get("musteri") or {}).get("ad") or "Müşteri"
+        if not bolgede_mi(lat, lng):  # pilot bölge dışı: temsilci gidemez, telefonla görüşme (çağrı kimse almadı gibi bekler)
+            if k.get("repId"):
+                k["eskiRepler"] = sorted(set(k.get("eskiRepler", [])) | {k["repId"]})
+            k.update({"repId": None, "sahipsiz": True, "bolgeDisi": True, "gerekce": "", "teklifZamani": None})
+            k.setdefault("teklif", {"denenen": []})["bitis"] = 0
+            olay(veri, f"{ad}: pilot bölge dışına taşındı → temsilci gönderilmez, telefonla görüşülür", kid)
+            damga(veri, k)
+            return k
+        olay(veri, f"{ad}: konum haritada değiştirildi", kid)
+        if k.pop("bolgeDisi", None):  # bölgeye geri döndü: baştan teklif edilir
+            k["eskiRepler"] = []
+            k["teklif"] = {"denenen": []}
+            teklif_et(veri, k, " (pilot bölgeye döndü)")
+            damga(veri, k)
+            return k
         damga(veri, k)
         yeniden_ata(veri, k, " (müşteri konumu değişti)")
         return k
@@ -187,6 +203,8 @@ def konum_tasi(veri, istek):
             raise ValueError("SPY bulunamadı.")
         if any(x.get("repId") == kid and x.get("durum") in ATANMIS for x in veri["kayitlar"].values()):
             raise ValueError("Bu SPY'ye kabul ettiği bir çağrı atanmış; konumu değiştirilemez.")
+        if not bolgede_mi(lat, lng):
+            raise ValueError("SPY pilot bölge (Üsküdar, Ümraniye, Ataşehir) dışına taşınamaz.")
         veri.setdefault("elleKonum", {})[kid] = {"lat": lat, "lng": lng}
         olay(veri, f"{s['ad']}: konum haritada değiştirildi")
         veri["surum"] += 1
@@ -199,6 +217,8 @@ def konum_tasi(veri, istek):
 def cagri_ekle(veri, istek):
     """Yönetici takip sayfasında haritaya tıklayıp çağrı ekledi: {ad, yer, tel, lat, lng}. Gerçek çağrı gibi kaydedilir (test sıfırlanana kadar)."""
     lat, lng = _nokta(istek)
+    if not bolgede_mi(lat, lng):
+        raise ValueError("Bu nokta pilot bölge (Üsküdar, Ümraniye, Ataşehir) dışında; çağrı eklenemez.")
     k = {"id": "y-" + secrets.token_hex(5), "konum": {"lat": lat, "lng": lng}, "yer": metin(istek.get("yer"), 120) or "Haritada seçilen nokta",
          "tarih": bugun(), "saat": time.strftime("%H:%M"), "gunYazi": "Bugün", "kaynak": "yonetici"}
     return cagri(veri, {"kayit": k, "musteri": {"ad": metin(istek.get("ad"), 80) or "Test müşterisi", "tel": metin(istek.get("tel"), 20)}})
