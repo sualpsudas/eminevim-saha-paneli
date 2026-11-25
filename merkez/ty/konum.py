@@ -84,6 +84,10 @@ def konum_ve_kaynak(veri, s):
             p = min(1.0, max(0.0, (simdi() - x["yolBasladi"]) / (x.get("yolSure") or 1)))
             a, b = x["yolBaslangic"], x["konum"]
             return {"lat": a["lat"] + (b["lat"] - a["lat"]) * p, "lng": a["lng"] + (b["lng"] - a["lng"]) * p}, "yol"
+    for x in veri["kayitlar"].values():  # hareketli SPY çağrı alınca durur (sabit SPY gibi); yürüyüş başlayınca "yol" devralır
+        d = x.get("don")
+        if d and d.get("id") == s["id"] and x.get("repId") == s["id"] and x.get("durum") in ("atandi", "netlesti", "yolda", "gorusme") and not x.get("yolBasladi"):
+            return {"lat": d["lat"], "lng": d["lng"]}, "dondu"
     elle = (veri.get("elleKonum") or {}).get(s["id"])  # yönetici haritada sürükleyerek taşıdı: test sıfırlanana ya da canlı konum gelene kadar geçerli
     if elle:
         return {"lat": elle["lat"], "lng": elle["lng"]}, "elle"

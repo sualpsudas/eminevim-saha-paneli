@@ -48,6 +48,8 @@ def _ilerle(veri, k):
         k["durum"] = "atandi"
         (k.get("teklif") or {})["bitis"] = 0
         spy = veri["spyler"][k["repId"]]
+        if spy.get("sim"):  # hareketli SPY de sabit SPY gibi atanınca durur: rota hep aynı yerden çizilir, yürüyüş buradan başlar
+            k["don"] = dict(anlik_konum(veri, spy), id=spy["id"])
         olay(veri, f"{ad}: temsilci belli oldu · {spy['ad']}", k["id"])
         bildirim.bildir_musteri(k, f"Temsilciniz belli oldu: {spy['ad']}", "Randevunuzu görmek için dokunun.")
         yeni = "atandi"
@@ -61,6 +63,7 @@ def _ilerle(veri, k):
         # SPY rota boyunca müşteriye doğru yürür (takip sayfası animasyonla gösterir; merkez zamana göre doğru çizgide hesaplar)
         spy = veri["spyler"][k["repId"]]
         k["yolBaslangic"] = dict(anlik_konum(veri, spy))
+        k.pop("don", None)
         k["yolBasladi"], k["yolSure"] = simdi(), YOL_SN * 1000
         veri.get("elleKonum", {}).pop(spy["id"], None)
         olay(veri, f"{ad}: {spy['ad']} müşteriye doğru ilerliyor", k["id"])
