@@ -104,6 +104,7 @@
   .leaflet-tooltip.ilce-ad::before{display:none}
   .leaflet-tooltip.spy-ad{display:none;background:rgba(255,255,255,.9);border:0;box-shadow:0 1px 3px rgba(0,0,0,.25);color:#1b3a2d;font-size:11px;font-weight:700;padding:1px 6px;border-radius:8px;pointer-events:none}
   .leaflet-tooltip.spy-ad::before{display:none}
+  .gm-ik{width:10px;height:10px;border-radius:50%;background:#ea803f;border:1.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
   .yakin-ad .leaflet-tooltip.spy-ad{display:block}
   .gizli-ad .mah-ad{display:none}
   .leaflet-popup-content{font-size:13px;line-height:1.45;margin:10px 12px}
@@ -222,9 +223,13 @@
   });
   function sigdir(){harita.invalidateSize();if(S.ilceler.length)harita.fitBounds(ilceKatman.getBounds(),{padding:[10,10]});}
   sigdir(); addEventListener("load",sigdir); setTimeout(sigdir,400);  // telefonda yerleşim geç oturuyor
-  function adGorunur(){var h=document.getElementById("harita");h.classList.toggle("gizli-ad",harita.getZoom()<13);h.classList.toggle("yakin-ad",harita.getZoom()>=14);}  // yakınlaşınca personel adları görünür
+  function adGorunur(){var h=document.getElementById("harita");h.classList.toggle("gizli-ad",harita.getZoom()<13);h.classList.toggle("yakin-ad",harita.getZoom()>=13);}  // yakınlaşınca personel adları görünür
   harita.on("zoomend",adGorunur); adGorunur();
   var spyKatman=L.layerGroup().addTo(harita), isaretler={}, cagriIsaret={};
+  // Genel müdürlük: küçük turuncu nokta. Konum cadde düzeyinde (Ahmet Tevfik İleri Cd., Yamanevler); bina numarası haritada yok, ~±200 m sapabilir.
+  L.marker([41.02873,29.11376],{title:"Genel Müdürlük",zIndexOffset:300,icon:L.divIcon({className:"",html:'<div class="gm-ik"></div>',iconSize:[10,10],iconAnchor:[5,5]})})
+    .bindTooltip("Genel Müdürlük",{permanent:true,direction:"bottom",offset:[0,6],className:"spy-ad"})
+    .bindPopup("<b>Genel Müdürlük</b><br>Yamanevler, Ahmet Tevfik İleri Cd. No:20 A<br>Ümraniye / İstanbul").addTo(harita);
   // Telefonda (dar ekran) ayrıntı balon yerine alttan kart olarak açılır; işaretler parmak için büyük
   var DAR=matchMedia("(max-width:640px)"), kisiKart=document.getElementById("kisiKart");
     function kartAc(html){document.getElementById("kisiIc").innerHTML=html;kisiKart.hidden=false;}
