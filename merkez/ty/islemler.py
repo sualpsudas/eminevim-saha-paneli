@@ -187,7 +187,6 @@ def konum_tasi(veri, istek):
             olay(veri, f"{ad}: pilot bölge dışına taşındı → temsilci gönderilmez, telefonla görüşülür", kid)
             damga(veri, k)
             return k
-        olay(veri, f"{ad}: konum haritada değiştirildi", kid)
         if k.pop("bolgeDisi", None):  # bölgeye geri döndü: baştan teklif edilir
             k["eskiRepler"] = []
             k["teklif"] = {"denenen": []}
@@ -206,7 +205,6 @@ def konum_tasi(veri, istek):
         if not bolgede_mi(lat, lng):
             raise ValueError("SPY pilot bölge (Üsküdar, Ümraniye, Ataşehir) dışına taşınamaz.")
         veri.setdefault("elleKonum", {})[kid] = {"lat": lat, "lng": lng}
-        olay(veri, f"{s['ad']}: konum haritada değiştirildi")
         veri["surum"] += 1
         for k in list(veri["kayitlar"].values()):
             yeniden_ata(veri, k, f" ({s['ad']} konumu değişti)")

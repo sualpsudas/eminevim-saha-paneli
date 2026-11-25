@@ -36,6 +36,7 @@ def _ilerle(veri, k):
     elif durum in ("yolda", "gorusme"):
         spy = veri["spyler"][k["repId"]]
         konum = k.get("konum") or {}
+        veri.get("elleKonum", {}).pop(spy["id"], None)  # varış: elle taşınan konum bırakılır
         konum_yaz(spy["id"], konum["lat"], konum["lng"])
         k["durum"], k["dogrulandi"] = "gorusmede", {"zaman": simdi(), "yol": "kod"}
         olay(veri, f"{ad}: {spy['ad']} kapıda, görüşme başladı", k["id"])
