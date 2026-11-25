@@ -6,10 +6,11 @@ hemen kabul etmiş sayılır; müşteriye her aşamada bildirim gider. SPY yola 
 from . import bildirim
 from .atama import teklif_et
 from .ayarlar import KAPALI_DURUMLAR
-from .konum import konum_yaz
+from .konum import anlik_konum, konum_yaz
 from .yardim import damga, olay, saat_yaz, simdi
 
 DAKIKA = 60000
+YOL_SN = 15  # sunumda SPY'nin rota boyunca müşteriye varma süresi
 
 
 def _ilerle(veri, k):
@@ -32,6 +33,14 @@ def _ilerle(veri, k):
         k["durum"], k["varisZamani"] = "yolda", simdi() + 10 * DAKIKA
         olay(veri, f"{ad}: {spy['ad']} yola çıktı", k["id"])
         bildirim.bildir_musteri(k, f"Temsilciniz yola çıktı · tahmini varış {saat_yaz(k['varisZamani'])}", f"{spy['ad']} size doğru geliyor.")
+        yeni = "yolda"
+    elif durum in ("yolda", "gorusme") and not k.get("yolBasladi"):
+        # SPY rota boyunca müşteriye doğru yürür (takip sayfası animasyonla gösterir; merkez zamana göre doğru çizgide hesaplar)
+        spy = veri["spyler"][k["repId"]]
+        k["yolBaslangic"] = dict(anlik_konum(veri, spy))
+        k["yolBasladi"], k["yolSure"] = simdi(), YOL_SN * 1000
+        veri.get("elleKonum", {}).pop(spy["id"], None)
+        olay(veri, f"{ad}: {spy['ad']} müşteriye doğru ilerliyor", k["id"])
         yeni = "yolda"
     elif durum in ("yolda", "gorusme"):
         spy = veri["spyler"][k["repId"]]

@@ -39,6 +39,11 @@ def canli_konum(spy_id):
 
 
 def anlik_konum(veri, s):
+    for x in veri["kayitlar"].values():  # sunumda yola çıkmış: başlangıçtan müşteriye zamana göre ilerler
+        if x.get("repId") == s["id"] and x.get("durum") in ("yolda", "gorusme") and x.get("yolBasladi") and x.get("yolBaslangic") and isinstance(x.get("konum"), dict):
+            p = min(1.0, max(0.0, (simdi() - x["yolBasladi"]) / (x.get("yolSure") or 1)))
+            a, b = x["yolBaslangic"], x["konum"]
+            return {"lat": a["lat"] + (b["lat"] - a["lat"]) * p, "lng": a["lng"] + (b["lng"] - a["lng"]) * p}
     elle = (veri.get("elleKonum") or {}).get(s["id"])  # yönetici haritada sürükleyerek taşıdı: test sıfırlanana ya da canlı konum gelene kadar geçerli
     if elle:
         return {"lat": elle["lat"], "lng": elle["lng"]}

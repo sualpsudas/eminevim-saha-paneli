@@ -269,7 +269,7 @@
         return;
       }
       if(k.durum!=="yolda"&&k.durum!=="gorusme")return;
-      var a=s.konumAn||s, b=k.konum, anah=k.id+"|"+a.lat.toFixed(4)+","+a.lng.toFixed(4), hazir=rotaOnbellek[anah];
+      var a=k.yolBaslangic||s.konumAn||s, b=k.konum, anah=k.id+"|"+a.lat.toFixed(4)+","+a.lng.toFixed(4), hazir=rotaOnbellek[anah];
       if(Array.isArray(hazir)){L.polyline(hazir,{color:"#ea803f",weight:3,opacity:.85,interactive:false}).addTo(rotaKatman);return;}
       L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:"#ea803f",weight:2,opacity:.7,dashArray:"6 8",interactive:false}).addTo(rotaKatman);
       if(hazir)return;  // "yok": kuş uçuşu kalır
@@ -281,6 +281,23 @@
         }).catch(function(){rotaOnbellek[anah]="yok";});
     });
   }
+  // Sunumda yola çıkan SPY rota boyunca sürekli ilerler (merkez başlangıç + süre verir; rota OSRM'den, yoksa kuş uçuşu)
+  var saatFark=0;
+  function yolCagri(s){return Object.values(veri.kayitlar).filter(function(k){return k.repId===s.id&&(k.durum==="yolda"||k.durum==="gorusme")&&k.yolBasladi&&k.yolBaslangic&&k.konum;})[0];}
+  function animKonum(s){
+    var k=yolCagri(s); if(!k)return null;
+    var p=Math.min(1,Math.max(0,(Date.now()+saatFark-k.yolBasladi)/(k.yolSure||1))), a=k.yolBaslangic, b=k.konum;
+    var yol=rotaOnbellek[k.id+"|"+a.lat.toFixed(4)+","+a.lng.toFixed(4)];
+    if(!Array.isArray(yol)||yol.length<2)return {lat:a.lat+(b.lat-a.lat)*p,lng:a.lng+(b.lng-a.lng)*p};
+    var uz=[0],i; for(i=1;i<yol.length;i++)uz.push(uz[i-1]+Math.hypot(yol[i][0]-yol[i-1][0],yol[i][1]-yol[i-1][1]));
+    var hedef=uz[uz.length-1]*p; for(i=1;i<yol.length&&uz[i]<hedef;i++);
+    i=Math.min(i,yol.length-1); var f=uz[i]>uz[i-1]?(hedef-uz[i-1])/(uz[i]-uz[i-1]):1;
+    return {lat:yol[i-1][0]+(yol[i][0]-yol[i-1][0])*f,lng:yol[i-1][1]+(yol[i][1]-yol[i-1][1])*f};
+  }
+  (function kare(){
+    veri.spyler.forEach(function(s){var m=isaretler[s.id],c=m&&!suruk&&animKonum(s);if(c)m.setLatLng([c.lat,c.lng]);});
+    requestAnimationFrame(kare);
+  })();
   function acikCagrilar(){return Object.values(veri.kayitlar).filter(function(k){return !k.sahipsiz&&!KAPALI[k.durum]&&k.konum&&k.konum.lat!=null;});}
   function asama(k){return k.sahipsiz&&!k.repId?"sahipsiz":{alindi:"alindi",atandi:"atandi",netlesti:"atandi",yolda:"yolda",gorusme:"yolda",gorusmede:"gorusmede"}[k.durum]||"atandi";}
   function sahipsizler(){return Object.values(veri.kayitlar).filter(function(k){return k.sahipsiz&&!k.repId&&!KAPALI[k.durum]&&k.konum;});}
@@ -303,7 +320,7 @@
     var gorunen=gP?veri.spyler.filter(function(s){return pSec[s.hal];}):[];
     spyKatman.clearLayers(); isaretler={}; cagriIsaret={}; var boy=18;
     gorunen.forEach(function(s){
-      var k=s.konumAn||s, eslesti=acikCagrilar().some(function(c){return c.repId===s.id;}), renk=eslesti?"#00724c":(HAL[s.hal]||HAL.bosta)[1];  // temsilci belli olunca SPY de dolar
+      var k=animKonum(s)||s.konumAn||s, eslesti=acikCagrilar().some(function(c){return c.repId===s.id;}), renk=eslesti?"#00724c":(HAL[s.hal]||HAL.bosta)[1];  // temsilci belli olunca SPY de dolar
       var yanda=gM&&acikCagrilar().some(function(c){return Math.abs(c.konum.lat-k.lat)<.0005&&Math.abs(c.konum.lng-k.lng)<.0007;});  // müşterinin yanında: üst üste binmesin
       isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,draggable:spyTasinir(s),icon:L.divIcon({className:"",html:'<div class="spy-ik" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px"></div>',iconSize:[boy,boy],iconAnchor:[yanda?boy/2-22:boy/2,boy/2]})});
       surukle(isaretler[s.id],"spy",s.id);
@@ -399,7 +416,7 @@
     clearTimeout(zaman);
     fetch("api/durum?hepsi=1&surum="+surum,{cache:"no-store"}).then(function(r){return r.json();}).then(function(v){
       if(v.sifirlama>sifirlama){if(sifirlama>=0)veri.kayitlar={};sifirlama=v.sifirlama;}
-      surum=v.surum; veri.spyler=v.spyler; veri.bugun=v.bugun||veri.bugun; akisCiz(v.olaylar);
+      surum=v.surum; saatFark=(v.simdi||Date.now())-Date.now(); veri.spyler=v.spyler; veri.bugun=v.bugun||veri.bugun; akisCiz(v.olaylar);
       v.kayitlar.forEach(function(k){veri.kayitlar[k.id]=k;});
       var b=document.getElementById("bag"); b.textContent="Canlı · "+saat(Date.now()); b.className="bag";
       if((!harita._popup||!harita.hasLayer(harita._popup))&&kisiKart.hidden&&!suruk)ciz();  // açık bilgi kutusu kapanmasın, sürükleme sırasında işaretler yenilenmesin

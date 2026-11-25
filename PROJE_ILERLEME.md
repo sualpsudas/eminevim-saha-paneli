@@ -1031,3 +1031,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - (aynı gün) Pilot bölge denetimi: müşteri bölge dışına sürüklenince çağrı telefonla görüşmeye döner (bolgeDisi), SPY taşınamaz, bölge dışına çağrı eklenemez. Merkez yeniden başlatıldı.
 - (aynı gün) Çağrı ekle: form kalktı, düğmeye basıp haritaya dokunmak çağrıyı rastgele ad/telefonla hemen ekler.
 - (aynı gün) Otomatik ilerlet: SPY artık yolda aşamasında müşteriye ışınlanmaz (konum.py, yolda iken eski yerinde kalır, rota çizilir; varışta elle konum bırakılır). Konum sürüklemeleri bildirim akışına olay yazmaz. Merkez yeniden başlatıldı.
+- (aynı gün) Otomatik ilerlet: yolda aşamasından sonraki basışta SPY rota boyunca müşteriye sürekli yürür (15 sn; merkez başlangıç+süreyi tutar yolBasladi/yolSure/yolBaslangic, konum.py zamana göre hesaplar, takip.html animKonum ile akıcı çizer); bir sonraki basışta görüşmede. Merkez yeniden başlatıldı.
