@@ -112,9 +112,15 @@ def sunum_denetle(veri):
 
 
 def ilerlet(veri, _istek=None):
-    """api/ilerlet: açık çağrıların hepsi bir aşama ilerler. Döner: {"ilerleyen": sayı}."""
+    """api/ilerlet: açık çağrıların hepsi bir aşama ilerler. Döner: {"ilerleyen": sayı}.
+    Önerilen ileri randevuyu kabul etmiş çağrılar (oneriKabul, SPY henüz yola çıkmadı) sıra bekler: öteki açık çağrılar bitene kadar
+    ilerletilmez, bitince bir sonraki basışta birlikte ilerler (randevu saati geldi sayılır)."""
+    acik = sorted((k for k in veri["kayitlar"].values() if k.get("durum") not in KAPALI_DURUMLAR), key=lambda x: x.get("olusma", 0))
+    bekleyen = [k for k in acik if k.get("oneriKabul") and k.get("durum") in ("alindi", "atandi", "netlesti")]
+    sahipsiz = [k for k in acik if k.get("sahipsiz") and not k.get("repId") and k not in bekleyen]  # SPY'si yok: engel olmaz, yine de SPY aranır
+    simdiki = [k for k in acik if k not in bekleyen and k not in sahipsiz]
     sayi = 0
-    for k in sorted(veri["kayitlar"].values(), key=lambda x: x.get("olusma", 0)):
-        if k.get("durum") not in KAPALI_DURUMLAR and _ilerle(veri, k):
+    for k in (simdiki or bekleyen) + sahipsiz:
+        if _ilerle(veri, k):
             sayi += 1
-    return {"ilerleyen": sayi}
+    return {"ilerleyen": sayi, "bekleyen": len(bekleyen) if simdiki else 0}
