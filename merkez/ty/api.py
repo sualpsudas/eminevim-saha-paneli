@@ -244,7 +244,7 @@ def main():
 
     def bekci():
         while True:
-            time.sleep(2)
+            time.sleep(1)
             with depo.kilit:
                 veri = depo.oku()
                 if sureleri_denetle(veri) | varis_denetle(veri):

@@ -78,7 +78,7 @@ def adaylar(veri, k, haric=()):
     return sorted(sonuc, key=lambda x: -x[0])
 
 
-ILETIM_BEKLEME_SN = 10  # çağrı geldikten sonra SPY'ye iletilene kadar (sunumda "alındı" aşaması görünsün)
+ILETIM_BEKLEME_SN = 4  # çağrı geldikten sonra SPY'ye iletilene kadar (sunumda "alındı" aşaması görünsün)
 
 
 def teklif_et(veri, k, neden=""):
