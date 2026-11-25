@@ -47,7 +47,7 @@ def adaylar(veri, k, haric=()):
     """Eleme + puan. Döner: puana göre sıralı [(puan, spy, gerekçe, km)].
     Yalnız müşterinin ilçesindeki SPY'ler aday olur (ilçe pilot sınırlarından bulunur; bölge dışıysa ilçe denetimi yok).
     Hemen: molada, başka müşteriye bağlı (teklif/atandı/yolda/görüşmede), günlük sınırı dolan elenir (uygulaması kapalı olabilir: bildirim gider); puan yakınlık 50, ciro H/G 25, randevu H/G 15, bugünkü çağrı 10.
-    İleri saat/gün: o gün sınırı dolan, o saatin ±90 dk'sında randevusu olan elenir; puan aynı ağırlıklar (yakınlık 50, ciro 25, randevu 15, o günkü çağrı 10)."""
+    İleri saat/gün: o gün sınırı dolan, o saatin ±60 dk'sında randevusu olan elenir (hemen çağrıda da: bir SPY bir saatte en fazla bir randevu); puan aynı ağırlıklar (yakınlık 50, ciro 25, randevu 15, o günkü çağrı 10)."""
     konum = k.get("konum") or {}
     tarih = k.get("tarih") or bugun()
     hemen = hemen_mi(k)
@@ -61,14 +61,17 @@ def adaylar(veri, k, haric=()):
         benim = [x for x in gun_kayit if x.get("repId") == s["id"]]
         if len(benim) >= GUNLUK_SINIR:
             continue
+        d = dakika(k.get("saat"))
+        if d is None and tarih == bugun():
+            an = time.localtime()
+            d = an.tm_hour * 60 + an.tm_min
+        if d is not None and any(dakika(x.get("saat")) is not None and abs(dakika(x.get("saat")) - d) < ARALIK_DK for x in benim):
+            continue  # bir SPY bir saatte en fazla bir randevu: o saatte randevusu olan elenir, çağrı sıradakine / sonraki saate gider
         if hemen:
             if s.get("durum") == "molada" or mesgul_mu(veri, s["id"], k.get("id")):
                 continue
             uzak = km(anlik_konum(veri, s), konum)
         else:
-            d = dakika(k.get("saat"))
-            if d is not None and any(dakika(x.get("saat")) is not None and abs(dakika(x.get("saat")) - d) < ARALIK_DK for x in benim):
-                continue
             noktalar = [s] + [x["konum"] for x in benim if isinstance(x.get("konum"), dict) and "lat" in x["konum"]]
             uzak = min(km(n, konum) for n in noktalar)  # kendi bölgesine ya da o günkü randevularına en yakın nokta
         p = {"randevu": min(max((s.get("randevuHG", 100) - 100) / HG_TAVAN, 0), 1),
@@ -88,7 +91,7 @@ RANDEVU_BAS, RANDEVU_SON = 10 * 60, 20 * 60  # önerilebilen saat aralığı (we
 
 def oneri_bul(veri, k):
     """İlçede o an uygun SPY yoksa müşteriye önerilecek ilk randevu: bugünden 7 gün içinde, 30 dakikalık adımlarla, ilçedeki bir SPY'nin
-    ileri-saat kurallarına (günlük sınır, ±90 dk çakışma) uyduğu ilk saat. Döner: {"tarih","saat","gunYazi","repId","repAd"} ya da None."""
+    ileri-saat kurallarına (günlük sınır, 60 dk içinde başka randevu yok) uyduğu ilk saat. Döner: {"tarih","saat","gunYazi","repId","repAd"} ya da None."""
     haric = set(k.get("eskiRepler", []))
     an = time.time() + (HEMEN_DK + 1) * 60
     ist = dakika(k.get("saat"))
@@ -105,7 +108,9 @@ def oneri_bul(veri, k):
         if RANDEVU_BAS <= dk <= RANDEVU_SON:
             tarih = time.strftime("%Y-%m-%d", yerel)
             k2 = {**k, "tarih": tarih, "saat": time.strftime("%H:%M", yerel)}
-            liste = adaylar(veri, k2, haric)
+            liste = [x for x in adaylar(veri, k2, haric) if not any(  # başka müşteriye önerilmiş (henüz yanıtlanmamış) saat de dolu sayılır
+                y["id"] != k.get("id") and (y.get("oneri") or {}).get("repId") == x[1]["id"] and (y["oneri"].get("tarih") == tarih)
+                and abs(dakika(y["oneri"].get("saat")) - dk) < ARALIK_DK for y in veri["kayitlar"].values())]
             if liste:
                 gun = "Bugün" if tarih == bugun() else f"{yerel.tm_mday} {AY_AD[yerel.tm_mon - 1]} {GUN_AD[yerel.tm_wday]}"
                 return {"tarih": tarih, "saat": k2["saat"], "gunYazi": gun, "repId": liste[0][1]["id"], "repAd": liste[0][1]["ad"]}

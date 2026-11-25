@@ -166,7 +166,7 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   - **Hemen çağrı** (bugün, saati en geç 2 saat sonra): molada, yolda/görüşmede ve
     günlük sınırı dolan elenir. Puan: **yakınlık 50** (o anki yer: bugünkü son randevusu, yoksa kendi mahallesi), **ciro H/G 25**,
     **randevu H/G 15**, **bugünkü çağrı 10** (az olan önde). Öncelik sırası: yakınlık, ciro, randevu (2026-11-25).
-  - **İleri saat/gün:** o saatin ±90 dk'sında randevusu olan ve o gün sınırı dolan elenir. Puan hemen çağrıyla aynı: **yakınlık 50** (kendi bölgesine ya da o günkü
+  - **İleri saat/gün:** o saatin ±60 dk'sında randevusu olan (bir SPY bir saatte en fazla bir randevu; hemen çağrıda da geçerli) ve o gün sınırı dolan elenir. Puan hemen çağrıyla aynı: **yakınlık 50** (kendi bölgesine ya da o günkü
     randevularına), **ciro H/G 25**, **randevu H/G 15**, **o günkü çağrı 10**.
   - Çağrı en yüksek puanlıya **teklif** edilir; **2 dakikada** kabul edilmezse ya da SPY **Devret** derse sıradakine. Deneme sınırı yok;
     uygun SPY kalmazsa çağrı **"kimse almadı"** olur ve Saha Canlı haritasında **kırmızı** görünür; uygun SPY çıkınca (moladan döndü,

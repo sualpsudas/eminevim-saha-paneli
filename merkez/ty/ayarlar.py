@@ -28,7 +28,7 @@ BILDIRIM_TTL = 120      # telefon kapalı/çevrimdışıysa bildirim bu süre be
 # Atama kuralları (rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md)
 KABUL_SN = 120          # SPY bu sürede kabul etmezse çağrı sıradakine geçer (sınır yok; herkes reddederse "kimse almadı")
 GUNLUK_SINIR = 4        # bir SPY'ye bir günde en fazla çağrı
-ARALIK_DK = 90          # ileri saatte aynı gün iki randevu arası en az
+ARALIK_DK = 60          # bir SPY bir saatte en fazla bir randevu: aynı gün iki randevu arası en az (hemen ve ileri çağrıda)
 HEMEN_DK = 120          # bugün ve saati en geç 2 saat sonra olan çağrı "hemen" sayılır (en erken seçilebilen saatler)
 AGIRLIK = {"hemen": {"yakinlik": 50, "ciro": 25, "randevu": 15, "yuk": 10},  # öncelik: yakınlık, sonra ciro H/G, sonra randevu H/G (2026-11-25)
            "ileri": {"yakinlik": 50, "ciro": 25, "randevu": 15, "yuk": 10}}
