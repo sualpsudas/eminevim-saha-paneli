@@ -35,6 +35,16 @@ def merkez(yol, govde=None):
     return json.loads(urllib.request.urlopen(istek).read())
 
 
+def teklif_bekle(rid):
+    son = time.monotonic() + 20
+    while time.monotonic() < son:
+        kayit = next((k for k in merkez('api/durum?hepsi=1')['kayitlar'] if k['id'] == rid), None)
+        if kayit and kayit.get('repId'):
+            return kayit
+        time.sleep(0.2)
+    raise AssertionError(f'{rid} için teklif oluşmadı')
+
+
 def bekle(page, kosul, sure=8000):
     page.wait_for_function('''(code)=>{const el=document.getElementById('dc-root');const root=el[Object.keys(el).find(k=>k.startsWith('__reactContainer$'))];const queue=[root],seen=new Set();while(queue.length){const f=queue.shift();if(!f||seen.has(f))continue;seen.add(f);if(f.stateNode?.logic){const app=f.stateNode.logic;return !!eval(code);}queue.push(f.child,f.sibling,f.alternate);}return false;}''', arg=kosul, timeout=sure)
 
@@ -126,6 +136,9 @@ with sync_playwright() as p:
     musteri.get_by_role('button',name='Doğrula',exact=True).click()
     musteri.get_by_label('Ad',exact=True).fill('Deniz')
     musteri.get_by_label('Soyad',exact=True).fill('Test')
+    musteri.get_by_role('button', name='Aydınlatma Metni', exact=True).click()
+    musteri.get_by_role('dialog', name='Aydınlatma Metni').get_by_text('Saklama süresi', exact=True).wait_for()
+    musteri.get_by_role('dialog', name='Aydınlatma Metni').get_by_role('button', name='Kapat', exact=True).click()
     musteri.get_by_role('checkbox',name='Ticari elektronik ileti izni (isteğe bağlı)',exact=True).check()
     musteri.get_by_role('checkbox',name="Aydınlatma Metni'ni okudum, bilgilendirildim",exact=True).check()
     musteri.get_by_role('button',name='Hesabımı oluştur',exact=True).click()
@@ -146,9 +159,6 @@ with sync_playwright() as p:
     # Ticari ileti izni Ayarlar'dan geri alınır; merkezde tarihiyle yazılır
     app(musteri, 'app.setState({hosgeldinAdim:0})')
     musteri.get_by_role('button', name='Ayarlar', exact=True).click()
-    musteri.get_by_role('button', name='Aydınlatma Metni', exact=True).click()
-    musteri.get_by_role('dialog', name='Aydınlatma Metni').get_by_text('Saklama süresi', exact=True).wait_for()
-    musteri.get_by_role('dialog', name='Aydınlatma Metni').get_by_role('button', name='Kapat', exact=True).click()
     musteri.get_by_role('checkbox', name='Ticari elektronik ileti izni', exact=True).uncheck()
     for _ in range(20):
         hs = json.loads((Path(tempfile.gettempdir()) / 'deneme.json').read_text(encoding='utf-8'))['musteriler']['5551112233']
@@ -167,7 +177,7 @@ with sync_playwright() as p:
     app(musteri, 'app.setState({yaKonum:{lat:41.0230,lng:29.0200,adres:"Mimar Sinan Mah., Üsküdar",bolge:"Üsküdar"},yaAdim:2,yaGun:"Bugün",yaGunISO:new Date().toLocaleDateString("en-CA"),yaSaat:"' + SIMDI + '"})')
     app(musteri, 'app.yaGonder()')
     bekle(musteri, 'app._canliBilinen && app.state.mTalep && app._canliBilinen[app.state.mTalep.id]')
-    kayit = merkez('api/durum?hepsi=1')['kayitlar'][0]
+    kayit = teklif_bekle(app(musteri, 'app.state.mTalep.id'))
     assert kayit['repId'] == 's2' and kayit['musteri']['ad'] == 'Deniz Test', kayit
     assert kayit['teklif']['bitis'] > 0 and kayit['atamaPuan'] and 'km' in kayit['gerekce'], kayit
     assert app(musteri, 'app.state.mTalep.repId') is None, 'Müşteri kabulden önce SPY görmez'
@@ -214,9 +224,9 @@ with sync_playwright() as p:
     rota = spy.frame_locator('iframe[title="Görüşme noktasına rota"]'); rota.locator('.chip').wait_for(timeout=20000)
     assert 'dk' in rota.locator('.chip').inner_text()
     assert 'e=Temsilciniz' in app(musteri, 'app.mAkisDegerleri(app.state).mTakipHarita') and 'yol=1' in app(musteri, 'app.mAkisDegerleri(app.state).mTakipHarita')
-    # Bildirime dokunma: ilgili randevu açılır; Ayarlar'da Bildirimler kartı
+    # Bildirime dokunma: Ayarlar açıkken ilgili randevuya gidilir
     app(musteri, 'app.setState({customerNav:"ayarlar"})')
-    musteri.get_by_role('region', name='Bildirimler').wait_for()
+    musteri.get_by_role('button', name='Çıkış yap', exact=True).wait_for()
     app(musteri, 'app.randevuAc(app.state.mTalep.id)')
     assert app(musteri, 'app.state.customerNav') == 'basvurum' and app(musteri, 'app.state.mSeciliRandevuId') == app(musteri, 'app.state.mTalep.id')
     # Kapıda doğrulama (2026-11-19): kodu merkez üretir, yalnız müşteriye döner; SPY cihazına ve kayda gitmez.
@@ -260,10 +270,10 @@ with sync_playwright() as p:
         for _ in range(10):
             f.write(b'FRAME\n' + kare.tobytes() + bytes([128]) * (W * H // 2))
     kamerali = p.chromium.launch(channel='chrome', headless=True, args=['--use-fake-ui-for-media-stream', '--use-fake-device-for-media-stream', '--use-file-for-fake-video-capture=' + str(y4m)])
-    kam_ctx = kamerali.new_context(viewport={'width': 1180, 'height': 820}, permissions=['camera'])
+    kam_ctx = kamerali.new_context(viewport={'width': 1180, 'height': 820}, permissions=['camera'], storage_state=spy.context.storage_state())
     kam = kam_ctx.new_page(); kam.on('pageerror', lambda e: errors.append(str(e)))
-    kam.goto(URL); kam.get_by_role('button', name='Devam et', exact=True).wait_for()
-    personel(kam, 's2')
+    kam.goto(URL)
+    bekle(kam, 'app.state.panel==="spy" && app.state.personelRepId==="s2"')
     bekle(kam, 'app.mKayit(' + repr(rid) + ')')
     app(kam, 'app.setState({tpSecim:' + repr(rid) + '})')
     kam.get_by_role('button', name="Vardım: müşterinin QR'ını okut", exact=True).click()
@@ -290,8 +300,12 @@ with sync_playwright() as p:
     GELEN.clear()
     app(spy, 'app.tpDurumSec("molada")')
     musteri.wait_for_timeout(500)
+    hareketliler = [s['id'] for s in merkez('api/durum?hepsi=1')['spyler'] if s.get('sim')]
+    for sid in hareketliler:
+        merkez('api/spy', {'id':sid, 'durum':'molada'})  # Bildirim testi hareketli SPY'nin tur anına bağlı olmasın.
     sonuc = merkez('api/cagri', {'kayit': {'id': 'deneme-2', 'tip': 'ziyaret', 'konum': {'lat': 41.0230, 'lng': 29.0200}, 'yer': 'Üsküdar', 'saat': SIMDI},
                                  'musteri': {'ad': 'İkinci Test'}})['sonuc']
+    sonuc = teklif_bekle('deneme-2')
     assert sonuc['repId'] == 's4', sonuc['repId']
     gelen = gelen_bekle(['/t2', '/t3', '/gone'])
     assert {'/t2', '/t3', '/gone'} <= gelen and '/t1' not in gelen, gelen
@@ -299,20 +313,24 @@ with sync_playwright() as p:
     bil = {s['id']: s['bildirim'] for s in merkez('api/durum?hepsi=1')['spyler']}
     assert bil['s2'] == 0 and bil['s4'] == 2, bil  # /gone (410) silindi
 
-    # İleri tarih: uygulaması kapalı SPY'ler de aday. Devret → sıradaki; 7 SPY de denenince "kimse almadı".
+    for sid in hareketliler:
+        merkez('api/spy', {'id':sid, 'durum':'musait'})
+    # İleri tarih: ilçedeki her aday bir kez denenince çağrı sahipsiz kalır.
     # Eski SPY artık kabul edemez; Ata/Aktar yok.
     k = merkez('api/cagri', {'kayit': {'id': 'deneme-3', 'tip': 'ziyaret', 'tarih': YARIN, 'saat': '14:00', 'konum': {'lat': 41.0300, 'lng': 29.1500}, 'yer': 'Esenşehir, Ümraniye'},
                              'musteri': {'ad': 'Yarın Test'}})['sonuc']
+    k = teklif_bekle('deneme-3')
+    uygun = {s['id'] for s in merkez('api/durum?hepsi=1')['spyler'] if s['ilce']=='Ümraniye'}
     ilk = k['repId']
-    assert ilk in IDLER and k['atamaPuan'] and 'km' in k['gerekce'] and not k['sahipsiz'], k
+    assert ilk in uygun and k['atamaPuan'] and 'km' in k['gerekce'] and not k['sahipsiz'], k
     denenen = [ilk]
     for _ in range(10):
         k = merkez('api/aktar', {'id': 'deneme-3', 'repId': ''})['sonuc']
         if not k['repId']:
             break
-        assert k['repId'] in IDLER and k['repId'] not in denenen, k
+        assert k['repId'] in uygun and k['repId'] not in denenen, k
         denenen.append(k['repId'])
-    assert k['repId'] is None and k['sahipsiz'] is True and len(denenen) == 7, (k, denenen)
+    assert k['repId'] is None and k['sahipsiz'] is True and set(denenen) == uygun, (k, denenen)
     assert 'yonetici' not in k
     try:
         merkez('api/kayit', {'kayit': {'id': 'deneme-3', 'durum': 'atandi', 'repId': ilk}})
@@ -322,7 +340,7 @@ with sync_playwright() as p:
     durum = merkez('api/durum?hepsi=1')
     assert durum['bugun']['gelen'] == 3 and durum['bugun']['gorusme'] == 1, durum['bugun']
     hal = {s['id']: s['hal'] for s in durum['spyler']}
-    assert len(hal) == 7 and hal['s2'] == 'molada' and hal['s4'] == 'bosta', hal
+    assert set(hal) == IDLER | {'h1','h2','h3','h4','h5'} and hal['s2'] == 'molada' and hal['s4'] == 'bosta', hal
 
     # Yönetici: Saha Canlı = takip haritası (Gelen Çağrı, Görüşme Sayısı, süzgeçler, kimse almadı); performans kompakt liste
     yonetici = browser.new_context(viewport={'width': 1024, 'height': 1366}).new_page()
@@ -332,10 +350,12 @@ with sync_playwright() as p:
     cerceve = yonetici.frame_locator('iframe[src^="takip"]')
     cerceve.get_by_text('Gelen Çağrı · bugün', exact=True).wait_for(timeout=10000)
     cerceve.get_by_text('Görüşme Sayısı · bugün', exact=True).wait_for()
-    cerceve.get_by_role('button', name='Molada (1)').wait_for()
+    cerceve.locator('#menuBtn').click()
+    cerceve.get_by_role('checkbox', name='Molada (1)').wait_for()
     cerceve.locator('.cagri-ik').first.wait_for()
-    assert cerceve.locator('.spy-ik').count() == 7
-    cerceve.get_by_role('button', name='Molada (1)').click()
+    assert cerceve.locator('.spy-ik').count() == len(hal)
+    cerceve.locator('[data-p=bosta]').uncheck()
+    cerceve.locator('[data-p=randevuda]').uncheck()
     yonetici.wait_for_timeout(400)
     assert cerceve.locator('.spy-ik').count() == 1
     assert yonetici.get_by_text('Destek', exact=True).count() == 0
@@ -419,6 +439,15 @@ with sync_playwright() as p:
         pg.get_by_role('button', name='Devam et', exact=True).click()
         pg.get_by_label('SMS ile gelen 6 haneli kod').wait_for()
         bekle(pg, 'String(app.state.kodGirdi||"").length===6')
+    # Test kimliği bir anda tek cihazda (2026-11-23): A telefonu çıkış yapınca kimlik boşalır, B girebilir
+    def kimlik_bosalsin(pg, tel):
+        app(pg, 'app.cikisYap()')
+        for _ in range(30):
+            if tel not in json.loads((Path(tempfile.gettempdir()) / 'deneme.json').read_text(encoding='utf-8')).get('kimlikler', {}):
+                return
+            time.sleep(0.2)
+        raise AssertionError(('Çıkış yapıldı ama kimlik boşalmadı', tel))
+    kimlik_bosalsin(musteri, '5551112233')
     b = telefon_b()
     numara(b, '0555 111 22 33')
     assert b.get_by_label('Parola', exact=True).count() == 0
@@ -436,6 +465,7 @@ with sync_playwright() as p:
     b.reload()
     bekle(b, 'app.state.girisYapildi && app.state.customerForm.name==="Deniz Test" && app.state.mTalep', 10000)
     # Web'den gelen müşteri (Mehmet Demir) de başka telefonda numara + SMS koduyla girer, web çağrısı Randevularım'da
+    kimlik_bosalsin(uyg, parse_qs(urlparse(link).query)['tel'][0].replace(' ', '')[-10:])
     b2 = telefon_b()
     numara(b2, parse_qs(urlparse(link).query)['tel'][0])
     b2.get_by_role('button', name='Doğrula', exact=True).click()

@@ -49,7 +49,7 @@ with sync_playwright() as p:
     app(page,'app.setState({panel:"musteri",customerNav:"basvurum"})')
     page.set_viewport_size({'width':320,'height':740})
     page.screenshot(path=str(OUT/'ozet-dar-telefon.png'))
-    assert page.locator('.m-akis').evaluate('(e)=>e.scrollWidth<=e.clientWidth+1')
+    assert page.get_by_role('dialog',name='Randevu ayrıntısı').locator('.m-akis').evaluate('(e)=>e.scrollWidth<=e.clientWidth+1')
     page.get_by_role('button',name='Yeni randevu iste',exact=True).click()
     # Haritadan gelen seçimi kullanarak yeni başvuru davranışını test et.
     app(page,'app.setState({yaKonum:{lat:41.02,lng:29.02,adres:"Üsküdar, uzun bir adres ve görüşme noktası",bolge:"Üsküdar"},yaGun:"Bugün",yaGunISO:new Date().toLocaleDateString("en-CA"),yaSaat:"18:00"});app.yaGonder();app.setState({yaOpen:false,yaKaynak:""})')
@@ -62,7 +62,7 @@ with sync_playwright() as p:
     page.get_by_label('Yaş aralığı',exact=True).select_option(label='65 ve üzeri')
     page.get_by_role('button',name='Kaydet',exact=True).click()
     assert app(page,'app.state.customerForm.ekBilgi.calisma')=='Emekli'
-    page.get_by_role('button',name='Gün / saati değiştir',exact=True).click()
+    page.get_by_role('button',name='Tarihi değiştir',exact=True).click()
     app(page,'app.setState({yaSaat:"19:00"});app.yaGonder()')
     assert app(page,'app.state.mTalep.saat')=='18:00'
     assert app(page,'app.state.mTalep.degisiklik.saat')=='19:00'
@@ -74,6 +74,7 @@ with sync_playwright() as p:
     assert app(page,'app.state.mTalep.durum')=='yolda'
     app(page,'app.setState({panel:"musteri",customerNav:"basvurum"})')
     page.set_viewport_size({'width':393,'height':852})
+    page.locator('.m-randevu-row').first.click()
     page.get_by_role('button',name='İptal et',exact=True).click()
     page.get_by_role('button',name='Randevuyu iptal et',exact=True).click()
     assert app(page,'app.state.mTalep.durum')=='iptal'
@@ -122,6 +123,7 @@ with sync_playwright() as p:
     assert yeni.get_by_text('Deneme Müşteri',exact=True).is_visible()
     buton('Çıkış yap').click()
     # Yeniden giriş: aynı numara + SMS kodu → ad sorulmadan hesap açılır
+    yeni.get_by_label('Telefon numaranız',exact=True).fill('0532 001 02 03')
     buton('Devam et').click()
     yeni.get_by_label('SMS ile gelen 6 haneli kod').wait_for()
     buton('Doğrula').click()

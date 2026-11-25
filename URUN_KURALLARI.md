@@ -162,12 +162,12 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 - **"Aktif değil" diye bir şey yok** (kullanıcı, 2026-11-11): uygulamada yalnız iki H/G'si de ≥ %100 olan SPY'ler bulunur. "Molada" ayrı
   bir durumdur (SPY kendisi seçer).
 - **Giriş (2026-11-12):** Müşteri tek telefon numarası ekranından devam eder; kayıtlı örnek müşteriler açılır kutudan seçilir. **Personel Girişi** sırası: EMİNEVİM, "Personel Girişi", fotoğraf (kartsız), tek açılır kutu (7 SPY + son seçenek **Yönetici**, seçilince kutu soft sarı, fotoğraf yerinde "Y"), her zaman görünen "Giriş yap" (seçim yokken soluk). "SPY"/"YÖNETİCİ" etiketi ve ayrı Yönetici düğmesi yok. İki giriş ekranında sol üstte Geri yok; sağ üstte karşı girişe geçiş ("Personel Girişi" / "Müşteri Girişi"); müşteride adımlar arası dönüş formun altında "Geri dön". İki ekran aynı ölçü ve hizada: logo 150 px, başlık 18 px, yan boşluk 30 px, içerik üstten sabit, telefon çerçevesi aynı konumda (üstten 48 px); personel penceresi açıkken arkadaki sayfa kaymaz (tek kaydırma çubuğu). Cihaz SPY'nin son girişini hatırlar.
-- **Atama** (ayrıntı `rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md`). Günlük sınır 4 çağrı.
-  - **Hemen çağrı** (bugün, saati en geç 2 saat sonra): molada, yolda/görüşmede ve
-    günlük sınırı dolan elenir. Puan: **yakınlık 50** (o anki yer: bugünkü son randevusu, yoksa kendi mahallesi), **ciro H/G 25**,
-    **randevu H/G 15**, **bugünkü çağrı 10** (az olan önde). Öncelik sırası: yakınlık, ciro, randevu (2026-11-25).
-  - **İleri saat/gün:** o saatin ±60 dk'sında randevusu olan (bir SPY bir saatte en fazla bir randevu; hemen çağrıda da geçerli) ve o gün sınırı dolan elenir. Puan hemen çağrıyla aynı: **yakınlık 50** (kendi bölgesine ya da o günkü
-    randevularına), **ciro H/G 25**, **randevu H/G 15**, **o günkü çağrı 10**.
+- **Atama** (ayrıntı `rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md`). Günlük sınır 4 çağrı; yalnız müşterinin ilçesindeki SPY aday.
+  - **Hemen çağrı** (bugün, saati en geç 2 saat sonra): molada, başka müşteriye bağlı ve günlük sınırı dolan elenir.
+  - **İleri saat/gün:** o saatin ±60 dk'sında randevusu olan (bir SPY bir saatte en fazla bir randevu; hemen çağrıda da geçerli) ve o gün sınırı dolan elenir.
+  - Puan iki türde aynı (2026-11-25): **yakınlık 40** (trafikli varış süresi: yol süresi × İBB tipik trafik çarpanı; 30 dk'da sıfır),
+    **çağrı sayısı 30** (o gün az olan önde), **ciro H/G 20**, **randevu H/G 10**. Hemen çağrıda SPY'nin şu anki yeri, ileri çağrıda
+    kendi yeri ya da o günkü randevuları. Takip sayfasındaki **Atama seçenekleri** bunları canlı testte değiştirir (varsayılan bunlar).
   - Çağrı en yüksek puanlıya **teklif** edilir; **2 dakikada** kabul edilmezse ya da SPY **Devret** derse sıradakine. Deneme sınırı yok;
     uygun SPY kalmazsa çağrı **"kimse almadı"** olur ve Saha Canlı haritasında **kırmızı** görünür; uygun SPY çıkınca (moladan döndü,
     görüşmesi bitti) kendiliğinden ona teklif edilir. **Yöneticiye düşme, Ata ve Aktar yok.** Süresi dolmuş çağrıyı eski SPY kabul edemez.
@@ -267,6 +267,8 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
   randevu kartının altında tek satır: "Beklerken finansman ön tercihlerinizi oluşturun." + "Ön tercihler"; ayrı kart yok.
 - Randevu ayrıntısında ileri/geri çubuğu veya Tüm randevular metni yoktur. Başlıkta Geri logonun önünde görünür; listeye döner. SPY adı aktif randevu kartında tarih/adres altındadır; ayrı SPY kartı yoktur. Bekleyen randevu okunmuş olsa da ünlem taşır.
 - Sohbetler → Konuşmalar → SPY satırı → konuşma; `mKonusmaAcik` bu ayrımı tutar. Sekmeye basmak konuşma listesini açar; üst Geri aynı listeye döner.
+
+- **Telefon görünümü (25 Kasım 2026 kullanıcı kararı):** Uygulamanın çalışan telefon tasarımı korunur. Müşteri üst bandında logo yoktur. Alt menü yanlardan 18 px, alttan 14 px ve cihaz güvenli alanı kadar içeride yüzer. Randevu ayrıntısı listenin üstünde alttan açılır ve perdeye dokunarak kapanır. Bu görünümde aşağıdaki eski bant ve menü ölçüleri uygulanmaz.
 
 - Müşteri üst bandı personelinkiyle aynı (kullanıcı kararı 2026-11-12, eski "logo yok, simetrik" kuralının yerine): düz yeşil bant, solda logo, sağda durum yazısı + baş harf düğmesi (Ayarlar'a gider). Alt menü 52 px, 12 px etiket, seçili sekmede üstte 2 px yeşil çizgi. Kök sekmelerde (Randevularım, Sohbetler, Finansmanlarım, Ayarlar) altında personeldeki gibi beyaz başlık bandı. Dönüş gereken ekranda Geri **başlık bandında** (personeldeki gibi "Geri · Başlık"; Geri olan sayfalara Randevu/Sohbet/Finansman başlığı verilir), logo hiç kaymaz; ok/chevron yok; Finansman kök listesinde Geri yok. İçerikte/kartta ve finansman formunun altında tekrar dönüş düğmesi kullanma; finansman adım dönüşü de üst Geri üzerinden yapılır.
 

@@ -94,7 +94,8 @@ with sync_playwright() as p:
         app.get_by_text('Görüşmeye hazırlanmamıza yardımcı olun', exact=True).wait_for()
         app.get_by_role('button', name='Şimdi değil', exact=True).click()
         app.get_by_role('button', name='Randevularım', exact=True).click(); app.locator('.m-randevu-row').first.click()
-        app.get_by_text('Görüşmeye hazırlık · isteğe bağlı', exact=True).wait_for()
+        app.get_by_role('button', name='Görüşmeye hazırlık', exact=True).click()
+        app.get_by_role('dialog', name='Görüşmeye hazırlanmamıza yardımcı olun').wait_for()
         app.close()
         # Temsilci penceresi seçim yapmadan kapatılırsa anahtar kapanır; normal başvuru yapılabilir.
         page.reload(wait_until='domcontentloaded')

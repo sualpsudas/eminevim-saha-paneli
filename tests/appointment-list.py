@@ -22,38 +22,41 @@ with sync_playwright() as p:
     rows=frame.locator('.m-randevu-row')
     rows.first.wait_for()
     assert frame.evaluate('window.EMINEVIM_NATIVE') is True
-    assert frame.locator('.customer-header img').count()==1  # personel düzeniyle aynı üst bant (2026-11-12)
-    logo_x=frame.locator('.customer-ust-logo').bounding_box()['x']
+    assert frame.locator('.customer-header img').count()==0
+    account_x=frame.get_by_role('button',name='Hesabım').bounding_box()['x']
     assert frame.locator('.customer-header').get_by_text('AK',exact=True).count()==1
     assert frame.locator('.customer-screen .login-return-button').count()==0
     assert frame.locator('.m-yeni').count()==1
     # Geçmiş kayıtlar gerçek randevu yapısını kullanır; aktif kayıt en üstte kalır.
     app(frame,'app.setState({mGecmis:[{id:"old-a",repId:"s2",tarih:"2026-09-01",gunYazi:"1 Eylül",saat:"11:00",durum:"tamamlandi",yer:"Üsküdar",ozet:[{k:"Konu",v:"Konut"}]},{id:"old-b",repId:"s1",tarih:"2026-10-01",gunYazi:"1 Ekim",saat:"12:00",durum:"iptal",yer:"Ataşehir"}]})')
     assert rows.count()==3
-    assert '1 Eki' in rows.nth(1).inner_text()
-    assert '1 Eyl' in rows.nth(2).inner_text()
+    for row, month in [(rows.nth(1),'Eki'),(rows.nth(2),'Eyl')]:
+        assert row.locator('.m-rd-tarih b').text_content()=='1'
+        assert row.locator('.m-rd-tarih small').text_content()==month
     status=frame.locator('.customer-statusbar').bounding_box()
     header=frame.locator('.customer-header').bounding_box()
     assert abs(status['height']-59)<1 and header['y']>=59
-    nav=frame.locator('.customer-nav').bounding_box()
-    assert nav['height']>=80
+    nav=frame.locator('.customer-nav').evaluate('e=>e.getBoundingClientRect().toJSON()')
+    assert nav['height']==64 and nav['x']==18
     page.screenshot(path=str(OUT/'iphone-randevular-listesi.png'))
     rows.first.click()
-    frame.get_by_role('button',name='Geri',exact=True).wait_for()
-    assert frame.locator('.customer-bas .m-band-geri').inner_text()=='Geri'
-    assert abs(frame.locator('.customer-ust-logo').bounding_box()['x']-logo_x)<1  # Geri gelince logo kaymaz
+    frame.get_by_role('dialog',name='Randevu ayrıntısı').wait_for()
+    assert abs(frame.get_by_role('button',name='Hesabım').bounding_box()['x']-account_x)<1
     assert frame.get_by_text('Tüm randevular',exact=True).count()==0
     assert frame.get_by_role('button',name='Temsilciye yaz',exact=True).count()==0
     assert frame.locator('.m-durum').inner_text().find('Temsilciniz: Onur Kaya')>=0
-    assert frame.get_by_role('button',name='Ön tercihler',exact=True).count()==1
+    assert frame.get_by_role('button',name='Finansman ön tercihleri',exact=True).count()==1
     page.screenshot(path=str(OUT/'iphone-randevu-detayi.png'))
-    frame.get_by_role('button',name='Geri',exact=True).click()
+    frame.locator('.m-sheet-perde').click(position={'x':100,'y':100})
+    frame.get_by_role('dialog',name='Randevu ayrıntısı').wait_for(state='hidden')
     rows.nth(1).click()
     frame.get_by_role('heading',name='İptal edildi',exact=True).wait_for()
-    frame.get_by_role('button',name='Geri',exact=True).click()
+    frame.locator('.m-sheet-perde').click(position={'x':100,'y':100})
+    frame.get_by_role('dialog',name='Randevu ayrıntısı').wait_for(state='hidden')
     rows.nth(2).click()
     frame.get_by_role('heading',name='Görüşme özeti',exact=True).wait_for()
-    frame.get_by_role('button',name='Geri',exact=True).click()
+    frame.locator('.m-sheet-perde').click(position={'x':100,'y':100})
+    frame.get_by_role('dialog',name='Randevu ayrıntısı').wait_for(state='hidden')
     assert frame.locator('.m-yeni').count()==0
     frame.goto(frame.url)
     frame.get_by_role('button',name='Devam et',exact=True).click()
@@ -64,13 +67,15 @@ with sync_playwright() as p:
     assert frame.locator('.m-yeni').count()==1
     rows.first.click()
     app(frame,'app.setState({mTalep:{...app.state.mTalep,durum:"atandi"}})')
-    frame.get_by_role('button',name='Geri',exact=True).click()
+    frame.locator('.m-sheet-perde').click(position={'x':100,'y':100})
+    frame.get_by_role('dialog',name='Randevu ayrıntısı').wait_for(state='hidden')
     assert frame.locator('.m-yeni').count()==1,'Bekleyen randevu okunsa bile ünlem kalır'
-    assert 'Kesinleşmesi bekleniyor' in rows.first.inner_text()
+    assert rows.first.locator('.m-rozet').text_content()=='Bekliyor'
     rows.first.click()
     app(frame,'app.setState({mTalep:{...app.state.mTalep,durum:"netlesti"}})')
     assert 'Temsilciniz yola çıktığında sizi bilgilendireceğiz.' not in frame.locator('.m-durum').inner_text()
-    frame.get_by_role('button',name='Geri',exact=True).click()
+    frame.locator('.m-sheet-perde').click(position={'x':100,'y':100})
+    frame.get_by_role('dialog',name='Randevu ayrıntısı').wait_for(state='hidden')
     assert frame.locator('.m-yeni').count()==0
     frame.get_by_role('button',name='Sohbetler',exact=True).click()
     frame.get_by_role('heading',name='Konuşmalar',exact=True).wait_for()

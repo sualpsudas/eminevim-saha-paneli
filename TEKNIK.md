@@ -69,6 +69,13 @@ yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyo
 
 - **Pilot bölge denetimi (2026-11-25, `merkez/ty/bolge.py`, sınırlar `assets/pilot-sinirlar.js`):** müşteri bölge dışına sürüklenirse çağrı `bolgeDisi` olur (temsilci gönderilmez, telefonla görüşülür; takipte "Pilot bölge dışı"), bölgeye geri taşınınca baştan teklif edilir. SPY bölge dışına taşınamaz, bölge dışına çağrı eklenemez (400 hata).
 
+- **Atama seçenekleri, yol ve trafik (2026-11-25):** `atama.ayar(veri)` = `ayarlar.ATAMA_VARSAYILAN` + `veri["atamaAyar"]` (sıfırlamada korunur).
+  `api/atama-ayar` {islem: oku | kaydet (ayar) | varsayilan | dene (id)}; `dene` çağrıyı değiştirmeden şimdiki seçeneklerle sıralar.
+  Her teklif/yeniden değerlendirmede çağrıya `siralama` {t, uzaklik, agirlik, hemen, adaylar[{id, ad, puan, parca{yakinlik,yuk,ciro,randevu}, km, dk, carpan, kaynak, cagri}], elenen[{id, ad, neden}]} ve `varisDk` yazılır.
+  `yol.olc(noktalar, hedef)`: OSRM `table` (sources=adaylar, destinations=müşteri) tek istek, 3 sn zaman aşımı, bellekte önbellek (~10 m), hata olursa 60 sn kuş uçuşu.
+  `trafik.carpan(a, b, gun, saat)`: düz hat üstündeki 5 noktanın geohash-6 karelerinin ortalaması (`veri/trafik-carpan.json`; yeniden üretmek için
+  İBB aylık CSV'leri indirilip `python araclar/trafik_hazirla.py <csv...>`; CSV'ler depoya girmez). `sureleri_denetle` sık yoklamada `adaylar(..., olc=False)` kullanır (yol servisine istek gitmez).
+  Arayüz `merkez/takip.html` → "Atama seçenekleri" (sağdan panel; gösteri sürümünde yok).
 - **İlçe kuralı, randevu önerisi, hareketli SPY (2026-11-25):** `atama.adaylar` yalnız müşterinin ilçesindeki SPY'leri aday yapar (`bolge.ilce_bul`). İlçede o an uygun SPY yoksa `atama.oneri_bul` 30 dk adımlarla (10:00–20:00, 7 gün) ilçedeki bir SPY'nin ileri-saat kurallarına uyan ilk saati bulur; çağrıda `oneri` {tarih,saat,gunYazi,repId,repAd} durur, müşteriye bildirim gider, uygulamada "Bu saati kabul et / Başka saat seç" kartı çıkar (`api/oneri` {id, karar: kabul|red}; kabul → o saate teklif, red → `oneriYok`, çağrı kimse almadı olarak bekler, müşteri `mDegistir` ile saat seçer). Uygun SPY çıkarsa öneri kalkar, çağrı doğrudan teklif edilir. 5 hareketli örnek SPY (`personel.SIM_SPYLER`, id h1–h5, `sim: true`): ilçelerinde sin dalgasıyla dolaşır (`konum.gezi_konum`, takip aynı formülü `animKonum`'da çalıştırır), atamaya gerçek SPY gibi girer, teklifi 4 sn sonra kendiliğinden kabul eder (`sunum.sim_kabul`, bekçi 1 sn). Uygulama `veri/spyler.js` yanıtına `window.TY_SPYLER_SIM` eklenir (müşteri tarafı bilgi kartı; SPY girişinde görünmez). Konum önceliği `konum.konum_ve_kaynak`.
 ## iPhone (TestFlight)
 - TestFlight'ta derleme var (Build 1, 2026-10-05; `IOS_TESTFLIGHT.md`).

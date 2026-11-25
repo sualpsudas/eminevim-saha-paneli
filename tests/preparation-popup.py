@@ -19,7 +19,7 @@ with sync_playwright() as p:
         app(page,'app.setState({mTalep:{...app.state.mTalep,durum:"atandi"}})')
         dialog=page.get_by_role('dialog',name='Görüşmeye hazırlanmamıza yardımcı olun',exact=True)
         assert dialog.count()==0
-        assert page.get_by_role('button',name='Bilgi ekle',exact=True).count()==0
+        assert page.get_by_role('button',name='Görüşmeye hazırlık',exact=True).count()==0
         page.get_by_role('button',name=tab,exact=True).click()
         if tab=='Randevularım': page.locator('.m-randevu-row').first.click()
         else: page.locator('.m-konuşma-row').click()
@@ -34,13 +34,14 @@ with sync_playwright() as p:
         dialog.get_by_role('button',name='Şimdi değil',exact=True).click()
         assert dialog.count()==0
         assert app(page,'app.state.mTalep.durum')=='netlesti'
-        page.get_by_role('button',name='Randevularım',exact=True).click()
-        page.locator('.m-randevu-row').first.click()
-        page.get_by_role('button',name='İsterseniz bilgi ekleyin',exact=True).click()
+        if tab=='Sohbetler':
+            page.get_by_role('button',name='Randevularım',exact=True).click()
+            page.locator('.m-randevu-row').first.click()
+        page.get_by_role('button',name='Görüşmeye hazırlık',exact=True).click()
         dialog.get_by_label('Çalışma durumu',exact=True).select_option(label='Emekli')
         dialog.get_by_role('button',name='Kaydet',exact=True).click()
         assert app(page,'app.state.customerForm.ekBilgi.calisma')=='Emekli'
-        page.get_by_role('button',name='Bilgileri düzenle',exact=True).click()
+        page.get_by_role('button',name='Görüşmeye hazırlık',exact=True).click()
         assert dialog.get_by_role('button',name='Ön tercihler',exact=True).count()==0
         # Finansman Aracı düğmesi: girilen bilgi kaydedilir, Finansman sekmesi açılır
         dialog.get_by_label('Yaş aralığı',exact=True).select_option(label='35–44')
@@ -49,7 +50,7 @@ with sync_playwright() as p:
         assert dialog.count()==0 and app(page,'app.state.customerForm.ekBilgi.yas')=='35–44' and app(page,'app.state.customerForm.ekBilgi.calisma')=='Emekli'
         page.get_by_role('button',name='Randevularım',exact=True).click()
         page.locator('.m-randevu-row').first.click()
-        page.get_by_role('button',name='Ön tercihler',exact=True).click()
+        page.get_by_role('button',name='Finansman ön tercihleri',exact=True).click()
         page.locator('.customer-finance').wait_for()
         assert app(page,'app.state.mTalep.durum')=='netlesti'
         page.reload()

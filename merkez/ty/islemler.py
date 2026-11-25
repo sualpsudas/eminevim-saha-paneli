@@ -9,17 +9,18 @@
   api/kod      web formundan gelen müşterinin giriş kodu
   api/musteri  müşteri hesabı (musteri.py)
   api/dogrulama kapıda kimlik doğrulama: müşteriye kod, SPY okutur (dogrulama.py)
-  api/sifirla  test verisini sıfırla
+  api/sifirla  test verisini sıfırla (atama seçenekleri korunur)
+  api/atama-ayar takip sayfasının "Atama seçenekleri" bölümü: oku / kaydet / varsayılana dön (atama.ayar_kaydet)
 Okuma (api/durum) için özetler de burada: spy_ozet, bugun_sayilar.
 """
 import json
 import secrets
 import time
 
-from . import aktarim, bildirim
+from . import aktarim, bildirim, trafik
 from .bolge import bolgede_mi
-from .atama import ILETIM_BEKLEME_SN, randevuda_mi, teklif_et, yeniden_ata
-from .ayarlar import DURUM_AD, KAPALI_DURUMLAR, YEDEK
+from .atama import ILETIM_BEKLEME_SN, adaylar, ayar, ayar_kaydet, hemen_mi, randevuda_mi, teklif_et, yeniden_ata
+from .ayarlar import ATAMA_VARSAYILAN, DURUM_AD, KAPALI_DURUMLAR, UZAKLIK_TURLERI, YEDEK
 from .depo import bos_veri
 from .dogrulama import KAPI_KODLARI, dogrulama_islem
 from .konum import konum_sifirla, anlik_konum, canli_konum, konum_yaz, konum_ve_kaynak
@@ -29,7 +30,7 @@ from .sunum import ilerlet
 from .yardim import bugun, damga, metin, olay, saat_yaz, simdi, tel_temiz
 
 GORULME = {}  # SPY id -> son yoklama zamanı (yalnız bellekte)
-YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla", "api/kimlik", "api/ilerlet", "api/konum-tasi", "api/cagri-ekle", "api/oneri")
+YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla", "api/kimlik", "api/ilerlet", "api/konum-tasi", "api/cagri-ekle", "api/oneri", "api/atama-ayar")
 
 
 def temiz_kayit(gelen):
@@ -284,9 +285,11 @@ def sifirla(veri, istek):
         raise ValueError("Onay eksik.")
     YEDEK.mkdir(exist_ok=True)
     (YEDEK / time.strftime("veri_%Y-%m-%d_%H%M%S.json")).write_text(json.dumps(veri, ensure_ascii=False), encoding="utf-8")
-    surum = veri["surum"]
+    surum, eski_ayar = veri["surum"], veri.get("atamaAyar")
     veri.clear()
     veri.update(bos_veri())
+    if eski_ayar:
+        veri["atamaAyar"] = eski_ayar
     veri["surum"] = surum + 1
     konum_sifirla()
     veri["sifirlama"] = veri["surum"]  # cihazlar eski kayıtları bırakır, müşteri oturumları kapanır
@@ -295,9 +298,34 @@ def sifirla(veri, istek):
     return {}
 
 
+def atama_ayar(veri, istek):
+    islem = istek.get("islem") or "oku"
+    if islem == "kaydet":
+        a = ayar_kaydet(veri, istek.get("ayar") or {"bos": 1})
+        olay(veri, "Atama seçenekleri değişti: " + atama_ozet(a))
+    elif islem == "varsayilan":
+        a = ayar_kaydet(veri, None)
+        olay(veri, "Atama seçenekleri varsayılana döndü: " + atama_ozet(a))
+    elif islem == "dene":  # seçili çağrı şimdiki seçeneklerle nasıl sıralanırdı (hiçbir şey değişmez)
+        k = veri["kayitlar"][istek["id"]]
+        elenen = []
+        liste = adaylar(veri, k, (), elenen)
+        return {"id": k["id"], "adaylar": [{"id": s["id"], "ad": s["ad"], "puan": p, "gerekce": g, **ay} for p, s, g, _, ay in liste],
+                "elenen": elenen, "hemen": hemen_mi(k), "uzaklik": ayar(veri)["uzaklik"], "agirlik": ayar(veri)["agirlik"]}
+    else:
+        a = ayar(veri)
+    return {"ayar": a, "varsayilan": ATAMA_VARSAYILAN, "turler": UZAKLIK_TURLERI, "trafik": trafik.bilgi()}
+
+
+def atama_ozet(a):
+    g = a["agirlik"]
+    return (f"yakınlık {g['yakinlik']}, çağrı sayısı {g['yuk']}, ciro H/G {g['ciro']}, randevu H/G {g['randevu']} · {UZAKLIK_TURLERI[a['uzaklik']]}"
+            f" · günlük en fazla {a['gunlukSinir']} · randevu arası {a['aralikDk']} dk · ilçe şartı {'açık' if a['ilceSarti'] else 'kapalı'}")
+
+
 ISLEMLER = {"api/cagri": cagri, "api/kayit": kayit, "api/mesaj": mesaj, "api/spy": spy_durum, "api/aktar": aktar,
             "api/konum": konum, "api/kod": giris_kodu, "api/musteri": musteri_islem, "api/dogrulama": dogrulama_islem, "api/sifirla": sifirla, "api/kimlik": kimlik, "api/ilerlet": ilerlet,
-            "api/konum-tasi": konum_tasi, "api/cagri-ekle": cagri_ekle, "api/oneri": oneri_islem}
+            "api/konum-tasi": konum_tasi, "api/cagri-ekle": cagri_ekle, "api/oneri": oneri_islem, "api/atama-ayar": atama_ayar}
 
 
 def uygula(veri, yol, istek):

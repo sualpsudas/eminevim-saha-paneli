@@ -15,6 +15,8 @@
   header h1{margin:0;font-size:17px;flex:1;min-width:180px}
   header small{opacity:.85;font-size:12px;font-weight:400}
   body.gomulu header{display:none}
+  body.gomulu.canli header{display:flex;justify-content:flex-end}
+  body.gomulu.canli header>:not(#apBtn){display:none}
   .bag{font-size:12px;border-radius:22px;padding:4px 10px;background:rgba(255,255,255,.16)}
   .bag.kopuk{background:#b25e30}
   button{font:inherit;cursor:pointer}
@@ -121,12 +123,54 @@
   .ekle-dugme{display:flex;gap:8px;justify-content:flex-end}
   .ekle-dugme button{font-size:14px;border:1.5px solid var(--cizgi);background:#fff;border-radius:22px;padding:8px 14px;min-height:40px}
   .ekle-dugme button.tamam{background:var(--yesil);border-color:var(--yesil);color:#fff;font-weight:700}
+  /* Atama seçenekleri paneli (sağdan açılır; telefonda tam ekran) */
+  .ap-ort{position:fixed;inset:0;background:rgba(0,0,0,.25);z-index:2000}
+  .ap{position:fixed;top:0;right:0;bottom:0;width:min(440px,100%);background:#fff;z-index:2001;display:flex;flex-direction:column;box-shadow:-6px 0 24px rgba(0,0,0,.18)}
+  .ap[hidden],.ap-ort[hidden],.ap label[hidden],.ap-not[hidden]{display:none}
+  .ap-ust{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--cizgi)}
+  .ap-ust h2{margin:0;font-size:17px;flex:1;color:var(--koyu)}
+  .ap-ust button{width:44px;height:44px;border:0;border-radius:50%;background:#eee;color:var(--koyu);font-size:18px}
+  .ap-ic{overflow:auto;padding:12px 16px 24px;font-size:14px;color:var(--koyu)}
+  .ap fieldset{border:1px solid var(--cizgi);border-radius:12px;margin:0 0 12px;padding:6px 12px 10px}
+  .ap legend{font-weight:700;padding:0 4px}
+  .ap legend span{font-weight:400;color:var(--yazi);font-size:12px}
+  .ap label{display:flex;align-items:center;gap:8px;min-height:40px}
+  .ap label small{color:var(--yazi);font-size:12px}
+  .ap label .ad{flex:1}
+  .ap input[type=number]{width:76px;font:inherit;padding:6px 8px;border:1.5px solid var(--cizgi);border-radius:8px;min-height:38px;font-variant-numeric:tabular-nums}
+  .ap input[type=radio],.ap input[type=checkbox]{width:18px;height:18px;accent-color:var(--yesil);flex:0 0 auto;margin:0}
+  .ap-not{color:var(--yazi);font-size:12px;margin:4px 0 10px;line-height:1.45}
+  .ap-dugme{display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap}
+  .ap-dugme button,.ap-dene{font-size:14px;border:1.5px solid var(--cizgi);background:#fff;color:var(--koyu);border-radius:22px;padding:8px 14px;min-height:40px}
+  .ap-dugme .tamam{background:var(--yesil);border-color:var(--yesil);color:#fff;font-weight:700}
+  .ap-durum{font-size:13px;color:var(--yesil);min-height:18px;margin-top:6px}
+  .ap-durum.hata{color:var(--kirmizi)}
+  .ap h3{font-size:15px;margin:18px 0 4px}
+  .ap select{font:inherit;flex:1;min-width:0;min-height:40px;border:1.5px solid var(--cizgi);border-radius:8px;padding:4px 8px;background:#fff;color:var(--koyu)}
+  .ap-blok{border:1px solid var(--cizgi);border-radius:12px;padding:10px 12px;margin:10px 0}
+  .ap-bb{display:flex;flex-direction:column;gap:2px;margin-bottom:6px}
+  .ap-bb span{font-size:12px;color:var(--yazi)}
+  .ap-lejant{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--yazi);margin-bottom:4px}
+  .ap-lejant i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+  .ap-liste{margin:0;padding-left:22px}
+  .ap-liste li{padding:7px 0;border-top:1px solid #eee}
+  .ap-liste li:first-child{border-top:0}
+  .ap-liste li.ilk b{color:var(--yesil)}
+  .ap-sat{display:flex;justify-content:space-between;gap:8px}
+  .ap-puan{font-weight:700;font-variant-numeric:tabular-nums}
+  .ap-bar{display:flex;height:8px;background:#eef0ee;border-radius:4px;overflow:hidden;margin:4px 0}
+  .ap-bar i{display:block;height:100%}
+  .ap-ayr{font-size:12px;color:var(--yazi);line-height:1.45}
+  .ap-elenen{font-size:13px;margin-top:8px}
+  .ap-elenen summary{cursor:pointer;min-height:32px;line-height:32px}
+  .ap-elenen ul{margin:2px 0 0;padding-left:18px;color:var(--yazi)}
 </style>
 </head>
 <body>
 <header>
   <h1>Tasarruf Yanımda · Saha Canlı <small>test sürümü</small></h1>
   <span class="bag" id="bag">Bağlanıyor…</span>
+  <button class="sifirla" id="apBtn" type="button" aria-haspopup="dialog">Atama seçenekleri</button>
   <button class="sifirla" id="sifirla" type="button">Test verisini sıfırla</button>
 </header>
 <main>
@@ -138,6 +182,38 @@
   </div>
 </main>
 <div class="kisi-kart" id="kisiKart" hidden role="dialog" aria-label="Ayrıntı"><div id="kisiIc"></div><button type="button" id="kisiKapat" aria-label="Kapat">✕</button></div>
+<div class="ap-ort" id="apOrt" hidden></div>
+<aside class="ap" id="ap" hidden role="dialog" aria-modal="true" aria-labelledby="apBaslik">
+  <div class="ap-ust"><h2 id="apBaslik">Atama seçenekleri</h2><button type="button" id="apKapat" aria-label="Kapat">✕</button></div>
+  <div class="ap-ic">
+    <p class="ap-not">Kaydedince sonraki çağrılar bu seçeneklerle atanır. Test verisi sıfırlansa da seçenekler korunur. Listede yalnız iki H/G'si de %100 ve üstü olan SPY'ler var.</p>
+    <form id="apForm">
+      <fieldset><legend>Puan ağırlıkları <span id="apToplam"></span></legend>
+        <label><span class="ad">Yakınlık</span><input type="number" name="yakinlik" min="0" max="100" inputmode="numeric"></label>
+        <label><span class="ad">Çağrı sayısı <small>o gün az çağrısı olan önde</small></span><input type="number" name="yuk" min="0" max="100" inputmode="numeric"></label>
+        <label><span class="ad">Ciro H/G</span><input type="number" name="ciro" min="0" max="100" inputmode="numeric"></label>
+        <label><span class="ad">Randevu H/G</span><input type="number" name="randevu" min="0" max="100" inputmode="numeric"></label>
+      </fieldset>
+      <fieldset><legend>Yakınlık nasıl ölçülsün</legend>
+        <div id="apTurler"></div>
+        <label id="apSifirDk"><span class="ad">Yakınlık puanının sıfır olduğu varış süresi (dk)</span><input type="number" name="sifirDk" min="5" max="180" inputmode="numeric"></label>
+        <label id="apSifirKm"><span class="ad">Yakınlık puanının sıfır olduğu uzaklık (km)</span><input type="number" name="sifirKm" min="1" max="60" inputmode="numeric"></label>
+        <p class="ap-not" id="apTrafik"></p>
+      </fieldset>
+      <fieldset><legend>Eleme</legend>
+        <label><span class="ad">Bir SPY'ye günde en fazla çağrı</span><input type="number" name="gunlukSinir" min="1" max="20" inputmode="numeric"></label>
+        <label><span class="ad">Aynı gün iki randevu arası en az (dk)</span><input type="number" name="aralikDk" min="0" max="240" inputmode="numeric"></label>
+        <label><input type="checkbox" name="ilceSarti"><span class="ad">Yalnız müşterinin ilçesindeki SPY aday olsun</span></label>
+      </fieldset>
+      <div class="ap-dugme"><button type="button" id="apVarsayilan">Varsayılana dön</button><button type="submit" class="tamam">Kaydet</button></div>
+      <div class="ap-durum" id="apDurum" role="status"></div>
+    </form>
+    <h3>Çağrı sıralaması</h3>
+    <p class="ap-not">Seçilen çağrıda adayların puan dökümü ve elenenler.</p>
+    <label><span class="ad" style="flex:0 0 auto">Çağrı</span><select id="apCagri"></select></label>
+    <div id="apSira"></div>
+  </div>
+</aside>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css">
 <script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
@@ -150,6 +226,7 @@
 <script>
 (function(){
   if(/[?&]gomulu=1/.test(location.search))document.body.classList.add("gomulu");
+  if(!DEMO)document.body.classList.add("canli");
   var HAL={bosta:["Boşta","#ffffff"],randevuda:["Randevuda","#00724c"],molada:["Molada","#8a8f94"]};
   var DURUM={yolda:"yolda",gorusme:"yolda",gorusmede:"görüşmede"};
   var KAPALI={tamamlandi:1,iptal:1};
@@ -446,8 +523,97 @@
       .then(function(){surum=0;tur();})
       .catch(function(err){ip.textContent=err.message;ip.hidden=false;setTimeout(function(){ip.hidden=true;ip.textContent="Haritada müşterinin yerine dokunun";},4000);});
   });
+  // Atama seçenekleri (merkez: api/atama-ayar): ağırlıklar, uzaklık türü, eleme sınırları; altta seçili çağrının aday sıralaması
+  var ap=document.getElementById("ap"), apOrt=document.getElementById("apOrt"), apForm=document.getElementById("apForm"), apBilgi=null, apDeneme=null, apSecili="", apAnahtar="";
+  var OLCUT=[["yakinlik","Yakınlık","#00724c"],["yuk","Çağrı sayısı","#ea803f"],["ciro","Ciro H/G","#3f7fb8"],["randevu","Randevu H/G","#9a7bc0"]];
+  function apIstek(govde){
+    return fetch("api/atama-ayar",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(govde)})
+      .then(function(r){return r.json().catch(function(){return {};}).then(function(v){if(!r.ok)throw new Error(v.hata||("Hata "+r.status));return v.sonuc;});});
+  }
+  function sayi(x){return String(x).replace(".",",");}
+  function apTur(){return (apForm.querySelector("input[name=uzaklik]:checked")||{}).value;}
+  function apDoldur(b){
+    apBilgi=b; var a=b.ayar;
+    OLCUT.forEach(function(o){apForm.elements[o[0]].value=a.agirlik[o[0]];});
+    document.getElementById("apTurler").innerHTML=Object.keys(b.turler).map(function(t){return '<label><input type="radio" name="uzaklik" value="'+t+'"'+(a.uzaklik===t?" checked":"")+'><span class="ad">'+e(b.turler[t])+'</span></label>';}).join("");
+    ["sifirDk","sifirKm","gunlukSinir","aralikDk"].forEach(function(x){apForm.elements[x].value=a[x];});
+    apForm.elements.ilceSarti.checked=!!a.ilceSarti;
+    var t=b.trafik;
+    document.getElementById("apTrafik").textContent=t.var?"Trafik: "+t.kaynak+" ("+t.donem.join(", ")+"). Yol süresi, o gün ve saatin tipik trafiğiyle çarpılır; anlık trafik değildir.":"Trafik verisi yok: trafiksiz yol süresi kullanılır.";
+    apGorunum(); apAnahtar=""; apSiraCiz();
+  }
+  function apGorunum(){
+    var t=apTur(), sure=t==="trafikli"||t==="yol";
+    document.getElementById("apSifirDk").hidden=!sure; document.getElementById("apSifirKm").hidden=sure;
+    document.getElementById("apTrafik").hidden=t!=="trafikli";
+    var top=OLCUT.reduce(function(s,o){return s+(+apForm.elements[o[0]].value||0);},0);
+    document.getElementById("apToplam").textContent="· en yüksek puan "+top;
+  }
+  function apOku(){
+    var g={}, f=apForm.elements; OLCUT.forEach(function(o){g[o[0]]=+f[o[0]].value||0;});
+    return {agirlik:g,uzaklik:apTur(),sifirDk:+f.sifirDk.value,sifirKm:+f.sifirKm.value,gunlukSinir:+f.gunlukSinir.value,aralikDk:+f.aralikDk.value,ilceSarti:f.ilceSarti.checked};
+  }
+  function apDurum(m,hata){var d=document.getElementById("apDurum");d.textContent=m;d.className="ap-durum"+(hata?" hata":"");}
+  function apAc(){
+    ap.hidden=false; apOrt.hidden=false; apDurum(""); apAnahtar=""; apSiraCiz(); document.getElementById("apKapat").focus();
+    apIstek({islem:"oku"}).then(apDoldur).catch(function(err){apDurum("Seçenekler alınamadı: "+err.message,true);});
+  }
+  function apKapa(){ap.hidden=true; apOrt.hidden=true; document.getElementById("apBtn").focus();}
+  document.getElementById("apBtn").addEventListener("click",apAc);
+  document.getElementById("apKapat").addEventListener("click",apKapa);
+  apOrt.addEventListener("click",apKapa);
+  document.addEventListener("keydown",function(ev){if(ev.key==="Escape"&&!ap.hidden)apKapa();});
+  apForm.addEventListener("input",apGorunum); apForm.addEventListener("change",apGorunum);
+  apForm.addEventListener("submit",function(ev){
+    ev.preventDefault();
+    apIstek({islem:"kaydet",ayar:apOku()}).then(function(b){apDeneme=null;apDoldur(b);apDurum("Kaydedildi. Sonraki çağrılar bu seçeneklerle atanır.");surum=0;tur();})
+      .catch(function(err){apDurum("Kaydedilemedi: "+err.message,true);});
+  });
+  document.getElementById("apVarsayilan").addEventListener("click",function(){
+    apIstek({islem:"varsayilan"}).then(function(b){apDeneme=null;apDoldur(b);apDurum("Varsayılan seçeneklere dönüldü.");surum=0;tur();})
+      .catch(function(err){apDurum("İşlem yapılamadı: "+err.message,true);});
+  });
+  function apSiraHtml(s,baslik,deneme){
+    var ag=s.agirlik||{}, top=OLCUT.reduce(function(t,o){return t+(ag[o[0]]||0);},0)||100, tur_=(apBilgi&&apBilgi.turler[s.uzaklik])||s.uzaklik;
+    var h='<div class="ap-blok"><div class="ap-bb"><b>'+e(baslik)+'</b><span>'+e(tur_)+' · ağırlık '+OLCUT.map(function(o){return o[1].toLowerCase()+" "+(ag[o[0]]||0);}).join(", ")+'</span></div>'+
+      '<div class="ap-lejant">'+OLCUT.map(function(o){return '<span><i style="background:'+o[2]+'"></i>'+o[1]+'</span>';}).join("")+'</div>';
+    h+=s.adaylar.length?'<ol class="ap-liste">'+s.adaylar.map(function(a,i){
+      var yol=sayi(a.km)+" km"+(a.dk!=null?" · ~"+Math.round(a.dk)+" dk":"")+(a.carpan&&a.carpan!==1?" (trafik ×"+sayi(a.carpan)+")":"")+(a.kaynak==="kus"?" · kuş uçuşu":"");
+      return '<li'+(i===0?' class="ilk"':'')+'><div class="ap-sat"><b>'+e(a.ad)+(i===0?(deneme?" · ilk sırada":" · teklif edilen"):"")+'</b><span class="ap-puan">'+sayi(a.puan)+' puan</span></div>'+
+        '<div class="ap-bar" aria-hidden="true">'+OLCUT.map(function(o){return '<i style="width:'+(a.parca[o[0]]/top*100)+'%;background:'+o[2]+'"></i>';}).join("")+'</div>'+
+        '<div class="ap-ayr">'+OLCUT.map(function(o){return o[1]+" "+sayi(a.parca[o[0]]);}).join(" · ")+'</div>'+
+        '<div class="ap-ayr">'+e(yol)+' · o gün '+a.cagri+' çağrı</div></li>';
+    }).join("")+'</ol>':'<p class="ap-not">Uygun SPY yok.</p>';
+    if(s.elenen&&s.elenen.length)h+='<details class="ap-elenen"><summary>Elenen '+s.elenen.length+' SPY</summary><ul>'+s.elenen.map(function(x){return '<li>'+e(x.ad)+' — '+e(x.neden)+'</li>';}).join("")+'</ul></details>';
+    return h+'</div>';
+  }
+  function apSiraCiz(){
+    if(ap.hidden)return;
+    var liste=Object.values(veri.kayitlar).filter(function(k){return k.siralama;}).sort(function(a,b){return b.siralama.t-a.siralama.t;});
+    if(!liste.some(function(k){return k.id===apSecili;}))apSecili=liste.length?liste[0].id:"";
+    var anahtar=liste.map(function(k){return k.id+":"+k.siralama.t;}).join(",")+"|"+apSecili+"|"+(apDeneme?apDeneme.id+apDeneme.t:"")+"|"+!!apBilgi;
+    if(anahtar===apAnahtar)return;  // değişiklik yoksa yeniden çizme (açık liste ve seçim bozulmasın)
+    apAnahtar=anahtar;
+    var sec=document.getElementById("apCagri"), kutu=document.getElementById("apSira");
+    if(!liste.length){sec.innerHTML="";sec.disabled=true;kutu.innerHTML='<p class="ap-not">Henüz atanan çağrı yok. Haritada "+ Çağrı ekle" ile deneyebilirsiniz.</p>';return;}
+    sec.disabled=false;
+    sec.innerHTML=liste.map(function(k){return '<option value="'+e(k.id)+'"'+(k.id===apSecili?" selected":"")+'>'+saat(k.siralama.t)+' · '+e((k.musteri&&k.musteri.ad)||"Müşteri")+(k.yer?' · '+e(k.yer):'')+'</option>';}).join("");
+    var acik=[].map.call(kutu.querySelectorAll("details"),function(d){return d.open;});
+    var k=veri.kayitlar[apSecili];
+    kutu.innerHTML=apSiraHtml(k.siralama,"Atama anında"+(k.siralama.hemen?" · hemen çağrı":" · ileri saat"))+
+      '<button type="button" class="ap-dene" id="apDene">Şimdiki seçeneklerle yeniden hesapla</button>'+
+      (apDeneme&&apDeneme.id===apSecili?apSiraHtml(apDeneme,"Şimdiki seçeneklerle (yalnız deneme; çağrı değişmez)",true):"");
+    [].forEach.call(kutu.querySelectorAll("details"),function(d,i){if(acik[i])d.open=true;});
+  }
+  document.getElementById("apCagri").addEventListener("change",function(){apSecili=this.value;apDeneme=null;apSiraCiz();});
+  document.getElementById("apSira").addEventListener("click",function(ev){
+    if(ev.target.id!=="apDene")return;
+    ev.target.disabled=true;
+    apIstek({islem:"dene",id:apSecili}).then(function(r){r.t=Date.now();apDeneme=r;apSiraCiz();})
+      .catch(function(err){apDurum("Hesaplanamadı: "+err.message,true);ev.target.disabled=false;});
+  });
   if(DEMO){  // gösteri: merkez yok; örnek durumlarla (canlı sürümde merkezden gelir)
-    document.getElementById("sifirla").style.display="none"; document.getElementById("ilerlet").style.display="none";
+    document.getElementById("sifirla").style.display="none"; document.getElementById("ilerlet").style.display="none"; document.getElementById("apBtn").style.display="none";
     akisCiz([]);
     var ornek={}, bugunOrnek={};
     veri.spyler=(window.TY_SPYLER||[]).map(function(s){return Object.assign({},s,{hal:ornek[s.id]||"bosta",bugunCagri:bugunOrnek[s.id]||0,bildirim:0,konumAn:{lat:s.lat,lng:s.lng}});});
@@ -462,6 +628,7 @@
       if(v.sifirlama>sifirlama){if(sifirlama>=0)veri.kayitlar={};sifirlama=v.sifirlama;}
       surum=v.surum; saatFark=(v.simdi||Date.now())-Date.now(); veri.spyler=v.spyler; veri.bugun=v.bugun||veri.bugun; akisCiz(v.olaylar);
       v.kayitlar.forEach(function(k){veri.kayitlar[k.id]=k;});
+      apSiraCiz();
       var b=document.getElementById("bag"); b.textContent="Canlı · "+saat(Date.now()); b.className="bag";
       if((!harita._popup||!harita.hasLayer(harita._popup))&&kisiKart.hidden&&!suruk)ciz();  // açık bilgi kutusu kapanmasın, sürükleme sırasında işaretler yenilenmesin
     }).catch(function(){var b=document.getElementById("bag");b.textContent="Bağlantı yok";b.className="bag kopuk";})

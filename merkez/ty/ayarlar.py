@@ -27,12 +27,18 @@ BILDIRIM_TTL = 120      # telefon kapalı/çevrimdışıysa bildirim bu süre be
 
 # Atama kuralları (rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md)
 KABUL_SN = 120          # SPY bu sürede kabul etmezse çağrı sıradakine geçer (sınır yok; herkes reddederse "kimse almadı")
-GUNLUK_SINIR = 4        # bir SPY'ye bir günde en fazla çağrı
-ARALIK_DK = 60          # bir SPY bir saatte en fazla bir randevu: aynı gün iki randevu arası en az (hemen ve ileri çağrıda)
 HEMEN_DK = 120          # bugün ve saati en geç 2 saat sonra olan çağrı "hemen" sayılır (en erken seçilebilen saatler)
-AGIRLIK = {"hemen": {"yakinlik": 50, "ciro": 25, "randevu": 15, "yuk": 10},  # öncelik: yakınlık, sonra ciro H/G, sonra randevu H/G (2026-11-25)
-           "ileri": {"yakinlik": 50, "ciro": 25, "randevu": 15, "yuk": 10}}
-YAKINLIK_KM = 10        # bu uzaklıkta yakınlık puanı sıfır
+# Atama seçenekleri: varsayılanlar burada; takip sayfasındaki "Atama seçenekleri" bölümü değiştirir (veri["atamaAyar"], test sıfırlanınca korunur)
+ATAMA_VARSAYILAN = {
+    "agirlik": {"yakinlik": 40, "yuk": 30, "ciro": 20, "randevu": 10},  # öncelik: yakınlık, çağrı sayısı, ciro H/G, randevu H/G (2026-11-25)
+    "uzaklik": "trafikli",  # trafikli: yol süresi × İBB tipik trafik çarpanı (dk) · yol: trafiksiz yol süresi (dk) · yolkm: yol km · kus: kuş uçuşu km
+    "sifirDk": 30,          # süreyle ölçülürken bu varış süresinde yakınlık puanı sıfır
+    "sifirKm": 10,          # km ile ölçülürken bu uzaklıkta yakınlık puanı sıfır
+    "gunlukSinir": 4,       # bir SPY'ye bir günde en fazla çağrı
+    "aralikDk": 60,         # aynı gün iki randevu arası en az (hemen ve ileri çağrıda)
+    "ilceSarti": True,      # yalnız müşterinin ilçesindeki SPY aday olur
+}
+UZAKLIK_TURLERI = {"trafikli": "Trafikli varış süresi", "yol": "Yol süresi (trafiksiz)", "yolkm": "Yol mesafesi (km)", "kus": "Kuş uçuşu (km)"}
 HG_TAVAN = 30           # H/G puanı %100'ün üstündeki ilk 30 puanda artar (%130 ve üstü tam puan)
 
 # Canlı konum (konum.py): SPY telefonundan gelen konum bu süre taze sayılır; eskiyse kayıtlı konum kullanılır

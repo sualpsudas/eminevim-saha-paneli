@@ -84,7 +84,7 @@ eminevim-saas/
 - **Bağlantı:** `depo.oku()` / `depo.yaz()` veritabanına bağlanır; çok sunuculu yapıda kilit yerine satır kilidi / işlem (transaction).
 
 ### 2.8 Atama kuralı
-- `merkez/ty/atama.py` (eleme + puan; ağırlıklar `merkez/ty/ayarlar.py → AGIRLIK`). Kural belgesi: `rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md`.
+- `merkez/ty/atama.py` (eleme + puan; varsayılan seçenekler `merkez/ty/ayarlar.py → ATAMA_VARSAYILAN`, canlı testte değiştirilen `veri["atamaAyar"]`). Yol km/süresi `merkez/ty/yol.py` (YOL KAPISI, şu an OSRM genel sunucusu), tipik trafik çarpanı `merkez/ty/trafik.py` (TRAFİK KAPISI, İBB açık verisinden `veri/trafik-carpan.json`, üretici `araclar/trafik_hazirla.py`). Kural belgesi: `rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md`.
 
 ### 2.9 Harita, rota, adres arama
 - `uygulama/servisler.js` (`window.TY_SERVISLER`): bugün OpenStreetMap altlığı, OSRM rota, Nominatim adres arama (ücretsiz, deneme amaçlı).
@@ -102,7 +102,7 @@ eminevim-saas/
 | `ayarlar.py` | yollar, port, atama sabitleri, sunulan dosyalar |
 | `yardim.py` | zaman, metin, uzaklık, olay kaydı |
 | `personel.py` | SPY listesini `veri/spyler.js`'ten okur |
-| `depo.py`, `konum.py`, `atama.py`, `bildirim.py`, `musteri.py`, `dogrulama.py`, `aktarim.py` | kapılar (yukarıda; `dogrulama.py` kapıda QR/kod: gerçek sistemde SPY kimliği personel girişinden) |
+| `depo.py`, `konum.py`, `atama.py`, `yol.py`, `trafik.py`, `bildirim.py`, `musteri.py`, `dogrulama.py`, `aktarim.py` | kapılar (yukarıda; `dogrulama.py` kapıda QR/kod: gerçek sistemde SPY kimliği personel girişinden) |
 | `islemler.py` | istek kuralları: `api/cagri, kayit, mesaj, spy, aktar, konum, kod, musteri, dogrulama, sifirla` |
 | `api.py` | HTTP sunucusu: adresler, dosya sunma, `api/durum`, başlat/durdur |
 

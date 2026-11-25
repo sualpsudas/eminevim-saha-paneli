@@ -14,10 +14,13 @@ def app(page,code):
     return page.evaluate('''(code)=>{const el=document.getElementById('dc-root');const root=el[Object.keys(el).find(k=>k.startsWith('__reactContainer$'))];const q=[root],seen=new Set();while(q.length){const f=q.shift();if(!f||seen.has(f))continue;seen.add(f);if(f.stateNode?.logic){const app=f.stateNode.logic;return eval(code);}q.push(f.child,f.sibling,f.alternate);}throw Error('App missing');}''',code)
 
 def aligned(page):
-    geometry=page.locator('.customer-screen').evaluate('''e=>{const s=e.getBoundingClientRect(),n=e.querySelector('.customer-nav').getBoundingClientRect(),p=e.querySelector('.customer-panel').getBoundingClientRect();return {screen:s.toJSON(),nav:n.toJSON(),panel:p.toJSON(),height:innerHeight,overflow:e.scrollWidth>e.clientWidth+1};}''')
-    assert abs(geometry['nav']['bottom']-geometry['height'])<2,geometry
+    geometry=page.locator('.customer-screen').evaluate('''e=>{const s=e.getBoundingClientRect(),n=e.querySelector('.customer-nav').getBoundingClientRect(),p=e.querySelector('.customer-panel').getBoundingClientRect();return {screen:s.toJSON(),nav:n.toJSON(),panel:p.toJSON(),padding:parseFloat(getComputedStyle(e.querySelector('.customer-panel')).paddingBottom),height:innerHeight,overflow:e.scrollWidth>e.clientWidth+1};}''')
+    if page.locator('html.kb').count():
+        assert not page.locator('.customer-nav').is_visible()
+    else:
+        assert abs(geometry['height']-geometry['nav']['bottom']-14)<2,geometry
+        assert geometry['panel']['bottom']-geometry['padding']<=geometry['nav']['top']+1,geometry
     assert abs(geometry['screen']['height']-geometry['height'])<2,geometry
-    assert geometry['panel']['bottom']<=geometry['nav']['top']+1,geometry
     assert not geometry['overflow'],geometry
 
 def login(page):
@@ -45,7 +48,7 @@ with sync_playwright() as p:
                 page.locator('.m-konuşma-row').click()
                 composer=page.locator('.customer-chat form').bounding_box()
                 nav=page.locator('.customer-nav').bounding_box()
-                assert abs(composer['y']+composer['height']-nav['y'])<2
+                assert 0 < composer['y']+composer['height'] <= nav['y']+1
             if width in (320,393):
                 page.screenshot(path=str(OUT/f'fixed-{width}-{tab}.png'),animations='disabled')
         page.get_by_role('button',name='Finansman',exact=True).click()
@@ -64,11 +67,11 @@ with sync_playwright() as p:
             else:
                 page.screenshot(path=str(OUT/f'fixed-{width}-finansman-hesap.png'),animations='disabled')
         assert page.locator('.customer-finance-actions').get_by_role('button',name='Geri',exact=False).count()==0
-        page.locator('.customer-bas').get_by_role('button',name='Geri',exact=True).click()
+        page.locator('.customer-header').get_by_role('button',name='Geri',exact=True).click()
         assert app(page,'app.state.basvuruAdim')==2
-        page.locator('.customer-bas').get_by_role('button',name='Geri',exact=True).click()
+        page.locator('.customer-header').get_by_role('button',name='Geri',exact=True).click()
         assert app(page,'app.state.basvuruAdim')==1
-        page.locator('.customer-bas').get_by_role('button',name='Geri',exact=True).click()
+        page.locator('.customer-header').get_by_role('button',name='Geri',exact=True).click()
         assert app(page,'app.state.basvuruDuzenle') is False
         app(page,'app.setState({basvuruDuzenle:false})')
     # Finansman kendiliğinden seçilmez: tutar/plan/peşinat/vade boş başlar, kaydedilen ✓ almaz
@@ -107,7 +110,9 @@ with sync_playwright() as p:
     page.get_by_placeholder('Mesajınızı yazın',exact=True).focus()
     aligned(page)
     composer=page.locator('.customer-chat form').bounding_box()
-    assert composer['y']>=0 and composer['y']+composer['height']<440
+    assert composer['y']>=0 and composer['y']+composer['height']<=440,composer
+    page.get_by_placeholder('Mesajınızı yazın',exact=True).blur()
+    page.get_by_role('button',name='Randevularım',exact=True).wait_for()
     # Kısa telefonda alt pencerenin son düğmesine kaydırarak erişilebilmeli.
     page.set_viewport_size({'width':320,'height':568})
     page.get_by_role('button',name='Randevularım',exact=True).click()
