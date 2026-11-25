@@ -109,6 +109,29 @@ def teklif_et(veri, k, neden=""):
     return k
 
 
+def yeniden_ata(veri, k, neden=""):
+    """Konum değişti (müşteri ya da SPY haritada taşındı): henüz kabul edilmemiş çağrıyı yeniden değerlendirir.
+    Daha uygun bir SPY çıktıysa teklif ona geçer (eskisi artık kabul edemez); mevcut SPY hâlâ en iyisiyse teklif ve süre sürer, uzaklık/puan güncellenir.
+    Kabul edilmiş (atandı, yolda...) ya da henüz iletilmemiş (ilk 10 sn) çağrıya dokunmaz. Teklifi başka SPY'ye geçirdiyse True."""
+    if k.get("durum") != "alindi" or k.get("teklifZamani"):
+        return False
+    liste = adaylar(veri, k, set(k.get("eskiRepler", [])))
+    if liste and k.get("repId") == liste[0][1]["id"] and not k.get("sahipsiz"):
+        puan, _, gerekce, uzak = liste[0]
+        k.update({"uzaklikKm": uzak, "atamaPuan": puan, "gerekce": gerekce})
+        damga(veri, k)
+        return False
+    if not liste and (k.get("sahipsiz") or not k.get("repId")):
+        return False
+    eski = k.get("repId")
+    teklif_et(veri, k, neden)
+    if eski and k.get("repId") != eski:  # eskisi reddetmedi, yalnız konum değişti: ileride yeniden uygun olabilir
+        k["eskiRepler"] = [x for x in k.get("eskiRepler", []) if x != eski]
+        k["teklif"]["denenen"] = [x for x in k["teklif"]["denenen"] if x != eski]
+    damga(veri, k)
+    return True
+
+
 def sureleri_denetle(veri):
     """2 dakikada kabul edilmeyen teklifleri sıradaki SPY'ye geçirir; kimsenin almadığı çağrıya yeni uygun SPY
     çıktıysa (moladan döndü, uygulamayı açtı) ona teklif eder. Değişiklik olduysa True."""

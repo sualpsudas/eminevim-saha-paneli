@@ -102,6 +102,18 @@
   .gizli-ad .mah-ad{display:none}
   .leaflet-popup-content{font-size:13px;line-height:1.45;margin:10px 12px}
   .leaflet-popup-content b{font-size:14px}
+  .ekle-kap{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+  .ekle-kap button{font-size:13px;font-weight:700;border:0;background:var(--yesil);color:#fff;border-radius:22px;padding:8px 14px;min-height:36px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  .ekle-kap button.acik{background:#ea803f}
+  .ekle-kap div{background:#fff;border-radius:10px;padding:6px 10px;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.2);max-width:190px}
+  .ekle-form{position:fixed;z-index:1100;left:50%;bottom:12px;transform:translateX(-50%);width:min(340px,calc(100% - 16px));background:#fff;border:1px solid var(--cizgi);border-radius:14px;padding:12px 14px;box-shadow:0 4px 16px rgba(0,0,0,.2);font-size:14px;display:flex;flex-direction:column;gap:8px}
+  .ekle-form[hidden]{display:none}
+  .ekle-form label{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--yazi)}
+  .ekle-form input{font-size:16px;padding:7px 8px;border:1.5px solid var(--cizgi);border-radius:8px}
+  .ekle-hata{color:#b3261e;font-size:12px;min-height:14px}
+  .ekle-dugme{display:flex;gap:8px;justify-content:flex-end}
+  .ekle-dugme button{font-size:14px;border:1.5px solid var(--cizgi);background:#fff;border-radius:22px;padding:8px 14px;min-height:40px}
+  .ekle-dugme button.tamam{background:var(--yesil);border-color:var(--yesil);color:#fff;font-weight:700}
 </style>
 </head>
 <body>
@@ -215,16 +227,33 @@
   function e(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
   function saat(t){return t?new Date(t).toLocaleTimeString("tr-TR",{hour:"2-digit",minute:"2-digit"}):"";}
   function randevusu(s){return Object.values(veri.kayitlar).filter(function(k){return k.repId===s.id&&DURUM[k.durum];})[0];}
+  // Sürükleyerek taşıma: müşteri yalnız çağrı kabul edilmeden önce, SPY yalnız kabul ettiği çağrı yokken (merkez de aynı kuralı denetler)
+  var ATANMIS={atandi:1,netlesti:1,yolda:1,gorusme:1,gorusmede:1}, suruk=false;
+  function spyTasinir(s){return !DEMO&&!Object.values(veri.kayitlar).some(function(k){return k.repId===s.id&&ATANMIS[k.durum];});}
+  function musteriTasinir(k){return !DEMO&&k.durum==="alindi";}
+  var TASI_IPUCU='<br><span style="color:#00724c">Taşımak için sürükleyin.</span>', TASINMAZ='<br><span style="color:#666">Kabul edilmiş çağrı var, taşınamaz.</span>';
+  function surukle(m,t,id){
+    if(!m.options.draggable)return m;
+    m.on("dragstart",function(){suruk=true;});
+    m.on("dragend",function(ev){
+      var ll=ev.target.getLatLng();
+      fetch("api/konum-tasi",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({tur:t,id:id,lat:ll.lat,lng:ll.lng})})
+        .then(function(r){return r.json().catch(function(){return {};}).then(function(v){if(!r.ok)throw new Error(v.hata||("Hata "+r.status));});})
+        .catch(function(err){alert("Taşınamadı: "+err.message);})
+        .then(function(){suruk=false;surum=0;tur();});
+    });
+    return m;
+  }
   function spyBilgi(s){
     var h=HAL[s.hal]||HAL.bosta, r=randevusu(s);
     return '<b>'+e(s.ad)+'</b><br><span class="renk r-'+e(s.hal)+'"></span> '+h[0]+(r?' · '+(r.musteri&&r.musteri.ad||"Müşteri")+' ('+DURUM[r.durum]+')':'')+
-      '<br>Bugün '+(s.bugunCagri||0)+' / 4 çağrı<br>'+(s.bildirim?'Bildirim: '+s.bildirim+' telefon':'Bildirim kapalı')+'<br><span style="color:#666">'+e(s.mahalle)+', '+e(s.ilce)+'</span>';
+      '<br>Bugün '+(s.bugunCagri||0)+' / 4 çağrı<br>'+(s.bildirim?'Bildirim: '+s.bildirim+' telefon':'Bildirim kapalı')+'<br><span style="color:#666">'+e(s.mahalle)+', '+e(s.ilce)+'</span>'+(DEMO?"":spyTasinir(s)?TASI_IPUCU:TASINMAZ);
   }
-  function cagriBilgi(k){return '<b>Kimse almadı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br>'+e(k.gunYazi||k.tarih)+' '+e(k.saat)+'<br><span style="color:#666">Uygun SPY çıkınca kendiliğinden teklif edilir.</span>';}
+  function cagriBilgi(k){return '<b>Kimse almadı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br>'+e(k.gunYazi||k.tarih)+' '+e(k.saat)+'<br><span style="color:#666">Uygun SPY çıkınca kendiliğinden teklif edilir.</span>'+(DEMO?"":TASI_IPUCU);}
   var ASAMA={alindi:"çağrı geldi",atandi:"SPY kabul etti",netlesti:"saat onaylandı",yolda:"SPY yolda",gorusme:"SPY yolda",gorusmede:"görüşmede"};
   function musteriBilgi(k){
     var s=veri.spyler.filter(function(x){return x.id===k.repId;})[0];
-    return '<b>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'</b><br>'+e(ASAMA[k.durum]||k.durum)+(s?' · '+e(s.ad):'')+'<br>'+e(k.yer)+(k.varisZamani&&(k.durum==="yolda"||k.durum==="gorusme")?'<br>Tahmini varış '+saat(k.varisZamani):'');
+    return '<b>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'</b><br>'+e(ASAMA[k.durum]||k.durum)+(s?' · '+e(s.ad):'')+'<br>'+e(k.yer)+(k.varisZamani&&(k.durum==="yolda"||k.durum==="gorusme")?'<br>Tahmini varış '+saat(k.varisZamani):'')+(DEMO?"":musteriTasinir(k)?TASI_IPUCU:TASINMAZ);
   }
   // Yoldaki SPY → müşteri rotası (gerçek yol: OSRM genel sunucusu; olmazsa kuş uçuşu kesikli çizgi)
   var rotaKatman=L.layerGroup().addTo(harita), rotaOnbellek={}, rotaTur=0;
@@ -275,16 +304,19 @@
     gorunen.forEach(function(s){
       var k=s.konumAn||s, eslesti=acikCagrilar().some(function(c){return c.repId===s.id;}), renk=eslesti?"#00724c":(HAL[s.hal]||HAL.bosta)[1];  // temsilci belli olunca SPY de dolar
       var yanda=gM&&acikCagrilar().some(function(c){return Math.abs(c.konum.lat-k.lat)<.0005&&Math.abs(c.konum.lng-k.lng)<.0007;});  // müşterinin yanında: üst üste binmesin
-      isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,icon:L.divIcon({className:"",html:'<div class="spy-ik" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px"></div>',iconSize:[boy,boy],iconAnchor:[yanda?boy/2-22:boy/2,boy/2]})});
+      isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,draggable:spyTasinir(s),icon:L.divIcon({className:"",html:'<div class="spy-ik" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px"></div>',iconSize:[boy,boy],iconAnchor:[yanda?boy/2-22:boy/2,boy/2]})});
+      surukle(isaretler[s.id],"spy",s.id);
       bagla(isaretler[s.id],spyBilgi(s)).addTo(spyKatman);
     });
     acikCagrilar().filter(function(k){return gM&&mSec[asama(k)];}).forEach(function(k){
       var sinif={alindi:"s-alindi",atandi:"s-atandi",netlesti:"s-atandi",yolda:"s-yolda",gorusme:"s-yolda",gorusmede:"s-gorusmede"}[k.durum]||"s-atandi";
-      L.marker([k.konum.lat,k.konum.lng],{title:(k.musteri&&k.musteri.ad)||"Müşteri",zIndexOffset:500,icon:L.divIcon({className:"",html:'<div class="cn '+sinif+'"></div>',iconSize:[18,18],iconAnchor:[9,9]})}).bindPopup(musteriBilgi(k)).addTo(spyKatman);
+      var mk=L.marker([k.konum.lat,k.konum.lng],{title:(k.musteri&&k.musteri.ad)||"Müşteri",zIndexOffset:500,draggable:musteriTasinir(k),icon:L.divIcon({className:"",html:'<div class="cn '+sinif+'"></div>',iconSize:[18,18],iconAnchor:[9,9]})});
+      surukle(mk,"musteri",k.id); bagla(mk,musteriBilgi(k)).addTo(spyKatman);
     });
     rotalar();
     sah.filter(function(){return gM&&mSec.sahipsiz;}).forEach(function(k){
-      cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:"Kimse almadı",icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[16,16],iconAnchor:[8,8]})});
+      cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:"Kimse almadı",draggable:musteriTasinir(k),icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[16,16],iconAnchor:[8,8]})});
+      surukle(cagriIsaret[k.id],"musteri",k.id);
       bagla(cagriIsaret[k.id],cagriBilgi(k)).addTo(spyKatman);
     });
   }
@@ -331,6 +363,35 @@
       .then(function(r){if(!r.ok)throw new Error(r.status);surum=0;tur();}).catch(function(err){alert("İşlem yapılamadı: "+err.message);})
       .then(function(){b.disabled=false;});
   });
+  // Çağrı ekle: düğme → haritada yere dokun → ad/telefon/yer formu → merkeze gerçek kayıt (Test verisini sıfırla'ya kadar kalır; uygulama akışı aynen çalışır)
+  var ekleModu=false, ekleNokta=null, ekleIsaret=null, ekleForm=document.createElement("div");
+  ekleForm.className="ekle-form"; ekleForm.hidden=true;
+  ekleForm.innerHTML='<b>Örnek çağrı ekle</b><label>Ad Soyad<input id="eAd" autocomplete="off" value="Örnek Müşteri"></label><label>Telefon<input id="eTel" inputmode="tel" autocomplete="off" placeholder="05xx xxx xx xx"></label><label>Yer (mahalle/adres)<input id="eYer" autocomplete="off"></label><div class="ekle-hata" id="eHata"></div><div class="ekle-dugme"><button type="button" id="eVazgec">Vazgeç</button><button type="button" id="eGonder" class="tamam">Çağrıyı ekle</button></div>';
+  document.body.appendChild(ekleForm);
+  var ekleBtn=L.control({position:"topright"});
+  ekleBtn.onAdd=function(){var d=L.DomUtil.create("div","ekle-kap");d.innerHTML='<button type="button" id="eBtn">+ Çağrı ekle</button><div id="eIpucu" hidden>Haritada müşterinin yerine dokunun</div>';L.DomEvent.disableClickPropagation(d);return d;};
+  if(!DEMO)ekleBtn.addTo(harita);
+  function ekleKapat(){ekleModu=false;ekleForm.hidden=true;if(ekleIsaret){harita.removeLayer(ekleIsaret);ekleIsaret=null;}var b=document.getElementById("eBtn");if(b)b.classList.remove("acik");var i=document.getElementById("eIpucu");if(i)i.hidden=true;harita.getContainer().style.cursor="";}
+  document.addEventListener("click",function(ev){
+    if(ev.target.id==="eBtn"){if(ekleModu){ekleKapat();return;}ekleModu=true;ev.target.classList.add("acik");document.getElementById("eIpucu").hidden=false;harita.getContainer().style.cursor="crosshair";}
+    else if(ev.target.id==="eVazgec")ekleKapat();
+    else if(ev.target.id==="eGonder"){
+      var ad=document.getElementById("eAd").value.trim(), tel=document.getElementById("eTel").value.trim(), yer=document.getElementById("eYer").value.trim(), h=document.getElementById("eHata");
+      if(!ad||!yer){h.textContent="Ad ve yer boş olamaz.";return;}
+      ev.target.disabled=true; h.textContent="";
+      fetch("api/cagri-ekle",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ad:ad,tel:tel,yer:yer,lat:ekleNokta.lat,lng:ekleNokta.lng})})
+        .then(function(r){return r.json().catch(function(){return {};}).then(function(v){if(!r.ok)throw new Error(v.hata||("Hata "+r.status));});})
+        .then(function(){ekleKapat();surum=0;tur();})
+        .catch(function(err){h.textContent="Eklenemedi: "+err.message;ev.target.disabled=false;});
+    }
+  });
+  harita.on("click",function(ev){
+    if(!ekleModu)return;
+    ekleNokta=ev.latlng;
+    if(ekleIsaret)harita.removeLayer(ekleIsaret);
+    ekleIsaret=L.marker(ev.latlng,{icon:L.divIcon({className:"",html:'<div class="cagri-ik"></div>',iconSize:[16,16],iconAnchor:[8,8]})}).addTo(harita);
+    ekleForm.hidden=false; document.getElementById("eHata").textContent=""; document.getElementById("eGonder").disabled=false;
+  });
   if(DEMO){  // gösteri: merkez yok; örnek durumlarla (canlı sürümde merkezden gelir)
     document.getElementById("sifirla").style.display="none"; document.getElementById("ilerlet").style.display="none";
     akisCiz([]);
@@ -348,7 +409,7 @@
       surum=v.surum; veri.spyler=v.spyler; veri.bugun=v.bugun||veri.bugun; akisCiz(v.olaylar);
       v.kayitlar.forEach(function(k){veri.kayitlar[k.id]=k;});
       var b=document.getElementById("bag"); b.textContent="Canlı · "+saat(Date.now()); b.className="bag";
-      if((!harita._popup||!harita.hasLayer(harita._popup))&&kisiKart.hidden)ciz();  // açık bilgi kutusu kapanmasın
+      if((!harita._popup||!harita.hasLayer(harita._popup))&&kisiKart.hidden&&!suruk)ciz();  // açık bilgi kutusu kapanmasın, sürükleme sırasında işaretler yenilenmesin
     }).catch(function(){var b=document.getElementById("bag");b.textContent="Bağlantı yok";b.className="bag kopuk";})
       .then(function(){zaman=setTimeout(tur,3000);});
   }

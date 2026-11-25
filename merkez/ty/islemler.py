@@ -17,7 +17,7 @@ import secrets
 import time
 
 from . import aktarim, bildirim
-from .atama import ILETIM_BEKLEME_SN, randevuda_mi, teklif_et
+from .atama import ILETIM_BEKLEME_SN, randevuda_mi, teklif_et, yeniden_ata
 from .ayarlar import DURUM_AD, KAPALI_DURUMLAR, YEDEK
 from .depo import bos_veri
 from .dogrulama import KAPI_KODLARI, dogrulama_islem
@@ -28,7 +28,7 @@ from .sunum import ilerlet
 from .yardim import bugun, damga, metin, olay, saat_yaz, simdi, tel_temiz
 
 GORULME = {}  # SPY id -> son yoklama zamanı (yalnız bellekte)
-YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla", "api/kimlik", "api/ilerlet")
+YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla", "api/kimlik", "api/ilerlet", "api/konum-tasi", "api/cagri-ekle")
 
 
 def temiz_kayit(gelen):
@@ -150,7 +150,58 @@ def konum(veri, istek):
     spy_id = str(istek.get("id") or "")
     if spy_id not in SPY_IDLER:
         raise ValueError("SPY bulunamadı.")
+    (veri.get("elleKonum") or {}).pop(spy_id, None)  # gerçek canlı konum gelince elle taşınan konum geçersiz
     return konum_yaz(spy_id, istek.get("lat"), istek.get("lng"))
+
+
+ATANMIS = ("atandi", "netlesti", "yolda", "gorusme", "gorusmede")  # kabul edilmiş: konum artık taşınamaz
+
+
+def _nokta(istek):
+    lat, lng = istek.get("lat"), istek.get("lng")
+    if not isinstance(lat, (int, float)) or not isinstance(lng, (int, float)) or not (-90 <= lat <= 90 and -180 <= lng <= 180):
+        raise ValueError("Konum geçersiz.")
+    return float(lat), float(lng)
+
+
+def konum_tasi(veri, istek):
+    """Yönetici takip sayfasında müşteriyi ya da SPY'yi sürükledi: {tur: musteri|spy, id, lat, lng}.
+    Müşteri: çağrı henüz kabul edilmemişse (alındı / kimse almadı). SPY: üzerinde kabul edilmiş çağrı yoksa.
+    Taşıma sonrası kabul edilmemiş çağrılar yeniden değerlendirilir (atama.yeniden_ata)."""
+    tur, kid = istek.get("tur"), str(istek.get("id") or "")
+    lat, lng = _nokta(istek)
+    if tur == "musteri":
+        k = veri["kayitlar"].get(kid)
+        if not k:
+            raise ValueError("Çağrı bulunamadı.")
+        if k.get("durum") != "alindi":
+            raise ValueError("Bu çağrıya temsilci atandı ya da çağrı kapandı; konumu değiştirilemez.")
+        k["konum"] = {**(k.get("konum") or {}), "lat": lat, "lng": lng}
+        olay(veri, f"{(k.get('musteri') or {}).get('ad') or 'Müşteri'}: konum haritada değiştirildi", kid)
+        damga(veri, k)
+        yeniden_ata(veri, k, " (müşteri konumu değişti)")
+        return k
+    if tur == "spy":
+        s = veri["spyler"].get(kid)
+        if not s:
+            raise ValueError("SPY bulunamadı.")
+        if any(x.get("repId") == kid and x.get("durum") in ATANMIS for x in veri["kayitlar"].values()):
+            raise ValueError("Bu SPY'ye kabul ettiği bir çağrı atanmış; konumu değiştirilemez.")
+        veri.setdefault("elleKonum", {})[kid] = {"lat": lat, "lng": lng}
+        olay(veri, f"{s['ad']}: konum haritada değiştirildi")
+        veri["surum"] += 1
+        for k in list(veri["kayitlar"].values()):
+            yeniden_ata(veri, k, f" ({s['ad']} konumu değişti)")
+        return {"id": kid}
+    raise ValueError("Tür bilinmiyor.")
+
+
+def cagri_ekle(veri, istek):
+    """Yönetici takip sayfasında haritaya tıklayıp çağrı ekledi: {ad, yer, tel, lat, lng}. Gerçek çağrı gibi kaydedilir (test sıfırlanana kadar)."""
+    lat, lng = _nokta(istek)
+    k = {"id": "y-" + secrets.token_hex(5), "konum": {"lat": lat, "lng": lng}, "yer": metin(istek.get("yer"), 120) or "Haritada seçilen nokta",
+         "tarih": bugun(), "saat": time.strftime("%H:%M"), "gunYazi": "Bugün", "kaynak": "yonetici"}
+    return cagri(veri, {"kayit": k, "musteri": {"ad": metin(istek.get("ad"), 80) or "Test müşterisi", "tel": metin(istek.get("tel"), 20)}})
 
 
 def giris_kodu(veri, istek):
@@ -204,7 +255,8 @@ def sifirla(veri, istek):
 
 
 ISLEMLER = {"api/cagri": cagri, "api/kayit": kayit, "api/mesaj": mesaj, "api/spy": spy_durum, "api/aktar": aktar,
-            "api/konum": konum, "api/kod": giris_kodu, "api/musteri": musteri_islem, "api/dogrulama": dogrulama_islem, "api/sifirla": sifirla, "api/kimlik": kimlik, "api/ilerlet": ilerlet}
+            "api/konum": konum, "api/kod": giris_kodu, "api/musteri": musteri_islem, "api/dogrulama": dogrulama_islem, "api/sifirla": sifirla, "api/kimlik": kimlik, "api/ilerlet": ilerlet,
+            "api/konum-tasi": konum_tasi, "api/cagri-ekle": cagri_ekle}
 
 
 def uygula(veri, yol, istek):

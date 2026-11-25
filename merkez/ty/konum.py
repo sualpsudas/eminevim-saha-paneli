@@ -1,6 +1,7 @@
 """KONUM KAPISI — SPY'nin şu anki konumu (atamada uzaklık ve Saha Canlı haritası için).
 
 Öncelik sırası:
+  0. Elle taşınan konum: yönetici takip sayfasında SPY'yi sürükledi (veri["elleKonum"]; test sıfırlanınca ya da canlı konum gelince silinir).
   1. Canlı konum: SPY telefonundan ya da şirketin saha takip sisteminden gelen son konum (CANLI_KONUM_DK dakikadan yeniyse).
      Giriş noktası: konum_yaz(spy_id, lat, lng) — merkezde POST api/konum {id, lat, lng}. Uygulama bunu henüz göndermiyor;
      canlı takip devreye alınınca uygulama ya da IT'nin sistemi bu adrese yazar.
@@ -38,6 +39,9 @@ def canli_konum(spy_id):
 
 
 def anlik_konum(veri, s):
+    elle = (veri.get("elleKonum") or {}).get(s["id"])  # yönetici haritada sürükleyerek taşıdı: test sıfırlanana ya da canlı konum gelene kadar geçerli
+    if elle:
+        return {"lat": elle["lat"], "lng": elle["lng"]}
     k = canli_konum(s["id"])
     if k:
         return {"lat": k["lat"], "lng": k["lng"]}
