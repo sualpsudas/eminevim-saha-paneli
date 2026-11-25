@@ -48,14 +48,14 @@ def _ilerle(veri, k):
         k["durum"] = "atandi"
         (k.get("teklif") or {})["bitis"] = 0
         spy = veri["spyler"][k["repId"]]
-        if spy.get("sim"):  # hareketli SPY de sabit SPY gibi atanınca durur: rota hep aynı yerden çizilir, yürüyüş buradan başlar
-            k["don"] = dict(anlik_konum(veri, spy), id=spy["id"])
         olay(veri, f"{ad}: temsilci belli oldu · {spy['ad']}", k["id"])
         bildirim.bildir_musteri(k, f"Temsilciniz belli oldu: {spy['ad']}", "Randevunuzu görmek için dokunun.")
         yeni = "atandi"
     elif durum in ("atandi", "netlesti"):
         spy = veri["spyler"][k["repId"]]
         k["durum"], k["varisZamani"], k["yolaCikis"] = "yolda", simdi() + 10 * DAKIKA, simdi()
+        if spy.get("sim"):  # temsilci belli olunca hareketli SPY durmaz; yola çıkınca durur: rota hep aynı yerden çizilir, yürüyüş buradan başlar
+            k["don"] = dict(anlik_konum(veri, spy), id=spy["id"])
         olay(veri, f"{ad}: {spy['ad']} yola çıktı", k["id"])
         bildirim.bildir_musteri(k, f"Temsilciniz yola çıktı · tahmini varış {saat_yaz(k['varisZamani'])}", f"{spy['ad']} size doğru geliyor.")
         yeni = "yolda"
