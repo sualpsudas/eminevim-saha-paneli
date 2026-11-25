@@ -164,6 +164,7 @@
         if(id==="label_village")l.layout.visibility="none";
         if(/^highway-shield/.test(id)){  // yol rozeti: otoyol ve ana yollarda, renkli (O turuncu, D mavi, E yeşil, diğer gri)
           l.filter=["all",l.filter,["in",["get","class"],["literal",["motorway","trunk","primary"]]]];
+          l.layout["symbol-spacing"]=450; l.layout["icon-padding"]=18; l.layout["text-padding"]=18;  // seyrek: yol başına az rozet, birbirine yakın olanlar elenir
           var ilk=["slice",["to-string",["get","ref"]],0,1];
           l.layout["icon-image"]=["case",["==",ilk,"O"],"rozet-o",["==",ilk,"D"],"rozet-d",["==",ilk,"E"],"rozet-e","rozet-g"];
           l.layout["icon-text-fit"]="both"; l.layout["icon-text-fit-padding"]=[0,2,0,2]; l.layout["text-size"]=8.5;  // küçük rozet
