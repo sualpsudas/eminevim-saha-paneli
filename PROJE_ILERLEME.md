@@ -1036,3 +1036,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - (aynı gün) Çağrı iletimi 10 sn yerine 4 sn sonra (ILETIM_BEKLEME_SN=4, bekçi 1 sn). Merkez yeniden başlatıldı.
 - (aynı gün) Çağrı ekle: rastgele ad sistemde (kapalı çağrılar dahil) zaten varsa yeniden seçilir.
 - 2026-11-25 İlçe kuralı (çağrı yalnız kendi ilçesindeki SPY'ye), ilçede uygun SPY yoksa randevu önerisi (merkez + takip + uygulamada kabul/başka saat kartı), 5 hareketli örnek SPY (h1–h5, atamaya katılır, teklifi 4 sn sonra kabul eder), `api/oneri`, sw.js v134. Merkez yeniden başlatıldı. Müşteri uygulamasındaki öneri kartı ekran görüntüsüyle doğrulanmadı (yalnız kod ve API denendi).
+- (aynı gün) Takip sayfası tarayıcı bildirimi (Notification) kaldırıldı; sağdaki Bildirimler listesi aynen duruyor.

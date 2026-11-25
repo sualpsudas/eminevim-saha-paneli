@@ -385,12 +385,8 @@
     }).join("")||'<li><span style="color:var(--yazi)">Henüz çağrı yok</span></li>';
     var yeniler=(olaylar||[]).filter(function(o){return !akisGorulen[o.t+o.metin];});
     (olaylar||[]).forEach(function(o){akisGorulen[o.t+o.metin]=1;});
-    if(!akisIlk&&"Notification" in window&&Notification.permission==="granted")yeniler.slice(0,3).forEach(function(o){
-      if(/^Yeni çağrı/.test(o.metin)||!/^\S.* \(.*\) → /.test(o.metin))try{new Notification("Tasarruf Yanımda",{body:akisYazi(o.metin).replace(/<[^>]+>/g,"").replace(/&amp;/g,"&")});}catch(x){}
-    });
     akisIlk=false;
   }
-  addEventListener("click",function(){if("Notification" in window&&Notification.permission==="default")try{Notification.requestPermission();}catch(x){}},{once:true});
   document.getElementById("ilerlet").addEventListener("click",function(){
     var b=this; b.disabled=true;
     fetch("api/ilerlet",{method:"POST",headers:{"Content-Type":"application/json"},body:"{}"})
