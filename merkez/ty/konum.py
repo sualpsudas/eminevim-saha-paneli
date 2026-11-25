@@ -9,10 +9,11 @@
   3. Hareketli örnek SPY: ilçesinde dolaşma (gezi_konum); diğerleri kayıtlı sabit konumu (veri/spyler.js: lat, lng).
 Canlı konum yalnız bellekte tutulur (merkez yeniden başlayınca silinir).
 """
+import json
 import math
 import threading
 
-from .ayarlar import CANLI_KONUM_DK
+from .ayarlar import CANLI_KONUM_DK, KOK
 from .yardim import bugun, simdi
 
 _kilit = threading.Lock()
@@ -39,13 +40,41 @@ def canli_konum(spy_id):
     return k if k and simdi() - k["t"] <= CANLI_KONUM_DK * 60000 else None
 
 
+_YOLLAR = None
+
+
+def _yollar():
+    """veri/sim-yollar.js (araclar/sim_yol_uret.py üretir): her hareketli SPY için yol üstünde kapalı tur; metre cinsinden birikimli uzunluklarla."""
+    global _YOLLAR
+    if _YOLLAR is None:
+        _YOLLAR = {}
+        try:
+            ham = (KOK / "veri" / "sim-yollar.js").read_text(encoding="utf-8")
+            for i, nk in json.loads(ham[ham.index("{"):ham.rindex("}") + 1]).items():
+                cum = [0.0]
+                for a, b in zip(nk, nk[1:]):
+                    cum.append(cum[-1] + math.hypot((b[0] - a[0]) * 111320, (b[1] - a[1]) * 111320 * math.cos(math.radians(a[0]))))
+                _YOLLAR[i] = (nk, cum)
+        except (OSError, ValueError):
+            pass
+    return _YOLLAR
+
+
 def gezi_konum(s, t_ms=None):
-    """Hareketli örnek SPY'nin zamana bağlı konumu: tabanı çevresinde yavaş, düzgün dolaşma (lat/lng = taban + genlik·sin(2πt/periyot + faz)).
-    Takip sayfası aynı formülü tarayıcıda hesaplar (akıcı hareket için)."""
+    """Hareketli örnek SPY'nin zamana bağlı konumu: yol üstündeki kapalı turda hiz (m/sn) ile ilerler, faz turun başlangıç payı.
+    Takip sayfası aynı formülü tarayıcıda hesaplar (akıcı hareket için). Yol dosyası yoksa tabanında durur."""
+    yol = _yollar().get(s["id"])
+    if not yol:
+        return {"lat": s["lat"], "lng": s["lng"]}
+    nk, cum = yol
     t = (t_ms if t_ms is not None else simdi()) / 1000
-    g = s["gezi"]
-    return {"lat": s["lat"] + g["enlem"][0] * math.sin(2 * math.pi * t / g["enlem"][1] + g["enlem"][2]),
-            "lng": s["lng"] + g["boylam"][0] * math.sin(2 * math.pi * t / g["boylam"][1] + g["boylam"][2])}
+    d = (t * s["gezi"]["hiz"] + s["gezi"]["faz"] * cum[-1]) % cum[-1]
+    lo, hi = 0, len(cum) - 1
+    while hi - lo > 1:
+        m = (lo + hi) // 2
+        lo, hi = (m, hi) if cum[m] <= d else (lo, m)
+    f = (d - cum[lo]) / ((cum[hi] - cum[lo]) or 1)
+    return {"lat": nk[lo][0] + (nk[hi][0] - nk[lo][0]) * f, "lng": nk[lo][1] + (nk[hi][1] - nk[lo][1]) * f}
 
 
 def konum_ve_kaynak(veri, s):

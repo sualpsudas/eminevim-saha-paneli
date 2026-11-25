@@ -50,7 +50,7 @@ KOD_DK = 10      # SMS kodu (test: ekranda gösterilir) 10 dk geçerli
 STATIK_UZANTI = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
                  ".json": "application/json; charset=utf-8", ".png": "image/png", ".jpg": "image/jpeg", ".svg": "image/svg+xml",
                  ".webp": "image/webp", ".ico": "image/x-icon", ".ttf": "font/ttf", ".mp4": "video/mp4"}
-STATIK_KOK = {UYGULAMA, "index.html", "manifest.json", "eminevim-qr.png", "veri/spyler.js", "veri/org-data.js", "web-basvuru/index.html"}
+STATIK_KOK = {UYGULAMA, "index.html", "manifest.json", "eminevim-qr.png", "veri/spyler.js", "veri/sim-yollar.js", "veri/org-data.js", "web-basvuru/index.html"}
 STATIK_KLASOR = ("assets/", "vendor/", "web-basvuru/", "uygulama/", "harita/")
 # Bunlar değişince açık uygulamalar "Yeni sürüm hazır · Yenile" şeridi gösterir
 SURUM_DOSYALARI = (UYGULAMA, "veri/spyler.js", "uygulama/canli.js", "uygulama/appointment.js", "uygulama/ayarlar.js",

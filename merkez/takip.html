@@ -94,6 +94,7 @@
   }
   /* Harita simgeleri ve yazıları */
   .spy-ik{box-sizing:border-box;border-radius:50%;border:3px solid #00724c;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+  .spy-ik.hare{box-shadow:0 1px 3px rgba(0,0,0,.4),0 0 0 3px rgba(0,114,76,.28),0 0 0 4.5px rgba(0,114,76,.5)}  /* hareketli SPY: ince yeşil hare */
   .cagri-ik{animation:yan .8s ease-in-out infinite;box-sizing:border-box;width:16px;height:16px;border-radius:50%;background:var(--kirmizi);border:2px solid #fff;box-shadow:0 0 0 3px rgba(198,40,40,.35)}
   .leaflet-tooltip.mah-ad{background:transparent;border:0;box-shadow:none;color:#4d5a55;font-size:10.5px;font-weight:600;text-shadow:0 0 3px #fff,0 0 3px #fff;padding:0}
   .leaflet-tooltip.mah-ad::before{display:none}
@@ -138,7 +139,7 @@
 <script>
   // Merkezde: <gizli>/takip → assets/…; GitHub Pages gösterisinde: merkez/takip.html?demo=1 → ../assets/…, ../veri/spyler.js
   var DEMO=/[?&]demo=1/.test(location.search), KOK=DEMO?"../":"";
-  document.write('<script src="'+KOK+'assets/pilot-sinirlar.js"><\/script>'+(DEMO?'<script src="../veri/spyler.js"><\/script>':''));
+  document.write('<script src="'+KOK+'assets/pilot-sinirlar.js"><\/script><script src="'+KOK+'veri/sim-yollar.js"><\/script>'+(DEMO?'<script src="../veri/spyler.js"><\/script>':''));
 </script>
 <script>
 (function(){
@@ -285,12 +286,24 @@
   // Sunumda yola çıkan SPY rota boyunca sürekli ilerler (merkez başlangıç + süre verir; rota OSRM'den, yoksa kuş uçuşu)
   var saatFark=0;
   function yolCagri(s){return Object.values(veri.kayitlar).filter(function(k){return k.repId===s.id&&(k.durum==="yolda"||k.durum==="gorusme")&&k.yolBasladi&&k.yolBaslangic&&k.konum;})[0];}
+  var simYol={};  // hareketli SPY yolu: birikimli uzunluk (m), merkezdeki konum.gezi_konum ile aynı formül
+  function geziKonum(s){
+    var y=simYol[s.id];
+    if(!y){
+      var nk=(window.TY_SIM_YOL||{})[s.id]; if(!nk)return null;
+      var cum=[0]; for(var i=1;i<nk.length;i++)cum.push(cum[i-1]+Math.hypot((nk[i][0]-nk[i-1][0])*111320,(nk[i][1]-nk[i-1][1])*111320*Math.cos(nk[i-1][0]*Math.PI/180)));
+      y=simYol[s.id]={nk:nk,cum:cum};
+    }
+    var L=y.cum[y.cum.length-1], d=(((Date.now()+saatFark)/1000*s.gezi.hiz+s.gezi.faz*L)%L+L)%L, lo=0, hi=y.cum.length-1;
+    while(hi-lo>1){var m=(lo+hi)>>1; if(y.cum[m]<=d)lo=m; else hi=m;}
+    var f=(d-y.cum[lo])/((y.cum[hi]-y.cum[lo])||1);
+    return {lat:y.nk[lo][0]+(y.nk[hi][0]-y.nk[lo][0])*f,lng:y.nk[lo][1]+(y.nk[hi][1]-y.nk[lo][1])*f};
+  }
   function animKonum(s){
     var k=yolCagri(s);
     if(!k){  // hareketli örnek SPY: ilçesinde dolaşır (formül merkezdeki konum.gezi_konum ile aynı)
       if(!s.geziyor||!s.gezi)return null;
-      var ts=(Date.now()+saatFark)/1000, g=s.gezi;
-      return {lat:s.lat+g.enlem[0]*Math.sin(2*Math.PI*ts/g.enlem[1]+g.enlem[2]),lng:s.lng+g.boylam[0]*Math.sin(2*Math.PI*ts/g.boylam[1]+g.boylam[2])};
+      return geziKonum(s);
     }
     var p=Math.min(1,Math.max(0,(Date.now()+saatFark-k.yolBasladi)/(k.yolSure||1))), a=k.yolBaslangic, b=k.konum;
     var yol=rotaOnbellek[k.id+"|"+a.lat.toFixed(4)+","+a.lng.toFixed(4)];
@@ -338,7 +351,7 @@
     gorunen.forEach(function(s){
       var k=animKonum(s)||s.konumAn||s, eslesti=acikCagrilar().some(function(c){return c.repId===s.id;}), renk=eslesti?"#00724c":(HAL[s.hal]||HAL.bosta)[1];  // temsilci belli olunca SPY de dolar
       var yanda=gM&&acikCagrilar().some(function(c){return Math.abs(c.konum.lat-k.lat)<.0005&&Math.abs(c.konum.lng-k.lng)<.0007;});  // müşterinin yanında: üst üste binmesin
-      isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,draggable:spyTasinir(s),icon:L.divIcon({className:"",html:'<div class="spy-ik" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px"></div>',iconSize:[boy,boy],iconAnchor:[yanda?boy/2-22:boy/2,boy/2]})});
+      isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,draggable:spyTasinir(s),icon:L.divIcon({className:"",html:'<div class="spy-ik'+(s.sim?' hare':'')+'" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px"></div>',iconSize:[boy,boy],iconAnchor:[yanda?boy/2-22:boy/2,boy/2]})});
       surukle(isaretler[s.id],"spy",s.id);
       bagla(isaretler[s.id],spyBilgi(s)).addTo(spyKatman);
     });

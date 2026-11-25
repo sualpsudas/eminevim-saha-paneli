@@ -53,7 +53,7 @@ def _ilerle(veri, k):
         yeni = "atandi"
     elif durum in ("atandi", "netlesti"):
         spy = veri["spyler"][k["repId"]]
-        k["durum"], k["varisZamani"] = "yolda", simdi() + 10 * DAKIKA
+        k["durum"], k["varisZamani"], k["yolaCikis"] = "yolda", simdi() + 10 * DAKIKA, simdi()
         olay(veri, f"{ad}: {spy['ad']} yola çıktı", k["id"])
         bildirim.bildir_musteri(k, f"Temsilciniz yola çıktı · tahmini varış {saat_yaz(k['varisZamani'])}", f"{spy['ad']} size doğru geliyor.")
         yeni = "yolda"
@@ -91,9 +91,21 @@ def sim_kabul(veri):
     return degisti
 
 
+YOLA_CIKIS_BEKLEME_SN = 2  # "yola çıktı" yazıldıktan sonra ilerletilmezse SPY bu kadar sonra kendiliğinden yürümeye başlar
+
+
+def yurume_baslat(veri):
+    """Yola çıktı yazılıp 2 sn içinde ilerletilmediyse SPY müşteriye doğru yürümeye başlar. Değişiklik olduysa True."""
+    degisti = False
+    for k in veri["kayitlar"].values():
+        if k.get("durum") == "yolda" and k.get("repId") and not k.get("yolBasladi") and k.get("yolaCikis") and simdi() >= k["yolaCikis"] + YOLA_CIKIS_BEKLEME_SN * 1000:
+            degisti = bool(_ilerle(veri, k)) or degisti
+    return degisti
+
+
 def sunum_denetle(veri):
-    """Bekçi (her saniye): örnek SPY kabulü + varışta görüşme. Değişiklik olduysa True."""
-    return sim_kabul(veri) | varis_denetle(veri)
+    """Bekçi (her saniye): örnek SPY kabulü + yola çıkınca yürüme + varışta görüşme. Değişiklik olduysa True."""
+    return sim_kabul(veri) | yurume_baslat(veri) | varis_denetle(veri)
 
 
 def ilerlet(veri, _istek=None):

@@ -85,3 +85,4 @@ yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyo
 - Bilgisayarda: iPhone 15 çerçevesi (393×852); uygulamanın bilgisayar görünümü YOK, Telefon/Bilgisayar seçimi yalnız Web'de.
   Adreslenebilir: `#uygulama-telefon`, `#web-telefon`, `#web-bilgisayar`. Yapılacaklar paneli 2026-11-04 kaldırıldı (görev takibi `gorev-takip`te).
 - Görev takip sayfasından da Çalışma sayfasına bağlantı verilir. `rapor/benzer-uygulamalar.html` linkler.html'de "Araştırma raporu".
+- **Hareketli SPY yolu (2026-11-25):** `veri/sim-yollar.js` (`window.TY_SIM_YOL={id:[[lat,lng],…]}`, `python araclar/sim_yol_uret.py` ile OSRM'den üretilir, `STATIK_KOK`'ta) her örnek SPY için ilçesinde kapalı tur; konum = (t·hiz + faz·uzunluk) mod uzunluk, merkez `konum.gezi_konum` ve takip `geziKonum` aynı formül. Çağrı `yolda` olunca 2 sn içinde ilerletilmezse `sunum.yurume_baslat` yürümeyi başlatır (`yolaCikis`, `YOLA_CIKIS_BEKLEME_SN=2`).

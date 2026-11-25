@@ -30,7 +30,7 @@ _SIM = [  # id, ad, cinsiyet, ilçe, mahalle, şube, klasman, lat, lng, foto, de
 SIM_SPYLER = [{"id": i, "sicil": "49" + i[1:].zfill(3), "ad": ad, "cinsiyet": c, "gorev": "SPY1", "ilce": ilce, "mahalle": mah, "sube": sube,
                "bolge": "İstanbul Anadolu Bölge 1", "klasman": kl, "lat": la, "lng": ln, "foto": "assets/temsilci/" + foto, "deneyim": den,
                "puan": puan, "gorusme": gor, "randevuHG": rh, "ciroHG": ch, "yer": f"{mah}, {ilce}", "sim": True,
-               "gezi": {"enlem": [0.005, per[0], faz[0]], "boylam": [0.007, per[1], faz[1]]}}
+               "gezi": {"hiz": 8.0, "faz": round(faz[0] / 6.3, 3)}}
               for i, ad, c, ilce, mah, sube, kl, la, ln, foto, den, puan, gor, rh, ch, per, faz in _SIM]
 
 SPYLER = spyleri_oku() + SIM_SPYLER
