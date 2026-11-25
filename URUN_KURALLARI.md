@@ -164,10 +164,10 @@ Sıradakiler: açık sorular: SMS biçimi, sentetik fotoğraflar.
 - **Giriş (2026-11-12):** Müşteri tek telefon numarası ekranından devam eder; kayıtlı örnek müşteriler açılır kutudan seçilir. **Personel Girişi** sırası: EMİNEVİM, "Personel Girişi", fotoğraf (kartsız), tek açılır kutu (7 SPY + son seçenek **Yönetici**, seçilince kutu soft sarı, fotoğraf yerinde "Y"), her zaman görünen "Giriş yap" (seçim yokken soluk). "SPY"/"YÖNETİCİ" etiketi ve ayrı Yönetici düğmesi yok. İki giriş ekranında sol üstte Geri yok; sağ üstte karşı girişe geçiş ("Personel Girişi" / "Müşteri Girişi"); müşteride adımlar arası dönüş formun altında "Geri dön". İki ekran aynı ölçü ve hizada: logo 150 px, başlık 18 px, yan boşluk 30 px, içerik üstten sabit, telefon çerçevesi aynı konumda (üstten 48 px); personel penceresi açıkken arkadaki sayfa kaymaz (tek kaydırma çubuğu). Cihaz SPY'nin son girişini hatırlar.
 - **Atama** (ayrıntı `rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md`). Günlük sınır 4 çağrı.
   - **Hemen çağrı** (bugün, saati en geç 2 saat sonra): molada, yolda/görüşmede ve
-    günlük sınırı dolan elenir. Puan: **yakınlık 50** (o anki yer: bugünkü son randevusu, yoksa kendi mahallesi), **H/G 30** (randevu 15 +
-    ciro 15), **bugünkü çağrı 20** (az olan önde).
-  - **İleri saat/gün:** o saatin ±90 dk'sında randevusu olan ve o gün sınırı dolan elenir. Puan: **H/G 50** (randevu 25 + ciro 25),
-    **yakınlık 30** (kendi bölgesine ya da o günkü randevularına), **o günkü çağrı 20**.
+    günlük sınırı dolan elenir. Puan: **yakınlık 50** (o anki yer: bugünkü son randevusu, yoksa kendi mahallesi), **ciro H/G 25**,
+    **randevu H/G 15**, **bugünkü çağrı 10** (az olan önde). Öncelik sırası: yakınlık, ciro, randevu (2026-11-25).
+  - **İleri saat/gün:** o saatin ±90 dk'sında randevusu olan ve o gün sınırı dolan elenir. Puan hemen çağrıyla aynı: **yakınlık 50** (kendi bölgesine ya da o günkü
+    randevularına), **ciro H/G 25**, **randevu H/G 15**, **o günkü çağrı 10**.
   - Çağrı en yüksek puanlıya **teklif** edilir; **2 dakikada** kabul edilmezse ya da SPY **Devret** derse sıradakine. Deneme sınırı yok;
     uygun SPY kalmazsa çağrı **"kimse almadı"** olur ve Saha Canlı haritasında **kırmızı** görünür; uygun SPY çıkınca (moladan döndü,
     görüşmesi bitti) kendiliğinden ona teklif edilir. **Yöneticiye düşme, Ata ve Aktar yok.** Süresi dolmuş çağrıyı eski SPY kabul edemez.

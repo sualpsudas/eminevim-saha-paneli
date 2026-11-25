@@ -26,16 +26,17 @@ durum yoktur: listede yalnız şarta uyanlar bulunur. "Molada" ayrı bir durumdu
 
 ## 4. Puan (100 üzerinden)
 
-Randevu H/G ile ciro H/G **eşit ağırlıkta**. Değer %100–130 arasında puanlanır (%130 ve üstü tam puan), çünkü %100 altı zaten listede yoktur.
+Öncelik sırası (2026-11-25): **yakınlık, ciro H/G, randevu H/G**; hemen ve ileri çağrıda ağırlıklar aynı. Değer %100–130 arasında puanlanır (%130 ve üstü tam puan), çünkü %100 altı zaten listede yoktur.
 
 | Ölçüt | Hemen | İleri |
 |---|---|---|
-| **Yakınlık** — hemen: o anki yer (bugünkü son randevusu, yoksa kendi mahallesi); ileri: kendi bölgesi ya da o günkü randevuları | **50** | 30 |
-| H/G (randevu + ciro, son 3 ay) | 30 (15 + 15) | **50** (25 + 25) |
-| Çağrı yükü (bugün / o gün az çağrı alan önde) | 20 | 20 |
+| **Yakınlık** — hemen: o anki yer (bugünkü son randevusu, yoksa kendi mahallesi); ileri: kendi bölgesi ya da o günkü randevuları | **50** | **50** |
+| Ciro H/G (son 3 ay) | 25 | 25 |
+| Randevu H/G (son 3 ay) | 15 | 15 |
+| Çağrı yükü (bugün / o gün az çağrı alan önde) | 10 | 10 |
 
 - **Hemen:** müşteri bekliyor; yakın olan öne geçer.
-- **İleri:** zaman var; başarı öne çıkar, yakınlık o günün programına göre hesaplanır.
+- **İleri:** yakınlık o günün programına göre hesaplanır (kendi bölgesi ya da o günkü randevuları).
 - Hiç verisi olmayan yeni SPY ekip ortalamasıyla başlar. Tasarruf Yanımda'ya özel dönüşüm oranı (çağrıdan satışa) veri biriktikçe eklenir.
 
 ## 5. Teklif ve kabul

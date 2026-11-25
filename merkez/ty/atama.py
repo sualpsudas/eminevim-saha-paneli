@@ -46,8 +46,8 @@ def mesgul_mu(veri, spy_id, haric_id=None):
 def adaylar(veri, k, haric=()):
     """Eleme + puan. Döner: puana göre sıralı [(puan, spy, gerekçe, km)].
     Yalnız müşterinin ilçesindeki SPY'ler aday olur (ilçe pilot sınırlarından bulunur; bölge dışıysa ilçe denetimi yok).
-    Hemen: molada, başka müşteriye bağlı (teklif/atandı/yolda/görüşmede), günlük sınırı dolan elenir (uygulaması kapalı olabilir: bildirim gider); puan yakınlık 50, H/G 30, bugünkü çağrı 20.
-    İleri saat/gün: o gün sınırı dolan, o saatin ±90 dk'sında randevusu olan elenir; puan H/G 50, yakınlık 30, o günkü çağrı 20."""
+    Hemen: molada, başka müşteriye bağlı (teklif/atandı/yolda/görüşmede), günlük sınırı dolan elenir (uygulaması kapalı olabilir: bildirim gider); puan yakınlık 50, ciro H/G 25, randevu H/G 15, bugünkü çağrı 10.
+    İleri saat/gün: o gün sınırı dolan, o saatin ±90 dk'sında randevusu olan elenir; puan aynı ağırlıklar (yakınlık 50, ciro 25, randevu 15, o günkü çağrı 10)."""
     konum = k.get("konum") or {}
     tarih = k.get("tarih") or bugun()
     hemen = hemen_mi(k)

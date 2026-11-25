@@ -30,8 +30,8 @@ KABUL_SN = 120          # SPY bu sürede kabul etmezse çağrı sıradakine geç
 GUNLUK_SINIR = 4        # bir SPY'ye bir günde en fazla çağrı
 ARALIK_DK = 90          # ileri saatte aynı gün iki randevu arası en az
 HEMEN_DK = 120          # bugün ve saati en geç 2 saat sonra olan çağrı "hemen" sayılır (en erken seçilebilen saatler)
-AGIRLIK = {"hemen": {"yakinlik": 50, "randevu": 15, "ciro": 15, "yuk": 20},
-           "ileri": {"randevu": 25, "ciro": 25, "yakinlik": 30, "yuk": 20}}
+AGIRLIK = {"hemen": {"yakinlik": 50, "ciro": 25, "randevu": 15, "yuk": 10},  # öncelik: yakınlık, sonra ciro H/G, sonra randevu H/G (2026-11-25)
+           "ileri": {"yakinlik": 50, "ciro": 25, "randevu": 15, "yuk": 10}}
 YAKINLIK_KM = 10        # bu uzaklıkta yakınlık puanı sıfır
 HG_TAVAN = 30           # H/G puanı %100'ün üstündeki ilk 30 puanda artar (%130 ve üstü tam puan)
 
