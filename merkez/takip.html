@@ -215,7 +215,7 @@
   var ilceKatman=L.featureGroup().addTo(harita);
   harita.createPane("ilceAd").style.zIndex=420;  // işaretlerin (600) ve rotaların arkasında
   S.ilceler.forEach(function(i){
-    L.polygon(i.halkalar,{color:"#00724c",weight:1.5,opacity:.6,fillColor:"#00724c",fillOpacity:.03,interactive:false}).bindTooltip(i.ad,{permanent:true,direction:"center",className:"ilce-ad",pane:"ilceAd"}).addTo(ilceKatman);
+    L.polygon(i.halkalar,{color:"#00724c",weight:2.8,opacity:.95,fillColor:"#00724c",fillOpacity:.09,interactive:false}).bindTooltip(i.ad,{permanent:true,direction:"center",className:"ilce-ad",pane:"ilceAd"}).addTo(ilceKatman);
   });
   function sigdir(){harita.invalidateSize();if(S.ilceler.length)harita.fitBounds(ilceKatman.getBounds(),{padding:[10,10]});}
   sigdir(); addEventListener("load",sigdir); setTimeout(sigdir,400);  // telefonda yerleşim geç oturuyor
