@@ -1,7 +1,7 @@
 """Hareketli örnek SPY'lerin "dur-kalk" saha günü (2026-11-26).
 
 Her hareketli SPY rastgele bir hedef seçer (pilot bölge + komşu ilçeler, tabanından en çok 8 km) → oraya en hızlı rotayla, yoldaki İBB anlık hızıyla gider
-(atama.en_hizli_rota + trafik.zamanli_rota, sunumdaki yola çıkışla aynı) → varınca 10-30 dk durur ("ziyarette") → yeni hedef.
+(atama.en_hizli_rota + trafik.zamanli_rota, sunumdaki yola çıkışla aynı) → varınca 3-10 dk durur ("ziyarette") → yeni hedef.
 Süreler sunumdaki gibi hızlandırılmış: gerçek 1 dk = 3 sn (sunum.YOL_SN_DK). Plan yalnız bellekte tutulur (veri.json'a yazılmaz);
 merkez yeniden başlayınca SPY bulunduğu yerden yeniden başlar. Çağrı alıp yola çıkınca (don/yolda/görüşme) ya da yönetici haritada
 taşıyınca gezi biter; çağrı kapanınca SPY son yerinden (müşterinin adresi) devam eder. Konum: konum.py konum_ve_kaynak → gezi.konum;
@@ -20,7 +20,7 @@ import time
 from .yardim import simdi
 
 HIZ_SN_DK = 3                 # gerçek 1 dk = sunumda 3 sn (sunum.YOL_SN_DK ile aynı)
-DURAK_DK = (10, 30)           # hedefte bekleme (gerçek dk)
+DURAK_DK = (3, 10)            # hedefte bekleme (gerçek dk; 2026-11-26: 10-30 → 3-10, haritada uzun duruş akıcı görünmüyordu)
 HEDEF_M = (1200, 5000)        # yeni hedef bulunduğu yerden bu kadar uzakta (kuş uçuşu)
 EV_M = 8000                   # tabanından (kayıtlı yeri) en çok bu kadar uzaklaşır; uzaklaştıkça hedefler geri çeker
 TUR_SN = 2                    # planlayıcı bu sıklıkla bakar

@@ -64,7 +64,7 @@
   .akis-ac{flex:1;min-width:0;display:flex;align-items:center;gap:6px;border:0;background:transparent;padding:4px 0;font-weight:700;font-size:14px;color:var(--koyu);text-align:left}
   .akis-ac .ok{display:inline-block;transition:transform .15s;color:var(--yazi);font-size:11px}
   .akis.kapali .akis-ac .ok{transform:rotate(-90deg)}
-  .akis.kapali #akisListe,.akis.kapali .e-ipucu{display:none}
+  .akis.kapali #akisListe{display:none}  /* çağrı ekle ipucu kapalı kartta da görünür */
   .akis.kapali .akis-ust{border-bottom:0}
   .sahne .akis.kapali{align-self:flex-start}
   #akisListe{flex:1;overflow-y:auto;margin:0;padding:0;list-style:none}
@@ -221,8 +221,9 @@
   body.tam .leaflet-bottom.leaflet-left{bottom:var(--tam-alt,0px)}
   @media (max-width:640px){body.tam .akis{margin-left:0;margin-top:auto;flex-basis:26%}body.tam .akis.kapali{flex-basis:auto}body.tam header h1 small{display:none}body.tam header h1{font-size:14px}}
 .gz{display:flex;gap:6px;margin-top:7px}
-.gz-b{flex:1;font:inherit;font-size:12px;padding:5px 8px;border-radius:14px;border:1px solid #cfe3da;background:#fff;color:#6b7a73;cursor:pointer}
-.gz-b.on{background:#00724c;border-color:#00724c;color:#fff}
+.gz-b{flex:0 0 auto;min-width:92px;font:inherit;font-size:12px;padding:5px 8px;border-radius:14px;border:1px solid #cfe3da;background:#fff;color:#6b7a73;cursor:pointer}
+.gz-b{background:#00724c;border-color:#00724c;color:#fff}
+.gz-b.dur{background:#fff;border-color:#c9d6d0;color:#33403a}
 .gz-b:disabled{cursor:default;opacity:.55}
 </style>
 </head>
@@ -380,7 +381,7 @@
   // Telefonda (dar ekran) ayrıntı balon yerine alttan kart olarak açılır; işaretler parmak için büyük
   var DAR=matchMedia("(max-width:640px)"), kisiKart=document.getElementById("kisiKart");
     function kartAc(html){document.getElementById("kisiIc").innerHTML=html;kisiKart.hidden=false;}
-  function kartKapat(){kisiKart.hidden=true;}
+  function kartKapat(){kisiKart.hidden=true;acikSpy=null;}
   function bagla(m,html){if(DAR.matches)m.on("click",function(){kartAc(html);});else m.bindPopup(html);return m;}
   function ac(m,html){harita.setView(m.getLatLng(),Math.max(harita.getZoom(),14));if(DAR.matches)kartAc(html);else m.openPopup();}
   function e(t){return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
@@ -414,15 +415,26 @@
   function geziDugme(s){
     if(DEMO||s.canliKonum||!spyTasinir(s))return "";
     var ac=s.geziAcik;
-    return '<div class="gz"><button type="button" class="gz-b'+(ac?'':' on')+'" onclick="tyGezi(\''+e(s.id)+'\',true)"'+(ac?' disabled':'')+'>▶ Gez</button>'+
-      '<button type="button" class="gz-b'+(ac?' on':'')+'" onclick="tyGezi(\''+e(s.id)+'\',false)"'+(ac?'':' disabled')+'>■ Dur</button></div>';
+    return '<div class="gz"><button type="button" class="gz-b'+(ac?' dur':'')+'" data-gezi="'+e(s.id)+'" aria-pressed="'+ac+'">'+(ac?'■ Dur':'▶ Gez')+'</button></div>';
   }
-  window.tyGezi=function(id,ac){
+  // Açık bilgi kutusu (SPY) her yenilemede yerinde güncellenir; Gez / Dur kutuyu kapatmaz
+  var acikSpy=null;
+  function bilgiYenile(){
+    if(!acikSpy)return;
+    var s=veri.spyler.filter(function(x){return x.id===acikSpy;})[0]; if(!s)return;
+    if(!kisiKart.hidden)document.getElementById("kisiIc").innerHTML=spyBilgi(s);
+    else if(harita._popup&&harita.hasLayer(harita._popup))harita._popup.setContent(spyBilgi(s));
+  }
+  document.addEventListener("click",function(ev){
+    var b=ev.target.closest&&ev.target.closest("[data-gezi]"); if(!b||b.disabled)return;
+    ev.preventDefault();ev.stopPropagation();
+    var id=b.getAttribute("data-gezi"), ac=b.getAttribute("aria-pressed")!=="true";
+    b.disabled=true;b.textContent=ac?"Başlıyor…":"Duruyor…";
     fetch("api/gezi",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({id:id,ac:ac})})
       .then(function(r){return r.json().catch(function(){return {};}).then(function(v){if(!r.ok)throw new Error(v.hata||("Hata "+r.status));});})
       .catch(function(err){alert("Olmadı: "+err.message);})
-      .then(function(){harita.closePopup();kartKapat();surum=0;tur();});
-  };
+      .then(function(){surum=0;tur();});
+  },true);
   function cagriBilgi(k){if(k.oneri)return '<b>Randevu önerildi</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br>İstenen: '+e(k.gunYazi||k.tarih)+' '+e(k.saat)+'<br><b>Önerilen: '+e(k.oneri.gunYazi)+' '+e(k.oneri.saat)+'</b> ('+e(k.oneri.repAd)+')<br><span style="color:#666">İlçede şu an uygun SPY yok; müşterinin uygulamadan onayı bekleniyor.</span>'+(DEMO?"":TASI_IPUCU);
     if(k.bolgeDisi)return '<b>Pilot bölge dışı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br><span style="color:#666">Temsilci gönderilmez, telefonla görüşülür. Bölge içine taşırsanız çağrı yeniden teklif edilir.</span>'+(DEMO?"":TASI_IPUCU);
     return '<b>Kimse almadı</b><br>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'<br>'+e(k.yer)+'<br>'+e(k.gunYazi||k.tarih)+' '+e(k.saat)+'<br><span style="color:#666">Uygun SPY çıkınca kendiliğinden teklif edilir.</span>'+(DEMO?"":TASI_IPUCU);}
@@ -477,7 +489,7 @@
   function animKonum(s){
     var k=yolCagri(s);
     if(!k){  // hareketli örnek SPY: ilçesinde dolaşır (formül merkezdeki konum.gezi_konum ile aynı)
-      if(!s.geziyor||!s.gezi)return null;
+      if(!s.geziyor)return null;  // örnek SPY ya da Gez denmiş herhangi bir SPY
       var g=s.geziRota;
       if(g&&g.r&&g.r.length>1){  // gezi.py ile aynı formül: rota boyunca varış saniyelerine göre, sonra hedefte durur
         var gp=Math.min(1,Math.max(0,(Date.now()+saatFark-g.bas)/(g.sure||1))), gt=gp*g.r[g.r.length-1][2], gj=1;
@@ -485,7 +497,7 @@
         var ga=g.r[gj-1], gb=g.r[gj], gf=gb[2]>ga[2]?(gt-ga[2])/(gb[2]-ga[2]):1;
         return {lat:ga[0]+(gb[0]-ga[0])*gf,lng:ga[1]+(gb[1]-ga[1])*gf};
       }
-      return geziKonum(s);
+      return s.gezi?geziKonum(s):null;
     }
     var p=Math.min(1,Math.max(0,(Date.now()+saatFark-k.yolBasladi)/(k.yolSure||1))), a=k.yolBaslangic, b=k.konum;
     var r=k.yolRota;
@@ -547,6 +559,7 @@
       isaretler[s.id].bindTooltip(e(s.ad),{permanent:true,direction:"top",offset:[0,-boy/2-1],className:"spy-ad"});
       surukle(isaretler[s.id],"spy",s.id);
       bagla(isaretler[s.id],spyBilgi(s)).addTo(spyKatman);
+      (function(id,m){m.on("popupopen click",function(){acikSpy=id;});m.on("popupclose",function(){if(acikSpy===id)acikSpy=null;});})(s.id,isaretler[s.id]);
     });
     acikCagrilar().filter(function(k){return gM&&mSec[asama(k)];}).forEach(function(k){
       var sinif={alindi:"s-alindi",atandi:"s-atandi",netlesti:"s-atandi",yolda:"s-yolda",gorusme:"s-yolda",gorusmede:"s-gorusmede"}[k.durum]||"s-atandi";
@@ -629,17 +642,21 @@
   (function(){if(DEMO)return;var il=document.getElementById("ilerlet"),b=document.createElement("button");b.type="button";b.id="eBtn";b.className="ekle-btn";b.innerHTML='+<svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>';b.title="Çağrı ekle";b.setAttribute("aria-label","Çağrı ekle");il.parentNode.insertBefore(b,document.getElementById("oynat"));})();  // Bildirimler kartında, Otomatik ilerlet'in solunda
   function ekleKapat(){ekleModu=false;var b=document.getElementById("eBtn");if(b)b.classList.remove("acik");var i=document.getElementById("eIpucu");if(i)i.hidden=true;harita.getContainer().style.cursor="";}
   document.addEventListener("click",function(ev){
-    if(ev.target.id==="eBtn"){if(ekleModu){ekleKapat();return;}ekleModu=true;ev.target.classList.add("acik");document.getElementById("eIpucu").hidden=false;harita.getContainer().style.cursor="crosshair";}
+    var eb=ev.target.closest&&ev.target.closest("#eBtn");  // simgeye (svg) dokunulsa da düğme sayılır
+    if(eb){if(ekleModu){ekleKapat();return;}ekleModu=true;eb.classList.add("acik");document.getElementById("eIpucu").hidden=false;harita.getContainer().style.cursor="crosshair";}
   });
-  harita.on("click",function(ev){  // düğmeye bastıktan sonra haritaya dokunmak çağrıyı hemen ekler (ad ve telefon rastgele)
-    if(!ekleModu)return;
-    var ip=document.getElementById("eIpucu"), nokta=ev.latlng;
-    ekleKapat();
+  // Ekleme modunda haritanın neresine dokunulursa dokunulsun (SPY, müşteri, şube, trafik çizgisi, bölge sınırı üstü dahil) çağrı eklenir:
+  // tıklama işaretlere ulaşmadan yakalanır. Yalnız harita düğmeleri ve açık bilgi kutusu hariç.
+  harita.getContainer().addEventListener("click",function(ev){
+    if(!ekleModu||(ev.target.closest&&ev.target.closest(".leaflet-control,.leaflet-popup")))return;
+    ev.preventDefault();ev.stopPropagation();
+    var ip=document.getElementById("eIpucu"), nokta=harita.mouseEventToLatLng(ev);
+    ekleKapat(); harita.closePopup(); kartKapat();
     fetch("api/cagri-ekle",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ad:rastAd(),tel:rastTel(),yer:"",lat:nokta.lat,lng:nokta.lng})})
       .then(function(r){return r.json().catch(function(){return {};}).then(function(v){if(!r.ok)throw new Error(v.hata||("Hata "+r.status));});})
       .then(function(){surum=0;tur();})
-      .catch(function(err){ip.textContent=err.message;ip.hidden=false;setTimeout(function(){ip.hidden=true;ip.textContent="Haritada müşterinin yerine dokunun";},4000);});
-  });
+      .catch(function(err){ip.textContent="Eklenemedi: "+err.message;ip.hidden=false;setTimeout(function(){ip.hidden=true;ip.textContent="Haritada müşterinin yerine dokunun";},4000);});
+  },true);
   // Trafik katmanı: pilot bölge + komşu ilçelerdeki (Kadıköy, Maltepe, Sancaktepe, Beykoz, Çekmeköy) yolların İBB canlı trafiği (merkez api/trafik-yol, ilçe sınırına kırpılmış); her zaman o an, 3 dk'da bir yenilenir.
   // Renkler ve çizim İBB Şehir Haritası'ndaki gibi: 1-2 akıcı … 5 tıkalı, renk 0 (veri yok) çizilmez; ara yollar yalnız 14+ yakınlıkta, ince ve soluk.
   var IBB_RENK={1:"#80CF63",2:"#54AC35",3:"#FF9C07",4:"#F42A2A",5:"#9B0808"}, IBB_AD={1:"Akıcı",2:"Akıcı",3:"Yoğun",4:"Çok yoğun",5:"Tıkalı"};
@@ -826,7 +843,7 @@
       if(v.sifirlama>sifirlama){if(sifirlama>=0)veri.kayitlar={};sifirlama=v.sifirlama;}
       surum=v.surum; saatFark=(v.simdi||Date.now())-Date.now(); veri.spyler=v.spyler; veri.bugun=v.bugun||veri.bugun; akisCiz(v.olaylar);
       v.kayitlar.forEach(function(k){veri.kayitlar[k.id]=k;});
-      apSiraCiz();
+      apSiraCiz(); bilgiYenile();
       var b=document.getElementById("bag"); b.textContent="Canlı · "+saat(Date.now()); b.className="bag";
       if((!harita._popup||!harita.hasLayer(harita._popup))&&kisiKart.hidden&&!suruk)ciz();  // açık bilgi kutusu kapanmasın, sürükleme sırasında işaretler yenilenmesin
     }).catch(function(){var b=document.getElementById("bag");b.textContent="Bağlantı yok";b.className="bag kopuk";})

@@ -244,17 +244,22 @@ def gezi_islem(veri, istek):
 
 
 def cagri_ekle(veri, istek):
-    """Yönetici takip sayfasında haritaya tıklayıp çağrı ekledi: {ad, yer, tel, lat, lng}. Gerçek çağrı gibi kaydedilir (test sıfırlanana kadar)."""
+    """Yönetici takip sayfasında haritaya tıklayıp çağrı ekledi: {ad, yer, tel, lat, lng}. Gerçek çağrı gibi kaydedilir (test sıfırlanana kadar).
+    Her zaman eklenir: pilot bölge dışındaysa "pilot bölge dışı" (telefonla görüşme) olarak bekler."""
     lat, lng = _nokta(istek)
-    if not bolgede_mi(lat, lng):
-        raise ValueError("Bu nokta pilot bölge (Üsküdar, Ümraniye, Ataşehir) dışında; çağrı eklenemez.")
     k = {"id": "y-" + secrets.token_hex(5), "konum": {"lat": lat, "lng": lng}, "yer": metin(istek.get("yer"), 120) or "Haritada seçilen nokta",
          "tarih": bugun(), "saat": time.strftime("%H:%M"), "gunYazi": "Bugün", "kaynak": "yonetici"}
     ad, tel = metin(istek.get("ad"), 80) or "Test müşterisi", tel_temiz(istek.get("tel"))
     adi, _, soyadi = ad.partition(" ")
     if len(tel) == 10 and tel not in veri["musteriler"]:  # KVKK/Aydınlatma adımları geçmiş yeni üye: uygulamada giriş listesinde görünür, randevu oradan yanıtlanır
         hesap_ac(veri, tel, adi, soyadi, False, "yonetici")
-    return cagri(veri, {"kayit": k, "musteri": {"ad": ad, "adi": adi, "soyadi": soyadi, "tel": tel}})
+    k = cagri(veri, {"kayit": k, "musteri": {"ad": ad, "adi": adi, "soyadi": soyadi, "tel": tel}})
+    if not bolgede_mi(lat, lng):  # 2026-11-26: bölge dışına da eklenir; müşteriyi bölge dışına taşımakla aynı: temsilci gönderilmez, telefonla görüşülür
+        k.update({"sahipsiz": True, "bolgeDisi": True, "gerekce": "", "teklifZamani": None})
+        k["teklif"]["bitis"] = 0
+        olay(veri, f"{ad}: pilot bölge dışında → temsilci gönderilmez, telefonla görüşülür", k["id"])
+        damga(veri, k)
+    return k
 
 
 def oneri_islem(veri, istek):
