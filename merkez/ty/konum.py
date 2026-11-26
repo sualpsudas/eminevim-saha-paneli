@@ -82,6 +82,13 @@ def konum_ve_kaynak(veri, s):
     for x in veri["kayitlar"].values():  # sunumda yola çıkmış: başlangıçtan müşteriye zamana göre ilerler
         if x.get("repId") == s["id"] and x.get("durum") in ("yolda", "gorusme") and x.get("yolBasladi") and x.get("yolBaslangic") and isinstance(x.get("konum"), dict):
             p = min(1.0, max(0.0, (simdi() - x["yolBasladi"]) / (x.get("yolSure") or 1)))
+            r = x.get("yolRota")
+            if r and len(r) > 1:  # kayıtlı rotada, her parçanın anlık hızına göre (varış saniyeleriyle)
+                hedef = p * r[-1][2]
+                i = next((j for j in range(1, len(r)) if r[j][2] >= hedef), len(r) - 1)
+                a, b = r[i - 1], r[i]
+                f = (hedef - a[2]) / (b[2] - a[2]) if b[2] > a[2] else 1
+                return {"lat": a[0] + (b[0] - a[0]) * f, "lng": a[1] + (b[1] - a[1]) * f}, "yol"
             a, b = x["yolBaslangic"], x["konum"]
             return {"lat": a["lat"] + (b["lat"] - a["lat"]) * p, "lng": a["lng"] + (b["lng"] - a["lng"]) * p}, "yol"
     for x in veri["kayitlar"].values():  # hareketli SPY çağrı alınca durur (sabit SPY gibi); yürüyüş başlayınca "yol" devralır

@@ -2,10 +2,12 @@
 
 Aşamalar: yeni çağrı → SPY atandı → yola çıktı → görüşmede → tamamlandı. Yeni çağrıya atama kuralıyla (atama.py) SPY bulunur ve
 hemen kabul etmiş sayılır; müşteriye her aşamada bildirim gider. SPY yola çıkınca yerinde kalır (haritada rota çizilir), görüşmede müşterinin yerine gelir.
-Tahmini varış her SPY'nin kendi rotasından (atama.varis_dk: İBB anlık hızı); haritadaki yürüyüş de bu süreyle orantılı.
+Tahmini varış her SPY'nin kendi en hızlı rotasından (atama.en_hizli_rota: İBB anlık hızı); rota k["yolRota"] = [[enlem, boylam, varış sn]…]
+olarak kaydedilir, SPY bu rotada yolun hızına göre ilerler (gerçek 1 dk = sunumda 3 sn). Yolda trafik değişse de rota ve varış değişmez.
 """
 from . import bildirim
-from .atama import teklif_et, varis_dk
+from . import trafik
+from .atama import en_hizli_rota, teklif_et, varis_dk
 from .ayarlar import KAPALI_DURUMLAR
 from .konum import anlik_konum, konum_yaz
 from .yardim import damga, olay, saat_yaz, simdi
@@ -55,7 +57,15 @@ def _ilerle(veri, k):
     elif durum in ("atandi", "netlesti"):
         spy = veri["spyler"][k["repId"]]
         konum = k.get("konum") or {}
-        dk = varis_dk(anlik_konum(veri, spy), konum) if "lat" in konum else 10  # her SPY'nin kendi rotası (anlık trafikle)
+        k.pop("yolRota", None)
+        dk = 10
+        if "lat" in konum:  # her SPY'nin kendi en hızlı rotası (anlık trafikle); yolda trafik değişse de rota ve varış değişmez
+            bas = anlik_konum(veri, spy)
+            c = en_hizli_rota(bas, konum)
+            if c:
+                dk, k["yolRota"] = c["dk"], trafik.zamanli_rota(c["rota"])
+            else:
+                dk = varis_dk(bas, konum)
         k["durum"], k["varisZamani"], k["yolaCikis"], k["yolDk"] = "yolda", simdi() + max(1, round(dk)) * DAKIKA, simdi(), dk
         if spy.get("sim"):  # temsilci belli olunca hareketli SPY durmaz; yola çıkınca durur: rota hep aynı yerden çizilir, yürüyüş buradan başlar
             k["don"] = dict(anlik_konum(veri, spy), id=spy["id"])

@@ -208,19 +208,41 @@ def nokta_hizi(lat, lng):
     return hiz
 
 
+def parca_sureleri(rota):
+    """Rotanın her parçasının anlık trafikli süresi (sn) ve eşleşip eşleşmediği: [(sn, eşleşti)…]. Eşleşen parça İBB hızıyla, öteki yol servisinin süresiyle."""
+    k, sonuc = rota["nokta"], []
+    for i, (m, sn) in enumerate(zip(rota["mesafe"], rota["sure"])):
+        (la, lo), (lb, lob) = k[i], k[i + 1]
+        hiz = nokta_hizi((la + lb) / 2, (lo + lob) / 2) if m > 0 else None
+        sonuc.append((m / (hiz / 3.6), True) if hiz else (sn, False))
+    return sonuc
+
+
 def canli_rota_dk(rota):
-    """yol.rotalar() rotalarından birinin anlık trafikle süresi: her parça İBB segmentiyle eşleşirse o hızla, yoksa yol servisinin süresiyle.
+    """yol.rotalar() rotalarından birinin anlık trafikle süresi.
     Döner {"dk", "serbestDk", "kapsama" (eşleşen mesafe oranı)} ya da canlı veri yoksa None."""
     canli_yollar()  # 3 dk'dan eskiyse tazeler
     if not _canli["dizin"] or not rota:
         return None
-    toplam = serbest = eslesen = uzun = 0.0
+    parca = parca_sureleri(rota)
+    uzun = sum(rota["mesafe"])
+    eslesen = sum(m for m, (_, e) in zip(rota["mesafe"], parca) if e)
+    return {"dk": round(sum(sn for sn, _ in parca) / 60, 1), "serbestDk": round(sum(rota["sure"]) / 60, 1),
+            "kapsama": round(eslesen / uzun, 2) if uzun else 0}
+
+
+def zamanli_rota(rota, en_az_m=25, en_cok=300):
+    """Rota noktaları + o noktaya varış saniyesi (anlık trafikle): [[enlem, boylam, sn]…], ~25 m'de bir nokta (en çok 300).
+    Sunumda SPY bu rotada yolun hızına göre ilerler (sunum.py, konum.py, takip.html)."""
+    parca = parca_sureleri(rota)
     k = rota["nokta"]
-    for i, (m, sn) in enumerate(zip(rota["mesafe"], rota["sure"])):
-        (la, lo), (lb, lob) = k[i], k[i + 1]
-        hiz = nokta_hizi((la + lb) / 2, (lo + lob) / 2) if m > 0 else None
-        toplam += m / (hiz / 3.6) if hiz else sn
-        serbest += sn
-        uzun += m
-        eslesen += m if hiz else 0
-    return {"dk": round(toplam / 60, 1), "serbestDk": round(serbest / 60, 1), "kapsama": round(eslesen / uzun, 2) if uzun else 0}
+    toplam = sum(rota["mesafe"])
+    aralik = max(en_az_m, toplam / en_cok)
+    sonuc, t, birikim = [[k[0][0], k[0][1], 0]], 0.0, 0.0
+    for i, ((sn, _), m) in enumerate(zip(parca, rota["mesafe"])):
+        t += sn
+        birikim += m
+        if birikim >= aralik or i == len(parca) - 1:
+            sonuc.append([round(k[i + 1][0], 5), round(k[i + 1][1], 5), round(t, 1)])
+            birikim = 0.0
+    return sonuc

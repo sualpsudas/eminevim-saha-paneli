@@ -36,7 +36,7 @@ YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/ko
 def temiz_kayit(gelen):
     if not isinstance(gelen, dict) or not gelen.get("id"):
         raise ValueError("Kayıt eksik.")
-    k = {a: d for a, d in gelen.items() if a not in ("mesajlar", "surum", "guncelleme", "musteri", "eskiRepler", "olusma", "atanma", "uzaklikKm")}
+    k = {a: d for a, d in gelen.items() if a not in ("mesajlar", "surum", "guncelleme", "musteri", "eskiRepler", "olusma", "atanma", "uzaklikKm", "yolRota", "yolDk")}
     if len(json.dumps(k, ensure_ascii=False)) > 20000:
         raise ValueError("Kayıt çok büyük.")
     return k
