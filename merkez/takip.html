@@ -120,7 +120,7 @@
   .leaflet-tooltip.spy-ad{display:none;background:rgba(255,255,255,.9);border:0;box-shadow:0 1px 3px rgba(0,0,0,.25);color:#1b3a2d;font-size:11px;font-weight:700;padding:1px 6px;border-radius:8px;pointer-events:none}
   .leaflet-tooltip.spy-ad::before{display:none}
   .sube-ik.diger{background:#4f9a7c;width:8px;height:8px;box-shadow:0 1px 3px rgba(0,0,0,.35)}  /* pilot dışı Anadolu Yakası şubesi: soluk */
-  .sube-ik{width:8px;height:8px;border-radius:50%;background:#00724c;border:1.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+  .sube-ik{transform:scale(var(--sube-olcek,1));transition:transform .2s;width:8px;height:8px;border-radius:50%;background:#00724c;border:1.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
   .ap-onc{font:600 10.5px/1 inherit;color:#00724c;background:#e3f1ec;border-radius:8px;padding:2px 6px;margin-left:4px}
   .gm-ik{width:10px;height:10px;border-radius:50%;background:#ea803f;border:1.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
   .yakin-ad .leaflet-tooltip.spy-ad{display:block}
@@ -130,7 +130,6 @@
   .tr-kap{display:flex;align-items:center;gap:4px;background:#fff;border-radius:22px;padding:4px;box-shadow:0 2px 6px rgba(0,0,0,.25);font-size:13px}
   .tr-kap button{border:0;background:transparent;color:var(--yesil);font-weight:700;min-width:36px;min-height:36px;border-radius:18px;cursor:pointer;font-size:13px}
   .tr-kap button.acik{background:var(--yesil);color:#fff}
-  body.gomulu #sbAc{display:none}  /* uygulama içindeki küçük haritada düğme kutusu dar kalsın (şubeler yine görünür) */
   .tr-kap .tr-ayar[hidden]{display:none}
   .tr-kap .tr-ayar{display:flex;align-items:center;gap:2px}
   .tr-kap output{min-width:46px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
@@ -671,7 +670,7 @@
   var trafikBtn=L.control({position:"bottomleft"});
   trafikBtn.onAdd=function(){
     var d=L.DomUtil.create("div","tr-kap");
-    d.innerHTML='<button type="button" id="pbAc" aria-pressed="true" class="acik">Pilot bölge</button><button type="button" id="sbAc" aria-pressed="false">Şubeler</button><button type="button" id="trAc" aria-pressed="false">Trafik</button><span class="tr-ayar" id="trAyar" hidden>'+
+    d.innerHTML='<button type="button" id="pbAc" aria-pressed="true" class="acik">Pilot bölge</button><button type="button" id="trAc" aria-pressed="false">Trafik</button><span class="tr-ayar" id="trAyar" hidden>'+
       '<output id="trSaat" aria-live="polite"></output>'+
       '<span class="tr-lej" aria-hidden="true">'+[2,3,4,5].map(function(r){return '<i style="background:'+IBB_RENK[r]+'" title="'+IBB_AD[r]+'"></i>';}).join("")+'</span></span>';
     L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d); return d;
@@ -682,11 +681,10 @@
     if(ac&&!harita.hasLayer(ilceKatman))ilceKatman.addTo(harita);if(!ac&&harita.hasLayer(ilceKatman))harita.removeLayer(ilceKatman);
     try{localStorage.setItem("ty-pilot-bolge",ac?"1":"0");}catch(x){}}
   (function(){var v=null;try{v=localStorage.getItem("ty-pilot-bolge");}catch(x){}if(v==="0")pbGoster(false);})();
-  function sbGoster(ac){var b=document.getElementById("sbAc");b.setAttribute("aria-pressed",ac);b.classList.toggle("acik",ac);
-    if(ac&&!harita.hasLayer(subeKatman))subeKatman.addTo(harita);if(!ac&&harita.hasLayer(subeKatman))harita.removeLayer(subeKatman);
-    try{localStorage.setItem("ty-subeler",ac?"1":"0");}catch(x){}}
-  document.getElementById("sbAc").addEventListener("click",function(){sbGoster(this.getAttribute("aria-pressed")!=="true");});
-  (function(){var v=null;try{v=localStorage.getItem("ty-subeler");}catch(x){}sbGoster(v!=="0");})();  // varsayılan açık
+  subeKatman.addTo(harita);  // şubeler hep açık (seçenek yok)
+  // Yakınlaştıkça şube noktaları büyür (14'ten sonra her adımda), uzakta küçük kalır
+  function subeOlcek(){var z=harita.getZoom();harita.getContainer().style.setProperty("--sube-olcek",z<=13?1:Math.min(2.4,1+(z-13)*0.45));}
+  harita.on("zoomend",subeOlcek);subeOlcek();
   // Tam ekran: harita en arkaya geçer; harita düğmeleri üstteki kutuların altında/yanında kalsın diye kenar boşlukları ölçülür
   var tamBtn=L.control({position:"topleft"});
   tamBtn.onAdd=function(){var d=L.DomUtil.create("div","leaflet-bar");d.innerHTML='<button type="button" class="tam-btn" id="tamAc" aria-pressed="false" title="Tam ekran" aria-label="Tam ekran">⛶</button>';L.DomEvent.disableClickPropagation(d);return d;};
