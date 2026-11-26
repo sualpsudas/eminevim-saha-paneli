@@ -546,7 +546,7 @@
       .then(function(){surum=0;tur();})
       .catch(function(err){ip.textContent=err.message;ip.hidden=false;setTimeout(function(){ip.hidden=true;ip.textContent="Haritada müşterinin yerine dokunun";},4000);});
   });
-  // Trafik katmanı: pilot bölge içindeki yolların İBB canlı trafiği (merkez api/trafik-yol, ilçe sınırına kırpılmış); her zaman o an, 3 dk'da bir yenilenir.
+  // Trafik katmanı: pilot bölge + komşu ilçelerdeki (Kadıköy, Maltepe, Sancaktepe, Beykoz, Çekmeköy) yolların İBB canlı trafiği (merkez api/trafik-yol, ilçe sınırına kırpılmış); her zaman o an, 3 dk'da bir yenilenir.
   // Renkler ve çizim İBB Şehir Haritası'ndaki gibi: 1-2 akıcı … 5 tıkalı, renk 0 (veri yok) çizilmez; ara yollar yalnız 14+ yakınlıkta, ince ve soluk.
   var IBB_RENK={1:"#80CF63",2:"#54AC35",3:"#FF9C07",4:"#F42A2A",5:"#9B0808"}, IBB_AD={1:"Akıcı",2:"Akıcı",3:"Yoğun",4:"Çok yoğun",5:"Tıkalı"};
   var trKatman=null, trAra=null, trSaatlik=null, TR_ARA_Z=14;

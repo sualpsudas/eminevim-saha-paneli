@@ -5,7 +5,7 @@ pilot bölgedeki her geohash-6 karesi için gün tipi (hafta içi / cumartesi / 
 Anlık trafik gerekirse (ücretli yönlendirme servisi ya da İBB'nin lisanslı verisi) yalnız bu dosya değişir.
 
 canli_yollar(): takip sayfası haritasındaki trafik katmanı için İBB Şehir Haritası'nın (harita.istanbul) canlı trafik segmentlerinden
-pilot bölge ilçe sınırları içindeki yol parçaları (İBB rengi + anlık hız). Her zaman o anki veri; geçmiş tutulmaz (2026-11-26 kararı).
+pilot bölge + komşu ilçelerin (Kadıköy, Maltepe, Sancaktepe, Beykoz, Çekmeköy) sınırları içindeki yol parçaları (İBB rengi + anlık hız). Her zaman o anki veri; geçmiş tutulmaz (2026-11-26 kararı).
 3 dk bellekte tutulur; İBB'ye ulaşılamazsa son alınan döner.
 Yalnız haritada gösterilir; atamadaki varış süresi yine yukarıdaki tipik çarpanla hesaplanır.
 """
@@ -107,17 +107,26 @@ def _anahtar(yenile=False):
     return _canli["anahtar"]
 
 
-def _pilot_halkalar():
-    try:
-        t = (KOK / "assets" / "pilot-sinirlar.js").read_text(encoding="utf-8")
-        return [h for i in json.loads(t[t.index("{"):t.rindex("}") + 1])["ilceler"] for h in i["halkalar"]]
-    except (OSError, ValueError, KeyError):
-        return []
+SINIR_DOSYALARI = ("pilot-sinirlar.js", "trafik-sinirlar.js")  # pilot ilçeler + komşu ilçeler (2026-11-26)
+
+
+def _sinir_halkalar():
+    """Trafik katmanının sınırı: [(halka [[enlem, boylam]…], (en alt enlem, en alt boylam, en üst enlem, en üst boylam))…]."""
+    halkalar = []
+    for ad in SINIR_DOSYALARI:
+        try:
+            t = (KOK / "assets" / ad).read_text(encoding="utf-8")
+            halkalar += [h for i in json.loads(t[t.index("{"):t.rindex("}") + 1])["ilceler"] for h in i["halkalar"]]
+        except (OSError, ValueError, KeyError):
+            continue
+    return [(h, (min(p[0] for p in h), min(p[1] for p in h), max(p[0] for p in h), max(p[1] for p in h))) for h in halkalar]
 
 
 def _icinde(lat, lng, halkalar):
     ic = False
-    for h in halkalar:
+    for h, (a0, b0, a1, b1) in halkalar:
+        if not (a0 <= lat <= a1 and b0 <= lng <= b1):  # kutusu dışındaki halka sonucu değiştirmez
+            continue
         j = len(h) - 1
         for i in range(len(h)):
             (ya, xa), (yb, xb) = h[i], h[j]
@@ -128,10 +137,10 @@ def _icinde(lat, lng, halkalar):
 
 
 def _indir():
-    halkalar = _pilot_halkalar()
+    halkalar = _sinir_halkalar()
     if not halkalar:
-        raise OSError("pilot sınırı yok")
-    nok = [p for h in halkalar for p in h]
+        raise OSError("trafik sınırı yok")
+    nok = [p for h, _ in halkalar for p in h]
     kutu = f"{min(p[1] for p in nok)},{min(p[0] for p in nok)},{max(p[1] for p in nok)},{max(p[0] for p in nok)}"
     url = SEGMENT_URL + "?" + urllib.parse.urlencode({
         "f": "geojson", "where": "1=1", "outFields": "color,speed,tip", "geometry": kutu, "geometryType": "esriGeometryEnvelope",
