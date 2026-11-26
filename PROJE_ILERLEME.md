@@ -1072,3 +1072,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 
 - **2026-11-26:** Atama seçeneklerinde adaylar ad, süre ve puanla tek satırda gösterilir; açılan ayrıntıda ölçütlerin gerçek değerleri ve puan katkıları görünür. Puan hesabı değişmedi.
 - **2026-11-26:** Çağrı sıralaması ayrıntısında şube adı ismin altında gösterilir; yakınlık yalnız km ve dakika olarak sadeleştirildi.
+- 2026-11-26 (6): Codex'in kompakt sıralaması incelendi: km ile ölçülürken satır özeti "—" kalıyordu (km gösterilir), ayrıntıdan düşen anlık trafik/rota/nereden bilgisi Yakınlık satırına geri eklendi. Takip haritasına "Pilot bölge" aç/kapa düğmesi.

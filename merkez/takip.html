@@ -576,12 +576,18 @@
   var trafikBtn=L.control({position:"bottomleft"});
   trafikBtn.onAdd=function(){
     var d=L.DomUtil.create("div","tr-kap");
-    d.innerHTML='<button type="button" id="trAc" aria-pressed="false">Trafik</button><span class="tr-ayar" id="trAyar" hidden>'+
+    d.innerHTML='<button type="button" id="pbAc" aria-pressed="true" class="acik">Pilot bölge</button><button type="button" id="trAc" aria-pressed="false">Trafik</button><span class="tr-ayar" id="trAyar" hidden>'+
       '<output id="trSaat" aria-live="polite"></output>'+
       '<span class="tr-lej" aria-hidden="true">'+[2,3,4,5].map(function(r){return '<i style="background:'+IBB_RENK[r]+'" title="'+IBB_AD[r]+'"></i>';}).join("")+'</span></span>';
     L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d); return d;
   };
   trafikBtn.addTo(harita);
+  // Pilot bölge katmanı (ilçe sınırları): aç/kapa; seçim bu tarayıcıda hatırlanır
+  function pbGoster(ac){var b=document.getElementById("pbAc");b.setAttribute("aria-pressed",ac);b.classList.toggle("acik",ac);
+    if(ac&&!harita.hasLayer(ilceKatman))ilceKatman.addTo(harita);if(!ac&&harita.hasLayer(ilceKatman))harita.removeLayer(ilceKatman);
+    try{localStorage.setItem("ty-pilot-bolge",ac?"1":"0");}catch(x){}}
+  (function(){var v=null;try{v=localStorage.getItem("ty-pilot-bolge");}catch(x){}if(v==="0")pbGoster(false);})();
+  document.getElementById("pbAc").addEventListener("click",function(){pbGoster(this.getAttribute("aria-pressed")!=="true");});
   document.getElementById("trAc").addEventListener("click",function(){
     var ac=this.getAttribute("aria-pressed")!=="true";
     this.setAttribute("aria-pressed",ac);this.classList.toggle("acik",ac);document.getElementById("trAyar").hidden=!ac;
@@ -642,8 +648,10 @@
     h+=s.adaylar.length?'<ol class="ap-liste">'+s.adaylar.map(function(a,i){
       var key=apSecili+":"+a.id, acik=apAcik.has(key), parca=a.parca||{};
       var km=a.kaynak==="yok"||a.km==null?"—":sayi(a.km)+" km";
-      var ozet=a.dk!=null&&a.kaynak!=="yok"?"~"+Math.round(a.dk)+" dk":"—";
-      var yakin=km+(a.dk!=null&&a.kaynak!=="yok"?" · "+sayi(a.dk)+" dk":"");
+      var ozet=a.dk!=null&&a.kaynak!=="yok"?"~"+Math.round(a.dk)+" dk":km;  // km ile ölçülürken (yolkm/kus) dk yok: km gösterilir
+      var yakin=km+(a.dk!=null&&a.kaynak!=="yok"?" · "+sayi(a.dk)+" dk":"")
+        +(a.carpan&&a.carpan!==1?" ("+(a.trafik==="canlı"?"anlık ":"")+"trafik ×"+sayi(a.carpan)+(a.rotaSayisi>1?" · "+a.rotaSayisi+" rotadan en hızlısı":"")+")":"")
+        +(a.kaynak==="kus"?" · kuş uçuşu":"")+(a.nereden?" · "+a.nereden:"");
       var spy=veri.spyler.find(function(x){return x.id===a.id;});
       var sube=(spy&&spy.sube)||a.subeIlce||"";
       var eski=(a.gerekce||"").match(/ciro\/randevu H\/G %([\d.,]+)\/%([\d.,]+)/);
