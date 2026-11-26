@@ -175,6 +175,27 @@
   .ap-elenen{font-size:13px;margin-top:8px}
   .ap-elenen summary{cursor:pointer;min-height:32px;line-height:32px}
   .ap-elenen ul{margin:2px 0 0;padding-left:18px;color:var(--yazi)}
+  /* Tam ekran (2026-11-26): harita sayfanın en arkasında; yeşil bar yok, düğmeleri aynı yerde; sayaçlar, süzgeç, Bildirimler haritanın üstünde */
+  .tam-btn{width:34px;height:34px;border:0;background:#fff;color:var(--koyu);font-size:17px;line-height:34px;padding:0}
+  .tam-btn[aria-pressed=true]{color:var(--yesil);font-weight:700}
+  body.tam .harita-kap{position:fixed;inset:0;z-index:0;border:0;border-radius:0;min-height:0}
+  body.tam header{background:transparent;position:relative;z-index:2;pointer-events:none}
+  body.tam header h1{flex:0 1 auto;min-width:0;background:#fff;color:var(--yesil);font-size:15px;border-radius:22px;padding:6px 14px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  body.tam header h1 small{color:var(--yazi)}
+  body.tam header .bag{margin-left:auto}
+  body.tam header>*{pointer-events:auto}
+  body.tam .bag,body.tam button.sifirla{background:var(--yesil);border-color:var(--yesil);color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+  body.tam .bag.kopuk{background:#b25e30}
+  body.tam main{position:relative;z-index:1;pointer-events:none}
+  body.tam .ust,body.tam .cipler,body.tam .akis{position:relative;z-index:1}
+  body.tam .ust>*,body.tam .cipler>*,body.tam .akis{pointer-events:auto}
+  body.tam .ust{pointer-events:none}
+  body.tam .sayi{flex:0 0 auto;box-shadow:0 2px 6px rgba(0,0,0,.12)}
+  body.tam .akis{margin-left:auto;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.15)}
+  body.tam .leaflet-top{top:var(--tam-ust,0px)}
+  body.tam .leaflet-top.leaflet-right{right:var(--tam-sag,0px)}
+  body.tam .leaflet-bottom.leaflet-left{bottom:var(--tam-alt,0px)}
+  @media (max-width:640px){body.tam .akis{margin-left:0;margin-top:auto}body.tam header h1 small{display:none}body.tam header h1{font-size:14px}}
 </style>
 </head>
 <body>
@@ -241,8 +262,9 @@
   var HAL={bosta:["Boşta","#ffffff"],randevuda:["Randevuda","#00724c"],molada:["Molada","#8a8f94"]};
   var DURUM={yolda:"yolda",gorusme:"yolda",gorusmede:"görüşmede"};
   var KAPALI={tamamlandi:1,iptal:1};
-  var veri={spyler:[],kayitlar:{},bugun:{gelen:0,gorusme:0}}, surum=0, sifirlama=-1, gP=true, gM=true, pSec={bosta:1,randevuda:1,molada:1}, mSec={alindi:1,atandi:1,yolda:1,gorusmede:1,sahipsiz:1}, menuAcik=false, ilkSinir=null;
+  var veri={spyler:[],kayitlar:{},bugun:{gelen:0,gorusme:0}}, surum=0, sifirlama=-1, gP=true, gM=true, pSec={bosta:1,randevuda:1,molada:1}, mSec={alindi:1,atandi:1,yolda:1,gorusmede:1,sahipsiz:1,oneri:1,disi:1}, menuAcik=false, ilkSinir=null;
   var harita=L.map("harita",{zoomSnap:.5}).setView([41.01,29.09],12);
+  harita.attributionControl.setPrefix(false);  // "Leaflet" yazısı gerekmez; harita verisi kaynağı (OpenStreetMap, OpenFreeMap) lisans gereği kalır
   // Altlık: standart sokak haritası (OpenStreetMap; tüm caddeler ve yazılar çizili). Önceki sade gri vektör altlık için git geçmişine bak (2026-11-24).
   // 2026-11-25: sade, renkli vektör altlık (OpenFreeMap "bright" stili, renkleri Google Haritalar'a yaklaştırılmış; gereksiz katmanlar kapalı). Açılmazsa eski OSM resmi.
   function osmYedek(){L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"&copy; OpenStreetMap"}).addTo(harita);}
@@ -439,16 +461,18 @@
   function randevuBekliyor(k){return !!k.oneriKabul&&!k.oneri&&{alindi:1,atandi:1,netlesti:1}[k.durum]===1;}  // önerilen randevuyu kabul etti, SPY henüz yola çıkmadı
   function randevuIkon(k){return '<div class="cn s-randevu"><span class="rsaat">Randevu '+e(k.saat||"")+'</span></div>';}
   function acikCagrilar(){return Object.values(veri.kayitlar).filter(function(k){return !k.sahipsiz&&!KAPALI[k.durum]&&k.konum&&k.konum.lat!=null;});}
-  function asama(k){return k.sahipsiz&&!k.repId?"sahipsiz":{alindi:"alindi",atandi:"atandi",netlesti:"atandi",yolda:"yolda",gorusme:"yolda",gorusmede:"gorusmede"}[k.durum]||"atandi";}
+  function asama(k){return k.sahipsiz&&!k.repId?(k.oneri?"oneri":k.bolgeDisi?"disi":"sahipsiz"):{alindi:"alindi",atandi:"atandi",netlesti:"atandi",yolda:"yolda",gorusme:"yolda",gorusmede:"gorusmede"}[k.durum]||"atandi";}
   function sahipsizler(){return Object.values(veri.kayitlar).filter(function(k){return k.sahipsiz&&!k.repId&&!KAPALI[k.durum]&&k.konum;});}
   function ciz(){
+    var acik=acikCagrilar();  // çağrıyı kabul etmiş (teklif aşaması değil) SPY haritada yeşil dolu: menü, sayaç ve kart da "Randevuda" desin (2026-11-26)
+    veri.spyler.forEach(function(s){if(s.hal==="bosta"&&acik.some(function(c){return c.repId===s.id&&c.durum!=="alindi";}))s.hal="randevuda";});
     var sayac={tumu:veri.spyler.length,bosta:0,randevuda:0,molada:0};
     veri.spyler.forEach(function(s){sayac[s.hal]=(sayac[s.hal]||0)+1;});
     var sah=sahipsizler();
     document.getElementById("sayilar").innerHTML=[["Gelen Çağrı",veri.bugun.gelen],["Görüşme Sayısı",veri.bugun.gorusme]].concat([["Kimse almadı",function(k){return !k.bolgeDisi&&!k.oneri;}],["Randevu önerildi",function(k){return !!k.oneri;}],["Pilot bölge dışı",function(k){return !!k.bolgeDisi;}]]
         .map(function(z){var n=sah.filter(z[1]).length;return n?[z[0],n,"uyari"]:null;}).filter(Boolean))
       .map(function(x){return '<div class="sayi '+(x[2]||"")+'"><b>'+x[1]+'</b><span>'+x[0]+' · bugün</span></div>';}).join("");
-    var MAS=[["alindi","Yeni çağrı","#ffffff"],["atandi","Atandı","#ea803f"],["yolda","Yolda","#ea803f"],["gorusmede","Görüşmede","#ea803f"],["sahipsiz","Kimse almadı","#c0392b"]], msay={tumu:0,alindi:0,atandi:0,yolda:0,gorusmede:0,sahipsiz:0};
+    var MAS=[["alindi","Yeni çağrı","#ffffff"],["atandi","Atandı","#ea803f"],["yolda","Yolda","#ea803f"],["gorusmede","Görüşmede","#ea803f"],["sahipsiz","Kimse almadı","#c0392b"],["oneri","Randevu önerildi","#c0392b"],["disi","Pilot bölge dışı","#c0392b"]], msay={tumu:0,alindi:0,atandi:0,yolda:0,gorusmede:0,sahipsiz:0,oneri:0,disi:0};
     Object.values(veri.kayitlar).forEach(function(k){if(KAPALI[k.durum]||!k.konum||k.konum.lat==null)return;var a=asama(k);msay.tumu++;msay[a]=(msay[a]||0)+1;});
     var PAS=[["bosta","Boşta","#ffffff"],["randevuda","Randevuda","#00724c"],["molada","Molada","#8a8f94"]];
     function satir(anah,grup,ad,renk,say,sec,acik){return '<label class="alt-satir'+(acik?"":" sonuk")+'"><input type="checkbox" data-'+grup+'="'+anah+'"'+(sec[anah]?" checked":"")+'><span class="renk" style="background:'+renk+(grup==="m"?';border-color:#ea803f':'')+'"></span>'+ad+' ('+say+')</label>';}
@@ -461,7 +485,7 @@
     var gorunen=gP?veri.spyler.filter(function(s){return pSec[s.hal];}):[];
     spyKatman.clearLayers(); isaretler={}; cagriIsaret={}; var boy=18;
     gorunen.forEach(function(s){
-      var k=animKonum(s)||s.konumAn||s, eslesti=acikCagrilar().some(function(c){return c.repId===s.id;}), renk=eslesti?"#00724c":(HAL[s.hal]||HAL.bosta)[1];  // temsilci belli olunca SPY de dolar
+      var k=animKonum(s)||s.konumAn||s, eslesti=acikCagrilar().some(function(c){return c.repId===s.id&&c.durum!=="alindi";}), renk=eslesti?"#00724c":(HAL[s.hal]||HAL.bosta)[1];  // temsilci belli olunca SPY de dolar
       var yanda=gM&&acikCagrilar().some(function(c){return Math.abs(c.konum.lat-k.lat)<.0005&&Math.abs(c.konum.lng-k.lng)<.0007;});  // müşterinin yanında: üst üste binmesin
       isaretler[s.id]=L.marker([k.lat,k.lng],{title:s.ad,draggable:spyTasinir(s),icon:L.divIcon({className:"",html:'<div class="spy-ik'+(s.sim?' hare':'')+'" style="background:'+renk+';width:'+boy+'px;height:'+boy+'px"></div>',iconSize:[boy,boy],iconAnchor:[yanda?boy/2-22:boy/2,boy/2]})});
       isaretler[s.id].bindTooltip(e(s.ad),{permanent:true,direction:"top",offset:[0,-boy/2-1],className:"spy-ad"});
@@ -474,7 +498,7 @@
       surukle(mk,"musteri",k.id); bagla(mk,musteriBilgi(k)).addTo(spyKatman);
     });
     rotalar();
-    sah.filter(function(){return gM&&mSec.sahipsiz;}).forEach(function(k){
+    sah.filter(function(k){return gM&&mSec[asama(k)];}).forEach(function(k){
       var rnd=randevuBekliyor(k);
       cagriIsaret[k.id]=L.marker([k.konum.lat,k.konum.lng],{title:k.oneri?"Randevu önerildi":k.bolgeDisi?"Pilot bölge dışı":"Kimse almadı",draggable:musteriTasinir(k),icon:L.divIcon({className:"",html:rnd?randevuIkon(k):'<div class="cagri-ik"></div>',iconSize:rnd?[22,22]:[16,16],iconAnchor:rnd?[11,11]:[8,8]})});
       surukle(cagriIsaret[k.id],"musteri",k.id);
@@ -587,6 +611,28 @@
     if(ac&&!harita.hasLayer(ilceKatman))ilceKatman.addTo(harita);if(!ac&&harita.hasLayer(ilceKatman))harita.removeLayer(ilceKatman);
     try{localStorage.setItem("ty-pilot-bolge",ac?"1":"0");}catch(x){}}
   (function(){var v=null;try{v=localStorage.getItem("ty-pilot-bolge");}catch(x){}if(v==="0")pbGoster(false);})();
+  // Tam ekran: harita en arkaya geçer; harita düğmeleri üstteki kutuların altında/yanında kalsın diye kenar boşlukları ölçülür
+  var tamBtn=L.control({position:"topleft"});
+  tamBtn.onAdd=function(){var d=L.DomUtil.create("div","leaflet-bar");d.innerHTML='<button type="button" class="tam-btn" id="tamAc" aria-pressed="false" title="Tam ekran" aria-label="Tam ekran">⛶</button>';L.DomEvent.disableClickPropagation(d);return d;};
+  if(!document.body.classList.contains("gomulu"))tamBtn.addTo(harita);
+  function tamKenar(){
+    var b=document.body.style;if(!document.body.classList.contains("tam")){b.removeProperty("--tam-ust");b.removeProperty("--tam-sag");b.removeProperty("--tam-alt");return;}
+    var sahne=document.querySelector(".sahne").getBoundingClientRect(),akis=document.querySelector(".akis").getBoundingClientRect(),dar=sahne.width<=640||akis.top>sahne.top+5;
+    b.setProperty("--tam-ust",Math.round(sahne.top)+"px");
+    b.setProperty("--tam-sag",dar?"0px":Math.round(innerWidth-akis.left)+"px");
+    b.setProperty("--tam-alt",dar?Math.round(innerHeight-akis.top)+"px":"0px");
+  }
+  function tamGoster(ac){
+    document.body.classList.toggle("tam",ac);var t=document.getElementById("tamAc");
+    if(t){t.setAttribute("aria-pressed",ac?"true":"false");t.title=t.ariaLabel=ac?"Tam ekrandan çık":"Tam ekran";}
+    tamKenar();harita.invalidateSize();
+    try{localStorage.setItem("ty-tam-ekran",ac?"1":"0");}catch(x){}}
+  var tamDugme=document.getElementById("tamAc");
+  if(tamDugme)tamDugme.onclick=function(){tamGoster(!document.body.classList.contains("tam"));};
+  addEventListener("resize",function(){if(document.body.classList.contains("tam")){tamKenar();harita.invalidateSize();}});
+  addEventListener("keydown",function(e){if(e.key==="Escape"&&document.body.classList.contains("tam")&&document.getElementById("ap").hidden)tamGoster(false);});
+  (function(){var v=null;try{v=localStorage.getItem("ty-tam-ekran");}catch(x){}if(v==="1"&&tamDugme)tamGoster(true);})();
+  if(window.ResizeObserver){var tamRo=new ResizeObserver(function(){if(document.body.classList.contains("tam"))tamKenar();});tamRo.observe(document.querySelector(".sahne"));tamRo.observe(document.querySelector(".akis"));}
   document.getElementById("pbAc").addEventListener("click",function(){pbGoster(this.getAttribute("aria-pressed")!=="true");});
   document.getElementById("trAc").addEventListener("click",function(){
     var ac=this.getAttribute("aria-pressed")!=="true";
