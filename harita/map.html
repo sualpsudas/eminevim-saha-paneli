@@ -6,6 +6,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
 <script src="../uygulama/servisler.js"></script>
+<script src="../veri/spyler.js?v=3"></script>
 <style>
 html, body { margin: 0; height: 100%; font-family: 'Inter', -apple-system, sans-serif; }
 #map { width: 100%; height: 100%; background: #E9EEF1; }
@@ -37,6 +38,7 @@ body.compact .leaflet-control-zoom, body.compact .leaflet-bar, body.compact #leg
 .mk-pin { position: relative; width: 26px; height: 34px; }
 .mk-pin svg { display: block; filter: drop-shadow(0 2px 3px rgba(0,0,0,.3)); }
 .mk-pin.pulse::after { inset: auto; left: 5px; top: 4px; width: 16px; height: 16px; }
+.sube-ik { width: 8px; height: 8px; border-radius: 50%; background: #00724c; border: 1.5px solid #fff; box-shadow: 0 1px 3px rgba(0,0,0,.35); }
 .dim-marker { width: 8px; height: 8px; border-radius: 50%; background: #B9C3CC; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.08); }
 .cluster { border-radius: 50%; background: #E8803E; color: #fff; display: flex; align-items: center; justify-content: center; font: 800 12px Inter, sans-serif; border: 2px solid #fff; box-shadow: 0 2px 6px rgba(0,0,0,.3); }
 
@@ -83,6 +85,12 @@ var selectableMode = params.get('selectable') === '1';
 var compactMode = params.get('compact') === '1'; // küçük, etkileşimsiz önizleme: kontrol yok
 if (compactMode) document.body.classList.add('compact');
 var selectedMarker = null;
+// Eminevim şubeleri: küçük yeşil nokta (konumlar veri/spyler.js → TY_SUBELER, kaynak veri/kaynak/sube_konum.csv)
+if (!compactMode) (window.TY_SUBELER || []).forEach(function (sb) {
+  L.marker([sb.lat, sb.lng], { title: sb.gorunen, interactive: !selectableMode, keyboard: false,
+    icon: L.divIcon({ className: '', html: '<div class="sube-ik"></div>', iconSize: [8, 8], iconAnchor: [4, 4] }) })
+    .bindTooltip(sb.gorunen, { direction: 'top', offset: [0, -4] }).addTo(map);
+});
 
 // Harita sağlayıcısı tek yerde: uygulama/servisler.js (haritaAltlik). OSM genel sunucusu yalnız test için.
 var MAP_TILE_PROVIDER = (window.parent && window.parent.EMINEVIM_CONFIG && window.parent.EMINEVIM_CONFIG.mapTiles) || window.TY_SERVISLER.haritaAltlik;

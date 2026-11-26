@@ -11,10 +11,23 @@ import json
 from .ayarlar import SPY_DOSYASI
 
 
-def spyleri_oku():
+def _dizi(ad):
+    """spyler.js içindeki window.<ad> = [...]; dizisi (dosyada TY_SPYLER ve TY_SUBELER var)."""
     metin = SPY_DOSYASI.read_text(encoding="utf-8")
-    liste = json.loads(metin[metin.index("["):metin.rindex("]") + 1])
-    return [{**x, "yer": f"{x['mahalle']}, {x['ilce']}"} for x in liste]
+    bas = metin.find(f"window.{ad} = ")
+    if bas < 0:
+        return []
+    bas = metin.index("[", bas)
+    return json.loads(metin[bas:metin.index("];", bas) + 1])
+
+
+def spyleri_oku():
+    return [{**x, "yer": f"{x['mahalle']}, {x['ilce']}"} for x in _dizi("TY_SPYLER")]
+
+
+def subeleri_oku():
+    """Şube konumları: {"Ataşehir Şubesi": {"ad", "gorunen", "adres", "lat", "lng"}, ...} (atama: ileri saatli çağrıda SPY şubesinden ölçülür)."""
+    return {x["ad"]: x for x in _dizi("TY_SUBELER")}
 
 
 # Hareketli örnek SPY'ler (sunum): kendi ilçelerinde rastgele dolaşır, atamaya gerçek SPY'ler gibi katılır ve teklifi kendiliğinden kabul eder
@@ -34,4 +47,5 @@ SIM_SPYLER = [{"id": i, "sicil": "49" + i[1:].zfill(3), "ad": ad, "cinsiyet": c,
               for i, ad, c, ilce, mah, sube, kl, la, ln, foto, den, puan, gor, rh, ch, per, faz in _SIM]
 
 SPYLER = spyleri_oku() + SIM_SPYLER
+SUBELER = subeleri_oku()
 SPY_IDLER = {s["id"] for s in SPYLER}

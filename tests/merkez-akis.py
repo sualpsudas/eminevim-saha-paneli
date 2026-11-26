@@ -1,5 +1,5 @@
 """Merkez (canlı) akışı: müşteri, SPY'ler ve yönetici ayrı tarayıcılarda.
-Hemen çağrı (bugün, 2 saat içinde) boşta en yüksek puanlı SPY'ye düşer (uygulaması kapalı da olabilir: bildirim gider);
+Hemen çağrı (bugün, 1 saat içinde) boşta en yüksek puanlı SPY'ye düşer (uygulaması kapalı da olabilir: bildirim gider);
 bildirim o SPY'yi seçmiş tüm telefonlara gider (sahte bildirim sunucusuyla); ileri tarih puanla atanır;
 devredildikçe sıradakine geçer, kimse kalmayınca "kimse almadı" (haritada kırmızı); yönetici Saha Canlı haritasını ve
 kompakt performans listesini görür; web formu çağrısı merkeze gider, SMS penceresi açılır, giriş koduyla uygulamada açılır
@@ -19,7 +19,7 @@ KOK = 'http://127.0.0.1:8795/deneme/'
 URL = KOK + 'Eminevim%20Saha%20Paneli.dc.html'
 OUT = Path(tempfile.gettempdir()) / 'ty-merkez'
 OUT.mkdir(exist_ok=True)
-SPYLER = json.loads(re.search(r'window\.TY_SPYLER = (\[.*\]);', (Path(__file__).parent.parent / 'veri' / 'spyler.js').read_text(encoding='utf-8'), re.S).group(1))
+SPYLER = json.loads(re.search(r'window\.TY_SPYLER = (\[.*?\]);\n', (Path(__file__).parent.parent / 'veri' / 'spyler.js').read_text(encoding='utf-8'), re.S).group(1))
 IDLER = {s['id'] for s in SPYLER}
 SIMDI = datetime.datetime.now().strftime('%H:%M')  # hemen çağrı
 YARIN = (datetime.date.today() + datetime.timedelta(days=1)).isoformat()
@@ -315,22 +315,23 @@ with sync_playwright() as p:
 
     for sid in hareketliler:
         merkez('api/spy', {'id':sid, 'durum':'musait'})
-    # İleri tarih: ilçedeki her aday bir kez denenince çağrı sahipsiz kalır.
+    # İleri tarih: önce şubesi müşterinin ilçesinde olanlar, sonra diğer ilçeler (2026-11-26: ilçe eleme değil öncelik); herkes bir kez denenince sahipsiz.
     # Eski SPY artık kabul edemez; Ata/Aktar yok.
     k = merkez('api/cagri', {'kayit': {'id': 'deneme-3', 'tip': 'ziyaret', 'tarih': YARIN, 'saat': '14:00', 'konum': {'lat': 41.0300, 'lng': 29.1500}, 'yer': 'Esenşehir, Ümraniye'},
                              'musteri': {'ad': 'Yarın Test'}})['sonuc']
     k = teklif_bekle('deneme-3')
-    uygun = {s['id'] for s in merkez('api/durum?hepsi=1')['spyler'] if s['ilce']=='Ümraniye'}
+    tum = merkez('api/durum?hepsi=1')['spyler']
+    uygun, hepsi = {s['id'] for s in tum if s['ilce']=='Ümraniye'}, {s['id'] for s in tum}
     ilk = k['repId']
     assert ilk in uygun and k['atamaPuan'] and 'km' in k['gerekce'] and not k['sahipsiz'], k
     denenen = [ilk]
-    for _ in range(10):
+    for _ in range(len(hepsi) + 2):
         k = merkez('api/aktar', {'id': 'deneme-3', 'repId': ''})['sonuc']
         if not k['repId']:
             break
-        assert k['repId'] in uygun and k['repId'] not in denenen, k
+        assert k['repId'] not in denenen and (k['repId'] in uygun) == (len(denenen) < len(uygun)), (k['repId'], denenen)
         denenen.append(k['repId'])
-    assert k['repId'] is None and k['sahipsiz'] is True and set(denenen) == uygun, (k, denenen)
+    assert k['repId'] is None and k['sahipsiz'] is True and set(denenen) == hepsi, (k, denenen)
     assert 'yonetici' not in k
     try:
         merkez('api/kayit', {'kayit': {'id': 'deneme-3', 'durum': 'atandi', 'repId': ilk}})

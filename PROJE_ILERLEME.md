@@ -1059,3 +1059,6 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-25: Atama seçenekleri uygulama içindeki Saha Canlı sekmesinden de açılıyor. Yeniden hesaplama sonucunda birinci aday “ilk sırada” etiketiyle gösteriliyor. Deneme merkezinde dört uzaklık türü, puan toplamı, ilçe şartı, ayarın sonraki çağrıya uygulanması, eski teklifin korunması, sıfır ağırlığın reddi ve varsayılana dönüş doğrulandı. Telefon ölçüsünde panel ve harita filtreleri çalıştı. Genel müşteri akışı ve yerleşim testleri geçmediği için yayın bekliyor.
 
 - 2026-11-25 (devam): Codex işi denetlendi (personel giriş listesi `TY_SPYLER`, telefon düzeni kararı, testler). `tests/merkez-akis.py` tek-cihaz kimlik kuralına uyarlandı: A telefonu ve web müşterisinin uygulaması başka telefonda girmeden önce çıkış yapar. Tüm testler geçti.
+
+- 2026-11-26: Atama: şube konumları (eminevim.com: Ümraniye, Ümraniye Çarşı, Ataşehir, Örnek Mah., Üsküdar) haritalarda yeşil nokta; randevuya 4 saat+ varsa yakınlık SPY şubesinden; hemen çağrı 60 dk; sıra önceliği: aynı ilçedeki şube → 2 km altı → puan (ilçe artık eleme değil). Seçenekler panelinde ayarlanabilir. Tüm testler geçti.
+- 2026-11-26 (devam): Takip haritasına trafik katmanı (gün + saat −/+), ilçe adları kaldırıldı, Atama seçenekleri açıklamaları sadeleşti.

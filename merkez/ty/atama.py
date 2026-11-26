@@ -13,6 +13,7 @@ from .ayarlar import ATAMA_VARSAYILAN, HEMEN_DK, HG_TAVAN, KABUL_SN, KAPALI_DURU
 from .bildirim import bildir, bildir_musteri
 from .bolge import ilce_bul
 from .konum import anlik_konum
+from .personel import SUBELER
 from .yardim import bugun, dakika, damga, km, olay, simdi
 
 
@@ -40,11 +41,13 @@ def ayar_kaydet(veri, gelen):
         if gelen["uzaklik"] not in UZAKLIK_TURLERI:
             raise ValueError("Uzaklık türü geçersiz.")
         a["uzaklik"] = gelen["uzaklik"]
-    for x, en_az, en_cok in (("sifirDk", 5, 180), ("sifirKm", 1, 60), ("gunlukSinir", 1, 20), ("aralikDk", 0, 240)):
+    for x, en_az, en_cok in (("sifirDk", 5, 180), ("sifirKm", 1, 60), ("gunlukSinir", 1, 20), ("aralikDk", 0, 240), ("subeSaat", 1, 48)):
         if x in gelen:
             a[x] = max(en_az, min(en_cok, int(gelen[x])))
-    if "ilceSarti" in gelen:
-        a["ilceSarti"] = bool(gelen["ilceSarti"])
+    if "oncelikKm" in gelen:
+        a["oncelikKm"] = max(0.0, min(20.0, round(float(gelen["oncelikKm"]), 1)))
+    if "ilceOnceligi" in gelen:
+        a["ilceOnceligi"] = bool(gelen["ilceOnceligi"])
     veri["atamaAyar"] = a
     return a
 
@@ -54,7 +57,7 @@ def acik_sayi(veri, spy_id):
 
 
 def hemen_mi(k):
-    """Bugün ve saati en geç 2 saat sonra olan çağrı: o an hazırda olan SPY'ye gider."""
+    """Bugün ve saati en geç HEMEN_DK (1 saat) sonra olan çağrı: o an hazırda olan SPY'ye gider."""
     if (k.get("tarih") or bugun()) < bugun():
         return True
     if (k.get("tarih") or bugun()) > bugun():
@@ -62,6 +65,31 @@ def hemen_mi(k):
     d = dakika(k.get("saat"))
     an = time.localtime()
     return d is None or d - (an.tm_hour * 60 + an.tm_min) <= HEMEN_DK
+
+
+def kalan_dk(k):
+    """Randevu saatine kaç dakika var (geçmiş/saatsiz bugün: 0, ileri gün: gün farkıyla)."""
+    tarih = k.get("tarih") or bugun()
+    d = dakika(k.get("saat"))
+    an = time.localtime()
+    simdi_dk = an.tm_hour * 60 + an.tm_min
+    try:
+        gun = round((time.mktime(time.strptime(tarih, "%Y-%m-%d")) - time.mktime(time.strptime(bugun(), "%Y-%m-%d"))) / 86400)
+    except ValueError:
+        gun = 0
+    return max(0, gun * 1440 + (d if d is not None else simdi_dk) - simdi_dk)
+
+
+def sube_yeri(s):
+    """SPY'nin şubesinin konumu; şube listede yoksa kendi kayıtlı yeri."""
+    sb = SUBELER.get(s.get("sube"))
+    return ({"lat": sb["lat"], "lng": sb["lng"]}, "şubesinden") if sb else ({"lat": s["lat"], "lng": s["lng"]}, "kayıtlı yerinden")
+
+
+def sube_ilce(s):
+    """SPY'nin şubesinin ilçesi (şube konumundan); şube listede yoksa SPY'nin kayıtlı ilçesi."""
+    sb = SUBELER.get(s.get("sube"))
+    return (ilce_bul(sb["lat"], sb["lng"]) if sb else None) or s.get("ilce")
 
 
 def randevuda_mi(veri, spy_id):
@@ -86,21 +114,25 @@ def _sayi(x):
 def adaylar(veri, k, haric=(), elenen=None, olc=True):
     """Eleme + puan. Döner: puana göre sıralı [(puan, spy, gerekçe, km, ayrıntı)]; elenen listesi verilirse elenenler gerekçesiyle eklenir.
     olc=False: yalnız uygunluk (uzaklık ölçülmez, puan 0) — sık yoklamada yol servisine istek gitmesin.
-    Eleme: (ilçe şartı açıksa) müşterinin ilçesinde olmayan, günlük sınırı dolan, istenen saatin ±aralikDk'sında randevusu olan;
+    Eleme: günlük sınırı dolan, istenen saatin ±aralikDk'sında randevusu olan;
     hemen çağrıda ayrıca molada olan ya da başka müşteriye bağlı olan (teklif/atandı/yolda/görüşmede).
     Puan (ağırlıklar seçeneklerde; varsayılan yakınlık 40, çağrı sayısı 30, ciro H/G 20, randevu H/G 10):
-      yakınlık: hemen çağrıda SPY'nin şu anki yerinden, ileri çağrıda kendi yerinden ya da o günkü randevularından en yakını;
+      yakınlık: hemen çağrıda SPY'nin şu anki yerinden; ileri çağrıda şu anki yerinden (randevuya subeSaat saatten az varsa) ya da
+                şubesinden (subeSaat ve fazlası), ayrıca o günkü randevularından en yakını;
                 uzaklık türü trafikli (yol süresi × İBB tipik trafik çarpanı), yol süresi, yol km ya da kuş uçuşu km.
+    Öncelik (eleme değil, sıra): 1) şubesi müşterinin ilçesinde olanlar (ilceOnceligi), 2) bunların içinde yol mesafesi oncelikKm'nin
+      altındakiler, sonra puan. Öndekilerin hepsi reddederse sıra arkadakilere (başka ilçedeki SPY'ler de alabilir) geçer.
       çağrı sayısı: o gün az çağrısı olan önde. H/G: %100'de sıfır, %100+HG_TAVAN'da tam puan."""
     A = ayar(veri)
     konum = k.get("konum") or {}
     tarih = k.get("tarih") or bugun()
     hemen = hemen_mi(k)
+    subeden = not hemen and kalan_dk(k) >= A["subeSaat"] * 60
     a = A["agirlik"]
     sinir = A["gunlukSinir"]
     gun_kayit = [x for x in veri["kayitlar"].values() if x.get("tarih") == tarih and x.get("durum") != "iptal" and x["id"] != k.get("id")]
     konumlu = isinstance(konum.get("lat"), (int, float)) and isinstance(konum.get("lng"), (int, float))
-    ilce = ilce_bul(konum["lat"], konum["lng"]) if konumlu and A["ilceSarti"] else None
+    ilce = ilce_bul(konum["lat"], konum["lng"]) if konumlu and A["ilceOnceligi"] else None
     d = dakika(k.get("saat"))
     if d is None and tarih == bugun():
         an = time.localtime()
@@ -115,12 +147,6 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
         if s["id"] in haric:
             ele(s, "daha önce teklif edildi ya da devretti")
             continue
-        if ilce:  # hemen çağrıda şu anki yeri, ileri saatte kayıtlı ilçesi (yol turu başka ilçeye taşan ya da haritada taşınan SPY'ye hemen çağrı gitmez)
-            yer = anlik_konum(veri, s)
-            spy_ilce = ilce_bul(yer["lat"], yer["lng"]) if hemen else s.get("ilce")
-            if spy_ilce != ilce:
-                ele(s, f"başka ilçede ({spy_ilce or 'pilot bölge dışı'})")
-                continue
         benim = [x for x in gun_kayit if x.get("repId") == s["id"]]
         if len(benim) >= sinir:
             ele(s, f"günlük sınır dolu ({len(benim)}/{sinir})")
@@ -135,9 +161,10 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
             if mesgul_mu(veri, s["id"], k.get("id")):
                 ele(s, "başka müşteride")
                 continue
-            noktalar = [anlik_konum(veri, s)]
+            noktalar = [(anlik_konum(veri, s), "şu anki yerinden")]
         else:
-            noktalar = [{"lat": s["lat"], "lng": s["lng"]}] + [x["konum"] for x in benim if isinstance(x.get("konum"), dict) and "lat" in x["konum"]]
+            bas = sube_yeri(s) if subeden else (anlik_konum(veri, s), "şu anki yerinden")
+            noktalar = [bas] + [(x["konum"], "o günkü randevusundan") for x in benim if isinstance(x.get("konum"), dict) and "lat" in x["konum"]]
         uygun.append((s, noktalar, benim))
     if not olc:
         return [(0, s, "", 0, {}) for s, _, _ in uygun]
@@ -145,7 +172,7 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
         return []
 
     tur = A["uzaklik"]
-    hepsi = [n for _, nk, _ in uygun for n in nk]
+    hepsi = [n for _, nk, _ in uygun for n, _ in nk]
     if not konumlu:
         olcum = [{"km": 0.0, "dk": 0.0, "kaynak": "yok"} for _ in hepsi]
     elif tur == "kus":
@@ -160,8 +187,8 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
     sonuc, i = [], 0
     for s, noktalar, benim in uygun:
         enyakin = None
-        for n in noktalar:
-            o = dict(olcum[i])
+        for n, nereden in noktalar:
+            o = dict(olcum[i], nereden=nereden)
             i += 1
             o["carpan"] = trafik.carpan(n, konum, gun, saat) if tur == "trafikli" and konumlu else 1.0
             if o["dk"] is not None:
@@ -169,6 +196,8 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
             o["deger"] = o["dk"] if sure_ile else o["km"]
             if enyakin is None or o["deger"] < enyakin["deger"]:
                 enyakin = o
+        yakin = A["oncelikKm"] > 0 and konumlu and enyakin["km"] < A["oncelikKm"]
+        ayni_ilce = bool(ilce) and sube_ilce(s) == ilce
         p = {"yakinlik": max(0.0, 1 - enyakin["deger"] / sifir),
              "yuk": max(0.0, 1 - len(benim) / sinir),
              "ciro": min(max((s.get("ciroHG", 100) - 100) / HG_TAVAN, 0), 1),
@@ -177,10 +206,11 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
         puan = round(sum(parca.values()), 1)
         yol_yazi = (f"{_sayi(enyakin['km'])} km" + (f" · ~{round(enyakin['dk'])} dk" if enyakin["dk"] is not None else "")
                     + (" (kuş uçuşu)" if enyakin["kaynak"] == "kus" else ""))
-        gerekce = f"{yol_yazi} · {'bugün' if tarih == bugun() else 'o gün'} {len(benim)} çağrı · ciro/randevu H/G %{s.get('ciroHG')}/%{s.get('randevuHG')}"
-        ayrinti = {"parca": parca, "km": enyakin["km"], "dk": enyakin["dk"], "carpan": enyakin["carpan"], "kaynak": enyakin["kaynak"], "cagri": len(benim)}
+        gerekce = f"{yol_yazi} ({enyakin['nereden']}) · {'bugün' if tarih == bugun() else 'o gün'} {len(benim)} çağrı · ciro/randevu H/G %{s.get('ciroHG')}/%{s.get('randevuHG')}"
+        ayrinti = {"parca": parca, "km": enyakin["km"], "dk": enyakin["dk"], "carpan": enyakin["carpan"], "kaynak": enyakin["kaynak"], "cagri": len(benim),
+                   "nereden": enyakin["nereden"], "oncelik": yakin, "ayniIlce": ayni_ilce, "subeIlce": sube_ilce(s)}
         sonuc.append((puan, s, gerekce, enyakin["km"], ayrinti))
-    return sorted(sonuc, key=lambda x: -x[0])
+    return sorted(sonuc, key=lambda x: (not x[4]["ayniIlce"], not x[4]["oncelik"], -x[0]))
 
 
 GUN_AD = ["Pazartesi", "Salı", "Çarşamba", "Perşembe", "Cuma", "Cumartesi", "Pazar"]
@@ -220,10 +250,15 @@ def oneri_bul(veri, k):
 
 def _siralama_yaz(veri, k, liste, elenen):
     """Takip sayfasındaki "Atama seçenekleri" bölümü için: bu çağrıda adaylar puan dökümüyle, elenenler gerekçesiyle."""
+    k["siralama"] = {"t": simdi(), **siralama_ozet(veri, k, liste, elenen)}
+
+
+def siralama_ozet(veri, k, liste, elenen):
     A = ayar(veri)
-    k["siralama"] = {"t": simdi(), "uzaklik": A["uzaklik"], "agirlik": A["agirlik"], "hemen": hemen_mi(k),
-                     "adaylar": [{"id": s["id"], "ad": s["ad"], "puan": p, "gerekce": g, **ay} for p, s, g, _, ay in liste],
-                     "elenen": elenen}
+    hemen = hemen_mi(k)
+    return {"uzaklik": A["uzaklik"], "agirlik": A["agirlik"], "hemen": hemen, "oncelikKm": A["oncelikKm"],
+            "subeden": not hemen and kalan_dk(k) >= A["subeSaat"] * 60, "subeSaat": A["subeSaat"],
+            "adaylar": [{"id": s["id"], "ad": s["ad"], "puan": p, "gerekce": g, **ay} for p, s, g, _, ay in liste], "elenen": elenen}
 
 
 ILETIM_BEKLEME_SN = 4  # çağrı geldikten sonra SPY'ye iletilene kadar (sunumda "alındı" aşaması görünsün)

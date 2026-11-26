@@ -14,9 +14,10 @@ veri/kaynak/*.csv  +  veri/ayarlar.json   →   python araclar/veri_hazirla.py  
 | `kaynak/spy_hedef.csv` | Görev × Klasman ciro hedefi; kıdem kuralı (SPY1: 1-3 ay YSPY1, 4-6 YSPY2, 7-9 YSPY3) | Şirket dışa aktarımı |
 | `kaynak/satis_kaydi.csv` | Satış kayıtları (ciro: `Org Tutar`, ay: `Kayıt Tarihi`, kişi: `UyeSatisTemsilciSicilNo`) | Şirket dışa aktarımı |
 | `kaynak/randevu.csv` | Randevular (kişi: `Sorumlu Personel` ad soyad, ay: `Planl. Tarih`, sayılan: `Randevu Gerçekleşti`) | Şirket dışa aktarımı |
+| `kaynak/sube_konum.csv` | Şube konumları (ad, adres, enlem, boylam; eminevim.com/subeler'den). Haritada yeşil nokta; 4 saatten ileri çağrıda yakınlık SPY'nin şubesinden | Proje ekibi |
 | `kaynak/spy_ek.csv` | Şirket dosyalarında olmayan, yalnız bu uygulamanın istediği alanlar (sabit konum, fotoğraf, cinsiyet, müşteri puanı) | Proje ekibi |
 | `ayarlar.json` | İş kuralları: H/G dönemi (3 ay), liste eşiği (%100), günlük randevu hedefi (10), iş günleri, sütun adları | Proje ekibi |
-| `spyler.js` | **ÜRETİLEN** liste (`window.TY_SPYLER`) | Elle düzenleme |
+| `spyler.js` | **ÜRETİLEN** liste (`window.TY_SPYLER` + şubeler `window.TY_SUBELER`) | Elle düzenleme |
 | `hg_ozet.json` | Her personelin ay ay hesabı ve listede olup olmadığının nedeni (kontrol için) | Üretilir |
 | `org-data.js` | Örgüt yapısı (saha / bölge / şube / TL), gösteri verisi | |
 

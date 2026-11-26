@@ -102,15 +102,24 @@
   .cagri-ik{animation:yan .8s ease-in-out infinite;box-sizing:border-box;width:16px;height:16px;border-radius:50%;background:var(--kirmizi);border:2px solid #fff;box-shadow:0 0 0 3px rgba(198,40,40,.35)}
   .leaflet-tooltip.mah-ad{background:transparent;border:0;box-shadow:none;color:#4d5a55;font-size:10.5px;font-weight:600;text-shadow:0 0 3px #fff,0 0 3px #fff;padding:0}
   .leaflet-tooltip.mah-ad::before{display:none}
-  .leaflet-tooltip.ilce-ad{background:rgba(255,255,255,.5);border:0;box-shadow:none;color:var(--yesil);opacity:.45;font-size:13px;font-weight:800;padding:2px 8px;border-radius:10px}  /* ilçe adı arka planda, soluk */
-  .leaflet-tooltip.ilce-ad::before{display:none}
   .leaflet-tooltip.spy-ad{display:none;background:rgba(255,255,255,.9);border:0;box-shadow:0 1px 3px rgba(0,0,0,.25);color:#1b3a2d;font-size:11px;font-weight:700;padding:1px 6px;border-radius:8px;pointer-events:none}
   .leaflet-tooltip.spy-ad::before{display:none}
+  .sube-ik{width:8px;height:8px;border-radius:50%;background:#00724c;border:1.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
+  .ap-onc{font:600 10.5px/1 inherit;color:#00724c;background:#e3f1ec;border-radius:8px;padding:2px 6px;margin-left:4px}
   .gm-ik{width:10px;height:10px;border-radius:50%;background:#ea803f;border:1.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,.4)}
   .yakin-ad .leaflet-tooltip.spy-ad{display:block}
   .gizli-ad .mah-ad{display:none}
   .leaflet-popup-content{font-size:13px;line-height:1.45;margin:10px 12px}
   .leaflet-popup-content b{font-size:14px}
+  .tr-kap{display:flex;align-items:center;gap:4px;background:#fff;border-radius:22px;padding:4px;box-shadow:0 2px 6px rgba(0,0,0,.25);font-size:13px}
+  .tr-kap button{border:0;background:transparent;color:var(--yesil);font-weight:700;min-width:36px;min-height:36px;border-radius:18px;cursor:pointer;font-size:13px}
+  .tr-kap button.acik{background:var(--yesil);color:#fff}
+  .tr-kap .tr-ayar[hidden]{display:none}
+  .tr-kap .tr-ayar{display:flex;align-items:center;gap:2px}
+  .tr-kap select{border:1px solid #d5dbe0;border-radius:14px;padding:4px 6px;font-size:13px;min-height:32px;background:#fff}
+  .tr-kap output{min-width:46px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+  @media(max-width:640px){.leaflet-bottom.leaflet-left .tr-kap{margin-bottom:26px}.tr-kap select{max-width:96px}}
+  .tr-kap .tr-lej{display:flex;gap:2px;margin:0 4px}.tr-kap .tr-lej i{width:12px;height:8px;border-radius:2px;display:inline-block}
   .ekle-kap{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
   .ekle-kap button{font-size:13px;font-weight:700;border:0;background:var(--yesil);color:#fff;border-radius:22px;padding:8px 14px;min-height:36px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
   .ekle-kap button.acik{background:#ea803f}
@@ -186,30 +195,29 @@
 <aside class="ap" id="ap" hidden role="dialog" aria-modal="true" aria-labelledby="apBaslik">
   <div class="ap-ust"><h2 id="apBaslik">Atama seçenekleri</h2><button type="button" id="apKapat" aria-label="Kapat">✕</button></div>
   <div class="ap-ic">
-    <p class="ap-not">Kaydedince sonraki çağrılar bu seçeneklerle atanır. Test verisi sıfırlansa da seçenekler korunur. Listede yalnız iki H/G'si de %100 ve üstü olan SPY'ler var.</p>
     <form id="apForm">
-      <fieldset><legend>Puan ağırlıkları <span id="apToplam"></span></legend>
+      <fieldset><legend>Puan ağırlıkları</legend>
         <label><span class="ad">Yakınlık</span><input type="number" name="yakinlik" min="0" max="100" inputmode="numeric"></label>
-        <label><span class="ad">Çağrı sayısı <small>o gün az çağrısı olan önde</small></span><input type="number" name="yuk" min="0" max="100" inputmode="numeric"></label>
+        <label><span class="ad">Çağrı sayısı</span><input type="number" name="yuk" min="0" max="100" inputmode="numeric"></label>
         <label><span class="ad">Ciro H/G</span><input type="number" name="ciro" min="0" max="100" inputmode="numeric"></label>
         <label><span class="ad">Randevu H/G</span><input type="number" name="randevu" min="0" max="100" inputmode="numeric"></label>
       </fieldset>
-      <fieldset><legend>Yakınlık nasıl ölçülsün</legend>
+      <fieldset><legend>Yakınlık</legend>
         <div id="apTurler"></div>
-        <label id="apSifirDk"><span class="ad">Yakınlık puanının sıfır olduğu varış süresi (dk)</span><input type="number" name="sifirDk" min="5" max="180" inputmode="numeric"></label>
-        <label id="apSifirKm"><span class="ad">Yakınlık puanının sıfır olduğu uzaklık (km)</span><input type="number" name="sifirKm" min="1" max="60" inputmode="numeric"></label>
-        <p class="ap-not" id="apTrafik"></p>
+        <label id="apSifirDk"><span class="ad">Sıfır puan (dk)</span><input type="number" name="sifirDk" min="5" max="180" inputmode="numeric"></label>
+        <label id="apSifirKm"><span class="ad">Sıfır puan (km)</span><input type="number" name="sifirKm" min="1" max="60" inputmode="numeric"></label>
+        <label><span class="ad">Öncelikli mesafe (km)</span><input type="number" name="oncelikKm" min="0" max="20" step="0.5" inputmode="decimal"></label>
+        <label><span class="ad">Şubeden ölçme (saat)</span><input type="number" name="subeSaat" min="1" max="48" inputmode="numeric"></label>
       </fieldset>
-      <fieldset><legend>Eleme</legend>
-        <label><span class="ad">Bir SPY'ye günde en fazla çağrı</span><input type="number" name="gunlukSinir" min="1" max="20" inputmode="numeric"></label>
-        <label><span class="ad">Aynı gün iki randevu arası en az (dk)</span><input type="number" name="aralikDk" min="0" max="240" inputmode="numeric"></label>
-        <label><input type="checkbox" name="ilceSarti"><span class="ad">Yalnız müşterinin ilçesindeki SPY aday olsun</span></label>
+      <fieldset><legend>Eleme ve öncelik</legend>
+        <label><span class="ad">Günlük en fazla çağrı</span><input type="number" name="gunlukSinir" min="1" max="20" inputmode="numeric"></label>
+        <label><span class="ad">Randevu arası (dk)</span><input type="number" name="aralikDk" min="0" max="240" inputmode="numeric"></label>
+        <label><input type="checkbox" name="ilceOnceligi"><span class="ad">Aynı ilçedeki şube önce</span></label>
       </fieldset>
       <div class="ap-dugme"><button type="button" id="apVarsayilan">Varsayılana dön</button><button type="submit" class="tamam">Kaydet</button></div>
       <div class="ap-durum" id="apDurum" role="status"></div>
     </form>
     <h3>Çağrı sıralaması</h3>
-    <p class="ap-not">Seçilen çağrıda adayların puan dökümü ve elenenler.</p>
     <label><span class="ad" style="flex:0 0 auto">Çağrı</span><select id="apCagri"></select></label>
     <div id="apSira"></div>
   </div>
@@ -221,7 +229,7 @@
 <script>
   // Merkezde: <gizli>/takip → assets/…; GitHub Pages gösterisinde: merkez/takip.html?demo=1 → ../assets/…, ../veri/spyler.js
   var DEMO=/[?&]demo=1/.test(location.search), KOK=DEMO?"../":"";
-  document.write('<script src="'+KOK+'assets/pilot-sinirlar.js"><\/script><script src="'+KOK+'veri/sim-yollar.js"><\/script>'+(DEMO?'<script src="../veri/spyler.js"><\/script>':''));
+  document.write('<script src="'+KOK+'assets/pilot-sinirlar.js"><\/script><script src="'+KOK+'veri/sim-yollar.js"><\/script>'+'<script src="'+KOK+'veri/spyler.js?v=3"><\/script>');
 </script>
 <script>
 (function(){
@@ -294,9 +302,8 @@
   // Pilot bölge: ilçe sınırları kalın yeşil, mahalleler ince çizgi + ad (yakınlaşınca)
   var S=window.TY_SINIRLAR||{ilceler:[],mahalleler:[]};
   var ilceKatman=L.featureGroup().addTo(harita);
-  harita.createPane("ilceAd").style.zIndex=420;  // işaretlerin (600) ve rotaların arkasında
   S.ilceler.forEach(function(i){
-    L.polygon(i.halkalar,{color:"#00724c",weight:1.8,opacity:.9,fillColor:"#00724c",fillOpacity:.08,interactive:false}).bindTooltip(i.ad,{permanent:true,direction:"center",className:"ilce-ad",pane:"ilceAd"}).addTo(ilceKatman);
+    L.polygon(i.halkalar,{color:"#00724c",weight:1.8,opacity:.9,fillColor:"#00724c",fillOpacity:.08,interactive:false}).addTo(ilceKatman);
   });
   function sigdir(){harita.invalidateSize();if(S.ilceler.length)harita.fitBounds(ilceKatman.getBounds(),{padding:[10,10]});}
   sigdir(); addEventListener("load",sigdir); setTimeout(sigdir,400);  // telefonda yerleşim geç oturuyor
@@ -306,6 +313,11 @@
   // Genel müdürlük: küçük turuncu nokta. Konum cadde düzeyinde (Ahmet Tevfik İleri Cd., Yamanevler); bina numarası haritada yok, ~±200 m sapabilir.
   L.marker([41.02873,29.11376],{title:"Genel Müdürlük",zIndexOffset:300,icon:L.divIcon({className:"",html:'<div class="gm-ik"></div>',iconSize:[10,10],iconAnchor:[5,5]})})
     .bindPopup("<b>Genel Müdürlük</b><br>Yamanevler, Ahmet Tevfik İleri Cd. No:20 A<br>Ümraniye / İstanbul").addTo(harita);
+  // Şubeler: küçük yeşil nokta (veri/spyler.js → TY_SUBELER; ileri saatli çağrıda yakınlık SPY'nin şubesinden ölçülür)
+  (window.TY_SUBELER||[]).forEach(function(sb){
+    L.marker([sb.lat,sb.lng],{title:sb.gorunen,zIndexOffset:250,icon:L.divIcon({className:"",html:'<div class="sube-ik"></div>',iconSize:[8,8],iconAnchor:[4,4]})})
+      .bindPopup("<b>"+e(sb.gorunen)+"</b><br>"+e(sb.adres)).addTo(harita);
+  });
   // Telefonda (dar ekran) ayrıntı balon yerine alttan kart olarak açılır; işaretler parmak için büyük
   var DAR=matchMedia("(max-width:640px)"), kisiKart=document.getElementById("kisiKart");
     function kartAc(html){document.getElementById("kisiIc").innerHTML=html;kisiKart.hidden=false;}
@@ -523,6 +535,45 @@
       .then(function(){surum=0;tur();})
       .catch(function(err){ip.textContent=err.message;ip.hidden=false;setTimeout(function(){ip.hidden=true;ip.textContent="Haritada müşterinin yerine dokunun";},4000);});
   });
+  // Trafik katmanı: İBB tipik trafik çarpanı (veri/trafik-carpan.json, geohash-6 kareler); gün tipi + saat −/+ ile değişir. Atamada kullanılan veriyle aynı.
+  var TR_RENK=[[1.15,"#2e9d5b"],[1.35,"#f2c94c"],[1.6,"#f2994a"],[99,"#d64545"]], trVeri=null, trKatman=null, trGun="hi", trSaat=new Date().getHours();
+  (function(){var g=new Date().getDay();trGun=g===0?"pzr":g===6?"cmt":"hi";})();
+  function trRenk(c){for(var i=0;i<TR_RENK.length;i++)if(c<TR_RENK[i][0])return TR_RENK[i][1];return TR_RENK[3][1];}
+  function geoKutu(h){  // geohash → [[güney,batı],[kuzey,doğu]]
+    var b="0123456789bcdefghjkmnpqrstuvwxyz", la=[-90,90], lo=[-180,180], cift=true;
+    for(var i=0;i<h.length;i++){var v=b.indexOf(h[i]);for(var k=4;k>=0;k--){var a=cift?lo:la, o=(a[0]+a[1])/2;if((v>>k)&1)a[0]=o;else a[1]=o;cift=!cift;}}
+    return [[la[0],lo[0]],[la[1],lo[1]]];
+  }
+  harita.createPane("trafik").style.zIndex=350;
+  function trCiz(){
+    document.getElementById("trSaat").value=("0"+trSaat).slice(-2)+":00";
+    if(!trVeri)return;
+    if(!trKatman){trKatman=L.layerGroup();Object.keys(trVeri.hucre).forEach(function(h){trKatman.addLayer(L.rectangle(geoKutu(h),{pane:"trafik",stroke:false,fillOpacity:.32,interactive:false,hucre:h}));});}
+    trKatman.eachLayer(function(r){var c=(trVeri.hucre[r.options.hucre][trGun]||[])[trSaat]||1;r.setStyle({fillColor:trRenk(c)});});
+    if(!harita.hasLayer(trKatman))trKatman.addTo(harita);
+  }
+  var trafikBtn=L.control({position:"bottomleft"});
+  trafikBtn.onAdd=function(){
+    var d=L.DomUtil.create("div","tr-kap");
+    d.innerHTML='<button type="button" id="trAc" aria-pressed="false">Trafik</button><span class="tr-ayar" id="trAyar" hidden>'+
+      '<select id="trGun" aria-label="Gün"><option value="hi">Hafta içi</option><option value="cmt">Cumartesi</option><option value="pzr">Pazar</option></select>'+
+      '<button type="button" id="trEksi" aria-label="Bir saat geri">−</button><output id="trSaat" aria-live="polite"></output><button type="button" id="trArti" aria-label="Bir saat ileri">+</button>'+
+      '<span class="tr-lej" aria-hidden="true">'+TR_RENK.map(function(r){return '<i style="background:'+r[1]+'"></i>';}).join("")+'</span></span>';
+    L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d); return d;
+  };
+  trafikBtn.addTo(harita);
+  document.getElementById("trGun").value=trGun;
+  document.getElementById("trAc").addEventListener("click",function(){
+    var ac=this.getAttribute("aria-pressed")!=="true";
+    this.setAttribute("aria-pressed",ac);this.classList.toggle("acik",ac);document.getElementById("trAyar").hidden=!ac;
+    if(!ac){if(trKatman)harita.removeLayer(trKatman);return;}
+    if(trVeri){trCiz();return;}
+    fetch(KOK+"veri/trafik-carpan.json").then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(v){trVeri=v;trCiz();})
+      .catch(function(){document.getElementById("trSaat").value="veri yok";});
+  });
+  document.getElementById("trGun").addEventListener("change",function(){trGun=this.value;trCiz();});
+  document.getElementById("trEksi").addEventListener("click",function(){trSaat=(trSaat+23)%24;trCiz();});
+  document.getElementById("trArti").addEventListener("click",function(){trSaat=(trSaat+1)%24;trCiz();});
   // Atama seçenekleri (merkez: api/atama-ayar): ağırlıklar, uzaklık türü, eleme sınırları; altta seçili çağrının aday sıralaması
   var ap=document.getElementById("ap"), apOrt=document.getElementById("apOrt"), apForm=document.getElementById("apForm"), apBilgi=null, apDeneme=null, apSecili="", apAnahtar="";
   var OLCUT=[["yakinlik","Yakınlık","#00724c"],["yuk","Çağrı sayısı","#ea803f"],["ciro","Ciro H/G","#3f7fb8"],["randevu","Randevu H/G","#9a7bc0"]];
@@ -536,22 +587,17 @@
     apBilgi=b; var a=b.ayar;
     OLCUT.forEach(function(o){apForm.elements[o[0]].value=a.agirlik[o[0]];});
     document.getElementById("apTurler").innerHTML=Object.keys(b.turler).map(function(t){return '<label><input type="radio" name="uzaklik" value="'+t+'"'+(a.uzaklik===t?" checked":"")+'><span class="ad">'+e(b.turler[t])+'</span></label>';}).join("");
-    ["sifirDk","sifirKm","gunlukSinir","aralikDk"].forEach(function(x){apForm.elements[x].value=a[x];});
-    apForm.elements.ilceSarti.checked=!!a.ilceSarti;
-    var t=b.trafik;
-    document.getElementById("apTrafik").textContent=t.var?"Trafik: "+t.kaynak+" ("+t.donem.join(", ")+"). Yol süresi, o gün ve saatin tipik trafiğiyle çarpılır; anlık trafik değildir.":"Trafik verisi yok: trafiksiz yol süresi kullanılır.";
+    ["sifirDk","sifirKm","gunlukSinir","aralikDk","oncelikKm","subeSaat"].forEach(function(x){apForm.elements[x].value=a[x];});
+    apForm.elements.ilceOnceligi.checked=!!a.ilceOnceligi;
     apGorunum(); apAnahtar=""; apSiraCiz();
   }
   function apGorunum(){
     var t=apTur(), sure=t==="trafikli"||t==="yol";
     document.getElementById("apSifirDk").hidden=!sure; document.getElementById("apSifirKm").hidden=sure;
-    document.getElementById("apTrafik").hidden=t!=="trafikli";
-    var top=OLCUT.reduce(function(s,o){return s+(+apForm.elements[o[0]].value||0);},0);
-    document.getElementById("apToplam").textContent="· en yüksek puan "+top;
   }
   function apOku(){
     var g={}, f=apForm.elements; OLCUT.forEach(function(o){g[o[0]]=+f[o[0]].value||0;});
-    return {agirlik:g,uzaklik:apTur(),sifirDk:+f.sifirDk.value,sifirKm:+f.sifirKm.value,gunlukSinir:+f.gunlukSinir.value,aralikDk:+f.aralikDk.value,ilceSarti:f.ilceSarti.checked};
+    return {agirlik:g,uzaklik:apTur(),sifirDk:+f.sifirDk.value,sifirKm:+f.sifirKm.value,gunlukSinir:+f.gunlukSinir.value,aralikDk:+f.aralikDk.value,oncelikKm:+String(f.oncelikKm.value).replace(",","."),subeSaat:+f.subeSaat.value,ilceOnceligi:f.ilceOnceligi.checked};
   }
   function apDurum(m,hata){var d=document.getElementById("apDurum");d.textContent=m;d.className="ap-durum"+(hata?" hata":"");}
   function apAc(){
@@ -566,20 +612,20 @@
   apForm.addEventListener("input",apGorunum); apForm.addEventListener("change",apGorunum);
   apForm.addEventListener("submit",function(ev){
     ev.preventDefault();
-    apIstek({islem:"kaydet",ayar:apOku()}).then(function(b){apDeneme=null;apDoldur(b);apDurum("Kaydedildi. Sonraki çağrılar bu seçeneklerle atanır.");surum=0;tur();})
+    apIstek({islem:"kaydet",ayar:apOku()}).then(function(b){apDeneme=null;apDoldur(b);apDurum("Kaydedildi.");surum=0;tur();})
       .catch(function(err){apDurum("Kaydedilemedi: "+err.message,true);});
   });
   document.getElementById("apVarsayilan").addEventListener("click",function(){
-    apIstek({islem:"varsayilan"}).then(function(b){apDeneme=null;apDoldur(b);apDurum("Varsayılan seçeneklere dönüldü.");surum=0;tur();})
+    apIstek({islem:"varsayilan"}).then(function(b){apDeneme=null;apDoldur(b);apDurum("Varsayılana dönüldü.");surum=0;tur();})
       .catch(function(err){apDurum("İşlem yapılamadı: "+err.message,true);});
   });
   function apSiraHtml(s,baslik,deneme){
-    var ag=s.agirlik||{}, top=OLCUT.reduce(function(t,o){return t+(ag[o[0]]||0);},0)||100, tur_=(apBilgi&&apBilgi.turler[s.uzaklik])||s.uzaklik;
-    var h='<div class="ap-blok"><div class="ap-bb"><b>'+e(baslik)+'</b><span>'+e(tur_)+' · ağırlık '+OLCUT.map(function(o){return o[1].toLowerCase()+" "+(ag[o[0]]||0);}).join(", ")+'</span></div>'+
+    var ag=s.agirlik||{}, top=OLCUT.reduce(function(t,o){return t+(ag[o[0]]||0);},0)||100;
+    var h='<div class="ap-blok"><div class="ap-bb"><b>'+e(baslik)+'</b></div>'+
       '<div class="ap-lejant">'+OLCUT.map(function(o){return '<span><i style="background:'+o[2]+'"></i>'+o[1]+'</span>';}).join("")+'</div>';
     h+=s.adaylar.length?'<ol class="ap-liste">'+s.adaylar.map(function(a,i){
-      var yol=sayi(a.km)+" km"+(a.dk!=null?" · ~"+Math.round(a.dk)+" dk":"")+(a.carpan&&a.carpan!==1?" (trafik ×"+sayi(a.carpan)+")":"")+(a.kaynak==="kus"?" · kuş uçuşu":"");
-      return '<li'+(i===0?' class="ilk"':'')+'><div class="ap-sat"><b>'+e(a.ad)+(i===0?(deneme?" · ilk sırada":" · teklif edilen"):"")+'</b><span class="ap-puan">'+sayi(a.puan)+' puan</span></div>'+
+      var yol=sayi(a.km)+" km"+(a.dk!=null?" · ~"+Math.round(a.dk)+" dk":"")+(a.carpan&&a.carpan!==1?" (trafik ×"+sayi(a.carpan)+")":"")+(a.kaynak==="kus"?" · kuş uçuşu":"")+(a.nereden?" · "+a.nereden:"")+(a.subeIlce?" · şube: "+a.subeIlce:"");
+      return '<li'+(i===0?' class="ilk"':'')+'><div class="ap-sat"><b>'+e(a.ad)+(i===0?(deneme?" · ilk sırada":" · teklif edilen"):"")+(a.ayniIlce?' <span class="ap-onc">aynı ilçe</span>':'')+(a.oncelik?' <span class="ap-onc">'+sayi(s.oncelikKm)+' km altı</span>':'')+'</b><span class="ap-puan">'+sayi(a.puan)+' puan</span></div>'+
         '<div class="ap-bar" aria-hidden="true">'+OLCUT.map(function(o){return '<i style="width:'+(a.parca[o[0]]/top*100)+'%;background:'+o[2]+'"></i>';}).join("")+'</div>'+
         '<div class="ap-ayr">'+OLCUT.map(function(o){return o[1]+" "+sayi(a.parca[o[0]]);}).join(" · ")+'</div>'+
         '<div class="ap-ayr">'+e(yol)+' · o gün '+a.cagri+' çağrı</div></li>';
@@ -595,14 +641,14 @@
     if(anahtar===apAnahtar)return;  // değişiklik yoksa yeniden çizme (açık liste ve seçim bozulmasın)
     apAnahtar=anahtar;
     var sec=document.getElementById("apCagri"), kutu=document.getElementById("apSira");
-    if(!liste.length){sec.innerHTML="";sec.disabled=true;kutu.innerHTML='<p class="ap-not">Henüz atanan çağrı yok. Haritada "+ Çağrı ekle" ile deneyebilirsiniz.</p>';return;}
+    if(!liste.length){sec.innerHTML="";sec.disabled=true;kutu.innerHTML='<p class="ap-not">Çağrı yok.</p>';return;}
     sec.disabled=false;
     sec.innerHTML=liste.map(function(k){return '<option value="'+e(k.id)+'"'+(k.id===apSecili?" selected":"")+'>'+saat(k.siralama.t)+' · '+e((k.musteri&&k.musteri.ad)||"Müşteri")+(k.yer?' · '+e(k.yer):'')+'</option>';}).join("");
     var acik=[].map.call(kutu.querySelectorAll("details"),function(d){return d.open;});
     var k=veri.kayitlar[apSecili];
     kutu.innerHTML=apSiraHtml(k.siralama,"Atama anında"+(k.siralama.hemen?" · hemen çağrı":" · ileri saat"))+
-      '<button type="button" class="ap-dene" id="apDene">Şimdiki seçeneklerle yeniden hesapla</button>'+
-      (apDeneme&&apDeneme.id===apSecili?apSiraHtml(apDeneme,"Şimdiki seçeneklerle (yalnız deneme; çağrı değişmez)",true):"");
+      '<button type="button" class="ap-dene" id="apDene">Yeniden hesapla</button>'+
+      (apDeneme&&apDeneme.id===apSecili?apSiraHtml(apDeneme,"Şimdiki seçeneklerle",true):"");
     [].forEach.call(kutu.querySelectorAll("details"),function(d,i){if(acik[i])d.open=true;});
   }
   document.getElementById("apCagri").addEventListener("change",function(){apSecili=this.value;apDeneme=null;apSiraCiz();});

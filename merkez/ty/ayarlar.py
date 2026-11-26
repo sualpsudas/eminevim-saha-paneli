@@ -27,16 +27,18 @@ BILDIRIM_TTL = 120      # telefon kapalı/çevrimdışıysa bildirim bu süre be
 
 # Atama kuralları (rapor/tasarruf-yanimda-proje-calismasi/10-atama-ve-rota.md)
 KABUL_SN = 120          # SPY bu sürede kabul etmezse çağrı sıradakine geçer (sınır yok; herkes reddederse "kimse almadı")
-HEMEN_DK = 120          # bugün ve saati en geç 2 saat sonra olan çağrı "hemen" sayılır (en erken seçilebilen saatler)
+HEMEN_DK = 60           # bugün ve saati en geç 1 saat sonra olan çağrı "hemen" sayılır (2026-11-26: 2 saatten 1 saate)
 # Atama seçenekleri: varsayılanlar burada; takip sayfasındaki "Atama seçenekleri" bölümü değiştirir (veri["atamaAyar"], test sıfırlanınca korunur)
 ATAMA_VARSAYILAN = {
     "agirlik": {"yakinlik": 40, "yuk": 30, "ciro": 20, "randevu": 10},  # öncelik: yakınlık, çağrı sayısı, ciro H/G, randevu H/G (2026-11-25)
     "uzaklik": "trafikli",  # trafikli: yol süresi × İBB tipik trafik çarpanı (dk) · yol: trafiksiz yol süresi (dk) · yolkm: yol km · kus: kuş uçuşu km
     "sifirDk": 30,          # süreyle ölçülürken bu varış süresinde yakınlık puanı sıfır
     "sifirKm": 10,          # km ile ölçülürken bu uzaklıkta yakınlık puanı sıfır
+    "oncelikKm": 2,         # yol mesafesi bu km'nin altındaki SPY'ler önce (kendi aralarında puan sırası); hepsi reddederse dışarıdakiler. 0: kapalı
+    "subeSaat": 4,          # randevusu en az bu kadar saat sonra olan çağrıda yakınlık SPY'nin şubesinden ölçülür (önce canlı/kayıtlı konumdan)
     "gunlukSinir": 4,       # bir SPY'ye bir günde en fazla çağrı
     "aralikDk": 60,         # aynı gün iki randevu arası en az (hemen ve ileri çağrıda)
-    "ilceSarti": True,      # yalnız müşterinin ilçesindeki SPY aday olur
+    "ilceOnceligi": True,   # şubesi müşterinin ilçesinde olan SPY'ler önce; diğer ilçelerdekiler arkadan (2026-11-26: eleme değil öncelik)
 }
 UZAKLIK_TURLERI = {"trafikli": "Trafikli varış süresi", "yol": "Yol süresi (trafiksiz)", "yolkm": "Yol mesafesi (km)", "kus": "Kuş uçuşu (km)"}
 HG_TAVAN = 30           # H/G puanı %100'ün üstündeki ilk 30 puanda artar (%130 ve üstü tam puan)
@@ -56,7 +58,7 @@ KOD_DK = 10      # SMS kodu (test: ekranda gösterilir) 10 dk geçerli
 STATIK_UZANTI = {".html": "text/html; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".css": "text/css; charset=utf-8",
                  ".json": "application/json; charset=utf-8", ".png": "image/png", ".jpg": "image/jpeg", ".svg": "image/svg+xml",
                  ".webp": "image/webp", ".ico": "image/x-icon", ".ttf": "font/ttf", ".mp4": "video/mp4"}
-STATIK_KOK = {UYGULAMA, "index.html", "manifest.json", "eminevim-qr.png", "veri/spyler.js", "veri/sim-yollar.js", "veri/org-data.js", "web-basvuru/index.html"}
+STATIK_KOK = {UYGULAMA, "index.html", "manifest.json", "eminevim-qr.png", "veri/spyler.js", "veri/sim-yollar.js", "veri/org-data.js", "veri/trafik-carpan.json", "web-basvuru/index.html"}
 STATIK_KLASOR = ("assets/", "vendor/", "web-basvuru/", "uygulama/", "harita/")
 # Bunlar değişince açık uygulamalar "Yeni sürüm hazır · Yenile" şeridi gösterir
 SURUM_DOSYALARI = (UYGULAMA, "veri/spyler.js", "uygulama/canli.js", "uygulama/appointment.js", "uygulama/ayarlar.js",

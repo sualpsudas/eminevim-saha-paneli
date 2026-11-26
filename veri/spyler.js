@@ -1,6 +1,6 @@
 /* ÜRETİLEN DOSYA — elle düzenlemeyin. Kaynak: veri/kaynak/*.csv + veri/ayarlar.json → python araclar/veri_hazirla.py
    Hesap tarihi 2026-11-18, H/G dönemi 2026-08 … 2026-10 (son 3 tamamlanmış ay ortalaması). Listede yalnız iki H/G'si de >= %100 olan SPY'ler.
-   Uygulama (window.TY_SPYLER) ve merkez (merkez/ty/personel.py) bu dosyayı okur. */
+   Uygulama (window.TY_SPYLER, window.TY_SUBELER) ve merkez (merkez/ty/personel.py) bu dosyayı okur. */
 window.TY_SPYLER = [
  {
   "id": "s1",
@@ -143,3 +143,4 @@ window.TY_SPYLER = [
   "ciroHG": 116
  }
 ];
+window.TY_SUBELER = [{"ad": "Ümraniye Şubesi", "gorunen": "Ümraniye Şube", "adres": "Atatürk Mah. Alemdağ Cad. No: 46 A Ümraniye/İstanbul", "lat": 41.024832, "lng": 29.087246}, {"ad": "Ümraniye Çarşı Şubesi", "gorunen": "Ümraniye Çarşı Şube", "adres": "İstiklal Mah. Alemdağ Cad. Haliloğulları Apt. A Blok, No: 172 A Ümraniye/İstanbul", "lat": 41.025418, "lng": 29.098381}, {"ad": "Ataşehir Şubesi", "gorunen": "Ataşehir Şube", "adres": "Küçükbakkalköy Mah. Kayışdağı Cad. No: 77 A Ataşehir/İstanbul", "lat": 40.979345, "lng": 29.114105}, {"ad": "Örnek Mahallesi Şubesi", "gorunen": "Örnek Mahallesi Şube", "adres": "Örnek Mah. Şehit Cahar Dudayev Cad. No: 38-40 A/1 Ataşehir/İstanbul", "lat": 40.995695, "lng": 29.081718}, {"ad": "Üsküdar Şubesi", "gorunen": "Üsküdar Şube", "adres": "Sultantepe Mah. Selmani Pak Cad. No: 31/A Üsküdar/İstanbul", "lat": 41.025131, "lng": 29.017763}];

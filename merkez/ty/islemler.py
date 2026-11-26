@@ -19,7 +19,7 @@ import time
 
 from . import aktarim, bildirim, trafik
 from .bolge import bolgede_mi
-from .atama import ILETIM_BEKLEME_SN, adaylar, ayar, ayar_kaydet, hemen_mi, randevuda_mi, teklif_et, yeniden_ata
+from .atama import ILETIM_BEKLEME_SN, adaylar, ayar, ayar_kaydet, hemen_mi, randevuda_mi, siralama_ozet, teklif_et, yeniden_ata
 from .ayarlar import ATAMA_VARSAYILAN, DURUM_AD, KAPALI_DURUMLAR, UZAKLIK_TURLERI, YEDEK
 from .depo import bos_veri
 from .dogrulama import KAPI_KODLARI, dogrulama_islem
@@ -310,17 +310,22 @@ def atama_ayar(veri, istek):
         k = veri["kayitlar"][istek["id"]]
         elenen = []
         liste = adaylar(veri, k, (), elenen)
-        return {"id": k["id"], "adaylar": [{"id": s["id"], "ad": s["ad"], "puan": p, "gerekce": g, **ay} for p, s, g, _, ay in liste],
-                "elenen": elenen, "hemen": hemen_mi(k), "uzaklik": ayar(veri)["uzaklik"], "agirlik": ayar(veri)["agirlik"]}
+        return {"id": k["id"], **siralama_ozet(veri, k, liste, elenen)}
     else:
         a = ayar(veri)
     return {"ayar": a, "varsayilan": ATAMA_VARSAYILAN, "turler": UZAKLIK_TURLERI, "trafik": trafik.bilgi()}
 
 
+def _sayi(x):
+    return f"{x:g}".replace(".", ",")
+
+
 def atama_ozet(a):
     g = a["agirlik"]
+    km_yazi = f"{_sayi(a['oncelikKm'])} km altı önce" if a["oncelikKm"] else "km önceliği kapalı"
     return (f"yakınlık {g['yakinlik']}, çağrı sayısı {g['yuk']}, ciro H/G {g['ciro']}, randevu H/G {g['randevu']} · {UZAKLIK_TURLERI[a['uzaklik']]}"
-            f" · günlük en fazla {a['gunlukSinir']} · randevu arası {a['aralikDk']} dk · ilçe şartı {'açık' if a['ilceSarti'] else 'kapalı'}")
+            f" · {km_yazi} · {a['subeSaat']} saat ve sonrası şubeden · günlük en fazla {a['gunlukSinir']} · randevu arası {a['aralikDk']} dk"
+            f" · ilçe önceliği {'açık' if a['ilceOnceligi'] else 'kapalı'}")
 
 
 ISLEMLER = {"api/cagri": cagri, "api/kayit": kayit, "api/mesaj": mesaj, "api/spy": spy_durum, "api/aktar": aktar,

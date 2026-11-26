@@ -12,18 +12,19 @@ durum yoktur: listede yalnız şarta uyanlar bulunur. "Molada" ayrı bir durumdu
 
 ## 2. Hemen mi, ileri mi?
 
-- **Hemen çağrı:** bugün ve saati en geç 2 saat sonra (uygulama 1 saatten yakın saati seçtirmez; test sürümünde eşik 2 saat).
+- **Hemen çağrı:** bugün ve saati en geç **1 saat** sonra (2026-11-26; önce 2 saatti).
 - **İleri saat/gün:** daha sonraki saat ya da gün.
 
 ## 3. Eleme (önce uymayanlar çıkar)
 
 | Kural | Hemen çağrı | İleri saat/gün |
 |---|---|---|
-| Müşteriyle aynı ilçede (seçenek, varsayılan açık) | ✓ şu anki yeri | ✓ kayıtlı ilçesi |
 | Molada değil | ✓ | — |
 | Başka müşteriye bağlı değil (teklif, atandı, yolda, görüşmede) | ✓ | — |
 | Randevu arası | İstenen saatin **60 dk** öncesi ve sonrasında başka randevusu yok (bir SPY bir saatte en fazla bir randevu) | aynı |
 | Günlük üst sınır | Bugün en fazla **4** çağrı | O gün en fazla **4** çağrı |
+
+İlçe artık eleme değil (2026-11-26): başka ilçedeki SPY de çağrıyı alabilir, yalnız sırada arkadadır (bkz. 4a).
 
 ## 4. Puan (100 üzerinden)
 
@@ -31,10 +32,31 @@ durum yoktur: listede yalnız şarta uyanlar bulunur. "Molada" ayrı bir durumdu
 
 | Ölçüt | Ağırlık | Nasıl |
 |---|---|---|
-| **Yakınlık** | **40** | Trafikli varış süresi: 0 dk tam puan, **30 dk** ve üstü sıfır. Hemen: SPY'nin şu anki yeri; ileri: kendi yeri ya da o günkü randevularından müşteriye en yakını |
+| **Yakınlık** | **40** | Trafikli varış süresi: 0 dk tam puan, **30 dk** ve üstü sıfır. Nereden ölçülür: aşağıdaki tablo |
 | Çağrı sayısı (o gün az çağrısı olan önde) | 30 | 0 çağrı tam puan, günlük sınırda sıfır |
 | Ciro H/G (son 3 ay) | 20 | %100 sıfır, %130 ve üstü tam puan (%100 altı zaten listede yok) |
 | Randevu H/G (son 3 ay) | 10 | aynı |
+
+**Yakınlık nereden ölçülür (2026-11-26):**
+
+| Randevuya kalan süre | Başlangıç noktası |
+|---|---|
+| 1 saat ve altı (hemen) | SPY'nin şu anki yeri (canlı konum, yoksa kayıtlı yeri) |
+| 1–4 saat | SPY'nin şu anki yeri + o günkü randevu yerleri (en yakını) |
+| **4 saat ve fazlası** (yarın ve sonrası dahil) | **SPY'nin şubesi** + o günkü randevu yerleri (en yakını) |
+
+Şube konumları eminevim.com/subeler'den (`veri/kaynak/sube_konum.csv`): Ümraniye Şube (Atatürk Mah. Alemdağ Cad. 46 A), Ümraniye Çarşı Şube
+(İstiklal Mah. Alemdağ Cad. 172 A), Ataşehir Şube (Küçükbakkalköy Mah. Kayışdağı Cad. 77 A), Örnek Mahallesi Şube (Ataşehir, Şehit Cahar
+Dudayev Cad. 38-40), Üsküdar Şube (Sultantepe Mah. Selmani Pak Cad. 31/A). Haritalarda küçük yeşil nokta. SPY'nin şubesi personel
+kaydındaki şubedir (pilot SPY'ler Ümraniye, Ataşehir, Üsküdar şubelerinde).
+
+### 4a. Sıra önceliği (2026-11-26)
+
+Teklif sırası puandan önce iki öncelik basamağıyla kurulur (eleme değil; öndekilerin hepsi reddederse sıra arkadakilere geçer):
+
+1. **Şubesi müşterinin ilçesinde olan SPY'ler** önce, diğer ilçelerdekiler sonra.
+2. Her grubun içinde **yol mesafesi 2 km'nin altında olanlar** önce.
+3. Aynı basamakta en yüksek puanlı önce.
 
 - Hiç verisi olmayan yeni SPY ekip ortalamasıyla başlar. Tasarruf Yanımda'ya özel dönüşüm oranı (çağrıdan satışa) veri biriktikçe eklenir.
 
@@ -42,7 +64,7 @@ durum yoktur: listede yalnız şarta uyanlar bulunur. "Molada" ayrı bir durumdu
 
 1. Çağrı en yüksek puanlı SPY'ye gider; telefonunda sesli uyarı. SPY ekranında kabul için kalan süre görünür.
 2. **2 dakika** içinde kabul etmezse ya da **Devret** derse sıradaki SPY'ye geçer. Deneme sayısı sınırı yoktur.
-3. İlçede uygun SPY kalmazsa müşteriye **randevu önerilir**: 7 gün içinde, 10:00–20:00 arası, 30 dk adımlarla ilk uygun saat
+3. Uygun SPY kalmazsa müşteriye **randevu önerilir**: 7 gün içinde, 10:00–20:00 arası, 30 dk adımlarla ilk uygun saat
    (müşteri uygulamadan kabul eder ya da başka saat seçer).
 4. Önerilecek saat de yoksa çağrı **"kimse almadı"** olur, yöneticinin Saha Canlı haritasında **kırmızı** görünür; uygun bir SPY çıkınca
    (moladan döndü, görüşmesi bitti) kendiliğinden ona teklif edilir.
@@ -59,15 +81,17 @@ durum yoktur: listede yalnız şarta uyanlar bulunur. "Molada" ayrı bir durumdu
 - İleri tarihli çağrıda yakınlık, SPY'nin o günkü randevu yerleri de hesaba katılarak ölçülür. "Araya eklenince ne kadar ek yol getirir"
   ve iki randevu arasında yol süresi kadar boşluk kuralları henüz yok (şimdilik sabit 60 dk); pilot bölge denemesinden sonra.
 - Yönetici her SPY'nin günlük sıralı rotasını haritada görür.
+- **Trafik katmanı (2026-11-26):** takip haritasında sol altta "Trafik" düğmesi; aynı İBB çarpanı kare kare renkli (yeşil ×1,15 altı, sarı, turuncu, kırmızı ×1,6 üstü), gün tipi (hafta içi / cumartesi / pazar) ve saat −/+ ile değişir.
 
 ## 7. Atama seçenekleri (canlı test)
 
 Takip sayfasında (Saha Canlı) üstteki **Atama seçenekleri** düğmesi:
 
 - Dört ağırlık, yakınlığın nasıl ölçüleceği (trafikli varış süresi / trafiksiz yol süresi / yol km / kuş uçuşu km) ve sıfır eşiği,
-  günlük en fazla çağrı, randevu arası, ilçe şartı değiştirilebilir. Kaydedince sonraki çağrılarda geçerli; test verisi sıfırlansa da korunur;
+  2 km önceliği (0: kapalı), şubeden ölçme eşiği (4 saat), günlük en fazla çağrı, randevu arası, ilçe önceliği değiştirilebilir. Kaydedince sonraki çağrılarda geçerli; test verisi sıfırlansa da korunur;
   "Varsayılana dön" yukarıdaki kurallara döndürür.
-- **Çağrı sıralaması:** seçilen çağrıda her adayın puanı ölçüt ölçüt (çubuk + rakam), km, varış süresi, trafik çarpanı ve elenenler gerekçesiyle.
+- **Çağrı sıralaması:** seçilen çağrıda her adayın puanı ölçüt ölçüt (çubuk + rakam), km, varış süresi, trafik çarpanı, nereden ölçüldüğü
+  (şu anki yeri / şubesi / randevusu), şubesinin ilçesi, "aynı ilçe" ve "2 km altı" etiketleri; elenenler gerekçesiyle.
   "Şimdiki seçeneklerle yeniden hesapla" aynı çağrıyı yeni seçeneklerle sıralar; çağrıyı değiştirmez.
 
 ## 8. Test sürümü

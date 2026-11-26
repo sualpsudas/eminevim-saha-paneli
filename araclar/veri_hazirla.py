@@ -8,6 +8,7 @@ Adımlar (her biri ayrı fonksiyon; gerçek sistemde IT yalnız ilgili okuma fon
   5. randevu_oku    Randevu gerçekleşen: sayılan durumdaki randevular, ad soyad + ay; hedef = günlük hedef × iş günü
   6. ek_oku         Uygulamaya özel bilgiler (uygulama id, fotoğraf, sabit konum, müşteri puanı) — şirket sisteminde yok
   7. hesapla        Son N tamamlanmış ayın H/G ortalaması; iki H/G de eşik ve üzeriyse listede
+  8. konum_oku      Şube konumları (eminevim.com/subeler): haritada yeşil nokta; ileri saatli çağrıda yakınlık SPY'nin şubesinden
 
 Çalıştır:  python araclar/veri_hazirla.py [--tarih 2026-11-18]
 Yalnız Python standart kütüphanesi kullanır.
@@ -80,6 +81,12 @@ def personel_oku(ayar):
 def sube_oku():
     return {r["Şube Adı"].strip(): {"bolge": r["Bolge Adı"].strip(), "saha": r["Saha"].strip(), "klasman": int(r["Klasman"])}
             for r in tablo("sube_bolge_saha.csv")}
+
+
+def konum_oku():
+    """Şube konumları → window.TY_SUBELER. "ad" SPY kaydındaki şube adıyla aynı biçimde ("Ataşehir Şubesi")."""
+    return [{"ad": r["Şube Adı"].strip().replace(" Şb.", " Şubesi"), "gorunen": r["Görünen Ad"].strip(), "adres": r["Adres"].strip(),
+             "lat": float(r["Enlem"]), "lng": float(r["Boylam"])} for r in tablo("sube_konum.csv")]
 
 
 def hedef_oku():
@@ -204,8 +211,9 @@ def main():
     baslik = (f"/* ÜRETİLEN DOSYA — elle düzenlemeyin. Kaynak: veri/kaynak/*.csv + veri/ayarlar.json → python araclar/veri_hazirla.py\n"
               f"   Hesap tarihi {bugun.isoformat()}, H/G dönemi {aylar[0][0]}-{aylar[0][1]:02d} … {aylar[-1][0]}-{aylar[-1][1]:02d} "
               f"(son {ayar['hg']['donem_ay']} tamamlanmış ay ortalaması). Listede yalnız iki H/G'si de >= %{ayar['hg']['liste_esik']} olan SPY'ler.\n"
-              f"   Uygulama (window.TY_SPYLER) ve merkez (merkez/ty/personel.py) bu dosyayı okur. */\n")
-    (VERI / "spyler.js").write_text(baslik + "window.TY_SPYLER = " + json.dumps(kayitlar, ensure_ascii=False, indent=1) + ";\n", encoding="utf-8")
+              f"   Uygulama (window.TY_SPYLER, window.TY_SUBELER) ve merkez (merkez/ty/personel.py) bu dosyayı okur. */\n")
+    (VERI / "spyler.js").write_text(baslik + "window.TY_SPYLER = " + json.dumps(kayitlar, ensure_ascii=False, indent=1) + ";\n"
+                                    + "window.TY_SUBELER = " + json.dumps(konum_oku(), ensure_ascii=False) + ";\n", encoding="utf-8")
     ozet = {"hesapTarihi": bugun.isoformat(), "aylar": [f"{y}-{m:02d}" for y, m in aylar],
             "kisiler": [{k: (v.isoformat() if isinstance(v, date) else v) for k, v in x.items()} for x in sonuc]}
     (VERI / "hg_ozet.json").write_text(json.dumps(ozet, ensure_ascii=False, indent=1), encoding="utf-8")
