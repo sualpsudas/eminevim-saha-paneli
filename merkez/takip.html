@@ -51,7 +51,7 @@
   .akis{width:320px;flex:0 0 320px;background:#fff;border:1px solid var(--cizgi);border-radius:14px;display:flex;flex-direction:column;min-height:0;overflow:hidden}
   .akis-ust{display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--cizgi)}
   .akis-ust b{flex:1;font-size:14px}
-  .ilerlet{font-size:13px;font-weight:700;border:0;background:var(--turuncu);color:#fff;border-radius:22px;padding:8px 14px;min-height:38px}
+  .ilerlet{white-space:nowrap;font-size:13px;font-weight:700;border:0;background:var(--turuncu);color:#fff;border-radius:22px;padding:8px 14px;min-height:38px}
   .ilerlet:disabled{opacity:.5}
   #akisListe{flex:1;overflow-y:auto;margin:0;padding:0;list-style:none}
   #akisListe li{padding:9px 12px;border-bottom:1px solid #eee;font-size:13px;line-height:1.35;display:flex;gap:8px}
@@ -119,10 +119,9 @@
   .tr-kap output{min-width:46px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
   @media(max-width:640px){.leaflet-bottom.leaflet-left .tr-kap{margin-bottom:26px}}
   .tr-kap .tr-lej{display:flex;gap:2px;margin:0 4px}.tr-kap .tr-lej i{width:12px;height:8px;border-radius:2px;display:inline-block}
-  .ekle-kap{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
-  .ekle-kap button{font-size:13px;font-weight:700;border:0;background:var(--yesil);color:#fff;border-radius:22px;padding:8px 14px;min-height:36px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
-  .ekle-kap button.acik{background:#ea803f}
-  .ekle-kap div{background:#fff;border-radius:10px;padding:6px 10px;font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.2);max-width:190px}
+  .ekle-btn{font-size:13px;font-weight:700;border:0;background:var(--yesil);color:#fff;border-radius:22px;padding:8px 12px;min-height:38px;white-space:nowrap}
+  .ekle-btn.acik{background:#b25e30}
+  .e-ipucu{background:#fff1e3;color:#8a4a1c;padding:6px 12px;font-size:12px;border-bottom:1px solid var(--cizgi)}
   .ekle-form{position:fixed;z-index:1100;left:50%;bottom:12px;transform:translateX(-50%);width:min(340px,calc(100% - 16px));background:#fff;border:1px solid var(--cizgi);border-radius:14px;padding:12px 14px;box-shadow:0 4px 16px rgba(0,0,0,.2);font-size:14px;display:flex;flex-direction:column;gap:8px}
   .ekle-form[hidden]{display:none}
   .ekle-form label{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--yazi)}
@@ -178,11 +177,20 @@
   /* Tam ekran (2026-11-26): harita sayfanın en arkasında; yeşil bar yok, düğmeleri aynı yerde; sayaçlar, süzgeç, Bildirimler haritanın üstünde */
   .tam-btn{width:34px;height:34px;border:0;background:#fff;color:var(--koyu);font-size:17px;line-height:34px;padding:0}
   .tam-btn[aria-pressed=true]{color:var(--yesil);font-weight:700}
-  body.tam .harita-kap{position:fixed;inset:0;z-index:0;border:0;border-radius:0;min-height:0}
+  body.tam .harita-kap{position:fixed;inset:0;z-index:0;border:0;border-radius:0;min-height:0;pointer-events:auto}
   body.tam header{background:transparent;position:relative;z-index:2;pointer-events:none}
   body.tam header h1{flex:0 1 auto;min-width:0;background:#fff;color:var(--yesil);font-size:15px;border-radius:22px;padding:6px 14px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
   body.tam header h1 small{color:var(--yazi)}
-  body.tam header .bag{margin-left:auto}
+  body.tam header #apBtn{margin-left:auto}
+  @media (min-width:641px){
+    body.tam header .bag{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%)}
+    body.tam aside.akis{position:fixed;right:16px;top:calc(var(--tam-hdr,52px) + 8px);width:300px;height:min(300px,calc(100vh - var(--tam-hdr,52px) - 50px));margin:0}
+    body.tam .akis-ust{padding:7px 9px;gap:6px}
+    body.tam .akis-ust b{font-size:13px}
+    body.tam .akis .ekle-btn,body.tam .akis .ilerlet{font-size:12px;padding:5px 9px;min-height:30px}
+    body.tam #akisListe li{font-size:12px;padding:6px 9px;gap:6px}
+    body.tam #akisListe li time{font-size:11px;flex-basis:34px}
+  }
   body.tam header>*{pointer-events:auto}
   body.tam .bag,body.tam button.sifirla{background:var(--yesil);border-color:var(--yesil);color:#fff;box-shadow:0 2px 6px rgba(0,0,0,.25)}
   body.tam .bag.kopuk{background:#b25e30}
@@ -195,7 +203,7 @@
   body.tam .leaflet-top{top:var(--tam-ust,0px)}
   body.tam .leaflet-top.leaflet-right{right:var(--tam-sag,0px)}
   body.tam .leaflet-bottom.leaflet-left{bottom:var(--tam-alt,0px)}
-  @media (max-width:640px){body.tam .akis{margin-left:0;margin-top:auto}body.tam header h1 small{display:none}body.tam header h1{font-size:14px}}
+  @media (max-width:640px){body.tam .akis{margin-left:0;margin-top:auto;flex-basis:26%}body.tam .akis .ekle-btn,body.tam .akis .ilerlet{font-size:12px;padding:5px 10px;min-height:36px}body.tam header h1 small{display:none}body.tam header h1{font-size:14px}}
 </style>
 </head>
 <body>
@@ -210,7 +218,7 @@
   <div class="cipler" role="group" aria-label="Neler görünsün" id="cipler"></div>
   <div class="sahne">
     <div class="harita-kap"><div id="harita" aria-label="Pilot bölge haritası"></div></div>
-    <aside class="akis" aria-label="Bildirimler"><div class="akis-ust"><b>Bildirimler</b><button type="button" class="ilerlet" id="ilerlet">Otomatik ilerlet</button></div><ul id="akisListe"></ul></aside>
+    <aside class="akis" aria-label="Bildirimler"><div class="akis-ust"><b>Bildirimler</b><button type="button" class="ilerlet" id="ilerlet">Otomatik ilerlet</button></div><div id="eIpucu" class="e-ipucu" hidden>Haritada müşterinin yerine dokunun</div><ul id="akisListe"></ul></aside>
   </div>
 </main>
 <div class="kisi-kart" id="kisiKart" hidden role="dialog" aria-label="Ayrıntı"><div id="kisiIc"></div><button type="button" id="kisiKapat" aria-label="Kapat">✕</button></div>
@@ -554,9 +562,7 @@
     return ad;
   }
   function rastTel(){var s="05"+rast(["30","32","33","35","36","42","44","54","55"]);for(var i=0;i<7;i++)s+=Math.floor(Math.random()*10);return s;}
-  var ekleBtn=L.control({position:"topright"});
-  ekleBtn.onAdd=function(){var d=L.DomUtil.create("div","ekle-kap");d.innerHTML='<button type="button" id="eBtn">+ Çağrı ekle</button><div id="eIpucu" hidden>Haritada müşterinin yerine dokunun</div>';L.DomEvent.disableClickPropagation(d);return d;};
-  if(!DEMO)ekleBtn.addTo(harita);
+  (function(){if(DEMO)return;var il=document.getElementById("ilerlet"),b=document.createElement("button");b.type="button";b.id="eBtn";b.className="ekle-btn";b.textContent="+ Çağrı ekle";il.parentNode.insertBefore(b,il);})();  // Bildirimler kartında, Otomatik ilerlet'in solunda
   function ekleKapat(){ekleModu=false;var b=document.getElementById("eBtn");if(b)b.classList.remove("acik");var i=document.getElementById("eIpucu");if(i)i.hidden=true;harita.getContainer().style.cursor="";}
   document.addEventListener("click",function(ev){
     if(ev.target.id==="eBtn"){if(ekleModu){ekleKapat();return;}ekleModu=true;ev.target.classList.add("acik");document.getElementById("eIpucu").hidden=false;harita.getContainer().style.cursor="crosshair";}
@@ -616,9 +622,9 @@
   tamBtn.onAdd=function(){var d=L.DomUtil.create("div","leaflet-bar");d.innerHTML='<button type="button" class="tam-btn" id="tamAc" aria-pressed="false" title="Tam ekran" aria-label="Tam ekran">⛶</button>';L.DomEvent.disableClickPropagation(d);return d;};
   if(!document.body.classList.contains("gomulu"))tamBtn.addTo(harita);
   function tamKenar(){
-    var b=document.body.style;if(!document.body.classList.contains("tam")){b.removeProperty("--tam-ust");b.removeProperty("--tam-sag");b.removeProperty("--tam-alt");return;}
-    var sahne=document.querySelector(".sahne").getBoundingClientRect(),akis=document.querySelector(".akis").getBoundingClientRect(),dar=sahne.width<=640||akis.top>sahne.top+5;
-    b.setProperty("--tam-ust",Math.round(sahne.top)+"px");
+    var b=document.body.style;if(!document.body.classList.contains("tam")){b.removeProperty("--tam-ust");b.removeProperty("--tam-sag");b.removeProperty("--tam-alt");b.removeProperty("--tam-hdr");return;}
+    var sahne=document.querySelector(".sahne").getBoundingClientRect(),akis=document.querySelector(".akis").getBoundingClientRect(),dar=innerWidth<=640;
+    b.setProperty("--tam-ust",Math.round(sahne.top)+"px");b.setProperty("--tam-hdr",Math.round(document.querySelector("header").getBoundingClientRect().bottom)+"px");
     b.setProperty("--tam-sag",dar?"0px":Math.round(innerWidth-akis.left)+"px");
     b.setProperty("--tam-alt",dar?Math.round(innerHeight-akis.top)+"px":"0px");
   }

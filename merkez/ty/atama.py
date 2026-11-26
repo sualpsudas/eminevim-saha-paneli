@@ -293,7 +293,7 @@ def siralama_ozet(veri, k, liste, elenen):
             "adaylar": [{"id": s["id"], "ad": s["ad"], "puan": p, "gerekce": g, **ay} for p, s, g, _, ay in liste], "elenen": elenen}
 
 
-ILETIM_BEKLEME_SN = 4  # çağrı geldikten sonra SPY'ye iletilene kadar (sunumda "alındı" aşaması görünsün)
+ILETIM_BEKLEME_SN = 3  # (2026-11-26: 4 → 3 sn) çağrı geldikten sonra SPY'ye iletilene kadar (sunumda "alındı" aşaması görünsün)
 
 
 def teklif_et(veri, k, neden=""):
