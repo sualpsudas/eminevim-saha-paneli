@@ -2,15 +2,16 @@
 
 Aşamalar: yeni çağrı → SPY atandı → yola çıktı → görüşmede → tamamlandı. Yeni çağrıya atama kuralıyla (atama.py) SPY bulunur ve
 hemen kabul etmiş sayılır; müşteriye her aşamada bildirim gider. SPY yola çıkınca yerinde kalır (haritada rota çizilir), görüşmede müşterinin yerine gelir.
+Tahmini varış her SPY'nin kendi rotasından (atama.varis_dk: İBB anlık hızı); haritadaki yürüyüş de bu süreyle orantılı.
 """
 from . import bildirim
-from .atama import teklif_et
+from .atama import teklif_et, varis_dk
 from .ayarlar import KAPALI_DURUMLAR
 from .konum import anlik_konum, konum_yaz
 from .yardim import damga, olay, saat_yaz, simdi
 
 DAKIKA = 60000
-YOL_SN = 30  # sunumda SPY'nin rota boyunca müşteriye varma süresi
+YOL_SN_DK, YOL_SN_EN_AZ, YOL_SN_EN_COK = 3, 10, 90  # sunumda yürüyüş: gerçek varış süresinin her dakikası 3 sn (10-90 sn arası)
 
 
 def _varis(veri, k):
@@ -53,7 +54,9 @@ def _ilerle(veri, k):
         yeni = "atandi"
     elif durum in ("atandi", "netlesti"):
         spy = veri["spyler"][k["repId"]]
-        k["durum"], k["varisZamani"], k["yolaCikis"] = "yolda", simdi() + 10 * DAKIKA, simdi()
+        konum = k.get("konum") or {}
+        dk = varis_dk(anlik_konum(veri, spy), konum) if "lat" in konum else 10  # her SPY'nin kendi rotası (anlık trafikle)
+        k["durum"], k["varisZamani"], k["yolaCikis"], k["yolDk"] = "yolda", simdi() + max(1, round(dk)) * DAKIKA, simdi(), dk
         if spy.get("sim"):  # temsilci belli olunca hareketli SPY durmaz; yola çıkınca durur: rota hep aynı yerden çizilir, yürüyüş buradan başlar
             k["don"] = dict(anlik_konum(veri, spy), id=spy["id"])
         olay(veri, f"{ad}: {spy['ad']} yola çıktı", k["id"])
@@ -64,7 +67,8 @@ def _ilerle(veri, k):
         spy = veri["spyler"][k["repId"]]
         k["yolBaslangic"] = dict(anlik_konum(veri, spy))
         k.pop("don", None)
-        k["yolBasladi"], k["yolSure"] = simdi(), YOL_SN * 1000
+        k["yolBasladi"] = simdi()
+        k["yolSure"] = int(max(YOL_SN_EN_AZ, min(YOL_SN_EN_COK, (k.get("yolDk") or 10) * YOL_SN_DK)) * 1000)  # uzak SPY daha geç varır
         veri.get("elleKonum", {}).pop(spy["id"], None)
         olay(veri, f"{ad}: {spy['ad']} müşteriye doğru ilerliyor", k["id"])
         yeni = "yolda"

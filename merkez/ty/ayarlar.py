@@ -36,6 +36,7 @@ ATAMA_VARSAYILAN = {
     "sifirKm": 10,          # km ile ölçülürken bu uzaklıkta yakınlık puanı sıfır
     "oncelikKm": 2,         # yol mesafesi bu km'nin altındaki SPY'ler önce (kendi aralarında puan sırası); hepsi reddederse dışarıdakiler. 0: kapalı
     "subeSaat": 4,          # randevusu en az bu kadar saat sonra olan çağrıda yakınlık SPY'nin şubesinden ölçülür (önce canlı/kayıtlı konumdan)
+    "canliSaat": 2,         # trafikli ölçümde randevuya bu kadar saatten az varsa varış süresi rota + İBB anlık hızıyla; fazlaysa tipik çarpan. 0: hep tipik
     "gunlukSinir": 4,       # bir SPY'ye bir günde en fazla çağrı
     "aralikDk": 60,         # aynı gün iki randevu arası en az (hemen ve ileri çağrıda)
     "ilceOnceligi": True,   # şubesi müşterinin ilçesinde olan SPY'ler önce; diğer ilçelerdekiler arkadan (2026-11-26: eleme değil öncelik)

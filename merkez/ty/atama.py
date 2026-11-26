@@ -41,7 +41,7 @@ def ayar_kaydet(veri, gelen):
         if gelen["uzaklik"] not in UZAKLIK_TURLERI:
             raise ValueError("Uzaklık türü geçersiz.")
         a["uzaklik"] = gelen["uzaklik"]
-    for x, en_az, en_cok in (("sifirDk", 5, 180), ("sifirKm", 1, 60), ("gunlukSinir", 1, 20), ("aralikDk", 0, 240), ("subeSaat", 1, 48)):
+    for x, en_az, en_cok in (("sifirDk", 5, 180), ("sifirKm", 1, 60), ("gunlukSinir", 1, 20), ("aralikDk", 0, 240), ("subeSaat", 1, 48), ("canliSaat", 0, 12)):
         if x in gelen:
             a[x] = max(en_az, min(en_cok, int(gelen[x])))
     if "oncelikKm" in gelen:
@@ -183,12 +183,14 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
     if d is not None:
         saat = min(23, d // 60)
     sure_ile = tur in ("trafikli", "yol")
+    canli = tur == "trafikli" and konumlu and A["canliSaat"] > 0 and kalan_dk(k) < A["canliSaat"] * 60
     sifir = A["sifirDk"] if sure_ile else A["sifirKm"]
     sonuc, i = [], 0
     for s, noktalar, benim in uygun:
         enyakin = None
         for n, nereden in noktalar:
-            o = dict(olcum[i], nereden=nereden)
+            o = dict(olcum[i], nereden=nereden, trafik="tipik" if tur == "trafikli" else "")
+            o["_n"] = n
             i += 1
             o["carpan"] = trafik.carpan(n, konum, gun, saat) if tur == "trafikli" and konumlu else 1.0
             if o["dk"] is not None:
@@ -196,6 +198,12 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
             o["deger"] = o["dk"] if sure_ile else o["km"]
             if enyakin is None or o["deger"] < enyakin["deger"]:
                 enyakin = o
+        if canli and enyakin["kaynak"] == "yol":  # randevuya canliSaat'ten az: en yakın noktadan rota, İBB anlık hızıyla
+            c = trafik.canli_rota_dk(yol.rota(enyakin["_n"], konum))
+            if c and c["serbestDk"] > 0:
+                enyakin.update(dk=c["dk"], carpan=round(c["dk"] / c["serbestDk"], 2), trafik="canlı")
+                enyakin["deger"] = enyakin["dk"]
+        enyakin.pop("_n", None)
         yakin = A["oncelikKm"] > 0 and konumlu and enyakin["km"] < A["oncelikKm"]
         ayni_ilce = bool(ilce) and sube_ilce(s) == ilce
         p = {"yakinlik": max(0.0, 1 - enyakin["deger"] / sifir),
@@ -207,7 +215,7 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
         yol_yazi = (f"{_sayi(enyakin['km'])} km" + (f" · ~{round(enyakin['dk'])} dk" if enyakin["dk"] is not None else "")
                     + (" (kuş uçuşu)" if enyakin["kaynak"] == "kus" else ""))
         gerekce = f"{yol_yazi} ({enyakin['nereden']}) · {'bugün' if tarih == bugun() else 'o gün'} {len(benim)} çağrı · ciro/randevu H/G %{s.get('ciroHG')}/%{s.get('randevuHG')}"
-        ayrinti = {"parca": parca, "km": enyakin["km"], "dk": enyakin["dk"], "carpan": enyakin["carpan"], "kaynak": enyakin["kaynak"], "cagri": len(benim),
+        ayrinti = {"parca": parca, "km": enyakin["km"], "dk": enyakin["dk"], "carpan": enyakin["carpan"], "trafik": enyakin["trafik"], "kaynak": enyakin["kaynak"], "cagri": len(benim),
                    "nereden": enyakin["nereden"], "oncelik": yakin, "ayniIlce": ayni_ilce, "subeIlce": sube_ilce(s)}
         sonuc.append((puan, s, gerekce, enyakin["km"], ayrinti))
     return sorted(sonuc, key=lambda x: (not x[4]["ayniIlce"], not x[4]["oncelik"], -x[0]))
@@ -248,6 +256,16 @@ def oneri_bul(veri, k):
     return None
 
 
+def varis_dk(bas, konum):
+    """Şimdi yola çıkan SPY'nin varış süresi (dk): rota + İBB anlık hızı; olmazsa yol süresi × tipik çarpan; o da yoksa kuş uçuşu."""
+    c = trafik.canli_rota_dk(yol.rota(bas, konum))
+    if c:
+        return c["dk"]
+    o = yol.olc([bas], konum)[0]
+    gun, saat = trafik.gun_saat()
+    return round(o["dk"] * trafik.carpan(bas, konum, gun, saat), 1)
+
+
 def _siralama_yaz(veri, k, liste, elenen):
     """Takip sayfasındaki "Atama seçenekleri" bölümü için: bu çağrıda adaylar puan dökümüyle, elenenler gerekçesiyle."""
     k["siralama"] = {"t": simdi(), **siralama_ozet(veri, k, liste, elenen)}
@@ -257,7 +275,7 @@ def siralama_ozet(veri, k, liste, elenen):
     A = ayar(veri)
     hemen = hemen_mi(k)
     return {"uzaklik": A["uzaklik"], "agirlik": A["agirlik"], "hemen": hemen, "oncelikKm": A["oncelikKm"],
-            "subeden": not hemen and kalan_dk(k) >= A["subeSaat"] * 60, "subeSaat": A["subeSaat"],
+            "subeden": not hemen and kalan_dk(k) >= A["subeSaat"] * 60, "subeSaat": A["subeSaat"], "canli": A["uzaklik"] == "trafikli" and A["canliSaat"] > 0 and kalan_dk(k) < A["canliSaat"] * 60, "canliSaat": A["canliSaat"],
             "adaylar": [{"id": s["id"], "ad": s["ad"], "puan": p, "gerekce": g, **ay} for p, s, g, _, ay in liste], "elenen": elenen}
 
 

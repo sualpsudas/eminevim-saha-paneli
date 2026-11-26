@@ -88,7 +88,9 @@ OTURUM_URL = "https://sehirharitasigateway.ibb.gov.tr/auth/anonim?lang=tr"
 SEGMENT_URL = "https://sehirharitasigateway.ibb.gov.tr/api/ZJmA/arcgis/rest/services/TrafikSegment/MapServer/0/query"
 ANAHTAR_BASLIK = "ABC-3903258-571632"   # anahtarın hem yanıttaki alan adı hem istek başlığı
 CANLI_SN = 180
-_canli = {"zaman": 0, "veri": None, "anahtar": None}
+_canli = {"zaman": 0, "veri": None, "anahtar": None, "dizin": {}}
+DIZIN_DERECE = 0.0005   # ~50 m'lik ızgara: rota noktasına yakın segment araması
+ESLESME_M = 20          # rota noktası İBB segmentine bu kadar yakınsa o segmentin anlık hızı kullanılır
 _kilit = threading.Lock()
 _BASLIK = {"User-Agent": "TasarrufYanimda-merkez", "Origin": "https://harita.istanbul", "Referer": "https://harita.istanbul/"}
 
@@ -140,7 +142,7 @@ def _indir():
             break
     else:
         raise OSError("İBB anahtarı geçersiz")
-    yollar = []
+    yollar, dizin = [], {}
     for f in veri["features"]:
         g, o = f.get("geometry") or {}, f.get("properties") or {}
         hatlar = g.get("coordinates") or []
@@ -148,6 +150,13 @@ def _indir():
             hatlar = [hatlar]
         renk = o.get("color") if isinstance(o.get("color"), int) else 0
         hiz = o.get("speed") if isinstance(o.get("speed"), (int, float)) else None
+        if hiz and hiz > 0 and renk:  # rota süresi için kırpılmamış hali ızgaraya
+            for hat in hatlar:
+                for a, b in zip(hat, hat[1:]):
+                    oge = (a[1], a[0], b[1], b[0], hiz)
+                    for gx in {int(a[0] / DIZIN_DERECE), int(b[0] / DIZIN_DERECE)}:
+                        for gy in {int(a[1] / DIZIN_DERECE), int(b[1] / DIZIN_DERECE)}:
+                            dizin.setdefault((gx, gy), []).append(oge)
         ana = 0 if o.get("tip") == 2 else 1  # İBB: tip 1/3 ana yol (her yakınlıkta), tip 2 ara yol (yalnız yakınlaşınca)
         for hat in hatlar:
             parca = []
@@ -158,7 +167,7 @@ def _indir():
                 if len(parca) > 1:
                     yollar.append([renk, hiz, parca, ana])
                 parca = []
-    return yollar
+    return yollar, dizin
 
 
 def canli_yollar():
@@ -167,10 +176,51 @@ def canli_yollar():
     with _kilit:
         if _canli["veri"] is None or time.time() - _canli["zaman"] > CANLI_SN:
             try:
-                _canli["veri"] = {"zaman": time.strftime("%H:%M"), "yollar": _indir()}
+                yollar, _canli["dizin"] = _indir()
+                _canli["veri"] = {"zaman": time.strftime("%H:%M"), "yollar": yollar}
                 _canli["zaman"] = time.time()
             except (OSError, ValueError, KeyError) as h:
                 if _canli["veri"] is None:
                     return {"zaman": "", "eski": True, "yollar": [], "hata": str(h)[:120]}
                 return {**_canli["veri"], "eski": True}
         return {**_canli["veri"], "eski": False}
+
+
+def _uzaklik_m(lat, lng, o):
+    """Nokta ile segment parçası (lat1, lng1, lat2, lng2, hız) arası metre (yerel düzlem)."""
+    kx = 111320 * math.cos(math.radians(lat))
+    ax, ay, bx, by = (o[1] - lng) * kx, (o[0] - lat) * 110540, (o[3] - lng) * kx, (o[2] - lat) * 110540
+    dx, dy = bx - ax, by - ay
+    t = 0.0 if dx == dy == 0 else max(0.0, min(1.0, -(ax * dx + ay * dy) / (dx * dx + dy * dy)))
+    return math.hypot(ax + t * dx, ay + t * dy)
+
+
+def nokta_hizi(lat, lng):
+    """Noktaya en yakın (ESLESME_M içinde) İBB segmentinin anlık hızı (km/s) ya da None."""
+    gx, gy = int(lng / DIZIN_DERECE), int(lat / DIZIN_DERECE)
+    en, hiz = ESLESME_M, None
+    for x in (gx - 1, gx, gx + 1):
+        for y in (gy - 1, gy, gy + 1):
+            for o in _canli["dizin"].get((x, y), ()):
+                u = _uzaklik_m(lat, lng, o)
+                if u <= en:
+                    en, hiz = u, o[4]
+    return hiz
+
+
+def canli_rota_dk(rota):
+    """yol.rota() sonucunun anlık trafikle süresi: her parça İBB segmentiyle eşleşirse o hızla, yoksa yol servisinin süresiyle.
+    Döner {"dk", "serbestDk", "kapsama" (eşleşen mesafe oranı)} ya da canlı veri yoksa None."""
+    canli_yollar()  # 3 dk'dan eskiyse tazeler
+    if not _canli["dizin"] or not rota:
+        return None
+    toplam = serbest = eslesen = uzun = 0.0
+    k = rota["nokta"]
+    for i, (m, sn) in enumerate(zip(rota["mesafe"], rota["sure"])):
+        (la, lo), (lb, lob) = k[i], k[i + 1]
+        hiz = nokta_hizi((la + lb) / 2, (lo + lob) / 2) if m > 0 else None
+        toplam += m / (hiz / 3.6) if hiz else sn
+        serbest += sn
+        uzun += m
+        eslesen += m if hiz else 0
+    return {"dk": round(toplam / 60, 1), "serbestDk": round(serbest / 60, 1), "kapsama": round(eslesen / uzun, 2) if uzun else 0}

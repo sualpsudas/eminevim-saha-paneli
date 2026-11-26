@@ -324,7 +324,7 @@ def atama_ozet(a):
     g = a["agirlik"]
     km_yazi = f"{_sayi(a['oncelikKm'])} km altı önce" if a["oncelikKm"] else "km önceliği kapalı"
     return (f"yakınlık {g['yakinlik']}, çağrı sayısı {g['yuk']}, ciro H/G {g['ciro']}, randevu H/G {g['randevu']} · {UZAKLIK_TURLERI[a['uzaklik']]}"
-            f" · {km_yazi} · {a['subeSaat']} saat ve sonrası şubeden · günlük en fazla {a['gunlukSinir']} · randevu arası {a['aralikDk']} dk"
+            f" · {km_yazi} · {a['subeSaat']} saat ve sonrası şubeden · {a['canliSaat']} saatten yakın randevuda anlık trafik · günlük en fazla {a['gunlukSinir']} · randevu arası {a['aralikDk']} dk"
             f" · ilçe önceliği {'açık' if a['ilceOnceligi'] else 'kapalı'}")
 
 

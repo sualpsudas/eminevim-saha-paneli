@@ -81,7 +81,9 @@ Teklif sırası puandan önce iki öncelik basamağıyla kurulur (eleme değil; 
 - İleri tarihli çağrıda yakınlık, SPY'nin o günkü randevu yerleri de hesaba katılarak ölçülür. "Araya eklenince ne kadar ek yol getirir"
   ve iki randevu arasında yol süresi kadar boşluk kuralları henüz yok (şimdilik sabit 60 dk); pilot bölge denemesinden sonra.
 - Yönetici her SPY'nin günlük sıralı rotasını haritada görür.
-- **Trafik katmanı (2026-11-26):** takip haritasında sol altta "Trafik" düğmesi; yalnız pilot bölge içindeki yollar, İBB'nin o anki canlı trafiğiyle ve İBB haritasındaki renklerle (yeşil akıcı, turuncu yoğun, kırmızı, koyu kırmızı tıkalı) çizilir, 3 dakikada bir yenilenir. Ara yollar yakınlaşınca görünür; çizginin üstüne gelince anlık hız yazar. Geçmiş ya da saat seçimi yok: hep o anki trafik. Atamadaki varış süresi şimdilik tipik çarpanla; canlı hızı rotaya eklemek sıradaki iş.
+- **Trafik katmanı (2026-11-26):** takip haritasında sol altta "Trafik" düğmesi; yalnız pilot bölge içindeki yollar, İBB'nin o anki canlı trafiğiyle ve İBB haritasındaki renklerle (yeşil akıcı, turuncu yoğun, kırmızı, koyu kırmızı tıkalı) çizilir, 3 dakikada bir yenilenir. Ara yollar yakınlaşınca görünür; çizginin üstüne gelince anlık hız yazar. Geçmiş ya da saat seçimi yok: hep o anki trafik. 
+- **Anlık trafikle varış süresi (2026-11-26):** "Trafikli varış süresi" seçiliyken randevuya **2 saatten az** varsa (hemen çağrılar dahil) her SPY'nin en yakın noktasından müşteriye araç rotası alınır, rotanın her parçasında İBB'nin o anki hızı kullanılır (eşleşmeyen parçalarda yol servisinin süresi). 2 saat ve sonrasında eski yöntem: yol süresi × İBB tipik çarpanı. Süre Atama seçeneklerinde "Anlık trafik (saat)" (0 = hep tipik). Ölçüm: rota noktalarının %95'i İBB yol çizgisine 20 m'den yakın (ortanca 1,8 m).
+- **Sunumda varış:** "Otomatik ilerlet"te SPY yola çıkınca tahmini varış kendi rotasının anlık trafikli süresiyle yazılır; haritadaki yürüyüş bu sürenin her dakikası için 3 sn (10-90 sn). Böylece uzaktaki SPY daha geç varır.
 
 ## 7. Atama seçenekleri (canlı test)
 

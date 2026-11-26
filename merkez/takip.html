@@ -207,6 +207,7 @@
         <label id="apSifirKm"><span class="ad">Sıfır puan (km)</span><input type="number" name="sifirKm" min="1" max="60" inputmode="numeric"></label>
         <label><span class="ad">Öncelikli mesafe (km)</span><input type="number" name="oncelikKm" min="0" max="20" step="0.5" inputmode="decimal"></label>
         <label><span class="ad">Şubeden ölçme (saat)</span><input type="number" name="subeSaat" min="1" max="48" inputmode="numeric"></label>
+        <label id="apCanli"><span class="ad">Anlık trafik (saat)</span><input type="number" name="canliSaat" min="0" max="12" inputmode="numeric"></label>
       </fieldset>
       <fieldset><legend>Eleme ve öncelik</legend>
         <label><span class="ad">Günlük en fazla çağrı</span><input type="number" name="gunlukSinir" min="1" max="20" inputmode="numeric"></label>
@@ -592,17 +593,17 @@
     apBilgi=b; var a=b.ayar;
     OLCUT.forEach(function(o){apForm.elements[o[0]].value=a.agirlik[o[0]];});
     document.getElementById("apTurler").innerHTML=Object.keys(b.turler).map(function(t){return '<label><input type="radio" name="uzaklik" value="'+t+'"'+(a.uzaklik===t?" checked":"")+'><span class="ad">'+e(b.turler[t])+'</span></label>';}).join("");
-    ["sifirDk","sifirKm","gunlukSinir","aralikDk","oncelikKm","subeSaat"].forEach(function(x){apForm.elements[x].value=a[x];});
+    ["sifirDk","sifirKm","gunlukSinir","aralikDk","oncelikKm","subeSaat","canliSaat"].forEach(function(x){apForm.elements[x].value=a[x];});
     apForm.elements.ilceOnceligi.checked=!!a.ilceOnceligi;
     apGorunum(); apAnahtar=""; apSiraCiz();
   }
   function apGorunum(){
     var t=apTur(), sure=t==="trafikli"||t==="yol";
-    document.getElementById("apSifirDk").hidden=!sure; document.getElementById("apSifirKm").hidden=sure;
+    document.getElementById("apSifirDk").hidden=!sure; document.getElementById("apSifirKm").hidden=sure; document.getElementById("apCanli").hidden=t!=="trafikli";
   }
   function apOku(){
     var g={}, f=apForm.elements; OLCUT.forEach(function(o){g[o[0]]=+f[o[0]].value||0;});
-    return {agirlik:g,uzaklik:apTur(),sifirDk:+f.sifirDk.value,sifirKm:+f.sifirKm.value,gunlukSinir:+f.gunlukSinir.value,aralikDk:+f.aralikDk.value,oncelikKm:+String(f.oncelikKm.value).replace(",","."),subeSaat:+f.subeSaat.value,ilceOnceligi:f.ilceOnceligi.checked};
+    return {agirlik:g,uzaklik:apTur(),sifirDk:+f.sifirDk.value,sifirKm:+f.sifirKm.value,gunlukSinir:+f.gunlukSinir.value,aralikDk:+f.aralikDk.value,oncelikKm:+String(f.oncelikKm.value).replace(",","."),subeSaat:+f.subeSaat.value,canliSaat:+f.canliSaat.value,ilceOnceligi:f.ilceOnceligi.checked};
   }
   function apDurum(m,hata){var d=document.getElementById("apDurum");d.textContent=m;d.className="ap-durum"+(hata?" hata":"");}
   function apAc(){
@@ -629,7 +630,7 @@
     var h='<div class="ap-blok"><div class="ap-bb"><b>'+e(baslik)+'</b></div>'+
       '<div class="ap-lejant">'+OLCUT.map(function(o){return '<span><i style="background:'+o[2]+'"></i>'+o[1]+'</span>';}).join("")+'</div>';
     h+=s.adaylar.length?'<ol class="ap-liste">'+s.adaylar.map(function(a,i){
-      var yol=sayi(a.km)+" km"+(a.dk!=null?" · ~"+Math.round(a.dk)+" dk":"")+(a.carpan&&a.carpan!==1?" (trafik ×"+sayi(a.carpan)+")":"")+(a.kaynak==="kus"?" · kuş uçuşu":"")+(a.nereden?" · "+a.nereden:"")+(a.subeIlce?" · şube: "+a.subeIlce:"");
+      var yol=sayi(a.km)+" km"+(a.dk!=null?" · ~"+Math.round(a.dk)+" dk":"")+(a.carpan&&a.carpan!==1?" ("+(a.trafik==="canlı"?"anlık ":"")+"trafik ×"+sayi(a.carpan)+")":"")+(a.kaynak==="kus"?" · kuş uçuşu":"")+(a.nereden?" · "+a.nereden:"")+(a.subeIlce?" · şube: "+a.subeIlce:"");
       return '<li'+(i===0?' class="ilk"':'')+'><div class="ap-sat"><b>'+e(a.ad)+(i===0?(deneme?" · ilk sırada":" · teklif edilen"):"")+(a.ayniIlce?' <span class="ap-onc">aynı ilçe</span>':'')+(a.oncelik?' <span class="ap-onc">'+sayi(s.oncelikKm)+' km altı</span>':'')+'</b><span class="ap-puan">'+sayi(a.puan)+' puan</span></div>'+
         '<div class="ap-bar" aria-hidden="true">'+OLCUT.map(function(o){return '<i style="width:'+(a.parca[o[0]]/top*100)+'%;background:'+o[2]+'"></i>';}).join("")+'</div>'+
         '<div class="ap-ayr">'+OLCUT.map(function(o){return o[1]+" "+sayi(a.parca[o[0]]);}).join(" · ")+'</div>'+

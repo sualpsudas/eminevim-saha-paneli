@@ -65,3 +65,37 @@ def olc(kaynaklar, hedef):
             v = _onbellek.get((_anahtar(n), h))
         sonuc.append({"km": v[0], "dk": v[1], "kaynak": "yol"} if v else _kus(n, hedef))
     return sonuc
+
+
+ROTA_ADRES = "https://router.project-osrm.org/route/v1/driving/"
+_rota_onbellek = {}   # ((lat,lng),(lat,lng)) -> rota
+
+
+def rota(a, b):
+    """a → b araç rotası: {"nokta": [(enlem, boylam)…], "mesafe": [m…], "sure": [sn…]} (parça başına) ya da servis yoksa None.
+    Anlık trafikli süre için (trafik.canli_rota_dk); tek istek, 3 sn zaman aşımı, 60 sn hata bekleme olc() ile ortak."""
+    global _hata_zamani
+    anahtar = (_anahtar(a), _anahtar(b))
+    with _kilit:
+        if anahtar in _rota_onbellek:
+            return _rota_onbellek[anahtar]
+        if time.time() - _hata_zamani <= 60:
+            return None
+    adres = (ROTA_ADRES + f"{a['lng']:.5f},{a['lat']:.5f};{b['lng']:.5f},{b['lat']:.5f}"
+             + "?overview=full&geometries=geojson&annotations=distance,duration")
+    try:
+        with urllib.request.urlopen(urllib.request.Request(adres, headers={"User-Agent": "TasarrufYanimda-test"}), timeout=ZAMAN_ASIMI) as r:
+            v = json.load(r)
+        if v.get("code") != "Ok":
+            raise ValueError(v.get("code"))
+        y = v["routes"][0]
+        sonuc = {"nokta": [(c[1], c[0]) for c in y["geometry"]["coordinates"]],
+                 "mesafe": y["legs"][0]["annotation"]["distance"], "sure": y["legs"][0]["annotation"]["duration"]}
+    except Exception:
+        _hata_zamani = time.time()
+        return None
+    with _kilit:
+        if len(_rota_onbellek) > 2000:
+            _rota_onbellek.clear()
+        _rota_onbellek[anahtar] = sonuc
+    return sonuc
