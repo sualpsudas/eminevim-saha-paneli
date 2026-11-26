@@ -358,6 +358,7 @@
     return '<b>'+e(k.musteri&&k.musteri.ad||"Müşteri")+'</b><br>'+e(ASAMA[k.durum]||k.durum)+(s?' · '+e(s.ad):'')+'<br>'+e(k.yer)+(k.varisZamani&&(k.durum==="yolda"||k.durum==="gorusme")?'<br>Tahmini varış '+saat(k.varisZamani):'')+(DEMO?"":musteriTasinir(k)?TASI_IPUCU:TASINMAZ);
   }
   // Yoldaki SPY → müşteri rotası (gerçek yol: OSRM genel sunucusu; olmazsa kuş uçuşu kesikli çizgi)
+  var ROTA_RENK="#1f6fd1";  // rota çizgisi mavi: trafik renkleriyle (yeşil-sarı-turuncu-kırmızı) karışmasın
   var rotaKatman=L.layerGroup().addTo(harita), rotaOnbellek={}, rotaTur=0;
   function rotalar(){
     rotaKatman.clearLayers(); var tur=++rotaTur;
@@ -366,14 +367,14 @@
       if(k.durum==="atandi"||k.durum==="netlesti"){  // temsilci belli, henüz yolda değil: ince kuş uçuşu çizgi
         if(!gM||!mSec.atandi||!gP||!pSec[s.hal])return;
         var c=s.konumAn||s;
-        L.polyline([[c.lat,c.lng],[k.konum.lat,k.konum.lng]],{color:"#ea803f",weight:1.2,opacity:.75,interactive:false}).addTo(rotaKatman);
+        L.polyline([[c.lat,c.lng],[k.konum.lat,k.konum.lng]],{color:ROTA_RENK,weight:1.2,opacity:.75,interactive:false}).addTo(rotaKatman);
         return;
       }
       if(k.durum!=="yolda"&&k.durum!=="gorusme")return;
       var a=k.yolBaslangic||s.konumAn||s, b=k.konum, anah=k.id+"|"+a.lat.toFixed(4)+","+a.lng.toFixed(4), hazir=rotaOnbellek[anah];
-      if(k.yolRota&&k.yolRota.length>1){if(!k.yolBasladi)L.polyline(k.yolRota.map(function(p){return [p[0],p[1]];}),{color:"#ea803f",weight:3,opacity:.85,interactive:false}).addTo(rotaKatman);return;}  // merkezin seçtiği en hızlı rota
-      if(Array.isArray(hazir)){if(!k.yolBasladi)L.polyline(hazir,{color:"#ea803f",weight:3,opacity:.85,interactive:false}).addTo(rotaKatman);return;}  // yürüyen SPY'nin kalan rotasını kare() çizer
-      if(!k.yolBasladi)L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:"#ea803f",weight:2,opacity:.7,dashArray:"6 8",interactive:false}).addTo(rotaKatman);
+      if(k.yolRota&&k.yolRota.length>1){if(!k.yolBasladi)L.polyline(k.yolRota.map(function(p){return [p[0],p[1]];}),{color:ROTA_RENK,weight:4,opacity:.85,interactive:false}).addTo(rotaKatman);return;}  // merkezin seçtiği en hızlı rota
+      if(Array.isArray(hazir)){if(!k.yolBasladi)L.polyline(hazir,{color:ROTA_RENK,weight:4,opacity:.85,interactive:false}).addTo(rotaKatman);return;}  // yürüyen SPY'nin kalan rotasını kare() çizer
+      if(!k.yolBasladi)L.polyline([[a.lat,a.lng],[b.lat,b.lng]],{color:ROTA_RENK,weight:2,opacity:.7,dashArray:"6 8",interactive:false}).addTo(rotaKatman);
       if(hazir)return;  // "yok": kuş uçuşu kalır
       rotaOnbellek[anah]="bekle";
       fetch("https://router.project-osrm.org/route/v1/driving/"+a.lng+","+a.lat+";"+b.lng+","+b.lat+"?overview=full&geometries=geojson")
@@ -427,7 +428,7 @@
       if(!c){if(k&&kalanCizgi[k.id]&&rotaKatman.hasLayer(kalanCizgi[k.id]))rotaKatman.removeLayer(kalanCizgi[k.id]);return;}
       m.setLatLng([c.lat,c.lng]);
       if(!k)return;
-      var l=kalanCizgi[k.id]; if(!l)l=kalanCizgi[k.id]=L.polyline(c.kalan,{color:"#ea803f",weight:3,opacity:.85,interactive:false});
+      var l=kalanCizgi[k.id]; if(!l)l=kalanCizgi[k.id]=L.polyline(c.kalan,{color:ROTA_RENK,weight:4,opacity:.85,interactive:false});
       l.setLatLngs(c.kalan); if(!rotaKatman.hasLayer(l))l.addTo(rotaKatman);  // ilerledikçe rota kısalır
     });
     requestAnimationFrame(kare);
