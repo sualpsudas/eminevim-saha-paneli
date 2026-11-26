@@ -71,7 +71,7 @@ yazı tipi GOTHIC → "Century Gothic" (site dosyası başka adrese izin vermiyo
 
 - **Atama seçenekleri, yol ve trafik (2026-11-25):** `atama.ayar(veri)` = `ayarlar.ATAMA_VARSAYILAN` + `veri["atamaAyar"]` (sıfırlamada korunur).
   `api/atama-ayar` {islem: oku | kaydet (ayar) | varsayilan | dene (id)}; `dene` çağrıyı değiştirmeden şimdiki seçeneklerle sıralar.
-  Her teklif/yeniden değerlendirmede çağrıya `siralama` {t, uzaklik, agirlik, hemen, adaylar[{id, ad, puan, parca{yakinlik,yuk,ciro,randevu}, km, dk, carpan, kaynak, cagri}], elenen[{id, ad, neden}]} ve `varisDk` yazılır.
+  Her teklif/yeniden değerlendirmede çağrıya `siralama` {t, uzaklik, agirlik, hemen, adaylar[{id, ad, puan, parca{yakinlik,yuk,ciro,randevu}, km, dk, carpan, kaynak, cagri, ciroHG, randevuHG, gunlukSinir}], elenen[{id, ad, neden}]} ve `varisDk` yazılır.
   `yol.olc(noktalar, hedef)`: OSRM `table` (sources=adaylar, destinations=müşteri) tek istek, 3 sn zaman aşımı, bellekte önbellek (~10 m), hata olursa 60 sn kuş uçuşu.
   `trafik.carpan(a, b, gun, saat)`: düz hat üstündeki 5 noktanın geohash-6 karelerinin ortalaması (`veri/trafik-carpan.json`; yeniden üretmek için
   İBB aylık CSV'leri indirilip `python araclar/trafik_hazirla.py <csv...>`; CSV'ler depoya girmez). `sureleri_denetle` sık yoklamada `adaylar(..., olc=False)` kullanır (yol servisine istek gitmez).

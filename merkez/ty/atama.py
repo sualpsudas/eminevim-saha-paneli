@@ -216,6 +216,7 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
                     + (" (kuş uçuşu)" if enyakin["kaynak"] == "kus" else ""))
         gerekce = f"{yol_yazi} ({enyakin['nereden']}) · {'bugün' if tarih == bugun() else 'o gün'} {len(benim)} çağrı · ciro/randevu H/G %{s.get('ciroHG')}/%{s.get('randevuHG')}"
         ayrinti = {"parca": parca, "km": enyakin["km"], "dk": enyakin["dk"], "carpan": enyakin["carpan"], "trafik": enyakin["trafik"], "rotaSayisi": enyakin.get("rotaSayisi", 0), "kaynak": enyakin["kaynak"], "cagri": len(benim),
+                   "ciroHG": s.get("ciroHG"), "randevuHG": s.get("randevuHG"), "gunlukSinir": sinir,
                    "nereden": enyakin["nereden"], "oncelik": yakin, "ayniIlce": ayni_ilce, "subeIlce": sube_ilce(s)}
         sonuc.append((puan, s, gerekce, enyakin["km"], ayrinti))
     return sorted(sonuc, key=lambda x: (not x[4]["ayniIlce"], not x[4]["oncelik"], -x[0]))

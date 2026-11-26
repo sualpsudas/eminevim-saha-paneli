@@ -1068,3 +1068,6 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-26 (3): Atamada 2 saate kadar anlık trafik (rota + İBB segment hızı), sonrası tipik çarpan; Atama seçeneklerine "Anlık trafik (saat)". Sunumda varış her SPY'nin kendi rotasından (önceden herkes 10 dk / 30 sn). Yakın görünümdeki çizgi kayması ölçüldü: ortanca 1,8 m, rotayı etkilemiyor.
 - 2026-11-26 (4): Rota aşama 1: yol servisinin 1-3 alternatif rotasından anlık trafikle en kısa süreli olan seçiliyor (atama + sunum varışı). Sıradaki aşama (konuşulacak): seçilen rotanın kaydı, SPY'nin yoldaki hıza göre hareketi, haritada aynı rotanın çizimi.
 - 2026-11-26 (5): Rota aşama 2: sunumda seçilen en hızlı rota zamanlı kaydediliyor (yolRota), harita aynı rotayı çiziyor, SPY her yolun anlık hızına göre ilerliyor; merkez ve harita aynı konumu hesaplıyor. Yolda yeniden hesaplama yok (karar). Açık: gerçek SPY'de tahmini varış güncellemesi (kullanıcı sonra bakacak).
+
+
+- **2026-11-26:** Atama seçeneklerinde adaylar ad, süre ve puanla tek satırda gösterilir; açılan ayrıntıda ölçütlerin gerçek değerleri ve puan katkıları görünür. Puan hesabı değişmedi.

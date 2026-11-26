@@ -158,17 +158,19 @@
   .ap-blok{border:1px solid var(--cizgi);border-radius:12px;padding:10px 12px;margin:10px 0}
   .ap-bb{display:flex;flex-direction:column;gap:2px;margin-bottom:6px}
   .ap-bb span{font-size:12px;color:var(--yazi)}
-  .ap-lejant{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--yazi);margin-bottom:4px}
-  .ap-lejant i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:4px;vertical-align:-1px}
-  .ap-liste{margin:0;padding-left:22px}
-  .ap-liste li{padding:7px 0;border-top:1px solid #eee}
+  .ap-liste{margin:0;padding:0;list-style:none}
+  .ap-liste li{padding:6px 0;border-top:1px solid #eee}
   .ap-liste li:first-child{border-top:0}
-  .ap-liste li.ilk b{color:var(--yesil)}
-  .ap-sat{display:flex;justify-content:space-between;gap:8px}
-  .ap-puan{font-weight:700;font-variant-numeric:tabular-nums}
-  .ap-bar{display:flex;height:8px;background:#eef0ee;border-radius:4px;overflow:hidden;margin:4px 0}
-  .ap-bar i{display:block;height:100%}
-  .ap-ayr{font-size:12px;color:var(--yazi);line-height:1.45}
+  .ap-sat{display:flex;align-items:center;gap:5px;width:100%;padding:3px 0;border:0;background:transparent;text-align:left;color:inherit;font:inherit;cursor:pointer;min-width:0}
+  .ap-ad{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1}
+  .ap-liste li.ilk .ap-ad{color:var(--yesil);font-weight:700}
+  .ap-yakin{white-space:nowrap;font-size:12px;color:var(--yazi)}
+  .ap-puan{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .ap-ayr{font-size:12px;color:var(--yazi);line-height:1.45;padding:6px 0 2px}
+  .ap-olcut{display:grid;grid-template-columns:105px minmax(0,1fr) auto;gap:6px;padding:2px 0}
+  .ap-olcut i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px}
+  .ap-deger{color:var(--koyu)}
+  @media(max-width:500px){.ap-sat{gap:6px;font-size:13px}.ap-yakin{font-size:12px}.ap-olcut{grid-template-columns:95px minmax(0,1fr) auto}}
   .ap-elenen{font-size:13px;margin-top:8px}
   .ap-elenen summary{cursor:pointer;min-height:32px;line-height:32px}
   .ap-elenen ul{margin:2px 0 0;padding-left:18px;color:var(--yazi)}
@@ -590,6 +592,7 @@
   });
   // Atama seçenekleri (merkez: api/atama-ayar): ağırlıklar, uzaklık türü, eleme sınırları; altta seçili çağrının aday sıralaması
   var ap=document.getElementById("ap"), apOrt=document.getElementById("apOrt"), apForm=document.getElementById("apForm"), apBilgi=null, apDeneme=null, apSecili="", apAnahtar="";
+  var apAcik=new Set();
   var OLCUT=[["yakinlik","Yakınlık","#00724c"],["yuk","Çağrı sayısı","#ea803f"],["ciro","Ciro H/G","#3f7fb8"],["randevu","Randevu H/G","#9a7bc0"]];
   function apIstek(govde){
     return fetch("api/atama-ayar",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(govde)})
@@ -634,15 +637,25 @@
       .catch(function(err){apDurum("İşlem yapılamadı: "+err.message,true);});
   });
   function apSiraHtml(s,baslik,deneme){
-    var ag=s.agirlik||{}, top=OLCUT.reduce(function(t,o){return t+(ag[o[0]]||0);},0)||100;
-    var h='<div class="ap-blok"><div class="ap-bb"><b>'+e(baslik)+'</b></div>'+
-      '<div class="ap-lejant">'+OLCUT.map(function(o){return '<span><i style="background:'+o[2]+'"></i>'+o[1]+'</span>';}).join("")+'</div>';
+    var h='<div class="ap-blok"><div class="ap-bb"><b>'+e(baslik)+'</b></div>';
     h+=s.adaylar.length?'<ol class="ap-liste">'+s.adaylar.map(function(a,i){
-      var yol=sayi(a.km)+" km"+(a.dk!=null?" · ~"+Math.round(a.dk)+" dk":"")+(a.carpan&&a.carpan!==1?" ("+(a.trafik==="canlı"?"anlık ":"")+"trafik ×"+sayi(a.carpan)+(a.rotaSayisi>1?" · "+a.rotaSayisi+" rotadan en hızlısı":"")+")":"")+(a.kaynak==="kus"?" · kuş uçuşu":"")+(a.nereden?" · "+a.nereden:"")+(a.subeIlce?" · şube: "+a.subeIlce:"");
-      return '<li'+(i===0?' class="ilk"':'')+'><div class="ap-sat"><b>'+e(a.ad)+(i===0?(deneme?" · ilk sırada":" · teklif edilen"):"")+(a.ayniIlce?' <span class="ap-onc">aynı ilçe</span>':'')+(a.oncelik?' <span class="ap-onc">'+sayi(s.oncelikKm)+' km altı</span>':'')+'</b><span class="ap-puan">'+sayi(a.puan)+' puan</span></div>'+
-        '<div class="ap-bar" aria-hidden="true">'+OLCUT.map(function(o){return '<i style="width:'+(a.parca[o[0]]/top*100)+'%;background:'+o[2]+'"></i>';}).join("")+'</div>'+
-        '<div class="ap-ayr">'+OLCUT.map(function(o){return o[1]+" "+sayi(a.parca[o[0]]);}).join(" · ")+'</div>'+
-        '<div class="ap-ayr">'+e(yol)+' · o gün '+a.cagri+' çağrı</div></li>';
+      var key=apSecili+":"+a.id, acik=apAcik.has(key), parca=a.parca||{};
+      var km=a.kaynak==="yok"||a.km==null?"—":sayi(a.km)+" km";
+      var ozet=a.dk!=null&&a.kaynak!=="yok"?"~"+Math.round(a.dk)+" dk":"—";
+      var detay=[];
+      if(a.trafik&&a.carpan)detay.push((a.trafik==="canlı"?"anlık trafik":"tipik trafik")+" ×"+sayi(a.carpan));
+      if(a.rotaSayisi>1)detay.push(a.rotaSayisi+" rotadan en hızlısı");
+      if(a.kaynak==="kus")detay.push("kuş uçuşu");
+      var yakin=km+(a.dk!=null&&a.kaynak!=="yok"?" · "+sayi(a.dk)+" dk":"");
+      if(detay.length)yakin+=" ("+detay.join(" · ")+")";
+      if(a.nereden)yakin+=" · "+a.nereden;
+      if(a.subeIlce)yakin+=" · şube: "+a.subeIlce;
+      if(a.ayniIlce)yakin+=" · aynı ilçe";
+      if(a.oncelik)yakin+=" · "+sayi(s.oncelikKm)+" km altı";
+      var eski=(a.gerekce||"").match(/ciro\/randevu H\/G %([\d.,]+)\/%([\d.,]+)/);
+      var ciro=a.ciroHG!=null?a.ciroHG:(eski?eski[1]:null), randevu=a.randevuHG!=null?a.randevuHG:(eski?eski[2]:null);
+      var deger=[yakin,"o gün "+(a.cagri==null?"—":sayi(a.cagri))+" / "+(a.gunlukSinir==null?"—":sayi(a.gunlukSinir)),ciro==null?"—":"%"+sayi(ciro),randevu==null?"—":"%"+sayi(randevu)];
+      return '<li'+(i===0?' class="ilk"':'')+'><button type="button" class="ap-sat" data-ap-aday="'+e(key)+'" aria-expanded="'+acik+'"><span class="ap-ad">'+e(a.ad)+'</span><span class="ap-yakin">'+e(ozet)+'</span><span class="ap-puan">'+e(sayi(a.puan))+' puan</span></button><div class="ap-ayr"'+(acik?'':' hidden')+'>'+OLCUT.map(function(o,j){return '<div class="ap-olcut"><span><i style="background:'+o[2]+'"></i>'+o[1]+'</span><span class="ap-deger">'+e(deger[j])+'</span><span>'+e(parca[o[0]]==null?"—":sayi(parca[o[0]])+" p")+'</span></div>';}).join("")+'</div></li>';
     }).join("")+'</ol>':'<p class="ap-not">Uygun SPY yok.</p>';
     if(s.elenen&&s.elenen.length)h+='<details class="ap-elenen"><summary>Elenen '+s.elenen.length+' SPY</summary><ul>'+s.elenen.map(function(x){return '<li>'+e(x.ad)+' — '+e(x.neden)+'</li>';}).join("")+'</ul></details>';
     return h+'</div>';
@@ -667,6 +680,9 @@
   }
   document.getElementById("apCagri").addEventListener("change",function(){apSecili=this.value;apDeneme=null;apSiraCiz();});
   document.getElementById("apSira").addEventListener("click",function(ev){
+    var sat=ev.target.closest("[data-ap-aday]");
+    if(sat){var key=sat.getAttribute("data-ap-aday"), ac=!apAcik.has(key); if(ac)apAcik.add(key);else apAcik.delete(key);
+      document.querySelectorAll("[data-ap-aday]").forEach(function(b){if(b.getAttribute("data-ap-aday")===key){b.setAttribute("aria-expanded",String(ac));b.nextElementSibling.hidden=!ac;}});return;}
     if(ev.target.id!=="apDene")return;
     ev.target.disabled=true;
     apIstek({islem:"dene",id:apSecili}).then(function(r){r.t=Date.now();apDeneme=r;apSiraCiz();})
