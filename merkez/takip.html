@@ -167,6 +167,7 @@
   .ap-yakin{white-space:nowrap;font-size:12px;color:var(--yazi)}
   .ap-puan{font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
   .ap-ayr{font-size:12px;color:var(--yazi);line-height:1.45;padding:6px 0 2px}
+  .ap-sube{margin:0 0 6px;color:var(--yazi)}
   .ap-olcut{display:grid;grid-template-columns:105px minmax(0,1fr) auto;gap:6px;padding:2px 0}
   .ap-olcut i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px}
   .ap-deger{color:var(--koyu)}
@@ -642,20 +643,13 @@
       var key=apSecili+":"+a.id, acik=apAcik.has(key), parca=a.parca||{};
       var km=a.kaynak==="yok"||a.km==null?"—":sayi(a.km)+" km";
       var ozet=a.dk!=null&&a.kaynak!=="yok"?"~"+Math.round(a.dk)+" dk":"—";
-      var detay=[];
-      if(a.trafik&&a.carpan)detay.push((a.trafik==="canlı"?"anlık trafik":"tipik trafik")+" ×"+sayi(a.carpan));
-      if(a.rotaSayisi>1)detay.push(a.rotaSayisi+" rotadan en hızlısı");
-      if(a.kaynak==="kus")detay.push("kuş uçuşu");
       var yakin=km+(a.dk!=null&&a.kaynak!=="yok"?" · "+sayi(a.dk)+" dk":"");
-      if(detay.length)yakin+=" ("+detay.join(" · ")+")";
-      if(a.nereden)yakin+=" · "+a.nereden;
-      if(a.subeIlce)yakin+=" · şube: "+a.subeIlce;
-      if(a.ayniIlce)yakin+=" · aynı ilçe";
-      if(a.oncelik)yakin+=" · "+sayi(s.oncelikKm)+" km altı";
+      var spy=veri.spyler.find(function(x){return x.id===a.id;});
+      var sube=(spy&&spy.sube)||a.subeIlce||"";
       var eski=(a.gerekce||"").match(/ciro\/randevu H\/G %([\d.,]+)\/%([\d.,]+)/);
       var ciro=a.ciroHG!=null?a.ciroHG:(eski?eski[1]:null), randevu=a.randevuHG!=null?a.randevuHG:(eski?eski[2]:null);
       var deger=[yakin,"o gün "+(a.cagri==null?"—":sayi(a.cagri))+" / "+(a.gunlukSinir==null?"—":sayi(a.gunlukSinir)),ciro==null?"—":"%"+sayi(ciro),randevu==null?"—":"%"+sayi(randevu)];
-      return '<li'+(i===0?' class="ilk"':'')+'><button type="button" class="ap-sat" data-ap-aday="'+e(key)+'" aria-expanded="'+acik+'"><span class="ap-ad">'+e(a.ad)+'</span><span class="ap-yakin">'+e(ozet)+'</span><span class="ap-puan">'+e(sayi(a.puan))+' puan</span></button><div class="ap-ayr"'+(acik?'':' hidden')+'>'+OLCUT.map(function(o,j){return '<div class="ap-olcut"><span><i style="background:'+o[2]+'"></i>'+o[1]+'</span><span class="ap-deger">'+e(deger[j])+'</span><span>'+e(parca[o[0]]==null?"—":sayi(parca[o[0]])+" p")+'</span></div>';}).join("")+'</div></li>';
+      return '<li'+(i===0?' class="ilk"':'')+'><button type="button" class="ap-sat" data-ap-aday="'+e(key)+'" aria-expanded="'+acik+'"><span class="ap-ad">'+e(a.ad)+'</span><span class="ap-yakin">'+e(ozet)+'</span><span class="ap-puan">'+e(sayi(a.puan))+' puan</span></button><div class="ap-ayr"'+(acik?'':' hidden')+'>'+(sube?'<div class="ap-sube">'+e(sube)+'</div>':'')+OLCUT.map(function(o,j){return '<div class="ap-olcut"><span><i style="background:'+o[2]+'"></i>'+o[1]+'</span><span class="ap-deger">'+e(deger[j])+'</span><span>'+e(parca[o[0]]==null?"—":sayi(parca[o[0]])+" p")+'</span></div>';}).join("")+'</div></li>';
     }).join("")+'</ol>':'<p class="ap-not">Uygun SPY yok.</p>';
     if(s.elenen&&s.elenen.length)h+='<details class="ap-elenen"><summary>Elenen '+s.elenen.length+' SPY</summary><ul>'+s.elenen.map(function(x){return '<li>'+e(x.ad)+' — '+e(x.neden)+'</li>';}).join("")+'</ul></details>';
     return h+'</div>';

@@ -1071,3 +1071,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 
 
 - **2026-11-26:** Atama seçeneklerinde adaylar ad, süre ve puanla tek satırda gösterilir; açılan ayrıntıda ölçütlerin gerçek değerleri ve puan katkıları görünür. Puan hesabı değişmedi.
+- **2026-11-26:** Çağrı sıralaması ayrıntısında şube adı ismin altında gösterilir; yakınlık yalnız km ve dakika olarak sadeleştirildi.

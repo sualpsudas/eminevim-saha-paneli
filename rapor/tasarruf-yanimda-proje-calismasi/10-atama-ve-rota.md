@@ -92,8 +92,7 @@ Takip sayfasında (Saha Canlı) üstteki **Atama seçenekleri** düğmesi:
 - Dört ağırlık, yakınlığın nasıl ölçüleceği (trafikli varış süresi / trafiksiz yol süresi / yol km / kuş uçuşu km) ve sıfır eşiği,
   2 km önceliği (0: kapalı), şubeden ölçme eşiği (4 saat), günlük en fazla çağrı, randevu arası, ilçe önceliği değiştirilebilir. Kaydedince sonraki çağrılarda geçerli; test verisi sıfırlansa da korunur;
   "Varsayılana dön" yukarıdaki kurallara döndürür.
-- **Çağrı sıralaması:** her adayın adı, süresi ve puanı tek satırda görünür; satır açılınca ölçütlerin gerçek değerleri ve puan katkıları, km, varış süresi, trafik çarpanı, nereden ölçüldüğü
-  (şu anki yeri / şubesi / randevusu), şubesinin ilçesi, "aynı ilçe" ve "2 km altı" etiketleri; elenenler gerekçesiyle.
+- **Çağrı sıralaması:** her adayın adı, süresi ve puanı tek satırda görünür; satır açılınca şubesi, ölçütlerin gerçek değerleri ve puan katkıları görünür. Yakınlık yalnız km ve dakika olarak gösterilir; elenenler gerekçesiyle listelenir.
   "Şimdiki seçeneklerle yeniden hesapla" aynı çağrıyı yeni seçeneklerle sıralar; çağrıyı değiştirmez.
 
 ## 8. Test sürümü
