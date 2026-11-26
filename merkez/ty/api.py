@@ -3,6 +3,7 @@
 Adresler (hepsi gizli yolun altında: /<gizli_yol.txt>/...):
   GET  api/durum?surum=&spy=|ids=|hepsi   değişen çağrılar + SPY özetleri (uygulama 2-3 sn'de bir yoklar)
   GET  api/anahtar                        bildirim açık anahtarı
+  GET  api/trafik-yol                     takip haritasının canlı trafik yolları, pilot bölge içi (trafik.canli_yollar)
   POST api/cagri, api/kayit, ...          islemler.YOLLAR
   POST api/abone, api/abone-sil           bildirim aboneliği (bildirim.py)
   GET  takip                              yönetici takip sayfası (merkez/takip.html)
@@ -22,7 +23,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote
 
-from . import bildirim, depo
+from . import bildirim, depo, trafik
 from .atama import sureleri_denetle
 from .sunum import sunum_denetle
 from .ayarlar import ANAHTAR, KLASOR, KOK, PID, PORT, STATIK_KLASOR, STATIK_KOK, STATIK_UZANTI, SURUM_DOSYALARI, UYGULAMA
@@ -159,6 +160,8 @@ class Isleyici(BaseHTTPRequestHandler):
             return self._yanit(200, (KLASOR / "canli-sw.js").read_bytes(), "text/javascript; charset=utf-8")
         if yol == "api/durum":
             return self._yanit(200, self._durum())
+        if yol == "api/trafik-yol":
+            return self._yanit(200, trafik.canli_yollar())
         dosya = self._statik(yol)
         if not dosya:
             return self._yanit(404, {"hata": "Bulunamadı"})

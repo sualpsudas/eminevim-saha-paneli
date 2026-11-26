@@ -535,22 +535,37 @@
       .then(function(){surum=0;tur();})
       .catch(function(err){ip.textContent=err.message;ip.hidden=false;setTimeout(function(){ip.hidden=true;ip.textContent="Haritada müşterinin yerine dokunun";},4000);});
   });
-  // Trafik katmanı: İBB tipik trafik çarpanı (veri/trafik-carpan.json, geohash-6 kareler); gün tipi + saat −/+ ile değişir. Atamada kullanılan veriyle aynı.
-  var TR_RENK=[[1.15,"#2e9d5b"],[1.35,"#f2c94c"],[1.6,"#f2994a"],[99,"#d64545"]], trVeri=null, trKatman=null, trGun="hi", trSaat=new Date().getHours();
-  (function(){var g=new Date().getDay();trGun=g===0?"pzr":g===6?"cmt":"hi";})();
+  // Trafik katmanı: pilot bölge içindeki yollar (merkez api/trafik-yol: İBB canlı trafik karoları, ilçe sınırına kırpılmış).
+  // "Şimdi" = İBB canlı renkleri (3 dk'da bir yenilenir); başka gün/saat = o yolun İBB tipik trafik çarpanı (veri/trafik-carpan.json, atamadaki veri).
+  var TR_RENK=[[1.15,"#2e9d5b"],[1.35,"#f2c94c"],[1.6,"#f2994a"],[99,"#d64545"]], IBB_RENK={1:0,2:0,3:1,4:2,5:3};
+  var trVeri=null, trYol=null, trKatman=null, trGun="hi", trSaat=0, trSaatlik=null;
+  function trSimdi(){var d=new Date(),g=d.getDay();return {gun:g===0?"pzr":g===6?"cmt":"hi",saat:d.getHours()};}
+  (function(){var n=trSimdi();trGun=n.gun;trSaat=n.saat;})();
+  function trCanliMi(){var n=trSimdi();return trGun===n.gun&&trSaat===n.saat;}
   function trRenk(c){for(var i=0;i<TR_RENK.length;i++)if(c<TR_RENK[i][0])return TR_RENK[i][1];return TR_RENK[3][1];}
-  function geoKutu(h){  // geohash → [[güney,batı],[kuzey,doğu]]
-    var b="0123456789bcdefghjkmnpqrstuvwxyz", la=[-90,90], lo=[-180,180], cift=true;
-    for(var i=0;i<h.length;i++){var v=b.indexOf(h[i]);for(var k=4;k>=0;k--){var a=cift?lo:la, o=(a[0]+a[1])/2;if((v>>k)&1)a[0]=o;else a[1]=o;cift=!cift;}}
-    return [[la[0],lo[0]],[la[1],lo[1]]];
-  }
   harita.createPane("trafik").style.zIndex=350;
+  var trCizici=L.canvas({pane:"trafik",padding:.3});
   function trCiz(){
-    document.getElementById("trSaat").value=("0"+trSaat).slice(-2)+":00";
-    if(!trVeri)return;
-    if(!trKatman){trKatman=L.layerGroup();Object.keys(trVeri.hucre).forEach(function(h){trKatman.addLayer(L.rectangle(geoKutu(h),{pane:"trafik",stroke:false,fillOpacity:.32,interactive:false,hucre:h}));});}
-    trKatman.eachLayer(function(r){var c=(trVeri.hucre[r.options.hucre][trGun]||[])[trSaat]||1;r.setStyle({fillColor:trRenk(c)});});
-    if(!harita.hasLayer(trKatman))trKatman.addTo(harita);
+    var canli=trCanliMi(), cikti=document.getElementById("trSaat");
+    cikti.value=canli?"Şimdi":("0"+trSaat).slice(-2)+":00";
+    cikti.title=canli&&trYol&&trYol.zaman?"İBB canlı trafik "+trYol.zaman+(trYol.eski?" (son alınan)":""):"İBB tipik trafik";
+    if(!trYol)return;
+    if(trKatman)harita.removeLayer(trKatman);
+    trKatman=L.layerGroup();
+    trYol.yollar.forEach(function(y){
+      var renk;
+      if(canli){if(!y[0])return;renk=TR_RENK[IBB_RENK[y[0]]][1];}
+      else{var h=trVeri&&trVeri.hucre[y[1]],c=h?(h[trGun]||[])[trSaat]:trVeri&&trVeri.genel&&trVeri.genel[trGun][trSaat];renk=trRenk(c||1);}
+      trKatman.addLayer(L.polyline(y[2],{renderer:trCizici,color:renk,weight:3,opacity:.85,interactive:false}));
+    });
+    trKatman.addTo(harita);
+  }
+  function trYukle(){
+    return Promise.all([
+      trVeri?Promise.resolve(trVeri):fetch(KOK+"veri/trafik-carpan.json").then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
+      DEMO?Promise.reject(new Error("demo")):fetch("api/trafik-yol").then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+    ]).then(function(v){trVeri=v[0];if(v[1].yollar.length)trYol=v[1];trCiz();if(!trYol)document.getElementById("trSaat").value="veri yok";})
+      .catch(function(){document.getElementById("trSaat").value="veri yok";});
   }
   var trafikBtn=L.control({position:"bottomleft"});
   trafikBtn.onAdd=function(){
@@ -566,10 +581,10 @@
   document.getElementById("trAc").addEventListener("click",function(){
     var ac=this.getAttribute("aria-pressed")!=="true";
     this.setAttribute("aria-pressed",ac);this.classList.toggle("acik",ac);document.getElementById("trAyar").hidden=!ac;
-    if(!ac){if(trKatman)harita.removeLayer(trKatman);return;}
-    if(trVeri){trCiz();return;}
-    fetch(KOK+"veri/trafik-carpan.json").then(function(r){if(!r.ok)throw new Error(r.status);return r.json();}).then(function(v){trVeri=v;trCiz();})
-      .catch(function(){document.getElementById("trSaat").value="veri yok";});
+    clearInterval(trSaatlik);
+    if(!ac){if(trKatman)harita.removeLayer(trKatman);trKatman=null;return;}
+    trYukle();
+    trSaatlik=setInterval(function(){if(trCanliMi())trYukle();},180000);  // canlı renkler 3 dk'da bir
   });
   document.getElementById("trGun").addEventListener("change",function(){trGun=this.value;trCiz();});
   document.getElementById("trEksi").addEventListener("click",function(){trSaat=(trSaat+23)%24;trCiz();});

@@ -81,7 +81,7 @@ Teklif sırası puandan önce iki öncelik basamağıyla kurulur (eleme değil; 
 - İleri tarihli çağrıda yakınlık, SPY'nin o günkü randevu yerleri de hesaba katılarak ölçülür. "Araya eklenince ne kadar ek yol getirir"
   ve iki randevu arasında yol süresi kadar boşluk kuralları henüz yok (şimdilik sabit 60 dk); pilot bölge denemesinden sonra.
 - Yönetici her SPY'nin günlük sıralı rotasını haritada görür.
-- **Trafik katmanı (2026-11-26):** takip haritasında sol altta "Trafik" düğmesi; aynı İBB çarpanı kare kare renkli (yeşil ×1,15 altı, sarı, turuncu, kırmızı ×1,6 üstü), gün tipi (hafta içi / cumartesi / pazar) ve saat −/+ ile değişir.
+- **Trafik katmanı (2026-11-26):** takip haritasında sol altta "Trafik" düğmesi; yalnız pilot bölge içindeki yollar renkli çizilir. "Şimdi" İBB'nin canlı trafik durumunu gösterir (3 dakikada bir yenilenir); gün tipi (hafta içi / cumartesi / pazar) ve saat −/+ ile başka saate geçilince aynı yollar atamada kullanılan İBB tipik çarpanıyla renklenir (yeşil ×1,15 altı, sarı, turuncu, kırmızı ×1,6 üstü). Atamadaki varış süresi canlı trafiği değil tipik çarpanı kullanır.
 
 ## 7. Atama seçenekleri (canlı test)
 
