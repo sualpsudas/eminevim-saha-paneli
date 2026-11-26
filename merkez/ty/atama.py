@@ -11,7 +11,7 @@ import time
 from . import trafik, yol
 from .ayarlar import ATAMA_VARSAYILAN, HEMEN_DK, HG_TAVAN, KABUL_SN, KAPALI_DURUMLAR, UZAKLIK_TURLERI
 from .bildirim import bildir, bildir_musteri
-from .bolge import ilce_bul
+from .bolge import bolgede_mi, ilce_bul
 from .konum import anlik_konum
 from .personel import SUBELER
 from .yardim import bugun, dakika, damga, km, olay, simdi
@@ -147,6 +147,11 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
         if s["id"] in haric:
             ele(s, "daha önce teklif edildi ya da devretti")
             continue
+        if not subeden:  # 2026-11-26: SPY haritada pilot bölge dışına taşınabilir / gezerken çıkabilir; şu anki yerinden yola çıkacağı çağrıyı dışarıdayken almaz
+            simdiki = anlik_konum(veri, s)  # (şubeden çıkılacak ileri saatli randevuda şu anki yeri önemsiz)
+            if not bolgede_mi(simdiki["lat"], simdiki["lng"]):
+                ele(s, "pilot bölge dışında")
+                continue
         benim = [x for x in gun_kayit if x.get("repId") == s["id"]]
         if len(benim) >= sinir:
             ele(s, f"günlük sınır dolu ({len(benim)}/{sinir})")
