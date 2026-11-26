@@ -209,7 +209,7 @@ def nokta_hizi(lat, lng):
 
 
 def canli_rota_dk(rota):
-    """yol.rota() sonucunun anlık trafikle süresi: her parça İBB segmentiyle eşleşirse o hızla, yoksa yol servisinin süresiyle.
+    """yol.rotalar() rotalarından birinin anlık trafikle süresi: her parça İBB segmentiyle eşleşirse o hızla, yoksa yol servisinin süresiyle.
     Döner {"dk", "serbestDk", "kapsama" (eşleşen mesafe oranı)} ya da canlı veri yoksa None."""
     canli_yollar()  # 3 dk'dan eskiyse tazeler
     if not _canli["dizin"] or not rota:

@@ -71,29 +71,28 @@ ROTA_ADRES = "https://router.project-osrm.org/route/v1/driving/"
 _rota_onbellek = {}   # ((lat,lng),(lat,lng)) -> rota
 
 
-def rota(a, b):
-    """a → b araç rotası: {"nokta": [(enlem, boylam)…], "mesafe": [m…], "sure": [sn…]} (parça başına) ya da servis yoksa None.
-    Anlık trafikli süre için (trafik.canli_rota_dk); tek istek, 3 sn zaman aşımı, 60 sn hata bekleme olc() ile ortak."""
+def rotalar(a, b):
+    """a → b araç rotası seçenekleri (yol servisinin önerdiği 1-3 rota): [{"nokta": [(enlem, boylam)…], "mesafe": [m…], "sure": [sn…], "km"}…]
+    (parça başına mesafe/süre) ya da servis yoksa []. Hangisinin en hızlı olduğu anlık trafikle seçilir (atama.en_hizli_rota)."""
     global _hata_zamani
     anahtar = (_anahtar(a), _anahtar(b))
     with _kilit:
         if anahtar in _rota_onbellek:
             return _rota_onbellek[anahtar]
         if time.time() - _hata_zamani <= 60:
-            return None
+            return []
     adres = (ROTA_ADRES + f"{a['lng']:.5f},{a['lat']:.5f};{b['lng']:.5f},{b['lat']:.5f}"
-             + "?overview=full&geometries=geojson&annotations=distance,duration")
+             + "?overview=full&geometries=geojson&annotations=distance,duration&alternatives=3")
     try:
         with urllib.request.urlopen(urllib.request.Request(adres, headers={"User-Agent": "TasarrufYanimda-test"}), timeout=ZAMAN_ASIMI) as r:
             v = json.load(r)
         if v.get("code") != "Ok":
             raise ValueError(v.get("code"))
-        y = v["routes"][0]
-        sonuc = {"nokta": [(c[1], c[0]) for c in y["geometry"]["coordinates"]],
-                 "mesafe": y["legs"][0]["annotation"]["distance"], "sure": y["legs"][0]["annotation"]["duration"]}
+        sonuc = [{"nokta": [(c[1], c[0]) for c in y["geometry"]["coordinates"]], "km": round(y["distance"] / 1000, 1),
+                  "mesafe": y["legs"][0]["annotation"]["distance"], "sure": y["legs"][0]["annotation"]["duration"]} for y in v["routes"]]
     except Exception:
         _hata_zamani = time.time()
-        return None
+        return []
     with _kilit:
         if len(_rota_onbellek) > 2000:
             _rota_onbellek.clear()

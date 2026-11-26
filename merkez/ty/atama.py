@@ -199,9 +199,9 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
             if enyakin is None or o["deger"] < enyakin["deger"]:
                 enyakin = o
         if canli and enyakin["kaynak"] == "yol":  # randevuya canliSaat'ten az: en yakın noktadan rota, İBB anlık hızıyla
-            c = trafik.canli_rota_dk(yol.rota(enyakin["_n"], konum))
+            c = en_hizli_rota(enyakin["_n"], konum)
             if c and c["serbestDk"] > 0:
-                enyakin.update(dk=c["dk"], carpan=round(c["dk"] / c["serbestDk"], 2), trafik="canlı")
+                enyakin.update(dk=c["dk"], km=c["km"], carpan=round(c["dk"] / c["serbestDk"], 2), trafik="canlı", rotaSayisi=c["secenek"])
                 enyakin["deger"] = enyakin["dk"]
         enyakin.pop("_n", None)
         yakin = A["oncelikKm"] > 0 and konumlu and enyakin["km"] < A["oncelikKm"]
@@ -215,7 +215,7 @@ def adaylar(veri, k, haric=(), elenen=None, olc=True):
         yol_yazi = (f"{_sayi(enyakin['km'])} km" + (f" · ~{round(enyakin['dk'])} dk" if enyakin["dk"] is not None else "")
                     + (" (kuş uçuşu)" if enyakin["kaynak"] == "kus" else ""))
         gerekce = f"{yol_yazi} ({enyakin['nereden']}) · {'bugün' if tarih == bugun() else 'o gün'} {len(benim)} çağrı · ciro/randevu H/G %{s.get('ciroHG')}/%{s.get('randevuHG')}"
-        ayrinti = {"parca": parca, "km": enyakin["km"], "dk": enyakin["dk"], "carpan": enyakin["carpan"], "trafik": enyakin["trafik"], "kaynak": enyakin["kaynak"], "cagri": len(benim),
+        ayrinti = {"parca": parca, "km": enyakin["km"], "dk": enyakin["dk"], "carpan": enyakin["carpan"], "trafik": enyakin["trafik"], "rotaSayisi": enyakin.get("rotaSayisi", 0), "kaynak": enyakin["kaynak"], "cagri": len(benim),
                    "nereden": enyakin["nereden"], "oncelik": yakin, "ayniIlce": ayni_ilce, "subeIlce": sube_ilce(s)}
         sonuc.append((puan, s, gerekce, enyakin["km"], ayrinti))
     return sorted(sonuc, key=lambda x: (not x[4]["ayniIlce"], not x[4]["oncelik"], -x[0]))
@@ -256,9 +256,22 @@ def oneri_bul(veri, k):
     return None
 
 
+def en_hizli_rota(bas, konum):
+    """Yol servisinin önerdiği rotalardan anlık trafikle en kısa süreli olan: {"dk", "serbestDk", "kapsama", "km", "secenek", "rota"} ya da None."""
+    en = None
+    secenekler = yol.rotalar(bas, konum)
+    for r in secenekler:
+        c = trafik.canli_rota_dk(r)
+        if c and (en is None or c["dk"] < en["dk"]):
+            en = dict(c, km=r["km"], rota=r)
+    if en:
+        en["secenek"] = len(secenekler)
+    return en
+
+
 def varis_dk(bas, konum):
-    """Şimdi yola çıkan SPY'nin varış süresi (dk): rota + İBB anlık hızı; olmazsa yol süresi × tipik çarpan; o da yoksa kuş uçuşu."""
-    c = trafik.canli_rota_dk(yol.rota(bas, konum))
+    """Şimdi yola çıkan SPY'nin varış süresi (dk): en hızlı rota + İBB anlık hızı; olmazsa yol süresi × tipik çarpan."""
+    c = en_hizli_rota(bas, konum)
     if c:
         return c["dk"]
     o = yol.olc([bas], konum)[0]

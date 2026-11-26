@@ -630,7 +630,7 @@
     var h='<div class="ap-blok"><div class="ap-bb"><b>'+e(baslik)+'</b></div>'+
       '<div class="ap-lejant">'+OLCUT.map(function(o){return '<span><i style="background:'+o[2]+'"></i>'+o[1]+'</span>';}).join("")+'</div>';
     h+=s.adaylar.length?'<ol class="ap-liste">'+s.adaylar.map(function(a,i){
-      var yol=sayi(a.km)+" km"+(a.dk!=null?" · ~"+Math.round(a.dk)+" dk":"")+(a.carpan&&a.carpan!==1?" ("+(a.trafik==="canlı"?"anlık ":"")+"trafik ×"+sayi(a.carpan)+")":"")+(a.kaynak==="kus"?" · kuş uçuşu":"")+(a.nereden?" · "+a.nereden:"")+(a.subeIlce?" · şube: "+a.subeIlce:"");
+      var yol=sayi(a.km)+" km"+(a.dk!=null?" · ~"+Math.round(a.dk)+" dk":"")+(a.carpan&&a.carpan!==1?" ("+(a.trafik==="canlı"?"anlık ":"")+"trafik ×"+sayi(a.carpan)+(a.rotaSayisi>1?" · "+a.rotaSayisi+" rotadan en hızlısı":"")+")":"")+(a.kaynak==="kus"?" · kuş uçuşu":"")+(a.nereden?" · "+a.nereden:"")+(a.subeIlce?" · şube: "+a.subeIlce:"");
       return '<li'+(i===0?' class="ilk"':'')+'><div class="ap-sat"><b>'+e(a.ad)+(i===0?(deneme?" · ilk sırada":" · teklif edilen"):"")+(a.ayniIlce?' <span class="ap-onc">aynı ilçe</span>':'')+(a.oncelik?' <span class="ap-onc">'+sayi(s.oncelikKm)+' km altı</span>':'')+'</b><span class="ap-puan">'+sayi(a.puan)+' puan</span></div>'+
         '<div class="ap-bar" aria-hidden="true">'+OLCUT.map(function(o){return '<i style="width:'+(a.parca[o[0]]/top*100)+'%;background:'+o[2]+'"></i>';}).join("")+'</div>'+
         '<div class="ap-ayr">'+OLCUT.map(function(o){return o[1]+" "+sayi(a.parca[o[0]]);}).join(" · ")+'</div>'+
