@@ -116,9 +116,8 @@
   .tr-kap button.acik{background:var(--yesil);color:#fff}
   .tr-kap .tr-ayar[hidden]{display:none}
   .tr-kap .tr-ayar{display:flex;align-items:center;gap:2px}
-  .tr-kap select{border:1px solid #d5dbe0;border-radius:14px;padding:4px 6px;font-size:13px;min-height:32px;background:#fff}
   .tr-kap output{min-width:46px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
-  @media(max-width:640px){.leaflet-bottom.leaflet-left .tr-kap{margin-bottom:26px}.tr-kap select{max-width:96px}}
+  @media(max-width:640px){.leaflet-bottom.leaflet-left .tr-kap{margin-bottom:26px}}
   .tr-kap .tr-lej{display:flex;gap:2px;margin:0 4px}.tr-kap .tr-lej i{width:12px;height:8px;border-radius:2px;display:inline-block}
   .ekle-kap{display:flex;flex-direction:column;align-items:flex-end;gap:6px}
   .ekle-kap button{font-size:13px;font-weight:700;border:0;background:var(--yesil);color:#fff;border-radius:22px;padding:8px 14px;min-height:36px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
@@ -535,60 +534,51 @@
       .then(function(){surum=0;tur();})
       .catch(function(err){ip.textContent=err.message;ip.hidden=false;setTimeout(function(){ip.hidden=true;ip.textContent="Haritada müşterinin yerine dokunun";},4000);});
   });
-  // Trafik katmanı: pilot bölge içindeki yollar (merkez api/trafik-yol: İBB canlı trafik karoları, ilçe sınırına kırpılmış).
-  // "Şimdi" = İBB canlı renkleri (3 dk'da bir yenilenir); başka gün/saat = o yolun İBB tipik trafik çarpanı (veri/trafik-carpan.json, atamadaki veri).
-  var TR_RENK=[[1.15,"#2e9d5b"],[1.35,"#f2c94c"],[1.6,"#f2994a"],[99,"#d64545"]], IBB_RENK={1:0,2:0,3:1,4:2,5:3};
-  var trVeri=null, trYol=null, trKatman=null, trGun="hi", trSaat=0, trSaatlik=null;
-  function trSimdi(){var d=new Date(),g=d.getDay();return {gun:g===0?"pzr":g===6?"cmt":"hi",saat:d.getHours()};}
-  (function(){var n=trSimdi();trGun=n.gun;trSaat=n.saat;})();
-  function trCanliMi(){var n=trSimdi();return trGun===n.gun&&trSaat===n.saat;}
-  function trRenk(c){for(var i=0;i<TR_RENK.length;i++)if(c<TR_RENK[i][0])return TR_RENK[i][1];return TR_RENK[3][1];}
+  // Trafik katmanı: pilot bölge içindeki yolların İBB canlı trafiği (merkez api/trafik-yol, ilçe sınırına kırpılmış); her zaman o an, 3 dk'da bir yenilenir.
+  // Renkler ve çizim İBB Şehir Haritası'ndaki gibi: 1-2 akıcı … 5 tıkalı, renk 0 (veri yok) çizilmez; ara yollar yalnız 14+ yakınlıkta, ince ve soluk.
+  var IBB_RENK={1:"#80CF63",2:"#54AC35",3:"#FF9C07",4:"#F42A2A",5:"#9B0808"}, IBB_AD={1:"Akıcı",2:"Akıcı",3:"Yoğun",4:"Çok yoğun",5:"Tıkalı"};
+  var trKatman=null, trAra=null, trSaatlik=null, TR_ARA_Z=14;
   harita.createPane("trafik").style.zIndex=350;
   var trCizici=L.canvas({pane:"trafik",padding:.3});
-  function trCiz(){
-    var canli=trCanliMi(), cikti=document.getElementById("trSaat");
-    cikti.value=canli?"Şimdi":("0"+trSaat).slice(-2)+":00";
-    cikti.title=canli&&trYol&&trYol.zaman?"İBB canlı trafik "+trYol.zaman+(trYol.eski?" (son alınan)":""):"İBB tipik trafik";
-    if(!trYol)return;
-    if(trKatman)harita.removeLayer(trKatman);
-    trKatman=L.layerGroup();
-    trYol.yollar.forEach(function(y){
-      var renk;
-      if(canli){if(!y[0])return;renk=TR_RENK[IBB_RENK[y[0]]][1];}
-      else{var h=trVeri&&trVeri.hucre[y[1]],c=h?(h[trGun]||[])[trSaat]:trVeri&&trVeri.genel&&trVeri.genel[trGun][trSaat];renk=trRenk(c||1);}
-      trKatman.addLayer(L.polyline(y[2],{renderer:trCizici,color:renk,weight:3,opacity:.85,interactive:false}));
+  function trCiz(v){
+    var cikti=document.getElementById("trSaat");
+    cikti.value=v.zaman||"";cikti.title="İBB canlı trafik "+(v.zaman||"")+(v.eski?" (son alınan)":"");
+    trKapat();
+    trKatman=L.layerGroup();trAra=L.layerGroup();
+    v.yollar.forEach(function(y){
+      if(!IBB_RENK[y[0]])return;
+      (y[3]?trKatman:trAra).addLayer(L.polyline(y[2],{renderer:trCizici,color:IBB_RENK[y[0]],weight:y[3]?4:2.5,opacity:y[3]?1:.7})
+        .bindTooltip(IBB_AD[y[0]]+(y[1]!=null?" · "+Math.round(y[1])+" km/s":""),{sticky:true}));
     });
-    trKatman.addTo(harita);
+    trKatman.addTo(harita);trAraGoster();
   }
+  function trKapat(){if(trKatman)harita.removeLayer(trKatman);if(trAra)harita.removeLayer(trAra);trKatman=trAra=null;}
+  function trAraGoster(){if(!trAra)return;var g=harita.getZoom()>=TR_ARA_Z;if(g&&!harita.hasLayer(trAra))trAra.addTo(harita);if(!g&&harita.hasLayer(trAra))harita.removeLayer(trAra);}
+  harita.on("zoomend",trAraGoster);
   function trYukle(){
-    return Promise.all([
-      trVeri?Promise.resolve(trVeri):fetch(KOK+"veri/trafik-carpan.json").then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}),
-      DEMO?Promise.reject(new Error("demo")):fetch("api/trafik-yol").then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
-    ]).then(function(v){trVeri=v[0];if(v[1].yollar.length)trYol=v[1];trCiz();if(!trYol)document.getElementById("trSaat").value="veri yok";})
+    if(DEMO){document.getElementById("trSaat").value="veri yok";return;}
+    fetch("api/trafik-yol").then(function(r){if(!r.ok)throw new Error(r.status);return r.json();})
+      .then(function(v){if(!v.yollar.length)throw new Error("bos");if(document.getElementById("trAc").getAttribute("aria-pressed")==="true")trCiz(v);})
       .catch(function(){document.getElementById("trSaat").value="veri yok";});
   }
   var trafikBtn=L.control({position:"bottomleft"});
   trafikBtn.onAdd=function(){
     var d=L.DomUtil.create("div","tr-kap");
     d.innerHTML='<button type="button" id="trAc" aria-pressed="false">Trafik</button><span class="tr-ayar" id="trAyar" hidden>'+
-      '<select id="trGun" aria-label="Gün"><option value="hi">Hafta içi</option><option value="cmt">Cumartesi</option><option value="pzr">Pazar</option></select>'+
-      '<button type="button" id="trEksi" aria-label="Bir saat geri">−</button><output id="trSaat" aria-live="polite"></output><button type="button" id="trArti" aria-label="Bir saat ileri">+</button>'+
-      '<span class="tr-lej" aria-hidden="true">'+TR_RENK.map(function(r){return '<i style="background:'+r[1]+'"></i>';}).join("")+'</span></span>';
+      '<output id="trSaat" aria-live="polite"></output>'+
+      '<span class="tr-lej" aria-hidden="true">'+[2,3,4,5].map(function(r){return '<i style="background:'+IBB_RENK[r]+'" title="'+IBB_AD[r]+'"></i>';}).join("")+'</span></span>';
     L.DomEvent.disableClickPropagation(d); L.DomEvent.disableScrollPropagation(d); return d;
   };
   trafikBtn.addTo(harita);
-  document.getElementById("trGun").value=trGun;
   document.getElementById("trAc").addEventListener("click",function(){
     var ac=this.getAttribute("aria-pressed")!=="true";
     this.setAttribute("aria-pressed",ac);this.classList.toggle("acik",ac);document.getElementById("trAyar").hidden=!ac;
     clearInterval(trSaatlik);
-    if(!ac){if(trKatman)harita.removeLayer(trKatman);trKatman=null;return;}
+    if(!ac){trKapat();return;}
+    document.getElementById("trSaat").value="…";
     trYukle();
-    trSaatlik=setInterval(function(){if(trCanliMi())trYukle();},180000);  // canlı renkler 3 dk'da bir
+    trSaatlik=setInterval(trYukle,180000);
   });
-  document.getElementById("trGun").addEventListener("change",function(){trGun=this.value;trCiz();});
-  document.getElementById("trEksi").addEventListener("click",function(){trSaat=(trSaat+23)%24;trCiz();});
-  document.getElementById("trArti").addEventListener("click",function(){trSaat=(trSaat+1)%24;trCiz();});
   // Atama seçenekleri (merkez: api/atama-ayar): ağırlıklar, uzaklık türü, eleme sınırları; altta seçili çağrının aday sıralaması
   var ap=document.getElementById("ap"), apOrt=document.getElementById("apOrt"), apForm=document.getElementById("apForm"), apBilgi=null, apDeneme=null, apSecili="", apAnahtar="";
   var OLCUT=[["yakinlik","Yakınlık","#00724c"],["yuk","Çağrı sayısı","#ea803f"],["ciro","Ciro H/G","#3f7fb8"],["randevu","Randevu H/G","#9a7bc0"]];

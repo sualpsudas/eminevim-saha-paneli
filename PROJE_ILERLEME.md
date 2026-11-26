@@ -1064,3 +1064,4 @@ OneDrive gorsel\ klasöründeki 10 görsel kesildi: assets/ty/hero-*.webp (sohbe
 - 2026-11-26 (devam): Takip haritasına trafik katmanı (gün + saat −/+), ilçe adları kaldırıldı, Atama seçenekleri açıklamaları sadeleşti.
 
 - 2026-11-26: Takip haritası trafik katmanı kareler yerine yollar: İBB canlı trafik vektör karoları (anahtarsız) merkezde çözülüp pilot ilçe sınırına kırpılıyor (`api/trafik-yol`, `ty/trafik.py`); "Şimdi" canlı, diğer saatler tipik çarpan. İBB Şehir Haritası API'si (2016, iframe + anahtar) incelendi, kullanılmadı.
+- 2026-11-26 (2): Trafik katmanı yalnız canlı (gün/saat −/+ kalktı, kullanıcı: "hep şimdiye göre"); kaynak İBB TrafikSegment sorgusu (anonim anahtar, hız dahil), İBB çizim kuralları (ana yol her zaman, ara yol 14+). Sıradaki: canlı hızı rotaya/atamaya eklemek.
