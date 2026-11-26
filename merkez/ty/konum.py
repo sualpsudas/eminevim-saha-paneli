@@ -6,13 +6,14 @@
      Giriş noktası: konum_yaz(spy_id, lat, lng) — merkezde POST api/konum {id, lat, lng}. Uygulama bunu henüz göndermiyor;
      canlı takip devreye alınınca uygulama ya da IT'nin sistemi bu adrese yazar.
   2. Bugünkü son randevusunun yeri (görüşmede / tamamlandı; yolda iken SPY henüz varmadı, eski yerinde kalır ki rota çizilsin).
-  3. Hareketli örnek SPY: ilçesinde dolaşma (gezi_konum); diğerleri kayıtlı sabit konumu (veri/spyler.js: lat, lng).
+  3. Hareketli örnek SPY: dur-kalk saha günü (gezi.py; plan yoksa eski kapalı tur gezi_konum); diğerleri kayıtlı sabit konumu (veri/spyler.js: lat, lng).
 Canlı konum yalnız bellekte tutulur (merkez yeniden başlayınca silinir).
 """
 import json
 import math
 import threading
 
+from . import gezi
 from .ayarlar import CANLI_KONUM_DK, KOK
 from .yardim import bugun, simdi
 
@@ -101,6 +102,10 @@ def konum_ve_kaynak(veri, s):
     k = canli_konum(s["id"])
     if k:
         return {"lat": k["lat"], "lng": k["lng"]}, "canli"
+    if s.get("gezi"):  # dur-kalk saha günü (gezi.py): plan varsa onun yeri; çağrıdan sonra müşterinin adresinden devam eder
+        g = gezi.konum(s["id"])
+        if g:
+            return g, "gezi"
     son = [x for x in veri["kayitlar"].values() if x.get("repId") == s["id"] and x.get("tarih") == bugun()
            and x.get("durum") in ("gorusmede", "tamamlandi") and isinstance(x.get("konum"), dict) and "lat" in x["konum"]]
     if son:

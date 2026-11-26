@@ -1,4 +1,4 @@
-"""SUNUM KAPISI — "Otomatik ilerlet": açık çağrıların hepsini bir sonraki aşamaya taşır (bilgisayarda canlı saha sunumu için).
+"""SUNUM KAPISI — ilerletme (▶ sürekli / › adım adım): açık çağrıların hepsini bir sonraki aşamaya taşır (bilgisayarda canlı saha sunumu için).
 
 Aşamalar: yeni çağrı → SPY atandı → yola çıktı → görüşmede → tamamlandı. Yeni çağrıya atama kuralıyla (atama.py) SPY bulunur ve
 hemen kabul etmiş sayılır; müşteriye her aşamada bildirim gider. SPY yola çıkınca yerinde kalır (haritada rota çizilir), görüşmede müşterinin yerine gelir.
@@ -125,11 +125,24 @@ def sunum_denetle(veri):
     return sim_kabul(veri) | yurume_baslat(veri) | varis_denetle(veri)
 
 
-def ilerlet(veri, _istek=None):
-    """api/ilerlet: açık çağrıların hepsi bir aşama ilerler. Döner: {"ilerleyen": sayı}.
+SUREKLI_SN = 5  # sürekli ilerletmede (▶) bir çağrı her aşamada en az bu kadar kalır
+
+
+def _surekli_hazir(k):
+    """Sürekli ilerletmede bu çağrı şimdi ilerlesin mi: aşamasında SUREKLI_SN kaldı ve SPY yürümüyor (yürüyüş kendiliğinden biter)."""
+    if k.get("durum") in ("yolda", "gorusme") and k.get("yolBasladi"):
+        return False
+    return simdi() - (k.get("guncelleme") or k.get("olusma") or 0) >= SUREKLI_SN * 1000
+
+
+def ilerlet(veri, istek=None):
+    """api/ilerlet: açık çağrıların hepsi bir aşama ilerler (› adım adım). {"surekli": true} (▶ sürekli, takip sayfası 2 sn'de bir
+    çağırır): yalnız aşamasında SUREKLI_SN kalmış ve yürümeyen çağrılar ilerler. Döner: {"ilerleyen": sayı}.
     Önerilen ileri randevuyu kabul etmiş çağrılar (oneriKabul, SPY henüz yola çıkmadı) sıra bekler: öteki açık çağrılar bitene kadar
     ilerletilmez, bitince bir sonraki basışta birlikte ilerler (randevu saati geldi sayılır)."""
     acik = sorted((k for k in veri["kayitlar"].values() if k.get("durum") not in KAPALI_DURUMLAR), key=lambda x: x.get("olusma", 0))
+    if (istek or {}).get("surekli"):
+        acik = [k for k in acik if _surekli_hazir(k)]
     bekleyen = [k for k in acik if k.get("oneriKabul") and k.get("durum") in ("alindi", "atandi", "netlesti")]
     sahipsiz = [k for k in acik if k.get("sahipsiz") and not k.get("repId") and k not in bekleyen]  # SPY'si yok: engel olmaz, yine de SPY aranır
     simdiki = [k for k in acik if k not in bekleyen and k not in sahipsiz]

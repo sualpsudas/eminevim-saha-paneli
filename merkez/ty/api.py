@@ -23,7 +23,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, unquote
 
-from . import bildirim, depo, trafik
+from . import bildirim, depo, gezi, trafik
 from .atama import sureleri_denetle
 from .sunum import sunum_denetle
 from .ayarlar import ANAHTAR, KLASOR, KOK, PID, PORT, STATIK_KLASOR, STATIK_KOK, STATIK_UZANTI, SURUM_DOSYALARI, UYGULAMA
@@ -246,6 +246,7 @@ def main():
         return 1
     sunucu.gizli = os.environ.get("TY_YOL") or gizli_yol()
     bildirim.baslat()
+    gezi.baslat()  # hareketli örnek SPY'lerin dur-kalk planlayıcısı
 
     def bekci():
         while True:

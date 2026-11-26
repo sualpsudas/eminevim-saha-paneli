@@ -23,6 +23,7 @@ from .atama import ILETIM_BEKLEME_SN, adaylar, ayar, ayar_kaydet, hemen_mi, rand
 from .ayarlar import ATAMA_VARSAYILAN, DURUM_AD, KAPALI_DURUMLAR, UZAKLIK_TURLERI, YEDEK
 from .depo import bos_veri
 from .dogrulama import KAPI_KODLARI, dogrulama_islem
+from . import gezi
 from .konum import konum_sifirla, anlik_konum, canli_konum, konum_yaz, konum_ve_kaynak
 from .musteri import KODLAR, hesap_ac, musteri_islem
 from .personel import SPY_IDLER
@@ -343,7 +344,7 @@ def spy_ozet(veri, s):
     hal = "molada" if s.get("durum") == "molada" else "randevuda" if randevuda_mi(veri, s["id"]) else "bosta"
     bugunku = sum(1 for x in veri["kayitlar"].values() if x.get("repId") == s["id"] and x.get("tarih") == bugun() and x.get("durum") != "iptal")
     konum_, kaynak = konum_ve_kaynak(veri, s)
-    return {**s, "hal": hal, "konumAn": konum_, "geziyor": kaynak == "gezi", "canliKonum": bool(canli_konum(s["id"])), "bugunCagri": bugunku,
+    return {**s, "hal": hal, "konumAn": konum_, "geziyor": kaynak == "gezi", "geziRota": gezi.ozet(s["id"]) if kaynak == "gezi" else None, "canliKonum": bool(canli_konum(s["id"])), "bugunCagri": bugunku,
             "sonGorulme": GORULME.get(s["id"], 0), "bildirim": bildirim.bildirim_sayisi(s["id"])}
 
 
