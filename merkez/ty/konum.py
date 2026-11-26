@@ -102,7 +102,7 @@ def konum_ve_kaynak(veri, s):
     k = canli_konum(s["id"])
     if k:
         return {"lat": k["lat"], "lng": k["lng"]}, "canli"
-    if s.get("gezi"):  # dur-kalk saha günü (gezi.py): plan varsa onun yeri; çağrıdan sonra müşterinin adresinden devam eder
+    if gezi.acik(veri, s):  # dur-kalk saha günü (gezi.py): plan varsa onun yeri; çağrıdan sonra müşterinin adresinden devam eder
         g = gezi.konum(s["id"])
         if g:
             return g, "gezi"
@@ -111,7 +111,7 @@ def konum_ve_kaynak(veri, s):
     if son:
         x = max(son, key=lambda y: y.get("guncelleme", 0))["konum"]
         return {"lat": x["lat"], "lng": x["lng"]}, "randevu"
-    if s.get("gezi"):
+    if s.get("gezi") and gezi.acik(veri, s):
         return gezi_konum(s), "gezi"
     return {"lat": s["lat"], "lng": s["lng"]}, "sabit"
 

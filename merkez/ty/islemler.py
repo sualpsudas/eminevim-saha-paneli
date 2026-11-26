@@ -10,6 +10,7 @@
   api/musteri  müşteri hesabı (musteri.py)
   api/dogrulama kapıda kimlik doğrulama: müşteriye kod, SPY okutur (dogrulama.py)
   api/sifirla  test verisini sıfırla (atama seçenekleri korunur)
+  api/gezi       takip sayfasında SPY'ye tıklayıp Gez / Dur (gezi.py duruma göre hedef seçer)
   api/atama-ayar takip sayfasının "Atama seçenekleri" bölümü: oku / kaydet / varsayılana dön (atama.ayar_kaydet)
 Okuma (api/durum) için özetler de burada: spy_ozet, bugun_sayilar.
 """
@@ -31,7 +32,7 @@ from .sunum import ilerlet
 from .yardim import bugun, damga, metin, olay, saat_yaz, simdi, tel_temiz
 
 GORULME = {}  # SPY id -> son yoklama zamanı (yalnız bellekte)
-YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla", "api/kimlik", "api/ilerlet", "api/konum-tasi", "api/cagri-ekle", "api/oneri", "api/atama-ayar")
+YOLLAR = ("api/cagri", "api/kayit", "api/mesaj", "api/spy", "api/aktar", "api/konum", "api/kod", "api/musteri", "api/dogrulama", "api/sifirla", "api/kimlik", "api/ilerlet", "api/konum-tasi", "api/cagri-ekle", "api/oneri", "api/atama-ayar", "api/gezi")
 
 
 def temiz_kayit(gelen):
@@ -204,14 +205,42 @@ def konum_tasi(veri, istek):
             raise ValueError("SPY bulunamadı.")
         if any(x.get("repId") == kid and x.get("durum") in ATANMIS for x in veri["kayitlar"].values()):
             raise ValueError("Bu SPY'ye kabul ettiği bir çağrı atanmış; konumu değiştirilemez.")
-        if not bolgede_mi(lat, lng):
-            raise ValueError("SPY pilot bölge (Üsküdar, Ümraniye, Ataşehir) dışına taşınamaz.")
+        # 2026-11-26: SPY pilot bölge dışına da taşınabilir (müşteri taşınırsa telefonla görüşmeye düşer, yukarıda)
+        gezi.birak(kid)
         veri.setdefault("elleKonum", {})[kid] = {"lat": lat, "lng": lng}
         veri["surum"] += 1
         for k in list(veri["kayitlar"].values()):
             yeniden_ata(veri, k, f" ({s['ad']} konumu değişti)")
         return {"id": kid}
     raise ValueError("Tür bilinmiyor.")
+
+
+def gezi_islem(veri, istek):
+    """Takip sayfasında SPY'ye tıklayıp Gez / Dur: {id, ac}. Gez: bulunduğu yerden duruma göre gezmeye başlar (gezi._sec).
+    Dur: bulunduğu yerde kalır (elle taşınmış gibi). Kabul ettiği çağrısı varken değiştirilemez; canlı konumu gelen SPY gezdirilemez."""
+    kid = str(istek.get("id") or "")
+    s = veri["spyler"].get(kid)
+    if not s:
+        raise ValueError("SPY bulunamadı.")
+    if any(x.get("repId") == kid and x.get("durum") in ATANMIS for x in veri["kayitlar"].values()):
+        raise ValueError("Bu SPY'nin kabul ettiği bir çağrı var; çağrı bitince gezdirilebilir.")
+    if canli_konum(kid):
+        raise ValueError("Bu SPY'nin telefonundan canlı konum geliyor; gezdirilemez.")
+    nokta = dict(konum_ve_kaynak(veri, s)[0])
+    ac = bool(istek.get("ac"))
+    veri.setdefault("geziAcik", {})[kid] = ac
+    if ac:
+        (veri.get("elleKonum") or {}).pop(kid, None)
+        gezi.bekle(kid, nokta, 0, "yola çıkıyor")
+        olay(veri, f"{s['ad']}: gezmeye başladı")
+    else:
+        gezi.birak(kid)
+        veri.setdefault("elleKonum", {})[kid] = {"lat": nokta["lat"], "lng": nokta["lng"]}
+        olay(veri, f"{s['ad']}: durduruldu, bulunduğu yerde bekliyor")
+    veri["surum"] += 1
+    for k in list(veri["kayitlar"].values()):
+        yeniden_ata(veri, k, f" ({s['ad']} {'gezmeye başladı' if ac else 'durdu'})")
+    return {"id": kid, "ac": ac}
 
 
 def cagri_ekle(veri, istek):
@@ -331,7 +360,7 @@ def atama_ozet(a):
 
 ISLEMLER = {"api/cagri": cagri, "api/kayit": kayit, "api/mesaj": mesaj, "api/spy": spy_durum, "api/aktar": aktar,
             "api/konum": konum, "api/kod": giris_kodu, "api/musteri": musteri_islem, "api/dogrulama": dogrulama_islem, "api/sifirla": sifirla, "api/kimlik": kimlik, "api/ilerlet": ilerlet,
-            "api/konum-tasi": konum_tasi, "api/cagri-ekle": cagri_ekle, "api/oneri": oneri_islem, "api/atama-ayar": atama_ayar}
+            "api/konum-tasi": konum_tasi, "api/cagri-ekle": cagri_ekle, "api/oneri": oneri_islem, "api/atama-ayar": atama_ayar, "api/gezi": gezi_islem}
 
 
 def uygula(veri, yol, istek):
@@ -344,7 +373,8 @@ def spy_ozet(veri, s):
     hal = "molada" if s.get("durum") == "molada" else "randevuda" if randevuda_mi(veri, s["id"]) else "bosta"
     bugunku = sum(1 for x in veri["kayitlar"].values() if x.get("repId") == s["id"] and x.get("tarih") == bugun() and x.get("durum") != "iptal")
     konum_, kaynak = konum_ve_kaynak(veri, s)
-    return {**s, "hal": hal, "konumAn": konum_, "geziyor": kaynak == "gezi", "geziRota": gezi.ozet(s["id"]) if kaynak == "gezi" else None, "canliKonum": bool(canli_konum(s["id"])), "bugunCagri": bugunku,
+    return {**s, "hal": hal, "konumAn": konum_, "geziyor": kaynak == "gezi", "geziRota": gezi.ozet(s["id"]) if kaynak == "gezi" else None,
+            "geziAcik": gezi.acik(veri, s) and s["id"] not in (veri.get("elleKonum") or {}), "canliKonum": bool(canli_konum(s["id"])), "bugunCagri": bugunku,
             "sonGorulme": GORULME.get(s["id"], 0), "bildirim": bildirim.bildirim_sayisi(s["id"])}
 
 
